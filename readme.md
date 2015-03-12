@@ -1,8 +1,3 @@
-## LaraminLTE
+**Current Build Status**
 
-Laravel with adminLTE
-
-## How to install
-> - git clone https://github.com/nino22/LaraminLTE.git
-> - composer update
-> - php artisan key:generate
+[![Build Status](http://ci.rebelinblue.com/build-status/image/3?branch=master)](http://ci.rebelinblue.com/build-status/view/3?branch=master)

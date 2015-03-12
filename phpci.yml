@@ -1,0 +1,55 @@
+build_settings:
+    verbose: false
+    ignore: 
+        - "bootstrap"
+        - "database"
+        - "node_modules"
+        - "public"
+        - "storage"
+        - "resources"
+        - "vendor"
+setup:
+    composer:
+        action: "install"
+        prefer_dist: false
+    shell:
+        command: "php %BUILD_PATH%/artisan migrate --seed --no-interaction"
+
+test:
+    php_unit:
+        config:
+            - "phpunit.xml"
+        directory:
+            - "tests/"
+        run_from: "tests/"
+        coverage: "storage/coverage/"
+        args: "--stderr"
+    php_mess_detector:
+        allowed_warnings: 0
+        path: "app"
+        rules:
+            - "design"
+            - "naming"
+            - "unusedcode"
+    php_code_sniffer:
+        path: "app/"
+        standard: "PSR2"
+        allowed_warnings: 0
+        allowed_errors: 0
+        ignore:
+            - "blade"
+    php_cpd:
+        allow_failures: true
+    php_loc:
+    php_docblock_checker:
+        allowed_warnings: 10000000 # Allow unlimited warnings for now.
+    lint:
+        directory: "app/"
+
+failure:
+    email:
+        committer: true
+
+complete:
+
+success:
