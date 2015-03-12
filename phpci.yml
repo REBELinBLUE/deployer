@@ -16,6 +16,7 @@ setup:
         command: "php %BUILD_PATH%/artisan migrate --seed --no-interaction"
 
 test:
+    technical_debt:
     php_unit:
         config:
             - "phpunit.xml"
