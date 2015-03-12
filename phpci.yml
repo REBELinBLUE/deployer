@@ -17,6 +17,7 @@ setup:
 
 test:
     technical_debt:
+    php_spec:
     php_unit:
         config:
             - "phpunit.xml"
