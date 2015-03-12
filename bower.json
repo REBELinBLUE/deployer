@@ -1,0 +1,25 @@
+{
+  "name": "Technoworld",
+  "version": "0.0.1",
+  "authors": [
+    "nino_hilarious <hermawan.nino@gmail.com>"
+  ],
+  "description": "Laravel with adminLTE template",
+  "keywords": [
+    "laraminLTE"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass-official": "~3.3.3",
+    "fontawesome": "~4.3.0",
+    "ionicons": "~2.0.1"
+  }
+}
