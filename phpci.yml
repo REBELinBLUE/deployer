@@ -14,7 +14,7 @@ setup:
         directory: "/var/www/PHPCI/public/coverage/project-%PROJECT%/"
     composer:
         action: "install"
-        prefer_dist: false
+        prefer_dist: true
     shell:
         command: "php %BUILD_PATH%/artisan migrate --seed --no-interaction"
 
