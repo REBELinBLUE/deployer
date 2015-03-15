@@ -16,7 +16,7 @@ class ProjectController extends Controller
     public function details($project_id)
     {
         return view('project.details', [
-            'title' => 'project name'
+            'title' => 'project ' . $project_id
         ]);
     }
 }
