@@ -9,6 +9,8 @@ class ProjectController extends Controller
 {
     public function details()
     {
-        return view('project.details');
+        return view('project.details', [
+            'title' => 'project name'
+        ]);
     }
 }

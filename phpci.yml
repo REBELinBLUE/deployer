@@ -21,11 +21,8 @@ test:
     php_unit:
         config:
             - "phpunit.xml"
-        directory:
-            - "tests/"
-        run_from: "tests/"
-        coverage: "storage/coverage/"
-        args: "--stderr"
+        directory: "tests"
+        coverage: "%BUILD_PATH%/storage/coverage/"
     php_mess_detector:
         allowed_warnings: 0
         path: "app"
