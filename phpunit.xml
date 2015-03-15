@@ -19,9 +19,11 @@
         <log type="tap" target="storage/logs/tap.log" logIncompleteSkipped="false" />
     </logging>
     <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="SESSION_DRIVER" value="array"/>
-        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="APP_ENV" value="testing" />
+        <env name="APP_DEBUG" value="true" />
+        <env name="APP_KEY" value="cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy" />
+        <env name="CACHE_DRIVER" value="array" />
+        <env name="SESSION_DRIVER" value="array" />
+        <env name="QUEUE_DRIVER" value="sync" />
     </php>
 </phpunit>

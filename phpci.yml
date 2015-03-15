@@ -19,6 +19,13 @@ setup:
         prefer_dist: true
     shell:
         command: "php %BUILD_PATH%/artisan migrate --seed --no-interaction"
+    env:
+        APP_ENV: "testing"
+        APP_DEBUG: "true"
+        APP_KEY: "cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy"
+        CACHE_DRIVER: "array"
+        SESSION_DRIVER: "array"
+        QUEUE_DRIVER: "sync"
 
 test:
     lint:
