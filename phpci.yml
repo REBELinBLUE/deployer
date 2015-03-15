@@ -17,8 +17,6 @@ setup:
     composer:
         action: "install"
         prefer_dist: true
-    shell:
-        command: "php %BUILD_PATH%/artisan migrate --seed --no-interaction"
     env:
         APP_ENV: "testing"
         APP_DEBUG: "true"
