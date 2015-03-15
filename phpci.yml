@@ -12,7 +12,7 @@ build_settings:
 
 setup:
     wipe:
-        directory: "/var/www/PHPCI/public/coverage/project-%PROJECT%/"
+        directory: "/var/www/PHPCI/public/coverage/deployer/"
     composer:
         action: "install"
         prefer_dist: true
@@ -27,9 +27,7 @@ test:
             - "phpunit.xml"
         directory:
             - "tests/"
-        run_from: "tests/"
-        coverage: "/var/www/PHPCI/public/coverage/project-%PROJECT%/"
-        args: "--stderr"
+        coverage: "/var/www/PHPCI/public/coverage/deployer/"
     php_mess_detector:
         allowed_warnings: 0
         path: "app"
