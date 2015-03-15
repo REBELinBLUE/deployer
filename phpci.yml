@@ -59,6 +59,6 @@ failure:
 
 complete:
     shell:
-        command: "cp %BUILD_PATH%/storage/coverage/* /var/www/PHPCI/public/coverage/deployer/"
+        command: "cp -R %BUILD_PATH%/storage/coverage /var/www/PHPCI/public/coverage/deployer"
 
 success:
