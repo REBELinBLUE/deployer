@@ -1,5 +1,5 @@
 build_settings:
-    verbose: true
+    verbose: false
     ignore: 
         - "bootstrap"
         - "database"
@@ -23,7 +23,7 @@ test:
             - "phpunit.xml"
         directory:
             - "tests"
-        coverage: "%BUILD_PATH%/storage/coverage/"
+        coverage: "storage/coverage/"
         args: "--stderr"
     php_mess_detector:
         allowed_warnings: 0
