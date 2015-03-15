@@ -10,6 +10,8 @@ build_settings:
         - "resources"
         - "vendor"
 setup:
+    wipe:
+        directory: "/var/www/PHPCI/public/coverage/project-%PROJECT%/"
     composer:
         action: "install"
         prefer_dist: false
