@@ -1,5 +1,5 @@
 build_settings:
-    verbose: false
+    verbose: true
     ignore: 
         - "bootstrap"
         - "database"
