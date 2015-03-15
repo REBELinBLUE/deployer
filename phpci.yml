@@ -27,6 +27,7 @@ test:
             - "phpunit.xml"
         directory:
             - "tests/"
+        run_from: "tests/"
         coverage: "/var/www/PHPCI/public/coverage/project-%PROJECT%/"
         args: "--stderr"
     php_mess_detector:
