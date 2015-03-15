@@ -9,6 +9,7 @@ build_settings:
         - "storage"
         - "resources"
         - "vendor"
+
 setup:
     wipe:
         directory: "/var/www/PHPCI/public/coverage/project-%PROJECT%/"
@@ -27,6 +28,7 @@ test:
         directory:
             - "tests/"
         coverage: "/var/www/PHPCI/public/coverage/project-%PROJECT%/"
+        args: "--stderr"
     php_mess_detector:
         allowed_warnings: 0
         path: "app"
