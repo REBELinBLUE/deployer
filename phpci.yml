@@ -1,4 +1,5 @@
 build_settings:
+    clone_depth: 1
     verbose: false
     ignore: 
         - "bootstrap"
@@ -22,8 +23,8 @@ test:
         config:
             - "phpunit.xml"
         directory:
-            - "tests"
-        coverage: "/var/www/PHPCI/public/coverage/deployer/"
+            - "tests/"
+        coverage: "/var/www/PHPCI/public/coverage/project-%PROJECT%/"
     php_mess_detector:
         allowed_warnings: 0
         path: "app"
@@ -39,7 +40,7 @@ test:
         ignore:
             - "blade"
     php_cpd:
-        allow_failures: true
+        allow_failures: false
     php_loc:
     php_docblock_checker:
         allowed_warnings: 10000000 # Allow unlimited warnings for now.
