@@ -33,7 +33,7 @@ test:
             - "phpunit.xml"
         directory:
             - "tests/"
-        coverage: "storage/coverage/"
+        coverage: "/var/www/PHPCI/public/coverage/deployer/"
     php_mess_detector:
         allowed_warnings: 0
         path: "app"
@@ -58,7 +58,5 @@ failure:
         committer: true
 
 complete:
-    shell:
-        command: "cp -R %BUILD_PATH%/storage/coverage /var/www/PHPCI/public/coverage/deployer"
 
 success:
