@@ -1,9 +1,4 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
-    "type": "project",
     "require": {
         "laravel/framework": "5.*",
         "filp/whoops": "~1.0",
