@@ -15,9 +15,8 @@
         </testsuite>
     </testsuites>
     <logging>
-        <log type="coverage-html" target="storage/coverage" title="unit tests" charset="UTF-8" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" />
-        <!--log type="coverage-clover" target="storage/logs/clover.xml" />
-        <log type="junit" target="storage/logs/junit.xml" logIncompleteSkipped="false" /-->
+        <log type="coverage-html" target="storage/coverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" />
+        <log type="tap" target="storage/logs/tap.log" logIncompleteSkipped="false" />
     </logging>
     <php>
         <env name="APP_ENV" value="testing"/>

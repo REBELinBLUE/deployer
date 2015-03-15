@@ -19,8 +19,8 @@ setup:
         command: "php %BUILD_PATH%/artisan migrate --seed --no-interaction"
 
 test:
-    technical_debt:
-    php_spec:
+    lint:
+        directory: "app/"
     php_unit:
         config:
             - "phpunit.xml"
@@ -42,12 +42,9 @@ test:
         ignore:
             - "blade"
     php_cpd:
-        allow_failures: false
     php_loc:
     php_docblock_checker:
-        allowed_warnings: 10000000 # Allow unlimited warnings for now.
-    lint:
-        directory: "app/"
+    technical_debt:
 
 failure:
     email:
