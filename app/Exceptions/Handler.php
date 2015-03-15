@@ -36,13 +36,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($this->isHttpException($exception))
-        {
+        if ($this->isHttpException($exception)) {
             return $this->renderHttpException($exception);
         }
 
-        if (config('app.debug'))
-        {
+        if (config('app.debug')) {
             return $this->renderExceptionWithWhoops($exception);
         }
 
@@ -51,7 +49,7 @@ class Handler extends ExceptionHandler
 
     /**
      * Render an exception using Whoops.
-     * 
+     *
      * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */

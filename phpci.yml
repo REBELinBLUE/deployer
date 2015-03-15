@@ -6,8 +6,9 @@ build_settings:
         - "database"
         - "node_modules"
         - "public"
-        - "storage"
         - "resources"
+        - "storage"
+        - "tests"
         - "vendor"
 
 setup:
