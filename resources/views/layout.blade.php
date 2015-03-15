@@ -5,8 +5,9 @@
     <title>AdminLTE 2 | Dashboard</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Style -->
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <link href="css/admin.css" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('/css/styles.css') }" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/css/admin.css') }" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -18,9 +19,9 @@
 <body class="skin-blue">
 <div class="wrapper">
 
-    @include('backend._partials.nav')
+    @include('._partials.nav')
 
-    @include('backend._partials.sidebar')
+    @include('_partials.sidebar')
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -46,8 +47,8 @@
 </div><!-- ./wrapper -->
 
 <!-- jQuery 2.1.3 -->
-<script src="js/style.js"></script>
-<script src="js/admin.js"></script>
+<script src="{{ asset('/js/style.js') }}"></script>
+<script src="{{ asset('/js/admin.js') }}"></script>
 
 </body>
 </html>

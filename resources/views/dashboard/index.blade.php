@@ -1,4 +1,4 @@
-@extends('backend.main')
+@extends('layout')
 
 @section('content')
         <!-- Info boxes -->

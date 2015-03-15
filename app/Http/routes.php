@@ -11,11 +11,9 @@
 |
 */
 
-Route::get('dashboard', 'DashboardController@index');
+Route::get('/', 'DashboardController@index');
 
-Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
+Route::get('project/{id}', 'ProjectController@details');
 
 Route::controllers([
     'auth' => 'Auth\AuthController',
