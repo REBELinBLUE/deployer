@@ -23,8 +23,7 @@ test:
             - "phpunit.xml"
         directory:
             - "tests"
-        coverage: "storage/coverage/"
-        args: "--stderr"
+        coverage: "/var/www/PHPCI/public/coverage/deployer/"
     php_mess_detector:
         allowed_warnings: 0
         path: "app"
