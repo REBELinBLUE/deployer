@@ -10,10 +10,10 @@ class ProjectController extends Controller
     /**
      * The details of an individual project
      *
-     * @param int $id The ID of the project to display
+     * @param int $project_id The ID of the project to display
      * @return \Illuminate\View\View
      */
-    public function details($id)
+    public function details($project_id)
     {
         return view('project.details', [
             'title' => 'project name'
