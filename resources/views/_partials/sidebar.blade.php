@@ -14,27 +14,27 @@
 
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li class="active">
+            <li class="{{ Request::is('/') ? 'active' : null }}">
                 <a href="/">
                     <i class="fa fa-dashboard"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
-            <li class="treeview">
+            <li class="treeview {{ Request::is('project/*') ? 'active' : null }}">
                 <a href="#">
                     <i class="fa fa-book"></i>
                     <span>Projects</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/project/1"><i class="fa fa-check text-success"></i> Project 1</a></li>
+                    <li class="active"><a href="/project/1"><i class="fa fa-check text-success"></i> Project 1</a></li>
                     <li><a href="/project/1"><i class="fa fa-spinner text-warning"></i> Project 2</a></li>
                     <li><a href="/project/1"><i class="fa fa-warning text-danger"></i> Project 3</a></li>
                 </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview {{ Request::is('admin/*') ? 'active' : null }}">
                 <a href="#">
                     <i class="fa fa-gear"></i>
                     <span>Administration</span>
