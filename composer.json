@@ -1,6 +1,7 @@
 {
     "require": {
         "laravel/framework": "5.*",
+        "laravelcollective/remote": "~5.0",
         "filp/whoops": "~1.0",
         "barryvdh/laravel-debugbar": "~2.0"
     },
