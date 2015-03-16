@@ -16,7 +16,16 @@ class ProjectController extends Controller
     public function details($project_id)
     {
         return view('project.details', [
-            'title' => 'project ' . $project_id
+            'title'              => 'project ' . $project_id,
+            'is_project_details' => true
+        ]);
+    }
+
+    public function commands($project_id, $command)
+    {
+        return view('project.commands', [
+            'title'   => 'project ' . $project_id . ' command ' . $command,
+            'command' => $command
         ]);
     }
 }

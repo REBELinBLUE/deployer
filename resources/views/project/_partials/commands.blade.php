@@ -19,7 +19,7 @@
                     <td>None</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Configure"><i class="fa fa-gear"></i></button>
+                            <a href="/project/1/commands/clone" class="btn btn-default" title="Configure"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -29,7 +29,7 @@
                     <td>None</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Configure"><i class="fa fa-gear"></i></button>
+                            <a href="/project/1/commands/install" class="btn btn-default" title="Configure"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -39,7 +39,7 @@
                     <td>None</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Configure"><i class="fa fa-gear"></i></button>
+                            <a href="/project/1/commands/activate" class="btn btn-default" title="Configure"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -49,11 +49,11 @@
                     <td>None</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Configure"><i class="fa fa-gear"></i></button>
+                            <a href="/project/1/commands/purge" class="btn btn-default" title="Configure"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div><!-- /.box-body -->
-</div><!-- /.box -->
+    </div>
+</div>

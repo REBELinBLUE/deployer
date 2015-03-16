@@ -26,8 +26,8 @@
                         </td>
                         <td>
                             <div class="btn-group pull-right">
-                                <a href="#" class="btn btn-default btn-flat" title="View Site"><i class="fa fa-globe"></i></a>
-                                <a href="/project/1" class="btn btn-default btn-flat" title="View Details"><i class="fa fa-info-circle"></i></a> <!-- details -->
+                                <a href="#" class="btn btn-default" title="View site"><i class="fa fa-globe"></i></a>
+                                <a href="/project/1" class="btn btn-default" title="View Details"><i class="fa fa-info-circle"></i></a> <!-- details -->
                             </div><!-- /.btn-group -->
                         </td>
                     </tr>

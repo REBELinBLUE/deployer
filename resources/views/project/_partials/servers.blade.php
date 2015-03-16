@@ -1,11 +1,11 @@
 <div class="box">
     <div class="box-header">
         <div class="pull-right">
-            <button type="button" class="btn btn-default btn-flat" title="Add a new server"><span class="fa fa-plus"></span> Add Server</button>
+            <button type="button" class="btn btn-default" title="Add a new server" data-toggle="modal" data-target="#server"><span class="fa fa-plus"></span> Add Server</button>
         </div>
-
         <h3 class="box-title">Servers</h3>
-    </div><!-- /.box-header -->
+    </div>
+
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <thead>
@@ -27,10 +27,10 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Test Connection"><i class="fa fa-refresh"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Edit"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Public Key"><i class="fa fa-key"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Remove"><i class="fa fa-trash"></i></button>
+                            <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
+                            <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#server"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-default" title="Public Key" data-toggle="modal" data-target="#key"><i class="fa fa-key"></i></button>
+                            <button type="button" class="btn btn-default" title="Remove"><i class="fa fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -43,10 +43,10 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Test Connection"><i class="fa fa-refresh"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Edit"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Public Key"><i class="fa fa-key"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Remove"><i class="fa fa-trash"></i></button>
+                            <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
+                            <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#server"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-default" title="Public Key" data-toggle="modal" data-target="#key"><i class="fa fa-key"></i></button>
+                            <button type="button" class="btn btn-default" title="Remove"><i class="fa fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -59,10 +59,10 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Test Connection"><i class="fa fa-refresh"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Edit"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Public Key"><i class="fa fa-key"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Remove"><i class="fa fa-trash"></i></button>
+                            <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
+                            <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#server"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-default" title="Public Key" data-toggle="modal" data-target="#key"><i class="fa fa-key"></i></button>
+                            <button type="button" class="btn btn-default" title="Remove"><i class="fa fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -75,14 +75,14 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Test Connection"><i class="fa fa-refresh"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Edit"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Public Key"><i class="fa fa-key"></i></button>
-                            <button type="button" class="btn btn-default btn-flat" title="Remove"><i class="fa fa-trash"></i></button>
+                            <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
+                            <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#server"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-default" title="Public Key" data-toggle="modal" data-target="#key"><i class="fa fa-key"></i></button>
+                            <button type="button" class="btn btn-default" title="Remove"><i class="fa fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div><!-- /.box-body -->
-</div><!-- /.box -->
+    </div>
+</div>

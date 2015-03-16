@@ -21,13 +21,13 @@
                     <td>Stephen Ball</td>
                     <td><a href="#">ab127ef</a> (master)</td>
                     <td>
-                        <span class="label label-warning"><i class="fa fa-spinner"></i> Running</span>
+                        <span class="label label-warning"><i class="fa fa-spinner"></i> Deploying</span>
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button> <!-- redeploy -->
-                            <button type="button" class="btn btn-default btn-flat" title="Details"><i class="fa fa-info-circle"></i></button> <!-- details -->
-                        </div><!-- /.btn-group -->
+                            <button type="button" class="btn btn-default" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button> <!-- redeploy -->
+                            <button type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></button> <!-- details -->
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -40,9 +40,9 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button> <!-- redeploy -->
-                            <button type="button" class="btn btn-default btn-flat" title="Details"><i class="fa fa-info-circle"></i></button> <!-- details -->
-                        </div><!-- /.btn-group -->
+                            <button type="button" class="btn btn-default" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button> <!-- redeploy -->
+                            <button type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></button> <!-- details -->
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -55,12 +55,12 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-flat" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button> <!-- redeploy -->
-                            <button type="button" class="btn btn-default btn-flat" title="Details"><i class="fa fa-info-circle"></i></button> <!-- details -->
-                        </div><!-- /.btn-group -->
+                            <button type="button" class="btn btn-default" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button> <!-- redeploy -->
+                            <button type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></button> <!-- details -->
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div><!-- /.box-body -->
-</div><!-- /.box -->
+    </div>
+</div>

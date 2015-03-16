@@ -28,8 +28,12 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default btn-flat" title="Settings"><span class="fa fa-cogs"></span> Settings</button>
-                        <button type="button" class="btn btn-danger btn-flat" title="Deploy"><span class="fa fa-cloud-upload"></i> Deploy</button>
+                        @if (isset($is_dashboard)) 
+                        <button type="button" class="btn btn-default" title="Add new project" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> Add Project</button>
+                        @elseif (isset($is_project_details))
+                        <button type="button" class="btn btn-default" title="Project settings" data-toggle="modal" data-target="#project"><span class="fa fa-cogs"></span> Settings</button>
+                        <button type="button" class="btn btn-danger" title="Deploy"><span class="fa fa-cloud-upload"></i> Deploy</button>
+                        @endif
                     </div>
 
                     <h1>{{ $title }}</h1>

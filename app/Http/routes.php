@@ -14,6 +14,7 @@
 Route::get('/', 'DashboardController@index');
 
 Route::get('project/{id}', 'ProjectController@details');
+Route::get('project/{id}/commands/{command}', 'ProjectController@commands');
 
 Route::controllers([
     'auth' => 'Auth\AuthController',
