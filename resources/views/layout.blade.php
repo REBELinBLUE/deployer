@@ -27,6 +27,11 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-flat" title="Settings"><span class="fa fa-cogs"></span> Settings</button>
+                        <button type="button" class="btn btn-danger btn-flat" title="Deploy"><span class="fa fa-cloud-upload"></i> Deploy</button>
+                    </div>
+
                     <h1>{{ $title }}</h1>
                 </section>
 
