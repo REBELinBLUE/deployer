@@ -3,6 +3,8 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Project;
+
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -15,8 +17,11 @@ class ProjectController extends Controller
      */
     public function details($project_id)
     {
+        $project = Project::find($project_id);
+
         return view('project.details', [
-            'title'              => 'project ' . $project_id,
+            'title'              => $project->name,
+            'project'            => $project,
             'is_project_details' => true
         ]);
     }

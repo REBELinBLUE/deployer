@@ -9,9 +9,9 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="#">Repository <span class="pull-right">....</span></a></li>
-                        <li><a href="#">Branch <span class="pull-right">....</span></a></li>
-                        <li><a href="#">URL <span class="pull-right">....</span></a></li>
+                        <li><a href="#">Repository <span class="pull-right">{{ $project->repository }}</span></a></li>
+                        <li><a href="#">Branch <span class="pull-right label label-default">{{ $project->branch }}</span></a></li>
+                        <li><a href="{{ $project->url }}" target="_blank">URL <span class="pull-right">{{ $project->url }}</span></a></li>
                     </ul>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="#">Build Status <span class="pull-right"><img src="http://ci.rebelinblue.com/build-status/image/3?branch=master" /></span></a></li>
+                        <li><a href="#">Build Status <span class="pull-right"><img src="{{ $project->build_url }}" /></span></a></li>
                         <li><a href="#">Server Status <span class="pull-right text-green">OK</span></a></li>
                     </ul>
                 </div>

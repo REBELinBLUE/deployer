@@ -29,8 +29,6 @@ class DashboardController extends Controller
         //     echo $line . '<br />';
         // });
         
-
-
         return view('dashboard.index', [
             'title'        => 'Dashboard',
             'projects'     => Project::orderBy('name')->get(),
