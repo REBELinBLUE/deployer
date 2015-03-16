@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes; // FIXME: Add protected private_key, public_key, last_run
 
     /**
      * The database table used by the model.
@@ -27,5 +27,10 @@ class Project extends Model
      * @var array
      */
     protected $hidden = ['private_key'];
+
+    public function getDates()
+    {
+        return ['created_at', 'last_run', 'updated_at'];
+    }
 
 }

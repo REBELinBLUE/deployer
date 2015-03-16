@@ -17,20 +17,22 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($projects as $project)
                     <tr>
-                        <td><a href="/project/1">Project name</a></td>
-                        <td>....</td>
-                        <td>March 17th, 10:35:34 AM</td>
+                        <td><a href="{{ route('project', ['id' => $project->id]) }}" title="View Details">{{ $project->name }}</a></td>
+                        <td>{{ $project->repository }}</td>
+                        <td>{{ $project->last_run ? $project->last_run->format('jS F Y h:i:s A') : 'Never' }}</td>
                         <td>
-                            <span class="label label-warning"><i class="fa fa-spinner"></i> Running</span>
+                            <span class="label label-{{ project_css_status($project) }}"><i class="fa fa-{{ project_icon_status($project) }}"></i> {{ $project->status }}</span>
                         </td>
                         <td>
                             <div class="btn-group pull-right">
-                                <a href="#" class="btn btn-default" title="View site"><i class="fa fa-globe"></i></a>
-                                <a href="/project/1" class="btn btn-default" title="View Details"><i class="fa fa-info-circle"></i></a> <!-- details -->
+                                <a href="{{ $project->url }}" class="btn btn-default" title="View site" target="_blank"><i class="fa fa-globe"></i></a>
+                                <a href="{{ route('project', ['id' => $project->id]) }}" class="btn btn-default" title="View Details"><i class="fa fa-info-circle"></i></a> <!-- details -->
                             </div><!-- /.btn-group -->
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

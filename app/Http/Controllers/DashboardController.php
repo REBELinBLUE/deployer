@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Project;
 
 use Illuminate\Http\Request;
 
@@ -32,6 +33,7 @@ class DashboardController extends Controller
 
         return view('dashboard.index', [
             'title'        => 'Dashboard',
+            'projects'     => Project::orderBy('name')->get(),
             'is_dashboard' => true
         ]);
     }

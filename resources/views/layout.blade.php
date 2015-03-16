@@ -29,7 +29,7 @@
                 <section class="content-header">
                     <div class="pull-right">
                         @if (isset($is_dashboard)) 
-                        <button type="button" class="btn btn-default" title="Add new project" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> Add Project</button>
+                        <button type="button" class="btn btn-success" title="Add new project" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> Add Project</button>
                         @elseif (isset($is_project_details))
                         <button type="button" class="btn btn-default" title="Project settings" data-toggle="modal" data-target="#project"><span class="fa fa-cogs"></span> Settings</button>
                         <button type="button" class="btn btn-danger" title="Deploy"><span class="fa fa-cloud-upload"></i> Deploy</button>

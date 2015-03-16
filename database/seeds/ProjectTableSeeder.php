@@ -16,6 +16,8 @@ class ProjectTableSeeder extends Seeder {
             'private_key' => 'blah',
             'public_key' => 'blah',
             'url' => 'http://project1.app',
+            'status' => 'Finished',
+            'last_run' => '2015-03-15 12:43:51',
             'build_url' => 'http://ci.local/project1.png'
         ]);
 
@@ -25,6 +27,8 @@ class ProjectTableSeeder extends Seeder {
             'private_key' => 'blah',
             'public_key' => 'blah',
             'url' => 'http://project2.app',
+            'status' => 'Failed',
+            'last_run' => '2015-03-10 10:03:14',
             'build_url' => 'http://ci.local/project2.png'
         ]);
 
@@ -34,6 +38,8 @@ class ProjectTableSeeder extends Seeder {
             'private_key' => 'blah',
             'public_key' => 'blah',
             'url' => 'http://project3.app',
+            'status' => 'Running',
+            'last_run' => '2015-03-06 08:31:12',
             'build_url' => 'http://ci.local/project3.png'
         ]);
 
@@ -43,6 +49,7 @@ class ProjectTableSeeder extends Seeder {
             'private_key' => 'blah',
             'public_key' => 'blah',
             'url' => 'http://project4.app',
+            'status' => 'Not Deployed',
             'build_url' => 'http://ci.local/project4.png'
         ]);
     }
