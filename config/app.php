@@ -137,7 +137,8 @@ return [
 		'Illuminate\View\ViewServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Collective\Remote\RemoteServiceProvider',
-
+		'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
+		
 		/*
 		 * Application Service Providers...
 		 */
