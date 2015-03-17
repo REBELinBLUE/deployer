@@ -20,7 +20,7 @@ class CreateServersTable extends Migration {
 			$table->string('user');
 			$table->string('path');
 			$table->integer('project_id')->unsigned();
-			$table->enum('status', ['Successful', 'Testing', 'Failed', 'Untested'])->default('Not Deployed');
+			$table->enum('status', ['Successful', 'Testing', 'Failed', 'Untested'])->default('Untested');
 			$table->timestamps();
 			$table->softDeletes();
 			$table->foreign('project_id')->references('id')->on('projects');

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b171ce606addcb930cc00fd08d02c278",
+    "hash": "2ff79fe5fb245f2aafc5df92d4ce944c",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1149,6 +1149,56 @@
                 "php"
             ],
             "time": "2015-01-18 11:29:59"
+        },
+        {
+            "name": "pda/pheanstalk",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pda/pheanstalk.git",
+                "reference": "2078587884faf43fc00976b152b2dde0b5e3830e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pda/pheanstalk/zipball/2078587884faf43fc00976b152b2dde0b5e3830e",
+                "reference": "2078587884faf43fc00976b152b2dde0b5e3830e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pheanstalk\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Annesley",
+                    "email": "paul@annesley.cc",
+                    "homepage": "http://paul.annesley.cc/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP client for beanstalkd queue",
+            "homepage": "https://github.com/pda/pheanstalk",
+            "keywords": [
+                "beanstalkd"
+            ],
+            "time": "2014-11-08 20:00:00"
         },
         {
             "name": "phpseclib/phpseclib",

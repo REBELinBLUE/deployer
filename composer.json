@@ -4,7 +4,8 @@
         "laravelcollective/remote": "~5.0",
         "graham-campbell/htmlmin": "~3.0",
         "filp/whoops": "~1.0",
-        "barryvdh/laravel-debugbar": "~2.0"
+        "barryvdh/laravel-debugbar": "~2.0",
+        "pda/pheanstalk": "~3.0"
     },
     "require-dev-old": {
         "phpunit/phpunit": "~4.0",

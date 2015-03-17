@@ -4,53 +4,49 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Project;
 
+use Symfony\Component\Process\Process;
+
 class ProjectTableSeeder extends Seeder {
 
     public function run()
     {
         DB::table('projects')->delete();
 
-        Project::create([
-            'name' => 'Project 1',
-            'repository' => 'git@git.server.com:repostories/project1.git',
-            'private_key' => 'blah',
-            'public_key' => 'blah',
-            'url' => 'http://project1.app',
-            'status' => 'Finished',
-            'last_run' => '2015-03-15 12:43:51',
-            'build_url' => 'http://ci.rebelinblue.com/build-status/image/1?branch=master'
-        ]);
+        $status = ['Finished', 'Failed', 'Running', 'Not Deployed'];
 
-        Project::create([
-            'name' => 'Project 2',
-            'repository' => 'git@git.server.com:repostories/project2.git',
-            'private_key' => 'blah',
-            'public_key' => 'blah',
-            'url' => 'http://project2.app',
-            'status' => 'Failed',
-            'last_run' => '2015-03-10 10:03:14',
-            'build_url' => 'http://ci.rebelinblue.com/build-status/image/2?branch=master'
-        ]);
+        $time = strtotime('-6 months');
 
-        Project::create([
-            'name' => 'Project 3',
-            'repository' => 'git@git.server.com:repostories/project3.git',
-            'private_key' => 'blah',
-            'public_key' => 'blah',
-            'url' => 'http://project3.app',
-            'status' => 'Running',
-            'last_run' => '2015-03-06 08:31:12',
-            'build_url' => 'http://ci.rebelinblue.com/build-status/image/3?branch=master'
-        ]);
+        foreach ($status as $index => $state)
+        {
+            $number = $index + 1;
 
-        Project::create([
-            'name' => 'Project 4',
-            'repository' => 'git@git.server.com:repostories/project4.git',
-            'private_key' => 'blah',
-            'public_key' => 'blah',
-            'url' => 'http://project4.app',
-            'status' => 'Not Deployed',
-            'build_url' => 'http://ci.rebelinblue.com/build-status/image/4?branch=master'
-        ]);
+            $time = strtotime('-' . $index . ' months');
+
+            $key = tempnam(storage_path() . '/app/', 'sshkey');
+
+            $process = new Process(sprintf('ssh-keygen -t rsa -b 2048 -f %s -N "" -C "deploy@deployer"', $key));
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new \RuntimeException($process->getErrorOutput());
+            }
+
+            $last_run = rand($time, time());
+
+            Project::create([
+                'name' => 'Project ' . $number,
+                'repository' => 'git@git.server.com:repostories/project' . $number . '.git',
+                'private_key' => 'blah',
+                'public_key' => 'blah',
+                'url' => 'http://project' . $number . '.app',
+                'status' => $state,
+                'private_key' => file_get_contents($key),
+                'public_key' => file_get_contents($key . '.pub'),
+                'last_run' => date('Y-m-d H:i:s', $last_run),
+                'build_url' => 'http://ci.rebelinblue.com/build-status/image/' .  $number. '?branch=master'
+            ]);
+
+            unlink($key);
+            unlink($key . '.pub');
+        }
     }
 }

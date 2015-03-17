@@ -7,10 +7,11 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-warning">
-                    This key must be added to the server's <strong>.ssh/authorized_keys</strong> for each user you wish to run commands as.
+                    <p>This key must be added to the server's <strong>.ssh/authorized_keys</strong> for each user you wish to run commands as.</p>
+                    <p>The key must also be added to the <strong>Deploy Key</strong> section for the project in Gitlab.</p>
                 </div>
 
-                <pre>ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAt9MokW5ue1N/Ss3bdBKTlO0LaXBDd+G99oJgBabkIV6GSVQBjAEaSx9GxgQnjs0NKGWvPdpanshia+PKvoPbwEpLUOX84Raq9rbckuavXIdEW/SehQ7eIfXIiO5lo5CvlxQkszSsDGj3btlOEp9zrSyKOcoVp6PP8A0wxkF6Bx0= user@host</pre>
+                <pre>{{ $project->public_key }}</pre>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>

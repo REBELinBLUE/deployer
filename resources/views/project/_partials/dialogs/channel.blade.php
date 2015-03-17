@@ -21,6 +21,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left"><i class="fa fa-trash"></i> Delete</button>
                     <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="fa fa-save"></i> Save Channel</button>
                 </div>
             </form>

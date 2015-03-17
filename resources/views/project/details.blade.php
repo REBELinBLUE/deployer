@@ -40,7 +40,7 @@
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="#">Build Status <span class="pull-right"><img src="{{ $project->build_url }}" /></span></a></li>
-                        <li><a href="#">Server Status <span class="pull-right text-green">OK</span></a></li>
+                        <li><a href="#">Application Status <span class="pull-right text-green">OK</span></a></li>
                     </ul>
                 </div>
             </div>

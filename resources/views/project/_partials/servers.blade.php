@@ -19,19 +19,17 @@
             </thead>
             <tbody>
                 @foreach ($servers as $server)
-                <tr>
+                <tr id="server_{{ $server->id }}">
                     <td>{{ $server->name }}</td>
                     <td>{{ $server->user }}</td>
                     <td>{{ $server->ip_address }}</td>
                     <td>
-                        <span class="label label-{{ server_css_status($server) }}"><i class="fa fa-{{ server_icon_status($server) }} "></i> {{ $server->status }}</span>
+                        <span class="label label-{{ server_css_status($server) }}"><i class="fa fa-{{ server_icon_status($server) }} "></i> <span>{{ $server->status }}</span></span>
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
-                            <button type="button" class="btn btn-default" title="Edit" data-server-id="{{ $server->id }}" data-toggle="modal" data-backdrop="static" data-target="#server"><i class="fa fa-edit"></i></button>
-                            <!--button type="button" class="btn btn-default" title="Public Key" data-server-id="{{ $server->id }}" data-toggle="modal" data-target="#key"><i class="fa fa-key"></i></button-->
-                            <button type="button" class="btn btn-default btn-delete" title="Remove"><i class="fa fa-trash"></i></button>
+                            <button type="button" class="btn btn-default btn-test" data-server-id="{{ $server->id }}" title="Test Connection"{{ $server->isTesting() ? ' disabled' : '' }}><i class="fa fa-refresh {{ $server->isTesting() ? 'fa-spin' : '' }}"></i></button>
+                            <button type="button" class="btn btn-default" title="Edit" data-server-id="{{ $server->id }}" data-toggle="modal" data-backdrop="static" data-target="#server"{{ $server->isTesting() ? ' disabled' : '' }}><i class="fa fa-edit"></i></button>
                         </div>
                     </td>
                 </tr>

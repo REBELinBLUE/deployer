@@ -13,8 +13,12 @@
 
 Route::get('/', 'DashboardController@index');
 
+
 Route::get('project/{id}', ['as' => 'project', 'uses' => 'ProjectController@details']);
 Route::get('project/{id}/commands/{command}', 'ProjectController@commands');
+
+Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy'] ]);
+Route::get('servers/{id}/test', 'ServerController@test');
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

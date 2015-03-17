@@ -10,7 +10,7 @@ class ServerTableSeeder extends Seeder {
     {
         DB::table('servers')->delete();
 
-        $status = ['Successful', 'Testing', 'Failed', 'Not Connected'];
+        $status = ['Successful', 'Testing', 'Failed', 'Untested'];
         
         for ($i = 1; $i <= 4; $i++)
         {

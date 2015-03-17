@@ -25,4 +25,9 @@ class Server extends Model
     {
         return $this->belongsTo('App\Project');
     }
+
+    public function isTesting()
+    {
+        return ($this->status === 'Testing');
+    }
 }
