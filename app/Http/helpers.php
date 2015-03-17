@@ -63,3 +63,27 @@ function server_icon_status(\App\Server $server) {
 
     return 'question';
 }
+
+function deployment_css_status(\App\Deployment $deployment) {
+    if ($deployment->status == 'Completed') {
+        return 'success';
+    }
+
+    if ($deployment->status == 'Failed') {
+        return 'danger';
+    }
+
+    return 'warning';
+}
+
+function deployment_icon_status(\App\Deployment $deployment) {
+    if ($deployment->status == 'Completed') {
+        return 'check';
+    }
+
+    if ($deployment->status == 'Failed') {
+        return 'warning';
+    }
+
+    return 'spinner';
+}

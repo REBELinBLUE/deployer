@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
-    use SoftDeletes; // FIXME: Add protected private_key, public_key, last_run
+    use SoftDeletes; // FIXME: Add protected private_key, public_key, last_run to protected
 
     /**
      * The database table used by the model.
@@ -36,5 +36,10 @@ class Project extends Model
     public function servers()
     {
         return $this->hasMany('App\Server');
+    }
+    
+    public function deployments()
+    {
+        return $this->hasMany('App\Deployment');
     }
 }

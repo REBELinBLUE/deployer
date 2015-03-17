@@ -21,8 +21,9 @@ class ProjectController extends Controller
 
         return view('project.details', [
             'title'              => $project->name,
+            'deployments'        => $project->deployments, // Get only the last x?
             'project'            => $project,
-            'servers'            => $project->servers,
+            'servers'            => $project->servers, // Order by name
             'is_project_details' => true
         ]);
     }

@@ -15,51 +15,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>March 17th, 10:35:34 AM</td>
-                    <td>Stephen Ball</td>
-                    <td>Stephen Ball</td>
-                    <td><a href="#">ab127ef</a> (master)</td>
+                @foreach ($deployments as $deployment)
+                <tr id="deployment_{{ $deployment->id }}">
+                    <td>{{ $deployment->run->format('jS F Y g:i:s A') }}</td>
+                    <td>{{ $deployment->user->name }}</td>
+                    <td>{{ $deployment->committer}}</td>
+                    <td><a href="#">{{ $deployment->commit }}</a></td>
                     <td>
-                        <span class="label label-warning"><i class="fa fa-spinner"></i> Deploying</span>
+                        <span class="label label-{{ deployment_css_status($deployment) }}"><i class="fa fa-{{ deployment_icon_status($deployment) }}"></i> {{ $deployment->status }}</span>
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button> <!-- redeploy -->
-                            <button type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></button> <!-- details -->
+                            <button type="button" class="btn btn-default" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button>
+                            <button type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></button>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>March 15th, 10:35:34 AM</td>
-                    <td>Stephen Ball</td>
-                    <td>Stephen Ball</td>
-                    <td><a href="#">ce14736</a> (master)</td>
-                    <td>
-                        <span class="label label-success"><i class="fa fa-check"></i> Completed</span>
-                    </td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button> <!-- redeploy -->
-                            <button type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></button> <!-- details -->
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>March 10th, 10:35:34 AM</td>
-                    <td>Stephen Ball</td>
-                    <td>Stephen Ball</td>
-                    <td><a href="#">ab127ef</a> (master)</td>
-                    <td>
-                        <span class="label label-danger"><i class="fa fa-warning"></i> Failed</span>
-                    </td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button> <!-- redeploy -->
-                            <button type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></button> <!-- details -->
-                        </div>
-                    </td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
