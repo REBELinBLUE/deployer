@@ -18,10 +18,10 @@
                 </thead>
                 <tbody>
                     @foreach ($projects as $project)
-                    <tr>
+                    <tr id="project_{{ $project->id }}">
                         <td><a href="{{ route('project', ['id' => $project->id]) }}" title="View Details">{{ $project->name }}</a></td>
                         <td>{{ $project->repository }}</td>
-                        <td>{{ $project->last_run ? $project->last_run->format('jS F Y h:i:s A') : 'Never' }}</td>
+                        <td>{{ $project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
                         <td>
                             <span class="label label-{{ project_css_status($project) }}"><i class="fa fa-{{ project_icon_status($project) }}"></i> {{ $project->status }}</span>
                         </td>
