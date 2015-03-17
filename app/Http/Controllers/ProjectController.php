@@ -22,6 +22,7 @@ class ProjectController extends Controller
         return view('project.details', [
             'title'              => $project->name,
             'project'            => $project,
+            'servers'            => $project->servers,
             'is_project_details' => true
         ]);
     }

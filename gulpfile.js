@@ -40,7 +40,6 @@ elixir(function(mix) {
             'admin.js',
             'app.min.js',
             'chart.js',
-            'dashboard.js',
             'jvectormap.min.js',
             'jvectormap-world-mill-en.js',
             'sparkline.js'

@@ -18,71 +18,28 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($servers as $server)
                 <tr>
-                    <td>Web1</td>
-                    <td>root</td>
-                    <td>192.168.0.1</td>
+                    <td>{{ $server->name }}</td>
+                    <td>{{ $server->user }}</td>
+                    <td>{{ $server->ip_address }}</td>
                     <td>
-                        <span class="label label-success"><i class="fa fa-check"></i> Successful</span>
+                        <span class="label label-{{ server_css_status($server) }}"><i class="fa fa-{{ server_icon_status($server) }}"></i> {{ $server->status }}</span>
                     </td>
                     <td>
                         <div class="btn-group pull-right">
                             <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
-                            <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#server"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-default" title="Edit" data-server-id="{{ $server->id }}" data-toggle="modal" data-target="#server"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-default" title="Public Key" data-toggle="modal" data-target="#key"><i class="fa fa-key"></i></button>
                             <button type="button" class="btn btn-default" title="Remove"><i class="fa fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>Web2</td>
-                    <td>root</td>
-                    <td>192.168.0.2</td>
-                    <td>
-                        <span class="label label-primary"><i class="fa fa-question"></i> Unknown</span>
-                    </td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
-                            <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#server"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-default" title="Public Key" data-toggle="modal" data-target="#key"><i class="fa fa-key"></i></button>
-                            <button type="button" class="btn btn-default" title="Remove"><i class="fa fa-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Cron</td>
-                    <td>root</td>
-                    <td>192.168.0.3</td>
-                    <td>
-                        <span class="label label-warning"><i class="fa fa-spinner"></i> Testing...</span>
-                    </td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
-                            <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#server"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-default" title="Public Key" data-toggle="modal" data-target="#key"><i class="fa fa-key"></i></button>
-                            <button type="button" class="btn btn-default" title="Remove"><i class="fa fa-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>DB</td>
-                    <td>root</td>
-                    <td>192.168.0.4</td>
-                    <td>
-                        <span class="label label-danger"><i class="fa fa-warning"></i> Failed</span>
-                    </td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
-                            <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#server"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-default" title="Public Key" data-toggle="modal" data-target="#key"><i class="fa fa-key"></i></button>
-                            <button type="button" class="btn btn-default" title="Remove"><i class="fa fa-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
 </div>
+<script type="text/javascript">
+    var servers = {!! $servers->toJson() !!};
+</script>
