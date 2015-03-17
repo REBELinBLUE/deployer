@@ -11,7 +11,7 @@
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="#">Repository <span class="pull-right">{{ $project->repository }}</span></a></li>
                         <li><a href="#">Branch <span class="pull-right label label-default">{{ $project->branch }}</span></a></li>
-                        <li><a href="{{ $project->url }}" target="_blank">URL <span class="pull-right">{{ $project->url }}</span></a></li>
+                        <li><a href="{{ $project->url }}" target="_blank">URL <span class="pull-right text-blue">{{ $project->url }}</span></a></li>
                     </ul>
                 </div>
             </div>
