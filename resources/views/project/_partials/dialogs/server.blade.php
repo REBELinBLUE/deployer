@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title"><i class="fa fa-tasks"></i> <span>Add Server</span></h4>
             </div>
-            <form role="form">
+            <form role="form" class="box">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="server_name">Name</label>
@@ -25,9 +25,14 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="fa fa-save"></i> Save Server</button>
+                    <button type="button" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save Server</button>
+                </div>
+                <div class="overlay" style="display: none">
+                    <i class="fa fa-refresh fa-spin"></i>
                 </div>
             </form>
         </div>
+
     </div>
+
 </div>

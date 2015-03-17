@@ -24,5 +24,18 @@ $(function () {
 
         modal.find('.modal-title span').text(title);
     });
+
+    $('form .modal-footer button').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var overlay = target.parents('form').find('.overlay');
+        var dialog = target.parents('.modal');
+
+        overlay.show();
+
+        setTimeout(function() {
+            overlay.hide();
+            dialog.modal('hide');
+        }, 5000);
+    });
 });
 
