@@ -27,15 +27,25 @@ $(function () {
 
     $('form .modal-footer button').on('click', function (event) {
         var target = $(event.currentTarget);
-        var overlay = target.parents('form').find('.overlay');
+        var icon = target.find('i');
         var dialog = target.parents('.modal');
 
-        overlay.show();
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
+        dialog.find('input').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
 
         setTimeout(function() {
-            overlay.hide();
+            icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
             dialog.modal('hide');
+            $('button.close', dialog).show();
+            dialog.find('input').removeAttr('disabled');
         }, 5000);
+    });
+
+    $('.btn-delete').on('click', function (event) {
+        bootbox.confirm('Are you sure?', function(result) {
+            console.log(result);
+        }); 
     });
 });
 
