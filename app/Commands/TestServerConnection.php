@@ -58,7 +58,6 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
         }
         catch (\Exception $error)
         {
-            echo $error;
             $this->server->status = 'Failed';
         }
 
