@@ -19,7 +19,7 @@ class CreateServersTable extends Migration {
 			$table->string('ip_address');
 			$table->string('user');
 			$table->string('path');
-			$table->integer('project_id')->unsigned();
+			$table->unsignedInteger('project_id');
 			$table->enum('status', ['Successful', 'Testing', 'Failed', 'Untested'])->default('Untested');
 			$table->timestamps();
 			$table->softDeletes();

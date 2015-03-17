@@ -3,17 +3,12 @@
         "laravel/framework": "5.*",
         "laravelcollective/remote": "~5.0",
         "graham-campbell/htmlmin": "~3.0",
-        "filp/whoops": "~1.0",
-        "barryvdh/laravel-debugbar": "~2.0",
         "pda/pheanstalk": "~3.0"
     },
-    "require-dev-old": {
-        "phpunit/phpunit": "~4.0",
-        "phpspec/phpspec": "~2.1",
-        "block8/php-docblock-checker": "~1.0",
-        "phpmd/phpmd": "~2.2",
-        "sebastian/phpcpd": "~2.0",
-        "squizlabs/php_codesniffer": "~2.2"
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "filp/whoops": "~1.0",
+        "barryvdh/laravel-debugbar": "~2.0"
     },
     "autoload": {
         "classmap": [
