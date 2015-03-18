@@ -1,6 +1,6 @@
 <div class="callout">
     <h4>Deployments may be triggered by using the following webhook URL</h4>
-    <code>{{  route('webhook', $project->hash) }}</code>
+    <code id="webhook">{{  route('webhook', $project->hash) }}</code> <i class="fa fa-refresh"></i>
 </div>
 
 <div class="box">

@@ -89,15 +89,14 @@ function deploy_step_label($label)
     return $label;
 }
 
-
-// 'Pending', 'Running', 'Failed', 'Cancelled', 'Completed'
-
 function server_log_css_status(\App\ServerLog $log)
 {
     if ($log->status == 'Completed') {
         return 'success';
-    } elseif ($log->status == 'Failed') {
+    } elseif ($log->status == 'Failed' || $log->status == 'Cancelled') {
         return 'danger';
+    } elseif ($log->status == 'Running') {
+        return 'warning';
     }
 
     return 'primary';
@@ -109,6 +108,10 @@ function server_log_icon_status(\App\ServerLog $log)
         return 'check';
     } elseif ($log->status == 'Failed') {
         return 'warning';
+    } elseif ($log->status == 'Cancelled') {
+        return 'times';
+    } elseif ($log->status == 'Running') {
+        return 'spinner';
     }
 
     return 'question';

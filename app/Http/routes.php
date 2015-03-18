@@ -36,6 +36,7 @@ Route::get('project/{id}/deploy/{deploy_id}', [
 Route::get('project/{id}/commands/{command}', 'ProjectController@commands');
 Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy'] ]);
 Route::get('servers/{id}/test', 'ServerController@test');
+Route::get('logs/{id}', 'ProjectController@log');
 
 Route::controllers([
     'auth'     => 'Auth\AuthController',

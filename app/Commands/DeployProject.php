@@ -4,6 +4,7 @@ use App\Commands\Command;
 
 use App\Deployment;
 use App\DeployStep;
+use App\Server;
 
 use Config;
 use SSH;
@@ -21,7 +22,6 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 
     private $deployment;
     private $private_key;
-    private $steps = [];
 
     /**
      * Create a new command instance.
@@ -55,11 +55,10 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             $this->deployment->status = 'Completed';
             $project->status = 'Finished';
         } catch (\Exception $error) {
-
-            // FIXME: Now we need to mark all remaining steps as cancelled!
-
             $this->deployment->status = 'Failed';
             $project->status = 'Failed';
+
+            $this->cancelPendingSteps($this->deployment->steps);
         }
 
         $this->deployment->save();
@@ -98,7 +97,7 @@ git log --pretty=format:"%%h%%x09%%an" && \
 rm -rf {$workingdir}
 CMD;
 
-        $this->log('Checking repository state' . PHP_EOL);
+        $this->outputToConsole('Checking repository state' . PHP_EOL);
         $process = new Process(sprintf($cmd, $this->deployment->project->branch, $this->deployment->project->repository, $this->deployment->project->branch));
         $process->setTimeout(null);
         $process->run();
@@ -116,105 +115,150 @@ CMD;
         $this->deployment->save();
     }
 
+    private function cancelPendingSteps()
+    {
+        foreach ($this->deployment->steps as $step) {
+            foreach ($step->servers as $log) {
+                if ($log->status == 'Pending') {
+                    $log->status = 'Cancelled';
+                    $log->save();
+                }
+            }
+        }
+    }
+
     private function runStep(DeployStep $step)
+    {
+        foreach ($step->servers as $log) {
+            $log->status = 'Running';
+            $log->started_at = date('Y-m-d H:i:s');
+            $log->save();
+
+            $log->status = 'Completed';
+
+            $this->outputToConsole($step->stage . ' on ' . $log->server->name . ' (' . $log->server->ip_address . ')' . PHP_EOL);
+
+            $server = $log->server;
+
+            $commands = $this->getScript($step, $server);
+
+            $failed = false;
+
+            if (!empty($commands)) {
+                $script = 'set -e' . PHP_EOL . $commands;
+                $process = new Process(
+                    'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $this->private_key . ' ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+'.$script.'
+EOF'
+                );
+                $process->setTimeout(null);
+
+                $output = '';
+                $process->run(function ($type, $output_line) use (&$output) {
+                    if ($type == Process::ERR) {
+                        $output .= $this->logError($output_line);
+                    } else {
+                        $output .= $this->logSuccess($output_line);
+                    }
+                });
+
+                if ($process->getExitCode() !== 0) {
+                    $log->status = 'Failed';
+                    $failed = true;
+                }
+
+                $log->output = $output;
+            }
+
+            $log->finished_at = date('Y-m-d H:i:s');
+            $log->save();
+
+            // Throw an exception to prevent any more tasks running
+            if ($failed) {
+                throw new \RuntimeException('Failed!');
+            }
+        }
+    }
+
+    private function getScript(DeployStep $step, Server $server)
     {
         $project = $this->deployment->project;
 
-        foreach ($step->servers as $server) {
-            $commands = $this->getScript($step);
+        $root_dir = preg_replace('#/$#', '', $server->path); # Remove any trailing slash from the path on the server
+        $releases_dir = $root_dir . '/releases';
 
-            if (!isset($commands)) {
-                continue;
-            }
+        $release_id = date('YmdHis', strtotime($this->deployment->run));
+        $latest_release_dir = $releases_dir . '/' . $release_id;
 
-            $script = 'set -e' . PHP_EOL . implode(PHP_EOL, $commands);
-            $process = new Process(
-                'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $this->private_key . ' ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
-'.$script.'
-EOF'
-            );
-            $process->setTimeout(null);
+        $commands = false;
 
-            $this->log('Running ' . $command . PHP_EOL);
-
-            $output = '';
-            $process->run(function ($type, $output_line) use (&$output) {
-                if ($type == Process::ERR) {
-                    $output .= $this->logError($output_line);
-                } else {
-                    $output .= $this->logSuccess($output_line);
-                }
-            });
-
-            //$log->status = 'Completed';
-            if ($process->getExitCode() !== 0) {
-  //              $log->status = 'Failed';
-            }
-
-            //$log->output = $output;
-            //$log->save();
-        }
-    }
-
-    private function getScript(DeployStep $step)
-    {
-        if ($step->command == 'Clone') {
-            $server->label = 'server' . $server->id;
-
-            $remote_key_file = $server->path . '/id_rsa';
-            $remote_wrapper_file = $server->path . '/wrapper.sh';
-            $release = date('YmdHis', strtotime($this->deployment->run));
-
-            $releases = $server->path . '/releases/';
+        if ($step->stage == 'Clone') { // Clone the repository
+            $remote_key_file = $root_dir . '/id_rsa';
+            $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
             $this->configureServers();
 
-            // Upload the files we need
-            SSH::into($server->label)->putString($remote_key_file, $project->private_key);
-            SSH::into($server->label)->putString($remote_wrapper_file,  $this->git_wrapper_script($remote_key_file));
+            $server_name = 'server' . $server->id;
 
-            $cmds = [
-                sprintf('cd %s', $server->path),
+            // Upload the files we need
+            // FIXME: See if we can find a way around this as we have the entire SSH package just for this
+            SSH::into($server_name)->putString($remote_key_file, $project->private_key);
+            SSH::into($server_name)->putString($remote_wrapper_file,  $this->git_wrapper_script($remote_key_file));
+
+            $commands = [
+                sprintf('cd %s', $root_dir),
                 sprintf('chmod 0600 %s', $remote_key_file),
                 sprintf('chmod +x %s', $remote_wrapper_file),
-                sprintf('mkdir --parents %s', $releases),
-                sprintf('cd %s 2>&1', $releases),
+                sprintf('[ ! -d %s ] && mkdir %s', $releases_dir, $releases_dir),
+                sprintf('cd %s', $releases_dir),
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
-                sprintf('git clone --branch %s --depth 1 %s %s', $project->branch, $project->repository, $releases . $release),
-                sprintf('cd %s', $releases . $release),
+                sprintf('git clone --branch %s --depth 1 %s %s', $project->branch, $project->repository, $latest_release_dir),
+                sprintf('cd %s', $latest_release_dir),
                 sprintf('git checkout %s', $project->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
-                // sprintf('composer install'),
-                // sprintf('[ -h %s/latest ] && rm %s/latest', $server->path, $server->path),
-                // sprintf('ln -s %s %s/latest', $releases . $release, $server->path)
             ];
+        } else if ($step->stage == 'Install') { // Install Composer dependencies
+            $commands = [
+                sprintf('cd %s', $latest_release_dir),
+                'composer install'
+            ];
+        } else if ($step->stage == 'Activate') { // Activate latest release
+            $commands = [
+                sprintf('cd %s', $root_dir),
+                sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
+                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
+            ];
+        } else if ($step->stage == 'Purge') { // Purge old releases
 
-            return $cmds;
+        } else { // Custom step!
+
         }
 
-        return false;
+        if (is_array($commands)) {
+            return implode(PHP_EOL, $commands);
+        }
+
+        return $commands;
     }
+
 
     private function logError($message)
     {
-        return $this->log('<warning>' . $message . '</warning>');
+        $this->outputToConsole("\033[0;31m" . $message .  "\033[0m");
+
+        return '<error>' . $message . '</error>';
     }
 
     private function logSuccess($message)
     {
-        return $this->log('<success>' . $message . '</success>');
+        $this->outputToConsole("\033[0;32m" . $message .  "\033[0m");
+        return '<info>' . $message . '</info>';
     }
 
-    private function log($message)
+    private function outputToConsole($message)
     {
-        $console = str_replace('<warning>', "\033[0;31m", $message);
-        $console = str_replace('</warning>', "\033[0m", $console);
-        $console = str_replace('<success>', "\033[0;32m", $console);
-        $console = str_replace('</success>', "\033[0m", $console);
-
-        //echo $console;
-
-        return $message;
+        // FIXME: Only output in debug mode
+        echo 'Deployment #' . $this->deployment->id . ': '  . $message;
     }
 
     private function git_wrapper_script($key_file_path)

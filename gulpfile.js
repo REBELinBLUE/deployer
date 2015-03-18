@@ -29,7 +29,8 @@ elixir(function(mix) {
         .styles([
             "admin.min.css",
             "jvectormap.css",
-            "skins.min.css"
+            "skins.min.css",
+            "styles.css"
         ], 'public/css/admin.css', 'resources/assets/css')
 
         .scripts([

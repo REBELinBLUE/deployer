@@ -16,7 +16,7 @@ class ServerLog extends Model
      *
      * @var array
      */
-    protected $fillable = ['server_id', 'deploy_step_id', 'status', 'log'];
+    protected $fillable = ['server_id', 'deploy_step_id', 'status', 'output'];
 
     public function server()
     {

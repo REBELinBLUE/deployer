@@ -121,6 +121,44 @@ $(function () {
             clearInterval(callbacks['server_' + server_id]);
         });
     });
+
+
+    $('#log').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var log_id = button.data('log-id');
+        var step = $('h3 span', button.parents('.box')).text();
+        var modal = $(this);
+        var log = $('pre', modal);
+        var loader = $('#loading', modal);
+
+        log.hide();
+        loader.show();
+
+        $('#action', modal).text(step);
+        log.text('');
+
+        $.ajax({
+            type: 'GET',
+            url: '/logs/' + log_id
+        }).done(function (data) {
+            var output = data.output;
+            // FIXME: There has to be a cleaner way to do this surely?
+            output = output.replace(/<\/error>/g, '</span>')
+            output = output.replace(/<\/info>/g, '</span>');
+            output = output.replace(/<error>/g, '<span class="text-red">')
+            output = output.replace(/<info>/g, '<span class="text-green">');
+
+            log.html(output);
+
+            log.show();
+            loader.hide();
+        }).fail(function() {
+
+        }).always(function() {
+
+        });
+
+    })
 });
 
 var callbacks = {};
@@ -131,7 +169,6 @@ function checkServer(server_id) {
             type: 'GET',
             url: '/servers/' + server_id,
         }).done(function(data) {
-            console.log(data);
 
             if (data.status != 'Testing') {
                 clearInterval(callbacks['server_' + server_id]);

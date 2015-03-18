@@ -18,9 +18,9 @@ class CreateServerLogsTable extends Migration {
 			$table->unsignedInteger('server_id');
 			$table->unsignedInteger('deploy_step_id');
 			$table->enum('status', ['Pending', 'Running', 'Failed', 'Cancelled', 'Completed'])->default('Pending');
-			$table->text('log')->nullable();
-			$table->time('started_at')->nullable();
-			$table->time('finished_at')->nullable();
+			$table->text('output')->nullable();
+			$table->dateTime('started_at')->nullable();
+			$table->dateTime('finished_at')->nullable();
 			$table->timestamps();
 			$table->foreign('server_id')->references('id')->on('servers');
 			$table->foreign('deploy_step_id')->references('id')->on('deploy_steps');

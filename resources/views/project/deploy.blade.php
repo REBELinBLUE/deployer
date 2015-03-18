@@ -6,7 +6,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title"><i class="fa fa-magic"></i> {{ deploy_step_label($step->stage) }}</h3>
+                    <h3 class="box-title"><i class="fa fa-magic"></i> <span>{{ deploy_step_label($step->stage) }}</span></h3>
                 </div>
                 <div class="box-body table-responsive">
                     <table class="table table-hover" id="step_{{ $step->id }}">
@@ -27,12 +27,12 @@
                                 <td>
                                      <span class="label label-{{ server_log_css_status($log) }}"><i class="fa fa-{{ server_log_icon_status($log) }}"></i> <span>{{ $log->status }}</span></span>
                                 </td>
-                                <td>{{ $log->started_at ? 'started' : 'N/A' }}</td>
-                                <td>{{ $log->finished_at ? 'finished' : 'N/A' }}</td>
+                                <td>{{ $log->started_at ? $log->started_at->format('g:i:s A') : 'N/A' }}</td>
+                                <td>{{ $log->finished_at ? $log->finished_at->format('g:i:s A') : 'N/A' }}</td>
                                 <td>{{ $log->runtime() > 0 ? 'runtime' : 'N/A' }}</td>
                                 <td>
                                     <div class="btn-group pull-right">
-                                        <button type="button" class="btn btn-default" title="View output" data-toggle="modal" data-backdrop="static" data-target="#log" style="{{ !empty($log->log) ? '' : 'display:none' }}"><i class="fa fa-terminal"></i></button>
+                                        <button type="button" class="btn btn-default" title="View output" data-toggle="modal" data-log-id="{{ $log->id }}" data-backdrop="static" data-target="#log" style="{{ !empty($log->output) ? '' : 'display:none' }}"><i class="fa fa-terminal"></i></button>
                                     </div>
                                 </td>
                             </tr>

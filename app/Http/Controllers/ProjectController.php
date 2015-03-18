@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Project;
 use App\Deployment;
+use App\ServerLog;
 use App\Commands\QueueDeployment;
 
 use Illuminate\Http\Request;
@@ -87,5 +88,12 @@ class ProjectController extends Controller
         return [
             'success' => true
         ];
+    }
+
+    public function log($log_id)
+    {
+        $log = ServerLog::findOrFail($log_id);
+
+        return $log;
     }
 }
