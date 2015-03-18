@@ -28,7 +28,7 @@ class ServerController extends Controller
         $server->status = 'Testing';
         $server->save();
 
-        Queue::push(new TestServerConnection($server));
+        Queue::pushOn('connections', new TestServerConnection($server));
 
         return Response::json([
             'success' => true
