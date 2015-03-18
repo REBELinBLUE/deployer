@@ -41,7 +41,6 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
     public function handle()
     {
         $project = $this->deployment->project;
-        $servers = $this->deployment->project->servers;
 
         $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
@@ -114,7 +113,7 @@ CMD;
         $process->run();
 
         if ($process->getExitCode() !== 0) {
-            die('failed');
+            throw new \RuntimeException('Could not get repository info');
         }
 
         $git_info = $process->getOutput();

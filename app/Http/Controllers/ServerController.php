@@ -16,14 +16,14 @@ use App\Project;
 
 class ServerController extends Controller
 {
-    public function show($id)
+    public function show($server_id)
     {
-        return Server::findOrFail($id);
+        return Server::findOrFail($server_id);
     }
 
-    public function test($id)
+    public function test($server_id)
     {
-        $server = Server::findOrFail($id);
+        $server = Server::findOrFail($server_id);
 
         $server->status = 'Testing';
         $server->save();
@@ -83,7 +83,7 @@ class ServerController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update($server_id)
     {
         $rules = array(
             'name'       => 'required',
@@ -98,7 +98,7 @@ class ServerController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         } else {
-            $server = Server::findOrFail($id);
+            $server = Server::findOrFail($server_id);
             $server->name       = Input::get('name');
             $server->user       = Input::get('user');
             $server->ip_address = Input::get('ip_address');
@@ -116,8 +116,8 @@ class ServerController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function destroy($server_id)
+    // {
+    //     //
+    // }
 }
