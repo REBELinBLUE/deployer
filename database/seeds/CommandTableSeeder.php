@@ -19,7 +19,6 @@ class CommandTableSeeder extends Seeder {
                 {
                     $step = $order . ' ' . $action;
                     
-                    // FIXME: Create a 
                     Command::create([
                         'name'       => $step,
                         'script'     => "cd {{release}}\necho \"{$step}\"",
