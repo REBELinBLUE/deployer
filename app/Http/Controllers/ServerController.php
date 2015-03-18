@@ -30,7 +30,9 @@ class ServerController extends Controller
 
         Queue::push(new TestServerConnection($server));
 
-        return Response::json(['success' => true], 200);
+        return Response::json([
+            'success' => true
+        ], 200);
     }
 
     /**
