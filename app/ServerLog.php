@@ -32,5 +32,4 @@ class ServerLog extends Model
     {
         return 0;
     }
-
 }

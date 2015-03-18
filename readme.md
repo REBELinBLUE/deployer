@@ -7,7 +7,7 @@
 
 The code is written to follow PSR-2 standards, this can be tested using PHP_CodeSniffer
 
-    $ phpcs --standard=PSR2 --ignore=blade app/*
+    $ phpcs --standard=PSR2 app/*
 
 Code style can be checked with
 

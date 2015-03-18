@@ -12,8 +12,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 
-class TestServerConnection extends Command implements SelfHandling, ShouldBeQueued {
-
+class TestServerConnection extends Command implements SelfHandling, ShouldBeQueued
+{
     use InteractsWithQueue, SerializesModels;
 
     public $server;
@@ -48,16 +48,13 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
         Config::set('remote.connections.runtime.keyphrase', '');
         Config::set('remote.connections.runtime.root', $this->server->path);
 
-        try
-        {
+        try {
             SSH::into('runtime')->run([
                 'ls'
             ]);
 
             $this->server->status = 'Successful';
-        }
-        catch (\Exception $error)
-        {
+        } catch (\Exception $error) {
             $this->server->status = 'Failed';
         }
 
@@ -65,5 +62,4 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
 
         unlink($key);
     }
-
 }

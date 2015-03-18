@@ -14,15 +14,26 @@
 Route::get('/', 'DashboardController@index');
 
 
-Route::get('project/{id}', ['as' => 'project', 'uses' => 'ProjectController@details']);
-Route::post('project/{id}/deploy', ['as' => 'deploy', 'uses' => 'ProjectController@deploy']); // FIXME This should not be get
-Route::get('project/{id}/deploy/{deploy_id}', ['as' => 'deployment', 'uses' => 'ProjectController@deployment']);
-Route::get('project/{id}/commands/{command}', 'ProjectController@commands');
+Route::get('project/{id}', [
+    'as'   => 'project',
+    'uses' => 'ProjectController@details'
+]);
 
+Route::post('project/{id}/deploy', [
+    'as'   => 'deploy',
+    'uses' => 'ProjectController@deploy'
+]);
+
+Route::get('project/{id}/deploy/{deploy_id}', [
+    'as'   => 'deployment',
+    'uses' => 'ProjectController@deployment'
+]);
+
+Route::get('project/{id}/commands/{command}', 'ProjectController@commands');
 Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy'] ]);
 Route::get('servers/{id}/test', 'ServerController@test');
 
 Route::controllers([
-    'auth' => 'Auth\AuthController',
+    'auth'     => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
 ]);

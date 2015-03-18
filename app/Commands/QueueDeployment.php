@@ -14,26 +14,27 @@ use Queue;
 
 class QueueDeployment extends Command implements SelfHandling
 {
-	private $project, $deployment;
+    private $project;
+    private $deployment;
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
-	public function __construct(Project $project, Deployment $deployment)
-	{
-		$this->project = $project;
-		$this->deployment = $deployment;
-	}
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct(Project $project, Deployment $deployment)
+    {
+        $this->project = $project;
+        $this->deployment = $deployment;
+    }
 
-	/**
-	 * Execute the command.
-	 *
-	 * @return void
-	 */
-	public function handle()
-	{
+    /**
+     * Execute the command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
        // FIXME: Check if a deployment is already in progress
 
         $this->deployment->run = date('Y-m-d H:i:s');
@@ -46,25 +47,21 @@ class QueueDeployment extends Command implements SelfHandling
         $this->deployment->project->status = 'Running';
         $this->deployment->project->save();
 
-		// FIXME: Add entries for before/after etc 
-        foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command)
-        {
+        // FIXME: Add entries for before/after etc
+        foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command) {
             $step = new DeployStep;
             $step->stage = $command;
             $step->deployment_id = $this->deployment->id;
             $step->save();
 
-            foreach ($this->project->servers as $server)
-            {
-            	$log = new ServerLog;
-            	$log->server_id = $server->id;
-            	$log->deploy_step_id = $step->id;
-            	$log->save();
+            foreach ($this->project->servers as $server) {
+                $log = new ServerLog;
+                $log->server_id = $server->id;
+                $log->deploy_step_id = $step->id;
+                $log->save();
             }
         }
 
-
         Queue::pushOn('deploy', new DeployProject($this->deployment));
-	}
-
+    }
 }

@@ -19,7 +19,9 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 {
     use InteractsWithQueue, SerializesModels;
 
-    private $deployment, $private_key, $steps = [];
+    private $deployment;
+    private $private_key;
+    private $steps = [];
 
     /**
      * Create a new command instance.
@@ -46,20 +48,16 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 
         $this->configureServers();
 
-        try
-        {
+        try {
             $this->updateRepoInfo();
 
-            foreach ($this->deployment->steps as $step)
-            {
+            foreach ($this->deployment->steps as $step) {
                 $this->runStep($step);
             }
 
             $this->deployment->status = 'Completed';
             $project->status = 'Finished';
-        }
-        catch (\Exception $error)
-        {
+        } catch (\Exception $error) {
             echo $error;
 
             $this->deployment->status = 'Failed';
@@ -74,8 +72,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 
     private function configureServers()
     {
-        foreach ($this->deployment->project->servers as $server)
-        {
+        foreach ($this->deployment->project->servers as $server) {
             Config::set('remote.connections.server' . $server->id . '.host', $server->ip_address);
             Config::set('remote.connections.server' . $server->id . '.username', $server->user);
             Config::set('remote.connections.server' . $server->id . '.password', '');
@@ -132,8 +129,7 @@ CMD;
     private function runStep(DeployStep $command)
     {
         $project = $this->deployment->project;
-        foreach ($project->servers as $server)
-        {
+        foreach ($project->servers as $server) {
             if ($command != 'Clone') {
                 continue;
             }
@@ -186,8 +182,7 @@ EOF'
             $process->run(function ($type, $output_line) use (&$output) {
                 if ($type == Process::ERR) {
                     $output .= $this->logError($output_line);
-                }
-                else {
+                } else {
                     $output .= $this->logSuccess($output_line);
                 }
             });

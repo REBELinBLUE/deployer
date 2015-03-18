@@ -1,104 +1,88 @@
 <?php
 
-function project_css_status(\App\Project $project) {
+function project_css_status(\App\Project $project)
+{
     if ($project->status == 'Finished') {
         return 'success';
-    }
-
-    if ($project->status == 'Running') {
+    } elseif ($project->status == 'Running') {
         return 'warning';
-    }
-
-    if ($project->status == 'Failed') {
+    } elseif ($project->status == 'Failed') {
         return 'danger';
     }
 
     return 'primary';
 }
 
-function project_icon_status(\App\Project $project) {
+function project_icon_status(\App\Project $project)
+{
     if ($project->status == 'Finished') {
         return 'check';
-    }
-
-    if ($project->status == 'Running') {
+    } elseif ($project->status == 'Running') {
         return 'spinner';
-    }
-
-    if ($project->status == 'Failed') {
+    } elseif ($project->status == 'Failed') {
         return 'warning';
     }
 
     return 'question';
 }
 
-function server_css_status(\App\Server $server) {
+function server_css_status(\App\Server $server)
+{
     if ($server->status == 'Successful') {
         return 'success';
-    }
-
-    if ($server->status == 'Testing') {
+    } elseif ($server->status == 'Testing') {
         return 'warning';
-    }
-
-    if ($server->status == 'Failed') {
+    } elseif ($server->status == 'Failed') {
         return 'danger';
     }
 
     return 'primary';
 }
 
-function server_icon_status(\App\Server $server) {
+function server_icon_status(\App\Server $server)
+{
     if ($server->status == 'Successful') {
         return 'check';
-    }
-
-    if ($server->status == 'Testing') {
+    } elseif ($server->status == 'Testing') {
         return 'spinner';
-    }
-
-    if ($server->status == 'Failed') {
+    } elseif ($server->status == 'Failed') {
         return 'warning';
     }
 
     return 'question';
 }
 
-function deployment_css_status(\App\Deployment $deployment) {
+function deployment_css_status(\App\Deployment $deployment)
+{
     if ($deployment->status == 'Completed') {
         return 'success';
-    }
-
-    if ($deployment->status == 'Failed') {
+    } elseif ($deployment->status == 'Failed') {
         return 'danger';
     }
 
     return 'warning';
 }
 
-function deployment_icon_status(\App\Deployment $deployment) {
+function deployment_icon_status(\App\Deployment $deployment)
+{
     if ($deployment->status == 'Completed') {
         return 'check';
-    }
-
-    if ($deployment->status == 'Failed') {
+    } elseif ($deployment->status == 'Failed') {
         return 'warning';
     }
 
     return 'spinner';
 }
 
-function deploy_step_label($label) {
+function deploy_step_label($label)
+{
     if ($label == 'Clone') {
         return 'Clone New Release';
-    }
-    else if ($label == 'Install') {
+    } elseif ($label == 'Install') {
         return 'Install Composer Dependencies';
-    }
-    else if ($label == 'Activate') {
+    } elseif ($label == 'Activate') {
         return 'Activate New Release';
-    }
-    else if ($label == 'Purge') {
+    } elseif ($label == 'Purge') {
         return 'Purge Old Releases';
     }
 
@@ -108,24 +92,22 @@ function deploy_step_label($label) {
 
 // 'Pending', 'Running', 'Failed', 'Cancelled', 'Completed'
 
-function server_log_css_status(\App\ServerLog $log) {
+function server_log_css_status(\App\ServerLog $log)
+{
     if ($log->status == 'Completed') {
         return 'success';
-    }
-
-    if ($log->status == 'Failed') {
+    } elseif ($log->status == 'Failed') {
         return 'danger';
     }
 
     return 'primary';
 }
 
-function server_log_icon_status(\App\ServerLog $log) {
+function server_log_icon_status(\App\ServerLog $log)
+{
     if ($log->status == 'Completed') {
         return 'check';
-    }
-
-    if ($log->status == 'Failed') {
+    } elseif ($log->status == 'Failed') {
         return 'warning';
     }
 
