@@ -26,7 +26,8 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Re-Deploy"><i class="fa fa-cloud-upload"></i></button>
+                            <!-- FIXME Hide this button on the newest deployment -->
+                            <button type="button" class="btn btn-default" title="Re-Deploy" {{ $deployment->isRunning() ? 'disabled' : '' }}><i class="fa fa-cloud-upload"></i></button>
                             <a href="{{ route('deployment', ['id' => $project->id, 'deployment' => $deployment->id]) }}" type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></a>
                         </div>
                     </td>

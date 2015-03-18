@@ -28,9 +28,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="active"><a href="/project/1"><i class="fa fa-check text-success"></i> Project 1</a></li>
-                    <li><a href="/project/1"><i class="fa fa-spinner text-warning"></i> Project 2</a></li>
-                    <li><a href="/project/1"><i class="fa fa-warning text-danger"></i> Project 3</a></li>
+                    @foreach(App\Project::all() as $project)
+                        <li class="{{ (Request::is('project/' . $project->id) OR Request::is('project/' . $project->id . '/*')) ? 'active' : '' }}"><a href="{{ route('project', $project->id) }}"><i class="fa fa-{{ project_icon_status($project) }} text-{{ project_css_status($project) }}"></i> {{ $project->name }}</a></li>
+                    @endforeach
                 </ul>
             </li>
 

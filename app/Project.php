@@ -33,6 +33,11 @@ class Project extends Model
         return ['created_at', 'last_run', 'updated_at'];
     }
 
+    public function isDeploying()
+    {
+        return ($this->status == 'Running');
+    }
+
     public function servers()
     {
         return $this->hasMany('App\Server');

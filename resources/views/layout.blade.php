@@ -35,7 +35,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <button type="button" class="btn btn-default" title="View SSH Key" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> SSH key</button>
                             <button type="button" class="btn btn-default" title="Edit Project Settings" data-toggle="modal" data-target="#project"><span class="fa fa-cogs"></span> Settings</button>
-                            <button type="submit" class="btn btn-danger" title="Deploy"><span class="fa fa-cloud-upload"></i> Deploy</button>
+                            <button type="submit" class="btn btn-danger" title="Deploy" {{ $project->isDeploying() ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></i> Deploy</button>
                         </form>
                         @endif
                     </div>

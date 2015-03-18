@@ -37,6 +37,11 @@ class Deployment extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function isRunning()
+    {
+        return ($this->status == 'Deploying');
+    }
+
     public function steps()
     {
         return $this->hasMany('App\DeployStep');
