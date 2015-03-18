@@ -473,16 +473,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.16",
+            "version": "v5.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "861a1e78c84dca82fe4bd85d00349c52304eea77"
+                "reference": "b4abcbc98885e1b339acc7e993d2758d47f01ecc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/861a1e78c84dca82fe4bd85d00349c52304eea77",
-                "reference": "861a1e78c84dca82fe4bd85d00349c52304eea77",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b4abcbc98885e1b339acc7e993d2758d47f01ecc",
+                "reference": "b4abcbc98885e1b339acc7e993d2758d47f01ecc",
                 "shasum": ""
             },
             "require": {
@@ -595,7 +595,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-03-13 13:27:55"
+            "time": "2015-03-17 21:45:31"
         },
         {
             "name": "laravelcollective/remote",
