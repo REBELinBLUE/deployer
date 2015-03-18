@@ -48,10 +48,22 @@ class ProjectController extends Controller
         $deployment->project->status = 'Running';
         $deployment->project->save();
 
-        Queue::push(new DeployProject($deployment));
+        Queue::pushOn('deploy', new DeployProject($deployment));
 
         return view('project.deploy', [
             'title'      => 'Deploying project....',
+            'project'    => $project,
+            'deployment' => $deployment
+        ]);
+    }
+
+    public function deployment($project_id, $deployment_id)
+    {
+        $project = Project::findOrFail($project_id);
+        $deployment = Deployment::findOrFail($deployment_id);
+
+        return view('project.deploy', [
+            'title'      => 'Deployment # details' ,
             'project'    => $project,
             'deployment' => $deployment
         ]);

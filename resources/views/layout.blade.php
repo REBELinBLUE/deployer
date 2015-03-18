@@ -31,9 +31,12 @@
                         @if (isset($is_dashboard)) 
                         <button type="button" class="btn btn-success" title="Add new project" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> Add Project</button>
                         @elseif (isset($is_project_details))
-                        <button type="button" class="btn btn-default" title="View SSH Key" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> SSH key</button>
-                        <button type="button" class="btn btn-default" title="Edit Project Settings" data-toggle="modal" data-target="#project"><span class="fa fa-cogs"></span> Settings</button>
-                        <a href="{{ route('deploy', ['id' => $project->id]) }}" class="btn btn-danger" title="Deploy"><span class="fa fa-cloud-upload"></i> Deploy</a>
+                        <form method="post" action="{{ route('deploy', ['id' => $project->id]) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                            <button type="button" class="btn btn-default" title="View SSH Key" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> SSH key</button>
+                            <button type="button" class="btn btn-default" title="Edit Project Settings" data-toggle="modal" data-target="#project"><span class="fa fa-cogs"></span> Settings</button>
+                            <button type="submit" class="btn btn-danger" title="Deploy"><span class="fa fa-cloud-upload"></i> Deploy</button>
+                        </form>
                         @endif
                     </div>
 
