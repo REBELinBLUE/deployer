@@ -15,6 +15,7 @@ Route::get('/', 'DashboardController@index');
 
 
 Route::get('project/{id}', ['as' => 'project', 'uses' => 'ProjectController@details']);
+Route::get('project/{id}/deploy', ['as' => 'deploy', 'uses' => 'ProjectController@deploy']); // FIXME This should not be get
 Route::get('project/{id}/commands/{command}', 'ProjectController@commands');
 
 Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy'] ]);

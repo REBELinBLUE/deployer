@@ -33,7 +33,7 @@
                         @elseif (isset($is_project_details))
                         <button type="button" class="btn btn-default" title="View SSH Key" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> SSH key</button>
                         <button type="button" class="btn btn-default" title="Edit Project Settings" data-toggle="modal" data-target="#project"><span class="fa fa-cogs"></span> Settings</button>
-                        <button type="button" class="btn btn-danger" title="Deploy"><span class="fa fa-cloud-upload"></i> Deploy</button>
+                        <a href="{{ route('deploy', ['id' => $project->id]) }}" class="btn btn-danger" title="Deploy"><span class="fa fa-cloud-upload"></i> Deploy</a>
                         @endif
                     </div>
 
