@@ -9,7 +9,7 @@
                 <h3 class="box-title"><i class="fa fa-magic"></i> {{ deploy_step_label($step->stage) }}</h3>
             </div>
             <div class="box-body table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover" id="step_{{ $step->id }}">
                     <tbody>
                         <tr>
                             <th>Server</th>
@@ -45,4 +45,5 @@
     @endforeach
 </div>
 @include('project._partials.dialogs.log')
+
 @stop

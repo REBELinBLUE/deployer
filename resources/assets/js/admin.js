@@ -121,45 +121,47 @@ $(function () {
             clearInterval(callbacks['server_' + server_id]);
         });
     });
-
-
-    var callbacks = {};
-
-    function checkServer(server_id) {
-        var cb = function() {
-            $.ajax({
-                type: 'GET',
-                url: '/servers/' + server_id,
-            }).done(function(data) {
-                console.log(data);
-
-                if (data.status != 'Testing') {
-                    clearInterval(callbacks['server_' + server_id]);
-
-                    var label_class = 'primary';
-                    var icon_class = 'question';
-
-                    if (data.status === 'Successful') {
-                        label_class = 'success';
-                        icon_class = 'check';
-                    } else if (data.status === 'Failed') {
-                        label_class = 'danger';
-                        icon_class = 'warning';
-                    }
-
-                    var row = $('#server_' + server_id);
-                    var label = $('span.label', row);
-
-                    $('span', label).text(data.status);
-                    label.removeClass('label-danger').addClass('label-' + label_class);
-                    $('i', label).removeClass('fa-spinner').addClass('fa-' + icon_class);
-                    $('button', row).removeAttr('disabled');
-                    $('button i', row).removeClass('fa-spin');
-                }
-            });
-        };
-
-        callbacks['server_' + server_id] = setInterval(cb, 2500);
-    }
 });
 
+var callbacks = {};
+
+function checkServer(server_id) {
+    var cb = function() {
+        $.ajax({
+            type: 'GET',
+            url: '/servers/' + server_id,
+        }).done(function(data) {
+            console.log(data);
+
+            if (data.status != 'Testing') {
+                clearInterval(callbacks['server_' + server_id]);
+
+                var label_class = 'primary';
+                var icon_class = 'question';
+
+                if (data.status === 'Successful') {
+                    label_class = 'success';
+                    icon_class = 'check';
+                } else if (data.status === 'Failed') {
+                    label_class = 'danger';
+                    icon_class = 'warning';
+                }
+
+                var row = $('#server_' + server_id);
+                var label = $('span.label', row);
+
+                $('span', label).text(data.status);
+                label.removeClass('label-danger').addClass('label-' + label_class);
+                $('i', label).removeClass('fa-spinner').addClass('fa-' + icon_class);
+                $('button', row).removeAttr('disabled');
+                $('button i', row).removeClass('fa-spin');
+            }
+        });
+    };
+
+    callbacks['server_' + server_id] = setInterval(cb, 2500);
+}
+
+function checkDeployment(deployment_id) {
+    console.log(deployment_id);
+}
