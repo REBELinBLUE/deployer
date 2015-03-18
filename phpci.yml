@@ -36,7 +36,7 @@ test:
         coverage: "/var/www/PHPCI/public/coverage/deployer/"
     php_mess_detector:
         allowed_warnings: 0
-        path: "app"
+        path: "app/"
         rules:
             - "design"
             - "naming"
@@ -46,11 +46,10 @@ test:
         standard: "PSR2"
         allowed_warnings: 0
         allowed_errors: 0
-        ignore:
-            - "blade"
     php_cpd:
     php_loc:
     php_docblock_checker:
+        allowed_warnings: 10000000 # Just warn for now, don't fail
     technical_debt:
 
 failure:
