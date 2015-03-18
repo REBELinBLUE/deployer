@@ -87,3 +87,47 @@ function deployment_icon_status(\App\Deployment $deployment) {
 
     return 'spinner';
 }
+
+function deploy_step_label($label) {
+    if ($label == 'Clone') {
+        return 'Clone New Release';
+    }
+    else if ($label == 'Install') {
+        return 'Install Composer Dependencies';
+    }
+    else if ($label == 'Activate') {
+        return 'Activate New Release';
+    }
+    else if ($label == 'Purge') {
+        return 'Purge Old Releases';
+    }
+
+    return $label;
+}
+
+
+// 'Pending', 'Running', 'Failed', 'Cancelled', 'Completed'
+
+function server_log_css_status(\App\ServerLog $log) {
+    if ($log->status == 'Completed') {
+        return 'success';
+    }
+
+    if ($log->status == 'Failed') {
+        return 'danger';
+    }
+
+    return 'primary';
+}
+
+function server_log_icon_status(\App\ServerLog $log) {
+    if ($log->status == 'Completed') {
+        return 'check';
+    }
+
+    if ($log->status == 'Failed') {
+        return 'warning';
+    }
+
+    return 'question';
+}

@@ -17,4 +17,9 @@ class DeployStep extends Model
      * @var array
      */
     protected $fillable = ['deployment_id', 'stage', 'command_id', 'run_order'];
+
+    public function servers()
+    {
+        return $this->hasMany('App\ServerLog');
+    }
 }

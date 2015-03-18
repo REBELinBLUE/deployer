@@ -8,6 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use App\Project;
 use App\Deployment;
 use App\DeployStep;
+use App\ServerLog;
 
 use Queue;
 
@@ -45,13 +46,21 @@ class QueueDeployment extends Command implements SelfHandling
         $this->deployment->project->status = 'Running';
         $this->deployment->project->save();
 
-		// FIXME: Add entries for before/after for each server?
+		// FIXME: Add entries for before/after etc 
         foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command)
         {
             $step = new DeployStep;
             $step->stage = $command;
             $step->deployment_id = $this->deployment->id;
             $step->save();
+
+            foreach ($this->project->servers as $server)
+            {
+            	$log = new ServerLog;
+            	$log->server_id = $server->id;
+            	$log->deploy_step_id = $step->id;
+            	$log->save();
+            }
         }
 
 

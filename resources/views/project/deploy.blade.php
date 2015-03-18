@@ -2,10 +2,11 @@
 
 @section('content')
 <div class="row">
+    @foreach($steps as $step)
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title"><i class="fa fa-magic"></i> Responsive Hover Table</h3>
+                <h3 class="box-title"><i class="fa fa-magic"></i> {{ deploy_step_label($step->stage) }}</h3>
             </div>
             <div class="box-body table-responsive">
                 <table class="table table-hover">
@@ -20,25 +21,28 @@
                         </tr>
                     </tbody>
                     <tbody>
-                        <tr>
-                            <td>Server 1</td>
+                        @foreach($step->servers as $log)
+                        <tr id="log_{{ $log->id }}">
+                            <td>{{ $log->server->name }}</td>
                             <td>
-                                 <span class="label label-warning"><i class="fa fa-spinner"></i> <span>Running</span></span>
+                                 <span class="label label-{{ server_log_css_status($log) }}"><i class="fa fa-{{ server_log_icon_status($log) }}"></i> <span>{{ $log->status }}</span></span>
                             </td>
-                            <td>3:06:05PM</td>
-                            <td>3:06:08PM</td>
-                            <td>3 seconds</td>
+                            <td>{{ $log->started_at ? 'started' : 'N/A' }}</td>
+                            <td>{{ $log->finished_at ? 'finished' : 'N/A' }}</td>
+                            <td>{{ $log->runtime() > 0 ? 'runtime' : 'N/A' }}</td>
                             <td>
                                 <div class="btn-group pull-right">
-                                    <button type="button" class="btn btn-default" title="View output" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-terminal"></i></button>
+                                    <button type="button" class="btn btn-default" title="View output" data-toggle="modal" data-backdrop="static" data-target="#log" style="{{ !empty($log->log) ? '' : 'display:none' }}"><i class="fa fa-terminal"></i></button>
                                 </div>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    @endforeach
 </div>
 @include('project._partials.dialogs.log')
 @stop

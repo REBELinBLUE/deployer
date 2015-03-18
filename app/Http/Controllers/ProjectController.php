@@ -40,7 +40,8 @@ class ProjectController extends Controller
         return view('project.deploy', [
             'title'      => 'Deploying project....',
             'project'    => $project,
-            'deployment' => $deployment
+            'deployment' => $deployment,
+            'steps'      => $deployment->steps
         ]);
     }
 
@@ -50,9 +51,10 @@ class ProjectController extends Controller
         $deployment = Deployment::findOrFail($deployment_id);
 
         return view('project.deploy', [
-            'title'      => 'Deployment # details' ,
+            'title'      => 'Deployment # details',
             'project'    => $project,
-            'deployment' => $deployment
+            'deployment' => $deployment,
+            'steps'      => $deployment->steps
         ]);
     }
 
