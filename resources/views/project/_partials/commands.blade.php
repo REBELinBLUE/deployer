@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Clone New Release</td>
+                    <td>{{ deploy_step_label('Clone') }}</td>
                     <td>None</td>
                     <td>None</td>
                     <td>
@@ -24,7 +24,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Install Composer Dependencies</td>
+                    <td>{{ deploy_step_label('Install') }}</td>
                     <td>None</td>
                     <td>None</td>
                     <td>
@@ -34,7 +34,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Activate New Release</td>
+                    <td>{{ deploy_step_label('Activate') }}</td>
                     <td>None</td>
                     <td>None</td>
                     <td>
@@ -44,7 +44,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Purge Old Releases</td>
+                    <td>{{ deploy_step_label('Purge') }}</td>
                     <td>None</td>
                     <td>None</td>
                     <td>
