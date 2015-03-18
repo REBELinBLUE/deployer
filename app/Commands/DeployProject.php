@@ -45,8 +45,6 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
 
-        $this->configureServers();
-
         try {
             $this->updateRepoInfo();
 
@@ -57,7 +55,8 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             $this->deployment->status = 'Completed';
             $project->status = 'Finished';
         } catch (\Exception $error) {
-            echo $error;
+
+            // FIXME: Now we need to mark all remaining steps as cancelled!
 
             $this->deployment->status = 'Failed';
             $project->status = 'Failed';
@@ -83,16 +82,8 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 
     private function updateRepoInfo()
     {
-        $key = $this->private_key;
-
-        $script = <<<OUT
-#!/bin/sh
-ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile={$key} $*
-
-OUT;
-
         $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
-        file_put_contents($wrapper, $script);
+        file_put_contents($wrapper,  $this->git_wrapper_script($this->private_key));
 
         $workingdir = tempnam(storage_path() . '/app/', 'clone');
         unlink($workingdir);
@@ -112,6 +103,8 @@ CMD;
         $process->setTimeout(null);
         $process->run();
 
+        unlink($wrapper);
+
         if ($process->getExitCode() !== 0) {
             throw new \RuntimeException('Could not get repository info');
         }
@@ -121,53 +114,20 @@ CMD;
         $this->deployment->commit    = substr($git_info, 0, 7);
         $this->deployment->committer = trim(substr($git_info, 7));
         $this->deployment->save();
-
-        unlink($wrapper);
     }
 
-    private function runStep(DeployStep $command)
+    private function runStep(DeployStep $step)
     {
         $project = $this->deployment->project;
-        foreach ($project->servers as $server) {
-            if ($command != 'Clone') {
+
+        foreach ($step->servers as $server) {
+            $commands = $this->getScript($step);
+
+            if (!isset($commands)) {
                 continue;
             }
 
-            $server->label = 'server' . $server->id;
-
-            $remote_key_file = $server->path . '/id_rsa';
-            $remote_wrapper_file = $server->path . '/wrapper.sh';
-            $release = date('YmdHis', strtotime($this->deployment->run));
-
-            $releases = $server->path . '/releases/';
-
-            $script = <<<OUT
-#!/bin/sh
-ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile={$remote_key_file} $*
-
-OUT;
-
-            // Upload the files we need
-            SSH::into($server->label)->putString($remote_key_file, $project->private_key);
-            SSH::into($server->label)->putString($remote_wrapper_file, $script);
-
-            $cmds = [
-                sprintf('cd %s', $server->path),
-                sprintf('chmod 0600 %s', $remote_key_file),
-                sprintf('chmod +x %s', $remote_wrapper_file),
-                sprintf('mkdir --parents %s', $releases),
-                sprintf('cd %s 2>&1', $releases),
-                sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
-                sprintf('git clone --branch %s --depth 1 %s %s', $project->branch, $project->repository, $releases . $release),
-                sprintf('cd %s', $releases . $release),
-                sprintf('git checkout %s', $project->branch),
-                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
-                sprintf('composer install'),
-                sprintf('[ -h %s/latest ] && rm %s/latest', $server->path, $server->path),
-                sprintf('ln -s %s %s/latest', $releases . $release, $server->path)
-            ];
-
-            $script = 'set -e' . PHP_EOL . implode(PHP_EOL, $cmds);
+            $script = 'set -e' . PHP_EOL . implode(PHP_EOL, $commands);
             $process = new Process(
                 'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $this->private_key . ' ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
 '.$script.'
@@ -175,9 +135,9 @@ EOF'
             );
             $process->setTimeout(null);
 
-            $output = '';
+            $this->log('Running ' . $command . PHP_EOL);
 
-            $this->log('Running clone' . PHP_EOL);
+            $output = '';
             $process->run(function ($type, $output_line) use (&$output) {
                 if ($type == Process::ERR) {
                     $output .= $this->logError($output_line);
@@ -194,6 +154,45 @@ EOF'
             //$log->output = $output;
             //$log->save();
         }
+    }
+
+    private function getScript(DeployStep $step)
+    {
+        if ($step->command == 'Clone') {
+            $server->label = 'server' . $server->id;
+
+            $remote_key_file = $server->path . '/id_rsa';
+            $remote_wrapper_file = $server->path . '/wrapper.sh';
+            $release = date('YmdHis', strtotime($this->deployment->run));
+
+            $releases = $server->path . '/releases/';
+
+            $this->configureServers();
+
+            // Upload the files we need
+            SSH::into($server->label)->putString($remote_key_file, $project->private_key);
+            SSH::into($server->label)->putString($remote_wrapper_file,  $this->git_wrapper_script($remote_key_file));
+
+            $cmds = [
+                sprintf('cd %s', $server->path),
+                sprintf('chmod 0600 %s', $remote_key_file),
+                sprintf('chmod +x %s', $remote_wrapper_file),
+                sprintf('mkdir --parents %s', $releases),
+                sprintf('cd %s 2>&1', $releases),
+                sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
+                sprintf('git clone --branch %s --depth 1 %s %s', $project->branch, $project->repository, $releases . $release),
+                sprintf('cd %s', $releases . $release),
+                sprintf('git checkout %s', $project->branch),
+                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
+                // sprintf('composer install'),
+                // sprintf('[ -h %s/latest ] && rm %s/latest', $server->path, $server->path),
+                // sprintf('ln -s %s %s/latest', $releases . $release, $server->path)
+            ];
+
+            return $cmds;
+        }
+
+        return false;
     }
 
     private function logError($message)
@@ -216,5 +215,14 @@ EOF'
         //echo $console;
 
         return $message;
+    }
+
+    private function git_wrapper_script($key_file_path)
+    {
+        return <<<OUT
+#!/bin/sh
+ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile={$key_file_path} $*
+
+OUT;
     }
 }
