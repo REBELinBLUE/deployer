@@ -3,7 +3,7 @@
 use App\Commands\Command;
 
 use App\Deployment;
-use App\DeployLog;
+use App\DeployStep;
 
 use Config;
 use SSH;
@@ -36,12 +36,12 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         // FIXME: Add entries for before/after for each server?
         foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command)
         {
-            $step = new DeployLog;
+            $step = new DeployStep;
             $step->stage = $command;
             $step->deployment_id = $this->deployment->id;
             $step->save();
 
-            $this->step[$command] = $step;
+            $this->steps[$command] = $step;
         }
     }
 
@@ -67,9 +67,9 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         {
             $this->updateRepoInfo();
 
-            foreach ($this->step as $step => $log)
+            foreach ($this->steps as $command => $step)
             {
-                $this->runStep($step, $log);
+                $this->runStep($command);
             }
 
             // foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command)
@@ -153,7 +153,7 @@ CMD;
         unlink($wrapper);
     }
 
-    private function runStep($command, DeployLog $log)
+    private function runStep($command)
     {
         $project = $this->deployment->project;
         foreach ($project->servers as $server)
@@ -216,13 +216,13 @@ EOF'
                 }
             });
 
-            $log->status = 'Completed';
+            //$log->status = 'Completed';
             if ($process->getExitCode() !== 0) {
-                $log->status = 'Failed';
+  //              $log->status = 'Failed';
             }
 
-            $log->output = $output;
-            $log->save();
+            //$log->output = $output;
+            //$log->save();
         }
     }
 

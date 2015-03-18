@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDeployLogsTable extends Migration {
+class CreateDeployStepsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,12 @@ class CreateDeployLogsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('deploy_logs', function(Blueprint $table)
+		Schema::create('deploy_steps', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->unsignedInteger('deployment_id');
 			$table->string('stage');
 			$table->unsignedInteger('command_id')->nullable();
-			$table->text('output')->nullable();
-			$table->enum('status', ['Pending', 'Running', 'Failed', 'Cancelled', 'Completed'])->default('Pending');
 			$table->timestamps();
 			$table->foreign('deployment_id')->references('id')->on('deployment');
 			$table->foreign('command_id')->references('id')->on('commands');
@@ -33,7 +31,7 @@ class CreateDeployLogsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('deploy_logs');
+		Schema::drop('deploy_steps');
 	}
 
 }

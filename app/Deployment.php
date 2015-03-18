@@ -37,8 +37,8 @@ class Deployment extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function logs()
+    public function steps()
     {
-        return $this->hasMany('App\DeployLog');
+        return $this->hasMany('App\DeployStep');
     }
 }
