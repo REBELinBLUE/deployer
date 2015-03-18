@@ -3,6 +3,7 @@
 use App\Commands\Command;
 
 use App\Deployment;
+use App\DeployLog;
 
 use Config;
 use SSH;
@@ -18,7 +19,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 {
     use InteractsWithQueue, SerializesModels;
 
-    private $deployment;
+    private $deployment, $private_key, $steps = [];
 
     /**
      * Create a new command instance.
@@ -30,6 +31,21 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $this->deployment = $deployment;
     }
 
+    private function createDeploySteps()
+    {
+        // FIXME: Add entries for before/after for each server?
+        foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command)
+        {
+            $step = new DeployLog;
+            $step->stage = $command;
+            $step->deployment_id = $this->deployment->id;
+            $step->save();
+
+            $this->step[$command] = $step;
+        }
+    }
+
+
     /**
      * Execute the command.
      *
@@ -40,77 +56,28 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $project = $this->deployment->project;
         $servers = $this->deployment->project->servers;
 
-        $key = tempnam(storage_path() . '/app/', 'sshkey');
-        file_put_contents($key, $project->private_key);
+        $this->createDeploySteps();
 
-        $this->configureServers($key);
+        $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
+        file_put_contents($this->private_key, $project->private_key);
+
+        $this->configureServers();
 
         try
         {
-            $this->updateRepoInfo($key); // FIXME: We should be able to get this same info from the clone step
+            $this->updateRepoInfo();
 
-            foreach (['clone', 'install', 'activate', 'purge'] as $command)
+            foreach ($this->step as $step => $log)
             {
-                foreach ($servers as $server)
-                {
-                    if ($command != 'clone') {
-                        continue;
-                    }
-
-                    $server->label = 'server' . $server->id;
-
-                    $keyfile = $server->path . '/id_rsa';
-                    $wrapperfile = $server->path . '/wrapper.sh';
-                    $release = date('YmdHis');
-
-                    $releases = $server->path . '/releases/';
-
-                    $wrapperscript = <<<OUT
-#!/bin/sh
-ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile={$keyfile} $*
-
-OUT;
-
-                    // Upload the files we need
-                    SSH::into($server->label)->putString($keyfile, $project->private_key);
-                    SSH::into($server->label)->putString($wrapperfile, $wrapperscript);
-
-                    $cmds = [
-                        sprintf('cd %s', $server->path),
-                        sprintf('chmod 0600 %s', $keyfile),
-                        sprintf('chmod +x %s', $wrapperfile),
-                        sprintf('mkdir --parents %s', $releases),
-                        sprintf('cd %s 2>&1', $releases),
-                        sprintf('export GIT_SSH="%s"', $wrapperfile),
-                        sprintf('git clone --branch %s --depth 1 %s %s', $project->branch, $project->repository, $releases . $release),
-                        sprintf('cd %s', $releases . $release),
-                        sprintf('git checkout %s', $project->branch),
-                        sprintf('rm %s %s', $keyfile, $wrapperfile),
-                        sprintf('composer install')
-                    ];
-
-                    $script = 'set -e' . PHP_EOL . implode(' 2>&1 && ', $cmds) . ' 2>&1';
-
-                    $process = new Process(
-                        'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $key . ' ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
-'.$script.'
-EOF'
-                    );
-
-                    $process->run();
-
-                    if (!$process->isSuccessful()) {
-                        throw new \RuntimeException($process->getErrorOutput());
-                    }
-
-                    $log = $process->getOutput();
-
-                    // FIXME: Handle errors
-
-                    echo $log;
-
-                }
+                $this->runStep($step, $log);
             }
+
+            // foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command)
+            // {
+            //     //$this->runBefore($command);
+            //     $this->runStep($command);
+            //     //$this->runAfter($command);
+            // }
 
             $this->deployment->status = 'Completed';
             $project->status = 'Finished';
@@ -126,24 +93,26 @@ EOF'
         $this->deployment->save();
         $project->save();
 
-        unlink($key);
+        unlink($this->private_key);
     }
 
-    private function configureServers($key)
+    private function configureServers()
     {
         foreach ($this->deployment->project->servers as $server)
         {
             Config::set('remote.connections.server' . $server->id . '.host', $server->ip_address);
             Config::set('remote.connections.server' . $server->id . '.username', $server->user);
             Config::set('remote.connections.server' . $server->id . '.password', '');
-            Config::set('remote.connections.server' . $server->id . '.key', $key);
+            Config::set('remote.connections.server' . $server->id . '.key', $this->private_key);
             Config::set('remote.connections.server' . $server->id . '.keyphrase', '');
             Config::set('remote.connections.server' . $server->id . '.root', $server->path);
         }
     }
 
-    private function updateRepoInfo($key)
+    private function updateRepoInfo()
     {
+        $key = $this->private_key;
+
         $script = <<<OUT
 #!/bin/sh
 ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile={$key} $*
@@ -166,10 +135,13 @@ git log --pretty=format:"%%h%%x09%%an" && \
 rm -rf {$workingdir}
 CMD;
 
+        $this->log('Checking repository state' . PHP_EOL);
         $process = new Process(sprintf($cmd, $this->deployment->project->branch, $this->deployment->project->repository, $this->deployment->project->branch));
+        $process->setTimeout(null);
         $process->run();
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
+
+        if ($process->getExitCode() !== 0) {
+            die('failed');
         }
 
         $git_info = $process->getOutput();
@@ -179,5 +151,100 @@ CMD;
         $this->deployment->save();
 
         unlink($wrapper);
+    }
+
+    private function runStep($command, DeployLog $log)
+    {
+        $project = $this->deployment->project;
+        foreach ($project->servers as $server)
+        {
+            if ($command != 'Clone') {
+                continue;
+            }
+
+            $server->label = 'server' . $server->id;
+
+            $remote_key_file = $server->path . '/id_rsa';
+            $remote_wrapper_file = $server->path . '/wrapper.sh';
+            $release = date('YmdHis', strtotime($this->deployment->run));
+
+            $releases = $server->path . '/releases/';
+
+            $script = <<<OUT
+#!/bin/sh
+ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile={$remote_key_file} $*
+
+OUT;
+
+            // Upload the files we need
+            SSH::into($server->label)->putString($remote_key_file, $project->private_key);
+            SSH::into($server->label)->putString($remote_wrapper_file, $script);
+
+            $cmds = [
+                sprintf('cd %s', $server->path),
+                sprintf('chmod 0600 %s', $remote_key_file),
+                sprintf('chmod +x %s', $remote_wrapper_file),
+                sprintf('mkdir --parents %s', $releases),
+                sprintf('cd %s 2>&1', $releases),
+                sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
+                sprintf('git clone --branch %s --depth 1 %s %s', $project->branch, $project->repository, $releases . $release),
+                sprintf('cd %s', $releases . $release),
+                sprintf('git checkout %s', $project->branch),
+                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
+                sprintf('composer install'),
+                sprintf('[ -h %s/latest ] && rm %s/latest', $server->path, $server->path),
+                sprintf('ln -s %s %s/latest', $releases . $release, $server->path)
+            ];
+
+            $script = 'set -e' . PHP_EOL . implode(PHP_EOL, $cmds);
+            $process = new Process(
+                'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $this->private_key . ' ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+'.$script.'
+EOF'
+            );
+            $process->setTimeout(null);
+
+            $output = '';
+
+            $this->log('Running clone' . PHP_EOL);
+            $process->run(function ($type, $output_line) use (&$output) {
+                if ($type == Process::ERR) {
+                    $output .= $this->logError($output_line);
+                }
+                else {
+                    $output .= $this->logSuccess($output_line);
+                }
+            });
+
+            $log->status = 'Completed';
+            if ($process->getExitCode() !== 0) {
+                $log->status = 'Failed';
+            }
+
+            $log->output = $output;
+            $log->save();
+        }
+    }
+
+    private function logError($message)
+    {
+        return $this->log('<warning>' . $message . '</warning>');
+    }
+
+    private function logSuccess($message)
+    {
+        return $this->log('<success>' . $message . '</success>');
+    }
+
+    private function log($message)
+    {
+        $console = str_replace('<warning>', "\033[0;31m", $message);
+        $console = str_replace('</warning>', "\033[0m", $console);
+        $console = str_replace('<success>', "\033[0;32m", $console);
+        $console = str_replace('</success>', "\033[0m", $console);
+
+        //echo $console;
+
+        return $message;
     }
 }
