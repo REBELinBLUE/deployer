@@ -31,21 +31,6 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $this->deployment = $deployment;
     }
 
-    private function createDeploySteps()
-    {
-        // FIXME: Add entries for before/after for each server?
-        foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command)
-        {
-            $step = new DeployStep;
-            $step->stage = $command;
-            $step->deployment_id = $this->deployment->id;
-            $step->save();
-
-            $this->steps[$command] = $step;
-        }
-    }
-
-
     /**
      * Execute the command.
      *
@@ -56,8 +41,6 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $project = $this->deployment->project;
         $servers = $this->deployment->project->servers;
 
-        $this->createDeploySteps();
-
         $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
 
@@ -67,17 +50,10 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         {
             $this->updateRepoInfo();
 
-            foreach ($this->steps as $command => $step)
+            foreach ($this->deployment->steps as $step)
             {
-                $this->runStep($command);
+                $this->runStep($step);
             }
-
-            // foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command)
-            // {
-            //     //$this->runBefore($command);
-            //     $this->runStep($command);
-            //     //$this->runAfter($command);
-            // }
 
             $this->deployment->status = 'Completed';
             $project->status = 'Finished';
@@ -153,7 +129,7 @@ CMD;
         unlink($wrapper);
     }
 
-    private function runStep($command)
+    private function runStep(DeployStep $command)
     {
         $project = $this->deployment->project;
         foreach ($project->servers as $server)

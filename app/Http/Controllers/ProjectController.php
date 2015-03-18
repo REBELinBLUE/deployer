@@ -5,10 +5,9 @@ use App\Http\Controllers\Controller;
 
 use App\Project;
 use App\Deployment;
-use App\Commands\DeployProject;
+use App\Commands\QueueDeployment;
 
 use Illuminate\Http\Request;
-use Queue;
 
 class ProjectController extends Controller
 {
@@ -34,21 +33,9 @@ class ProjectController extends Controller
     public function deploy($project_id)
     {
         $project = Project::findOrFail($project_id);
-
-        // FIXME: Check if a deployment is already in progress
-
         $deployment = new Deployment;
-        $deployment->run = date('Y-m-d H:i:s');
-        $deployment->project_id = $project_id;
-        $deployment->user_id = 1; // FIXME: Get logged in user
-        $deployment->committer = 'Loading'; // FIXME: Better values for these
-        $deployment->commit = 'Loading';
-        $deployment->save();
 
-        $deployment->project->status = 'Running';
-        $deployment->project->save();
-
-        Queue::pushOn('deploy', new DeployProject($deployment));
+        $this->dispatch(new QueueDeployment($project, $deployment));
 
         return view('project.deploy', [
             'title'      => 'Deploying project....',
