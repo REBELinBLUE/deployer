@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use App\Project;
 
@@ -54,6 +55,7 @@ class ProjectTableSeeder extends Seeder {
 
         Project::create([
             'name'        => 'Deployer',
+            'hash'        => Str::random(60),
             'repository'  => 'git@git.rebelinblue.com:laravel/deployer.git',
             'url'         => 'http://deploy.app',
             'private_key' => '-----BEGIN RSA PRIVATE KEY-----

@@ -17,6 +17,7 @@ class CreateProjectsTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->string('repository');
+			$table->string('hash');
 			$table->string('branch')->default('master');
 			$table->text('private_key');
 			$table->text('public_key');

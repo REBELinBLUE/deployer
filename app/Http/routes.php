@@ -13,6 +13,10 @@
 
 Route::get('/', 'DashboardController@index');
 
+Route::get('deploy/{hash}', [
+    'as'   => 'webhook',
+    'uses' => 'ProjectController@webhook'
+]);
 
 Route::get('project/{id}', [
     'as'   => 'project',

@@ -1,7 +1,12 @@
+<div class="callout">
+    <h4>Deployments may be triggered by using the following webhook URL</h4>
+    <code>{{  route('webhook', $project->hash) }}</code>
+</div>
+
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">Commands</h3>
-    </div><!-- /.box-header -->
+    </div>
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <thead>

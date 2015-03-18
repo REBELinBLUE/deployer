@@ -51,7 +51,7 @@ class ProjectController extends Controller
         $deployment = Deployment::findOrFail($deployment_id);
 
         return view('project.deploy', [
-            'title'      => 'Deployment # details',
+            'title'      => 'Deployment #' . $deployment->id . ' details',
             'project'    => $project,
             'deployment' => $deployment,
             'steps'      => $deployment->steps
@@ -64,5 +64,28 @@ class ProjectController extends Controller
             'title'   => 'project ' . $project_id . ' command ' . $command,
             'command' => $command
         ]);
+    }
+
+    /**
+     * TODO Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
+     * http://doc.gitlab.com/ee/web_hooks/web_hooks.html
+     */
+    public function webhook($hash)
+    {
+        $project = Project::where('hash', '=', $hash)->first();
+
+        if (is_null($project)) {
+            return [
+                'success' => false
+            ];
+        }
+
+        $deployment = new Deployment;
+
+        $this->dispatch(new QueueDeployment($project, $deployment));
+
+        return [
+            'success' => true
+        ];
     }
 }
