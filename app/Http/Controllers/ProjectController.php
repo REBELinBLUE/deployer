@@ -72,24 +72,4 @@ class ProjectController extends Controller
             'id' => $deployment->id
         ]);
     }
-
-    /**
-     * TODO Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
-     * http://doc.gitlab.com/ee/web_hooks/web_hooks.html
-     */
-    public function webhook($hash)
-    {
-        $project = Project::where('hash', '=', $hash)->first();
-
-        $success = false;
-        if (!is_null($project)) {
-            $this->dispatch(new QueueDeployment($project, new Deployment));
-
-            $success = true;
-        }
-
-        return [
-            'success' => $success
-        ];
-    }
 }

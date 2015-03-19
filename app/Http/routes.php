@@ -13,12 +13,17 @@
 
 Route::get('/', 'DashboardController@index');
 
-// Projects
-Route::get('deploy/{hash}', [ // FIXME Should this be on the deployment controller?
+// Webhooks
+Route::post('deploy/{hash}', [ 
     'as'   => 'webhook',
-    'uses' => 'ProjectController@webhook'
+    'uses' => 'WebhookController@webhook'
 ]);
 
+Route::get('webhook/{id}/refresh', [
+    'uses' => 'WebhookController@refresh'
+]);
+
+// Projects
 Route::get('project/{id}', [
     'as'   => 'project',
     'uses' => 'ProjectController@details'
@@ -28,7 +33,6 @@ Route::post('project/{id}/deploy', [
     'as'   => 'deploy',
     'uses' => 'ProjectController@deploy'
 ]);
-
 
 // Deployment details
 Route::get('deployment/{id}', [ // FIXME Should this be on the deployment controller?
@@ -47,7 +51,6 @@ Route::get('project/{id}/commands/{command}', [
     'as'   => 'commands',
     'uses' => 'CommandController@listing'
 ]);
-
 
 Route::controllers([
     'auth'     => 'Auth\AuthController',

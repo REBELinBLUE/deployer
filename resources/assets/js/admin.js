@@ -96,10 +96,10 @@ $(function () {
             url: url,
             type: method,
             data: fields,
-        }).done(function(data) {
+        }).done(function (data) {
             dialog.modal('hide');
             $('.callout-danger', dialog).hide();
-        }).fail(function(response) {
+        }).fail(function (response) {
             $('.callout-danger', dialog).show();
 
             var errors = response.responseJSON.errors;
@@ -113,7 +113,7 @@ $(function () {
                     element.parent('div').addClass('has-error');
                 }
             });
-        }).always(function() {
+        }).always(function () {
             icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
             $('button.close', dialog).show();
             dialog.find('input').removeAttr('disabled');
@@ -125,6 +125,32 @@ $(function () {
     //         console.log(result);
     //     }); 
     // });
+     
+    $('#new_webhook').on('click', function(event) {
+        var target = $(event.currentTarget);
+        var project_id = target.data('project-id');
+        var icon = $('i', target);
+
+        if ($('.fa-spin', target).length > 0) {
+            return;
+        }
+
+        target.attr('disabled', 'disabled');
+
+        icon.addClass('fa-spin');
+
+        $.ajax({
+            type: 'GET',
+            url: '/webhook/' + project_id + '/refresh'
+        }).fail(function (response) {
+
+        }).done(function (data) {
+            $('#webhook').html(data.url);
+        }).always(function () {
+            icon.removeClass('fa-spin');
+            target.removeAttr('disabled');
+        });
+    });
     
     $('.btn-test').on('click', function (event) {
         var target = $(event.currentTarget);
@@ -151,7 +177,7 @@ $(function () {
         $.ajax({
             type: 'GET',
             url: '/servers/' + server_id + '/test'
-        }).fail(function(response) {
+        }).fail(function (response) {
             $('span', label).text('Failed');
             label.removeClass('label-warning').addClass('label-danger');
             icon.removeClass('fa-spinner').addClass('fa-warning');
@@ -195,8 +221,7 @@ $(function () {
         }).always(function() {
 
         });
-
-    })
+    });
 });
 
 var callbacks = {};
