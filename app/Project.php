@@ -8,25 +8,11 @@ class Project extends Model
     use SoftDeletes; // FIXME: Add protected private_key, public_key, last_run to protected
 
     /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'projects';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['name', 'repository', 'branch', 'url', 'build_url', 'keep_builds'];
-
-    /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['private_key'];
+    protected $hidden = ['private_key', 'commands', 'created_at', 'deleted_at', 'hash', 'last_run', 'public_key', 'servers', 'updated_at', 'status'];
 
     public function getDates()
     {
