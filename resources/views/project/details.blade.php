@@ -26,8 +26,8 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="#">Today <span class="pull-right">x</span></a></li>
-                        <li><a href="#">Last Week <span class="pull-right">x</span></a></li>
+                        <li><a href="#">Today <span class="pull-right">{{ number_format($today) }}</span></a></li>
+                        <li><a href="#">Last Week <span class="pull-right">{{ number_format($last_week) }}</span></a></li>
                         <li><a href="#">Latest Duration <span class="pull-right">{{ (count($deployments) == 0 OR !$deployments[0]->finished_at) ? 'N/A' : human_readable_duration($deployments[0]->runtime()) }} </span></a></li>
                     </ul>
                 </div>
@@ -44,7 +44,7 @@
                         @if(isset($project->build_url))
                         <li><a href="#">Build Status <span class="pull-right"><img src="{{ $project->build_url }}" /></span></a></li>
                         @endif
-                        <li><a href="#">Application Status <span class="pull-right text-green">OK</span></a></li>
+                        <li><a href="#">Application Status <span class="pull-right text-green">????</span></a></li>
                     </ul>
                 </div>
             </div>

@@ -8,6 +8,8 @@ use App\Deployment;
 
 use App\Commands\QueueDeployment;
 
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -51,9 +53,25 @@ class ProjectController extends Controller
                                  ->orderBy('started_at', 'DESC')
                                  ->get();
 
+        $now = Carbon::now();
+        $lastWeek = Carbon::now()->subWeek();
+        $yesterday = Carbon::now()->yesterday();
+
+        $today = Deployment::where('project_id', '=', $project->id)
+                           ->where('started_at', '>=', $now->format('Y-m-d') . ' 00:00:00')
+                           ->where('started_at', '<=', $now->format('Y-m-d') . ' 23:59:59')
+                           ->count();
+
+        $week = Deployment::where('project_id', '=', $project->id)
+                          ->where('started_at', '>=', $lastWeek->format('Y-m-d') . ' 00:00:00')
+                          ->where('started_at', '<=', $yesterday->format('Y-m-d') . ' 23:59:59')
+                          ->count();
+
         return view('project.details', [
             'title'              => $project->name,
             'deployments'        => $deployments,
+            'today'              => $today,
+            'last_week'          => $week,
             'project'            => $project,
             'servers'            => $project->servers, // Order by name
             'commands'           => $commands,
