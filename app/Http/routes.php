@@ -14,7 +14,7 @@
 Route::get('/', 'DashboardController@index');
 
 // Projects
-Route::get('deploy/{hash}', [
+Route::get('deploy/{hash}', [ // FIXME Should this be on the deployment controller?
     'as'   => 'webhook',
     'uses' => 'ProjectController@webhook'
 ]);
@@ -29,9 +29,11 @@ Route::post('project/{id}/deploy', [
     'uses' => 'ProjectController@deploy'
 ]);
 
-Route::get('project/{id}/deploy/{deploy_id}', [
+
+// Deployment details
+Route::get('deployment/{id}', [ // FIXME Should this be on the deployment controller?
     'as'   => 'deployment',
-    'uses' => 'ProjectController@deployment'
+    'uses' => 'DeploymentController@show'
 ]);
 
 // Servers

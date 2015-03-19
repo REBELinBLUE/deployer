@@ -63,24 +63,8 @@ class ProjectController extends Controller
 
         $this->dispatch(new QueueDeployment($project, $deployment));
 
-        return view('deployment.details', [
-            'title'      => 'Deploying project....',
-            'project'    => $project,
-            'deployment' => $deployment,
-            'steps'      => $deployment->steps
-        ]);
-    }
-
-    public function deployment($project_id, $deployment_id)
-    {
-        $project = Project::findOrFail($project_id);
-        $deployment = Deployment::findOrFail($deployment_id);
-
-        return view('deployment.details', [
-            'title'      => 'Deployment Details',
-            'project'    => $project,
-            'deployment' => $deployment,
-            'steps'      => $deployment->steps
+        return redirect()->route('deployment', [
+            'id' => $deployment->id
         ]);
     }
 
