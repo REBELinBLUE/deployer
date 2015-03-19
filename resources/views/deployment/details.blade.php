@@ -45,6 +45,6 @@
         @endforeach
     </div>
 
-    @include('project._partials.dialogs.log')
+    @include('dialogs.log')
 
 @stop

@@ -59,5 +59,5 @@
         </div>
     </div>
 
-    @include('project._partials.dialogs.command')
+    @include('dialogs.command')
 @stop

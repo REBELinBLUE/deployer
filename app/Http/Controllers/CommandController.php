@@ -31,7 +31,7 @@ class CommandController extends Controller
                         ->orderBy('order')
                         ->get();
 
-        return view('project.commands', [
+        return view('commands.listing', [
             'title'   => deploy_step_label(ucfirst($action)),
             'project' => $project,
             'command' => $action,

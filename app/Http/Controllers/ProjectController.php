@@ -38,7 +38,7 @@ class ProjectController extends Controller
 
         $this->dispatch(new QueueDeployment($project, $deployment));
 
-        return view('project.deploy', [
+        return view('deployment.details', [
             'title'      => 'Deploying project....',
             'project'    => $project,
             'deployment' => $deployment,
@@ -51,7 +51,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($project_id);
         $deployment = Deployment::findOrFail($deployment_id);
 
-        return view('project.deploy', [
+        return view('deployment.details', [
             'title'      => 'Deployment Details',
             'project'    => $project,
             'deployment' => $deployment,

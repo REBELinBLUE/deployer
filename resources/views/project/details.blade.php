@@ -74,8 +74,8 @@
         </div>
     </div>
 
-    @include('project._partials.dialogs.server')
-    @include('project._partials.dialogs.key')
-    @include('project._partials.dialogs.channel')
-    @include('project._partials.dialogs.settings')
+    @include('dialogs.server')
+    @include('dialogs.key')
+    @include('dialogs.channel')
+    @include('dialogs.settings')
 @stop
