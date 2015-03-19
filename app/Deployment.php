@@ -21,12 +21,10 @@ class Deployment extends Model
      */
     protected $fillable = ['committer', 'commit', 'project_id', 'status'];
 
-
     public function getDates()
     {
-        return ['created_at', 'run', 'updated_at'];
+        return ['created_at', 'started_at', 'finished_at', 'updated_at'];
     }
-
     public function project()
     {
         return $this->belongsTo('App\Project');

@@ -42,6 +42,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
     {
         $project = $this->deployment->project;
 
+        $this->deployment->started_at = date('Y-m-d H:i:s');
         $this->deployment->status = 'Deploying';
         $this->deployment->save();
 
@@ -70,6 +71,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             $this->cancelPendingSteps($this->deployment->steps);
         }
 
+        $this->deployment->ended_at = date('Y-m-d H:i:s');
         $this->deployment->save();
 
         $project->last_run = date('Y-m-d H:i:s');

@@ -20,9 +20,10 @@ class CreateDeploymentsTable extends Migration {
 			$table->unsignedInteger('project_id');
 			$table->unsignedInteger('user_id');
 			$table->enum('status', ['Pending', 'Deploying', 'Completed', 'Failed'])->default('Pending');
-			$table->dateTime('run');
 			$table->timestamps();
 			$table->softDeletes();
+			$table->dateTime('started_at')->nullable();
+			$table->dateTime('finished_at')->nullable();
 			$table->foreign('project_id')->references('id')->on('projects');
 			$table->foreign('user_id')->references('id')->on('users');
 		});
