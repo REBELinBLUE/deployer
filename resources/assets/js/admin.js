@@ -23,7 +23,6 @@ $(function () {
             $('.btn-danger', modal).show();
         }
 
-
         $('#server_id').val(server.id);
         $('#server_name').val(server.name);
         $('#server_address').val(server.ip_address);
@@ -31,6 +30,46 @@ $(function () {
         $('#server_path').val(server.path);
 
         modal.find('.modal-title span').text(title);
+    });
+
+    $('#command').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var command_id = button.data('command-id');
+        var step = button.data('step');
+
+        var modal = $(this);
+
+        var command = { id: '', name: '', script: '', user: '' };
+        var title = 'Add ' + step + ' command';
+        $('.btn-danger', modal).hide();
+        $('.callout-danger', modal).hide();
+        $('.has-error', modal).removeClass('has-error');
+
+        if (command_id) {
+            title = 'Edit server';
+
+            var commands = before_commands;
+            if (step == 'After') {
+                commands = after_commands;
+            }
+
+            var command = $.grep(commands, function(element) {
+                return element.id == command_id;
+            });
+
+            command = command[0];
+
+            $('.btn-danger', modal).show();
+        }
+
+        $('#command_id').val(command.id);
+        $('#command_step').val(step);
+        $('#command_name').val(command.name);
+        $('#command_script').val(command.script);
+        $('#command_user').val(command.user);
+
+        modal.find('.modal-title span').text(title);
+
     });
 
     $('form .modal-footer button').on('click', function (event) {
@@ -121,8 +160,7 @@ $(function () {
             clearInterval(callbacks['server_' + server_id]);
         });
     });
-
-
+    
     $('#log').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var log_id = button.data('log-id');

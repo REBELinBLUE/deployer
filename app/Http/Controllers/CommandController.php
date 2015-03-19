@@ -34,7 +34,7 @@ class CommandController extends Controller
         return view('commands.listing', [
             'title'   => deploy_step_label(ucfirst($action)),
             'project' => $project,
-            'command' => $action,
+            'action'  => $action,
             'before'  => $before,
             'after'   => $after
         ]);
