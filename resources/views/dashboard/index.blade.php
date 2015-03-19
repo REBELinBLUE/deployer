@@ -29,7 +29,9 @@
                                 </td>
                                 <td>
                                     <div class="btn-group pull-right">
+                                        @if(isset($project->url))
                                         <a href="{{ $project->url }}" class="btn btn-default" title="View the site" target="_blank"><i class="fa fa-globe"></i></a>
+                                        @endif
                                         <a href="{{ route('project', ['id' => $project->id]) }}" class="btn btn-default" title="View the deployment details"><i class="fa fa-info-circle"></i></a>
                                     </div>
                                 </td>

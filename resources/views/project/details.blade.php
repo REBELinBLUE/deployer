@@ -11,7 +11,9 @@
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="#">Repository <span class="pull-right">{{ $project->repository }}</span></a></li>
                         <li><a href="#">Branch <span class="pull-right label label-default">{{ $project->branch }}</span></a></li>
+                        @if(isset($project->url))
                         <li><a href="{{ $project->url }}" target="_blank">URL <span class="pull-right text-blue">{{ $project->url }}</span></a></li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -24,9 +26,9 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="#">Today <span class="pull-right">1</span></a></li>
-                        <li><a href="#">Last Week <span class="pull-right">6</span></a></li>
-                        <li><a href="#">Latest Duration <span class="pull-right text-green">6 minutes</span></a></li>
+                        <li><a href="#">Today <span class="pull-right">x</span></a></li>
+                        <li><a href="#">Last Week <span class="pull-right">x</span></a></li>
+                        <li><a href="#">Latest Duration <span class="pull-right">{{ count($deployments) == 0 ? 'N/A' : human_readable_duration(10) }} </span></a></li>
                     </ul>
                 </div>
             </div>
@@ -39,7 +41,9 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
+                        @if(isset($project->build_url))
                         <li><a href="#">Build Status <span class="pull-right"><img src="{{ $project->build_url }}" /></span></a></li>
+                        @endif
                         <li><a href="#">Application Status <span class="pull-right text-green">OK</span></a></li>
                     </ul>
                 </div>

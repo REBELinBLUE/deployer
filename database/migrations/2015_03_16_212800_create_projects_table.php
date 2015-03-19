@@ -21,8 +21,8 @@ class CreateProjectsTable extends Migration {
 			$table->string('branch')->default('master');
 			$table->text('private_key');
 			$table->text('public_key');
-			$table->string('url');
-			$table->string('build_url');
+			$table->string('url')->nullable();
+			$table->string('build_url')->nullable();
 			$table->enum('status', ['Finished', 'Pending', 'Deploying', 'Failed', 'Not Deployed'])->default('Not Deployed');
 			$table->dateTime('last_run')->nullable()->default(null);
 			$table->timestamps();
