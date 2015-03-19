@@ -41,6 +41,7 @@ Route::get('servers/{id}/test', 'ServerController@test');
 
 // Commands
 Route::get('logs/{id}', 'CommandController@log');
+Route::post('commands/{command}', 'CommandController@store'); // FIXME: Can we use the resourcecontroller for this?
 Route::get('project/{id}/commands/{command}', 'CommandController@listing');
 
 
