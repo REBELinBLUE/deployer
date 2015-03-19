@@ -46,8 +46,48 @@ class QueueDeployment extends Command implements SelfHandling
         $this->deployment->project->status = 'Pending';
         $this->deployment->project->save();
 
-        // FIXME: Add entries for before/after etc
-        foreach (['Clone', 'Install', 'Activate', 'Purge'] as $command) {
+        $hooks = [
+            'Clone'     => null, 
+            'Install'   => null,
+            'Activate'  => null,
+            'Purge'     => null
+        ];
+
+        foreach ($this->project->commands as $command) {
+            $steps  = explode(' ', $command->step);
+            $action = $steps[1];
+            $when   = $steps[0];
+
+            if (!is_array($hooks[$action])) {
+                $hooks[$action] = [];
+            }
+
+            if (!isset($hooks[$action][$when])) {
+                $hooks[$action][$when] = [];
+            }
+
+            $hooks[$action][$when][] = $command;
+        }
+
+        // FIXME: Refactor this, lots of repeating code!
+        foreach (array_keys($hooks) as $command) {
+            if (isset($hooks[$command]['Before'])) {
+                foreach ($hooks[$command]['Before'] as $hook) {
+                    $step = new DeployStep;
+                    $step->stage = 'Before ' . $command;
+                    $step->command_id = $hook->id;
+                    $step->deployment_id = $this->deployment->id;
+                    $step->save();
+
+                    foreach ($this->project->servers as $server) {
+                        $log = new ServerLog;
+                        $log->server_id = $server->id;
+                        $log->deploy_step_id = $step->id;
+                        $log->save();
+                    }
+                }
+            }
+
             $step = new DeployStep;
             $step->stage = $command;
             $step->deployment_id = $this->deployment->id;
@@ -59,8 +99,29 @@ class QueueDeployment extends Command implements SelfHandling
                 $log->deploy_step_id = $step->id;
                 $log->save();
             }
+
+            if (isset($hooks[$command]['After'])) {
+                foreach ($hooks[$command]['After'] as $hook) {
+                    $step = new DeployStep;
+                    $step->stage = 'After ' . $command;
+                    $step->command_id = $hook->id;
+                    $step->deployment_id = $this->deployment->id;
+                    $step->save();
+
+                    foreach ($this->project->servers as $server) {
+                        $log = new ServerLog;
+                        $log->server_id = $server->id;
+                        $log->deploy_step_id = $step->id;
+                        $log->save();
+                    }
+                }
+            }
         }
 
         Queue::pushOn('deploy', new DeployProject($this->deployment));
+    }
+
+    private function queueCommand() {
+
     }
 }

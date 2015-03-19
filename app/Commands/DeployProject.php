@@ -115,7 +115,7 @@ CMD;
 
         unlink($wrapper);
 
-        if ($process->getExitCode() !== 0) {
+        if (!$process->isSuccessful()) {
             throw new \RuntimeException('Could not get repository info');
         }
 
@@ -151,12 +151,12 @@ CMD;
 
             $server = $log->server;
 
-            $commands = $this->getScript($step, $server);
+            $script = $this->getScript($step, $server);
 
             $failed = false;
 
             if (!empty($commands)) {
-                $script = 'set -e' . PHP_EOL . $commands;
+                $script = 'set -e' . PHP_EOL . $script;
                 $process = new Process(
                     'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $this->private_key . ' ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
 '.$script.'
@@ -173,7 +173,7 @@ EOF'
                     }
                 });
 
-                if ($process->getExitCode() !== 0) {
+                if (!$process->isSuccessful()) {
                     $log->status = 'Failed';
                     $failed = true;
                 }
@@ -242,11 +242,16 @@ EOF'
         } else if ($step->stage == 'Purge') { // Purge old releases
 
         } else { // Custom step!
+            $commands = $step->command->script;
 
+            $commands = str_replace('{{ release }}', $release_id, $commands);
+            $commands = str_replace('{{ release_path }}', $latest_release_dir, $commands);
+
+            echo $commands;
         }
 
         if (is_array($commands)) {
-            return implode(PHP_EOL, $commands);
+            $commands = implode(PHP_EOL, $commands);
         }
 
         return $commands;

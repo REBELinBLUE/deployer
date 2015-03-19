@@ -22,4 +22,9 @@ class DeployStep extends Model
     {
         return $this->hasMany('App\ServerLog');
     }
+
+    public function command()
+    {
+        return $this->belongsTo('App\Command');
+    }
 }
