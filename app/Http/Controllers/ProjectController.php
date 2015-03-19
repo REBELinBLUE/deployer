@@ -47,7 +47,7 @@ class ProjectController extends Controller
         }
 
         $deployments = Deployment::where('project_id', '=', $project->id)
-                                 ->take(15)
+                                 ->take($project->builds_to_keep)
                                  ->orderBy('started_at', 'DESC')
                                  ->get();
 
