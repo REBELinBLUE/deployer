@@ -256,13 +256,14 @@ EOF'
     private function logError($message)
     {
         $this->outputToConsole("\033[0;31m" . $message .  "\033[0m");
-
         return '<error>' . $message . '</error>';
     }
 
     private function logSuccess($message)
     {
-        $this->outputToConsole("\033[0;32m" . $message .  "\033[0m");
+        //$this->outputToConsole("\033[0;32m" . $message .  "\033[0m");
+        //
+        $this->outputToConsole($message);
         return '<info>' . $message . '</info>';
     }
 

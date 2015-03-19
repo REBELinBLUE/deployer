@@ -34,7 +34,6 @@ Route::get('project/{id}/deploy/{deploy_id}', [
     'uses' => 'ProjectController@deployment'
 ]);
 
-
 // Servers
 Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy'] ]);
 Route::get('servers/{id}/test', 'ServerController@test');
@@ -42,7 +41,10 @@ Route::get('servers/{id}/test', 'ServerController@test');
 // Commands
 Route::get('logs/{id}', 'CommandController@log');
 Route::post('commands/{command}', 'CommandController@store'); // FIXME: Can we use the resourcecontroller for this?
-Route::get('project/{id}/commands/{command}', 'CommandController@listing');
+Route::get('project/{id}/commands/{command}', [
+    'as'   => 'commands',
+    'uses' => 'CommandController@listing'
+]);
 
 
 Route::controllers([

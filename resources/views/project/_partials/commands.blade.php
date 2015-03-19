@@ -18,46 +18,18 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach(['clone', 'install', 'activate', 'purge'] as $step)
                 <tr>
-                    <td>{{ deploy_step_label('Clone') }}</td>
-                    <td>None</td>
-                    <td>None</td>
+                    <td>{{ deploy_step_label(ucfirst($step)) }}</td>
+                    <td>{{ command_list_readable($commands, $step, 'before') }}</td>
+                    <td>{{ command_list_readable($commands, $step, 'after') }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="/project/1/commands/clone" class="btn btn-default" title="Configure"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route('commands', ['id' => $project->id, 'command' => $step]) }}" class="btn btn-default" title="Configure"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>{{ deploy_step_label('Install') }}</td>
-                    <td>None</td>
-                    <td>None</td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <a href="/project/1/commands/install" class="btn btn-default" title="Configure"><i class="fa fa-gear"></i></a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ deploy_step_label('Activate') }}</td>
-                    <td>None</td>
-                    <td>None</td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <a href="/project/1/commands/activate" class="btn btn-default" title="Configure"><i class="fa fa-gear"></i></a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ deploy_step_label('Purge') }}</td>
-                    <td>None</td>
-                    <td>None</td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <a href="/project/1/commands/purge" class="btn btn-default" title="Configure"><i class="fa fa-gear"></i></a>
-                        </div>
-                    </td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

@@ -27,7 +27,7 @@ function project_icon_status(\App\Project $project)
         return 'clock-o';
     }
 
-    return 'question';
+    return 'question-circle';
 }
 
 function server_css_status(\App\Server $server)
@@ -53,7 +53,7 @@ function server_icon_status(\App\Server $server)
         return 'warning';
     }
 
-    return 'question';
+    return 'question-circle';
 }
 
 function deployment_css_status(\App\Deployment $deployment)
@@ -150,5 +150,15 @@ function human_readable_duration($seconds)
     }
 
     return substr($readable, 0, -2);
+}
+
+
+function command_list_readable($commands, $step, $action)
+{
+    if (isset($commands[$step][$action])) {
+        return implode(', ', $commands[$step][$action]);
+    }
+
+    return 'None';
 }
 

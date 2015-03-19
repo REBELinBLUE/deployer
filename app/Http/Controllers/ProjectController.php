@@ -20,13 +20,37 @@ class ProjectController extends Controller
      */
     public function details($project_id)
     {
-        $project = Project::find($project_id);
+        $project = Project::findOrFail($project_id);
+
+        $commands = [
+            'clone'     => null,
+            'install'   => null,
+            'activate'  => null,
+            'purge'     => null
+        ];
+
+        foreach ($project->commands as $command) {
+            $steps  = explode(' ', $command->step);
+            $action = strtolower($steps[1]);
+            $when   =  strtolower($steps[0]);
+
+            if (!is_array($commands[$action])) {
+                $commands[$action] = [];
+            }
+
+            if (!isset($commands[$action][$when])) {
+                $commands[$action][$when] = [];
+            }
+
+            $commands[$action][$when][] = $command->name;
+        }
 
         return view('project.details', [
             'title'              => $project->name,
             'deployments'        => $project->deployments, // Get only the last x?
             'project'            => $project,
             'servers'            => $project->servers, // Order by name
+            'commands'           => $commands,
             'is_project_details' => true
         ]);
     }

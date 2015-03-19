@@ -184,7 +184,7 @@ $(function () {
             output = output.replace(/<\/error>/g, '</span>')
             output = output.replace(/<\/info>/g, '</span>');
             output = output.replace(/<error>/g, '<span class="text-red">')
-            output = output.replace(/<info>/g, '<span class="text-green">');
+            output = output.replace(/<info>/g, '<span class="text-default">');
 
             log.html(output);
 

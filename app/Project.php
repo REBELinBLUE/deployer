@@ -47,4 +47,9 @@ class Project extends Model
     {
         return $this->hasMany('App\Deployment');
     }
+
+    public function commands()
+    {
+        return $this->hasMany('App\Command');
+    }
 }
