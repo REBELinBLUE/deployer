@@ -52,7 +52,7 @@ class ProjectController extends Controller
         $deployment = Deployment::findOrFail($deployment_id);
 
         return view('project.deploy', [
-            'title'      => 'Deployment #' . $deployment->id . ' details',
+            'title'      => 'Deployment Details',
             'project'    => $project,
             'deployment' => $deployment,
             'steps'      => $deployment->steps
@@ -62,7 +62,7 @@ class ProjectController extends Controller
     public function commands($project_id, $command)
     {
         return view('project.commands', [
-            'title'   => 'project ' . $project_id . ' command ' . $command,
+            'title'   => deploy_step_label(ucfirst($command)),
             'command' => $command
         ]);
     }
@@ -75,18 +75,15 @@ class ProjectController extends Controller
     {
         $project = Project::where('hash', '=', $hash)->first();
 
-        if (is_null($project)) {
-            return [
-                'success' => false
-            ];
+        $success = false;
+        if (!is_null($project)) {
+            $this->dispatch(new QueueDeployment($project, new Deployment));
+
+            $success = true;
         }
 
-        $deployment = new Deployment;
-
-        $this->dispatch(new QueueDeployment($project, $deployment));
-
         return [
-            'success' => true
+            'success' => $success
         ];
     }
 
