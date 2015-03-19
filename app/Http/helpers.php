@@ -72,6 +72,20 @@ function deployment_css_status(\App\Deployment $deployment)
     return 'info';
 }
 
+
+function timeline_css_status(\App\Deployment $deployment)
+{
+    if ($deployment->status == 'Completed') {
+        return 'green';
+    } elseif ($deployment->status == 'Failed') {
+        return 'red';
+    } elseif ($deployment->status == 'Deploying') {
+        return 'yellow';
+    }
+
+    return 'aqua';
+}
+
 function deployment_icon_status(\App\Deployment $deployment)
 {
     if ($deployment->status == 'Completed') {
@@ -128,7 +142,6 @@ function server_log_icon_status(\App\ServerLog $log)
     return 'clock-o';
 }
 
-
 function human_readable_duration($seconds)
 {
     $units = [
@@ -155,7 +168,6 @@ function human_readable_duration($seconds)
     return substr($readable, 0, -2);
 }
 
-
 function command_list_readable($commands, $step, $action)
 {
     if (isset($commands[$step][$action])) {
@@ -164,4 +176,3 @@ function command_list_readable($commands, $step, $action)
 
     return 'None';
 }
-
