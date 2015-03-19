@@ -48,6 +48,8 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
         Config::set('remote.connections.runtime.keyphrase', '');
         Config::set('remote.connections.runtime.root', $this->server->path);
 
+        echo sprintf('Connecting to server #%s %s (%s)', $this->server->id, $this->server->name, $this->server->ip_address) . PHP_EOL;
+
         try {
             SSH::into('runtime')->run([
                 'ls'

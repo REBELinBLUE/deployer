@@ -30,6 +30,7 @@ class ProjectController extends Controller
         ];
 
         foreach ($project->commands as $command) {
+            // FIXME: There has to be a cleaner way to do this surely? Maybe on the model
             $steps  = explode(' ', $command->step);
             $action = strtolower($steps[1]);
             $when   =  strtolower($steps[0]);
