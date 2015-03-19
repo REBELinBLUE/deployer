@@ -71,7 +71,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             $this->cancelPendingSteps($this->deployment->steps);
         }
 
-        $this->deployment->ended_at = date('Y-m-d H:i:s');
+        $this->deployment->finished_at = date('Y-m-d H:i:s');
         $this->deployment->save();
 
         $project->last_run = date('Y-m-d H:i:s');
@@ -204,7 +204,7 @@ EOF'
         $root_dir = preg_replace('#/$#', '', $server->path); # Remove any trailing slash from the path on the server
         $releases_dir = $root_dir . '/releases';
 
-        $release_id = date('YmdHis', strtotime($this->deployment->run));
+        $release_id = date('YmdHis', strtotime($this->deployment->started_at));
         $latest_release_dir = $releases_dir . '/' . $release_id;
 
         $commands = false;
