@@ -26,7 +26,7 @@
                         <tbody>
                             @foreach ($projects as $project)
                             <tr id="project_{{ $project->id }}">
-                                <td><a href="{{ route('project', ['id' => $project->id]) }}" title="View Details">{{ $project->name }}</a></td>
+                                <td><a href="{{ url('project', ['id' => $project->id]) }}" title="View Details">{{ $project->name }}</a></td>
                                 <td>{{ $project->repository }}</td>
                                 <td>{{ $project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
                                 <td>
@@ -37,7 +37,7 @@
                                         @if(isset($project->url))
                                         <a href="{{ $project->url }}" class="btn btn-default" title="View the site" target="_blank"><i class="fa fa-globe"></i></a>
                                         @endif
-                                        <a href="{{ route('project', ['id' => $project->id]) }}" class="btn btn-default" title="View the deployment details"><i class="fa fa-info-circle"></i></a>
+                                        <a href="{{ url('project', ['id' => $project->id]) }}" class="btn btn-default" title="View the deployment details"><i class="fa fa-info-circle"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -69,7 +69,7 @@
                                 <i class="fa fa-{{ deployment_icon_status($deployment, false) }} bg-{{ timeline_css_status($deployment) }}"></i>
                                 <div class="timeline-item">
                                     <span class="time"><i class="fa fa-clock-o"></i> {{ $deployment->started_at->format('H:i') }}</span>
-                                    <h3 class="timeline-header"><a href="{{ route('project', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">Deployment #{{ $deployment->id }}</a> {{ $deployment->status }}</h3>
+                                    <h3 class="timeline-header"><a href="{{ url('project', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">Deployment #{{ $deployment->id }}</a> {{ $deployment->status }}</h3>
                                 </div>
                             </li>
                             @endforeach

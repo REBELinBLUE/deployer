@@ -157,6 +157,10 @@ $(function () {
         }).done(function (data) {
             dialog.modal('hide');
             $('.callout-danger', dialog).hide();
+
+            if (typeof data.redirect != 'undefined') {
+                window.location.href = data.redirect;
+            }
         }).fail(function (response) {
             $('.callout-danger', dialog).show();
 

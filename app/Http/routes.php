@@ -24,10 +24,8 @@ Route::get('webhook/{id}/refresh', [
 ]);
 
 // Projects
-Route::get('project/{id}', [
-    'as'   => 'project',
-    'uses' => 'ProjectController@details'
-]);
+// 
+Route::resource('projects', 'ProjectController', ['only' => ['show', 'store', 'update', 'destroy']]);
 
 Route::post('project/{id}/deploy', [
     'as'   => 'deploy',

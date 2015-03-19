@@ -3,9 +3,8 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use App\Project;
 
-use Symfony\Component\Process\Process;
+use App\Project;
 
 class ProjectTableSeeder extends Seeder
 {

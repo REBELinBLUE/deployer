@@ -8,8 +8,6 @@ use App\Deployment;
 
 use App\Commands\QueueDeployment;
 
-use Illuminate\Support\Str;
-
 use Illuminate\Http\Request;
 
 class WebhookController extends Controller
@@ -37,8 +35,8 @@ class WebhookController extends Controller
     public function refresh($id)
     {
         $project = Project::findOrFail($id);
-
-        $project->hash = Str::random(60);
+        
+        $project->generateHash();
         $project->save();
 
         return [

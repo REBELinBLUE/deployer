@@ -3,6 +3,10 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Illuminate\Support\Str;
+
+use Symfony\Component\Process\Process;
+
 class Project extends Model
 {
     use SoftDeletes; // FIXME: Add protected private_key, public_key, last_run to protected
@@ -37,5 +41,29 @@ class Project extends Model
     public function commands()
     {
         return $this->hasMany('App\Command');
+    }
+
+    public function generateHash()
+    {
+        $this->hash = Str::random(60);
+    }
+
+    public function generateSSHKey()
+    {
+        $key = tempnam(storage_path() . '/app/', 'sshkey');
+        unlink($key);
+
+        $process = new Process(sprintf('ssh-keygen -t rsa -b 2048 -f %s -N "" -C "deploy@deployer"', $key));
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process->getErrorOutput());
+        }
+
+        $this->private_key = file_get_contents($key);
+        $this->public_key = file_get_contents($key . '.pub');
+
+        unlink($key);
+        unlink($key . '.pub');
     }
 }
