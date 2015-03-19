@@ -25,15 +25,19 @@
                 <tr id="deployment_{{ $deployment->id }}">
                     <td>{{ $deployment->started_at->format('jS F Y g:i:s A') }}</td>
                     <td>{{ $deployment->user->name }}</td>
-                    <td>{{ $deployment->committer}}</td> <!-- Link to repo? -->
-                    <td><a href="#">{{ $deployment->commit }}</a></td>
+                    <td>{{ $deployment->committer }}</td>
+                    <td>
+                        @if ($deployment->commitURL())
+                        <a href="{{ $deployment->commitURL() }}" target="_blank">{{ $deployment->shortCommit() }}</a></td>
+                        @else
+                        {{ $deployment->showCommit() }}
+                        @endif
                     <td>
                         <span class="label label-{{ deployment_css_status($deployment) }}"><i class="fa fa-{{ deployment_icon_status($deployment) }}"></i> {{ $deployment->status }}</span>
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <!-- FIXME Hide this button on the newest deployment -->
-                            <button type="button" class="btn btn-default" title="Re-Deploy" {{ $deployment->isRunning() ? 'disabled' : '' }}><i class="fa fa-cloud-upload"></i></button>
+                            <button type="button" class="btn btn-default" title="Re-activate" {{ $deployment->isRunning() ? 'disabled' : '' }}><i class="fa fa-cloud-upload"></i></button>
                             <a href="{{ route('deployment', ['id' => $deployment->id]) }}" type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></a>
                         </div>
                     </td>

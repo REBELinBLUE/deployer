@@ -39,4 +39,25 @@ class Deployment extends Model
 
         return $this->started_at->diffInSeconds($this->finished_at);
     }
+
+    public function commitURL()
+    {
+        if ($this->commit != 'Loading') {
+            $info = $this->project->accessDetails();
+            if (isset($info['domain']) && isset($info['reference'])) {
+                return 'http://' . $info['domain'] . '/' . $info['reference'] . '/commit/' . $this->commit;
+            }
+        }
+
+        return false;
+    }
+
+    public function shortCommit()
+    {
+        if ($this->commit != 'Loading') {
+            return substr($this->commit, 0, 7);
+        }
+
+        return $this->commit;
+    }
 }

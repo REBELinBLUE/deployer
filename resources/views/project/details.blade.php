@@ -9,8 +9,8 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="#">Repository <span class="pull-right">{{ $project->repository }}</span></a></li>
-                        <li><a href="#">Branch <span class="pull-right label label-default">{{ $project->branch }}</span></a></li>
+                        <li><a href="{{ $project->repositoryURL() }}" target="_blank">Repository <span class="pull-right">{{ $project->repository }}</span></a></li>
+                        <li><a href="{{ $project->branchURL() }}" target="_blank">Branch <span class="pull-right label label-default">{{ $project->branch }}</span></a></li>
                         @if(!empty($project->url))
                         <li><a href="{{ $project->url }}" target="_blank">URL <span class="pull-right text-blue">{{ $project->url }}</span></a></li>
                         @endif

@@ -48,6 +48,38 @@ class Project extends Model
         $this->hash = Str::random(60);
     }
 
+    public function accessDetails()
+    {
+        $info = [];
+
+        if (preg_match('#^(.+)@(.+):([0-9]*)\/?(.+)\.git#', $this->repository, $matches)) {
+            $info['user'] = $matches[1];
+            $info['domain'] = $matches[2];
+            $info['port'] = $matches[3];
+            $info['reference'] = $matches[4];
+        }
+
+        return $info;
+    }
+
+    public function repositoryURL() {
+        $info = $this->accessDetails();
+        if (isset($info['domain']) && isset($info['reference'])) {
+            return 'http://' . $info['domain'] . '/' . $info['reference'];
+        }
+
+        return false;
+    }
+
+    public function branchURL() {
+        $info = $this->accessDetails();
+        if (isset($info['domain']) && isset($info['reference'])) {
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
+        }
+
+        return false;
+    }
+
     public function generateSSHKey()
     {
         $key = tempnam(storage_path() . '/app/', 'sshkey');
