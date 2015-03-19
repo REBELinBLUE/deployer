@@ -7,6 +7,11 @@
                 <div class="box-header">
                     <h3 class="box-title">Projects</h3>
                 </div>
+                @if (!count($projects))
+                <div class="box-body">
+                    <p>You have not yet setup any projects, click the button above to get started!</p>
+                </div>
+                @else
                 <div class="box-body table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -40,6 +45,7 @@
                         </tbody>
                     </table>
                 </div>
+                @endif
             </div>
         </div>
 

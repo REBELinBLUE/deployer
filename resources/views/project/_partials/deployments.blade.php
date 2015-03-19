@@ -1,7 +1,13 @@
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">Recent Deployments</h3>
-    </div><!-- /.box-header -->
+    </div>
+    
+    @if (!count($deployments))
+    <div class="box-body">
+        <p>There have not been any deployments yet.</p>
+    </div>
+    @else
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <thead>
@@ -19,7 +25,7 @@
                 <tr id="deployment_{{ $deployment->id }}">
                     <td>{{ $deployment->started_at->format('jS F Y g:i:s A') }}</td>
                     <td>{{ $deployment->user->name }}</td>
-                    <td>{{ $deployment->committer}}</td>
+                    <td>{{ $deployment->committer}}</td> <!-- Link to repo? -->
                     <td><a href="#">{{ $deployment->commit }}</a></td>
                     <td>
                         <span class="label label-{{ deployment_css_status($deployment) }}"><i class="fa fa-{{ deployment_icon_status($deployment) }}"></i> {{ $deployment->status }}</span>
@@ -36,4 +42,5 @@
             </tbody>
         </table>
     </div>
+    @endif
 </div>

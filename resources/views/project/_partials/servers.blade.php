@@ -5,7 +5,12 @@
         </div>
         <h3 class="box-title">Servers</h3>
     </div>
-
+    
+    @if (!count($servers))
+    <div class="box-body">
+        <p>The project does not currently have any servers setup</p>
+    </div>
+    @else
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <thead>
@@ -37,7 +42,8 @@
             </tbody>
         </table>
     </div>
+    <script type="text/javascript">
+        var servers = {!! $servers->toJson() !!};
+    </script>
+    @endif
 </div>
-<script type="text/javascript">
-    var servers = {!! $servers->toJson() !!};
-</script>
