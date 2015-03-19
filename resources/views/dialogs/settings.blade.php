@@ -9,23 +9,23 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="project_name">Name</label>
-                        <input type="text" class="form-control" id="project_name" placeholder="My new project" />
+                        <input type="text" class="form-control" id="project_name" value="{{ $project->name }}" placeholder="My awesome webapp" />
                     </div>
                     <div class="form-group">
                         <label for="project_repository">Repository</label>
-                        <input type="text" class="form-control" id="project_repository" placeholder="git@locahost:repositories/project.git" />
+                        <input type="text" class="form-control" id="project_repository" value="{{ $project->repository }}" placeholder="git@git.example.com:repositories/project.git" />
                     </div>
                     <div class="form-group">
                         <label for="project_branch">Branch</label>
-                        <input type="text" class="form-control" id="project_branch" placeholder="master" />
+                        <input type="text" class="form-control" id="project_branch" value="{{ $project->branch }}" placeholder="master" />
                     </div>
                     <div class="form-group">
                         <label for="project_url">URL</label>
-                        <input type="text" class="form-control" id="project_url" placeholder="http://localhost" />
+                        <input type="text" class="form-control" id="project_url" value="{{ $project->url }}"  placeholder="http://www.example.com" />
                     </div>
                     <div class="form-group">
-                        <label for="project_image">Build Image</label>
-                        <input type="text" class="form-control" id="project_image" placeholder="http://ci.myserver.com/status.png" />
+                        <label for="project_build_url">Build Image</label>
+                        <input type="text" class="form-control" id="project_build_url" value="{{ $project->build_url }}"  placeholder="http://ci.example.com/status.png?project=1" />
                     </div>
                 </div>
                 <div class="modal-footer">

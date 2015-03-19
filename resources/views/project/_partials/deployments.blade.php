@@ -17,7 +17,7 @@
             <tbody>
                 @foreach ($deployments as $deployment)
                 <tr id="deployment_{{ $deployment->id }}">
-                    <td>{{ $deployment->run->format('jS F Y g:i:s A') }}</td>
+                    <td>{{ $deployment->started_at->format('jS F Y g:i:s A') }}</td>
                     <td>{{ $deployment->user->name }}</td>
                     <td>{{ $deployment->committer}}</td>
                     <td><a href="#">{{ $deployment->commit }}</a></td>

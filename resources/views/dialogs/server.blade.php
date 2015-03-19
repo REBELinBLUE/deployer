@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-tasks"></i> <span>Add Server</span></h4>
+                <h4 class="modal-title"><i class="fa fa-tasks"></i> <span>Add a Server</span></h4>
             </div>
             <form role="form">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
