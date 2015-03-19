@@ -25,7 +25,7 @@
                         <input type="text" class="form-control" name="user" id="command_user" placeholder="deploy" />
                     </div>
                     <div class="form-group">
-                        <label for="command_script">Script</label>
+                        <label for="command_script">Bash Script</label>
                         <textarea rows="10" id="command_script" class="form-control" name="script" placeholder="echo 'Hello world'"></textarea>
                         <h5>You can use the following tokens in your script</h5>
                         <ul>
