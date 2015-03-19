@@ -159,12 +159,17 @@ CMD;
             $server = $log->server;
             $script = $this->getScript($step, $server);
 
+            $user = $server->user;
+            if (isset($step->command)) {
+                $user = $step->command->user;
+            }
+
             $failed = false;
 
             if (!empty($script)) {
                 $script = 'set -e' . PHP_EOL . $script;
                 $process = new Process(
-                    'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $this->private_key . ' ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                    'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $this->private_key . ' ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
 '.$script.'
 EOF'
                 );
