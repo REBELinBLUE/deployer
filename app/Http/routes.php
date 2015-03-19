@@ -13,6 +13,7 @@
 
 Route::get('/', 'DashboardController@index');
 
+// Projects
 Route::get('deploy/{hash}', [
     'as'   => 'webhook',
     'uses' => 'ProjectController@webhook'
@@ -33,10 +34,15 @@ Route::get('project/{id}/deploy/{deploy_id}', [
     'uses' => 'ProjectController@deployment'
 ]);
 
-Route::get('project/{id}/commands/{command}', 'ProjectController@commands');
+
+// Servers
 Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy'] ]);
 Route::get('servers/{id}/test', 'ServerController@test');
-Route::get('logs/{id}', 'ProjectController@log');
+
+// Commands
+Route::get('logs/{id}', 'CommandController@log');
+Route::get('project/{id}/commands/{command}', 'CommandController@listing');
+
 
 Route::controllers([
     'auth'     => 'Auth\AuthController',
