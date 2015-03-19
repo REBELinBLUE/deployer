@@ -6,20 +6,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Server extends Model
 {
     use SoftDeletes; // FIXME: Add protected private_key, public_key, last_run
-
+    
     /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'servers';
-
-    /**
-     * The attributes that are mass assignable.
+     * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $fillable = ['name', 'ip_address', 'user', 'path', 'project_id'];
+    protected $hidden = ['project'];
 
     public function project()
     {

@@ -5,21 +5,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Command extends Model
 {
-    use SoftDeletes; // FIXME: Add protected private_key, public_key, last_run
+    use SoftDeletes;
 
     /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'commands';
-
-    /**
-     * The attributes that are mass assignable.
+     * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $fillable = ['name', 'script', 'project_id', 'order', 'step'];
+    protected $hidden = ['project'];
 
     public function project()
     {

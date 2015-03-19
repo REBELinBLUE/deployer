@@ -6,21 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Deployment extends Model
 {
     use SoftDeletes;
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'deployments';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['committer', 'commit', 'project_id', 'status'];
-
+    
     public function getDates()
     {
         return ['created_at', 'started_at', 'finished_at', 'updated_at'];
