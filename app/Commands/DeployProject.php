@@ -62,6 +62,8 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         }
 
         $this->deployment->save();
+        
+        $project->last_run = date('Y-m-d H:i:s');
         $project->save();
 
         unlink($this->private_key);
