@@ -6,7 +6,7 @@ $(function () {
         var modal = $(this);
 
         var server = { id: '', name: '', ip_address: '', user: '', path: '' };
-        var title = 'Add a server';
+        var title = 'Add server';
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
@@ -40,13 +40,13 @@ $(function () {
         var modal = $(this);
 
         var command = { id: '', name: '', script: '', user: '' };
-        var title = 'Add ' + step + ' command';
+        var title = 'Add command';
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (command_id) {
-            title = 'Edit server';
+            title = 'Edit command';
 
             var commands = before_commands;
             if (step == 'After') {
