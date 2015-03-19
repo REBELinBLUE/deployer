@@ -17,7 +17,7 @@ class DeploymentController extends Controller
 
         return view('deployment.details', [
             'breadcrumb' => [
-                ['url' => route('project', $project->id), 'label' => $project->name]
+                ['url' => url('project', $project->id), 'label' => $project->name]
             ],
             'title'      => 'Deployment Details',
             'project'    => $project,
