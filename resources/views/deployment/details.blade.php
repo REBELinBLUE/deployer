@@ -32,7 +32,7 @@
                                 <td>{{ $log->runtime() === false ? 'N/A' : human_readable_duration($log->runtime()) }}</td>
                                 <td>
                                     <div class="btn-group pull-right">
-                                        <button type="button" class="btn btn-default" title="View output" data-toggle="modal" data-log-id="{{ $log->id }}" data-backdrop="static" data-target="#log" style="{{ !empty($log->output) ? '' : 'display:none' }}"><i class="fa fa-copy"></i></button>
+                                        <button type="button" class="btn btn-default" title="View the output" data-toggle="modal" data-log-id="{{ $log->id }}" data-backdrop="static" data-target="#log" style="{{ !empty($log->output) ? '' : 'display:none' }}"><i class="fa fa-copy"></i></button>
                                     </div>
                                 </td>
                             </tr>

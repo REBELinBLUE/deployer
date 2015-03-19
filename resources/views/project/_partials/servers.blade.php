@@ -28,8 +28,8 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-test" data-server-id="{{ $server->id }}" title="Test Connection"{{ $server->isTesting() ? ' disabled' : '' }}><i class="fa fa-refresh {{ $server->isTesting() ? 'fa-spin' : '' }}"></i></button>
-                            <button type="button" class="btn btn-default" title="Edit" data-server-id="{{ $server->id }}" data-toggle="modal" data-backdrop="static" data-target="#server"{{ $server->isTesting() ? ' disabled' : '' }}><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-default btn-test" data-server-id="{{ $server->id }}" title="Test the server connection" {{ $server->isTesting() ? ' disabled' : '' }}><i class="fa fa-refresh {{ $server->isTesting() ? 'fa-spin' : '' }}"></i></button>
+                            <button type="button" class="btn btn-default" title="Edit the server" data-server-id="{{ $server->id }}" data-toggle="modal" data-backdrop="static" data-target="#server"{{ $server->isTesting() ? ' disabled' : '' }}><i class="fa fa-edit"></i></button>
                         </div>
                     </td>
                 </tr>

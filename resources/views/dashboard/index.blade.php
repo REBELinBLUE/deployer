@@ -29,8 +29,8 @@
                                 </td>
                                 <td>
                                     <div class="btn-group pull-right">
-                                        <a href="{{ $project->url }}" class="btn btn-default" title="View site" target="_blank"><i class="fa fa-globe"></i></a>
-                                        <a href="{{ route('project', ['id' => $project->id]) }}" class="btn btn-default" title="View Details"><i class="fa fa-info-circle"></i></a>
+                                        <a href="{{ $project->url }}" class="btn btn-default" title="View the site" target="_blank"><i class="fa fa-globe"></i></a>
+                                        <a href="{{ route('project', ['id' => $project->id]) }}" class="btn btn-default" title="View the deployment details"><i class="fa fa-info-circle"></i></a>
                                     </div>
                                 </td>
                             </tr>
