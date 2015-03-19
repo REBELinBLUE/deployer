@@ -147,15 +147,19 @@ CMD;
 
             $log->status = 'Completed';
 
-            $this->outputToConsole($step->stage . ' on ' . $log->server->name . ' (' . $log->server->ip_address . ')' . PHP_EOL);
+            $prefix = $step->stage;
+            if ($step->command) {
+                $prefix = $step->command->name;
+            }
+
+            $this->outputToConsole($prefix . ' on ' . $log->server->name . ' (' . $log->server->ip_address . ')' . PHP_EOL);
 
             $server = $log->server;
-
             $script = $this->getScript($step, $server);
 
             $failed = false;
 
-            if (!empty($commands)) {
+            if (!empty($script)) {
                 $script = 'set -e' . PHP_EOL . $script;
                 $process = new Process(
                     'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $this->private_key . ' ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
@@ -226,7 +230,7 @@ EOF'
                 sprintf('git clone --branch %s --depth 1 %s %s', $project->branch, $project->repository, $latest_release_dir),
                 sprintf('cd %s', $latest_release_dir),
                 sprintf('git checkout %s', $project->branch),
-                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
+                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
             ];
         } else if ($step->stage == 'Install') { // Install Composer dependencies
             $commands = [
@@ -246,8 +250,6 @@ EOF'
 
             $commands = str_replace('{{ release }}', $release_id, $commands);
             $commands = str_replace('{{ release_path }}', $latest_release_dir, $commands);
-
-            echo $commands;
         }
 
         if (is_array($commands)) {
