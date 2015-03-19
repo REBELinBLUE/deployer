@@ -83,6 +83,9 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * FIXME: Don't allow this to run if there is already a pending deploy or no servers
+     */
     public function deploy($project_id)
     {
         $project = Project::findOrFail($project_id);
@@ -136,7 +139,6 @@ class ProjectController extends Controller
 
     public function update($id)
     {
-
         $rules = array(
             'name'           => 'required',
             'repository'     => 'required',
