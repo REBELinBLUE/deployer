@@ -11,23 +11,21 @@ class CommandTableSeeder extends Seeder {
     {
         DB::table('commands')->delete();
 
-        for ($i = 1; $i <= 3; $i++)
-        {
-            foreach (['Clone', 'Install', 'Activate', 'Purge'] as $action)
-            {
-                foreach (['Before', 'After'] as $order)
-                {
-                    $step = $order . ' ' . $action;
-                    
-                    Command::create([
-                        'name'       => $step,
-                        'script'     => "cd {{release}}\necho \"{$step}\"",
-                        'project_id' => $i,
-                        'step'       => $step
-                    ]);
-                }
-            }
-        }
+        Command::create([
+            'name'       => 'Welcome',
+            'script'     => "echo \"Before Clone {{ release }}\"",
+            'project_id' => 1,
+            'user'       => 'vagrant',
+            'step'       => 'Before Clone'
+        ]);
+
+        Command::create([
+            'name'       => 'Goodbye',
+            'script'     => "echo \"After Purge {{ release }}\"",
+            'project_id' => 1,
+            'user'       => 'vagrant',
+            'step'       => 'After Purge'
+        ]);
     }
 
 }
