@@ -106,7 +106,7 @@ export GIT_SSH="{$wrapper}" && \
 git clone --quiet --branch %s --depth 1 %s {$workingdir} && \
 cd {$workingdir} && \
 git checkout %s --quiet && \
-git log --pretty=format:"%%h%%x09%%an" && \
+git log --pretty=format:"%%H%%x09%%an" && \
 rm -rf {$workingdir}
 CMD;
 
@@ -123,8 +123,10 @@ CMD;
 
         $git_info = $process->getOutput();
 
-        $this->deployment->commit    = substr($git_info, 0, 7);
-        $this->deployment->committer = trim(substr($git_info, 7));
+        // FIXME: See about getting the full commit hash
+        $parts = explode("\x09", $git_info);
+        $this->deployment->commit    = $parts[0];
+        $this->deployment->committer = trim($parts[1]);
         $this->deployment->save();
     }
 
