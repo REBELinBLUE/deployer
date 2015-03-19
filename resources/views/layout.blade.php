@@ -35,7 +35,16 @@
                             <button type="button" class="btn btn-default" title="Edit the project settings" data-project-id="{{ $project->id }}" data-toggle="modal" data-target="#project"><span class="fa fa-cogs"></span> Settings</button>
                             <button type="submit" class="btn btn-danger" title="Deploy the project" {{ $project->isDeploying() ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></i> Deploy</button>
                         </form>
+                        @elseif(isset($breadcrumb))
+                        <ol class="breadcrumb">
+                            @foreach($breadcrumb as $entry)
+                            <li><a href="{{ $entry['url'] }}">{{ $entry['label'] }}</a></li>
+                            @endforeach
+                            <li class="active">{{ $title }}</li>
+
+                        </ol>
                         @endif
+
                     </div>
 
                     <h1>{{ $title }}</h1>

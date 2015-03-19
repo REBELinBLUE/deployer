@@ -32,6 +32,9 @@ class CommandController extends Controller
                         ->get();
 
         return view('commands.listing', [
+            'breadcrumb' => [
+                ['url' => route('project', $project->id), 'label' => $project->name]
+            ],
             'title'   => deploy_step_label(ucfirst($action)),
             'project' => $project,
             'action'  => $action,

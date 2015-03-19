@@ -13,9 +13,14 @@ class DeploymentController extends Controller
     {
         $deployment = Deployment::findOrFail($deployment_id);
 
+        $project = $deployment->project;
+
         return view('deployment.details', [
+            'breadcrumb' => [
+                ['url' => route('project', $project->id), 'label' => $project->name]
+            ],
             'title'      => 'Deployment Details',
-            'project'    => $deployment->project,
+            'project'    => $project,
             'deployment' => $deployment,
             'steps'      => $deployment->steps
         ]);
