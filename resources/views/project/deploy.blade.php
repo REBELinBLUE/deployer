@@ -6,7 +6,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title"><i class="fa fa-magic"></i> <span>{{ deploy_step_label($step->stage) }}</span></h3>
+                    <h3 class="box-title"><i class="fa fa-terminal"></i> <span>{{ deploy_step_label($step->stage) }}</span></h3>
                 </div>
                 <div class="box-body table-responsive">
                     <table class="table table-hover" id="step_{{ $step->id }}">
@@ -29,10 +29,10 @@
                                 </td>
                                 <td>{{ $log->started_at ? $log->started_at->format('g:i:s A') : 'N/A' }}</td>
                                 <td>{{ $log->finished_at ? $log->finished_at->format('g:i:s A') : 'N/A' }}</td>
-                                <td>{{ $log->runtime() > 0 ? 'runtime' : 'N/A' }}</td>
+                                <td>{{ $log->runtime() === false ? 'N/A' : human_readable_duration($log->runtime()) }}</td>
                                 <td>
                                     <div class="btn-group pull-right">
-                                        <button type="button" class="btn btn-default" title="View output" data-toggle="modal" data-log-id="{{ $log->id }}" data-backdrop="static" data-target="#log" style="{{ !empty($log->output) ? '' : 'display:none' }}"><i class="fa fa-terminal"></i></button>
+                                        <button type="button" class="btn btn-default" title="View output" data-toggle="modal" data-log-id="{{ $log->id }}" data-backdrop="static" data-target="#log" style="{{ !empty($log->output) ? '' : 'display:none' }}"><i class="fa fa-copy"></i></button>
                                     </div>
                                 </td>
                             </tr>

@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
 class ServerLog extends Model
 {
     /**
@@ -30,6 +32,13 @@ class ServerLog extends Model
 
     public function runtime()
     {
-        return 0;
+        if (!$this->finished_at) {
+            return false;
+        }
+
+        $started = new Carbon($this->started_at);
+        $finished = new Carbon($this->finished_at);
+
+        return $started->diffInSeconds($finished);
     }
 }
