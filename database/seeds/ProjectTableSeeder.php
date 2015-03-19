@@ -13,7 +13,7 @@ class ProjectTableSeeder extends Seeder {
     {
         DB::table('projects')->delete();
 
-        // $status = ['Finished', 'Failed', 'Running', 'Not Deployed'];
+        // $status = ['Finished', 'Failed', 'Deploying', 'Pending', 'Not Deployed'];
 
         
         // $faker = Faker\Factory::create();

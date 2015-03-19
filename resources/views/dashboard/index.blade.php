@@ -52,7 +52,7 @@
                             <span class="bg-gray">10th Feb 2014</span>
                         </li>
                         <li>
-                            <i class="fa fa-question bg-blue"></i>
+                            <i class="fa fa-clock-o bg-aqua"></i>
                             <div class="timeline-item">
                                 <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
                                 <h3 class="timeline-header"><a href="#">Project</a> - <a href="#">Deployment #</a> pending</h3>

@@ -35,7 +35,7 @@ class Project extends Model
 
     public function isDeploying()
     {
-        return ($this->status == 'Running');
+        return ($this->status == 'Deploying' || $this->status == 'Pending');
     }
 
     public function servers()

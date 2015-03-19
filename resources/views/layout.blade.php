@@ -23,9 +23,7 @@
 
             @include('_partials.sidebar')
 
-            <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <div class="pull-right">
                         @if (isset($is_dashboard)) 
@@ -43,14 +41,13 @@
                     <h1>{{ $title }}</h1>
                 </section>
 
-                <!-- Main content -->
                 <section class="content">
                     @yield('content')
-                </section><!-- /.content -->
+                </section>
 
-            </div><!-- /.content-wrapper -->
+            </div>
 
-        </div><!-- ./wrapper -->
+        </div>
 
         <!-- jQuery 2.1.3 -->
         <script src="{{ asset('/js/style.js') }}"></script>

@@ -23,7 +23,7 @@ class CreateProjectsTable extends Migration {
 			$table->text('public_key');
 			$table->string('url');
 			$table->string('build_url');
-			$table->enum('status', ['Finished', 'Running', 'Failed', 'Not Deployed'])->default('Not Deployed');
+			$table->enum('status', ['Finished', 'Pending', 'Deploying', 'Failed', 'Not Deployed'])->default('Not Deployed');
 			$table->dateTime('last_run')->nullable()->default(null);
 			$table->timestamps();
 			$table->softDeletes();

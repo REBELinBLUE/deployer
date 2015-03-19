@@ -43,7 +43,7 @@ class QueueDeployment extends Command implements SelfHandling
         $this->deployment->commit = 'Loading';
         $this->deployment->save();
 
-        $this->deployment->project->status = 'Running';
+        $this->deployment->project->status = 'Pending';
         $this->deployment->project->save();
 
         // FIXME: Add entries for before/after etc

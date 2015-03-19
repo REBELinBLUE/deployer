@@ -8,6 +8,8 @@ function project_css_status(\App\Project $project)
         return 'warning';
     } elseif ($project->status == 'Failed') {
         return 'danger';
+    } elseif ($project->status == 'Pending') {
+        return 'info';
     }
 
     return 'primary';
@@ -21,6 +23,8 @@ function project_icon_status(\App\Project $project)
         return 'spinner';
     } elseif ($project->status == 'Failed') {
         return 'warning';
+    } elseif ($project->status == 'Pending') {
+        return 'clock-o';
     }
 
     return 'question';
@@ -62,7 +66,7 @@ function deployment_css_status(\App\Deployment $deployment)
         return 'warning';
     }
 
-    return 'primary';
+    return 'info';
 }
 
 function deployment_icon_status(\App\Deployment $deployment)
@@ -75,7 +79,7 @@ function deployment_icon_status(\App\Deployment $deployment)
         return 'spinner';
     }
 
-    return 'question';
+    return 'clock-o';
 }
 
 function deploy_step_label($label)
@@ -103,7 +107,7 @@ function server_log_css_status(\App\ServerLog $log)
         return 'warning';
     }
 
-    return 'primary';
+    return 'info';
 }
 
 function server_log_icon_status(\App\ServerLog $log)
@@ -118,7 +122,7 @@ function server_log_icon_status(\App\ServerLog $log)
         return 'spinner';
     }
 
-    return 'question';
+    return 'clock-o';
 }
 
 
