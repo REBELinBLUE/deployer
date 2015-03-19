@@ -46,7 +46,10 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         file_put_contents($this->private_key, $project->private_key);
 
         try {
-            $this->updateRepoInfo();
+            // If the build has been manually triggered updated the git information from the remote repository
+            if ($this->deployment->commit == 'Loading') {
+                $this->updateRepoInfo();
+            }
 
             foreach ($this->deployment->steps as $step) {
                 $this->runStep($step);
@@ -62,7 +65,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         }
 
         $this->deployment->save();
-        
+
         $project->last_run = date('Y-m-d H:i:s');
         $project->save();
 
