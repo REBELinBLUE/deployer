@@ -42,7 +42,7 @@ class CommandController extends Controller
         ]);
     }
 
-    public function store($action)
+    public function store()
     {
         $rules = array(
             'name'       => 'required',
@@ -65,7 +65,36 @@ class CommandController extends Controller
             $command->user       = Input::get('user');
             $command->project_id = Input::get('project_id');
             $command->script     = Input::get('script');
-            $command->step       = ucwords(Input::get('step') . ' ' . $action);
+            $command->step       = ucwords(Input::get('step'));
+            $command->save();
+
+            return Response::json([
+                'success' => true,
+                'command' => $command
+            ], 200);
+        }
+    }
+
+    public function update($id)
+    {
+        $rules = array(
+            'name'       => 'required',
+            'user'       => 'required',
+            'script'     => 'required'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+            return Response::json([
+                'success' => false,
+                'errors'  => $validator->getMessageBag()->toArray()
+            ], 400);
+        } else {
+            $command = Command::findOrFail($id);
+            $command->name       = Input::get('name');
+            $command->user       = Input::get('user');
+            $command->script     = Input::get('script');
             $command->save();
 
             return Response::json([

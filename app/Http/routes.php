@@ -39,12 +39,13 @@ Route::get('deployment/{id}', [ // FIXME Should this be on the deployment contro
 ]);
 
 // Servers
-Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy'] ]);
+Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy']]);
 Route::get('servers/{id}/test', 'ServerController@test');
 
 // Commands
 Route::get('logs/{id}', 'CommandController@log');
-Route::post('commands/{command}', 'CommandController@store'); // FIXME: Can we use the resourcecontroller for this?
+
+Route::resource('commands', 'CommandController', ['only' => ['store', 'update', 'destroy']]);
 Route::get('projects/{id}/commands/{command}', [
     'as'   => 'commands',
     'uses' => 'CommandController@listing'

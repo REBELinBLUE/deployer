@@ -91,6 +91,8 @@ $(function () {
 
         var modal = $(this);
 
+        var action = modal.data('action');
+
         var title = 'Add command';
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -121,7 +123,7 @@ $(function () {
         }
 
         $('#command_id').val(command.id);
-        $('#command_step').val(step);
+        $('#command_step').val(step + ' ' + action);
         $('#command_name').val(command.name);
         $('#command_script').val(command.script);
         $('#command_user').val(command.user);

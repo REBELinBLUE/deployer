@@ -1,4 +1,4 @@
-<div class="modal fade" id="command" data-resource="commands/{{ $action }}">
+<div class="modal fade" id="command" data-resource="commands" data-action="{{ $action }}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,29 +33,22 @@
                             <li><code>@{{ release_path }}</code> -The full release path, e.g. <span class="label label-default">/var/www/releases/20150312154523/</span></li>
                         </ul>
                     </div>
+                    @if (count($project->servers))
                     <div class="form-group">
                         <label for="command_servers">Servers</label>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" /> Web 1 (192.168.0.1)
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" /> Web 2 (192.168.0.2)
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" /> Cron (192.168.0.3)
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" /> DB (192.168.0.4)
-                            </label>
-                        </div>
+                        <ul>
+                            @foreach ($project->servers as $server)
+                            <li>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="servers[]" id="command_server_{{ $server->id }}" value="{{ $server->id }}" /> {{ $server->name }} ({{ $server->ip_address }})
+                                    </label>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
                     </div>
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left"><i class="fa fa-trash"></i> Delete</button>

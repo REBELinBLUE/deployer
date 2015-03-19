@@ -27,7 +27,7 @@
                         <td>{{ $command->user }}</td>
                         <td>
                             <div class="btn-group pull-right">
-                                <button type="button" class="btn btn-default" title="Edit the command" data-step="Before" data-command-id="{{ $command->id }}" data-toggle="modal" data-target="#command"><i class="fa fa-edit"></i></button>
+                                <button type="button" class="btn btn-default" title="Edit the command" data-step="{{ $step }}" data-command-id="{{ $command->id }}" data-toggle="modal" data-target="#command"><i class="fa fa-edit"></i></button>
                             </div>
                         </td>
                     </tr>
