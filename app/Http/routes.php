@@ -27,7 +27,7 @@ Route::get('webhook/{id}/refresh', [
 // 
 Route::resource('projects', 'ProjectController', ['only' => ['show', 'store', 'update', 'destroy']]);
 
-Route::post('project/{id}/deploy', [
+Route::post('projects/{id}/deploy', [
     'as'   => 'deploy',
     'uses' => 'ProjectController@deploy'
 ]);
@@ -45,7 +45,7 @@ Route::get('servers/{id}/test', 'ServerController@test');
 // Commands
 Route::get('logs/{id}', 'CommandController@log');
 Route::post('commands/{command}', 'CommandController@store'); // FIXME: Can we use the resourcecontroller for this?
-Route::get('project/{id}/commands/{command}', [
+Route::get('projects/{id}/commands/{command}', [
     'as'   => 'commands',
     'uses' => 'CommandController@listing'
 ]);
