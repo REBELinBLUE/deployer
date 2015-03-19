@@ -19,7 +19,7 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'repository', 'branch', 'url', 'build_url'];
+    protected $fillable = ['name', 'repository', 'branch', 'url', 'build_url', 'keep_builds'];
 
     /**
      * The attributes excluded from the model's JSON form.

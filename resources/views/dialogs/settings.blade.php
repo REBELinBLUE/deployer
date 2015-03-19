@@ -20,6 +20,10 @@
                         <input type="text" class="form-control" id="project_branch" value="{{ $project->branch }}" placeholder="master" />
                     </div>
                     <div class="form-group">
+                        <label for="project_builds_to_keep">Builds to Keep</label>
+                        <input type="number" class="form-control" min="1" max="20" id="project_builds_to_keep" value="{{ $project->builds_to_keep }}" placeholder="10" />
+                    </div>
+                    <div class="form-group">
                         <label for="project_url">URL</label>
                         <input type="text" class="form-control" id="project_url" value="{{ $project->url }}"  placeholder="http://www.example.com" />
                     </div>

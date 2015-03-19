@@ -17,20 +17,25 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $latest = [];
-        foreach (Deployment::take(15)->orderBy('started_at', 'DESC')->get() as $deployment) {
+        // Get the latest 15 deployments
+        $deployments = Deployment::take(15)
+                                 ->orderBy('started_at', 'DESC')
+                                 ->get();
+
+        $grouped_by_date = [];
+        foreach ($deployments as $deployment) {
             $date = $deployment->started_at->format('Y-m-d');
 
-            if (!isset($latest[$date])) {
-                $latest[$date] = [];
+            if (!isset($grouped_by_date[$date])) {
+                $grouped_by_date[$date] = [];
             }
 
-            $latest[$date][] = $deployment;
+            $grouped_by_date[$date][] = $deployment;
         }
 
         return view('dashboard.index', [
             'title'        => 'Dashboard',
-            'latest'       => $latest,
+            'latest'       => $grouped_by_date,
             'projects'     => Project::orderBy('name')->get(),
             'is_dashboard' => true
         ]);

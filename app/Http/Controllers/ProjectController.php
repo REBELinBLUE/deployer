@@ -46,9 +46,14 @@ class ProjectController extends Controller
             $commands[$action][$when][] = $command->name;
         }
 
+        $deployments = Deployment::where('project_id', '=', $project->id)
+                                 ->take(15)
+                                 ->orderBy('started_at', 'DESC')
+                                 ->get();
+
         return view('project.details', [
             'title'              => $project->name,
-            'deployments'        => $project->deployments, // Get only the last x?
+            'deployments'        => $deployments,
             'project'            => $project,
             'servers'            => $project->servers, // Order by name
             'commands'           => $commands,
