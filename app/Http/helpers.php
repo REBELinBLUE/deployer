@@ -4,7 +4,7 @@ function project_css_status(\App\Project $project)
 {
     if ($project->status == 'Finished') {
         return 'success';
-    } elseif ($project->status == 'Running') {
+    } elseif ($project->status == 'Deploying') {
         return 'warning';
     } elseif ($project->status == 'Failed') {
         return 'danger';
@@ -15,12 +15,15 @@ function project_css_status(\App\Project $project)
     return 'primary';
 }
 
-function project_icon_status(\App\Project $project)
+function project_icon_status(\App\Project $project, $rotate = true)
 {
     if ($project->status == 'Finished') {
         return 'check';
-    } elseif ($project->status == 'Running') {
-        return 'spinner';
+    } elseif ($project->status == 'Deploying') {
+        if (!$rotate) {
+            return 'spinner';
+        }
+        return 'spinner fa-spin';
     } elseif ($project->status == 'Failed') {
         return 'warning';
     } elseif ($project->status == 'Pending') {
@@ -76,7 +79,7 @@ function deployment_icon_status(\App\Deployment $deployment)
     } elseif ($deployment->status == 'Failed') {
         return 'warning';
     } elseif ($deployment->status == 'Deploying') {
-        return 'spinner';
+        return 'spinner fa-spin';
     }
 
     return 'clock-o';
@@ -119,7 +122,7 @@ function server_log_icon_status(\App\ServerLog $log)
     } elseif ($log->status == 'Cancelled') {
         return 'times';
     } elseif ($log->status == 'Running') {
-        return 'spinner';
+        return 'spinner fa-spin';
     }
 
     return 'clock-o';
