@@ -25,6 +25,7 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($server_id);
 
+        // FIXME: Make this a command
         $server->status = 'Testing';
         $server->save();
 
@@ -69,10 +70,8 @@ class ServerController extends Controller
 
             return Response::json([
                 'success' => true,
-                'server' => $server
+                'server'  => $server
             ], 200);
-
-            return $server;
         }
     }
     
