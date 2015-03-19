@@ -42,6 +42,9 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
     {
         $project = $this->deployment->project;
 
+        $this->deployment->status = 'Deploying';
+        $this->deployment->save();
+
         $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
 

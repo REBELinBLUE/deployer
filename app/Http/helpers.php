@@ -58,9 +58,11 @@ function deployment_css_status(\App\Deployment $deployment)
         return 'success';
     } elseif ($deployment->status == 'Failed') {
         return 'danger';
+    } elseif ($deployment->status == 'Deploying') {
+        return 'warning';
     }
 
-    return 'warning';
+    return 'primary';
 }
 
 function deployment_icon_status(\App\Deployment $deployment)
@@ -69,9 +71,11 @@ function deployment_icon_status(\App\Deployment $deployment)
         return 'check';
     } elseif ($deployment->status == 'Failed') {
         return 'warning';
+    } elseif ($deployment->status == 'Deploying') {
+        return 'spinner';
     }
 
-    return 'spinner';
+    return 'question';
 }
 
 function deploy_step_label($label)

@@ -35,8 +35,7 @@ class QueueDeployment extends Command implements SelfHandling
      */
     public function handle()
     {
-       // FIXME: Check if a deployment is already in progress
-
+        $this->deployment->status = 'Pending';
         $this->deployment->run = date('Y-m-d H:i:s');
         $this->deployment->project_id = $this->project->id;
         $this->deployment->user_id = 1; // FIXME: Get logged in user
