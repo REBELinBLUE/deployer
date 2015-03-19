@@ -6,8 +6,8 @@ use App\Deployment;
 
 use Symfony\Component\Process\Process;
 
-class DeploymentTableSeeder extends Seeder {
-
+class DeploymentTableSeeder extends Seeder
+{
     public function run()
     {
         DB::table('deployments')->delete();

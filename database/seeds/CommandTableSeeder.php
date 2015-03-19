@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Command;
 
-class CommandTableSeeder extends Seeder {
-
+class CommandTableSeeder extends Seeder
+{
     public function run()
     {
         DB::table('commands')->delete();
@@ -27,5 +27,4 @@ class CommandTableSeeder extends Seeder {
             'step'       => 'After Purge'
         ]);
     }
-
 }

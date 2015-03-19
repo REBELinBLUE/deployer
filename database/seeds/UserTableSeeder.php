@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\User;
 
-class UserTableSeeder extends Seeder {
-
+class UserTableSeeder extends Seeder
+{
     public function run()
     {
         DB::table('users')->delete();
@@ -21,5 +21,4 @@ class UserTableSeeder extends Seeder {
             ]);
         }
     }
-
 }

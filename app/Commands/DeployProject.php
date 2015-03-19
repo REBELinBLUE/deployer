@@ -95,7 +95,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
     private function updateRepoInfo()
     {
         $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
-        file_put_contents($wrapper,  $this->git_wrapper_script($this->private_key));
+        file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
 
         $workingdir = tempnam(storage_path() . '/app/', 'clone');
         unlink($workingdir);
@@ -220,7 +220,7 @@ EOF'
             // Upload the files we need
             // FIXME: See if we can find a way around this as we have the entire SSH package just for this
             SSH::into($server_name)->putString($remote_key_file, $project->private_key);
-            SSH::into($server_name)->putString($remote_wrapper_file,  $this->git_wrapper_script($remote_key_file));
+            SSH::into($server_name)->putString($remote_wrapper_file, $this->gitWrapperScript($remote_key_file));
 
             $commands = [
                 sprintf('cd %s', $root_dir),
@@ -234,19 +234,20 @@ EOF'
                 sprintf('git checkout %s', $project->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
             ];
-        } else if ($step->stage == 'Install') { // Install Composer dependencies
+        } elseif ($step->stage == 'Install') { // Install Composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
                 'composer install'
             ];
-        } else if ($step->stage == 'Activate') { // Activate latest release
+        } elseif ($step->stage == 'Activate') { // Activate latest release
             $commands = [
                 sprintf('cd %s', $root_dir),
                 sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
                 sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
             ];
-        } else if ($step->stage == 'Purge') { // Purge old releases
-
+        } elseif ($step->stage == 'Purge') { // Purge old releases
+            $commands = [
+            ];
         } else { // Custom step!
             $commands = $step->command->script;
 
@@ -282,7 +283,7 @@ EOF'
         echo 'Deployment #' . $this->deployment->id . ': '  . $message;
     }
 
-    private function git_wrapper_script($key_file_path)
+    private function gitWrapperScript($key_file_path)
     {
         return <<<OUT
 #!/bin/sh

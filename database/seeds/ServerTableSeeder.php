@@ -4,8 +4,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Server;
 
-class ServerTableSeeder extends Seeder {
-
+class ServerTableSeeder extends Seeder
+{
     public function run()
     {
         DB::table('servers')->delete();

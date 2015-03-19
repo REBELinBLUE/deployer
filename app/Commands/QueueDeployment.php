@@ -121,7 +121,8 @@ class QueueDeployment extends Command implements SelfHandling
         Queue::pushOn('deploy', new DeployProject($this->deployment));
     }
 
-    private function queueCommand() {
+    private function queueCommand()
+    {
 
     }
 }

@@ -20,5 +20,4 @@ class DeploymentController extends Controller
             'steps'      => $deployment->steps
         ]);
     }
-
 }

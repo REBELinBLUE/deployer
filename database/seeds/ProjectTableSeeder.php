@@ -7,8 +7,8 @@ use App\Project;
 
 use Symfony\Component\Process\Process;
 
-class ProjectTableSeeder extends Seeder {
-
+class ProjectTableSeeder extends Seeder
+{
     public function run()
     {
         DB::table('projects')->delete();
