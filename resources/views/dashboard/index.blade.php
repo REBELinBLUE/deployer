@@ -26,7 +26,7 @@
                         <tbody>
                             @foreach ($projects as $project)
                             <tr id="project_{{ $project->id }}">
-                                <td><a href="{{ url('project', ['id' => $project->id]) }}" title="View Details">{{ $project->name }}</a></td>
+                                <td><a href="{{ url('projects', ['id' => $project->id]) }}" title="View Details">{{ $project->name }}</a></td>
                                 <td>{{ $project->repository }}</td>
                                 <td>{{ $project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
                                 <td>
@@ -37,7 +37,7 @@
                                         @if(isset($project->url))
                                         <a href="{{ $project->url }}" class="btn btn-default" title="View the site" target="_blank"><i class="fa fa-globe"></i></a>
                                         @endif
-                                        <a href="{{ url('project', ['id' => $project->id]) }}" class="btn btn-default" title="View the deployment details"><i class="fa fa-info-circle"></i></a>
+                                        <a href="{{ url('projects', ['id' => $project->id]) }}" class="btn btn-default" title="View the deployment details"><i class="fa fa-info-circle"></i></a>
                                     </div>
                                 </td>
                             </tr>

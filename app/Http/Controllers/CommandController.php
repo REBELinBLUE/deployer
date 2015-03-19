@@ -32,7 +32,7 @@ class CommandController extends Controller
 
         return view('commands.listing', [
             'breadcrumb' => [
-                ['url' => url('project', $project->id), 'label' => $project->name]
+                ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
             'title'   => deploy_step_label(ucfirst($action)),
             'project' => $project,

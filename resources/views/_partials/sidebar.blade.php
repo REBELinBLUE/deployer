@@ -17,7 +17,7 @@
                 </a>
             </li>
 
-            <li class="treeview {{ (Request::is('project/*') OR Request::is('deployment/*')) ? 'active' : null }}">
+            <li class="treeview {{ (Request::is('projects/*') OR Request::is('deployment/*')) ? 'active' : null }}">
                 <a href="#">
                     <i class="fa fa-book"></i>
                     <span>Projects</span>
@@ -25,7 +25,7 @@
                 </a>
                 <ul class="treeview-menu">
                     @foreach(App\Project::all() as $project)
-                        <li><a href="{{ url('project', $project->id) }}"><i class="fa fa-{{ project_icon_status($project, false) }} text-{{ project_css_status($project) }}"></i> {{ $project->name }}</a></li>
+                        <li><a href="{{ url('projects', $project->id) }}"><i class="fa fa-{{ project_icon_status($project, false) }} text-{{ project_css_status($project) }}"></i> {{ $project->name }}</a></li>
                     @endforeach
                 </ul>
             </li>
