@@ -44,4 +44,13 @@ class Deployment extends Model
     {
         return $this->hasMany('App\DeployStep');
     }
+
+    public function runtime()
+    {
+        if (!$this->finished_at) {
+            return false;
+        }
+
+        return $this->started_at->diffInSeconds($this->finished_at);
+    }
 }

@@ -28,7 +28,7 @@
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="#">Today <span class="pull-right">x</span></a></li>
                         <li><a href="#">Last Week <span class="pull-right">x</span></a></li>
-                        <li><a href="#">Latest Duration <span class="pull-right">{{ count($deployments) == 0 ? 'N/A' : human_readable_duration(10) }} </span></a></li>
+                        <li><a href="#">Latest Duration <span class="pull-right">{{ (count($deployments) == 0 OR !$deployments[0]->finished_at) ? 'N/A' : human_readable_duration($deployments[0]->runtime()) }} </span></a></li>
                     </ul>
                 </div>
             </div>
