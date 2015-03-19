@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Project;
 use App\Deployment;
 use App\ServerLog;
+use App\Command;
 use App\Commands\QueueDeployment;
 
 use Illuminate\Http\Request;
@@ -61,9 +62,24 @@ class ProjectController extends Controller
 
     public function commands($project_id, $command)
     {
+        $project = Project::findOrFail($project_id);
+
+        // FIXME: Refactor this
+        $before = Command::where('project_id', '=', $project->id)
+                         ->where('step', '=', 'Before ' . ucfirst($command))
+                         ->orderBy('order')
+                         ->get();
+
+        $after = Command::where('project_id', '=', $project->id)
+                        ->where('step', '=', 'After ' . ucfirst($command))
+                        ->orderBy('order')
+                        ->get();
+
         return view('project.commands', [
             'title'   => deploy_step_label(ucfirst($command)),
-            'command' => $command
+            'command' => $command,
+            'before'  => $before,
+            'after'   => $after
         ]);
     }
 

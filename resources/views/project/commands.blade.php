@@ -24,6 +24,12 @@
                         <button type="button" class="btn btn-default" title="Add a new command" data-toggle="modal" data-target="#command"><i class="fa fa-plus"></i> Add Command</button>
                     </div>
                 </div>
+
+                @if (!count($after))
+                <div class="box-body">
+                    <p>No commands have been configured</p>
+                </div>
+                @else
                 <div class="box-body table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -34,19 +40,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Migrations</td>
-                                <td>mysql</td>
+                            @foreach ($after as $command)
+                            <tr id="command_{{ $command->id }}">
+                                <td>{{ $command->name }}</td>
+                                <td>{{ $command->user }}</td>
                                 <td>
                                     <div class="btn-group pull-right">
-                                        <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#command"><i class="fa fa-edit"></i></button>
-                                        <button type="button" class="btn btn-default" title="Delete"><i class="fa fa-trash"></i></button>
+                                        <button type="button" class="btn btn-default" title="Edit" data-command-id="{{ $command->id }}" data-toggle="modal" data-target="#command"><i class="fa fa-edit"></i></button>
                                     </div>
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+                @endif
             </div>
         </div>
     </div>
