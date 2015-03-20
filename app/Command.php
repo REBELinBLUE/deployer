@@ -26,6 +26,9 @@ class Command extends Model
         return $this->belongsToMany('App\Server');
     }
 
+    /**
+     * FIXME: See if laravel has a built in way of handling this
+     */
     public function hasServer(Server $server)
     {
         foreach ($this->servers as $test)

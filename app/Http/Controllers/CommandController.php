@@ -68,6 +68,8 @@ class CommandController extends Controller
             $command->step       = ucwords(Input::get('step'));
             $command->save();
 
+            $command->servers()->attach(Input::get('servers'));
+
             return Response::json([
                 'success' => true,
                 'command' => $command
@@ -96,6 +98,8 @@ class CommandController extends Controller
             $command->user       = Input::get('user');
             $command->script     = Input::get('script');
             $command->save();
+
+            $command->servers()->attach(Input::get('servers'));
 
             return Response::json([
                 'success' => true,
