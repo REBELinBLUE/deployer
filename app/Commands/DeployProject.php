@@ -279,7 +279,7 @@ EOF'
     private function logSuccess($message)
     {
         //$this->outputToConsole("\033[0;32m" . $message .  "\033[0m");
-        //
+        
         $this->outputToConsole($message);
         return '<info>' . $message . '</info>';
     }
@@ -287,7 +287,7 @@ EOF'
     private function outputToConsole($message)
     {
         // FIXME: Only output in debug mode
-        echo 'Deployment #' . $this->deployment->id . ': '  . $message;
+        // echo 'Deployment #' . $this->deployment->id . ': '  . $message;
     }
 
     private function gitWrapperScript($key_file_path)
