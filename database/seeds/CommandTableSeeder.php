@@ -17,7 +17,7 @@ class CommandTableSeeder extends Seeder
             'project_id' => 1,
             'user'       => 'vagrant',
             'step'       => 'Before Clone'
-        ]);
+        ])->servers()->attach([1, 2]);
 
         Command::create([
             'name'       => 'Goodbye',
@@ -25,6 +25,6 @@ class CommandTableSeeder extends Seeder
             'project_id' => 1,
             'user'       => 'vagrant',
             'step'       => 'After Purge'
-        ]);
+        ])->servers()->attach([1, 2]);
     }
 }

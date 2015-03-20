@@ -3,6 +3,8 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Server;
+
 class Command extends Model
 {
     use SoftDeletes;
@@ -17,5 +19,22 @@ class Command extends Model
     public function project()
     {
         return $this->belongsTo('App\Project');
+    }
+
+    public function servers()
+    {
+        return $this->belongsToMany('App\Server');
+    }
+
+    public function hasServer(Server $server)
+    {
+        foreach ($this->servers as $test)
+        {
+            if ($test->id === $server->id) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
