@@ -16,7 +16,7 @@ class Project extends Model
      *
      * @var array
      */
-    protected $hidden = ['private_key', 'commands', 'created_at', 'deleted_at', 'hash', 'last_run', 'public_key', 'servers', 'updated_at', 'status'];
+    protected $hidden = ['private_key', 'commands', 'created_at', 'deleted_at',  'updated_at', 'last_run', 'public_key', 'servers', 'hash', 'status'];
 
     public function getDates()
     {

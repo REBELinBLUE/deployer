@@ -78,12 +78,15 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        var projects = [{!! $project->toJson() !!}];
-    </script>
-
     @include('dialogs.server')
     @include('dialogs.key')
     @include('dialogs.channel')
     @include('dialogs.project')
+@stop
+
+@section('javascript')
+    <script type="text/javascript">
+        var projects = [{!! $project->toJson() !!}];
+        var servers = {!! $servers->toJson() !!};
+    </script>
 @stop

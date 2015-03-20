@@ -42,8 +42,5 @@
             </tbody>
         </table>
     </div>
-    <script type="text/javascript">
-        var servers = {!! $servers->toJson() !!};
-    </script>
     @endif
 </div>

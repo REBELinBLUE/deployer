@@ -14,7 +14,7 @@ class Command extends Model
      *
      * @var array
      */
-    protected $hidden = ['project'];
+    protected $hidden = ['project', 'created_at', 'deleted_at', 'updated_at'];
 
     public function project()
     {

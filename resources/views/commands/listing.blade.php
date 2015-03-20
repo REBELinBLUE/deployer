@@ -6,12 +6,12 @@
         @include('commands._partials.list', [ 'step' => 'After', 'commands' => $after ])
     </div>
 
+    @include('dialogs.command')
+@stop
+
+@section('javascript')
     <script type="text/javascript">
         var before_commands = {!! $before->toJson() !!};
-        var before_servers = {!! $before_servers !!};
         var after_commands = {!! $after->toJson() !!};
-        var after_servers = {!! $after_servers !!};
     </script>
-
-    @include('dialogs.command')
 @stop

@@ -31,22 +31,13 @@ class CommandController extends Controller
                         ->get();
 
         // fixme: there has to be a better way to do this
-        $before_servers = [];
+        // this triggers the servers to be loaded so that they exist in the model
         foreach ($before as $command) {
-            $before_servers[$command->id] = [];
-
-            foreach ($command->servers as $server) {
-                $before_servers[$command->id][] = $server->id;
-            }
+            $command->servers;
         }
 
-        $after_servers = [];
         foreach ($after as $command) {
-            $after_servers[$command->id] = [];
-
-            foreach ($command->servers as $server) {
-                $after_servers[$command->id][] = $server->id;
-            }
+            $command->servers;
         }
 
         return view('commands.listing', [
@@ -57,9 +48,7 @@ class CommandController extends Controller
             'project'        => $project,
             'action'         => $action,
             'before'         => $before,
-            'before_servers' => json_encode($before_servers),
-            'after'          => $after,
-            'after_servers'  => json_encode($after_servers)
+            'after'          => $after
         ]);
     }
 

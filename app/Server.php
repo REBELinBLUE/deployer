@@ -12,7 +12,7 @@ class Server extends Model
      *
      * @var array
      */
-    protected $hidden = ['project'];
+    protected $hidden = ['project_id', 'created_at', 'updated_at', 'deleted_at', 'pivot'];
 
     public function project()
     {

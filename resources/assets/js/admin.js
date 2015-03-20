@@ -30,7 +30,6 @@ $(function () {
             project = project[0];
 
             $('.btn-danger', modal).show();
-
         }
 
         $('#project_id').val(project.id);
@@ -113,10 +112,8 @@ $(function () {
             title = 'Edit command';
 
             var commands = before_commands;
-            var servers = before_servers;
             if (step == 'After') {
                 commands = after_commands;
-                servers = after_servers;
             }
 
             var command = $.grep(commands, function(element) {
@@ -124,12 +121,13 @@ $(function () {
             });
 
             command = command[0];
+            servers = command.servers;
 
             $('.btn-danger', modal).show();
 
             $('.command-server').prop('checked', false);
-            $(servers[command.id]).each(function (index, server_id) {
-                $('#command_server_' + server_id).prop('checked', true);
+            $(servers).each(function (index, server) {
+                $('#command_server_' + server.id).prop('checked', true);
             });
         }
 
@@ -140,7 +138,6 @@ $(function () {
         $('#command_user').val(command.user);
 
         modal.find('.modal-title span').text(title);
-
     });
 
     $('form .modal-footer button').on('click', function (event) {
@@ -307,7 +304,6 @@ function checkServer(server_id) {
             type: 'GET',
             url: '/servers/' + server_id,
         }).done(function(data) {
-
             if (data.status != 'Testing') {
                 clearInterval(callbacks['server_' + server_id]);
 

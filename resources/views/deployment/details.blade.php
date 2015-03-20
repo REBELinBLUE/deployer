@@ -44,7 +44,13 @@
         </div>
         @endforeach
     </div>
-
     @include('dialogs.log')
+@stop
 
+@section('javascript')
+    <script type="text/javascript">
+        $(function () {
+            checkDeployment({{ $deployment->id }});
+        });
+    </script>
 @stop

@@ -53,13 +53,12 @@
                 <section class="content">
                     @yield('content')
                 </section>
-
             </div>
-
         </div>
 
-        <!-- jQuery 2.1.3 -->
         <script src="{{ asset('/js/style.js') }}"></script>
         <script src="{{ asset('/js/admin.js') }}"></script>
+
+        @yield('javascript')
     </body>
 </html>
