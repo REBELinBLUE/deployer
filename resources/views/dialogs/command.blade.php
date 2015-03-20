@@ -28,7 +28,7 @@
                         <label for="command_script">Bash Script</label>
                         <textarea rows="10" id="command_script" class="form-control" name="script" placeholder="echo 'Hello world'"></textarea>
                         <h5>You can use the following tokens in your script</h5>
-                        <ul>
+                        <ul class="list-unstyled">
                             <li><code>@{{ release }}</code> - The release ID, e.g. <span class="label label-default">20150312154523</span></li>
                             <li><code>@{{ release_path }}</code> -The full release path, e.g. <span class="label label-default">/var/www/releases/20150312154523/</span></li>
                         </ul>
@@ -36,12 +36,12 @@
                     @if (count($project->servers))
                     <div class="form-group">
                         <label for="command_servers">Servers</label>
-                        <ul>
+                        <ul class="list-unstyled">
                             @foreach ($project->servers as $server)
                             <li>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="servers[]" id="command_server_{{ $server->id }}" value="{{ $server->id }}" /> {{ $server->name }} ({{ $server->ip_address }})
+                                        <input type="checkbox" class="command-server" name="servers[]" id="command_server_{{ $server->id }}" value="{{ $server->id }}" /> {{ $server->name }} ({{ $server->ip_address }})
                                     </label>
                                 </div>
                             </li>

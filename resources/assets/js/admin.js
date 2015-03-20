@@ -105,12 +105,18 @@ $(function () {
             user: ''
         };
 
+        $('.command-server').prop('checked', true);
+
+        var servers = [];
+
         if (command_id) {
             title = 'Edit command';
 
             var commands = before_commands;
+            var servers = before_servers;
             if (step == 'After') {
                 commands = after_commands;
+                servers = after_servers;
             }
 
             var command = $.grep(commands, function(element) {
@@ -120,6 +126,11 @@ $(function () {
             command = command[0];
 
             $('.btn-danger', modal).show();
+
+            $('.command-server').prop('checked', false);
+            $(servers[command.id]).each(function (index, server_id) {
+                $('#command_server_' + server_id).prop('checked', true);
+            });
         }
 
         $('#command_id').val(command.id);

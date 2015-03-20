@@ -30,15 +30,36 @@ class CommandController extends Controller
                         ->orderBy('order')
                         ->get();
 
+        // fixme: there has to be a better way to do this
+        $before_servers = [];
+        foreach ($before as $command) {
+            $before_servers[$command->id] = [];
+
+            foreach ($command->servers as $server) {
+                $before_servers[$command->id][] = $server->id;
+            }
+        }
+
+        $after_servers = [];
+        foreach ($after as $command) {
+            $after_servers[$command->id] = [];
+
+            foreach ($command->servers as $server) {
+                $after_servers[$command->id][] = $server->id;
+            }
+        }
+
         return view('commands.listing', [
-            'breadcrumb' => [
+            'breadcrumb'     => [
                 ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
-            'title'   => deploy_step_label(ucfirst($action)),
-            'project' => $project,
-            'action'  => $action,
-            'before'  => $before,
-            'after'   => $after
+            'title'          => deploy_step_label(ucfirst($action)),
+            'project'        => $project,
+            'action'         => $action,
+            'before'         => $before,
+            'before_servers' => json_encode($before_servers),
+            'after'          => $after,
+            'after_servers'  => json_encode($after_servers)
         ]);
     }
 
@@ -99,6 +120,7 @@ class CommandController extends Controller
             $command->script     = Input::get('script');
             $command->save();
 
+            $command->servers()->detach();
             $command->servers()->attach(Input::get('servers'));
 
             return Response::json([
