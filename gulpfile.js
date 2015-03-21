@@ -43,6 +43,7 @@ elixir(function(mix) {
         ], 'public/js/style.js', bower_path)
         .scripts([
             'admin.js',
+            'models.js',
             'app.min.js',
             'chart.js',
             'bootbox.js',

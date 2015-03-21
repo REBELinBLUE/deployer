@@ -56,7 +56,7 @@ class ServerController extends Controller
         if ($validator->fails()) {
             return Response::json([
                 'success' => false,
-                'errors'  => $validator->getMessageBag()->toArray()
+                'error'  => $validator->getMessageBag()->toArray()
             ], 400);
 
         } else {

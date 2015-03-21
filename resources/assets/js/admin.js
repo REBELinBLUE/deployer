@@ -140,6 +140,49 @@ $(function () {
         modal.find('.modal-title span').text(title);
     });
 
+    $('#server button.save').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var icon = target.find('i');
+        var dialog = target.parents('.modal');
+
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
+        dialog.find('input').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+
+        var server = new Server({
+            name:       $('#server_name').val(),
+            ip_address: $('#server_address').val(),
+            user:       $('#server_user').val(),
+            path:       $('#server_path').val(),
+            project_id: $('input[name="project_id"]').val()
+        });
+
+        server.save({
+            "_token" : $("meta[name='token']").attr('content'),
+            success: function(response) {
+                console.log( 'success!' );
+            },
+            error: function(response) {
+                $('.callout-danger', dialog).show();
+
+                // var errors = response.responseJSON.errors;
+
+                // $('form input', dialog).each(function (index, element) {
+                //     element = $(element);
+
+                //     var name = element.attr('name');
+
+                //     if (typeof errors[name] != 'undefined') {
+                //         element.parent('div').addClass('has-error');
+                //     }
+                // });
+            }
+        });
+    });
+
+    /*
+
     $('form .modal-footer button').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
@@ -191,6 +234,7 @@ $(function () {
             dialog.find('input').removeAttr('disabled');
         });
     });
+*/
 
     // $('.btn-delete').on('click', function (event) {
     //     bootbox.confirm('Are you sure?', function(result) {
