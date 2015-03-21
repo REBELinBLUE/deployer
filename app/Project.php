@@ -9,14 +9,14 @@ use Symfony\Component\Process\Process;
 
 class Project extends Model
 {
-    use SoftDeletes; // FIXME: Add protected private_key, public_key, last_run to protected
+    use SoftDeletes;
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['private_key', 'commands', 'created_at', 'deleted_at',  'updated_at', 'last_run', 'public_key', 'servers', 'hash', 'status'];
+    protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at', 'updated_at', 'last_run', 'servers', 'commands', 'hash', 'status'];
 
     public function getDates()
     {
@@ -62,8 +62,10 @@ class Project extends Model
         return $info;
     }
 
-    public function repositoryURL() {
+    public function repositoryURL()
+    {
         $info = $this->accessDetails();
+
         if (isset($info['domain']) && isset($info['reference'])) {
             return 'http://' . $info['domain'] . '/' . $info['reference'];
         }
@@ -71,8 +73,10 @@ class Project extends Model
         return false;
     }
 
-    public function branchURL() {
+    public function branchURL()
+    {
         $info = $this->accessDetails();
+
         if (isset($info['domain']) && isset($info['reference'])) {
             return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
         }
