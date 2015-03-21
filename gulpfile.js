@@ -13,6 +13,8 @@ var elixir = require('laravel-elixir');
 
 var bower_path = "./vendor/bower_components";
 var paths = {
+    'backbone'      : bower_path + "/backbone",
+    'underscore'    : bower_path + "/underscore",
     'jquery'        : bower_path + "/jquery",
     'bootstrap'     : bower_path + "/bootstrap-sass-official/assets",
     'fontawesome'   : bower_path + "/fontawesome",
@@ -35,7 +37,9 @@ elixir(function(mix) {
 
         .scripts([
             paths.jquery + '/dist/jquery.js',
+            paths.underscore + '/underscore.js',
             paths.bootstrap + '/javascripts/bootstrap.js',
+            paths.backbone + '/backbone.js',
         ], 'public/js/style.js', bower_path)
         .scripts([
             'admin.js',
