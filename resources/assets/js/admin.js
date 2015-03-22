@@ -43,46 +43,6 @@ $(function () {
         modal.find('.modal-title span').text(title);
     });
 
-    $('#server').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var server_id = button.data('server-id');
-
-        var modal = $(this);
-
-        var title = 'Add server';
-        $('.btn-danger', modal).hide();
-        $('.callout-danger', modal).hide();
-        $('.has-error', modal).removeClass('has-error');
-
-        var server = {
-            id: '',
-            name: '',
-            ip_address: '',
-            user: '',
-            path: ''
-        };
-
-        if (server_id) {
-            title = 'Edit server';
-
-            var server = $.grep(servers, function(element) {
-                return element.id == server_id;
-            });
-
-            server = server[0];
-
-            $('.btn-danger', modal).show();
-        }
-
-        $('#server_id').val(server.id);
-        $('#server_name').val(server.name);
-        $('#server_address').val(server.ip_address);
-        $('#server_user').val(server.user);
-        $('#server_path').val(server.path);
-
-        modal.find('.modal-title span').text(title);
-    });
-
     $('#command').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var command_id = button.data('command-id');
@@ -138,47 +98,6 @@ $(function () {
         $('#command_user').val(command.user);
 
         modal.find('.modal-title span').text(title);
-    });
-
-    $('#server button.save').on('click', function (event) {
-        var target = $(event.currentTarget);
-        var icon = target.find('i');
-        var dialog = target.parents('.modal');
-
-        icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
-        dialog.find('input').attr('disabled', 'disabled');
-        $('button.close', dialog).hide();
-
-
-        var server = new Server({
-            name:       $('#server_name').val(),
-            ip_address: $('#server_address').val(),
-            user:       $('#server_user').val(),
-            path:       $('#server_path').val(),
-            project_id: $('input[name="project_id"]').val()
-        });
-
-        server.save({
-            "_token" : $("meta[name='token']").attr('content'),
-            success: function(response) {
-                console.log( 'success!' );
-            },
-            error: function(response) {
-                $('.callout-danger', dialog).show();
-
-                // var errors = response.responseJSON.errors;
-
-                // $('form input', dialog).each(function (index, element) {
-                //     element = $(element);
-
-                //     var name = element.attr('name');
-
-                //     if (typeof errors[name] != 'undefined') {
-                //         element.parent('div').addClass('has-error');
-                //     }
-                // });
-            }
-        });
     });
 
     /*

@@ -87,5 +87,8 @@
 @section('javascript')
     <script type="text/javascript">
         var projects = [{!! $project->toJson() !!}];
+        
+        new app.ServersTab();
+        app.Servers.add({!! $servers->toJson() !!});
     </script>
 @stop

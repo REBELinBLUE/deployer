@@ -33,12 +33,17 @@
     <td><%- user %></td>
     <td><%- ip_address %></td>
     <td>
-         <span class="label"><i class="fa"></i> <span><%- status %></span></span>
+         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <span><%- status %></span></span>
     </td>
     <td>
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default btn-test" title="Test the server connection"><i class="fa fa-refresh"></i></button>
-            <button type="button" class="btn btn-default btn-edit" title="Edit the server" data-toggle="modal" data-backdrop="static" data-target="#server"><i class="fa fa-edit"></i></button>
+            <% if (status === 'Testing') { %>
+                <button type="button" class="btn btn-default btn-test" title="Test the server connection" disabled><i class="fa fa-refresh fa-spin"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="Edit the server" data-toggle="modal" data-backdrop="static" data-target="#server" disabled><i class="fa fa-edit"></i></button>
+            <% } else { %>
+                <button type="button" class="btn btn-default btn-test" title="Test the server connection"><i class="fa fa-refresh"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="Edit the server" data-toggle="modal" data-backdrop="static" data-target="#server"><i class="fa fa-edit"></i></button>
+            <% } %>
         </div>
     </td>
 </script>

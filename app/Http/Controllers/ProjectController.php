@@ -77,7 +77,7 @@ class ProjectController extends Controller
             'today'              => $today,
             'last_week'          => $week,
             'project'            => $project,
-            // 'servers'            => $project->servers, // Order by name
+            'servers'            => $project->servers, // Order by name
             'commands'           => $commands,
             'is_project_details' => true
         ]);

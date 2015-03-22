@@ -68,13 +68,9 @@ class ServerController extends Controller
             $server->project_id = Input::get('project_id');
             $server->save();
 
-            return Response::json([
-                'success' => true,
-                'server'  => $server
-            ], 200);
+            return $server
         }
     }
-    
 
     /**
      * Update the specified resource in storage.
@@ -100,6 +96,11 @@ class ServerController extends Controller
             $server = Server::findOrFail($server_id);
             $server->name       = Input::get('name');
             $server->user       = Input::get('user');
+
+            if ($server->ip_address != Input::get('ip_address')) {
+                $server->status = 'Untested';
+            }
+
             $server->ip_address = Input::get('ip_address');
             $server->path       = Input::get('path');
             $server->project_id = Input::get('project_id');
