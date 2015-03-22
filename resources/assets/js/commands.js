@@ -1,9 +1,137 @@
 var app = app || {};
 
 (function ($) {
+    // FIXME: This seems very wrong
+    $('#command').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        var title = 'Add command';
+
+        $('.btn-danger', modal).hide();
+        $('.callout-danger', modal).hide();
+        $('.has-error', modal).removeClass('has-error');
+
+        if (button.hasClass('btn-edit')) {
+            title = 'Edit Command';
+            $('.btn-danger', modal).show();
+        } else {
+            $('#command_id').val('');
+            $('#command_step').val(button.data('step'));
+            $('#command_name').val('');
+            $('#command_script').val('');
+            $('#command_user').val('');
+
+            $('.command-server').prop('checked', true);
+        }
+
+        modal.find('.modal-title span').text(title);
+    });
+
+    // FIXME: This seems very wrong
+    $('#command button.btn-delete').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var icon = target.find('i');
+        var dialog = target.parents('.modal');
+
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-trash');
+        dialog.find('input').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+        var command = app.Commands.get($('#command_id').val());
+
+        command.destroy({
+            wait: true,
+            success: function(model, response, options) {
+                dialog.modal('hide');
+                $('.callout-danger', dialog).hide();
+
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+
+                app.Commands.remove(command);
+            },
+            error: function() {
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+            }
+        })
+    });
+
+    // FIXME: This seems very wrong
+    $('#command button.btn-save').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var icon = target.find('i');
+        var dialog = target.parents('.modal');
+
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
+        dialog.find('input').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+        var command_id = $('#command_id').val();
+
+        if (command_id) {
+            var command = app.Commands.get(command_id);
+        } else {
+            var command = new app.Command();
+        }
+
+        command.save({
+            name:       $('#command_name').val(),
+            script:     $('#command_script').val(),
+            user:       $('#command_user').val(),
+            step:       $('#command_step').val(),
+            project_id: $('input[name="project_id"]').val()
+        }, {
+            wait: true,
+            success: function(model, response, options) {
+                dialog.modal('hide');
+                $('.callout-danger', dialog).hide();
+
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+
+                if (!command_id) {
+                    app.Commands.add(response);
+                }
+            },
+            error: function(model, response, options) {
+                $('.callout-danger', dialog).show();
+
+                var errors = response.responseJSON.errors;
+
+                $('form input', dialog).each(function (index, element) {
+                    element = $(element);
+
+                    var name = element.attr('name');
+
+                    if (typeof errors[name] != 'undefined') {
+                        element.parent('div').addClass('has-error');
+                    }
+                });
+
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+            }
+        });
+    });
+
+
+
     app.Command = Backbone.Model.extend({
+        urlRoot: '/commands',
         isBefore: function() {
             return (this.get('step').substring(0, 6) === 'Before');
+        },
+        initialize: function() {
+            var that = this;
+
+            $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+                jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
+            });
         }
     });
 
@@ -42,7 +170,7 @@ var app = app || {};
             var after = app.Commands.find(function(model) { 
                 return !model.isBefore();
             });
-            
+
             if (typeof after != 'undefined') {
                 $('#commands-after .no-commands').hide();
                 $('#commands-after .command-list').show();
@@ -74,36 +202,31 @@ var app = app || {};
     app.CommandView = Backbone.View.extend({
         tagName:  'tr',
         events: {
-            // 'click .btn-test': 'testConnection',
-            // 'click .btn-edit': 'editServer'
+            'click .btn-edit': 'editCommand'
         },
         initialize: function () {
-            // this.listenTo(this.model, 'change', this.render);
-            // this.listenTo(this.model, 'destroy', this.remove);
+            this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.model, 'destroy', this.remove);
 
             this.template = _.template($('#command-template').html());
         },
         render: function () {
-            // var data = this.model.toJSON();
-
-            // data.status_css = 'primary';
-            // data.icon_css = 'question';
-
-            // if (this.model.get('status') === 'Successful') {
-            //     data.status_css = 'success';
-            //     data.icon_css = 'check';
-            // } else if (this.model.get('status') === 'Testing') {
-            //     data.status_css = 'warning';
-            //     data.icon_css = 'spinner';
-            // } else if (this.model.get('status') === 'Failed') {
-            //     data.status_css = 'danger';
-            //     data.icon_css = 'warning';
-            // }
-
             this.$el.html(this.template(this.model.toJSON()));
 
             return this;
-        }
+        },
+        editCommand: function() {
+            // FIXME: Sure this is wrong?
+            $('#command_id').val(this.model.id);
+            $('#command_step').val(this.model.get('step'));
+            $('#command_name').val(this.model.get('name'));
+            $('#command_script').val(this.model.get('script'));
+            $('#command_user').val(this.model.get('user'));
 
+            $('.command-server').prop('checked', false);
+            $(this.model.get('servers')).each(function (index, server) {
+                $('#command_server_' + server.id).prop('checked', true);
+            });
+        }
     });
 })(jQuery);

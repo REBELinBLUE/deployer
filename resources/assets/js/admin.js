@@ -43,62 +43,6 @@ $(function () {
         modal.find('.modal-title span').text(title);
     });
 
-    $('#command').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var command_id = button.data('command-id');
-        var step = button.data('step');
-
-        var modal = $(this);
-
-        var action = modal.data('action');
-
-        var title = 'Add command';
-        $('.btn-danger', modal).hide();
-        $('.callout-danger', modal).hide();
-        $('.has-error', modal).removeClass('has-error');
-
-        var command = {
-            id: '',
-            name: '',
-            script: '',
-            user: ''
-        };
-
-        $('.command-server').prop('checked', true);
-
-        var servers = [];
-
-        if (command_id) {
-            title = 'Edit command';
-
-            var commands = before_commands;
-            if (step == 'After') {
-                commands = after_commands;
-            }
-
-            var command = $.grep(commands, function(element) {
-                return element.id == command_id;
-            });
-
-            command = command[0];
-            servers = command.servers;
-
-            $('.btn-danger', modal).show();
-
-            $('.command-server').prop('checked', false);
-            $(servers).each(function (index, server) {
-                $('#command_server_' + server.id).prop('checked', true);
-            });
-        }
-
-        $('#command_id').val(command.id);
-        $('#command_step').val(step + ' ' + action);
-        $('#command_name').val(command.name);
-        $('#command_script').val(command.script);
-        $('#command_user').val(command.user);
-
-        modal.find('.modal-title span').text(title);
-    });
 
     /*
 

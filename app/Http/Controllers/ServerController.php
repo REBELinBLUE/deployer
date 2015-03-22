@@ -55,8 +55,7 @@ class ServerController extends Controller
 
         if ($validator->fails()) {
             return Response::json([
-                'success' => false,
-                'errors'  => $validator->getMessageBag()->toArray()
+                'errors' => $validator->getMessageBag()->toArray()
             ], 400);
         } else {
             $server = new Server;
@@ -94,13 +93,13 @@ class ServerController extends Controller
             return redirect()->back()->withErrors($validator->errors());
         } else {
             $server = Server::findOrFail($server_id);
-            $server->name       = Input::get('name');
-            $server->user       = Input::get('user');
 
             if ($server->ip_address != Input::get('ip_address')) {
                 $server->status = 'Untested';
             }
 
+            $server->name       = Input::get('name');
+            $server->user       = Input::get('user');
             $server->ip_address = Input::get('ip_address');
             $server->path       = Input::get('path');
             $server->project_id = Input::get('project_id');

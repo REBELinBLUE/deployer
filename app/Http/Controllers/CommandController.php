@@ -30,14 +30,16 @@ class CommandController extends Controller
             $command->servers;
         }
 
+        $action = ucfirst($action);
+
         return view('commands.listing', [
-            'breadcrumb'     => [
+            'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
-            'title'          => deploy_step_label(ucfirst($action)),
-            'project'        => $project,
-            'action'         => $action,
-            'commands'       => $commands
+            'title'      => deploy_step_label($action),
+            'project'    => $project,
+            'action'     => $action,
+            'commands'   => $commands
         ]);
     }
 
@@ -55,8 +57,7 @@ class CommandController extends Controller
 
         if ($validator->fails()) {
             return Response::json([
-                'success' => false,
-                'errors'  => $validator->getMessageBag()->toArray()
+                'errors' => $validator->getMessageBag()->toArray()
             ], 400);
         } else {
             $command = new Command;
@@ -67,12 +68,9 @@ class CommandController extends Controller
             $command->step       = ucwords(Input::get('step'));
             $command->save();
 
-            $command->servers()->attach(Input::get('servers'));
+            //$command->servers()->attach(Input::get('servers'));
 
-            return Response::json([
-                'success' => true,
-                'command' => $command
-            ], 200);
+            return $command;
         }
     }
 
@@ -88,24 +86,30 @@ class CommandController extends Controller
 
         if ($validator->fails()) {
             return Response::json([
-                'success' => false,
-                'errors'  => $validator->getMessageBag()->toArray()
+                'errors' => $validator->getMessageBag()->toArray()
             ], 400);
         } else {
             $command = Command::findOrFail($id);
-            $command->name       = Input::get('name');
-            $command->user       = Input::get('user');
-            $command->script     = Input::get('script');
+            $command->name   = Input::get('name');
+            $command->user   = Input::get('user');
+            $command->script = Input::get('script');
             $command->save();
 
             $command->servers()->detach();
-            $command->servers()->attach(Input::get('servers'));
+            //$command->servers()->attach(Input::get('servers'));
 
-            return Response::json([
-                'success' => true,
-                'command' => $command
-            ], 200);
+            return $command;
         }
+    }
+
+    public function destroy($id)
+    {
+        $command = Command::findOrFail($id);
+        $command->delete();
+
+        return Response::json([
+            'success' => true
+        ], 200);
     }
 
     public function log($log_id)

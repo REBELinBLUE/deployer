@@ -26,7 +26,7 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#server button.remove').on('click', function (event) {
+    $('#server button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -58,7 +58,7 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#server button.save').on('click', function (event) {
+    $('#server button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');

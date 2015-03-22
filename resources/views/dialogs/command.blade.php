@@ -6,7 +6,6 @@
                 <h4 class="modal-title"><i class="fa fa-code"></i> <span>Add a Command</span></h4>
             </div>
             <form role="form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" id="command_id" name="id" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <input type="hidden" id="command_step" name="step" value="After" />
@@ -52,7 +51,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> Delete</button>
-                    <button type="button" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save Command</button>
+                    <button type="button" class="btn btn-primary pull-right btn-save"><i class="fa fa-save"></i> Save Command</button>
                 </div>
             </form>
         </div>

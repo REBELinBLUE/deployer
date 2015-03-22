@@ -3,7 +3,7 @@
         <div class="box-header with-border">
             <h3 class="box-title"><i class="fa fa-code"></i> {{ $step }} Commands</h3>
             <div class="box-tools pull-right">
-                <button type="button" class="btn btn-default" title="Add a new {{ strtolower($step) }} command" data-step="{{ $step }}" data-toggle="modal" data-target="#command"><i class="fa fa-plus"></i> Add Command</button>
+                <button type="button" class="btn btn-default" title="Add a new {{ strtolower($step) }} command" data-step="{{ $step }} {{ $action }}" data-toggle="modal" data-target="#command"><i class="fa fa-plus"></i> Add Command</button>
             </div>
         </div>
 
