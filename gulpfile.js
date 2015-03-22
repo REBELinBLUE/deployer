@@ -37,15 +37,17 @@ elixir(function(mix) {
         'styles.css'
     ], 'public/css/admin.css', 'resources/assets/css')
     .scripts([
-        paths.jquery + '/dist/jquery.js',
-        paths.underscore + '/underscore.js',
-        paths.bootstrap + '/javascripts/bootstrap.js',
-        paths.backbone + '/backbone.js',
-        paths.backbone_poller + '/backbone.poller.js',
+        paths.jquery          + '/dist/jquery.js',
+        paths.underscore      + '/underscore.js',
+        paths.bootstrap       + '/javascripts/bootstrap.js',
+        paths.backbone        + '/backbone.js',
+        paths.backbone_poller + '/backbone.poller.js'
     ], 'public/js/style.js', bower_path)
     .scripts([
         'admin.js',
         'servers.js',
+        'deployment.js',
+        'commands.js',
         'app.min.js',
         'chart.js',
         'bootbox.js',
@@ -53,7 +55,7 @@ elixir(function(mix) {
         'jvectormap-world-mill-en.js',
         'sparkline.js'
     ], 'public/js/admin.js', 'resources/assets/js')
-    .copy(paths.bootstrap + '/fonts/bootstrap/**', 'public/fonts')
-    .copy(paths.fontawesome + '/fonts/**', 'public/fonts')
-    .copy(paths.ionicons + '/fonts/**', 'public/fonts');
+    .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
+    .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
+    .copy(paths.ionicons    + '/fonts/**',           'public/fonts');
 });

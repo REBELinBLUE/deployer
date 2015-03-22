@@ -18,25 +18,15 @@ class CommandController extends Controller
     public function listing($project_id, $action)
     {
         $project = Project::findOrFail($project_id);
-
-        // FIXME: Refactor this
-        $before = Command::where('project_id', '=', $project->id)
-                         ->where('step', '=', 'Before ' . ucfirst($action))
-                         ->orderBy('order')
-                         ->get();
-
-        $after = Command::where('project_id', '=', $project->id)
-                        ->where('step', '=', 'After ' . ucfirst($action))
-                        ->orderBy('order')
-                        ->get();
+        
+        $commands = Command::where('project_id', '=', $project->id)
+                           ->where('step', 'LIKE', '%' . ucfirst($action))
+                           ->orderBy('order')
+                           ->get();
 
         // fixme: there has to be a better way to do this
         // this triggers the servers to be loaded so that they exist in the model
-        foreach ($before as $command) {
-            $command->servers;
-        }
-
-        foreach ($after as $command) {
+        foreach ($commands as $command) {
             $command->servers;
         }
 
@@ -47,8 +37,7 @@ class CommandController extends Controller
             'title'          => deploy_step_label(ucfirst($action)),
             'project'        => $project,
             'action'         => $action,
-            'before'         => $before,
-            'after'          => $after
+            'commands'       => $commands
         ]);
     }
 

@@ -1,4 +1,4 @@
-<div class="col-md-6">
+<div class="col-md-6" id="commands-{{ strtolower($step) }}">
     <div class="box box-default">
         <div class="box-header with-border">
             <h3 class="box-title"><i class="fa fa-code"></i> {{ $step }} Commands</h3>
@@ -6,12 +6,12 @@
                 <button type="button" class="btn btn-default" title="Add a new {{ strtolower($step) }} command" data-step="{{ $step }}" data-toggle="modal" data-target="#command"><i class="fa fa-plus"></i> Add Command</button>
             </div>
         </div>
-        @if (!count($commands))
-        <div class="box-body">
+
+        <div class="box-body no-commands">
             <p>No commands have been configured</p>
         </div>
-        @else
-        <div class="box-body table-responsive">
+
+        <div class="box-body table-responsive command-list">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -21,20 +21,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($commands as $command)
-                    <tr id="command_{{ $command->id }}">
-                        <td>{{ $command->name }}</td>
-                        <td>{{ $command->user }}</td>
-                        <td>
-                            <div class="btn-group pull-right">
-                                <button type="button" class="btn btn-default" title="Edit the command" data-step="{{ $step }}" data-command-id="{{ $command->id }}" data-toggle="modal" data-target="#command"><i class="fa fa-edit"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
+
                 </tbody>
             </table>
         </div>
-        @endif
     </div>
 </div>

@@ -117,6 +117,11 @@ var app = app || {};
         });
     });
 
+
+
+
+
+
     app.Server = Backbone.Model.extend({
         urlRoot: '/servers',
         poller: false,
@@ -191,6 +196,7 @@ var app = app || {};
             }
         },
         addOne: function (server) {
+
             var view = new app.ServerView({ 
                 model: server
             });
@@ -205,7 +211,6 @@ var app = app || {};
 
     app.ServerView = Backbone.View.extend({
         tagName:  'tr',
-        template: _.template($('#server-template').html()),
         events: {
             'click .btn-test': 'testConnection',
             'click .btn-edit': 'editServer'
@@ -213,6 +218,8 @@ var app = app || {};
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'destroy', this.remove);
+
+            this.template = _.template($('#server-template').html());
         },
         render: function () {
             var data = this.model.toJSON();
