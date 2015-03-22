@@ -26,6 +26,38 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
+    $('#server button.remove').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var icon = target.find('i');
+        var dialog = target.parents('.modal');
+
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-trash');
+        dialog.find('input').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+        var server = app.Servers.get($('#server_id').val());
+
+        server.destroy({
+            wait: true,
+            success: function(model, response, options) {
+                dialog.modal('hide');
+                $('.callout-danger', dialog).hide();
+
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+
+                app.Servers.remove(server);
+            },
+            error: function() {
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+            }
+        })
+    });
+
+    // FIXME: This seems very wrong
     $('#server button.save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
@@ -48,18 +80,20 @@ var app = app || {};
             ip_address: $('#server_address').val(),
             user:       $('#server_user').val(),
             path:       $('#server_path').val(),
-            project_id: $('input[name="project_id"]').val(),
-            '_token':   $('meta[name="token"]').attr('content')
+            project_id: $('input[name="project_id"]').val()
         }, {
             wait: true,
             success: function(model, response, options) {
-                console.log('success!');
                 dialog.modal('hide');
                 $('.callout-danger', dialog).hide();
 
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
+
+                if (!server_id) {
+                    app.Servers.add(response);
+                }
             },
             error: function(model, response, options) {
                 $('.callout-danger', dialog).show();
@@ -88,6 +122,12 @@ var app = app || {};
         poller: false,
         initialize: function() {
             this.on('change:status', this.changeStatus, this);
+
+            var that = this;
+
+            $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+                jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
+            });
         },
         changeStatus: function() {
             if (this.get('status') === 'Testing') {
@@ -196,6 +236,7 @@ var app = app || {};
             return this;
         },
         editServer: function() {
+            // FIXME: Sure this is wrong?
             $('#server_id').val(this.model.id);
             $('#server_name').val(this.model.get('name'));
             $('#server_address').val(this.model.get('ip_address'));

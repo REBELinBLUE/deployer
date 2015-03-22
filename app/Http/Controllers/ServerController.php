@@ -56,9 +56,8 @@ class ServerController extends Controller
         if ($validator->fails()) {
             return Response::json([
                 'success' => false,
-                'error'  => $validator->getMessageBag()->toArray()
+                'errors'  => $validator->getMessageBag()->toArray()
             ], 400);
-
         } else {
             $server = new Server;
             $server->name       = Input::get('name');
@@ -66,9 +65,10 @@ class ServerController extends Controller
             $server->ip_address = Input::get('ip_address');
             $server->path       = Input::get('path');
             $server->project_id = Input::get('project_id');
+            $server->status     = 'Untested';
             $server->save();
 
-            return $server
+            return $server;
         }
     }
 
@@ -116,8 +116,13 @@ class ServerController extends Controller
      * @param  int  $id
      * @return Response
      */
-    // public function destroy($server_id)
-    // {
-    //     //
-    // }
+    public function destroy($server_id)
+    {
+        $server = Server::findOrFail($server_id);
+        $server->delete();
+
+        return Response::json([
+            'success' => true
+        ], 200);
+    }
 }
