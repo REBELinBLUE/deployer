@@ -77,7 +77,7 @@ class ProjectController extends Controller
             'today'              => $today,
             'last_week'          => $week,
             'project'            => $project,
-            'servers'            => $project->servers, // Order by name
+            // 'servers'            => $project->servers, // Order by name
             'commands'           => $commands,
             'is_project_details' => true
         ]);
@@ -172,4 +172,13 @@ class ProjectController extends Controller
             ], 200);
         }
     }
+
+
+    public function servers($project)
+    {
+        $project = Project::findOrFail($project);
+
+        return $project->servers;
+    }
+
 }

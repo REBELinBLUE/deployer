@@ -39,6 +39,7 @@ Route::get('deployment/{id}', [ // FIXME Should this be on the deployment contro
 ]);
 
 // Servers
+Route::get('projects/{id}/servers', 'ProjectController@servers');
 Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy']]);
 Route::get('servers/{id}/test', 'ServerController@test');
 

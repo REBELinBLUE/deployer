@@ -87,6 +87,5 @@
 @section('javascript')
     <script type="text/javascript">
         var projects = [{!! $project->toJson() !!}];
-        var servers = {!! $servers->toJson() !!};
     </script>
 @stop

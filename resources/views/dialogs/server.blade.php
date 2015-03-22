@@ -6,7 +6,6 @@
                 <h4 class="modal-title"><i class="fa fa-tasks"></i> <span>Add a Server</span></h4>
             </div>
             <form role="form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" id="server_id" name="id" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <div class="modal-body">

@@ -268,40 +268,40 @@ $(function () {
         });
     });
     
-    $('.btn-test').on('click', function (event) {
-        var target = $(event.currentTarget);
-        var buttons = $('button', target.parents('tr'));
-        var server_id = target.data('server-id');
+    // $('.btn-test').on('click', function (event) {
+    //     var target = $(event.currentTarget);
+    //     var buttons = $('button', target.parents('tr'));
+    //     var server_id = target.data('server-id');
 
-        if ($('.fa-spin', target).length > 0) {
-            return;
-        }
+    //     if ($('.fa-spin', target).length > 0) {
+    //         return;
+    //     }
 
-        buttons.attr('disabled', 'disabled');
+    //     buttons.attr('disabled', 'disabled');
 
-        $('i', target).addClass('fa-spin');
+    //     $('i', target).addClass('fa-spin');
 
-        var label = $('span.label', target.parents('tr'));
-        label.removeClass('label-warning label-success label-danger label-primary').addClass('label-warning');
-        $('span', label).text('Testing');
+    //     var label = $('span.label', target.parents('tr'));
+    //     label.removeClass('label-warning label-success label-danger label-primary').addClass('label-warning');
+    //     $('span', label).text('Testing');
 
-        var icon = $('i', label);
-        icon.removeClass('fa-check fa-spinner fa-warning fa-question').addClass('fa-spinner');
+    //     var icon = $('i', label);
+    //     icon.removeClass('fa-check fa-spinner fa-warning fa-question').addClass('fa-spinner');
 
-        checkServer(server_id);
+    //     checkServer(server_id);
 
-        $.ajax({
-            type: 'GET',
-            url: '/servers/' + server_id + '/test'
-        }).fail(function (response) {
-            $('span', label).text('Failed');
-            label.removeClass('label-warning').addClass('label-danger');
-            icon.removeClass('fa-spinner').addClass('fa-warning');
-            buttons.removeAttr('disabled').removeClass('fa-spin');
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/servers/' + server_id + '/test'
+    //     }).fail(function (response) {
+    //         $('span', label).text('Failed');
+    //         label.removeClass('label-warning').addClass('label-danger');
+    //         icon.removeClass('fa-spinner').addClass('fa-warning');
+    //         buttons.removeAttr('disabled').removeClass('fa-spin');
 
-            clearInterval(callbacks['server_' + server_id]);
-        });
-    });
+    //         clearInterval(callbacks['server_' + server_id]);
+    //     });
+    // });
     
     $('#log').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);

@@ -1,143 +1,152 @@
-var Server = Backbone.Model.extend({
-    urlRoot: '/servers',
-    defaults: {
-        'status':  'Untested'
-    }
-});
+var app = app || {};
 
-/*
-        var ArrayStorage = function(){
-            this.storage = {};
-        };
-        ArrayStorage.prototype.get = function(key)
-        {
-            return this.storage[key];
-        };
-        ArrayStorage.prototype.set = function(key, val)
-        {
-            return this.storage[key] = val;
-        };
+(function ($) {
 
-      var BaseView = Backbone.View.extend({
-            templateDriver: new ArrayStorage,
-            viewPath: window.siteUrl + 'views/',
-            template: function()
-            {
-                var view, data, template, self;
-
-                switch(arguments.length)
-                {
-                    case 1:
-                        view = this.view;
-                        data = arguments[0];
-                        break;
-                    case 2:
-                        view = arguments[0];
-                        data = arguments[1];
-                        break;
-                }
-
-                template = this.getTemplate(view, false);
-                self = this;
-
-                return template(data, function(partial)
-                {
-                    return self.getTemplate(partial, true);
-                });
-            },
-            getTemplate: function(view, isPartial)
-            {
-                return this.templateDriver.get(view) || this.fetch(view, isPartial);
-            },
-            setTemplate: function(name, template)
-            {
-                return this.templateDriver.set(name, template);
-            },
-            fetch: function(view, isPartial)
-            {
-                var markup = $.ajax({
-                    async: false,
-                    url: this.viewPath + view.split('.').join('/') + '.mustache'
-                }).responseText;
-
-                return isPartial
-                    ? markup
-                    : this.setTemplate(view, Mustache.compile(markup));
-            }
-        });
-
-var Server = BaseView.extend({
-    view: 'servers.index',
-    initialize: function() {
-        this.fetching = this.collection.fetch();
-    },
-    render: function() {
-        var self = this;
-        this.fetching.done(function() {
-            self.$el.html('');
-            self.addServers();
-        });
-    },
-    paginate: function() {
-        var servers;
-
-        servers = this.collection.rest(this.perPage * this.page);
-        servers = _.first(servers, this.perPage);
-        this.page++;
-
-        return servers;
-    },
-    addServers: function() {
-        var servers = this.paginate();
-
-        for (var i = 0; i < servers.length; i++) {
-            this.addOneServer(servers[i]);
+    app.Server = Backbone.Model.extend({
+        defaults: {
         }
-    },
-    addOneServer: function(model) {
-        var view = new ServerViewPartial({
-            model: model
-        });
+    });
 
-        this.$el.append(view.render().el);
-    },
-    showPost: function(id) {
-        var self = this;
-
-        this.fetching.done(function () {
-            var model = self.collection.get(id);
-
-            if (!self.serverView) {
-                self.serverView = new self.options.serverView({
-                    el: self.el
-                });
+    var Servers = Backbone.Collection.extend({
+        url: '/projects/1/servers',
+        model: app.Server,
+        comparator: function(serverA, serverB) {
+            if (serverA.get('name') > serverB.get('name')) {
+                return -1; // before
+            } else if (serverA.get('name') > serverB.get('name')) {
+                return 1; // after
             }
 
-            self.serverView.model = model;
-            self.serverView.render();
-        });
-    }
-});
+            return 0; // equal
+        }
+    });
 
-var ServerView = BaseView.extend({
-    view: 'servers.show',
-    events: {
+    app.Servers = new Servers();
 
-    },
-    render: function() {
-        var self = this;
+    app.AppView = Backbone.View.extend({
+        el: '#app',
+        events: {
 
-        self.$el.html(this.template({
-            post: this.model.attributes
-        }));
-    }
-});
+        },
+        initialize: function() {
 
-var ServerViewPartial = BaseView.extend({
-    view: 'servers._server',
-    render: function() {
-        this.$el.html(this.template(this.model.attributes));
-        return this;
-    }
-});
-*/
+            this.$list = $('#server_list tbody');
+
+            this.listenTo(app.Servers, 'add', this.addOne);
+            this.listenTo(app.Servers, 'reset', this.addAll);
+            this.listenTo(app.Servers, 'all', this.render);
+
+            app.Servers.fetch({
+                reset: true
+            });
+
+        },
+        render: function () {
+            if (app.Servers.length) {
+                $('#no_servers').hide();
+                $('#server_list').show();
+            } else {
+                $('#no_servers').show();
+                $('#server_list').hide();
+            }
+        },
+        addOne: function (server) {
+            var view = new app.ServerView({ model: server });
+            this.$list.append(view.render().el);
+        },
+        addAll: function () {
+            this.$list.html('');
+            app.Servers.each(this.addOne, this);
+        }
+    });
+
+    app.ServerView = Backbone.View.extend({
+        tagName:  'tr',
+        template: _.template($('#server-template').html()),
+        events: {
+            'click .btn-test': 'testConnection',
+            'click .btn-edit': 'editServer'
+        },
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.model, 'destroy', this.remove);
+        },
+        render: function () {
+            this.$el.html(this.template(this.model.toJSON()));
+
+            var $refresh = $('i.fa-refresh', this.$el);
+
+            var status_css = 'primary';
+            var icon_css = 'question';
+
+            if (this.model.get('status') === 'Successful') {
+                status_css = 'success';
+                icon_css = 'check';
+            } else if (this.model.get('status') === 'Testing') {
+                status_css = 'warning';
+                icon_css = 'spinner';
+
+                $refresh.addClass('fa-spin');
+            } else if (this.model.get('status') === 'Failed') {
+                status_css = 'danger';
+                icon_css = 'warning';
+            }
+
+            this.$el.find('td>span').removeClass().addClass('label label-' + status_css);
+            this.$el.find('td>span>i').removeClass().addClass('fa fa-' + icon_css);
+
+            return this;
+        },
+        editServer: function() {
+            console.log('edit');
+            console.log(this.model);
+        },
+        callback: false,
+        checkServer: function() {
+
+
+            console.log(this.model.id);
+
+
+            // var cb = function() {
+
+            //     $.ajax({
+            //         type: 'GET',
+            //         url: '/servers/' + that.model.id,
+            //     }).done(function (data) {
+            //         if (data.status != 'Testing') {
+            //             clearInterval(that.callback);
+
+            //             that.model.set({
+            //                 status: data.status
+            //             });
+            //         }
+            //     });
+            // });
+
+            // this.callback = setInterval(cb, 2500);
+        },
+        testConnection: function() {
+            if (this.model.attributes.status === 'Testing') {
+                return;
+            }
+
+            this.model.set({
+                status: 'Testing'
+            });
+
+            var that = this;
+
+            this.checkServer();
+
+            $.ajax({
+                type: 'GET',
+                url: '/servers/' + this.model.id + '/test'
+            }).fail(function (response) {
+                that.model.set({
+                    status: 'Failed'
+                });
+            });
+        }
+    });
+})(jQuery);
