@@ -244,7 +244,7 @@ EOF'
         } elseif ($step->stage == 'Install') { // Install Composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
-                sprintf('composer install --no-interaction --prefer-dist --no-dev --no-ansi --working-dir="%s"', $latest_release_dir)
+                sprintf('composer install --no-interaction --prefer-dist --no-ansi --working-dir="%s"', $latest_release_dir)
             ];
         } elseif ($step->stage == 'Activate') { // Activate latest release
             $commands = [
