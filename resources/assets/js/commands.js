@@ -1,6 +1,13 @@
 var app = app || {};
 
 (function ($) {
+    $('.command-list table').sortable({
+        containerSelector: 'table',
+        itemPath: '> tbody',
+        itemSelector: 'tr',
+        placeholder: '<tr class="placeholder"/>'
+    });
+
     // FIXME: This seems very wrong
     $('#command').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -66,7 +73,7 @@ var app = app || {};
         var dialog = target.parents('.modal');
 
         icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
-        dialog.find('input').attr('disabled', 'disabled');
+        dialog.find(':input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
         var command_id = $('#command_id').val();
@@ -98,7 +105,7 @@ var app = app || {};
 
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
                 $('button.close', dialog).show();
-                dialog.find('input').removeAttr('disabled');
+                dialog.find(':input').removeAttr('disabled');
 
                 if (!command_id) {
                     app.Commands.add(response);
@@ -121,7 +128,7 @@ var app = app || {};
 
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
                 $('button.close', dialog).show();
-                dialog.find('input').removeAttr('disabled');
+                dialog.find(':input').removeAttr('disabled');
             }
         });
     });

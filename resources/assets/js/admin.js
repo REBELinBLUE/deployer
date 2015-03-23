@@ -1,4 +1,4 @@
-$(function () {
+(function ($) {
     $('#project').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var project_id = button.data('project-id');
@@ -166,8 +166,4 @@ $(function () {
 
         });
     });
-});
-
-function checkDeployment(deployment_id) {
-    console.log(deployment_id);
-}
+})(jQuery);
