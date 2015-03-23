@@ -77,12 +77,19 @@ var app = app || {};
             var command = new app.Command();
         }
 
+        var server_ids = [];
+
+        $('.command-server:checked').each(function() {
+            server_ids.push($(this).val());
+        });
+
         command.save({
             name:       $('#command_name').val(),
             script:     $('#command_script').val(),
             user:       $('#command_user').val(),
             step:       $('#command_step').val(),
-            project_id: $('input[name="project_id"]').val()
+            project_id: $('input[name="project_id"]').val(),
+            servers:    server_ids
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -178,7 +185,6 @@ var app = app || {};
                 $('#commands-after .no-commands').show();
                 $('#commands-after .command-list').hide();
             }
-
         },
         addOne: function (command) {
             var view = new app.CommandView({ 

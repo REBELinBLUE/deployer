@@ -68,7 +68,9 @@ class CommandController extends Controller
             $command->step       = ucwords(Input::get('step'));
             $command->save();
 
-            //$command->servers()->attach(Input::get('servers'));
+            $command->servers()->attach(Input::get('servers'));
+
+            $command->servers; // Triggers the loading
 
             return $command;
         }
@@ -96,7 +98,9 @@ class CommandController extends Controller
             $command->save();
 
             $command->servers()->detach();
-            //$command->servers()->attach(Input::get('servers'));
+            $command->servers()->attach(Input::get('servers'));
+
+            $command->servers; // Triggers the loading
 
             return $command;
         }
