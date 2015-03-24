@@ -51,11 +51,6 @@ elixir(function(mix) {
         'deployment.js',
         'commands.js',
         'app.min.js',
-        'chart.js',
-        'bootbox.js',
-        'jvectormap.min.js',
-        'jvectormap-world-mill-en.js',
-        'sparkline.js'
     ], 'public/js/admin.js', 'resources/assets/js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
