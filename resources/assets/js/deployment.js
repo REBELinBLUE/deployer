@@ -1,6 +1,8 @@
 var app = app || {};
 
 (function ($) {
+    var isChecking = false;
+
     app.ServerLog = Backbone.Model.extend({
         urlRoot: '/status',
         poller: false,
@@ -17,6 +19,8 @@ var app = app || {};
         },
         changeStatus: function() {
             if (this.get('status') === 'Running') {
+                isChecking = true;
+
                 var that = this;
 
                 $.ajax({
@@ -32,16 +36,30 @@ var app = app || {};
                             var stillRunning = (model.get('status') === 'Running');
 
                             if (model.get('status') === 'Completed') {
-                                var next = _.find(app.Deployment, function(element) {
-                                    return model.get('id') + 1 === element.get('id');
+                                var found = _.find(app.Deployment.models, function(next) { 
+                                    return next.get('status') === 'Pending';
                                 });
 
-                                next.set({
-                                    status: 'Running'
-                                });
+                                if (found) {
+                                    found.set({
+                                        status: 'Running'
+                                    });
+                                }
 
                                 return false;
+                            } else if (model.get('status') === 'Failed') {
+                                console.log('failed');
+
+                                _.each(app.Deployment.models, function(remaining) {
+                                    if (remaining.get('status') === 'Pending') {
+                                        remaining.set({
+                                            status: 'Cancelled'
+                                        });
+                                    }
+                                });
                             }
+
+                            isChecking = stillRunning;
 
                             return stillRunning;
                         },
