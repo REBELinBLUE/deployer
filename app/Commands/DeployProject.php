@@ -255,7 +255,7 @@ EOF'
         } elseif ($step->stage == 'Purge') { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
-                sprintf('(ls -t|head -n %s;ls)|sort|uniq -u|xargs rm -f', $project->builds_to_keep)
+                sprintf('(ls -t|head -n %s;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep)
             ];
         } else { // Custom step!
             $commands = $step->command->script;
