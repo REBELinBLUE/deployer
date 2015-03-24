@@ -43,62 +43,6 @@
         modal.find('.modal-title span').text(title);
     });
 
-
-    /*
-
-    $('form .modal-footer button').on('click', function (event) {
-        var target = $(event.currentTarget);
-        var icon = target.find('i');
-        var dialog = target.parents('.modal');
-
-        var fields = $('form', dialog).serialize();
-
-        var url = '/' + dialog.data('resource');
-        var id = $('form input[name="id"]', dialog).val();
-        var method = 'POST';
-
-        if (id !== '') {
-            url +=  '/' + id;
-            method = 'PUT';
-        }
-
-        icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
-        dialog.find('input').attr('disabled', 'disabled');
-        $('button.close', dialog).hide();
-
-        $.ajax({
-            url: url,
-            type: method,
-            data: fields,
-        }).done(function (data) {
-            dialog.modal('hide');
-            $('.callout-danger', dialog).hide();
-
-            if (typeof data.redirect != 'undefined') {
-                window.location.href = data.redirect;
-            }
-        }).fail(function (response) {
-            $('.callout-danger', dialog).show();
-
-            var errors = response.responseJSON.errors;
-
-            $('form input', dialog).each(function (index, element) {
-                element = $(element);
-
-                var name = element.attr('name');
-
-                if (typeof errors[name] != 'undefined') {
-                    element.parent('div').addClass('has-error');
-                }
-            });
-        }).always(function () {
-            icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
-            $('button.close', dialog).show();
-            dialog.find('input').removeAttr('disabled');
-        });
-    });
-*/
-
     // $('.btn-delete').on('click', function (event) {
     //     bootbox.confirm('Are you sure?', function(result) {
     //         console.log(result);
@@ -128,42 +72,6 @@
         }).always(function () {
             icon.removeClass('fa-spin');
             target.removeAttr('disabled');
-        });
-    });
-    
-    $('#log').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var log_id = button.data('log-id');
-        var step = $('h3 span', button.parents('.box')).text();
-        var modal = $(this);
-        var log = $('pre', modal);
-        var loader = $('#loading', modal);
-
-        log.hide();
-        loader.show();
-
-        $('#action', modal).text(step);
-        log.text('');
-
-        $.ajax({
-            type: 'GET',
-            url: '/logs/' + log_id
-        }).done(function (data) {
-            var output = data.output;
-            // FIXME: There has to be a cleaner way to do this surely?
-            output = output.replace(/<\/error>/g, '</span>')
-            output = output.replace(/<\/info>/g, '</span>');
-            output = output.replace(/<error>/g, '<span class="text-red">')
-            output = output.replace(/<info>/g, '<span class="text-default">');
-
-            log.html(output);
-
-            log.show();
-            loader.hide();
-        }).fail(function() {
-
-        }).always(function() {
-
         });
     });
 })(jQuery);
