@@ -24,6 +24,7 @@ class DeploymentController extends Controller
                 $server->started = ($server->started_at ? $server->started_at->format('g:i:s A') : null);
                 $server->finished = ($server->finished_at ? $server->finished_at->format('g:i:s A') : null);
                 $server->runtime = ($server->runtime() === false ? null : human_readable_duration($server->runtime()));
+                $server->output == (is_null($server->output) ? null : '');
 
                 $output[] = $server;
             }
@@ -38,18 +39,5 @@ class DeploymentController extends Controller
             'deployment' => $deployment,
             'output'     => $output
         ]);
-    }
-
-    public function status($log_id)
-    {
-        $log = ServerLog::findOrFail($log_id);
-
-        $log->server;
-
-        $log->started = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
-        $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
-        $log->runtime = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
-
-        return $log;
     }
 }

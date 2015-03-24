@@ -1,10 +1,48 @@
 var app = app || {};
 
 (function ($) {
+
+    $('#log').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var log_id = button.attr('id').replace('log_', '');
+
+        var step = $('h3 span', button.parents('.box')).text();
+        var modal = $(this);
+        var log = $('pre', modal);
+        var loader = $('#loading', modal);
+
+        log.hide();
+        loader.show();
+
+        $('#action', modal).text(step);
+        log.text('');
+
+        $.ajax({
+            type: 'GET',
+            url: '/logs/' + log_id
+        }).done(function (data) {
+            var output = data.output;
+            // FIXME: There has to be a cleaner way to do this surely?
+            output = output.replace(/<\/error>/g, '</span>')
+            output = output.replace(/<\/info>/g, '</span>');
+            output = output.replace(/<error>/g, '<span class="text-red">')
+            output = output.replace(/<info>/g, '<span class="text-default">');
+
+            log.html(output);
+
+            log.show();
+            loader.hide();
+        }).fail(function() {
+
+        }).always(function() {
+
+        });
+    });
+
     var isChecking = false;
 
     app.ServerLog = Backbone.Model.extend({
-        urlRoot: '/status',
+        urlRoot: '/logs',
         poller: false,
         initialize: function() {
             this.on('change:status', this.changeStatus, this);
@@ -121,7 +159,7 @@ var app = app || {};
     app.LogView = Backbone.View.extend({
         tagName:  'tr',
         events: {
-            //'click .btn-edit': 'editCommand'
+            //'click .btn-log': 'showLog',
         },
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);

@@ -43,7 +43,7 @@
         <td>
             <div class="btn-group pull-right">
                 <% if (output !== null) { %>
-                    <button type="button" class="btn btn-default" title="View the output" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
+                    <button type="button" class="btn btn-default" title="View the output" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
                 <% } %>
             </div>
         </td>
@@ -56,3 +56,4 @@
         app.Deployment.add({!! json_encode($output) !!});
     </script>
 @stop
+

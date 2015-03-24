@@ -120,6 +120,12 @@ class CommandController extends Controller
     {
         $log = ServerLog::findOrFail($log_id);
 
+        $log->server;
+
+        $log->started = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
+        $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
+        $log->runtime = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
+
         return $log;
     }
 }
