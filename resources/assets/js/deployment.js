@@ -56,7 +56,17 @@ var app = app || {};
             this.changeStatus();
         },
         changeStatus: function() {
-            if (this.get('status') === 'Running') {
+            // Start polling the model if it is running, or it is the first model in the collection as is pending
+            var poll_for_update = false;
+            if (this.get('status') === 'Pending') {
+                if (this.get('first') === true) {
+                    poll_for_update = true;
+                }
+            } else if (this.get('status') === 'Running') {
+                poll_for_update = true;
+            }
+
+            if (poll_for_update) {
                 isChecking = true;
 
                 var that = this;
@@ -73,6 +83,10 @@ var app = app || {};
                         condition: function(model) {
                             var stillRunning = (model.get('status') === 'Running');
 
+                            if (model.get('status') === 'Pending' && model.get('first') === true) {
+                                stillRunning = true;
+                            }
+
                             if (model.get('status') === 'Completed') {
                                 var found = _.find(app.Deployment.models, function(next) { 
                                     return next.get('status') === 'Pending';
@@ -85,16 +99,6 @@ var app = app || {};
                                 }
 
                                 return false;
-                            } else if (model.get('status') === 'Failed') {
-                                console.log('failed');
-
-                                _.each(app.Deployment.models, function(remaining) {
-                                    if (remaining.get('status') === 'Pending') {
-                                        remaining.set({
-                                            status: 'Cancelled'
-                                        });
-                                    }
-                                });
                             }
 
                             isChecking = stillRunning;
@@ -105,6 +109,15 @@ var app = app || {};
                     });
 
                     that.poller.start();
+                });
+            }
+            else if (this.get('status') === 'Failed') {
+                _.each(app.Deployment.models, function(remaining) {
+                    if (remaining.get('status') === 'Pending') {
+                        remaining.set({
+                            status: 'Cancelled'
+                        });
+                    }
                 });
             }
         }

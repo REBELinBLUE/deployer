@@ -24,7 +24,8 @@ class DeploymentController extends Controller
                 $server->started = ($server->started_at ? $server->started_at->format('g:i:s A') : null);
                 $server->finished = ($server->finished_at ? $server->finished_at->format('g:i:s A') : null);
                 $server->runtime = ($server->runtime() === false ? null : human_readable_duration($server->runtime()));
-                $server->output == (is_null($server->output) ? null : '');
+                $server->output = (is_null($server->output) ? null : '');
+                $server->first = (count($output) === 0);
 
                 $output[] = $server;
             }
