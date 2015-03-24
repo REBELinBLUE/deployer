@@ -6,12 +6,11 @@
         <h3 class="box-title">Servers</h3>
     </div>
     
-    @if (!count($servers))
-    <div class="box-body">
+    <div class="box-body" id="no_servers">
         <p>The project does not currently have any servers setup</p>
     </div>
-    @else
-    <div class="box-body table-responsive">
+
+    <div class="box-body table-responsive" id="server_list">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -23,24 +22,28 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($servers as $server)
-                <tr id="server_{{ $server->id }}">
-                    <td>{{ $server->name }}</td>
-                    <td>{{ $server->user }}</td>
-                    <td>{{ $server->ip_address }}</td>
-                    <td>
-                        <span class="label label-{{ server_css_status($server) }}"><i class="fa fa-{{ server_icon_status($server) }} "></i> <span>{{ $server->status }}</span></span>
-                    </td>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default btn-test" data-server-id="{{ $server->id }}" title="Test the server connection" {{ $server->isTesting() ? ' disabled' : '' }}><i class="fa fa-refresh {{ $server->isTesting() ? 'fa-spin' : '' }}"></i></button>
-                            <button type="button" class="btn btn-default" title="Edit the server" data-server-id="{{ $server->id }}" data-toggle="modal" data-backdrop="static" data-target="#server"{{ $server->isTesting() ? ' disabled' : '' }}><i class="fa fa-edit"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
+                
             </tbody>
         </table>
     </div>
-    @endif
 </div>
+
+<script type="text/template" id="server-template">
+    <td><%- name %></td>
+    <td><%- user %></td>
+    <td><%- ip_address %></td>
+    <td>
+         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <span><%- status %></span></span>
+    </td>
+    <td>
+        <div class="btn-group pull-right">
+            <% if (status === 'Testing') { %>
+                <button type="button" class="btn btn-default btn-test" title="Test the server connection" disabled><i class="fa fa-refresh fa-spin"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="Edit the server" data-toggle="modal" data-backdrop="static" data-target="#server" disabled><i class="fa fa-edit"></i></button>
+            <% } else { %>
+                <button type="button" class="btn btn-default btn-test" title="Test the server connection"><i class="fa fa-refresh"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="Edit the server" data-toggle="modal" data-backdrop="static" data-target="#server"><i class="fa fa-edit"></i></button>
+            <% } %>
+        </div>
+    </td>
+</script>

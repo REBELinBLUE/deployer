@@ -55,10 +55,8 @@ class ServerController extends Controller
 
         if ($validator->fails()) {
             return Response::json([
-                'success' => false,
-                'errors'  => $validator->getMessageBag()->toArray()
+                'errors' => $validator->getMessageBag()->toArray()
             ], 400);
-
         } else {
             $server = new Server;
             $server->name       = Input::get('name');
@@ -66,15 +64,12 @@ class ServerController extends Controller
             $server->ip_address = Input::get('ip_address');
             $server->path       = Input::get('path');
             $server->project_id = Input::get('project_id');
+            $server->status     = 'Untested';
             $server->save();
 
-            return Response::json([
-                'success' => true,
-                'server'  => $server
-            ], 200);
+            return $server;
         }
     }
-    
 
     /**
      * Update the specified resource in storage.
@@ -98,6 +93,11 @@ class ServerController extends Controller
             return redirect()->back()->withErrors($validator->errors());
         } else {
             $server = Server::findOrFail($server_id);
+
+            if ($server->ip_address != Input::get('ip_address')) {
+                $server->status = 'Untested';
+            }
+
             $server->name       = Input::get('name');
             $server->user       = Input::get('user');
             $server->ip_address = Input::get('ip_address');
@@ -115,8 +115,13 @@ class ServerController extends Controller
      * @param  int  $id
      * @return Response
      */
-    // public function destroy($server_id)
-    // {
-    //     //
-    // }
+    public function destroy($server_id)
+    {
+        $server = Server::findOrFail($server_id);
+        $server->delete();
+
+        return Response::json([
+            'success' => true
+        ], 200);
+    }
 }

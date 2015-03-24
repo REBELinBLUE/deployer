@@ -2,15 +2,15 @@
 
 @section('content')
     <div class="row">
-        @foreach($steps as $step)
+        @foreach($deployment->steps as $step)
         <div class="col-xs-12">
-            <div class="box">
+            <div class="box deploy-step">
                 <div class="box-header">
                     <h3 class="box-title"><i class="fa fa-terminal"></i> <span>{{ $step->command ? $step->command->name : deploy_step_label($step->stage) }}</span></h3>
                 </div>
                 <div class="box-body table-responsive">
-                    <table class="table table-hover" id="step_{{ $step->id }}">
-                        <tbody>
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
                                 <th>Server</th>
                                 <th>Status</th>
@@ -19,24 +19,9 @@
                                 <th>Duration</th>
                                 <th>&nbsp;</th>
                             </tr>
-                        </tbody>
-                        <tbody>
-                            @foreach($step->servers as $log)
-                            <tr id="log_{{ $log->id }}">
-                                <td>{{ $log->server->name }}</td>
-                                <td>
-                                     <span class="label label-{{ server_log_css_status($log) }}"><i class="fa fa-{{ server_log_icon_status($log) }}"></i> <span>{{ $log->status }}</span></span>
-                                </td>
-                                <td>{{ $log->started_at ? $log->started_at->format('g:i:s A') : 'N/A' }}</td>
-                                <td>{{ $log->finished_at ? $log->finished_at->format('g:i:s A') : 'N/A' }}</td>
-                                <td>{{ $log->runtime() === false ? 'N/A' : human_readable_duration($log->runtime()) }}</td>
-                                <td>
-                                    <div class="btn-group pull-right">
-                                        <button type="button" class="btn btn-default" title="View the output" data-toggle="modal" data-log-id="{{ $log->id }}" data-backdrop="static" data-target="#log" style="{{ !empty($log->output) ? '' : 'display:none' }}"><i class="fa fa-copy"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
+                        </thead>
+                        <tbody id="step_{{ $step->id }}">
+                            
                         </tbody>
                     </table>
                 </div>
@@ -44,13 +29,31 @@
         </div>
         @endforeach
     </div>
+
     @include('dialogs.log')
+
+    <script type="text/template" id="log-template">
+        <td width="30%"><%- server.name %></td>
+        <td width="10%">
+             <span class="label label-<%- status_css %>"><i class="fa fa-<%- icon_css %>"></i> <span><%- status %></span></span>
+        </td>
+        <td width="20%"><%- start_time %></td>
+        <td width="20%"><%- end_time %></td>
+        <td width="10%"><%- total_time %></td>
+        <td width="10%">
+            <div class="btn-group pull-right">
+                <% if (output !== null) { %>
+                    <button type="button" class="btn btn-default" title="View the output" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
+                <% } %>
+            </div>
+        </td>
+    </script>
 @stop
 
 @section('javascript')
     <script type="text/javascript">
-        $(function () {
-            checkDeployment({{ $deployment->id }});
-        });
+        new app.DeploymentView();
+        app.Deployment.add({!! json_encode($output) !!});
     </script>
 @stop
+

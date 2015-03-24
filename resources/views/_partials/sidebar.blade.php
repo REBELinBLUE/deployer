@@ -25,7 +25,7 @@
                 </a>
                 <ul class="treeview-menu">
                     @foreach(App\Project::all() as $project)
-                        <li><a href="{{ url('projects', $project->id) }}"><i class="fa fa-{{ project_icon_status($project, false) }} text-{{ project_css_status($project) }}"></i> {{ $project->name }}</a></li>
+                        <li><a href="{{ url('projects', $project->id) }}">{{ $project->name }}</a></li>
                     @endforeach
                 </ul>
             </li>

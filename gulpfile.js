@@ -11,47 +11,53 @@ var elixir = require('laravel-elixir');
  |
  */
 
-var bower_path = "./vendor/bower_components";
+var bower_path = './vendor/bower_components';
 var paths = {
-    'backbone'      : bower_path + "/backbone",
-    'underscore'    : bower_path + "/underscore",
-    'jquery'        : bower_path + "/jquery",
-    'bootstrap'     : bower_path + "/bootstrap-sass-official/assets",
-    'fontawesome'   : bower_path + "/fontawesome",
-    'ionicons'      : bower_path + "/ionicons"
+    'backbone'        : bower_path + '/backbone',
+    'backbone_poller' : bower_path + '/backbone-poller',
+    'underscore'      : bower_path + '/underscore',
+    'jquery'          : bower_path + '/jquery',
+    'jquery_sortable' : bower_path + '/jquery-sortable',
+    'bootstrap'       : bower_path + '/bootstrap-sass-official/assets',
+    'fontawesome'     : bower_path + '/fontawesome',
+    'ionicons'        : bower_path + '/ionicons'
 };
 
 elixir(function(mix) {
-    mix.sass("style.scss", "public/css",
-        {includePaths: [
-            paths.bootstrap + '/stylesheets',
+    mix.sass('style.scss', 'public/css', {
+        includePaths: [
+            paths.bootstrap   + '/stylesheets',
             paths.fontawesome + '/scss',
-            paths.ionicons + '/scss'
-        ]})
-        .styles([
-            "admin.min.css",
-            "jvectormap.css",
-            "skins.min.css",
-            "styles.css"
-        ], 'public/css/admin.css', 'resources/assets/css')
-
-        .scripts([
-            paths.jquery + '/dist/jquery.js',
-            paths.underscore + '/underscore.js',
-            paths.bootstrap + '/javascripts/bootstrap.js',
-            paths.backbone + '/backbone.js',
-        ], 'public/js/style.js', bower_path)
-        .scripts([
-            'admin.js',
-            'app.min.js',
-            'chart.js',
-            'bootbox.js',
-            'jvectormap.min.js',
-            'jvectormap-world-mill-en.js',
-            'sparkline.js'
-        ], 'public/js/admin.js', 'resources/assets/js')
-
-        .copy( paths.bootstrap + '/fonts/bootstrap/**', 'public/fonts')
-        .copy( paths.fontawesome + '/fonts/**', 'public/fonts')
-        .copy( paths.ionicons + '/fonts/**', 'public/fonts');
+            paths.ionicons    + '/scss'
+        ]
+    })
+    .styles([
+        'admin.min.css',
+        'jvectormap.css',
+        'skins.min.css',
+        'styles.css'
+    ], 'public/css/admin.css', 'resources/assets/css')
+    .scripts([
+        paths.jquery          + '/dist/jquery.js',
+        paths.jquery_sortable + '/source/js/jquery-sortable.js',
+        paths.underscore      + '/underscore.js',
+        paths.bootstrap       + '/javascripts/bootstrap.js',
+        paths.backbone        + '/backbone.js',
+        paths.backbone_poller + '/backbone.poller.js'
+    ], 'public/js/style.js', bower_path)
+    .scripts([
+        'admin.js',
+        'servers.js',
+        'deployment.js',
+        'commands.js',
+        'app.min.js',
+        'chart.js',
+        'bootbox.js',
+        'jvectormap.min.js',
+        'jvectormap-world-mill-en.js',
+        'sparkline.js'
+    ], 'public/js/admin.js', 'resources/assets/js')
+    .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
+    .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
+    .copy(paths.ionicons    + '/fonts/**',           'public/fonts');
 });

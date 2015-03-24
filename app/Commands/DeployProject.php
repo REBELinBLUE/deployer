@@ -244,7 +244,7 @@ EOF'
         } elseif ($step->stage == 'Install') { // Install Composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
-                sprintf('composer install --no-interaction --prefer-dist --no-dev --no-ansi --working-dir="%s"', $latest_release_dir)
+                sprintf('composer install --no-interaction --prefer-dist --no-ansi --working-dir="%s"', $latest_release_dir)
             ];
         } elseif ($step->stage == 'Activate') { // Activate latest release
             $commands = [
@@ -255,7 +255,7 @@ EOF'
         } elseif ($step->stage == 'Purge') { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
-                sprintf('(ls -t|head -n %s;ls)|sort|uniq -u|xargs rm -f', $project->builds_to_keep)
+                sprintf('(ls -t|head -n %s;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep)
             ];
         } else { // Custom step!
             $commands = $step->command->script;

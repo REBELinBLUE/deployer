@@ -172,4 +172,13 @@ class ProjectController extends Controller
             ], 200);
         }
     }
+
+
+    public function servers($project)
+    {
+        $project = Project::findOrFail($project);
+
+        return $project->servers;
+    }
+
 }

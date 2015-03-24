@@ -6,7 +6,6 @@
                 <h4 class="modal-title"><i class="fa fa-tasks"></i> <span>Add a Server</span></h4>
             </div>
             <form role="form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" id="server_id" name="id" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <div class="modal-body">
@@ -33,8 +32,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left"><i class="fa fa-trash"></i> Delete</button>
-                    <button type="button" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save Server</button>
+                    <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> Delete</button>
+                    <button type="button" class="btn btn-primary pull-right btn-save"><i class="fa fa-save"></i> Save Server</button>
                 </div>
             </form>
         </div>

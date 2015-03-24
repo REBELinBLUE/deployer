@@ -18,37 +18,28 @@ class CommandController extends Controller
     public function listing($project_id, $action)
     {
         $project = Project::findOrFail($project_id);
-
-        // FIXME: Refactor this
-        $before = Command::where('project_id', '=', $project->id)
-                         ->where('step', '=', 'Before ' . ucfirst($action))
-                         ->orderBy('order')
-                         ->get();
-
-        $after = Command::where('project_id', '=', $project->id)
-                        ->where('step', '=', 'After ' . ucfirst($action))
-                        ->orderBy('order')
-                        ->get();
+        
+        $commands = Command::where('project_id', '=', $project->id)
+                           ->where('step', 'LIKE', '%' . ucfirst($action))
+                           ->orderBy('order')
+                           ->get();
 
         // fixme: there has to be a better way to do this
         // this triggers the servers to be loaded so that they exist in the model
-        foreach ($before as $command) {
+        foreach ($commands as $command) {
             $command->servers;
         }
 
-        foreach ($after as $command) {
-            $command->servers;
-        }
+        $action = ucfirst($action);
 
         return view('commands.listing', [
-            'breadcrumb'     => [
+            'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
-            'title'          => deploy_step_label(ucfirst($action)),
-            'project'        => $project,
-            'action'         => $action,
-            'before'         => $before,
-            'after'          => $after
+            'title'      => deploy_step_label($action),
+            'project'    => $project,
+            'action'     => $action,
+            'commands'   => $commands
         ]);
     }
 
@@ -66,8 +57,7 @@ class CommandController extends Controller
 
         if ($validator->fails()) {
             return Response::json([
-                'success' => false,
-                'errors'  => $validator->getMessageBag()->toArray()
+                'errors' => $validator->getMessageBag()->toArray()
             ], 400);
         } else {
             $command = new Command;
@@ -80,10 +70,9 @@ class CommandController extends Controller
 
             $command->servers()->attach(Input::get('servers'));
 
-            return Response::json([
-                'success' => true,
-                'command' => $command
-            ], 200);
+            $command->servers; // Triggers the loading
+
+            return $command;
         }
     }
 
@@ -99,29 +88,43 @@ class CommandController extends Controller
 
         if ($validator->fails()) {
             return Response::json([
-                'success' => false,
-                'errors'  => $validator->getMessageBag()->toArray()
+                'errors' => $validator->getMessageBag()->toArray()
             ], 400);
         } else {
             $command = Command::findOrFail($id);
-            $command->name       = Input::get('name');
-            $command->user       = Input::get('user');
-            $command->script     = Input::get('script');
+            $command->name   = Input::get('name');
+            $command->user   = Input::get('user');
+            $command->script = Input::get('script');
             $command->save();
 
             $command->servers()->detach();
             $command->servers()->attach(Input::get('servers'));
 
-            return Response::json([
-                'success' => true,
-                'command' => $command
-            ], 200);
+            $command->servers; // Triggers the loading
+
+            return $command;
         }
+    }
+
+    public function destroy($id)
+    {
+        $command = Command::findOrFail($id);
+        $command->delete();
+
+        return Response::json([
+            'success' => true
+        ], 200);
     }
 
     public function log($log_id)
     {
         $log = ServerLog::findOrFail($log_id);
+
+        $log->server;
+
+        $log->started = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
+        $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
+        $log->runtime = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
 
         return $log;
     }
