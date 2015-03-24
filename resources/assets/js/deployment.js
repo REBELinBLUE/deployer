@@ -105,7 +105,7 @@ var app = app || {};
 
                             return stillRunning;
                         },
-                        delay: 2500
+                        delay: 1000
                     });
 
                     that.poller.start();
