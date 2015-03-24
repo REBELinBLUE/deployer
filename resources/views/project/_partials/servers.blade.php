@@ -33,7 +33,7 @@
     <td><%- user %></td>
     <td><%- ip_address %></td>
     <td>
-         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <span><%- status %></span></span>
+         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i>&nbsp;<%- status %></span>
     </td>
     <td>
         <div class="btn-group pull-right">

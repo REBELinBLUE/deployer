@@ -116,16 +116,23 @@ class CommandController extends Controller
         ], 200);
     }
 
-    public function log($log_id)
+    public function status($log_id, $include_log = false)
     {
         $log = ServerLog::findOrFail($log_id);
-
-        $log->server;
 
         $log->started = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
         $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
         $log->runtime = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
 
+        if (!$include_log) {
+            $log->output = (is_null($log->output) ? null : '');
+        }
+
         return $log;
+    }
+
+    public function log($log_id)
+    {
+        return $this->status($log_id, true);
     }
 }

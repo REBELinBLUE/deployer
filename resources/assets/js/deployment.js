@@ -19,7 +19,7 @@ var app = app || {};
 
         $.ajax({
             type: 'GET',
-            url: '/logs/' + log_id
+            url: '/log/' + log_id
         }).done(function (data) {
             var output = data.output;
             // FIXME: There has to be a cleaner way to do this surely?
@@ -42,7 +42,7 @@ var app = app || {};
     var isChecking = false;
 
     app.ServerLog = Backbone.Model.extend({
-        urlRoot: '/logs',
+        urlRoot: '/status',
         poller: false,
         initialize: function() {
             this.on('change:status', this.changeStatus, this);

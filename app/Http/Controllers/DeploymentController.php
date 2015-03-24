@@ -15,7 +15,6 @@ class DeploymentController extends Controller
     {
         $deployment = Deployment::findOrFail($deployment_id);
 
-        $project = $deployment->project;
         $output = [];
         foreach ($deployment->steps as $step) {
             foreach ($step->servers as $server) {
@@ -30,6 +29,8 @@ class DeploymentController extends Controller
                 $output[] = $server;
             }
         }
+
+        $project = $deployment->project;
 
         return view('deployment.details', [
             'breadcrumb' => [

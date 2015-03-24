@@ -44,7 +44,8 @@ Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'upd
 Route::get('servers/{id}/test', 'ServerController@test');
 
 // Commands
-Route::get('logs/{id}', 'CommandController@log');
+Route::get('status/{id}', 'CommandController@status');
+Route::get('log/{id}', 'CommandController@log');
 
 Route::resource('commands', 'CommandController', ['only' => ['store', 'update', 'destroy']]);
 Route::get('projects/{id}/commands/{command}', [
