@@ -33,14 +33,14 @@
     @include('dialogs.log')
 
     <script type="text/template" id="log-template">
-        <td><%- server.name %></td>
-        <td>
+        <td width="30%"><%- server.name %></td>
+        <td width="10%">
              <span class="label label-<%- status_css %>"><i class="fa fa-<%- icon_css %>"></i> <span><%- status %></span></span>
         </td>
-        <td><%- start_time %></td>
-        <td><%- end_time %></td>
-        <td><%- total_time %></td>
-        <td>
+        <td width="20%"><%- start_time %></td>
+        <td width="20%"><%- end_time %></td>
+        <td width="10%"><%- total_time %></td>
+        <td width="10%">
             <div class="btn-group pull-right">
                 <% if (output !== null) { %>
                     <button type="button" class="btn btn-default" title="View the output" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
