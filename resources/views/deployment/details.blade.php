@@ -39,7 +39,7 @@
         </td>
         <td><%- start_time %></td>
         <td><%- end_time %></td>
-        <td><%- runtime %></td>
+        <td><%- total_time %></td>
         <td>
             <div class="btn-group pull-right">
                 <% if (output !== null) { %>
