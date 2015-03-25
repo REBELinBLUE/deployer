@@ -28,8 +28,8 @@
                         <textarea rows="10" id="command_script" class="form-control" name="script" placeholder="echo 'Hello world'"></textarea>
                         <h5>You can use the following tokens in your script</h5>
                         <ul class="list-unstyled">
-                            <li><code>@{{ release }}</code> - The release ID, e.g. <span class="label label-default">20150312154523</span></li>
-                            <li><code>@{{ release_path }}</code> -The full release path, e.g. <span class="label label-default">/var/www/releases/20150312154523/</span></li>
+                            <li><code>@{{ release }}</code> - The release ID, e.g. <span class="label label-default">{{ date('YmdHis') }}</span></li>
+                            <li><code>@{{ release_path }}</code> -The full release path, e.g. <span class="label label-default">/var/www/releases/{{ date('YmdHis') }}/</span></li>
                         </ul>
                     </div>
                     @if (count($project->servers))
