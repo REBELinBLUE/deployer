@@ -9,6 +9,12 @@
     @include('dialogs.command')
 
     <script type="text/template" id="command-template">
+        <td>
+            <div class="btn-group pull-left">
+                <button type="button" class="btn btn-xs btn-link"><i class="fa fa-long-arrow-up"></i></button>
+                <button type="button" class="btn btn-xs btn-link"><i class="fa fa-long-arrow-down"></i></button>
+            </div>
+        </td>
         <td><%- name %></td>
         <td><%- user %></td>
         <td>
