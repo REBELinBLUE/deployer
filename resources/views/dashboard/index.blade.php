@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <div class="col-md-5 pull-left">
+        <div class="col-md-5">
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Latest Deployments</h3>
