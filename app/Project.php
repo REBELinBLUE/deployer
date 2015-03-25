@@ -62,6 +62,17 @@ class Project extends Model
         return $info;
     }
 
+    public function repositoryPath()
+    {
+        $info = $this->accessDetails();
+
+        if (isset($info['reference'])) {
+            return $info['reference'];
+        }
+
+        return false;
+    }
+
     public function repositoryURL()
     {
         $info = $this->accessDetails();
