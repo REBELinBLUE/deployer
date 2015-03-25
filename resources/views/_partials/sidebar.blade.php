@@ -1,14 +1,5 @@
 <aside class="main-sidebar">
     <section class="sidebar">
-<!--         <div class="user-panel">
-            <div class="pull-left image">
-                <img src="{{ Gravatar::get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
-            </div>
-            <div class="pull-left info">
-                <p>{{ Auth::user()->name }}</p>
-            </div>
-        </div> -->
-
         <ul class="sidebar-menu">
             <li class="{{ Request::is('/') ? 'active' : null }}">
                 <a href="/">
@@ -37,12 +28,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i> General</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Icons</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Buttons</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Sliders</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Timeline</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Modals</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Users</a></li>
+                    <li><a href="#">Settings</a></li>
                 </ul>
             </li>
         </ul>
