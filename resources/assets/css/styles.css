@@ -3,42 +3,6 @@
     overflow: auto;
 }
 
-body.dragging,
-body.dragging * {
-    cursor: move !important;
-}
-
-.dragged {
-    position: absolute;
-    opacity: 0.5;
-    z-index: 2000;
-}
-
-.command-list table tr.placeholder {
-    position: relative;
-    display: block;
-    background: red;
-    margin: 0;
-    padding: 0;
-    border: none;
-}
-
-.command-list table tr {
-    cursor: pointer;
-}
-
-.command-list table tr.placeholder:before {
-    content:           "";
-    position:          absolute;
-    width:             0;
-    height:            0;
-    border:            5px solid transparent;
-    border-left-color: red;
-    margin-top:        -5px;
-    left:              -5px;
-    border-right:      none;
-}
-
 .login-box-body .form-control-feedback {
     line-height: 34px !important;
 }

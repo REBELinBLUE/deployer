@@ -21,7 +21,6 @@
         "backbone-poller": "~0.3.0",
         "bootstrap-sass-official": "~3.3.3",
         "fontawesome": "~4.3.0",
-        "ionicons": "~2.0.1",
-        "jquery-sortable": "~0.9.12"
+        "ionicons": "~2.0.1"
     }
 }

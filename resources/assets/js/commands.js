@@ -1,13 +1,6 @@
 var app = app || {};
 
 (function ($) {
-    $('.command-list table').sortable({
-        containerSelector: 'table',
-        itemPath: '> tbody',
-        itemSelector: 'tr',
-        placeholder: '<tr class="placeholder"/>'
-    });
-
     // FIXME: This seems very wrong
     $('#command').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);

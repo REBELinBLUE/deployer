@@ -17,7 +17,6 @@ var paths = {
     'backbone_poller' : bower_path + '/backbone-poller',
     'underscore'      : bower_path + '/underscore',
     'jquery'          : bower_path + '/jquery',
-    'jquery_sortable' : bower_path + '/jquery-sortable',
     'bootstrap'       : bower_path + '/bootstrap-sass-official/assets',
     'fontawesome'     : bower_path + '/fontawesome',
     'ionicons'        : bower_path + '/ionicons'
@@ -39,7 +38,6 @@ elixir(function(mix) {
     ], 'public/css/admin.css', 'resources/assets/css')
     .scripts([
         paths.jquery          + '/dist/jquery.js',
-        paths.jquery_sortable + '/source/js/jquery-sortable.js',
         paths.underscore      + '/underscore.js',
         paths.bootstrap       + '/javascripts/bootstrap.js',
         paths.backbone        + '/backbone.js',
