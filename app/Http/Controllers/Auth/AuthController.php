@@ -36,4 +36,15 @@ class AuthController extends Controller
 
         $this->middleware('guest', ['except' => 'getLogout']);
     }
+
+    // Disable laravel's build in register feature as we don't need this
+    public function getRegister()
+    {
+        return redirect('/');
+    }
+
+    public function postRegister()
+    {
+        return redirect('/');
+    }
 }
