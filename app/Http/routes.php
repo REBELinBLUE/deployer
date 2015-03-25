@@ -11,16 +11,21 @@
 |
 */
 
-Route::get('/', 'DashboardController@index');
+Route::get('/', [
+    'middleware' => 'auth',
+    'uses'       => 'DashboardController@index'
+]);
 
 // Webhooks
 Route::post('deploy/{hash}', [ 
-    'as'   => 'webhook',
-    'uses' => 'WebhookController@webhook'
+    'as'         => 'webhook',
+    'middleware' => 'auth',
+    'uses'       => 'WebhookController@webhook'
 ]);
 
 Route::get('webhook/{id}/refresh', [
-    'uses' => 'WebhookController@refresh'
+    'middleware' => 'auth',
+    'uses'       => 'WebhookController@refresh'
 ]);
 
 // Projects
@@ -28,29 +33,48 @@ Route::get('webhook/{id}/refresh', [
 Route::resource('projects', 'ProjectController', ['only' => ['show', 'store', 'update', 'destroy']]);
 
 Route::post('projects/{id}/deploy', [
-    'as'   => 'deploy',
-    'uses' => 'ProjectController@deploy'
+    'as'         => 'deploy',
+    'middleware' => 'auth',
+    'uses'       => 'ProjectController@deploy'
 ]);
 
 // Deployment details
 Route::get('deployment/{id}', [ // FIXME Should this be on the deployment controller?
-    'as'   => 'deployment',
-    'uses' => 'DeploymentController@show'
+    'as'         => 'deployment',
+    'middleware' => 'auth',
+    'uses'       => 'DeploymentController@show'
 ]);
 
 // Servers
-Route::get('projects/{id}/servers', 'ProjectController@servers');
+Route::get('projects/{id}/servers', [
+    'middleware' => 'auth',
+    'uses'       => 'ProjectController@servers'
+]);
+
 Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy']]);
-Route::get('servers/{id}/test', 'ServerController@test');
+
+Route::get('servers/{id}/test', [
+    'middleware' => 'auth',
+    'uses'       => 'ServerController@test'
+]);
 
 // Commands
-Route::get('status/{id}', 'CommandController@status');
-Route::get('log/{id}', 'CommandController@log');
+Route::get('status/{id}', [
+    'middleware' => 'auth',
+    'uses'       => 'CommandController@status'
+]);
+
+Route::get('log/{id}', [
+    'middleware' => 'auth',
+    'uses'       => 'CommandController@log'
+]);
 
 Route::resource('commands', 'CommandController', ['only' => ['store', 'update', 'destroy']]);
+
 Route::get('projects/{id}/commands/{command}', [
-    'as'   => 'commands',
-    'uses' => 'CommandController@listing'
+    'as'         => 'commands',
+    'middleware' => 'auth',
+    'uses'       => 'CommandController@listing'
 ]);
 
 Route::controllers([
