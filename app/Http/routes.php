@@ -29,8 +29,10 @@ Route::get('webhook/{id}/refresh', [
 ]);
 
 // Projects
-// 
-Route::resource('projects', 'ProjectController', ['only' => ['show', 'store', 'update', 'destroy']]);
+Route::resource('projects', 'ProjectController', [
+    'middleware' => 'auth',
+    'only'       => ['show', 'store', 'update', 'destroy']
+]);
 
 Route::post('projects/{id}/deploy', [
     'as'         => 'deploy',
@@ -51,7 +53,10 @@ Route::get('projects/{id}/servers', [
     'uses'       => 'ProjectController@servers'
 ]);
 
-Route::resource('servers', 'ServerController', ['only' => ['show', 'store', 'update', 'destroy']]);
+Route::resource('servers', 'ServerController', [
+    'middleware' => 'auth',
+    'only'       => ['show', 'store', 'update', 'destroy']
+]);
 
 Route::get('servers/{id}/test', [
     'middleware' => 'auth',
@@ -69,7 +74,10 @@ Route::get('log/{id}', [
     'uses'       => 'CommandController@log'
 ]);
 
-Route::resource('commands', 'CommandController', ['only' => ['store', 'update', 'destroy']]);
+Route::resource('commands', 'CommandController', [
+    'middleware' => 'auth',
+    'only'       => ['store', 'update', 'destroy']
+]);
 
 Route::get('projects/{id}/commands/{command}', [
     'as'         => 'commands',
