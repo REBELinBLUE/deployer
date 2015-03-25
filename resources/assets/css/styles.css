@@ -38,3 +38,11 @@ body.dragging * {
     left:              -5px;
     border-right:      none;
 }
+
+.login-box-body .form-control-feedback {
+    line-height: 34px !important;
+}
+
+#forgotten-password {
+    margin-top: 10px;
+}
