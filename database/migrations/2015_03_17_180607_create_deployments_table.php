@@ -17,7 +17,7 @@ class CreateDeploymentsTable extends Migration
             $table->string('committer');
             $table->string('commit');
             $table->unsignedInteger('project_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable()->default(null);
             $table->enum('status', ['Pending', 'Deploying', 'Completed', 'Failed'])->default('Pending');
             $table->timestamps();
             $table->softDeletes();

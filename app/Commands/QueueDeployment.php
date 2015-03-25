@@ -10,6 +10,8 @@ use App\Deployment;
 use App\DeployStep;
 use App\ServerLog;
 
+use Auth;
+
 use Queue;
 
 class QueueDeployment extends Command implements SelfHandling
@@ -38,7 +40,11 @@ class QueueDeployment extends Command implements SelfHandling
         $this->deployment->status = 'Pending';
         $this->deployment->started_at = date('Y-m-d H:i:s');
         $this->deployment->project_id = $this->project->id;
-        $this->deployment->user_id = 1; // FIXME: Get logged in user
+
+        if (Auth::check()) {
+            $this->deployment->user_id = Auth::user()->id;
+        }
+
         $this->deployment->committer = 'Loading'; // FIXME: Better values for these
         $this->deployment->commit = 'Loading';
         $this->deployment->save();

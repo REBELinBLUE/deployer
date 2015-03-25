@@ -13,6 +13,7 @@
             <thead>
                 <tr>
                     <th>Date</th>
+                    <th>Started</th>
                     <th>Deployer</th>
                     <th>Committer</th>
                     <th>Commit</th>
@@ -24,7 +25,14 @@
                 @foreach ($deployments as $deployment)
                 <tr id="deployment_{{ $deployment->id }}">
                     <td>{{ $deployment->started_at->format('jS F Y g:i:s A') }}</td>
-                    <td>{{ $deployment->user->name }}</td>
+                    <td>{{ !empty($deployment->user_id) ? 'Manually' : 'Webhook' }}</td>
+                    <td>
+                        @if (!empty($deployment->user_id))
+                            {{ $deployment->user->name }}
+                        @else
+                            {{ $deployment->committer }}
+                        @endif
+                    </td>
                     <td>{{ $deployment->committer }}</td>
                     <td>
                         @if ($deployment->commitURL())
