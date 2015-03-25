@@ -1,13 +1,13 @@
 <aside class="main-sidebar">
     <section class="sidebar">
-        <div class="user-panel">
+<!--         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
+                <img src="{{ Gravatar::get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-                <p>USERNAME</p>
+                <p>{{ Auth::user()->name }}</p>
             </div>
-        </div>
+        </div> -->
 
         <ul class="sidebar-menu">
             <li class="{{ Request::is('/') ? 'active' : null }}">

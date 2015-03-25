@@ -138,6 +138,7 @@ return [
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Collective\Remote\RemoteServiceProvider',
 		'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
+		'Creativeorange\Gravatar\GravatarServiceProvider',
 		
 		/*
 		 * Application Service Providers...
@@ -197,6 +198,7 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Debugbar'  => 'Barryvdh\Debugbar\Facade',
 		'SSH'       => 'Collective\Remote\RemoteFacade',
+		'Gravatar'  => 'Creativeorange\Gravatar\Facades\Gravatar',
 
 	],
 

@@ -8,14 +8,14 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                        <span class="hidden-xs">USERNAME</span>
+                        <img src="{{ Gravatar::get(Auth::user()->email) }}" class="user-image" alt="User Image"/>
+                        <span class="hidden-xs">{{ Auth::user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="user-header">
-                            <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
+                            <img src="{{ Gravatar::get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
                             <p>
-                                USERNAME
+                                {{ Auth::user()->name }}
                             </p>
                         </li>
                         <li class="user-footer">

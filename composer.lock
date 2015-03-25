@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f2f0beb8bacdafe22d3294aeab9d07ab",
+    "hash": "05d9400bc81f570befc77a59f2197d2e",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -65,6 +65,50 @@
                 "preload"
             ],
             "time": "2015-01-26 22:06:19"
+        },
+        {
+            "name": "creativeorange/gravatar",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/creativeorange/gravatar.git",
+                "reference": "8f04e3e86fcb2d640ac0f52411ddefd501d03d61"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/creativeorange/gravatar/zipball/8f04e3e86fcb2d640ac0f52411ddefd501d03d61",
+                "reference": "8f04e3e86fcb2d640ac0f52411ddefd501d03d61",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.0.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Creativeorange\\Gravatar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jaco Tijssen",
+                    "email": "jaco@creativeorange.nl",
+                    "homepage": "https://www.creativeorange.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel 5 gravatar package for retrieving gravatar image URLs or checking the existance of an image.",
+            "keywords": [
+                "avatar",
+                "gravatar",
+                "laravel"
+            ],
+            "time": "2015-03-19 13:26:26"
         },
         {
             "name": "danielstjules/stringy",
