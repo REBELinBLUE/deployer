@@ -50,13 +50,11 @@ elixir(function(mix) {
         'commands.js',
         'app.min.js',
     ], 'public/js/admin.js', 'resources/assets/js')
-    .version([
-        'public/css/admin.css',
-        'public/css/style.css',
-        'public/js/admin.js',
-        'public/js/style.js'
-    ])
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/build/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/build/fonts')
-    .copy(paths.ionicons    + '/fonts/**',           'public/build/fonts');
+    .copy(paths.ionicons    + '/fonts/**',           'public/build/fonts')
+    .version([
+        'public/css/*',
+        'public/js/*'
+    ]);
 });
