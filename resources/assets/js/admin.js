@@ -43,12 +43,6 @@
         modal.find('.modal-title span').text(title);
     });
 
-    // $('.btn-delete').on('click', function (event) {
-    //     bootbox.confirm('Are you sure?', function(result) {
-    //         console.log(result);
-    //     }); 
-    // });
-     
     $('#new_webhook').on('click', function(event) {
         var target = $(event.currentTarget);
         var project_id = target.data('project-id');
