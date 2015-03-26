@@ -130,6 +130,11 @@ var app = app || {};
 
     app.Command = Backbone.Model.extend({
         urlRoot: '/commands',
+        defaults: function() {
+            return {
+                order: app.Commands.nextOrder()
+            };
+        },
         isBefore: function() {
             return (this.get('step').substring(0, 6) === 'Before');
         },
@@ -144,18 +149,13 @@ var app = app || {};
 
     var Commands = Backbone.Collection.extend({
         model: app.Command,
-        comparator: function(modelA, modelB) {
-            var a = modelA.get('order');
-            var b = modelB.get('order');
-
-            if (a > b) {
+        comparator: 'order',
+        nextOrder: function() {
+            if (!this.length) {
                 return 1;
             }
-            else if (a < b) {
-                return -1;
-            }
-
-            return 0;
+            
+            return this.last().get('order') + 1;
         }
     });
 
