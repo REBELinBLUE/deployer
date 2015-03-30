@@ -68,6 +68,9 @@ Route::group(['middleware' => 'auth'], function() {
         'uses' => 'CommandController@listing'
     ]);
 
+    Route::resource('users', 'UserController', [
+        'only' => ['index', 'store', 'update', 'destroy']
+    ]);
 });
 
 // Webhooks

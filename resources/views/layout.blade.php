@@ -29,7 +29,9 @@
                 <section class="content-header">
                     <div class="pull-right">
                         @if (isset($is_dashboard)) 
-                        <button type="button" class="btn btn-success" title="Add a new project" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> Add Project</button>
+                        <button type="button" class="btn btn-default" title="Add a new project" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> Add a project</button>
+                        @elseif (isset($is_users)) 
+                        <button type="button" class="btn btn-default" title="Add a new user" data-toggle="modal" data-target="#user"><span class="fa fa-plus"></span> Add a user</button>
                         @elseif (isset($is_project_details))
                         <form method="post" action="{{ route('deploy', ['id' => $project->id]) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />

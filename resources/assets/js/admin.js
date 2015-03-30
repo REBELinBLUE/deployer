@@ -43,6 +43,42 @@
         modal.find('.modal-title span').text(title);
     });
 
+    $('#user').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var user_id = button.data('user-id');
+
+        var modal = $(this);
+
+        var title = 'Add a new user';
+        $('.btn-danger', modal).hide();
+        $('.callout-danger', modal).hide();
+        $('.has-error', modal).removeClass('has-error');
+
+        var user = {
+            id: '',
+            name: '',
+            email: ''
+        };
+
+        if (user_id) {
+            title = 'Edit user';
+
+            var user = $.grep(users, function(element) {
+                return element.id == user_id;
+            });
+
+            user = user[0];
+
+            $('.btn-danger', modal).show();
+        }
+
+        $('#user_id').val(user.id);
+        $('#user_name').val(user.name);
+        $('#user_email').val(user.email);
+
+        modal.find('.modal-title span').text(title);
+    });
+
     $('#new_webhook').on('click', function(event) {
         var target = $(event.currentTarget);
         var project_id = target.data('project-id');
