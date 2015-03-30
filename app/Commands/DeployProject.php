@@ -123,7 +123,6 @@ CMD;
 
         $git_info = $process->getOutput();
 
-        // FIXME: See about getting the full commit hash
         $parts = explode("\x09", $git_info);
         $this->deployment->commit    = $parts[0];
         $this->deployment->committer = trim($parts[1]);

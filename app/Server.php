@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Server extends Model
 {
-    use SoftDeletes; // FIXME: Add protected private_key, public_key, last_run
+    use SoftDeletes;
     
     /**
      * The attributes excluded from the model's JSON form.

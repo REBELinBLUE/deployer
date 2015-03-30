@@ -25,7 +25,6 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($server_id);
 
-        // FIXME: Make this a command
         $server->status = 'Testing';
         $server->save();
 
