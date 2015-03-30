@@ -68,7 +68,7 @@ Route::group(['middleware' => 'auth'], function() {
         'uses' => 'CommandController@listing'
     ]);
 
-    Route::resource('users', 'UserController', [
+    Route::resource('admin/users', 'UserController', [
         'only' => ['index', 'store', 'update', 'destroy']
     ]);
 });

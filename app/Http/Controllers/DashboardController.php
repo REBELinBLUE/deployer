@@ -34,10 +34,9 @@ class DashboardController extends Controller
         }
 
         return view('dashboard.index', [
-            'title'        => 'Dashboard',
-            'latest'       => $grouped_by_date,
-            'projects'     => Project::orderBy('name')->get(),
-            'is_dashboard' => true
+            'title'    => 'Dashboard',
+            'latest'   => $grouped_by_date,
+            'projects' => Project::orderBy('name')->get()
         ]);
     }
 }

@@ -72,14 +72,13 @@ class ProjectController extends Controller
                           ->count();
 
         return view('project.details', [
-            'title'              => $project->name,
-            'deployments'        => $deployments,
-            'today'              => $today,
-            'last_week'          => $week,
-            'project'            => $project,
-            'servers'            => $project->servers, // Order by name
-            'commands'           => $commands,
-            'is_project_details' => true
+            'title'       => $project->name,
+            'deployments' => $deployments,
+            'today'       => $today,
+            'last_week'   => $week,
+            'project'     => $project,
+            'servers'     => $project->servers, // Order by name
+            'commands'    => $commands
         ]);
     }
 

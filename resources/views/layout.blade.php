@@ -27,6 +27,7 @@
 
             <div class="content-wrapper">
                 <section class="content-header">
+                    @yield('right-buttons')
                     <div class="pull-right">
                         @if (isset($is_dashboard)) 
                         <button type="button" class="btn btn-default" title="Add a new project" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> Add a project</button>

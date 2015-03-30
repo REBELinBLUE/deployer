@@ -84,3 +84,9 @@
     
     @include('dialogs.project')
 @stop
+
+@section('right-buttons')
+    <div class="pull-right">
+        <button type="button" class="btn btn-default" title="Add a new project" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> Add a project</button>
+    </div>
+@stop

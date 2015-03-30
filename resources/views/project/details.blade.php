@@ -92,3 +92,14 @@
         app.Servers.add({!! $servers->toJson() !!});
     </script>
 @stop
+
+@section('right-buttons')
+    <div class="pull-right">
+        <form method="post" action="{{ route('deploy', ['id' => $project->id]) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+            <button type="button" class="btn btn-default" title="View the public SSH sey" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> SSH key</button>
+            <button type="button" class="btn btn-default" title="Edit the project settings" data-project-id="{{ $project->id }}" data-toggle="modal" data-target="#project"><span class="fa fa-cogs"></span> Settings</button>
+            <button type="submit" class="btn btn-danger" title="Deploy the project" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></i> Deploy</button>
+        </form>
+    </div>
+@stop
