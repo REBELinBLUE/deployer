@@ -15,15 +15,14 @@ class VerifyCsrfToken extends BaseVerifier
      */
     public function handle($request, Closure $next)
     {
-        if ($this->excludedRoutes($request))
-        {
+        if ($this->excludedRoutes($request)) {
             return $this->addCookieToResponse($request, $next($request));
         }
 
         return parent::handle($request, $next);
     }
 
-    protected function excludedRoutes($request)  
+    protected function excludedRoutes($request)
     {
         $routes = [
             'deploy/*'

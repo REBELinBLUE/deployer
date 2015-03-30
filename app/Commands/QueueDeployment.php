@@ -53,7 +53,7 @@ class QueueDeployment extends Command implements SelfHandling
         $this->deployment->project->save();
 
         $hooks = [
-            'Clone'     => null, 
+            'Clone'     => null,
             'Install'   => null,
             'Activate'  => null,
             'Purge'     => null

@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', [
         'uses'  => 'DashboardController@index'
@@ -74,12 +74,12 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 // Webhooks
-Route::post('deploy/{hash}', [ 
+Route::post('deploy/{hash}', [
     'as'         => 'webhook',
     'uses'       => 'WebhookController@webhook'
 ]);
 
 Route::controllers([
     'auth'     => 'Auth\AuthController',
-    'password' => 'Auth\PasswordController',
+    'password' => 'Auth\PasswordController'
 ]);

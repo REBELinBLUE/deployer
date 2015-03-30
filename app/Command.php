@@ -31,8 +31,7 @@ class Command extends Model
      */
     public function hasServer(Server $server)
     {
-        foreach ($this->servers as $test)
-        {
+        foreach ($this->servers as $test) {
             if ($test->id === $server->id) {
                 return true;
             }

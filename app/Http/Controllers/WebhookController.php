@@ -44,5 +44,4 @@ class WebhookController extends Controller
             'url'     => route('webhook', $project->hash)
         ];
     }
-
 }
