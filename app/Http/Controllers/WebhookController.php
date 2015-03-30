@@ -32,9 +32,9 @@ class WebhookController extends Controller
         ];
     }
 
-    public function refresh($id)
+    public function refresh($project_id)
     {
-        $project = Project::findOrFail($id);
+        $project = Project::findOrFail($project_id);
         
         $project->generateHash();
         $project->save();

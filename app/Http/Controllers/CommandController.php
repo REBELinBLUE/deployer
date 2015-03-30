@@ -76,7 +76,7 @@ class CommandController extends Controller
         }
     }
 
-    public function update($id)
+    public function update($command_id)
     {
         $rules = array(
             'name'       => 'required',
@@ -91,7 +91,7 @@ class CommandController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ], 400);
         } else {
-            $command = Command::findOrFail($id);
+            $command = Command::findOrFail($command_id);
             $command->name   = Input::get('name');
             $command->user   = Input::get('user');
             $command->script = Input::get('script');
@@ -106,9 +106,9 @@ class CommandController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($command_id)
     {
-        $command = Command::findOrFail($id);
+        $command = Command::findOrFail($command_id);
         $command->delete();
 
         return Response::json([

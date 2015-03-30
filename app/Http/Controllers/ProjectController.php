@@ -136,7 +136,7 @@ class ProjectController extends Controller
         }
     }
 
-    public function update($id)
+    public function update($project_id)
     {
         $rules = array(
             'name'           => 'required',
@@ -155,7 +155,7 @@ class ProjectController extends Controller
                 'errors'  => $validator->getMessageBag()->toArray()
             ], 400);
         } else {
-            $project = Project::findOrFail($id);
+            $project = Project::findOrFail($project_id);
             $project->name           = Input::get('name');
             $project->repository     = Input::get('repository');
             $project->branch         = Input::get('branch');
@@ -172,9 +172,9 @@ class ProjectController extends Controller
         }
     }
 
-    public function servers($project)
+    public function servers($project_id)
     {
-        $project = Project::findOrFail($project);
+        $project = Project::findOrFail($project_id);
 
         return $project->servers;
     }

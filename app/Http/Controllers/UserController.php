@@ -35,10 +35,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int  $user_id
      * @return Response
      */
-    public function update($id)
+    public function update($user_id)
     {
         //
     }
@@ -46,10 +46,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $user_id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($user_id)
     {
         //
     }
