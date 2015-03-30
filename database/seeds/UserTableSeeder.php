@@ -11,7 +11,7 @@ class UserTableSeeder extends Seeder
     {
         DB::table('users')->delete();
 
-        $faker = Faker\Factory::create();
+        $faker = Faker\Factory::create('en_GB');
 
         User::create([
             'name'     => 'Stephen Ball',
