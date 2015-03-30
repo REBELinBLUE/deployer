@@ -18,22 +18,21 @@ var paths = {
     'underscore'      : bower_path + '/underscore',
     'jquery'          : bower_path + '/jquery',
     'bootstrap'       : bower_path + '/bootstrap-sass-official/assets',
-    'fontawesome'     : bower_path + '/fontawesome'
-    //'ionicons'        : bower_path + '/ionicons'
+    'fontawesome'     : bower_path + '/fontawesome',
+    'ionicons'        : bower_path + '/ionicons'
 };
 
 elixir(function(mix) {
     mix.sass('vendor.scss', 'public/css', {
         includePaths: [
             paths.bootstrap   + '/stylesheets',
-            paths.fontawesome + '/scss'
-            //paths.ionicons    + '/scss'
+            paths.fontawesome + '/scss',
+            paths.ionicons    + '/scss'
         ]
     })
     .styles([
-        'adminlte.min.css',
-        //'jvectormap.css',
-        'skins.min.css',
+        'AdminLTE.css',
+        'skin-green.css',
         'app.css'
     ], 'public/css/app.css', 'resources/assets/css')
     .scripts([
@@ -48,7 +47,7 @@ elixir(function(mix) {
         'servers.js',
         'deployment.js',
         'commands.js',
-        'adminlte.min.js',
+        'AdminLTE.js',
     ], 'public/js/app.js', 'resources/assets/js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
