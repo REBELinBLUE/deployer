@@ -58,6 +58,5 @@ elixir(function(mix) {
         'public/js/app.js',
         'public/js/vendor.js'
     ])
-    .copy('public/fonts', 'public/build/fonts')
-    .phpUnit();
+    .copy('public/fonts', 'public/build/fonts');
 });
