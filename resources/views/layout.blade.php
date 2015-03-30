@@ -6,8 +6,8 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
 
         <!-- Style -->
-        <link href="{{ elixir('css/style.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ elixir('css/admin.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ elixir('css/vendor.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ elixir('css/app.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -60,8 +60,8 @@
             </div>
         </div>
 
-        <script src="{{ elixir('js/style.js') }}"></script>
-        <script src="{{ elixir('js/admin.js') }}"></script>
+        <script src="{{ elixir('js/vendor.js') }}"></script>
+        <script src="{{ elixir('js/app.js') }}"></script>
 
         @yield('javascript')
     </body>

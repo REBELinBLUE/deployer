@@ -18,46 +18,46 @@ var paths = {
     'underscore'      : bower_path + '/underscore',
     'jquery'          : bower_path + '/jquery',
     'bootstrap'       : bower_path + '/bootstrap-sass-official/assets',
-    'fontawesome'     : bower_path + '/fontawesome',
-    'ionicons'        : bower_path + '/ionicons'
+    'fontawesome'     : bower_path + '/fontawesome'
+    //'ionicons'        : bower_path + '/ionicons'
 };
 
 elixir(function(mix) {
-    mix.sass('style.scss', 'public/css', {
+    mix.sass('vendor.scss', 'public/css', {
         includePaths: [
             paths.bootstrap   + '/stylesheets',
-            paths.fontawesome + '/scss',
-            paths.ionicons    + '/scss'
+            paths.fontawesome + '/scss'
+            //paths.ionicons    + '/scss'
         ]
     })
     .styles([
-        'admin.min.css',
-        'jvectormap.css',
+        'adminlte.min.css',
+        //'jvectormap.css',
         'skins.min.css',
-        'styles.css'
-    ], 'public/css/admin.css', 'resources/assets/css')
+        'app.css'
+    ], 'public/css/app.css', 'resources/assets/css')
     .scripts([
         paths.jquery          + '/dist/jquery.js',
         paths.underscore      + '/underscore.js',
         paths.bootstrap       + '/javascripts/bootstrap.js',
         paths.backbone        + '/backbone.js',
         paths.backbone_poller + '/backbone.poller.js'
-    ], 'public/js/style.js', bower_path)
+    ], 'public/js/vendor.js', bower_path)
     .scripts([
-        'admin.js',
+        'app.js',
         'servers.js',
         'deployment.js',
         'commands.js',
-        'app.min.js',
-    ], 'public/js/admin.js', 'resources/assets/js')
+        'adminlte.min.js',
+    ], 'public/js/app.js', 'resources/assets/js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
     .copy(paths.ionicons    + '/fonts/**',           'public/fonts')
     .version([
-        'public/css/admin.css',
-        'public/css/style.css',
-        'public/js/admin.js',
-        'public/js/style.js'
+        'public/css/app.css',
+        'public/css/vendor.css',
+        'public/js/app.js',
+        'public/js/vendor.js'
     ])
     .copy('public/fonts', 'public/build/fonts');
 });
