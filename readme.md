@@ -6,7 +6,7 @@ Deployer is a application for managing the deployment of PHP applications
 
 [![Build Status](http://ci.rebelinblue.com/build-status/image/3?branch=master)](http://ci.rebelinblue.com/build-status/view/3?branch=master)
 
-##What it does:
+## What it does:
 * Deploys applications to multiple servers accessible via SSH
 * Clones your projects git repository
 * Installs composer dependencies
@@ -14,7 +14,7 @@ Deployer is a application for managing the deployment of PHP applications
 * Gracefully handles failure in any of these steps
 * Keeps a number of previous deployments, allowing for easy rollback should something go wrong
 
-##What it doesn't do:
+## What it doesn't do:
 * Provision VMs
 * Install system packages
 * Configure the web server, database or other services
