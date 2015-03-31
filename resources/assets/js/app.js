@@ -43,7 +43,38 @@
         modal.find('.modal-title span').text(title);
     });
 
-    $('#project form .modal-footer button').on('click', function (event) {
+    $('#project button.btn-delete').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var icon = target.find('i');
+        var dialog = target.parents('.modal');
+
+        var id = $('form input[name="id"]', dialog).val();
+
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-trash');
+        dialog.find('input').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+        $.ajax({
+            url: '/projects/' + id,
+            type: 'DELETE',
+            beforeSend: function (request) {
+                request.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
+            }
+        }).done(function(data) {
+            dialog.modal('hide');
+            $('.callout-danger', dialog).hide();
+
+            window.location.href = '/';
+        }).fail(function(response) {
+            // FIXME: Do something here
+        }).always(function() {
+            icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
+            $('button.close', dialog).show();
+            dialog.find('input').removeAttr('disabled');
+        });
+    });
+
+    $('#project button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -67,9 +98,18 @@
             url: url,
             type: method,
             data: fields,
+            beforeSend: function (request) {
+                request.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
+            }
         }).done(function(data) {
             dialog.modal('hide');
             $('.callout-danger', dialog).hide();
+
+            if (method === 'POST') {
+                window.location.href = '/projects/' + data.project.id;
+            } else if (method === 'DELETE') {
+                window.location.href = '/';
+            }
         }).fail(function(response) {
             $('.callout-danger', dialog).show();
 

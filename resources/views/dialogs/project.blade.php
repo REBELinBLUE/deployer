@@ -6,7 +6,6 @@
                 <h4 class="modal-title"><i class="fa fa-cogs"></i> <span>Add a new project</span></h4>
             </div>
             <form role="form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" id="project_id" name="id" />
                 <div class="modal-body">
 
@@ -41,7 +40,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> Delete</button>
-                    <button type="button" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save Project</button>
+                    <button type="button" class="btn btn-primary pull-right btn-save"><i class="fa fa-save"></i> Save Project</button>
                 </div>
             </form>
         </div>
