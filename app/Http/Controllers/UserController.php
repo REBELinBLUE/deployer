@@ -83,7 +83,9 @@ class UserController extends Controller
         $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
+            return Response::json([
+                'errors' => $validator->getMessageBag()->toArray()
+            ], 400);
         } else {
             $user = User::findOrFail($user_id);
 

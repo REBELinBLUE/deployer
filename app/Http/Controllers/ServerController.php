@@ -88,6 +88,7 @@ class ServerController extends Controller
 
         $validator = Validator::make(Input::all(), $rules);
 
+        // FIXME: Why is this a redirect?
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         } else {
