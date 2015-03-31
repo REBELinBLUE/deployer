@@ -5,6 +5,10 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use Validator;
+use Input;
+use Response;
+
 use App\User;
 
 class UserController extends Controller
@@ -16,9 +20,14 @@ class UserController extends Controller
      */
     public function index()
     {
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->created = $user->created_at->format('jS F Y g:i:s A');
+        }
+
         return view('users.listing', [
             'title' => 'Manage users',
-            'users' => User::all()
+            'users' => $users
         ]);
     }
 
@@ -29,7 +38,29 @@ class UserController extends Controller
      */
     public function store()
     {
-        //
+        $rules = array(
+            'name'     => 'required',
+            'email'    => 'required|email|max:255|unique:users',
+            'password' => 'required|confirmed|min:6',
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+            return Response::json([
+                'errors' => $validator->getMessageBag()->toArray()
+            ], 400);
+        } else {
+            $user = new User;
+            $user->name     = Input::get('name');
+            $user->email    = Input::get('email');
+            $user->password = bcrypt(Input::get('password'));
+            $user->save();
+
+            $user->created = $user->created_at->format('jS F Y g:i:s A');
+
+            return $user;
+        }
     }
 
     /**
@@ -40,7 +71,35 @@ class UserController extends Controller
      */
     public function update($user_id)
     {
-        //
+        $rules = array(
+            'name'     => 'required',
+            'email'    => 'required|email|max:255|unique:users'
+        );
+
+        if (Input::get('password') !== '') {
+            $rules['password'] = 'min:6';
+        }
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        } else {
+            $user = User::findOrFail($user_id);
+
+            $user->name  = Input::get('name');
+            $user->email = Input::get('email');
+
+            if (Input::get('password') !== '') {
+                $user->password = bcrypt(Input::get('password'));
+            }
+
+            $user->save();
+
+            $user->created = $user->created_at->format('jS F Y g:i:s A');
+
+            return $user;
+        }
     }
 
     /**
@@ -51,6 +110,12 @@ class UserController extends Controller
      */
     public function destroy($user_id)
     {
-        //
+        $user = User::findOrFail($user_id);
+        $user->delete();
+
+        return Response::json([
+            'success'  => true,
+            'redirect' => '/'
+        ], 200);
     }
 }
