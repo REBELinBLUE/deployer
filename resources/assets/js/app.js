@@ -43,7 +43,7 @@
         modal.find('.modal-title span').text(title);
     });
 
-    $('#project button.btn-delete').on('click', function (event) {
+    $('.modal-dialog button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -54,8 +54,10 @@
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
+        var url = '/' + dialog.data('resource') + '/' + id;
+
         $.ajax({
-            url: '/projects/' + id,
+            url: url,
             type: 'DELETE',
             beforeSend: function (request) {
                 request.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
@@ -64,7 +66,9 @@
             dialog.modal('hide');
             $('.callout-danger', dialog).hide();
 
-            window.location.href = '/';
+            if (typeof data.redirect !== 'undefined') {
+                window.location.href = data.redirect;
+            }
         }).fail(function(response) {
             // FIXME: Do something here
         }).always(function() {
@@ -74,14 +78,14 @@
         });
     });
 
-    $('#project button.btn-save').on('click', function (event) {
+    $('.modal-dialog button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
 
         var fields = $('form', dialog).serialize();
 
-        var url = '/projects';
+        var url = '/' + dialog.data('resource');
         var id = $('form input[name="id"]', dialog).val();
         var method = 'POST';
 
@@ -105,10 +109,8 @@
             dialog.modal('hide');
             $('.callout-danger', dialog).hide();
 
-            if (method === 'POST') {
-                window.location.href = '/projects/' + data.project.id;
-            } else if (method === 'DELETE') {
-                window.location.href = '/';
+            if (typeof data.redirect !== 'undefined') {
+                window.location.href = data.redirect;
             }
         }).fail(function(response) {
             $('.callout-danger', dialog).show();
