@@ -17,6 +17,7 @@ class CreateServerLogsTable extends Migration
             $table->unsignedInteger('server_id');
             $table->unsignedInteger('deploy_step_id');
             $table->enum('status', ['Pending', 'Running', 'Failed', 'Cancelled', 'Completed'])->default('Pending');
+            $table->text('script')->nullable();
             $table->text('output')->nullable();
             $table->dateTime('started_at')->nullable();
             $table->dateTime('finished_at')->nullable();

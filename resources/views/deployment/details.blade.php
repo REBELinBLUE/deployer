@@ -43,6 +43,7 @@
         <td width="10%">
             <div class="btn-group pull-right">
                 <% if (output !== null) { %>
+                    <%- output %>
                     <button type="button" class="btn btn-default" title="View the output" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
                 <% } %>
             </div>
