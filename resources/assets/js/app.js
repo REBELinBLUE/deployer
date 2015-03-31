@@ -43,6 +43,54 @@
         modal.find('.modal-title span').text(title);
     });
 
+    $('#project form .modal-footer button').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var icon = target.find('i');
+        var dialog = target.parents('.modal');
+
+        var fields = $('form', dialog).serialize();
+
+        var url = '/projects';
+        var id = $('form input[name="id"]', dialog).val();
+        var method = 'POST';
+
+        if (id !== '') {
+            url +=  '/' + id;
+            method = 'PUT';
+        }
+
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
+        dialog.find('input').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+        $.ajax({
+            url: url,
+            type: method,
+            data: fields,
+        }).done(function(data) {
+            dialog.modal('hide');
+            $('.callout-danger', dialog).hide();
+        }).fail(function(response) {
+            $('.callout-danger', dialog).show();
+
+            var errors = response.responseJSON.errors;
+
+            $('form input', dialog).each(function (index, element) {
+                element = $(element);
+
+                var name = element.attr('name');
+
+                if (typeof errors[name] != 'undefined') {
+                    element.parent('div').addClass('has-error');
+                }
+            });
+        }).always(function() {
+            icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
+            $('button.close', dialog).show();
+            dialog.find('input').removeAttr('disabled');
+        });
+    });
+
     $('#user').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var user_id = button.data('user-id');
