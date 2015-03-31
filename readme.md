@@ -44,7 +44,8 @@ For these reasons I decided to make a clone of Envoyer which suited my needs, at
 * PHP Json extension (normally built in)
 * beanstalkd
 * composer
-* NPM
+* bower
+* node
 * gulp
 
 **Clone the repository**
@@ -95,4 +96,3 @@ Code style can be checked with
 PHP Docblocks can be checked with
 
     $ phpdoccheck --directory="app"
-
