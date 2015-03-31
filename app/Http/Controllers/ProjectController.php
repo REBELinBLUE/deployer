@@ -130,8 +130,7 @@ class ProjectController extends Controller
 
             return Response::json([
                 'success' => true,
-                'project' => $project,
-                'redirect' => url('projects', $project->id)
+                'project' => $project
             ], 200);
         }
     }
@@ -178,8 +177,7 @@ class ProjectController extends Controller
         $project->delete();
 
         return Response::json([
-            'success'  => true,
-            'redirect' => '/'
+            'success' => true
         ], 200);
     }
 

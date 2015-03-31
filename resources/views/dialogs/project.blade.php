@@ -1,4 +1,4 @@
-<div class="modal fade" id="project" data-resource="projects">
+<div class="modal fade" id="project">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
