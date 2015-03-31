@@ -1,4 +1,4 @@
-<div class="modal fade" id="user" data-resource="users">
+<div class="modal fade" id="user">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -24,13 +24,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="user_password">Password (leave blank to leave unchanged)</label>
+                        <label for="user_password" class="user_password existing-only">Password (leave blank to leave unchanged)</label>
+                        <label for="user_password" class="new-only">Password</label>
                         <input type="password" class="form-control" name="password" id="user_password" />
+                    </div>
+
+                    <div class="form-group new-only">
+                        <label for="user_password_confirmation">Password Confirmation</label>
+                        <input type="password" class="form-control" name="password_confirmation" id="user_password_confirmation" />
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> Delete</button>
-                    <button type="button" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save User</button>
+                    <button type="button" class="btn btn-primary pull-right btn-save"><i class="fa fa-save"></i> Save User</button>
                 </div>
             </form>
         </div>
