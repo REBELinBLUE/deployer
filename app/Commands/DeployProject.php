@@ -165,6 +165,8 @@ CMD;
                 $user = $step->command->user;
             }
 
+            $log->script = $script;
+
             $failed = false;
 
             if (!empty($script)) {
@@ -207,7 +209,13 @@ EOF'
     {
         $project = $this->deployment->project;
 
-        $root_dir = preg_replace('#/$#', '', $server->path); # Remove any trailing slash from the path on the server
+        $root_dir = preg_replace('#/$#', '', $server->path);
+
+        // Precaution to make sure nothing accidentially runs at /
+        if (empty($root_dir)) {
+            return '';
+        }
+
         $releases_dir = $root_dir . '/releases';
 
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
@@ -240,10 +248,10 @@ EOF'
                 sprintf('git checkout %s', $project->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
             ];
-        } elseif ($step->stage == 'Install') { // Install Composer dependencies
+        } elseif ($step->stage == 'Install') { // Install composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
-                sprintf('composer install --no-interaction --prefer-dist --no-ansi --working-dir="%s"', $latest_release_dir)
+                sprintf('composer install -n --prefer-dist --no-ansi --d "%s"', $latest_release_dir)
             ];
         } elseif ($step->stage == 'Activate') { // Activate latest release
             $commands = [
@@ -254,7 +262,7 @@ EOF'
         } elseif ($step->stage == 'Purge') { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
-                sprintf('(ls -t|head -n %s;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep)
+                sprintf('(ls -t|head -n %u;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep)
             ];
         } else { // Custom step!
             $commands = $step->command->script;
