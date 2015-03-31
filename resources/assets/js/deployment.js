@@ -46,13 +46,7 @@ var app = app || {};
         poller: false,
         initialize: function() {
             this.on('change:status', this.changeStatus, this);
-
-            var that = this;
-
-            $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
-            });
-
+            
             this.changeStatus();
         },
         changeStatus: function() {

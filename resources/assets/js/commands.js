@@ -137,13 +137,6 @@ var app = app || {};
         },
         isBefore: function() {
             return (this.get('step').substring(0, 6) === 'Before');
-        },
-        initialize: function() {
-            var that = this;
-
-            $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
-            });
         }
     });
 

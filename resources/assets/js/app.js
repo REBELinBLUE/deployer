@@ -1,3 +1,7 @@
+$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+    jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
+});
+
 (function ($) {
     $('#project').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -43,7 +47,7 @@
         modal.find('.modal-title span').text(title);
     });
 
-    $('.modal-dialog button.btn-delete').on('click', function (event) {
+    $('#project .modal-dialog button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -54,21 +58,14 @@
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var url = '/' + dialog.data('resource') + '/' + id;
-
         $.ajax({
-            url: url,
-            type: 'DELETE',
-            beforeSend: function (request) {
-                request.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
-            }
+            url: '/projects/' + id,
+            type: 'DELETE'
         }).done(function(data) {
             dialog.modal('hide');
             $('.callout-danger', dialog).hide();
 
-            if (typeof data.redirect !== 'undefined') {
-                window.location.href = data.redirect;
-            }
+            window.location.href = '/';
         }).fail(function(response) {
             // FIXME: Do something here
         }).always(function() {
@@ -78,14 +75,14 @@
         });
     });
 
-    $('.modal-dialog button.btn-save').on('click', function (event) {
+    $('#project .modal-dialog button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
 
         var fields = $('form', dialog).serialize();
 
-        var url = '/' + dialog.data('resource');
+        var url = '/projects'
         var id = $('form input[name="id"]', dialog).val();
         var method = 'POST';
 
@@ -101,17 +98,12 @@
         $.ajax({
             url: url,
             type: method,
-            data: fields,
-            beforeSend: function (request) {
-                request.setRequestHeader('X-CSRF-Token', $('meta[name="token"]').attr('content'));
-            }
+            data: fields
         }).done(function(data) {
             dialog.modal('hide');
             $('.callout-danger', dialog).hide();
 
-            if (typeof data.redirect !== 'undefined') {
-                window.location.href = data.redirect;
-            }
+            window.location.href = '/projects/' + data.project.id;
         }).fail(function(response) {
             $('.callout-danger', dialog).show();
 
@@ -133,41 +125,41 @@
         });
     });
 
-    $('#user').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var user_id = button.data('user-id');
+    // $('#user').on('show.bs.modal', function (event) {
+    //     var button = $(event.relatedTarget);
+    //     var user_id = button.data('user-id');
 
-        var modal = $(this);
+    //     var modal = $(this);
 
-        var title = 'Add a new user';
-        $('.btn-danger', modal).hide();
-        $('.callout-danger', modal).hide();
-        $('.has-error', modal).removeClass('has-error');
+    //     var title = 'Add a new user';
+    //     $('.btn-danger', modal).hide();
+    //     $('.callout-danger', modal).hide();
+    //     $('.has-error', modal).removeClass('has-error');
 
-        var user = {
-            id: '',
-            name: '',
-            email: ''
-        };
+    //     var user = {
+    //         id: '',
+    //         name: '',
+    //         email: ''
+    //     };
 
-        if (user_id) {
-            title = 'Edit user';
+    //     if (user_id) {
+    //         title = 'Edit user';
 
-            var user = $.grep(users, function(element) {
-                return element.id == user_id;
-            });
+    //         var user = $.grep(users, function(element) {
+    //             return element.id == user_id;
+    //         });
 
-            user = user[0];
+    //         user = user[0];
 
-            $('.btn-danger', modal).show();
-        }
+    //         $('.btn-danger', modal).show();
+    //     }
 
-        $('#user_id').val(user.id);
-        $('#user_name').val(user.name);
-        $('#user_email').val(user.email);
+    //     $('#user_id').val(user.id);
+    //     $('#user_name').val(user.name);
+    //     $('#user_email').val(user.email);
 
-        modal.find('.modal-title span').text(title);
-    });
+    //     modal.find('.modal-title span').text(title);
+    // });
 
     $('#new_webhook').on('click', function(event) {
         var target = $(event.currentTarget);
