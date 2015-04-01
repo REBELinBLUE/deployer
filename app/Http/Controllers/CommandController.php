@@ -60,12 +60,19 @@ class CommandController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ], 400);
         } else {
+
+            $max = Command::where('project_id', '=', Input::get('project_id'))
+                          ->where('step', '=', ucwords(Input::get('step')))
+                          ->orderBy('order', 'desc')
+                          ->first();
+
             $command = new Command;
             $command->name       = Input::get('name');
             $command->user       = Input::get('user');
             $command->project_id = Input::get('project_id');
             $command->script     = Input::get('script');
             $command->step       = ucwords(Input::get('step'));
+            $command->order      = (int) $max->order + 1;
             $command->save();
 
             $command->servers()->attach(Input::get('servers'));
