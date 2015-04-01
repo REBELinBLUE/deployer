@@ -44,10 +44,12 @@ elixir(function(mix) {
     ], 'public/js/vendor.js', bower_path)
     .scripts([
         'app.js',
+        'projects.js',
         'servers.js',
         'deployment.js',
         'commands.js',
         'users.js',
+        'groups.js',
         'AdminLTE.js',
     ], 'public/js/app.js', 'resources/assets/js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')

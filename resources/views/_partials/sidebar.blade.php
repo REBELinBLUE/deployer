@@ -32,7 +32,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="#">Projects</a></li>
-                    <li><a href="#">Groups</a></li>
+                    <li><a href="{{ url('admin/groups') }}">Groups</a></li>
                     <li><a href="{{ url('admin/users') }}">Users</a></li>
                     <li><a href="#">Settings</a></li>
                 </ul>

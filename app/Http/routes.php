@@ -71,6 +71,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('admin/users', 'UserController', [
         'only' => ['index', 'store', 'update', 'destroy']
     ]);
+
+    Route::resource('admin/groups', 'GroupController', [
+        'only' => ['index', 'store', 'update']
+    ]);
 });
 
 // Webhooks
