@@ -66,13 +66,18 @@ class CommandController extends Controller
                           ->orderBy('order', 'desc')
                           ->first();
 
+            $order = 0;
+            if (isset($max)) {
+                $order = (int) $max->order + 1;
+            }
+
             $command = new Command;
             $command->name       = Input::get('name');
             $command->user       = Input::get('user');
             $command->project_id = Input::get('project_id');
             $command->script     = Input::get('script');
             $command->step       = ucwords(Input::get('step'));
-            $command->order      = (int) $max->order + 1;
+            $command->order      = $order;
             $command->save();
 
             $command->servers()->attach(Input::get('servers'));
