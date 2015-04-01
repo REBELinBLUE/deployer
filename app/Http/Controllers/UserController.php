@@ -73,7 +73,7 @@ class UserController extends Controller
     {
         $rules = array(
             'name'     => 'required',
-            'email'    => 'required|email|max:255|unique:users'
+            'email'    => 'required|email|max:255|unique:users,' . $user_id
         );
 
         if (Input::get('password') !== '') {
