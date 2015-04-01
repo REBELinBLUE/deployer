@@ -103,6 +103,7 @@ class ProjectController extends Controller
             'name'           => 'required',
             'repository'     => 'required',
             'branch'         => 'required',
+            'group_id'       => 'required|integer|exists:groups,id',
             'builds_to_keep' => 'required|integer|min:1|max:20',
             'url'            => 'url',
             'build_url'      => 'url'
@@ -120,6 +121,7 @@ class ProjectController extends Controller
             $project->name           = Input::get('name');
             $project->repository     = Input::get('repository');
             $project->branch         = Input::get('branch');
+            $project->group_id       = Input::get('group_id');
             $project->builds_to_keep = Input::get('builds_to_keep');
             $project->url            = Input::get('url');
             $project->build_url      = Input::get('build_url');
@@ -141,6 +143,7 @@ class ProjectController extends Controller
             'name'           => 'required',
             'repository'     => 'required',
             'branch'         => 'required',
+            'group_id'       => 'required|integer|exists:groups,id',
             'builds_to_keep' => 'required|integer|min:1|max:20',
             'url'            => 'url',
             'build_url'      => 'url'
@@ -158,6 +161,7 @@ class ProjectController extends Controller
             $project->name           = Input::get('name');
             $project->repository     = Input::get('repository');
             $project->branch         = Input::get('branch');
+            $project->group_id       = Input::get('group_id');
             $project->builds_to_keep = Input::get('builds_to_keep');
             $project->url            = Input::get('url');
             $project->build_url      = Input::get('build_url');

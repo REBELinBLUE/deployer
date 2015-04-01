@@ -18,6 +18,14 @@
                         <input type="text" class="form-control" name="name" id="project_name" placeholder="My awesome webapp" />
                     </div>
                     <div class="form-group">
+                        <label for="project_group_id">Group</label>
+                        <select id="project_group_id" name="group_id" class="form-control">
+                            @foreach(App\Group::all() as $group)
+                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="project_repository">Repository</label>
                         <input type="text" class="form-control" name="repository" id="project_repository"  placeholder="git@git.example.com:repositories/project.git" />
                     </div>

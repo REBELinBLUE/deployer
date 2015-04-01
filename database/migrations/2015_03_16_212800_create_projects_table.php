@@ -20,6 +20,7 @@ class CreateProjectsTable extends Migration
             $table->string('branch')->default('master');
             $table->text('private_key');
             $table->text('public_key');
+            $table->unsignedInteger('group_id');
             $table->unsignedInteger('builds_to_keep')->default(10);
             $table->string('url')->nullable();
             $table->string('build_url')->nullable();
@@ -27,6 +28,7 @@ class CreateProjectsTable extends Migration
             $table->dateTime('last_run')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 

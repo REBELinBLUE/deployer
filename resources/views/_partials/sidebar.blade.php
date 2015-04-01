@@ -8,18 +8,21 @@
                 </a>
             </li>
 
-            <li class="treeview {{ (Request::is('projects/*') OR Request::is('deployment/*')) ? 'active' : null }}">
+            @foreach(App\Group::all() as $group)
+            <li class="treeview">
+                {{-- (Request::is('projects/*') OR Request::is('deployment/*')) ? 'active' : null --}}
                 <a href="#">
                     <i class="fa fa-book"></i>
-                    <span>Projects</span>
+                    <span>{{ $group->name }}</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    @foreach(App\Project::all() as $project)
+                    @foreach($group->projects as $project)
                         <li><a href="{{ url('projects', $project->id) }}">{{ $project->name }}</a></li>
                     @endforeach
                 </ul>
             </li>
+            @endforeach
 
             <li class="treeview {{ Request::is('admin/*') ? 'active' : null }}">
                 <a href="#">
@@ -28,6 +31,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Groups</a></li>
                     <li><a href="{{ url('admin/users') }}">Users</a></li>
                     <li><a href="#">Settings</a></li>
                 </ul>

@@ -19,6 +19,7 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
             name: '',
             repository: '',
             branch: '',
+            group_id: '',
             builds_to_keep: 10,
             url: '',
             build_url: ''
@@ -40,6 +41,7 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
         $('#project_name').val(project.name);
         $('#project_repository').val(project.repository);
         $('#project_branch').val(project.branch);
+        $('#project_group_id').val(project.group_id);
         $('#project_builds_to_keep').val(project.builds_to_keep);
         $('#project_url').val(project.url);
         $('#project_build_url').val(project.build_url);

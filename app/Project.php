@@ -29,6 +29,11 @@ class Project extends Model
         return ($this->status == 'Deploying' || $this->status == 'Pending');
     }
 
+    public function group()
+    {
+        return $this->belongsTo('App\Group');
+    }
+
     public function servers()
     {
         return $this->hasMany('App\Server');

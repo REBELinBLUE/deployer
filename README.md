@@ -22,7 +22,6 @@ Deployer is a application for managing the deployment of PHP applications
 ## Planned features:
 * Slack & email notifications
 * Rollback deploy
-* Project groups
 * Deployment templates
 * Checking application status is 200 on deploy
 
