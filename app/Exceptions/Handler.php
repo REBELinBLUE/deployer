@@ -57,6 +57,7 @@ class Handler extends ExceptionHandler
     {
         $whoops = new \Whoops\Run;
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
+        $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
 
         return new \Illuminate\Http\Response(
             $whoops->handleException($exception),
