@@ -15,7 +15,7 @@
             name: '',
             repository: '',
             branch: '',
-            group_id: '',
+            group_id: 0,
             builds_to_keep: 10,
             url: '',
             build_url: ''
@@ -37,7 +37,11 @@
         $('#project_name').val(project.name);
         $('#project_repository').val(project.repository);
         $('#project_branch').val(project.branch);
-        $('#project_group_id').val(project.group_id);
+
+        if (project.group_id > 0) {
+            $('#project_group_id').val(project.group_id);
+        }
+
         $('#project_builds_to_keep').val(project.builds_to_keep);
         $('#project_url').val(project.url);
         $('#project_build_url').val(project.build_url);
