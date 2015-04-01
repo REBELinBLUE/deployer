@@ -6,8 +6,11 @@ use App\Deployment;
 use App\DeployStep;
 use App\Server;
 
+use App\Commands\Notify;
+
 use Config;
 use SSH;
+use Queue;
 
 use Symfony\Component\Process\Process;
 
@@ -76,6 +79,8 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 
         $project->last_run = date('Y-m-d H:i:s');
         $project->save();
+
+        Queue::pushOn('notify', new Notify('https://hooks.slack.com/services/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', '#deploy', $this->deployment));
 
         unlink($this->private_key);
     }
