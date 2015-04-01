@@ -8,7 +8,7 @@
                 </a>
             </li>
 
-            @foreach(App\Group::all() as $group)
+            @foreach(App\Group::orderBy('name')->get() as $group)
             <li class="treeview">
                 {{-- (Request::is('projects/*') OR Request::is('deployment/*')) ? 'active' : null --}}
                 <a href="#">
