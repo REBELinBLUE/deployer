@@ -60,7 +60,7 @@ For these reasons I decided to make a clone of Envoyer which suited my needs, at
     $ git clone http://repository.url/repo.git
 
 **Setup config**
-    
+
     $ cp .env.example .env
     $ editor .env
 
