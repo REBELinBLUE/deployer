@@ -39,7 +39,7 @@ class ProjectController extends Controller
             // FIXME: There has to be a cleaner way to do this surely? Maybe on the model
             $steps  = explode(' ', $command->step);
             $action = strtolower($steps[1]);
-            $when   =  strtolower($steps[0]);
+            $when   = strtolower($steps[0]);
 
             if (!is_array($commands[$action])) {
                 $commands[$action] = [];
@@ -72,13 +72,14 @@ class ProjectController extends Controller
                           ->count();
 
         return view('project.details', [
-            'title'       => $project->name,
-            'deployments' => $deployments,
-            'today'       => $today,
-            'last_week'   => $week,
-            'project'     => $project,
-            'servers'     => $project->servers, // Order by name
-            'commands'    => $commands
+            'title'         => $project->name,
+            'deployments'   => $deployments,
+            'today'         => $today,
+            'last_week'     => $week,
+            'project'       => $project,
+            'servers'       => $project->servers, // FIXME: Order by name
+            'notifications' => $project->notifications, // FIXME: Order by name
+            'commands'      => $commands
         ]);
     }
 

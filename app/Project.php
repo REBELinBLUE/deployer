@@ -38,7 +38,12 @@ class Project extends Model
     {
         return $this->hasMany('App\Server');
     }
-    
+
+    public function notifications()
+    {
+        return $this->hasMany('App\Notification');
+    }
+
     public function deployments()
     {
         return $this->hasMany('App\Deployment');

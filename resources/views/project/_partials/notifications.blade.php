@@ -21,7 +21,6 @@
                     <td>#chat</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Test Connection"><i class="fa fa-refresh"></i></button>
                             <button type="button" class="btn btn-default" title="Edit" data-toggle="modal" data-target="#channel"><i class="fa fa-edit"></i></button>
                         </div>
                     </td>
