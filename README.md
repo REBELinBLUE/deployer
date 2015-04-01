@@ -66,11 +66,11 @@ For these reasons I decided to make a clone of Envoyer which suited my needs, at
     
 An example of the config
 
-	APP_ENV=local
-	APP_URL=http://deploy.app
-	APP_DEBUG=false
-	APP_KEY=cJKwSTJFF75DK29ecw72ZRrkS6D0tqHy
-	QUEUE_DRIVER=beanstalkd
+    APP_ENV=production
+    APP_URL=http://deploy.app
+    APP_DEBUG=false
+    APP_KEY=cJKwSTJFF75DK29ecw72ZRrkS6D0tqHy
+    QUEUE_DRIVER=beanstalkd
 
 
 **Install dependencies**
