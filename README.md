@@ -12,12 +12,19 @@ Deployer is a application for managing the deployment of PHP applications
 * Installs composer dependencies
 * Runs arbitrary commands
 * Gracefully handles failure in any of these steps
-* Keeps a number of previous deployments, allowing for easy rollback should something go wrong
+* Keeps a number of previous deployments
 
 ## What it doesn't do:
 * Provision VMs
 * Install system packages
 * Configure the web server, database or other services
+
+## Planned features:
+* Slack & email notifications
+* Rollback deploy
+* Project groups
+* Deployment templates
+* Checking application status is 200 on deploy
 
 # Why?
 
