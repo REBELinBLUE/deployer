@@ -6,7 +6,6 @@
                 <h4 class="modal-title"><i class="fa fa-cogs"></i> <span>Add a new user</span></h4>
             </div>
             <form role="form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" id="user_id" name="id" />
                 <div class="modal-body">
 
