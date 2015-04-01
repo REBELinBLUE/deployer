@@ -77,7 +77,7 @@ An example of the config
     $ composer install
     $ npm install
     $ bower install
-    
+
 **Setup the database**
 
     $ touch storage/database.sqlite
