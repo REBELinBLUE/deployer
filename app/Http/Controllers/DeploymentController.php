@@ -25,7 +25,7 @@ class DeploymentController extends Controller
                 $server->runtime = ($server->runtime() === false ? null : human_readable_duration($server->runtime()));
                 $server->output = ((is_null($server->output) || !strlen($server->output)) ? null : '');
                 $server->script = '';
-                $server->first = (count($output) === 0);
+                $server->first = (count($output) === 0); // FIXME: Let backbone.js take care of this
 
                 $output[] = $server;
             }
