@@ -58,12 +58,12 @@ For these reasons I decided to make a clone of Envoyer which suited my needs, at
 **Clone the repository**
 
     $ git clone http://repository.url/repo.git
- 
+
 **Setup config**
     
     $ cp .env.example .env
     $ editor .env
-    
+
 An example of the config
 
     APP_ENV=production
@@ -71,7 +71,6 @@ An example of the config
     APP_DEBUG=false
     APP_KEY=cJKwSTJFF75DK29ecw72ZRrkS6D0tqHy
     QUEUE_DRIVER=beanstalkd
-
 
 **Install dependencies**
 
@@ -84,12 +83,12 @@ An example of the config
     $ touch storage/database.sqlite
     $ php artisan migrate:install
     $ php artisan migrate:refresh
-    
+
 **Compile the assets**
 
     $ gulp --production
     $ gulp copy # This is needed to get the fonts needed by bootstrap in the correct place
-    
+
 # Development
 
 The code is written to follow PSR-2 standards, this can be tested using PHP_CodeSniffer
