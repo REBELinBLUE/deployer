@@ -20,7 +20,7 @@
                 <% } %>
             </div>
         </td>
-        <td><%- name %> <%- first %></td>
+        <td><%- name %></td>
         <td><%- user %></td>
         <td>
             <div class="btn-group pull-right">
