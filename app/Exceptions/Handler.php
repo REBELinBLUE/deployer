@@ -55,9 +55,12 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionWithWhoops(Exception $exception)
     {
+        $json = new \Whoops\Handler\JsonResponseHandler;
+        $json->onlyForAjaxRequests(true);
+
         $whoops = new \Whoops\Run;
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
-        $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
+        $whoops->pushHandler($json);
 
         return new \Illuminate\Http\Response(
             $whoops->handleException($exception),
