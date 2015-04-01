@@ -47,7 +47,7 @@ class ServerController extends Controller
             'user'       => 'required',
             'ip_address' => 'required|ip',
             'path'       => 'required',
-            'project_id' => 'required|integer'
+            'project_id' => 'required|integer|exists:projects,id'
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -83,7 +83,7 @@ class ServerController extends Controller
             'user'       => 'required',
             'ip_address' => 'required|ip',
             'path'       => 'required',
-            'project_id' => 'required|integer'
+            'project_id' => 'required|integer|exists:projects,id'
         );
 
         $validator = Validator::make(Input::all(), $rules);
