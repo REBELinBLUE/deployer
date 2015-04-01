@@ -10,12 +10,17 @@
 
     <script type="text/template" id="command-template">
         <td>
-            <div class="btn-group pull-left">
-                <button type="button" class="btn btn-xs btn-link"><i class="fa fa-long-arrow-up"></i></button>
-                <button type="button" class="btn btn-xs btn-link"><i class="fa fa-long-arrow-down"></i></button>
+            <div class="btn-group">
+                <% if (!first) { %>
+                    <button type="button" class="btn btn-xs btn-link pull-left"><i class="fa fa-long-arrow-up"></i></button>
+                <% } %>
+
+                <% if (!last) { %>
+                    <button type="button" class="btn btn-xs btn-link pull-right"><i class="fa fa-long-arrow-down"></i></button>
+                <% } %>
             </div>
         </td>
-        <td><%- name %></td>
+        <td><%- name %> <%- first %></td>
         <td><%- user %></td>
         <td>
             <div class="btn-group pull-right">

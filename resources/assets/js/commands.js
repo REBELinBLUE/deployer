@@ -223,7 +223,15 @@ var app = app || {};
             this.template = _.template($('#command-template').html());
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var data = this.model.toJSON();
+
+            var first = app.Commands.first();
+            data.first = (first.id === data.id);
+
+            var last = app.Commands.last();
+            data.last = (last.id === data.id);
+
+            this.$el.html(this.template(data));
 
             return this;
         },
