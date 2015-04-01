@@ -79,11 +79,11 @@ An example of the config
     $ npm install
     $ bower install
     
-**Seed the database**
+**Setup the database**
 
     $ touch storage/database.sqlite
     $ php artisan migrate:install
-    $ php artisan migrate:refresh --seed
+    $ php artisan migrate:refresh
     
 **Compile the assets**
 
