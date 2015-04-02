@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->string('name');
             $table->string('webhook');
             $table->string('channel');
+            $table->string('icon')->nullable();
             $table->unsignedInteger('project_id');
             $table->timestamps();
             $table->softDeletes();

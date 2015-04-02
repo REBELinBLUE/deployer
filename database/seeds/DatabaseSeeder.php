@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call('ServerTableSeeder');
         $this->call('DeploymentTableSeeder');
         $this->call('CommandTableSeeder');
+        $this->call('NotificationTableSeeder');
     }
 }
