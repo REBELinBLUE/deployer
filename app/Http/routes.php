@@ -21,9 +21,13 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'WebhookController@refresh'
     ]);
 
-    // Projects
-    Route::resource('projects', 'ProjectController', [
-        'only' => ['show', 'store', 'update', 'destroy']
+
+    Route::get('projects/{id}', [
+        'uses' => 'ProjectController@show'
+    ]);
+    
+    Route::resource('admin/projects', 'ProjectController', [
+        'only' => ['index', 'store', 'update', 'destroy']
     ]);
 
     Route::post('projects/{id}/deploy', [

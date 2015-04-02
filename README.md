@@ -27,7 +27,6 @@ Deployer is a application for managing the deployment of PHP applications
 
 ## Other changes:
 * Massively refactor the JS, clean up the duplication and sort out the Backbone.js code to not modify the DOM directly
-* Move project management to the admin section
 
 # Why?
 

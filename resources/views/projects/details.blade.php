@@ -62,16 +62,16 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="deployments">
-                        @include('project._partials.deployments')
+                        @include('projects._partials.deployments')
                     </div>
                     <div class="tab-pane" id="servers">
-                        @include('project._partials.servers')
+                        @include('projects._partials.servers')
                     </div>
                     <div class="tab-pane" id="hooks">
-                        @include('project._partials.commands')
+                        @include('projects._partials.commands')
                     </div>
                     <div class="tab-pane" id="notifications">
-                        @include('project._partials.notifications')
+                        @include('projects._partials.notifications')
                     </div>
                 </div>
             </div>
@@ -81,13 +81,10 @@
     @include('dialogs.server')
     @include('dialogs.key')
     @include('dialogs.channel')
-    @include('dialogs.project')
 @stop
 
 @section('javascript')
     <script type="text/javascript">
-        var projects = [{!! $project->toJson() !!}];
-        
         new app.ServersTab();
         new app.NotificationsTab();
 
@@ -101,7 +98,6 @@
         <form method="post" action="{{ route('deploy', ['id' => $project->id]) }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <button type="button" class="btn btn-default" title="View the public SSH sey" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> SSH key</button>
-            <button type="button" class="btn btn-default" title="Edit the project settings" data-project-id="{{ $project->id }}" data-toggle="modal" data-target="#project"><span class="fa fa-cogs"></span> Settings</button>
             <button type="submit" class="btn btn-danger" title="Deploy the project" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></i> Deploy</button>
         </form>
     </div>

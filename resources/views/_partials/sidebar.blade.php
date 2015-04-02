@@ -31,7 +31,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Projects</a></li>
+                    <li><a href="{{ url('admin/projects') }}">Projects</a></li>
                     <li><a href="{{ url('admin/groups') }}">Groups</a></li>
                     <li><a href="{{ url('admin/users') }}">Users</a></li>
                     <li><a href="#">Settings</a></li>

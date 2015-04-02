@@ -20,7 +20,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-       return view('groups.listing', [
+        return view('groups.listing', [
             'title'  => 'Manage groups',
             'groups' => Group::all()
         ]);

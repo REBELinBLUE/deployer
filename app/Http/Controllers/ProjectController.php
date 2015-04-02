@@ -71,7 +71,7 @@ class ProjectController extends Controller
                           ->where('started_at', '<=', $yesterday->format('Y-m-d') . ' 23:59:59')
                           ->count();
 
-        return view('project.details', [
+        return view('projects.details', [
             'title'         => $project->name,
             'deployments'   => $deployments,
             'today'         => $today,
@@ -80,6 +80,14 @@ class ProjectController extends Controller
             'servers'       => $project->servers, // FIXME: Order by name
             'notifications' => $project->notifications, // FIXME: Order by name
             'commands'      => $commands
+        ]);
+    }
+
+    public function index()
+    {
+        return view('projects.listing', [
+            'title'  => 'Manage projects',
+            'projects' => Project::all()
         ]);
     }
 
@@ -131,10 +139,7 @@ class ProjectController extends Controller
             $project->generateHash();
             $project->save();
 
-            return Response::json([
-                'success' => true,
-                'project' => $project
-            ], 200);
+            return $project;
         }
     }
 
