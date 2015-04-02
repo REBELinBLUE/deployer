@@ -27,6 +27,7 @@ Deployer is a application for managing the deployment of PHP applications
 
 ## Other changes:
 * Massively refactor the JS, clean up the duplication and sort out the Backbone.js code to not modify the DOM directly
+* Move project management to the admin section
 
 # Why?
 
@@ -91,7 +92,7 @@ An example of the config
     $ gulp --production
     $ gulp copy # This is needed to get the fonts needed by bootstrap in the correct place
 
-** Start the queue listener **
+**Start the queue listener**
 
     $ php artisan queue:listen --queue=deploy,connections,notify --timeout=0 --tries=1
 
