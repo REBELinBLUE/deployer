@@ -52,7 +52,7 @@
                 <div class="box-header">
                     <h3 class="box-title">Latest Deployments</h3>
                 </div>
-                <div class="box-body">
+                <div class="box-body" id="timeline">
                     @if (!count($latest))
                         <p>There have not been any deployments yet.</p>
                     @else
