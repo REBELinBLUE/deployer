@@ -10,15 +10,18 @@ var app = app || {};
         onDrop: function (item, container, _super) {
             _super(item, container)
 
+            var ids = [];
+            $('tbody tr td:first-child', container.el[0]).each(function (idx, element) {
+                ids.push($(element).data('command-id'));
+            });
 
-
-            var data = list.sortable("serialize").get();
-            // var jsonString = JSON.stringify(data, null, ' ');
-
-            // console.log(jsonString);
-            // 
-            console.log($('tbody tr', container.el[0]));
-
+            $.ajax({ 
+                url: '/commands/reorder',
+                method: 'POST',
+                data: {
+                    commands: ids
+                }
+            });
         }
     });
 
