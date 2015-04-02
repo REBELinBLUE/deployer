@@ -178,6 +178,9 @@ var app = app || {};
         initialize: function() {
             this.$list = $('#server_list tbody');
 
+            $('#no_servers').show();
+            $('#server_list').hide();
+
             this.listenTo(app.Servers, 'add', this.addOne);
             this.listenTo(app.Servers, 'reset', this.addAll);
             this.listenTo(app.Servers, 'all', this.render);

@@ -163,6 +163,9 @@ var app = app || {};
             this.$beforeList = $('#commands-before .command-list tbody');
             this.$afterList = $('#commands-after .command-list tbody');
 
+            $('.no-commands').show();
+            $('.command-list').hide();
+
             this.listenTo(app.Commands, 'add', this.addOne);
             this.listenTo(app.Commands, 'reset', this.addAll);
             this.listenTo(app.Commands, 'all', this.render);
