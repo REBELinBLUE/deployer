@@ -64,11 +64,11 @@ class Deployment extends Model
     public function notificationPayload()
     {
         $colour = 'good';
-        $message = 'Deployment %s successful!';
+        $message = 'Deployment %s successful! :smile:';
 
         if ($this->status === 'Failed') {
             $colour = 'danger';
-            $message = 'Deployment %s failed!';
+            $message = 'Deployment %s failed! :cry:';
         }
 
         $payload = [
