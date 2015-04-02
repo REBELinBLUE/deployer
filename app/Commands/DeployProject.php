@@ -80,7 +80,10 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $project->last_run = date('Y-m-d H:i:s');
         $project->save();
 
-        Queue::pushOn('notify', new Notify('https://hooks.slack.com/services/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', '#deploy', $this->deployment));
+        foreach ($project->notifications as $notification)
+        {
+            Queue::pushOn('notify', new Notify($notification, $this->deployment->notificationPayload()));
+        }
 
         unlink($this->private_key);
     }

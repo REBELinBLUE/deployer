@@ -46,6 +46,10 @@ Route::group(['middleware' => 'auth'], function () {
         'only' => ['show', 'store', 'update', 'destroy']
     ]);
 
+    Route::resource('notifications', 'NotificationController', [
+        'only' => ['show', 'store', 'update', 'destroy']
+    ]);
+
     Route::get('servers/{id}/test', [
         'uses' => 'ServerController@test'
     ]);

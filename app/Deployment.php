@@ -60,4 +60,46 @@ class Deployment extends Model
 
         return $this->commit;
     }
+
+    public function notificationPayload()
+    {
+        $colour = 'good';
+        $message = 'Deployment %s successful!';
+
+        if ($this->status === 'Failed') {
+            $colour = 'danger';
+            $message = 'Deployment %s failed!';
+        }
+
+        $payload = [
+            'attachments' => [
+                [
+                    'fallback' => sprintf($message, '#' . $this->id),
+                    'text'     => sprintf($message, sprintf('<%s|#%u>', url('deployment', $this->id), $this->id)),
+                    'color'    => $colour,
+                    'fields'   => [
+                        [
+                            'title' => 'Project',
+                            'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
+                            'short' => true
+                        ], [
+                            'title' => 'Commit',
+                            'value' => sprintf('<%s|%s>', $this->commitURL(), $this->shortCommit()),
+                            'short' => true
+                        ], [
+                            'title' => 'Committer',
+                            'value' => $this->committer,
+                            'short' => true
+                        ], [
+                            'title' => 'Branch',
+                            'value' => $this->project->branch,
+                            'short' => true
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        return $payload;
+    }
 }
