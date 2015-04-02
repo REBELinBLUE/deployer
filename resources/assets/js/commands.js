@@ -1,6 +1,27 @@
 var app = app || {};
 
 (function ($) {
+    var list = $('.command-list table').sortable({
+        containerSelector: 'table',
+        itemPath: '> tbody',
+        itemSelector: 'tr',
+        placeholder: '<tr class="placeholder"/>',
+        delay: 500,
+        onDrop: function (item, container, _super) {
+            _super(item, container)
+
+
+
+            var data = list.sortable("serialize").get();
+            // var jsonString = JSON.stringify(data, null, ' ');
+
+            // console.log(jsonString);
+            // 
+            console.log($('tbody tr', container.el[0]));
+
+        }
+    });
+
     // FIXME: This seems very wrong
     $('#command').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -202,7 +223,6 @@ var app = app || {};
             } else {
                 this.$afterList.append(view.render().el);
             }
-
         },
         addAll: function () {
             this.$beforeList.html('');
@@ -224,12 +244,6 @@ var app = app || {};
         },
         render: function () {
             var data = this.model.toJSON();
-
-            var first = app.Commands.first();
-            data.first = (first.id === data.id);
-
-            var last = app.Commands.last();
-            data.last = (last.id === data.id);
 
             this.$el.html(this.template(data));
 

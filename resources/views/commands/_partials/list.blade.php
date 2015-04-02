@@ -15,7 +15,6 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th width="50">&nbsp;</th>
                         <th>Name</th>
                         <th>Run As</th>
                         <th>&nbsp;</th>
