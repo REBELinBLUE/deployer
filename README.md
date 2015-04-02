@@ -91,6 +91,10 @@ An example of the config
     $ gulp --production
     $ gulp copy # This is needed to get the fonts needed by bootstrap in the correct place
 
+** Start the queue listener **
+
+    $ php artisan queue:listen --queue=deploy,connections,notify --timeout=0 --tries=1
+
 # Development
 
 The code is written to follow PSR-2 standards, this can be tested using PHP_CodeSniffer
