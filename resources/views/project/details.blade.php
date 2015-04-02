@@ -89,7 +89,10 @@
         var projects = [{!! $project->toJson() !!}];
         
         new app.ServersTab();
+        new app.NotificationsTab();
+
         app.Servers.add({!! $servers->toJson() !!});
+        app.Notifications.add({!! $notifications->toJson() !!});
     </script>
 @stop
 

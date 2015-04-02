@@ -46,6 +46,7 @@ elixir(function(mix) {
         'app.js',
         'projects.js',
         'servers.js',
+        'notifications.js',
         'deployment.js',
         'commands.js',
         'users.js',
