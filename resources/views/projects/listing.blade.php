@@ -30,10 +30,10 @@
 
     <script type="text/template" id="project-template">
         <td><%- name %></td>
-        <td><%- group_id %></td>
+        <td><%- group_name %></td>
         <td><%- repository %></td>
         <td><span class="label label-default"><%- branch %></span></td>
-        <td><%- id %></td>
+        <td><%- deploy %></td>
         <td>
             <div class="btn-group pull-right">
                 <button class="btn btn-default btn-edit" title="Edit" data-toggle="modal" data-target="#project"><i class="fa fa-edit"></i></button>

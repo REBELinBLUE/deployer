@@ -85,9 +85,16 @@ class ProjectController extends Controller
 
     public function index()
     {
+        $projects = Project::all();
+        foreach ($projects as $project)
+        {
+            $project->group_name = $project->group->name;
+            $project->deploy = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never');
+        }
+
         return view('projects.listing', [
             'title'  => 'Manage projects',
-            'projects' => Project::all()
+            'projects' => $projects
         ]);
     }
 
@@ -139,6 +146,9 @@ class ProjectController extends Controller
             $project->generateHash();
             $project->save();
 
+            $project->group_name = $project->group->name;
+            $project->deploy = 'Never';
+
             return $project;
         }
     }
@@ -174,10 +184,10 @@ class ProjectController extends Controller
 
             $project->save();
 
-            return Response::json([
-                'success' => true,
-                'project' => $project
-            ], 200);
+            $project->group_name = $project->group->name;
+            $project->deploy = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never');
+
+            return $project;
         }
     }
 
