@@ -31,5 +31,5 @@ $compiledPath = __DIR__.'/../storage/framework/compiled.php';
 
 if (file_exists($compiledPath))
 {
-	require $compiledPath;
+    require $compiledPath;
 }
