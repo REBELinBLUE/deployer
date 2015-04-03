@@ -5,11 +5,11 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use Validator;
-use Input;
 use Response;
 
 use App\User;
+
+use App\Http\Requests\StoreUserRequest;
 
 class UserController extends Controller
 {
@@ -36,31 +36,17 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(StoreUserRequest $request)
     {
-        $rules = array(
-            'name'     => 'required',
-            'email'    => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        );
+        $user = new User;
+        $user->name     = $request->name;
+        $user->email    = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
 
-        $validator = Validator::make(Input::all(), $rules);
+        $user->created = $user->created_at->format('jS F Y g:i:s A');
 
-        if ($validator->fails()) {
-            return Response::json([
-                'errors' => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
-            $user = new User;
-            $user->name     = Input::get('name');
-            $user->email    = Input::get('email');
-            $user->password = bcrypt(Input::get('password'));
-            $user->save();
-
-            $user->created = $user->created_at->format('jS F Y g:i:s A');
-
-            return $user;
-        }
+        return $user;
     }
 
     /**
@@ -69,39 +55,22 @@ class UserController extends Controller
      * @param  int  $user_id
      * @return Response
      */
-    public function update($user_id)
+    public function update($user_id, StoreUserRequest $request)
     {
-        $rules = array(
-            'name'     => 'required',
-            'email'    => 'required|email|max:255|unique:users,' . $user_id
-        );
+        $user = User::findOrFail($user_id);
 
-        if (Input::get('password') !== '') {
-            $rules['password'] = 'min:6';
+        $user->name  = $request->name;
+        $user->email = $request->email;
+
+        if (isset($request->password)) {
+            $user->password = bcrypt($request->password);
         }
 
-        $validator = Validator::make(Input::all(), $rules);
+        $user->save();
 
-        if ($validator->fails()) {
-            return Response::json([
-                'errors' => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
-            $user = User::findOrFail($user_id);
+        $user->created = $user->created_at->format('jS F Y g:i:s A');
 
-            $user->name  = Input::get('name');
-            $user->email = Input::get('email');
-
-            if (Input::get('password') !== '') {
-                $user->password = bcrypt(Input::get('password'));
-            }
-
-            $user->save();
-
-            $user->created = $user->created_at->format('jS F Y g:i:s A');
-
-            return $user;
-        }
+        return $user;
     }
 
     /**
