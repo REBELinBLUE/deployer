@@ -5,11 +5,9 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use Validator;
-use Input;
-use Response;
-
 use App\Group;
+
+use App\Http\Requests\StoreGroupRequest;
 
 class GroupController extends Controller
 {
@@ -31,26 +29,14 @@ class GroupController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(StoreGroupRequest $request)
     {
-        $rules = array(
-            'name'     => 'required|unique:groups'
-        );
+        $group = new Group;
 
-        $validator = Validator::make(Input::all(), $rules);
+        $group->name = $request->name;
+        $group->save();
 
-        if ($validator->fails()) {
-            return Response::json([
-                'errors' => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
-            $group = new Group;
-
-            $group->name = Input::get('name');
-            $group->save();
-
-            return $group;
-        }
+        return $group;
     }
 
     /**
@@ -59,25 +45,13 @@ class GroupController extends Controller
      * @param  int  $group_id
      * @return Response
      */
-    public function update($group_id)
+    public function update($group_id, StoreGroupRequest $request)
     {
-        $rules = array(
-            'name' => 'required|max:255|unique:users,' . $group_id
-        );
+        $group = Group::findOrFail($group_id);
 
-        $validator = Validator::make(Input::all(), $rules);
+        $group->name = $request->name;
+        $group->save();
 
-        if ($validator->fails()) {
-            return Response::json([
-                'errors' => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
-            $group = Group::findOrFail($group_id);
-
-            $group->name = Input::get('name');
-            $group->save();
-
-            return $group;
-        }
+        return $group;
     }
 }
