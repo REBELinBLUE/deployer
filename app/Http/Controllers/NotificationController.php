@@ -3,16 +3,13 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-
-use Validator;
-use Input;
-use Response;
 use Queue;
 
 use App\Commands\Notify;
 
 use App\Notification;
+
+use App\Http\Requests\NotificationRequest;
 
 class NotificationController extends Controller
 {
@@ -26,35 +23,20 @@ class NotificationController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(NotificationRequest $request)
     {
-        $rules = array(
-            'name'       => 'required',
-            'channel'    => 'required',
-            'webhook'    => 'required|url',
-            'project_id' => 'required|integer|exists:projects,id'
-        );
+        $notification = new Notification;
+        
+        $notification->name       = $request->name;
+        $notification->channel    = $request->channel;
+        $notification->webhook    = $request->webhook;
+        $notification->project_id = $request->project_id;
 
-        $validator = Validator::make(Input::all(), $rules);
+        $notification->save();
 
-        if ($validator->fails()) {
-            return Response::json([
-                'errors' => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
-            $notification = new Notification;
-            
-            $notification->name       = Input::get('name');
-            $notification->channel    = Input::get('channel');
-            $notification->webhook    = Input::get('webhook');
-            $notification->project_id = Input::get('project_id');
+        Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
 
-            $notification->save();
-
-            Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
-
-            return $notification;
-        }
+        return $notification;
     }
 
     /**
@@ -63,34 +45,20 @@ class NotificationController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($notification_id)
+    public function update($notification_id, NotificationRequest $request)
     {
-        $rules = array(
-            'name'       => 'required',
-            'channel'    => 'required',
-            'webhook'    => 'required|url',
-            'project_id' => 'required|integer|exists:projects,id'
-        );
+        $notification = Notification::findOrFail($notification_id);
 
-        $validator = Validator::make(Input::all(), $rules);
+        $notification->name       = $request->name;
+        $notification->channel    = $request->channel;
+        $notification->webhook    = $request->webhook;
+        $notification->project_id = $request->project_id;
 
-        // FIXME: Why is this a redirect?
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        } else {
-            $notification = Notification::findOrFail($notification_id);
+        $notification->save();
 
-            $notification->name       = Input::get('name');
-            $notification->channel    = Input::get('channel');
-            $notification->webhook    = Input::get('webhook');
-            $notification->project_id = Input::get('project_id');
+        Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
 
-            $notification->save();
-
-            Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
-
-            return $notification;
-        }
+        return $notification;
     }
 
     /**
