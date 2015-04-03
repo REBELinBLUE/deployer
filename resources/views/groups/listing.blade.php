@@ -6,8 +6,8 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Number of Projects</th>
+                        <th>{{ Lang::get('groups.name') }}</th>
+                        <th>{{ Lang::get('groups.projects') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -25,7 +25,7 @@
         <td><%- project_count %></td>
         <td>
             <div class="btn-group pull-right">
-                <button class="btn btn-default btn-edit" title="Edit" data-toggle="modal" data-target="#group" data-group-id="<%- id %>"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-default btn-edit" title="{{ Lang::get('groups.edit') }}" data-toggle="modal" data-target="#group" data-group-id="<%- id %>"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>
@@ -42,6 +42,6 @@
 
 @section('right-buttons')
     <div class="pull-right">
-        <button type="button" class="btn btn-default" title="Add a new group" data-toggle="modal" data-target="#group"><span class="fa fa-plus"></span> Add a group</button>
+        <button type="button" class="btn btn-default" title="{{ Lang::get('groups.create') }}" data-toggle="modal" data-target="#group"><span class="fa fa-plus"></span> {{ Lang::get('groups.create') }}</button>
     </div>
 @stop

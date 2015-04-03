@@ -74,17 +74,7 @@ function deployment_icon_status(\App\Deployment $deployment)
 
 function deploy_step_label($label)
 {
-    if ($label == 'Clone') {
-        return 'Clone New Release';
-    } elseif ($label == 'Install') {
-        return 'Install Composer Dependencies';
-    } elseif ($label == 'Activate') {
-        return 'Activate New Release';
-    } elseif ($label == 'Purge') {
-        return 'Purge Old Releases';
-    }
-
-    return $label;
+    return Lang::get('commands.' . strtolower($label));
 }
 
 function human_readable_duration($seconds)
