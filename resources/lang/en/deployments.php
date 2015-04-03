@@ -12,5 +12,14 @@ return [
     'manually'   => 'Manually',
     'webhook'    => 'Webhook',
     'reactivate' => 'Re-activate',
+    'loading'    => 'Loading',
+    'process'    => 'Process Output',
+    'server'     => 'Server',
+    'status'     => 'Status',
+    'started'    => 'Started',
+    'finished'   => 'Finished',
+    'duration'   => 'Duration',
+    'output'     => 'View the output',
+    'details'    => 'Deployment Details'
 
 ];

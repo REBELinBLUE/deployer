@@ -10,6 +10,8 @@ return [
     'connect_as' => 'Connect As',
     'ip_address' => 'IP Address',
     'status'     => 'Connection Status',
-    'test'       => 'Test the server connection'
+    'test'       => 'Test the server connection',
+    'path'       => 'Project Path',
+    'warning'    => 'The server could not be saved, please check the form below.'
 
 ];

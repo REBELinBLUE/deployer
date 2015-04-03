@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Lang;
 use Response;
 use Carbon\Carbon;
 use App\Project;
@@ -21,7 +22,7 @@ class ProjectController extends Controller
         }
 
         return view('projects.listing', [
-            'title'  => 'Manage projects',
+            'title'    => Lang::get('projects.managge'),
             'projects' => $projects
         ]);
     }
@@ -126,7 +127,7 @@ class ProjectController extends Controller
         $project->save();
 
         $project->group_name     = $project->group->name;
-        $project->deploy         = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never');
+        $project->deploy         = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : Lang::get('app.never'));
 
         return $project;
     }

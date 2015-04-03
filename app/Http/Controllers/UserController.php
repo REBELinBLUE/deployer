@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Lang;
 use Response;
 use App\User;
 use App\Http\Requests;
@@ -22,7 +23,7 @@ class UserController extends Controller
         }
 
         return view('users.listing', [
-            'title' => 'Manage users',
+            'title' => Lang::get('users.manage'),
             'users' => $users
         ]);
     }

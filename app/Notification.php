@@ -1,5 +1,6 @@
 <?php namespace App;
 
+use Lang;
 use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
@@ -12,8 +13,7 @@ class Notification extends Model
     public function testPayload()
     {
         return [
-            'text' => 'This is a test to ensure the notification is ' .
-                      'setup correctly, if you can see this it means it is! :+1:'
+            'text' => Lang::get('notification.test_message')
         ];
     }
 }

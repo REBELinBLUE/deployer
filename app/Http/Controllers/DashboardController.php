@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Lang;
 use App\Project;
 use App\Deployment;
 use App\Http\Requests;
@@ -34,7 +35,7 @@ class DashboardController extends Controller
         }
 
         return view('dashboard.index', [
-            'title'    => 'Dashboard',
+            'title'    => Lang::get('dashboard.title'),
             'latest'   => $grouped_by_date,
             'projects' => Project::orderBy('name')->get()
         ]);

@@ -12,16 +12,16 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Server</th>
-                                <th>Status</th>
-                                <th>Started</th>
-                                <th>Finished</th>
-                                <th>Duration</th>
+                                <th>{{ Lang::get('deployments.server') }}</th>
+                                <th>{{ Lang::get('deployments.status') }}</th>
+                                <th>{{ Lang::get('deployments.started') }}</th>
+                                <th>{{ Lang::get('deployments.finished') }}</th>
+                                <th>{{ Lang::get('deployments.duration') }}</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody id="step_{{ $step->id }}">
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -43,7 +43,7 @@
         <td width="10%">
             <div class="btn-group pull-right">
                 <% if (output !== null) { %>
-                    <button type="button" class="btn btn-default" title="View the output" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
+                    <button type="button" class="btn btn-default" title="{{ Lang::get('deployments.output') }}" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
                 <% } %>
             </div>
         </td>
@@ -56,4 +56,3 @@
         app.Deployment.add({!! json_encode($output) !!});
     </script>
 @stop
-

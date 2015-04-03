@@ -17,6 +17,8 @@ return [
     'status'         => 'Status',
     'details'        => 'Details',
     'delete'         => 'Delete',
-    'save'           => 'Save'
+    'save'           => 'Save',
+    'close'          => 'Close',
+    'never'          => 'Never'
 
 ];

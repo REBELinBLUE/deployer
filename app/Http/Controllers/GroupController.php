@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Lang;
 use App\Group;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,7 @@ class GroupController extends Controller
         }
 
         return view('groups.listing', [
-            'title'  => 'Manage groups',
+            'title'  => Lang::get('groups.manage'),
             'groups' => $groups
         ]);
     }

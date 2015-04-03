@@ -7,7 +7,7 @@
         </div>
         @if (count($errors) > 0)
         <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <strong>{{ Lang::get('auth.oops') }}</strong> {{ Lang::get('auth.problems') }}<br><br>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -16,27 +16,27 @@
         </div>
         @endif
         <div class="login-box-body">
-            <p class="login-box-msg">Please sign in to start your session</p>
+            <p class="login-box-msg">{{ Lang::get('auth.please_sign_in') }}</p>
             <form action="{{ url('/auth/login') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}" required />
+                    <input type="email" class="form-control" placeholder="{{ Lang::get('auth.email') }}" name="email" value="{{ old('email') }}" required />
                     <span class="fa fa-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Password" name="password" required />
+                    <input type="password" class="form-control" placeholder="{{ Lang::get('auth.password') }}" name="password" required />
                     <span class="fa fa-lock form-control-feedback"></span>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">{{ Lang::get('auth.sign_in') }}</button>
                     </div>
                 </div>
             </form>
         </div>
 
         <div class="pull-right" id="forgotten-password">
-            <p><a href="{{ url('/password/email') }}">I have forgotten my password</a></p>
+            <p><a href="{{ url('/password/email') }}">{{ Lang::get('auth.forgotten') }}</a></p>
         </div>
     </div>
 @stop

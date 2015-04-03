@@ -1,5 +1,6 @@
 <?php namespace App;
 
+use Lang;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -64,11 +65,11 @@ class Deployment extends Model
     public function notificationPayload()
     {
         $colour = 'good';
-        $message = 'Deployment %s successful! :smile:';
+        $message = Lang::get('notification.success_message');
 
         if ($this->status === 'Failed') {
             $colour = 'danger';
-            $message = 'Deployment %s failed! :cry:';
+            $message = Lang::get('notification.failed_message');
         }
 
         $payload = [
@@ -79,19 +80,19 @@ class Deployment extends Model
                     'color'    => $colour,
                     'fields'   => [
                         [
-                            'title' => 'Project',
+                            'title' => Lang::get('notifications.project'),
                             'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
                             'short' => true
                         ], [
-                            'title' => 'Commit',
+                            'title' => Lang::get('notifications.commit'),
                             'value' => sprintf('<%s|%s>', $this->commitURL(), $this->shortCommit()),
                             'short' => true
                         ], [
-                            'title' => 'Committer',
+                            'title' => Lang::get('notifications.committer'),
                             'value' => $this->committer,
                             'short' => true
                         ], [
-                            'title' => 'Branch',
+                            'title' => Lang::get('notifications.branch'),
                             'value' => $this->project->branch,
                             'short' => true
                         ]

@@ -5,20 +5,20 @@
         <div class="col-md-7">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Projects</h3>
+                    <h3 class="box-title">{{ Lang::get('dashboard.projects') }}</h3>
                 </div>
                 @if (!count($projects))
                 <div class="box-body">
-                    <p>You have not yet setup any projects, click the button above to get started!</p>
+                    <p>{{ Lang::get('dashboard.no_projects') }}</p>
                 </div>
                 @else
                 <div class="box-body table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Latest Deployment</th>
-                                <th>Status</th>
+                                <th>{{ Lang::get('projects.name') }}</th>
+                                <th>{{ Lang::choice('dashboard.latest', 1) }}</th>
+                                <th>{{ Lang::get('dashboard.status') }}</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -33,9 +33,9 @@
                                 <td>
                                     <div class="btn-group pull-right">
                                         @if(isset($project->url))
-                                        <a href="{{ $project->url }}" class="btn btn-default" title="View the site" target="_blank"><i class="fa fa-globe"></i></a>
+                                        <a href="{{ $project->url }}" class="btn btn-default" title="{{ Lang::get('dashboard.site') }}" target="_blank"><i class="fa fa-globe"></i></a>
                                         @endif
-                                        <a href="{{ url('projects', ['id' => $project->id]) }}" class="btn btn-default" title="View the deployment details"><i class="fa fa-info-circle"></i></a>
+                                        <a href="{{ url('projects', ['id' => $project->id]) }}" class="btn btn-default" title="{{ Lang::get('dashboard.view') }}"><i class="fa fa-info-circle"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -50,11 +50,11 @@
         <div class="col-md-5">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Latest Deployments</h3>
+                    <h3 class="box-title">{{ Lang::choice('dashboard.latest', 2) }}</h3>
                 </div>
                 <div class="box-body" id="timeline">
                     @if (!count($latest))
-                        <p>There have not been any deployments yet.</p>
+                        <p>{{ Lang::get('dashboard.no_deployments') }}</p>
                     @else
                     <ul class="timeline">
                         @foreach ($latest as $date => $deployments)
@@ -67,7 +67,7 @@
                                 <i class="fa fa-{{ deployment_icon_status($deployment, false) }} bg-{{ timeline_css_status($deployment) }}"></i>
                                 <div class="timeline-item">
                                     <span class="time"><i class="fa fa-clock-o"></i> {{ $deployment->started_at->format('H:i') }}</span>
-                                    <h3 class="timeline-header"><a href="{{ url('projects', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">Deployment #{{ $deployment->id }}</a> {{ $deployment->status }}</h3>
+                                    <h3 class="timeline-header"><a href="{{ url('projects', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">{{ Lang::get('dashboard.deployment_num', ['id' => $deployment->id]) }}</a> {{ $deployment->status }}</h3>
                                 </div>
                             </li>
                             @endforeach
