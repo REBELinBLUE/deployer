@@ -16,8 +16,25 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\StoreProjectRequest;
+
 class ProjectController extends Controller
 {
+    public function index()
+    {
+        $projects = Project::all();
+        foreach ($projects as $project)
+        {
+            $project->group_name = $project->group->name;
+            $project->deploy = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never');
+        }
+
+        return view('projects.listing', [
+            'title'  => 'Manage projects',
+            'projects' => $projects
+        ]);
+    }
+
     /**
      * The details of an individual project
      *
@@ -83,112 +100,44 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function index()
+    public function store(StoreProjectRequest $request)
     {
-        $projects = Project::all();
-        foreach ($projects as $project)
-        {
-            $project->group_name = $project->group->name;
-            $project->deploy = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never');
-        }
+        $project = new Project;
+        $project->name           = $request->name;
+        $project->repository     = $request->repository;
+        $project->branch         = $request->branch;
+        $project->group_id       = $request->group_id;
+        $project->builds_to_keep = $request->builds_to_keep;
+        $project->url            = $request->url;
+        $project->build_url      = $request->build_url;
 
-        return view('projects.listing', [
-            'title'  => 'Manage projects',
-            'projects' => $projects
-        ]);
+        $project->generateSSHKey();
+        $project->generateHash();
+        $project->save();
+
+        $project->group_name     = $project->group->name;
+        $project->deploy         = 'Never';
+
+        return $project;
     }
 
-    /**
-     * FIXME: Don't allow this to run if there is already a pending deploy or no servers
-     */
-    public function deploy($project_id)
+    public function update($project_id, StoreProjectRequest $request)
     {
         $project = Project::findOrFail($project_id);
-        $deployment = new Deployment;
+        $project->name           = $request->name;
+        $project->repository     = $request->repository;
+        $project->branch         = $request->branch;
+        $project->group_id       = $request->group_id;
+        $project->builds_to_keep = $request->builds_to_keep;
+        $project->url            = $request->url;
+        $project->build_url      = $request->build_url;
 
-        $this->dispatch(new QueueDeployment($project, $deployment));
+        $project->save();
 
-        return redirect()->route('deployment', [
-            'id' => $deployment->id
-        ]);
-    }
+        $project->group_name     = $project->group->name;
+        $project->deploy         = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never');
 
-    public function store()
-    {
-        $rules = array(
-            'name'           => 'required',
-            'repository'     => 'required',
-            'branch'         => 'required',
-            'group_id'       => 'required|integer|exists:groups,id',
-            'builds_to_keep' => 'required|integer|min:1|max:20',
-            'url'            => 'url',
-            'build_url'      => 'url'
-        );
-
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails()) {
-            return Response::json([
-                'success' => false,
-                'errors'  => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
-            $project = new Project;
-            $project->name           = Input::get('name');
-            $project->repository     = Input::get('repository');
-            $project->branch         = Input::get('branch');
-            $project->group_id       = Input::get('group_id');
-            $project->builds_to_keep = Input::get('builds_to_keep');
-            $project->url            = Input::get('url');
-            $project->build_url      = Input::get('build_url');
-
-            $project->generateSSHKey();
-            $project->generateHash();
-            $project->save();
-
-            $project->group_name = $project->group->name;
-            $project->deploy = 'Never';
-
-            return $project;
-        }
-    }
-
-    public function update($project_id)
-    {
-        $rules = array(
-            'name'           => 'required',
-            'repository'     => 'required',
-            'branch'         => 'required',
-            'group_id'       => 'required|integer|exists:groups,id',
-            'builds_to_keep' => 'required|integer|min:1|max:20',
-            'url'            => 'url',
-            'build_url'      => 'url'
-        );
-
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails()) {
-            return Response::json([
-                'success' => false,
-                'errors'  => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
-            $project = Project::findOrFail($project_id);
-            $project->name           = Input::get('name');
-            $project->repository     = Input::get('repository');
-            $project->branch         = Input::get('branch');
-            $project->group_id       = Input::get('group_id');
-            $project->builds_to_keep = Input::get('builds_to_keep');
-            $project->url            = Input::get('url');
-            $project->build_url      = Input::get('build_url');
-
-            $project->save();
-
-            $project->group_name = $project->group->name;
-            $project->deploy = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never');
-
-            return $project;
-        }
+        return $project;
     }
 
     public function destroy($project_id)
@@ -206,5 +155,20 @@ class ProjectController extends Controller
         $project = Project::findOrFail($project_id);
 
         return $project->servers;
+    }
+
+    /**
+     * FIXME: Don't allow this to run if there is already a pending deploy or no servers
+     */
+    public function deploy($project_id)
+    {
+        $project = Project::findOrFail($project_id);
+        $deployment = new Deployment;
+
+        $this->dispatch(new QueueDeployment($project, $deployment));
+
+        return redirect()->route('deployment', [
+            'id' => $deployment->id
+        ]);
     }
 }
