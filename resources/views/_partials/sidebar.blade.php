@@ -8,7 +8,7 @@
                 </a>
             </li>
 
-            @foreach(App\Group::orderBy('name')->get() as $group)
+            @foreach($groups as $group)
             <li class="treeview">
                 {{-- (Request::is('projects/*') OR Request::is('deployment/*')) ? 'active' : null --}}
                 <a href="#">
@@ -34,7 +34,6 @@
                     <li><a href="{{ url('admin/projects') }}">Projects</a></li>
                     <li><a href="{{ url('admin/groups') }}">Groups</a></li>
                     <li><a href="{{ url('admin/users') }}">Users</a></li>
-                    <li><a href="#">Settings</a></li>
                 </ul>
             </li>
         </ul>
