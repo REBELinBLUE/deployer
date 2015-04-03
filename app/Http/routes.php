@@ -91,8 +91,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 // Webhooks
 Route::post('deploy/{hash}', [
-    'as'         => 'webhook',
-    'uses'       => 'WebhookController@webhook'
+    'as'   => 'webhook',
+    'uses' => 'WebhookController@webhook'
 ]);
 
 Route::controllers([

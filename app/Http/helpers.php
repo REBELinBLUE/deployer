@@ -33,32 +33,6 @@ function project_icon_status(\App\Project $project, $rotate = true)
     return 'question-circle';
 }
 
-function server_css_status(\App\Server $server)
-{
-    if ($server->status == 'Successful') {
-        return 'success';
-    } elseif ($server->status == 'Testing') {
-        return 'warning';
-    } elseif ($server->status == 'Failed') {
-        return 'danger';
-    }
-
-    return 'primary';
-}
-
-function server_icon_status(\App\Server $server)
-{
-    if ($server->status == 'Successful') {
-        return 'check';
-    } elseif ($server->status == 'Testing') {
-        return 'spinner';
-    } elseif ($server->status == 'Failed') {
-        return 'warning';
-    }
-
-    return 'question-circle';
-}
-
 function deployment_css_status(\App\Deployment $deployment)
 {
     if ($deployment->status == 'Completed') {
@@ -71,7 +45,6 @@ function deployment_css_status(\App\Deployment $deployment)
 
     return 'info';
 }
-
 
 function timeline_css_status(\App\Deployment $deployment)
 {
@@ -112,34 +85,6 @@ function deploy_step_label($label)
     }
 
     return $label;
-}
-
-function server_log_css_status(\App\ServerLog $log)
-{
-    if ($log->status == 'Completed') {
-        return 'success';
-    } elseif ($log->status == 'Failed' || $log->status == 'Cancelled') {
-        return 'danger';
-    } elseif ($log->status == 'Running') {
-        return 'warning';
-    }
-
-    return 'info';
-}
-
-function server_log_icon_status(\App\ServerLog $log)
-{
-    if ($log->status == 'Completed') {
-        return 'check';
-    } elseif ($log->status == 'Failed') {
-        return 'warning';
-    } elseif ($log->status == 'Cancelled') {
-        return 'times';
-    } elseif ($log->status == 'Running') {
-        return 'spinner fa-spin';
-    }
-
-    return 'clock-o';
 }
 
 function human_readable_duration($seconds)
