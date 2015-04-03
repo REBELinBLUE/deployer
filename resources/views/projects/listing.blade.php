@@ -4,18 +4,18 @@
     <div class="box">
 
         <div class="box-body" id="no_projects">
-            <p>There are currently no projects setup</p>
+            <p>{{ Lang::get('projects.none') }}</p>
         </div>
 
         <div class="box-body table-responsive" id="project_list">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Group</th>
-                        <th>Repository</th>
-                        <th>Branch</th>
-                        <th>Latest Deploy</th>
+                        <th>{{ Lang::get('projects.name') }}</th>
+                        <th>{{ Lang::get('projects.group') }}</th>
+                        <th>{{ Lang::get('projects.repository') }}</th>
+                        <th>{{ Lang::get('projects.branch') }}</th>
+                        <th>{{ Lang::get('projects.latest') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -36,7 +36,7 @@
         <td><%- deploy %></td>
         <td>
             <div class="btn-group pull-right">
-                <button class="btn btn-default btn-edit" title="Edit" data-toggle="modal" data-target="#project"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-default btn-edit" title="{{ Lang::get('app.edit') }}" data-toggle="modal" data-target="#project"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>
@@ -49,9 +49,8 @@
     </script>
 @stop
 
-
 @section('right-buttons')
     <div class="pull-right">
-        <button type="button" class="btn btn-default" title="Add a new project" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> Add a project</button>
+        <button type="button" class="btn btn-default" title="{{ Lang::get('projects.create') }}" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> {{ Lang::get('projects.create') }}</button>
     </div>
 @stop

@@ -3,7 +3,7 @@
 @section('content')
     <div class="login-box">
         <div class="login-logo">
-            <b>Deployer</b>
+            <b>{{ Lang::get('app.name') }}</b>
         </div>
         @if (count($errors) > 0)
         <div class="alert alert-danger">

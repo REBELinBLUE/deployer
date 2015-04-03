@@ -6,9 +6,9 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Created</th>
+                        <th>{{ Lang('users.name') }}</th>
+                        <th>{{ Lang('users.email') }}</th>
+                        <th>{{ Lang('app.created') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -27,7 +27,7 @@
         <td><%- created %></td>
         <td>
             <div class="btn-group pull-right">
-                <button class="btn btn-default btn-edit" title="Edit" data-toggle="modal" data-target="#user" data-user-id="<%- id %>"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-default btn-edit" title="{{ Lang.get('app.edit') }}" data-toggle="modal" data-target="#user" data-user-id="<%- id %>"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>
@@ -44,6 +44,6 @@
 
 @section('right-buttons')
     <div class="pull-right">
-        <button type="button" class="btn btn-default" title="Add a new user" data-toggle="modal" data-target="#user"><span class="fa fa-plus"></span> Add a user</button>
+        <button type="button" class="btn btn-default" title="{{ Lang.get('users.create') }}" data-toggle="modal" data-target="#user"><span class="fa fa-plus"></span> {{ Lang.get('users.create') }}</button>
     </div>
 @stop

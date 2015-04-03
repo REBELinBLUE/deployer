@@ -1,23 +1,23 @@
 <div class="box">
     <div class="box-header">
-        <h3 class="box-title">Recent Deployments</h3>
+        <h3 class="box-title">{{ Lang::get('deployments.recent') }}</h3>
     </div>
     
     @if (!count($deployments))
     <div class="box-body">
-        <p>There have not been any deployments yet.</p>
+        <p>{{ Lang::get('deployments.none') }}</p>
     </div>
     @else
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Started</th>
-                    <th>Deployer</th>
-                    <th>Committer</th>
-                    <th>Commit</th>
-                    <th>Status</th>
+                    <th>{{ Lang::get('app.date') }}</th>
+                    <th>{{ Lang::get('deployments.started') }}</th>
+                    <th>{{ Lang::get('deployments.deployer') }}</th>
+                    <th>{{ Lang::get('deployments.committer') }}</th>
+                    <th>{{ Lang::get('deployments.commit') }}</th>
+                    <th>{{ Lang::get('app.status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -25,7 +25,7 @@
                 @foreach ($deployments as $deployment)
                 <tr id="deployment_{{ $deployment->id }}">
                     <td>{{ $deployment->started_at->format('jS F Y g:i:s A') }}</td>
-                    <td>{{ !empty($deployment->user_id) ? 'Manually' : 'Webhook' }}</td>
+                    <td>{{ !empty($deployment->user_id) ? Lang::get('deployments.manually') : Lang::get('deployments.webhook') }}</td>
                     <td>
                         @if (!empty($deployment->user_id))
                             {{ $deployment->user->name }}
@@ -45,8 +45,8 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="Re-activate" {{ $deployment->isRunning() ? 'disabled' : '' }}><i class="fa fa-cloud-upload"></i></button>
-                            <a href="{{ route('deployment', ['id' => $deployment->id]) }}" type="button" class="btn btn-default" title="Details"><i class="fa fa-info-circle"></i></a>
+                            <button type="button" class="btn btn-default" title="{{ Lang::get('deployments.reactivate') }}" {{ $deployment->isRunning() ? 'disabled' : '' }}><i class="fa fa-cloud-upload"></i></button>
+                            <a href="{{ route('deployment', ['id' => $deployment->id]) }}" type="button" class="btn btn-default" title="{{ Lang::get('app.details') }}"><i class="fa fa-info-circle"></i></a>
                         </div>
                     </td>
                 </tr>

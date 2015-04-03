@@ -4,7 +4,7 @@
             <li class="{{ Request::is('/') ? 'active' : null }}">
                 <a href="/">
                     <i class="fa fa-dashboard"></i>
-                    <span>Dashboard</span>
+                    <span>{{ Lang::get('app.dashboard') }}</span>
                 </a>
             </li>
 
@@ -27,13 +27,13 @@
             <li class="treeview {{ Request::is('admin/*') ? 'active' : null }}">
                 <a href="#">
                     <i class="fa fa-gear"></i>
-                    <span>Administration</span>
+                    <span>{{ Lang::get('app.admin') }}</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ url('admin/projects') }}">Projects</a></li>
-                    <li><a href="{{ url('admin/groups') }}">Groups</a></li>
-                    <li><a href="{{ url('admin/users') }}">Users</a></li>
+                    <li><a href="{{ url('admin/projects') }}">{{ Lang::get('app.projects') }}</a></li>
+                    <li><a href="{{ url('admin/groups') }}">{{ Lang::get('app.groups') }}</a></li>
+                    <li><a href="{{ url('admin/users') }}">{{ Lang::get('app.user') }}</a></li>
                 </ul>
             </li>
         </ul>
