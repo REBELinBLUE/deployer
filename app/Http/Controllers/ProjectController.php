@@ -60,7 +60,7 @@ class ProjectController extends Controller
             $commands[$action][$when][] = $command->name;
         }
 
-        $deployments = Deployment::where('project_id', '=', $project->id)
+        $deployments = Deployment::where('project_id', $project->id)
                                  ->take($project->builds_to_keep)
                                  ->orderBy('started_at', 'DESC')
                                  ->get();
@@ -69,12 +69,12 @@ class ProjectController extends Controller
         $lastWeek = Carbon::now()->subWeek();
         $yesterday = Carbon::now()->yesterday();
 
-        $today = Deployment::where('project_id', '=', $project->id)
+        $today = Deployment::where('project_id', $project->id)
                            ->where('started_at', '>=', $now->format('Y-m-d') . ' 00:00:00')
                            ->where('started_at', '<=', $now->format('Y-m-d') . ' 23:59:59')
                            ->count();
 
-        $week = Deployment::where('project_id', '=', $project->id)
+        $week = Deployment::where('project_id', $project->id)
                           ->where('started_at', '>=', $lastWeek->format('Y-m-d') . ' 00:00:00')
                           ->where('started_at', '<=', $yesterday->format('Y-m-d') . ' 23:59:59')
                           ->count();

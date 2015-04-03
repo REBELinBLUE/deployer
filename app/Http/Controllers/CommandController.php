@@ -16,7 +16,7 @@ class CommandController extends Controller
     {
         $project = Project::findOrFail($project_id);
         
-        $commands = Command::where('project_id', '=', $project->id)
+        $commands = Command::where('project_id', $project->id)
                            ->where('step', 'LIKE', '%' . ucfirst($action))
                            ->orderBy('order')
                            ->get();
@@ -42,8 +42,8 @@ class CommandController extends Controller
 
     public function store(StoreCommandRequest $request)
     {
-        $max = Command::where('project_id', '=', Input::get('project_id'))
-                      ->where('step', '=', ucwords(Input::get('step')))
+        $max = Command::where('project_id', Input::get('project_id'))
+                      ->where('step', ucwords(Input::get('step')))
                       ->orderBy('order', 'desc')
                       ->first();
 

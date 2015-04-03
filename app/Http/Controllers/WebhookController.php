@@ -15,7 +15,7 @@ class WebhookController extends Controller
      */
     public function webhook($hash)
     {
-        $project = Project::where('hash', '=', $hash)->first();
+        $project = Project::where('hash', $hash)->first();
 
         $success = false;
         if (!is_null($project) && count($project->servers)) {
