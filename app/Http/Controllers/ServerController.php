@@ -3,16 +3,13 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-
-use Validator;
-use Input;
 use Response;
 use Queue;
 use App\Commands\TestServerConnection;
 
 use App\Server;
-use App\Project;
+
+use App\Http\Requests\StoreServerRequest;
 
 class ServerController extends Controller
 {
@@ -21,53 +18,23 @@ class ServerController extends Controller
         return Server::findOrFail($server_id);
     }
 
-    public function test($server_id)
-    {
-        $server = Server::findOrFail($server_id);
-
-        $server->status = 'Testing';
-        $server->save();
-
-        Queue::pushOn('connections', new TestServerConnection($server));
-
-        return Response::json([
-            'success' => true
-        ], 200);
-    }
-
     /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-    public function store()
+    public function store(StoreServerRequest $request)
     {
-        $rules = array(
-            'name'       => 'required',
-            'user'       => 'required',
-            'ip_address' => 'required|ip',
-            'path'       => 'required',
-            'project_id' => 'required|integer|exists:projects,id'
-        );
+        $server = new Server;
+        $server->name       = $request->name;
+        $server->user       = $request->user;
+        $server->ip_address = $request->ip_address;
+        $server->path       = $request->path;
+        $server->project_id = $request->project_id;
+        $server->status     = 'Untested';
+        $server->save();
 
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails()) {
-            return Response::json([
-                'errors' => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
-            $server = new Server;
-            $server->name       = Input::get('name');
-            $server->user       = Input::get('user');
-            $server->ip_address = Input::get('ip_address');
-            $server->path       = Input::get('path');
-            $server->project_id = Input::get('project_id');
-            $server->status     = 'Untested';
-            $server->save();
-
-            return $server;
-        }
+        return $server;
     }
 
     /**
@@ -76,37 +43,22 @@ class ServerController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($server_id)
+    public function update($server_id, StoreServerRequest $request)
     {
-        $rules = array(
-            'name'       => 'required',
-            'user'       => 'required',
-            'ip_address' => 'required|ip',
-            'path'       => 'required',
-            'project_id' => 'required|integer|exists:projects,id'
-        );
+        $server = Server::findOrFail($server_id);
 
-        $validator = Validator::make(Input::all(), $rules);
-
-        // FIXME: Why is this a redirect?
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        } else {
-            $server = Server::findOrFail($server_id);
-
-            if ($server->ip_address != Input::get('ip_address')) {
-                $server->status = 'Untested';
-            }
-
-            $server->name       = Input::get('name');
-            $server->user       = Input::get('user');
-            $server->ip_address = Input::get('ip_address');
-            $server->path       = Input::get('path');
-            $server->project_id = Input::get('project_id');
-            $server->save();
-
-            return $server;
+        if ($server->ip_address != $request->ip_address) {
+            $server->status = 'Untested';
         }
+
+        $server->name       = $request->name;
+        $server->user       = $request->user;
+        $server->ip_address = $request->ip_address;
+        $server->path       = $request->path;
+        $server->project_id = $request->project_id;
+        $server->save();
+
+        return $server;
     }
 
     /**
@@ -119,6 +71,20 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($server_id);
         $server->delete();
+
+        return Response::json([
+            'success' => true
+        ], 200);
+    }
+
+    public function test($server_id)
+    {
+        $server = Server::findOrFail($server_id);
+
+        $server->status = 'Testing';
+        $server->save();
+
+        Queue::pushOn('connections', new TestServerConnection($server));
 
         return Response::json([
             'success' => true
