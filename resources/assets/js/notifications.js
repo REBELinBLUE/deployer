@@ -98,7 +98,7 @@ var app = app || {};
             error: function(model, response, options) {
                 $('.callout-danger', dialog).show();
 
-                var errors = response.responseJSON.errors;
+                var errors = response.responseJSON;
 
                 $('form input', dialog).each(function (index, element) {
                     element = $(element);
