@@ -1,9 +1,8 @@
 <?php namespace App;
 
+use App\Server;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use App\Server;
 
 class Command extends Model
 {

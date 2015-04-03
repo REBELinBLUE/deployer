@@ -4,7 +4,6 @@ use App\Http\Requests\Request;
 
 class StoreServerRequest extends Request
 {
-
     /**
      * Get the validation rules that apply to the request.
      *

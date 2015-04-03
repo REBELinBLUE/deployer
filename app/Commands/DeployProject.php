@@ -1,23 +1,18 @@
 <?php namespace App\Commands;
 
-use App\Commands\Command;
-
-use App\Deployment;
-use App\DeployStep;
-use App\Server;
-
-use App\Commands\Notify;
-
 use Config;
 use SSH;
 use Queue;
-
-use Symfony\Component\Process\Process;
-
+use App\Deployment;
+use App\DeployStep;
+use App\Server;
+use App\Commands\Command;
+use App\Commands\Notify;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Symfony\Component\Process\Process;
 
 class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 {

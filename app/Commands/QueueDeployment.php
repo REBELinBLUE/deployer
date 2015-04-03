@@ -1,18 +1,14 @@
 <?php namespace App\Commands;
 
-use App\Commands\Command;
-use App\Commands\DeployProject;
-
-use Illuminate\Contracts\Bus\SelfHandling;
-
+use Auth;
+use Queue;
 use App\Project;
 use App\Deployment;
 use App\DeployStep;
 use App\ServerLog;
-
-use Auth;
-
-use Queue;
+use App\Commands\Command;
+use App\Commands\DeployProject;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 class QueueDeployment extends Command implements SelfHandling
 {

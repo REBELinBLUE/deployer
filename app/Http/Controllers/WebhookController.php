@@ -1,13 +1,10 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 use App\Project;
 use App\Deployment;
-
 use App\Commands\QueueDeployment;
-
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class WebhookController extends Controller

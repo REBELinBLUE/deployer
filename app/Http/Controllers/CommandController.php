@@ -1,18 +1,14 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
+use Input;
+use Response;
 use App\Project;
 use App\Command;
 use App\ServerLog;
-
-use Input;
-use Response;
-
-use Illuminate\Http\Request;
-
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommandRequest;
+use Illuminate\Http\Request;
 
 class CommandController extends Controller
 {

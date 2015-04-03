@@ -1,12 +1,9 @@
 <?php namespace App\Commands;
 
-use App\Commands\Command;
-
-use App\Server;
-
 use Config;
 use SSH;
-
+use App\Server;
+use App\Commands\Command;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;

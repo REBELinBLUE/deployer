@@ -1,14 +1,11 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 use Response;
 use Queue;
-use App\Commands\TestServerConnection;
-
 use App\Server;
-
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Commands\TestServerConnection;
 use App\Http\Requests\StoreServerRequest;
 
 class ServerController extends Controller

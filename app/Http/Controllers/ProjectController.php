@@ -1,18 +1,13 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
+use Response;
+use Carbon\Carbon;
 use App\Project;
 use App\Deployment;
-
-use Response;
-
-use App\Commands\QueueDeployment;
-
-use Carbon\Carbon;
-
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
+use App\Commands\QueueDeployment;
 
 class ProjectController extends Controller
 {

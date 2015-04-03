@@ -1,14 +1,10 @@
 <?php namespace App\Http\Controllers;
 
+use Queue;
+use App\Notification;
+use App\Commands\Notify;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use Queue;
-
-use App\Commands\Notify;
-
-use App\Notification;
-
 use App\Http\Requests\StoreNotificationRequest;
 
 class NotificationController extends Controller

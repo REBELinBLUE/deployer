@@ -1,15 +1,12 @@
 <?php namespace App\Commands;
 
 use App\Commands\Command;
-
+use App\Notification;
+use Httpful\Request;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
-
-use Httpful\Request;
-
-use App\Notification;
 
 class Notify extends Command implements SelfHandling, ShouldBeQueued
 {
