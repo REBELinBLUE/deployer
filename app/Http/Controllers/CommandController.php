@@ -7,11 +7,12 @@ use App\Project;
 use App\Command;
 use App\ServerLog;
 
-use Validator;
 use Input;
 use Response;
 
 use Illuminate\Http\Request;
+
+use App\Http\Requests\StoreCommandRequest;
 
 class CommandController extends Controller
 {
@@ -43,98 +44,48 @@ class CommandController extends Controller
         ]);
     }
 
-    public function reorder()
+    public function store(StoreCommandRequest $request)
     {
-        $i = 0;
-        foreach (Input::get('commands') as $command_id)
-        {
-            $command = Command::findOrFail($command_id);
+        $max = Command::where('project_id', '=', Input::get('project_id'))
+                      ->where('step', '=', ucwords(Input::get('step')))
+                      ->orderBy('order', 'desc')
+                      ->first();
 
-            $command->order = $i;
-
-            $command->save();
-
-            $i++;
+        $order = 0;
+        if (isset($max)) {
+            $order = (int) $max->order + 1;
         }
 
-        return Response::json([
-            'success' => true
-        ], 200);
+        $command = new Command;
+        $command->name       = $request->name;
+        $command->user       = $request->user;
+        $command->project_id = $request->project_id;
+        $command->script     = $request->script;
+        $command->step       = ucwords($request->step);
+        $command->order      = $order;
+        $command->save();
+
+        $command->servers()->attach($request->servers);
+
+        $command->servers; // Triggers the loading
+
+        return $command;
     }
 
-    public function store()
+    public function update($command_id, StoreCommandRequest $request)
     {
-        $rules = array(
-            'name'       => 'required',
-            'user'       => 'required',
-            'script'     => 'required',
-            'step'       => 'required', // FIXME: Clean this up
-            'project_id' => 'required|integer'
-        );
+        $command = Command::findOrFail($command_id);
+        $command->name   = $request->name;
+        $command->user   = $request->user;
+        $command->script = $request->script;
+        $command->save();
 
-        $validator = Validator::make(Input::all(), $rules);
+        $command->servers()->detach();
+        $command->servers()->attach($request->servers);
 
-        if ($validator->fails()) {
-            return Response::json([
-                'errors' => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
+        $command->servers; // Triggers the loading
 
-            $max = Command::where('project_id', '=', Input::get('project_id'))
-                          ->where('step', '=', ucwords(Input::get('step')))
-                          ->orderBy('order', 'desc')
-                          ->first();
-
-            $order = 0;
-            if (isset($max)) {
-                $order = (int) $max->order + 1;
-            }
-
-            $command = new Command;
-            $command->name       = Input::get('name');
-            $command->user       = Input::get('user');
-            $command->project_id = Input::get('project_id');
-            $command->script     = Input::get('script');
-            $command->step       = ucwords(Input::get('step'));
-            $command->order      = $order;
-            $command->save();
-
-            $command->servers()->attach(Input::get('servers'));
-
-            $command->servers; // Triggers the loading
-
-            return $command;
-        }
-    }
-
-    public function update($command_id)
-    {
-        $rules = array(
-            'name'       => 'required',
-            'user'       => 'required',
-            'script'     => 'required'
-        );
-
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails()) {
-            return Response::json([
-                'errors' => $validator->getMessageBag()->toArray()
-            ], 400);
-        } else {
-            $command = Command::findOrFail($command_id);
-            $command->name   = Input::get('name');
-            $command->user   = Input::get('user');
-            $command->script = Input::get('script');
-            $command->save();
-
-            $command->servers()->detach();
-            $command->servers()->attach(Input::get('servers'));
-
-            $command->servers; // Triggers the loading
-
-            return $command;
-        }
+        return $command;
     }
 
     public function destroy($command_id)
@@ -166,5 +117,24 @@ class CommandController extends Controller
     public function log($log_id)
     {
         return $this->status($log_id, true);
+    }
+
+    public function reorder()
+    {
+        $i = 0;
+        foreach (Input::get('commands') as $command_id)
+        {
+            $command = Command::findOrFail($command_id);
+
+            $command->order = $i;
+
+            $command->save();
+
+            $i++;
+        }
+
+        return Response::json([
+            'success' => true
+        ], 200);
     }
 }
