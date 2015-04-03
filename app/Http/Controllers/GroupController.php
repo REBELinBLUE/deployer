@@ -18,9 +18,14 @@ class GroupController extends Controller
      */
     public function index()
     {
+        $groups = Group::all();
+        foreach ($groups as $group) {
+            $group->project_count = count($group->projects); 
+        }
+
         return view('groups.listing', [
             'title'  => 'Manage groups',
-            'groups' => Group::all()
+            'groups' => $groups
         ]);
     }
 
@@ -35,6 +40,8 @@ class GroupController extends Controller
 
         $group->name = $request->name;
         $group->save();
+
+        $group->project_count = 0;
 
         return $group;
     }
@@ -51,6 +58,8 @@ class GroupController extends Controller
 
         $group->name = $request->name;
         $group->save();
+
+        $group->project_count = count($group->projects);
 
         return $group;
     }

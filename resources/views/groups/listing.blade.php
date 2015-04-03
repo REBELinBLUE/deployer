@@ -7,6 +7,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Number of Projects</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -21,6 +22,7 @@
 
     <script type="text/template" id="group-template">
         <td><%- name %></td>
+        <td><%- project_count %></td>
         <td>
             <div class="btn-group pull-right">
                 <button class="btn btn-default btn-edit" title="Edit" data-toggle="modal" data-target="#group" data-group-id="<%- id %>"><i class="fa fa-edit"></i></button>
