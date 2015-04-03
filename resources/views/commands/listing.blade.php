@@ -9,7 +9,7 @@
     @include('dialogs.command')
 
     <script type="text/template" id="command-template">
-        <td><%- name %></td>
+        <td data-command-id="<%- id %>"><%- name %></td>
         <td><%- user %></td>
         <td>
             <div class="btn-group pull-right">

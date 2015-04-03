@@ -43,6 +43,25 @@ class CommandController extends Controller
         ]);
     }
 
+    public function reorder()
+    {
+        $i = 0;
+        foreach (Input::get('commands') as $command_id)
+        {
+            $command = Command::findOrFail($command_id);
+
+            $command->order = $i;
+
+            $command->save();
+
+            $i++;
+        }
+
+        return Response::json([
+            'success' => true
+        ], 200);
+    }
+
     public function store()
     {
         $rules = array(
