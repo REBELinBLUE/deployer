@@ -9,7 +9,7 @@ use App\Commands\Notify;
 
 use App\Notification;
 
-use App\Http\Requests\NotificationRequest;
+use App\Http\Requests\StoreNotificationRequest;
 
 class NotificationController extends Controller
 {
@@ -23,7 +23,7 @@ class NotificationController extends Controller
      *
      * @return Response
      */
-    public function store(NotificationRequest $request)
+    public function store(StoreNotificationRequest $request)
     {
         $notification = new Notification;
         
@@ -45,7 +45,7 @@ class NotificationController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($notification_id, NotificationRequest $request)
+    public function update($notification_id, StoreNotificationRequest $request)
     {
         $notification = Notification::findOrFail($notification_id);
 

@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class NotificationRequest extends Request
+class StoreNotificationRequest extends Request
 {
 
 
