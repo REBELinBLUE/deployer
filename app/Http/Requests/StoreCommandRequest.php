@@ -15,16 +15,15 @@ class StoreCommandRequest extends Request
     public function rules()
     {
         $rules = [
-            'name'       => 'required',
-            'user'       => 'required',
-            'script'     => 'required',
-            'step'       => 'required',
+            'name'       => 'required|max:255',
+            'user'       => 'required|max:255',
+            'script'     => 'required|max:255',
+            'step'       => 'required', // FIXME: There are a set of values
             'project_id' => 'required|integer'
         ];
 
         // On edit we don't require the step or the project_id
-        // // FIXME: This is wrong
-        if (Input::get('command_id')) {
+        if ($this->get('id')) {
             unset($rules['step']);
             unset($rules['project_id']);
         }

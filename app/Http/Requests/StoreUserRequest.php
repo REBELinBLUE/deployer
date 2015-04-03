@@ -14,14 +14,14 @@ class StoreUserRequest extends Request
     public function rules()
     {
         $rules = [
-            'name'     => 'required',
+            'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6'
         ];
 
-        // Editing users // FIXME: This is wrong
-        if (Input::get('user_id')) {
-            $rules['email'] .= ',' . Input::get('user_id');
+        // On edit change the password validator
+        if ($this->get('id')) {
+            $rules['email'] .= ',' . $this->get('id');
             
             if (Input::get('password') === '') {
                 $rules['password'] = 'min:6';

@@ -13,9 +13,9 @@ class StoreProjectRequest extends Request
     public function rules()
     {
         return [
-            'name'           => 'required',
+            'name'           => 'required|max:255',
             'repository'     => 'required',
-            'branch'         => 'required',
+            'branch'         => 'required|max:255',
             'group_id'       => 'required|integer|exists:groups,id',
             'builds_to_keep' => 'required|integer|min:1|max:20',
             'url'            => 'url',

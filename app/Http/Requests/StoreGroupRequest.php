@@ -14,12 +14,12 @@ class StoreGroupRequest extends Request
     public function rules()
     {
         $rules = [
-            'name' => 'required|unique:groups'
+            'name' => 'required|max:255|unique:groups'
         ];
 
-        // FIXME: This is wrong
-        if (Input::get('group_id')) {
-            $rules['name'] .= ',' . Input::get('group_id');
+        // On edit add the group ID to the rules
+        if ($this->get('id')) {
+            $rules['name'] .= ',' . $this->get('id');
         }
 
         return $rules;
