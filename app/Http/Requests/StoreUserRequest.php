@@ -19,7 +19,7 @@ class StoreUserRequest extends Request
             'password' => 'required|confirmed|min:6'
         ];
 
-        // Editing users
+        // Editing users // FIXME: This is wrong
         if (Input::get('user_id')) {
             $rules['email'] .= ',' . Input::get('user_id');
             

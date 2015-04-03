@@ -17,6 +17,7 @@ class StoreGroupRequest extends Request
             'name' => 'required|unique:groups'
         ];
 
+        // FIXME: This is wrong
         if (Input::get('group_id')) {
             $rules['name'] .= ',' . Input::get('group_id');
         }

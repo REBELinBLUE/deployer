@@ -23,6 +23,7 @@ class StoreCommandRequest extends Request
         ];
 
         // On edit we don't require the step or the project_id
+        // // FIXME: This is wrong
         if (Input::get('command_id')) {
             unset($rules['step']);
             unset($rules['project_id']);
