@@ -80,8 +80,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $project->last_run = date('Y-m-d H:i:s');
         $project->save();
 
-        foreach ($project->notifications as $notification)
-        {
+        foreach ($project->notifications as $notification) {
             Queue::pushOn('notify', new Notify($notification, $this->deployment->notificationPayload()));
         }
 
@@ -289,23 +288,23 @@ EOF'
 
     private function logError($message)
     {
-        $this->outputToConsole("\033[0;31m" . $message .  "\033[0m");
+        // $this->outputToConsole("\033[0;31m" . $message .  "\033[0m");
         return '<error>' . $message . '</error>';
     }
 
     private function logSuccess($message)
     {
-        //$this->outputToConsole("\033[0;32m" . $message .  "\033[0m");
-        
-        $this->outputToConsole($message);
+        // $this->outputToConsole("\033[0;32m" . $message .  "\033[0m");
+
+        // $this->outputToConsole($message);
         return '<info>' . $message . '</info>';
     }
 
-    private function outputToConsole($message)
-    {
-        // FIXME: Only output in debug mode
-        // echo 'Deployment #' . $this->deployment->id . ': '  . $message;
-    }
+    // private function outputToConsole($message)
+    // {
+    //     // FIXME: Only output in debug mode
+    //     echo 'Deployment #' . $this->deployment->id . ': '  . $message;
+    // }
 
     private function gitWrapperScript($key_file_path)
     {

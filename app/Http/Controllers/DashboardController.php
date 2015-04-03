@@ -18,7 +18,8 @@ class DashboardController extends Controller
     public function index()
     {
         // Get the latest 15 deployments
-        $deployments = Deployment::whereRaw('project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)') // FIXME: Surely there is a nicer way to do this?
+        $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
+        $deployments = Deployment::whereRaw($raw_sql) // FIXME: Surely there is a nicer way to do this?
                                  ->take(15)
                                  ->orderBy('started_at', 'DESC')
                                  ->get();

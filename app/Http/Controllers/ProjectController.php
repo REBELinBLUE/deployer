@@ -19,8 +19,8 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::all();
-        foreach ($projects as $project)
-        {
+
+        foreach ($projects as $project) {
             $project->group_name = $project->group->name;
             $project->deploy = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never');
         }

@@ -121,16 +121,16 @@ class CommandController extends Controller
 
     public function reorder()
     {
-        $i = 0;
-        foreach (Input::get('commands') as $command_id)
-        {
+        $order = 0;
+
+        foreach (Input::get('commands') as $command_id) {
             $command = Command::findOrFail($command_id);
 
-            $command->order = $i;
+            $command->order = $order;
 
             $command->save();
 
-            $i++;
+            $order++;
         }
 
         return Response::json([
