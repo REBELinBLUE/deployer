@@ -6,15 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Project;
 use App\Deployment;
 
-use Validator;
-use Input;
 use Response;
 
 use App\Commands\QueueDeployment;
 
 use Carbon\Carbon;
-
-use Illuminate\Http\Request;
 
 use App\Http\Requests\StoreProjectRequest;
 
