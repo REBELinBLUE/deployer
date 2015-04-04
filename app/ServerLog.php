@@ -4,6 +4,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServerLog extends Model
 {
+    const PENDING   = 'Pending';
+    const RUNNING   = 'Running';
+    const FAILED    = 'Failed';
+    const CANCELLED = 'Cancelled';
+    const COMPLETED = 'Completed';
+
     public function server()
     {
         return $this->belongsTo('App\Server');

@@ -33,7 +33,7 @@ class QueueDeployment extends Command implements SelfHandling
      */
     public function handle()
     {
-        $this->deployment->status = 'Pending';
+        $this->deployment->status = Deployment::PENDING;
         $this->deployment->started_at = date('Y-m-d H:i:s');
         $this->deployment->project_id = $this->project->id;
 
@@ -45,7 +45,7 @@ class QueueDeployment extends Command implements SelfHandling
         $this->deployment->commit = 'Loading';
         $this->deployment->save();
 
-        $this->deployment->project->status = 'Pending';
+        $this->deployment->project->status = Project::PENDING;
         $this->deployment->project->save();
 
         $hooks = [

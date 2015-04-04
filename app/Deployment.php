@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Deployment extends Model
 {
     use SoftDeletes;
-    
+
+    const PENDING   = 'Pending';
+    const DEPLOYING = 'Deploying';
+    const COMPLETED = 'Completed';
+    const FAILED    = 'Failed';
+
     public function getDates()
     {
         return ['created_at', 'started_at', 'finished_at', 'updated_at'];
@@ -24,7 +29,7 @@ class Deployment extends Model
 
     public function isRunning()
     {
-        return ($this->status == 'Deploying');
+        return ($this->status == self::DEPLOYING);
     }
 
     public function steps()
@@ -67,7 +72,7 @@ class Deployment extends Model
         $colour = 'good';
         $message = Lang::get('notification.success_message');
 
-        if ($this->status === 'Failed') {
+        if ($this->status === self::FAILED) {
             $colour = 'danger';
             $message = Lang::get('notification.failed_message');
         }

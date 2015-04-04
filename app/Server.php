@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Server extends Model
 {
     use SoftDeletes;
+
+    const SUCCESSFUL = 'Successful';
+    const TESTING    = 'Testing';
+    const FAILED     = 'Failed';
+    const UNTESTED   = 'Untested';
     
     /**
      * The attributes excluded from the model's JSON form.

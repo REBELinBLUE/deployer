@@ -41,7 +41,7 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
-        $user->created = $user->created_at->format('jS F Y g:i:s A');
+        $user->created  = $user->created_at->format('jS F Y g:i:s A');
 
         return $user;
     }
@@ -82,8 +82,7 @@ class UserController extends Controller
         $user->delete();
 
         return Response::json([
-            'success'  => true,
-            'redirect' => '/'
+            'success' => true
         ], 200);
     }
 }

@@ -32,7 +32,7 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
      */
     public function handle()
     {
-        $this->server->status = 'Testing';
+        $this->server->status = Server::TESTING;
         $this->server->save();
 
         $key = tempnam(storage_path() . '/app/', 'sshkey');
@@ -55,9 +55,9 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
                 'ls'
             ]);
 
-            $this->server->status = 'Successful';
+            $this->server->status = Server::SUCCESSFUL;
         } catch (\Exception $error) {
-            $this->server->status = 'Failed';
+            $this->server->status = Server::FAILED;
         }
 
         $this->server->save();

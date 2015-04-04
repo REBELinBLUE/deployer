@@ -9,6 +9,12 @@ class Project extends Model
 {
     use SoftDeletes;
 
+    const FINISHED = 'Finished';
+    const PENDING = 'Pending';
+    const DEPLOYING = 'Deploying';
+    const FAILED = 'Failed';
+    const NOT_DEPLOYED = 'Not Deployed';
+
     /**
      * The attributes excluded from the model's JSON form.
      *

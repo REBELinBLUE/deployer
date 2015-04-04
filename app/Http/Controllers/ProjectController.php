@@ -18,7 +18,7 @@ class ProjectController extends Controller
 
         foreach ($projects as $project) {
             $project->group_name = $project->group->name;
-            $project->deploy = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never');
+            $project->deploy     = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : Lang::get('app.never'));
         }
 
         return view('projects.listing', [
@@ -38,10 +38,10 @@ class ProjectController extends Controller
         $project = Project::findOrFail($project_id);
 
         $commands = [
-            'clone'     => null,
-            'install'   => null,
-            'activate'  => null,
-            'purge'     => null
+            'clone'    => null,
+            'install'  => null,
+            'activate' => null,
+            'purge'    => null
         ];
 
         foreach ($project->commands as $command) {
@@ -95,6 +95,7 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $project = new Project;
+
         $project->name           = $request->name;
         $project->repository     = $request->repository;
         $project->branch         = $request->branch;
@@ -108,7 +109,7 @@ class ProjectController extends Controller
         $project->save();
 
         $project->group_name     = $project->group->name;
-        $project->deploy         = 'Never';
+        $project->deploy         = Lang::get('app.never');
 
         return $project;
     }
@@ -116,6 +117,7 @@ class ProjectController extends Controller
     public function update($project_id, StoreProjectRequest $request)
     {
         $project = Project::findOrFail($project_id);
+
         $project->name           = $request->name;
         $project->repository     = $request->repository;
         $project->branch         = $request->branch;

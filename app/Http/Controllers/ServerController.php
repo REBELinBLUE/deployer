@@ -28,7 +28,7 @@ class ServerController extends Controller
         $server->ip_address = $request->ip_address;
         $server->path       = $request->path;
         $server->project_id = $request->project_id;
-        $server->status     = 'Untested';
+        $server->status     = Server::UNTESTED;
         $server->save();
 
         return $server;
@@ -45,7 +45,7 @@ class ServerController extends Controller
         $server = Server::findOrFail($server_id);
 
         if ($server->ip_address != $request->ip_address) {
-            $server->status = 'Untested';
+            $server->status = Server::UNTESTED;
         }
 
         $server->name       = $request->name;
@@ -78,7 +78,7 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($server_id);
 
-        $server->status = 'Testing';
+        $server->status = Server::TESTING;
         $server->save();
 
         Queue::pushOn('connections', new TestServerConnection($server));

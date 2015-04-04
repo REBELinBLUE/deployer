@@ -41,10 +41,10 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $project = $this->deployment->project;
 
         $this->deployment->started_at = date('Y-m-d H:i:s');
-        $this->deployment->status = 'Deploying';
+        $this->deployment->status = Deployment::DEPLOYING;
         $this->deployment->save();
 
-        $project->status = 'Deploying';
+        $project->status = Project::DEPLOYING;
         $project->save();
 
         $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
@@ -60,11 +60,11 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
                 $this->runStep($step);
             }
 
-            $this->deployment->status = 'Completed';
-            $project->status = 'Finished';
+            $this->deployment->status = Deployment::COMPLETED;
+            $project->status = Project::FINISHED;
         } catch (\Exception $error) {
-            $this->deployment->status = 'Failed';
-            $project->status = 'Failed';
+            $this->deployment->status = Deployment::FAILED;
+            $project->status = Project::FAILED;
 
             $this->cancelPendingSteps($this->deployment->steps);
         }
@@ -135,8 +135,8 @@ CMD;
     {
         foreach ($this->deployment->steps as $step) {
             foreach ($step->servers as $log) {
-                if ($log->status == 'Pending') {
-                    $log->status = 'Cancelled';
+                if ($log->status == ServerLog::PENDING) {
+                    $log->status = ServerLog::CANCELLED;
                     $log->save();
                 }
             }
@@ -146,11 +146,11 @@ CMD;
     private function runStep(DeployStep $step)
     {
         foreach ($step->servers as $log) {
-            $log->status = 'Running';
+            $log->status = ServerLog::RUNNING;
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
 
-            $log->status = 'Completed';
+            $log->status = ServerLog::COMPLETED;
 
             $prefix = $step->stage;
             if ($step->command) {
@@ -190,7 +190,7 @@ EOF'
                 });
 
                 if (!$process->isSuccessful()) {
-                    $log->status = 'Failed';
+                    $log->status = ServerLog::FAILED;
                     $failed = true;
                 }
 
