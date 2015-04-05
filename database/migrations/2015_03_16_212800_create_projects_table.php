@@ -1,5 +1,6 @@
 <?php
 
+use App\Project;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -24,7 +25,9 @@ class CreateProjectsTable extends Migration
             $table->unsignedInteger('builds_to_keep')->default(10);
             $table->string('url')->nullable();
             $table->string('build_url')->nullable();
-            $table->enum('status', ['Finished', 'Pending', 'Deploying', 'Failed', 'Not Deployed'])->default('Not Deployed');
+            $table->enum('status', [Project::FINISHED, Project::PENDING, 
+                                    Project::DEPLOYING, Project::FAILED, 
+                                    Project::NOT_DEPLOYED])->default(Project::NOT_DEPLOYED);
             $table->dateTime('last_run')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();

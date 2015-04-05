@@ -1,5 +1,6 @@
 <?php
 
+use App\ServerLog;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -16,7 +17,9 @@ class CreateServerLogsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('server_id');
             $table->unsignedInteger('deploy_step_id');
-            $table->enum('status', ['Pending', 'Running', 'Failed', 'Cancelled', 'Completed'])->default('Pending');
+            $table->enum('status', [ServerLog::PENDING, ServerLog::RUNNING,
+                                    ServerLog::FAILED, ServerLog::CANCELLED,
+                                    ServerLog::COMPLETED])->default(ServerLog::PENDING);
             $table->text('script')->nullable();
             $table->text('output')->nullable();
             $table->dateTime('started_at')->nullable();
