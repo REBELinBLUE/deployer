@@ -1,6 +1,9 @@
 <?php
 
-function project_css_status(\App\Project $project)
+use App\Project;
+use App\Deployment;
+
+function project_css_status(Project $project)
 {
     if ($project->status == 'Finished') {
         return 'success';
@@ -15,7 +18,7 @@ function project_css_status(\App\Project $project)
     return 'primary';
 }
 
-function project_icon_status(\App\Project $project, $rotate = true)
+function project_icon_status(Project $project, $rotate = true)
 {
     if ($project->status == 'Finished') {
         return 'check';
@@ -33,43 +36,57 @@ function project_icon_status(\App\Project $project, $rotate = true)
     return 'question-circle';
 }
 
-function deployment_css_status(\App\Deployment $deployment)
+function deployment_css_status(Deployment $deployment)
 {
-    if ($deployment->status == 'Completed') {
+    if ($deployment->status === Deployment::COMPLETED) {
         return 'success';
-    } elseif ($deployment->status == 'Failed') {
+    } elseif ($deployment->status === Deployment::FAILED) {
         return 'danger';
-    } elseif ($deployment->status == 'Deploying') {
+    } elseif ($deployment->status === Deployment::DEPLOYING) {
         return 'warning';
     }
 
     return 'info';
 }
 
-function timeline_css_status(\App\Deployment $deployment)
+function timeline_css_status(Deployment $deployment)
 {
-    if ($deployment->status == 'Completed') {
+    if ($deployment->status === Deployment::COMPLETED) {
         return 'green';
-    } elseif ($deployment->status == 'Failed') {
+    } elseif ($deployment->status === Deployment::FAILED) {
         return 'red';
-    } elseif ($deployment->status == 'Deploying') {
+    } elseif ($deployment->status === Deployment::DEPLOYING) {
         return 'yellow';
     }
 
     return 'aqua';
 }
 
-function deployment_icon_status(\App\Deployment $deployment)
+function deployment_icon_status(Deployment $deployment)
 {
-    if ($deployment->status == 'Completed') {
+    if ($deployment->status === Deployment::COMPLETED) {
         return 'check';
-    } elseif ($deployment->status == 'Failed') {
+    } elseif ($deployment->status === Deployment::FAILED) {
         return 'warning';
-    } elseif ($deployment->status == 'Deploying') {
+    } elseif ($deployment->status === Deployment::DEPLOYING) {
         return 'spinner fa-spin';
     }
 
     return 'clock-o';
+}
+
+
+function deployment_status(Deployment $deployment)
+{
+    if ($deployment->status === Deployment::COMPLETED) {
+        return Lang::get('deployments.completed');
+    } elseif ($deployment->status === Deployment::FAILED) {
+        return Lang::get('deployments.failed');
+    } elseif ($deployment->status === Deployment::DEPLOYING) {
+        return Lang::get('deployments.deploying');
+    }
+
+    return Lang::get('deployments.pending');
 }
 
 function deploy_step_label($label)

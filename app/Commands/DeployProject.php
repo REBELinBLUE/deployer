@@ -5,7 +5,9 @@ use SSH;
 use Queue;
 use App\Deployment;
 use App\DeployStep;
+use App\ServerLog;
 use App\Server;
+use App\Project;
 use App\Commands\Command;
 use App\Commands\Notify;
 use Illuminate\Queue\SerializesModels;
@@ -51,7 +53,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         file_put_contents($this->private_key, $project->private_key);
 
         try {
-            // If the build has been manually triggered updated the git information from the remote repository
+            // If the build has been manually triggered update the git information from the remote repository
             if ($this->deployment->commit == 'Loading') {
                 $this->updateRepoInfo();
             }
@@ -295,11 +297,11 @@ EOF'
         return '<info>' . $message . '</info>';
     }
 
-    // private function outputToConsole($message)
-    // {
-    //     // FIXME: Only output in debug mode
-    //     echo 'Deployment #' . $this->deployment->id . ': '  . $message;
-    // }
+    private function outputToConsole($message)
+    {
+        // FIXME: Only output in debug mode
+        //echo 'Deployment #' . $this->deployment->id . ': '  . $message;
+    }
 
     private function gitWrapperScript($key_file_path)
     {

@@ -8,10 +8,10 @@ class Deployment extends Model
 {
     use SoftDeletes;
 
-    const PENDING   = 'Pending';
-    const DEPLOYING = 'Deploying';
-    const COMPLETED = 'Completed';
-    const FAILED    = 'Failed';
+    const COMPLETED = 0;
+    const PENDING   = 1;
+    const DEPLOYING = 2;
+    const FAILED    = 3;
 
     public function getDates()
     {

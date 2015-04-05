@@ -1,7 +1,6 @@
 var app = app || {};
 
 (function ($) {
-
     $('#log').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var log_id = button.attr('id').replace('log_', '');

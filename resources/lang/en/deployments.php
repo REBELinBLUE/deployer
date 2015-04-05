@@ -7,7 +7,7 @@ return [
     'none'       => 'There have not been any deployments yet.',
     'started'    => 'Started',
     'deployer'   => 'Deployer',
-    'comitter'   => 'Committer',
+    'committer'  => 'Committer',
     'commit'     => 'Commit',
     'manually'   => 'Manually',
     'webhook'    => 'Webhook',
@@ -20,6 +20,10 @@ return [
     'finished'   => 'Finished',
     'duration'   => 'Duration',
     'output'     => 'View the output',
-    'details'    => 'Deployment Details'
+    'details'    => 'Deployment Details',
+    'pending'    => 'Pending',
+    'deploying'  => 'Deploying',
+    'completed'  => 'Completed',
+    'failed'     => 'Failed'
 
 ];
