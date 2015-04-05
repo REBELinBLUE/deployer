@@ -1,18 +1,23 @@
 var app = app || {};
 
 (function ($) {
+    var SUCCESSFUL = 0;
+    var UNTESTED   = 1;
+    var FAILED     = 2;
+    var TESTING    = 3;
+
     // FIXME: This seems very wrong
     $('#server').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = 'Add server';
+        var title = Lang.create;
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = 'Edit Server';
+            title = Lang.edit;
             $('.btn-danger', modal).show();
         } else {
             $('#server_id').val('');
@@ -131,7 +136,7 @@ var app = app || {};
             this.changeStatus();
         },
         changeStatus: function() {
-            if (this.get('status') === 'Testing') {
+            if (parseInt(this.get('status')) === TESTING) {
                 var that = this;
 
                 $.ajax({
@@ -139,12 +144,12 @@ var app = app || {};
                     url: this.urlRoot + '/' + this.id + '/test'
                 }).fail(function (response) {
                     that.set({
-                        status: 'Failed'
+                        status: FAILED
                     });
                 }).success(function () {
                     that.poller = Backbone.Poller.get(that, {
                         condition: function(model) {
-                            return model.get('status') === 'Testing';
+                            return parseInt(model.get('status')) === TESTING;
                         },
                         delay: 2500
                     });
@@ -224,17 +229,21 @@ var app = app || {};
             var data = this.model.toJSON();
 
             data.status_css = 'primary';
-            data.icon_css = 'question';
+            data.icon_css   = 'question';
+            data.status     = Lang.status.untested;
 
-            if (this.model.get('status') === 'Successful') {
+            if (parseInt(this.model.get('status')) === SUCCESSFUL) {
                 data.status_css = 'success';
-                data.icon_css = 'check';
-            } else if (this.model.get('status') === 'Testing') {
+                data.icon_css   = 'check';
+                data.status     = Lang.status.successful;
+            } else if (parseInt(this.model.get('status')) === TESTING) {
                 data.status_css = 'warning';
-                data.icon_css = 'spinner';
-            } else if (this.model.get('status') === 'Failed') {
+                data.icon_css   = 'spinner';
+                data.status     = Lang.status.testing;
+            } else if (parseInt(this.model.get('status')) === FAILED) {
                 data.status_css = 'danger';
-                data.icon_css = 'warning';
+                data.icon_css   = 'warning';
+                data.status     = Lang.status.failed;
             }
 
             this.$el.html(this.template(data));
@@ -250,12 +259,12 @@ var app = app || {};
             $('#server_path').val(this.model.get('path'));
         },
         testConnection: function() {
-            if (this.model.get('status') === 'Testing') {
+            if (parseInt(this.model.get('status')) === TESTING) {
                 return;
             }
 
             this.model.set({
-                status: 'Testing'
+                status: TESTING
             });
         }
     });

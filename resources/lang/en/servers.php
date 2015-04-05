@@ -12,6 +12,10 @@ return [
     'status'     => 'Connection Status',
     'test'       => 'Test the server connection',
     'path'       => 'Project Path',
-    'warning'    => 'The server could not be saved, please check the form below.'
+    'warning'    => 'The server could not be saved, please check the form below.',
+    'successful' => 'Successful',
+    'testing'    => 'Testing',
+    'failed'     => 'Failed',
+    'untested'   => 'Untested'
 
 ];

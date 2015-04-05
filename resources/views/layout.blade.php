@@ -17,6 +17,7 @@
         <![endif]-->
 
         <meta name="token" content="{{ Session::token() }}" />
+        <script type="text/javascript">var Lang = {};</script>
     </head>
     <body class="skin-green">
         <div class="wrapper">

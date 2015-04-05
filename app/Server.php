@@ -7,11 +7,11 @@ class Server extends Model
 {
     use SoftDeletes;
 
-    const SUCCESSFUL = 'Successful';
-    const TESTING    = 'Testing';
-    const FAILED     = 'Failed';
-    const UNTESTED   = 'Untested';
-    
+    const SUCCESSFUL = 0;
+    const UNTESTED   = 1;
+    const FAILED     = 2;
+    const TESTING    = 3;
+
     /**
      * The attributes excluded from the model's JSON form.
      *

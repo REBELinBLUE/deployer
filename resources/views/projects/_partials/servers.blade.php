@@ -47,3 +47,15 @@
         </div>
     </td>
 </script>
+
+<script type="text/javascript">
+    Lang.status = {
+        successful: '{{ Lang::get('servers.successful') }}',
+        testing: '{{ Lang::get('servers.testing') }}',
+        failed: '{{ Lang::get('servers.failed') }}',
+        untested: '{{ Lang::get('servers.untested') }}'
+    };
+
+    Lang.create = '{{ Lang::get('servers.create') }}dd';
+    Lang.edit = '{{ Lang::get('servers.edit') }}ss';
+</script>
