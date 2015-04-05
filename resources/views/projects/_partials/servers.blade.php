@@ -56,6 +56,6 @@
         untested: '{{ Lang::get('servers.untested') }}'
     };
 
-    Lang.create = '{{ Lang::get('servers.create') }}dd';
-    Lang.edit = '{{ Lang::get('servers.edit') }}ss';
+    Lang.create = '{{ Lang::get('servers.create') }}';
+    Lang.edit = '{{ Lang::get('servers.edit') }}';
 </script>
