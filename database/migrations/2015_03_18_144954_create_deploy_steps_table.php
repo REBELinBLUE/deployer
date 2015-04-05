@@ -15,7 +15,7 @@ class CreateDeployStepsTable extends Migration
         Schema::create('deploy_steps', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('deployment_id');
-            $table->string('stage');
+            $table->unsignedInteger('stage');
             $table->unsignedInteger('command_id')->nullable();
             $table->timestamps();
             $table->foreign('deployment_id')->references('id')->on('deployments');

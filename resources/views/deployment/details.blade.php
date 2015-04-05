@@ -6,7 +6,7 @@
         <div class="col-xs-12">
             <div class="box deploy-step">
                 <div class="box-header">
-                    <h3 class="box-title"><i class="fa fa-terminal"></i> <span>{{ $step->command ? $step->command->name : deploy_step_label($step->stage) }}</span></h3>
+                    <h3 class="box-title"><i class="fa fa-terminal"></i> <span>{{ $step->command ? $step->command->name : deploy_stage_label($step->stage) }}</span></h3>
                 </div>
                 <div class="box-body table-responsive">
                     <table class="table table-hover">

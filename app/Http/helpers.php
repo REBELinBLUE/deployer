@@ -114,6 +114,19 @@ function deployment_status(Deployment $deployment)
     return Lang::get('deployments.pending');
 }
 
+function deploy_stage_label($label)
+{
+    $step = 'clone';
+    if ((int) $label === Command::DO_INSTALL) {
+        $step = 'install';
+    } elseif ((int) $label === Command::DO_ACTIVATE) {
+        $step = 'activate';
+    } elseif ((int) $label === Command::DO_PURGE) {
+        $step = 'purge';
+    }
+
+    return deploy_step_label($step);
+}
 function deploy_step_label($label)
 {
     return Lang::get('commands.' . strtolower($label));

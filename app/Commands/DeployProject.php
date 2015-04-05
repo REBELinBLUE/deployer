@@ -7,6 +7,7 @@ use App\Deployment;
 use App\DeployStep;
 use App\ServerLog;
 use App\Server;
+use App\Command as Stage;
 use App\Project;
 use App\Commands\Command;
 use App\Commands\Notify;
@@ -65,6 +66,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             $this->deployment->status = Deployment::COMPLETED;
             $project->status = Project::FINISHED;
         } catch (\Exception $error) {
+            echo $error;
             $this->deployment->status = Deployment::FAILED;
             $project->status = Project::FAILED;
 
@@ -227,7 +229,7 @@ EOF'
 
         $commands = false;
 
-        if ($step->stage == 'Clone') { // Clone the repository
+        if ((int) $step->stage === Stage::DO_CLONE) { // Clone the repository
             $remote_key_file = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
@@ -252,18 +254,18 @@ EOF'
                 sprintf('git checkout %s', $project->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
             ];
-        } elseif ($step->stage == 'Install') { // Install composer dependencies
+        } elseif ((int) $step->stage == Stage::DO_INSTALL) { // Install composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
                 sprintf('composer install -n --prefer-dist --no-ansi -d "%s"', $latest_release_dir)
             ];
-        } elseif ($step->stage == 'Activate') { // Activate latest release
+        } elseif ((int) $step->stage === Stage::DO_ACTIVATE) { // Activate latest release
             $commands = [
                 sprintf('cd %s', $root_dir),
                 sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
                 sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
             ];
-        } elseif ($step->stage == 'Purge') { // Purge old releases
+        } elseif ((int) $step->stage === Stage::DO_PURGE) { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
                 sprintf('(ls -t|head -n %u;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep + 1)

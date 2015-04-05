@@ -2,6 +2,7 @@
 
 use Auth;
 use Queue;
+use App\Command as Stage;
 use App\Project;
 use App\Deployment;
 use App\DeployStep;
@@ -48,17 +49,20 @@ class QueueDeployment extends Command implements SelfHandling
         $this->deployment->project->status = Project::PENDING;
         $this->deployment->project->save();
 
+
         $hooks = [
-            'Clone'     => null,
-            'Install'   => null,
-            'Activate'  => null,
-            'Purge'     => null
+            Stage::DO_CLONE    => null,
+            Stage::DO_INSTALL  => null,
+            Stage::DO_ACTIVATE => null,
+            Stage::DO_PURGE    => null
         ];
 
         foreach ($this->project->commands as $command) {
-            $steps  = explode(' ', $command->step);
-            $action = $steps[1];
-            $when   = $steps[0];
+            $action = $command->step - 1;
+            $when = ($command->step % 3 === 0 ? 'after' : 'before');
+            if ($when === 'before') {
+                $action = $command->step + 1;
+            }
 
             if (!is_array($hooks[$action])) {
                 $hooks[$action] = [];
@@ -72,11 +76,11 @@ class QueueDeployment extends Command implements SelfHandling
         }
 
         // FIXME: Refactor this, lots of repeating code!
-        foreach (array_keys($hooks) as $command) {
-            if (isset($hooks[$command]['Before'])) {
-                foreach ($hooks[$command]['Before'] as $hook) {
+        foreach (array_keys($hooks) as $stage) {
+            if (isset($hooks[$stage]['before'])) {
+                foreach ($hooks[$stage]['before'] as $hook) {
                     $step = new DeployStep;
-                    $step->stage = 'Before ' . $command;
+                    $step->stage = (int) $stage - 1;
                     $step->command_id = $hook->id;
                     $step->deployment_id = $this->deployment->id;
                     $step->save();
@@ -91,7 +95,7 @@ class QueueDeployment extends Command implements SelfHandling
             }
 
             $step = new DeployStep;
-            $step->stage = $command;
+            $step->stage = $stage;
             $step->deployment_id = $this->deployment->id;
             $step->save();
 
@@ -102,10 +106,10 @@ class QueueDeployment extends Command implements SelfHandling
                 $log->save();
             }
 
-            if (isset($hooks[$command]['After'])) {
-                foreach ($hooks[$command]['After'] as $hook) {
+            if (isset($hooks[$stage]['after'])) {
+                foreach ($hooks[$stage]['after'] as $hook) {
                     $step = new DeployStep;
-                    $step->stage = 'After ' . $command;
+                    $step->stage = (int) $stage + 1;
                     $step->command_id = $hook->id;
                     $step->deployment_id = $this->deployment->id;
                     $step->save();
