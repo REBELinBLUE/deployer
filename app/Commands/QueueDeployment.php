@@ -42,7 +42,7 @@ class QueueDeployment extends Command implements SelfHandling
         }
 
         $this->deployment->committer = Deployment::LOADING;
-        $this->deployment->commit = Deployment::LOADING;
+        $this->deployment->commit    = Deployment::LOADING;
         $this->deployment->save();
 
         $this->deployment->project->status = Project::PENDING;

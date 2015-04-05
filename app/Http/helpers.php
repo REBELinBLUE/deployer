@@ -1,5 +1,6 @@
 <?php
 
+use App\Command;
 use App\Project;
 use App\Deployment;
 
@@ -142,6 +143,24 @@ function human_readable_duration($seconds)
     }
 
     return substr($readable, 0, -2);
+}
+
+function command_name($command)
+{
+    if ($command === Command::DO_CLONE) {
+        return 'clone';
+    } elseif ($command === Command::DO_INSTALL) {
+        return 'install';
+    } elseif ($command === Command::DO_ACTIVATE) {
+        return 'activate';
+    }
+
+    return 'purge';
+}
+
+function command_label($command)
+{
+    return Lang::get('commands.' . command_name($command));
 }
 
 function command_list_readable($commands, $step, $action)

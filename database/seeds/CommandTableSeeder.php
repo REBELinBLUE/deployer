@@ -16,7 +16,7 @@ class CommandTableSeeder extends Seeder
             'script'     => "echo \"Before Clone {{ release }}\"",
             'project_id' => 1,
             'user'       => 'vagrant',
-            'step'       => 'Before Clone'
+            'step'       => Command::BEFORE_CLONE
         ])->servers()->attach([1, 2]);
 
         Command::create([
@@ -24,7 +24,7 @@ class CommandTableSeeder extends Seeder
             'script'     => "echo \"After Purge {{ release }}\"",
             'project_id' => 1,
             'user'       => 'vagrant',
-            'step'       => 'After Purge'
+            'step'       => Command::AFTER_PURGE
         ])->servers()->attach([1, 2]);
     }
 }

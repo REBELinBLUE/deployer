@@ -14,10 +14,17 @@ class CommandController extends Controller
 {
     public function listing($project_id, $action)
     {
+        $types = [
+            'clone'    => Command::DO_CLONE,
+            'install'  => Command::DO_INSTALL,
+            'activate' => Command::DO_ACTIVATE,
+            'purge'    => Command::DO_PURGE
+        ];
+
         $project = Project::findOrFail($project_id);
         
         $commands = Command::where('project_id', $project->id)
-                           ->where('step', 'LIKE', '%' . ucfirst($action))
+                           ->whereIn('step', array($types[$action] - 1, $types[$action] + 1))
                            ->orderBy('order')
                            ->get();
 
@@ -27,15 +34,13 @@ class CommandController extends Controller
             $command->servers;
         }
 
-        $action = ucfirst($action);
-
         return view('commands.listing', [
             'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
             'title'      => deploy_step_label($action),
             'project'    => $project,
-            'action'     => $action,
+            'action'     => $types[$action],
             'commands'   => $commands
         ]);
     }
@@ -43,7 +48,7 @@ class CommandController extends Controller
     public function store(StoreCommandRequest $request)
     {
         $max = Command::where('project_id', Input::get('project_id'))
-                      ->where('step', ucwords(Input::get('step')))
+                      ->where('step', Input::get('step'))
                       ->orderBy('order', 'desc')
                       ->first();
 

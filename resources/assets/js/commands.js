@@ -159,8 +159,8 @@ var app = app || {};
                 order: app.Commands.nextOrder()
             };
         },
-        isBefore: function() {
-            return (this.get('step').substring(0, 6) === 'Before');
+        isAfter: function() {
+            return (parseInt(this.get('step')) % 3 === 0);
         }
     });
 
@@ -193,10 +193,10 @@ var app = app || {};
         },
         render: function () {
             var before = app.Commands.find(function(model) { 
-                return model.isBefore();
+                return !model.isAfter();
             });
 
-            if (typeof before != 'undefined') {
+            if (typeof before !== 'undefined') {
                 $('#commands-before .no-commands').hide();
                 $('#commands-before .commandslist').show();
             } else {
@@ -205,10 +205,10 @@ var app = app || {};
             }
 
             var after = app.Commands.find(function(model) { 
-                return !model.isBefore();
+                return model.isAfter();
             });
 
-            if (typeof after != 'undefined') {
+            if (typeof after !== 'undefined') {
                 $('#commands-after .no-commands').hide();
                 $('#commands-after .command-list').show();
             } else {
@@ -221,10 +221,10 @@ var app = app || {};
                 model: command
             });
 
-            if (command.isBefore()) {
-                this.$beforeList.append(view.render().el);
-            } else {
+            if (command.isAfter()) {
                 this.$afterList.append(view.render().el);
+            } else {
+                this.$beforeList.append(view.render().el);
             }
         },
         addAll: function () {

@@ -18,14 +18,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(['clone', 'install', 'activate', 'purge'] as $step)
+                @foreach(array_keys($commands) as $step)
                 <tr>
-                    <td>{{ Lang::get('commands.' . $step) }}</td>
+                    <td>{{ command_label($step) }}</td>
                     <td>{{ command_list_readable($commands, $step, 'before') }}</td>
                     <td>{{ command_list_readable($commands, $step, 'after') }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route('commands', ['id' => $project->id, 'command' => $step]) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route('commands', ['id' => $project->id, 'command' => command_name($step)]) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>

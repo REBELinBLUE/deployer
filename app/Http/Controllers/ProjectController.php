@@ -3,6 +3,7 @@
 use Lang;
 use Response;
 use Carbon\Carbon;
+use App\Command;
 use App\Project;
 use App\Deployment;
 use App\Http\Requests;
@@ -38,17 +39,18 @@ class ProjectController extends Controller
         $project = Project::findOrFail($project_id);
 
         $commands = [
-            'clone'    => null,
-            'install'  => null,
-            'activate' => null,
-            'purge'    => null
+            Command::DO_CLONE    => null,
+            Command::DO_INSTALL  => null,
+            Command::DO_ACTIVATE => null,
+            Command::DO_PURGE    => null
         ];
 
         foreach ($project->commands as $command) {
-            // FIXME: There has to be a cleaner way to do this surely? Maybe on the model
-            $steps  = explode(' ', $command->step);
-            $action = strtolower($steps[1]);
-            $when   = strtolower($steps[0]);
+            $action = $command->step - 1;
+            $when = ($command->step % 3 === 0 ? 'after' : 'before');
+            if ($when === 'before') {
+                $action = $command->step + 1;
+            }
 
             if (!is_array($commands[$action])) {
                 $commands[$action] = [];
