@@ -38,11 +38,11 @@ function project_icon_status(Project $project, $rotate = true)
 
 function deployment_css_status(Deployment $deployment)
 {
-    if ($deployment->status === Deployment::COMPLETED) {
+    if ((int) $deployment->status === Deployment::COMPLETED) {
         return 'success';
-    } elseif ($deployment->status === Deployment::FAILED) {
+    } elseif ((int) $deployment->status === Deployment::FAILED) {
         return 'danger';
-    } elseif ($deployment->status === Deployment::DEPLOYING) {
+    } elseif ((int) $deployment->status === Deployment::DEPLOYING) {
         return 'warning';
     }
 
@@ -51,11 +51,11 @@ function deployment_css_status(Deployment $deployment)
 
 function timeline_css_status(Deployment $deployment)
 {
-    if ($deployment->status === Deployment::COMPLETED) {
+    if ((int) $deployment->status === Deployment::COMPLETED) {
         return 'green';
-    } elseif ($deployment->status === Deployment::FAILED) {
+    } elseif ((int) (int) $deployment->status === Deployment::FAILED) {
         return 'red';
-    } elseif ($deployment->status === Deployment::DEPLOYING) {
+    } elseif ((int) $deployment->status === Deployment::DEPLOYING) {
         return 'yellow';
     }
 
@@ -64,11 +64,11 @@ function timeline_css_status(Deployment $deployment)
 
 function deployment_icon_status(Deployment $deployment)
 {
-    if ($deployment->status === Deployment::COMPLETED) {
+    if ((int) $deployment->status === Deployment::COMPLETED) {
         return 'check';
-    } elseif ($deployment->status === Deployment::FAILED) {
+    } elseif ((int) $deployment->status === Deployment::FAILED) {
         return 'warning';
-    } elseif ($deployment->status === Deployment::DEPLOYING) {
+    } elseif ((int) $deployment->status === Deployment::DEPLOYING) {
         return 'spinner fa-spin';
     }
 
@@ -78,11 +78,11 @@ function deployment_icon_status(Deployment $deployment)
 
 function deployment_status(Deployment $deployment)
 {
-    if ($deployment->status === Deployment::COMPLETED) {
+    if ((int) $deployment->status === Deployment::COMPLETED) {
         return Lang::get('deployments.completed');
-    } elseif ($deployment->status === Deployment::FAILED) {
+    } elseif ((int) $deployment->status === Deployment::FAILED) {
         return Lang::get('deployments.failed');
-    } elseif ($deployment->status === Deployment::DEPLOYING) {
+    } elseif ((int) $deployment->status === Deployment::DEPLOYING) {
         return Lang::get('deployments.deploying');
     }
 
