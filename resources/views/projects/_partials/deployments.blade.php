@@ -30,15 +30,15 @@
                         @if (!empty($deployment->user_id))
                             {{ $deployment->user->name }}
                         @else
-                            {{ $deployment->committer }}
+                            {{ loading_value($deployment->committer) }}
                         @endif
                     </td>
-                    <td>{{ $deployment->committer }}</td>
+                    <td>{{ loading_value($deployment->committer) }}</td>
                     <td>
                         @if ($deployment->commitURL())
                         <a href="{{ $deployment->commitURL() }}" target="_blank">{{ $deployment->shortCommit() }}</a></td>
                         @else
-                        {{ $deployment->shortCommit() }}
+                        {{ loading_value($deployment->shortCommit()) }}
                         @endif
                     <td>
                         <span class="label label-{{ deployment_css_status($deployment) }}"><i class="fa fa-{{ deployment_icon_status($deployment) }}"></i> {{ deployment_status($deployment) }}</span>

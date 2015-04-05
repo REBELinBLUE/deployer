@@ -26,6 +26,7 @@ return [
     'completed'  => 'Completed',
     'failed'     => 'Failed',
     'running'    => 'Running',
-    'cancelled'  => 'Cancelled'
+    'cancelled'  => 'Cancelled',
+    'loading'    => 'Loading'
 
 ];

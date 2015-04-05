@@ -3,6 +3,15 @@
 use App\Project;
 use App\Deployment;
 
+function loading_value($value) 
+{
+    if ($value === 'Loading') {
+        return Lang::get('deployments.loading');
+    }
+
+    return $value;
+}
+
 function project_css_status(Project $project)
 {
     if ((int) $project->status === Project::FINISHED) {
