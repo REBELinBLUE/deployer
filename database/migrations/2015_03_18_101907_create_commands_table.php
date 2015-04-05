@@ -17,8 +17,11 @@ class CreateCommandsTable extends Migration
             $table->string('name');
             $table->text('user');
             $table->text('script');
-            $table->unsignedInteger('project_id'); // FIXME: Turn these into constants
-            $table->enum('step', ['Before Clone', 'After Clone', 'Before Install', 'After Install', 'Before Activate', 'After Activate', 'Before Purge', 'After Purge'])->default('After Install');
+            $table->unsignedInteger('project_id');
+            $table->enum('step', [Command::BEFORE_CLONE, Command::AFTER_CLONE,
+                                  Command::BEFORE_INSTALL, Command::AFTER_INSTALL,
+                                  Command::BEFORE_ACTIVATE, Command::AFTER_ACTIVATE,
+                                  Command::BEFORE_PURGE, Command::AFTER_PURGE])->default(Command::AFTER_INSTALL);
             $table->unsignedInteger('order')->default('0');
             $table->timestamps();
             $table->softDeletes();

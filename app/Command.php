@@ -8,6 +8,15 @@ class Command extends Model
 {
     use SoftDeletes;
 
+    const BEFORE_CLONE    = 'Before Clone';
+    const AFTER_CLONE     = 'After Clone';
+    const BEFORE_INSTALL  = 'Before Install';
+    const AFTER_INSTALL   = 'After Install';
+    const BEFORE_ACTIVATE = 'Before Activate';
+    const AFTER_ACTIVATE  = 'After Activate';
+    const BEFORE_PURGE    = 'Before Purge';
+    const AFTER_PURGE     = 'After Purge';
+
     /**
      * The attributes excluded from the model's JSON form.
      *
