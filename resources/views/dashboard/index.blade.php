@@ -28,7 +28,7 @@
                                 <td><a href="{{ url('projects', ['id' => $project->id]) }}" title="View Details">{{ $project->name }}</a></td>
                                 <td>{{ $project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
                                 <td>
-                                    <span class="label label-{{ project_css_status($project) }}"><i class="fa fa-{{ project_icon_status($project) }}"></i> {{ $project->status }}</span>
+                                    <span class="label label-{{ project_css_status($project) }}"><i class="fa fa-{{ project_icon_status($project) }}"></i> {{ project_status($project) }}</span>
                                 </td>
                                 <td>
                                     <div class="btn-group pull-right">

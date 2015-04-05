@@ -183,9 +183,7 @@ var app = app || {};
             this.template = _.template($('#project-template').html());
         },
         render: function () {
-            var data = this.model.toJSON();
-
-            this.$el.html(this.template(data));
+            this.$el.html(this.template(this.model.toJSON()));
 
             return this;
         },
