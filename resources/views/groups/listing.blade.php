@@ -29,6 +29,11 @@
             </div>
         </td>
     </script>
+
+    <script type="text/javascript">
+        Lang.create = '{{ Lang::get('groups.create') }}';
+        Lang.edit = '{{ Lang::get('groups.edit') }}';
+    </script>
 @stop
 
 @section('javascript')

@@ -17,6 +17,11 @@
             </div>
         </td>
     </script>
+
+    <script type="text/javascript">
+        Lang.create = '{{ Lang::get('commands.create') }}';
+        Lang.edit = '{{ Lang::get('commands.edit') }}';
+    </script>
 @stop
 
 @section('javascript')

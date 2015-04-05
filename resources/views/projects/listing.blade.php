@@ -40,6 +40,11 @@
             </div>
         </td>
     </script>
+
+    <script type="text/javascript">
+        Lang.create = '{{ Lang::get('projects.create') }}';
+        Lang.edit = '{{ Lang::get('projects.edit') }}';
+    </script>
 @stop
 
 @section('javascript')

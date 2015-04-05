@@ -29,14 +29,14 @@ var app = app || {};
     $('#command').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = 'Add command';
+        var title = Lang.create;
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = 'Edit Command';
+            title = Lang.edit;
             $('.btn-danger', modal).show();
         } else {
             $('#command_id').val('');
