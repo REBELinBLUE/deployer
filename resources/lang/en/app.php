@@ -19,6 +19,7 @@ return [
     'delete'         => 'Delete',
     'save'           => 'Save',
     'close'          => 'Close',
-    'never'          => 'Never'
+    'never'          => 'Never',
+    'none'           => 'None'
 
 ];

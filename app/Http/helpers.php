@@ -182,5 +182,5 @@ function command_list_readable($commands, $step, $action)
         return implode(', ', $commands[$step][$action]);
     }
 
-    return 'None';
+    return Lang::get('app.none');
 }
