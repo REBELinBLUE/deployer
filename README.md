@@ -21,13 +21,11 @@ Deployer is a application for managing the deployment of PHP applications
 
 ## Planned features:
 * Rollback deploy
-* Re-ordering commands
 * Deployment templates
 * Checking application status is 200 on deploy
 
 ## Other changes:
 * Massively refactor the JS, clean up the duplication and sort out the Backbone.js code to not modify the DOM directly
-* Sort out language strings in JS
 
 # Why?
 
