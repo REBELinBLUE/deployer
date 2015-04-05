@@ -18,7 +18,7 @@ class GroupController extends Controller
     {
         $groups = Group::all();
         foreach ($groups as $group) {
-            $group->project_count = count($group->projects); 
+            $group->project_count = count($group->projects);
         }
 
         return view('groups.listing', [

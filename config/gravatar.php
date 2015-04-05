@@ -28,7 +28,8 @@ return array(
         // If for some reason you wanted to force the default image to always load, you can do that setting this to true
         'forceDefault' => false,
 
-        // If you require a file-type extension (some places do) then you may also add an (optional) .jpg extension to that URL
+        // If you require a file-type extension (some places do) then you may also add an (optional) .jpg
+        // extension to that URL
         'forceExtension' => 'jpg',
     )
 );

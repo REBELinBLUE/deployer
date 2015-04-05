@@ -4,7 +4,7 @@ use App\Command;
 use App\Project;
 use App\Deployment;
 
-function loading_value($value) 
+function loading_value($value)
 {
     if ($value === Deployment::LOADING) {
         return Lang::get('deployments.loading');

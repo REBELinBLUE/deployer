@@ -9,7 +9,7 @@ class Command extends Model
     use SoftDeletes;
 
     const BEFORE_CLONE    = 1;
-    const DO_CLONE        = 2; 
+    const DO_CLONE        = 2;
     const AFTER_CLONE     = 3;
     const BEFORE_INSTALL  = 4;
     const DO_INSTALL      = 5;

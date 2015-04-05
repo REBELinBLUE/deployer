@@ -116,8 +116,14 @@ git log --pretty=format:"%%H%%x09%%an" && \
 rm -rf {$workingdir}
 CMD;
 
-        $this->outputToConsole('Checking repository state' . PHP_EOL);
-        $process = new Process(sprintf($cmd, $this->deployment->project->branch, $this->deployment->project->repository, $this->deployment->project->branch));
+        //$this->outputToConsole('Checking repository state' . PHP_EOL);
+        $process = new Process(sprintf(
+            $cmd,
+            $this->deployment->project->branch,
+            $this->deployment->project->repository,
+            $this->deployment->project->branch
+        ));
+
         $process->setTimeout(null);
         $process->run();
 
@@ -161,7 +167,8 @@ CMD;
                 $prefix = $step->command->name;
             }
 
-            $this->outputToConsole($prefix . ' on ' . $log->server->name . ' (' . $log->server->ip_address . ')' . PHP_EOL);
+            //$this->outputToConsole($prefix . ' on ' . $log->server->name .
+            //                       ' (' . $log->server->ip_address . ')' . PHP_EOL);
 
             $server = $log->server;
             $script = $this->getScript($step, $server);
@@ -178,8 +185,13 @@ CMD;
             if (!empty($script)) {
                 $script = 'set -e' . PHP_EOL . $script;
                 $process = new Process(
-                    'ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile=' . $this->private_key . ' ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
-'.$script.'
+                    'ssh -o CheckHostIP=no \
+                         -o IdentitiesOnly=yes \
+                         -o StrictHostKeyChecking=no \
+                         -o PasswordAuthentication=no \
+                         -o IdentityFile=' . $this->private_key . ' \
+                         ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                         '.$script.'
 EOF'
                 );
                 $process->setTimeout(null);
@@ -249,7 +261,12 @@ EOF'
                 sprintf('[ ! -d %s ] && mkdir %s', $releases_dir, $releases_dir),
                 sprintf('cd %s', $releases_dir),
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
-                sprintf('git clone --branch %s --depth 1 %s %s', $project->branch, $project->repository, $latest_release_dir),
+                sprintf(
+                    'git clone --branch %s --depth 1 %s %s',
+                    $project->branch,
+                    $project->repository,
+                    $latest_release_dir
+                ),
                 sprintf('cd %s', $latest_release_dir),
                 sprintf('git checkout %s', $project->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
@@ -309,7 +326,11 @@ EOF'
     {
         return <<<OUT
 #!/bin/sh
-ssh -o CheckHostIP=no -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentityFile={$key_file_path} $*
+ssh -o CheckHostIP=no \
+    -o IdentitiesOnly=yes
+    -o StrictHostKeyChecking=no \
+    -o PasswordAuthentication=no \
+    -o IdentityFile={$key_file_path} $*
 
 OUT;
     }

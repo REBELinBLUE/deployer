@@ -19,7 +19,11 @@ class ProjectController extends Controller
 
         foreach ($projects as $project) {
             $project->group_name = $project->group->name;
-            $project->deploy     = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : Lang::get('app.never'));
+            $project->deploy     = Lang::get('app.never');
+
+            if ($project->last_run) {
+                $project->deploy = $project->last_run->format('jS F Y g:i:s A');
+            }
         }
 
         return view('projects.listing', [
@@ -68,8 +72,8 @@ class ProjectController extends Controller
                                  ->orderBy('started_at', 'DESC')
                                  ->get();
 
-        $now = Carbon::now();
-        $lastWeek = Carbon::now()->subWeek();
+        $now       = Carbon::now();
+        $lastWeek  = Carbon::now()->subWeek();
         $yesterday = Carbon::now()->yesterday();
 
         $today = Deployment::where('project_id', $project->id)
@@ -131,7 +135,11 @@ class ProjectController extends Controller
         $project->save();
 
         $project->group_name     = $project->group->name;
-        $project->deploy         = ($project->last_run ? $project->last_run->format('jS F Y g:i:s A') : Lang::get('app.never'));
+        $project->deploy         = Lang::get('app.never');
+
+        if ($project->last_run) {
+            $project->deploy     = $project->last_run->format('jS F Y g:i:s A');
+        }
 
         return $project;
     }
