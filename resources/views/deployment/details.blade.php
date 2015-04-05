@@ -48,6 +48,16 @@
             </div>
         </td>
     </script>
+
+    <script type="text/javascript">
+        Lang.status = {
+            pending: '{{ Lang::get('deployments.pending') }}',
+            running: '{{ Lang::get('deployments.running') }}',
+            failed: '{{ Lang::get('servers.failed') }}',
+            cancelled: '{{ Lang::get('deployments.cancelled') }}',
+            completed: '{{ Lang::get('deployments.completed') }}'
+        };
+    </script>
 @stop
 
 @section('javascript')

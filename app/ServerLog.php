@@ -4,11 +4,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServerLog extends Model
 {
-    const PENDING   = 'Pending';
-    const RUNNING   = 'Running';
-    const FAILED    = 'Failed';
-    const CANCELLED = 'Cancelled';
-    const COMPLETED = 'Completed';
+    const COMPLETED = 0;
+    const PENDING   = 1;
+    const RUNNING   = 2;
+    const FAILED    = 3;
+    const CANCELLED = 4;
 
     public function server()
     {

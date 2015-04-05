@@ -24,6 +24,8 @@ return [
     'pending'    => 'Pending',
     'deploying'  => 'Deploying',
     'completed'  => 'Completed',
-    'failed'     => 'Failed'
+    'failed'     => 'Failed',
+    'running'    => 'Running',
+    'cancelled'  => 'Cancelled'
 
 ];

@@ -1,6 +1,12 @@
 var app = app || {};
 
 (function ($) {
+    var COMPLETED = 0;
+    var PENDING   = 1;
+    var RUNNING   = 2;
+    var FAILED    = 3;
+    var CANCELLED = 4;
+
     $('#log').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var log_id = button.attr('id').replace('log_', '');
@@ -51,11 +57,11 @@ var app = app || {};
         changeStatus: function() {
             // Start polling the model if it is running, or it is the first model in the collection as is pending
             var poll_for_update = false;
-            if (this.get('status') === 'Pending') {
+            if (parseInt(this.get('status')) === PENDING) {
                 if (this.get('first') === true) {
                     poll_for_update = true;
                 }
-            } else if (this.get('status') === 'Running') {
+            } else if (parseInt(this.get('status')) === RUNNING) {
                 poll_for_update = true;
             }
 
@@ -69,25 +75,25 @@ var app = app || {};
                     url: this.urlRoot + '/' + this.id
                 }).fail(function (response) {
                     that.set({
-                        status: 'Failed'
+                        status: FAILED
                     });
                 }).success(function () {
                     that.poller = Backbone.Poller.get(that, {
                         condition: function(model) {
-                            var stillRunning = (model.get('status') === 'Running');
+                            var stillRunning = (parseInt(model.get('status')) === RUNNING);
 
-                            if (model.get('status') === 'Pending' && model.get('first') === true) {
+                            if (parseInt(model.get('status')) === PENDING && model.get('first') === true) {
                                 stillRunning = true;
                             }
 
-                            if (model.get('status') === 'Completed') {
+                            if (parseInt(model.get('status')) === COMPLETED) {
                                 var found = _.find(app.Deployment.models, function(next) { 
-                                    return next.get('status') === 'Pending';
+                                    return parseInt(next.get('status')) === PENDING;
                                 });
 
                                 if (found) {
                                     found.set({
-                                        status: 'Running'
+                                        status: RUNNING
                                     });
                                 }
 
@@ -104,11 +110,11 @@ var app = app || {};
                     that.poller.start();
                 });
             }
-            else if (this.get('status') === 'Failed') {
+            else if (parseInt(this.get('status')) === FAILED) {
                 _.each(app.Deployment.models, function(remaining) {
-                    if (remaining.get('status') === 'Pending') {
+                    if (parseInt(remaining.get('status')) === PENDING) {
                         remaining.set({
-                            status: 'Cancelled'
+                            status: CANCELLED
                         });
                     }
                 });
@@ -178,20 +184,28 @@ var app = app || {};
 
             data.status_css = 'info';
             data.icon_css = 'clock-o';
+            data.status = Lang.status.pending;
 
-            if (this.model.get('status') === 'Completed') {
+            if (parseInt(this.model.get('status')) === COMPLETED) {
                 data.status_css = 'success';
                 data.icon_css = 'check';
-            } else if (this.model.get('status') === 'Running') {
+                data.status = Lang.status.completed;
+            } else if (parseInt(this.model.get('status')) === RUNNING) {
                 data.status_css = 'warning';
                 data.icon_css = 'spinner fa-spin';
-            } else if (this.model.get('status') === 'Failed' || this.model.get('status') === 'Cancelled') {
+                data.status = Lang.status.running;
+            } else if (parseInt(this.model.get('status')) === FAILED || parseInt(this.model.get('status')) === CANCELLED) {
                 data.status_css = 'danger';
                 data.icon_css = 'warning';
+
+                data.status = Lang.status.failed;
+                if (parseInt(this.model.get('status')) === CANCELLED) {
+                    data.status = Lang.status.cancelled;
+                }
             }
 
             data.start_time = 'N/A';
-            data.end_time = 'N/A';
+            data.end_time   = 'N/A';
             data.total_time = 'N/A';
 
             if (data.started !== null) {
