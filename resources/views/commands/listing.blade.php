@@ -13,7 +13,7 @@
         <td><%- user %></td>
         <td>
             <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-edit" title="Edit the command" data-toggle="modal" data-target="#command"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('commands.edit') }}" data-toggle="modal" data-target="#command"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>
