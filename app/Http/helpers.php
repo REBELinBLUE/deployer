@@ -5,7 +5,7 @@ use App\Deployment;
 
 function loading_value($value) 
 {
-    if ($value === 'Loading') {
+    if ($value === Deployment::LOADING) {
         return Lang::get('deployments.loading');
     }
 

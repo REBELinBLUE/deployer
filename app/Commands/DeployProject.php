@@ -54,7 +54,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 
         try {
             // If the build has been manually triggered update the git information from the remote repository
-            if ($this->deployment->commit == 'Loading') {
+            if ($this->deployment->commit == Deployment::LOADING) {
                 $this->updateRepoInfo();
             }
 

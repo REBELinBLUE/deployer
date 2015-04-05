@@ -12,6 +12,7 @@ class Deployment extends Model
     const PENDING   = 1;
     const DEPLOYING = 2;
     const FAILED    = 3;
+    const LOADING   = 'Loading';
 
     public function getDates()
     {
@@ -48,7 +49,7 @@ class Deployment extends Model
 
     public function commitURL()
     {
-        if ($this->commit != 'Loading') {
+        if ($this->commit != self::LOADING) {
             $info = $this->project->accessDetails();
             if (isset($info['domain']) && isset($info['reference'])) {
                 return 'http://' . $info['domain'] . '/' . $info['reference'] . '/commit/' . $this->commit;
@@ -60,7 +61,7 @@ class Deployment extends Model
 
     public function shortCommit()
     {
-        if ($this->commit != 'Loading') {
+        if ($this->commit != self::LOADING) {
             return substr($this->commit, 0, 7);
         }
 

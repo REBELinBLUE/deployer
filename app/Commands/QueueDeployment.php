@@ -41,8 +41,8 @@ class QueueDeployment extends Command implements SelfHandling
             $this->deployment->user_id = Auth::user()->id;
         }
 
-        $this->deployment->committer = 'Loading'; // FIXME: Better values for these
-        $this->deployment->commit = 'Loading';
+        $this->deployment->committer = Deployment::LOADING;
+        $this->deployment->commit = Deployment::LOADING;
         $this->deployment->save();
 
         $this->deployment->project->status = Project::PENDING;
