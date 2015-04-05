@@ -2,6 +2,9 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * The view service provider
+ */
 class ViewServiceProvider extends ServiceProvider
 {
     /**
@@ -24,6 +27,11 @@ class ViewServiceProvider extends ServiceProvider
         //
     }
 
+    /**
+     * Registers view composers
+     *
+     * @return void
+     */
     private function composeNavigation()
     {
         view()->composer('_partials.sidebar', 'App\Http\Composers\NavigationComposer');

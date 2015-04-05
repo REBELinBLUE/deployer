@@ -2,6 +2,9 @@
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+/**
+ * Kernel class
+ */
 class Kernel extends HttpKernel
 {
     /**

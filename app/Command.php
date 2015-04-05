@@ -4,6 +4,9 @@ use App\Server;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * The commanbd model
+ */
 class Command extends Model
 {
     use SoftDeletes;
@@ -28,18 +31,32 @@ class Command extends Model
      */
     protected $hidden = ['project', 'created_at', 'deleted_at', 'updated_at'];
 
+    /**
+     * Belongs to relationship
+     *
+     * @return Project
+     */
     public function project()
     {
         return $this->belongsTo('App\Project');
     }
 
+    /**
+     * Belongs to many relationship
+     *
+     * @return Server
+     */
     public function servers()
     {
         return $this->belongsToMany('App\Server');
     }
 
     /**
-     * FIXME: See if laravel has a built in way of handling this
+     * Checks if the server is assigned to this command
+     *
+     * @param Server $server The server to check
+     * @return boolean
+     * @todo See if laravel has a built in way of handling this
      */
     public function hasServer(Server $server)
     {

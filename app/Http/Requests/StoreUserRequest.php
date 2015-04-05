@@ -3,6 +3,9 @@
 use Input;
 use App\Http\Requests\Request;
 
+/**
+ * Request for validating users
+ */
 class StoreUserRequest extends Request
 {
     /**

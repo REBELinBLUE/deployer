@@ -3,6 +3,9 @@
 use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 
+/**
+ * Middleware to prevent CSRF
+ */
 class VerifyCsrfToken extends BaseVerifier
 {
     /**
@@ -21,6 +24,12 @@ class VerifyCsrfToken extends BaseVerifier
         return parent::handle($request, $next);
     }
 
+    /**
+     * Determines whether or not the request should be excluded from CSRF protection
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return boolean
+     */
     protected function excludedRoutes($request)
     {
         $routes = [

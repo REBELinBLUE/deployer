@@ -11,8 +11,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Commands\QueueDeployment;
 
+/**
+ * The controller for managging projects
+ */
 class ProjectController extends Controller
 {
+    /**
+     * Shows all projects
+     *
+     * @return Response
+     */
     public function index()
     {
         $projects = Project::all();
@@ -36,7 +44,7 @@ class ProjectController extends Controller
      * The details of an individual project
      *
      * @param int $project_id The ID of the project to display
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function show($project_id)
     {
@@ -98,6 +106,12 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * Store a newly created project in storage.
+     *
+     * @param StoreProjectRequest $request
+     * @return Response
+     */
     public function store(StoreProjectRequest $request)
     {
         $project = new Project;
@@ -120,6 +134,13 @@ class ProjectController extends Controller
         return $project;
     }
 
+    /**
+     * Update the specified project in storage.
+     *
+     * @param int $project_id
+     * @param StoreProjectRequest $request
+     * @return Response
+     */
     public function update($project_id, StoreProjectRequest $request)
     {
         $project = Project::findOrFail($project_id);
@@ -144,6 +165,12 @@ class ProjectController extends Controller
         return $project;
     }
 
+    /**
+     * Remove the specified project from storage.
+     *
+     * @param int $project_id
+     * @return Response
+     */
     public function destroy($project_id)
     {
         $project = Project::findOrFail($project_id);
@@ -154,6 +181,12 @@ class ProjectController extends Controller
         ], 200);
     }
 
+    /**
+     * Gets the servers for the specified project
+     *
+     * @param int $project_id
+     * @returnResponse
+     */
     public function servers($project_id)
     {
         $project = Project::findOrFail($project_id);
@@ -162,7 +195,11 @@ class ProjectController extends Controller
     }
 
     /**
-     * FIXME: Don't allow this to run if there is already a pending deploy or no servers
+     * Adds a deployment for the specified project to the queue
+     *
+     * @param int $project_id
+     * @return Response
+     * @todo Don't allow this to run if there is already a pending deploy or no servers
      */
     public function deploy($project_id)
     {

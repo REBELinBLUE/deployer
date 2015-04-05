@@ -3,6 +3,9 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Server model
+ */
 class Server extends Model
 {
     use SoftDeletes;
@@ -19,13 +22,13 @@ class Server extends Model
      */
     protected $hidden = ['project_id', 'created_at', 'updated_at', 'deleted_at', 'pivot'];
 
+    /**
+     * Belongs to relationship
+     *
+     * @return Project
+     */
     public function project()
     {
         return $this->belongsTo('App\Project');
-    }
-
-    public function isTesting()
-    {
-        return ($this->status === 'Testing');
     }
 }

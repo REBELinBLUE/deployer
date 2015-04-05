@@ -4,6 +4,9 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\RedirectResponse;
 
+/**
+ * Middleware to prevent access to pages when already authenticated
+ */
 class RedirectIfAuthenticated
 {
     /**

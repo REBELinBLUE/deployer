@@ -17,6 +17,10 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 use Symfony\Component\Process\Process;
 
+/**
+ * Deploys an actual project
+ * @todo: rewrite this as it is doing way too much
+ */
 class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 {
     use InteractsWithQueue, SerializesModels;
@@ -86,6 +90,11 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         unlink($this->private_key);
     }
 
+    /**
+     * Generate SSH configuration keys for each server
+     *
+     * @return void
+     */
     private function configureServers()
     {
         foreach ($this->deployment->project->servers as $server) {
@@ -98,6 +107,12 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         }
     }
 
+    /**
+     * Clones the repository locally to get the latest log entry and updates
+     * the deployment model
+     *
+     * @return void
+     */
     private function updateRepoInfo()
     {
         $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
@@ -141,6 +156,11 @@ CMD;
         $this->deployment->save();
     }
 
+    /**
+     * Finds all pending steps and marks them as cancelled
+     *
+     * @return void
+     */
     private function cancelPendingSteps()
     {
         foreach ($this->deployment->steps as $step) {
@@ -153,6 +173,13 @@ CMD;
         }
     }
 
+    /**
+     * Executes the commands for a step
+     *
+     * @param DeployStep $step
+     * @return void
+     * @throws \RuntimeException
+     */
     private function runStep(DeployStep $step)
     {
         foreach ($step->servers as $log) {
@@ -223,6 +250,13 @@ EOF'
         }
     }
 
+    /**
+     * Generates the actual bash commands to run on the server
+     *
+     * @param DeployStep $step
+     * @param Server     $server
+     * @return string
+     */
     private function getScript(DeployStep $step, Server $server)
     {
         $project = $this->deployment->project;
@@ -301,13 +335,24 @@ EOF'
         return $commands;
     }
 
-
+    /**
+     * Generates an error string to log to the DB
+     *
+     * @param string $message
+     * @return string
+     */
     private function logError($message)
     {
         // $this->outputToConsole("\033[0;31m" . $message .  "\033[0m");
         return '<error>' . $message . '</error>';
     }
 
+    /**
+     * Generates an general output string to log to the DB
+     *
+     * @param string $message
+     * @return string
+     */
     private function logSuccess($message)
     {
         // $this->outputToConsole("\033[0;32m" . $message .  "\033[0m");
@@ -316,12 +361,24 @@ EOF'
         return '<info>' . $message . '</info>';
     }
 
+    /**
+     * Outputs the command output
+     *
+     * @param string $message
+     * @return string
+     */
     private function outputToConsole($message)
     {
         // FIXME: Only output in debug mode
         //echo 'Deployment #' . $this->deployment->id . ': '  . $message;
     }
 
+    /**
+     * Generates the content of a git bash script
+     *
+     * @param string $key_file_path The path to the public key to use
+     * @return string
+     */
     private function gitWrapperScript($key_file_path)
     {
         return <<<OUT

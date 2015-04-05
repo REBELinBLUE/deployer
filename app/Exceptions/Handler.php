@@ -3,6 +3,9 @@
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+/**
+ * Exception handler
+ */
 class Handler extends ExceptionHandler
 {
     /**

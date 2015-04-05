@@ -3,6 +3,9 @@
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
+/**
+ * Authentication middleware
+ */
 class Authenticate
 {
     /**

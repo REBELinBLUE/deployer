@@ -3,6 +3,9 @@
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * The bus service provider
+ */
 class BusServiceProvider extends ServiceProvider
 {
     /**

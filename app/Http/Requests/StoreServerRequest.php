@@ -2,6 +2,9 @@
 
 use App\Http\Requests\Request;
 
+/**
+ * Request for validating servers
+ */
 class StoreServerRequest extends Request
 {
     /**

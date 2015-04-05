@@ -2,6 +2,9 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * The application service provider
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**

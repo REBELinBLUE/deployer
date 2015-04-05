@@ -7,10 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGroupRequest;
 use Illuminate\Http\Request;
 
+/**
+ * Group management controller
+ */
 class GroupController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the groups.
      *
      * @return Response
      */
@@ -28,8 +31,9 @@ class GroupController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created group in storage.
      *
+     * @param StoreGroupRequest $group
      * @return Response
      */
     public function store(StoreGroupRequest $request)
@@ -45,9 +49,10 @@ class GroupController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified group in storage.
      *
-     * @param  int  $group_id
+     * @param int $group_id
+     * @param StoreGroupRequest $group
      * @return Response
      */
     public function update($group_id, StoreGroupRequest $request)

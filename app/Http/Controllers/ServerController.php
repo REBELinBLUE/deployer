@@ -8,16 +8,26 @@ use App\Http\Controllers\Controller;
 use App\Commands\TestServerConnection;
 use App\Http\Requests\StoreServerRequest;
 
+/**
+ * Server management controller
+ */
 class ServerController extends Controller
 {
+    /**
+     * Shows the specified server
+     *
+     * @param int $server_id
+     * @return Response
+     */
     public function show($server_id)
     {
         return Server::findOrFail($server_id);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created server in storage.
      *
+     * @param StoreServerRequest $request
      * @return Response
      */
     public function store(StoreServerRequest $request)
@@ -35,9 +45,10 @@ class ServerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified server in storage.
      *
-     * @param  int  $id
+     * @param int $server_id
+     * @param StoreServerRequest $request
      * @return Response
      */
     public function update($server_id, StoreServerRequest $request)
@@ -59,9 +70,9 @@ class ServerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified server from storage.
      *
-     * @param  int  $id
+     * @param int $server_id
      * @return Response
      */
     public function destroy($server_id)
@@ -74,6 +85,12 @@ class ServerController extends Controller
         ], 200);
     }
 
+    /**
+     * Queues a connection test for the specified server
+     *
+     * @param int $server_id
+     * @return Response
+     */
     public function test($server_id)
     {
         $server = Server::findOrFail($server_id);

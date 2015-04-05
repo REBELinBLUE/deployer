@@ -2,6 +2,9 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * The config service provider
+ */
 class ConfigServiceProvider extends ServiceProvider
 {
     /**

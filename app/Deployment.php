@@ -4,6 +4,9 @@ use Lang;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Deployment model
+ */
 class Deployment extends Model
 {
     use SoftDeletes;
@@ -14,30 +17,61 @@ class Deployment extends Model
     const FAILED    = 3;
     const LOADING   = 'Loading';
 
+    /**
+     * Overwrite Laravel's getDate() function to add additional dates
+     *
+     * @return array
+     */
     public function getDates()
     {
         return ['created_at', 'started_at', 'finished_at', 'updated_at'];
     }
+
+    /**
+     * Belongs to relationship
+     *
+     * @return Project
+     */
     public function project()
     {
         return $this->belongsTo('App\Project');
     }
 
+    /**
+     * Belongs to relationship
+     *
+     * @return User
+     */
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
-    public function isRunning()
-    {
-        return ($this->status == self::DEPLOYING);
-    }
-
+    /**
+     * Has many relationship
+     *
+     * @return DeployStep
+     */
     public function steps()
     {
         return $this->hasMany('App\DeployStep');
     }
 
+    /**
+     * Determines whether the deployment is running
+     *
+     * @return boolean
+     */
+    public function isRunning()
+    {
+        return ($this->status == self::DEPLOYING);
+    }
+
+    /**
+     * Determines how long the deploy took
+     *
+     * @return false|int False if the deploy is still running, otherwise the runtime in seconds
+     */
     public function runtime()
     {
         if (!$this->finished_at) {
@@ -47,6 +81,11 @@ class Deployment extends Model
         return $this->started_at->diffInSeconds($this->finished_at);
     }
 
+    /**
+     * Gets the HTTP URL to the commit
+     *
+     * @return string|false
+     */
     public function commitURL()
     {
         if ($this->commit != self::LOADING) {
@@ -59,6 +98,11 @@ class Deployment extends Model
         return false;
     }
 
+    /**
+     * Gets the short commit hash
+     *
+     * @return string
+     */
     public function shortCommit()
     {
         if ($this->commit != self::LOADING) {
@@ -68,6 +112,11 @@ class Deployment extends Model
         return $this->commit;
     }
 
+    /**
+     * Generates a slack payload for the deployment
+     *
+     * @return array
+     */
     public function notificationPayload()
     {
         $colour = 'good';

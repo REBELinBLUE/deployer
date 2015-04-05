@@ -6,8 +6,17 @@ use App\ServerLog;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+/**
+ * The controller for showing the status of deployments
+ */
 class DeploymentController extends Controller
 {
+    /**
+     * Show the deployment details
+     *
+     * @param int $deployment_id
+     * @return Response
+     */
     public function show($deployment_id)
     {
         $deployment = Deployment::findOrFail($deployment_id);

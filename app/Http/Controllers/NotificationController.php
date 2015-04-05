@@ -7,16 +7,26 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNotificationRequest;
 
+/**
+ * Controller for managing notifications
+ */
 class NotificationController extends Controller
 {
+    /**
+     * Show the specified notification
+     *
+     * @param int $notification_id
+     * @return Response
+     */
     public function show($notification_id)
     {
         return Notification::findOrFail($notification_id);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created notification in storage.
      *
+     * @param StoreNotificationRequest $request
      * @return Response
      */
     public function store(StoreNotificationRequest $request)
@@ -36,9 +46,10 @@ class NotificationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified notification in storage.
      *
-     * @param  int  $id
+     * @param int $notification_id
+     * @param StoreNotificationRequest $request
      * @return Response
      */
     public function update($notification_id, StoreNotificationRequest $request)
@@ -58,9 +69,9 @@ class NotificationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified notification from storage.
      *
-     * @param  int  $id
+     * @param int $notification_id
      * @return Response
      */
     public function destroy($notification_id)

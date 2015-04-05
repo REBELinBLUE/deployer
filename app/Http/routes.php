@@ -21,7 +21,6 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'WebhookController@refresh'
     ]);
 
-
     Route::get('projects/{id}', [
         'uses' => 'ProjectController@show'
     ]);

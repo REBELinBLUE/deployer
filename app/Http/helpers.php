@@ -4,6 +4,12 @@ use App\Command;
 use App\Project;
 use App\Deployment;
 
+/**
+ * Checks if the deployment commit info is currently loading
+ *
+ * @param  string $value The commit info to check
+ * @return string Either the commit info, or the Loading string from the language
+ */
 function loading_value($value)
 {
     if ($value === Deployment::LOADING) {
@@ -13,6 +19,12 @@ function loading_value($value)
     return $value;
 }
 
+/**
+ * Gets the CSS class for the project status
+ *
+ * @param Project $project
+ * @return string
+ */
 function project_css_status(Project $project)
 {
     if ((int) $project->status === Project::FINISHED) {
@@ -28,6 +40,13 @@ function project_css_status(Project $project)
     return 'primary';
 }
 
+/**
+ * Gets the CSS icon class for the project status
+ *
+ * @param Project $project
+ * @param boolean $rotate Whether or not the icon should rotate
+ * @return string
+ */
 function project_icon_status(Project $project, $rotate = true)
 {
     if ((int) $project->status === Project::FINISHED) {
@@ -47,6 +66,12 @@ function project_icon_status(Project $project, $rotate = true)
     return 'question-circle';
 }
 
+/**
+ * Gets the translated project status string
+ *
+ * @param Project $project
+ * @return string
+ */
 function project_status(Project $project)
 {
     if ((int) $project->status === Project::FINISHED) {
@@ -62,6 +87,12 @@ function project_status(Project $project)
     return Lang::get('projects.not_deployed');
 }
 
+/**
+ * Gets the CSS class for the deployment status for the timeline
+ *
+ * @param Deployment $deployment
+ * @return string
+ */
 function timeline_css_status(Deployment $deployment)
 {
     if ((int) $deployment->status === Deployment::COMPLETED) {
@@ -75,6 +106,12 @@ function timeline_css_status(Deployment $deployment)
     return 'aqua';
 }
 
+/**
+ * Gets the CSS class for the deployment status
+ *
+ * @param Deployment $deployment
+ * @return string
+ */
 function deployment_css_status(Deployment $deployment)
 {
     if ((int) $deployment->status === Deployment::COMPLETED) {
@@ -88,6 +125,12 @@ function deployment_css_status(Deployment $deployment)
     return 'info';
 }
 
+/**
+ * Gets the CSS icon class for the deployment status
+ *
+ * @param Deployment $deployment
+ * @return string
+ */
 function deployment_icon_status(Deployment $deployment)
 {
     if ((int) $deployment->status === Deployment::COMPLETED) {
@@ -101,6 +144,12 @@ function deployment_icon_status(Deployment $deployment)
     return 'clock-o';
 }
 
+/**
+ * Gets the translated deployment status string
+ *
+ * @param Deployment $deployment
+ * @return string
+ */
 function deployment_status(Deployment $deployment)
 {
     if ((int) $deployment->status === Deployment::COMPLETED) {
@@ -114,6 +163,13 @@ function deployment_status(Deployment $deployment)
     return Lang::get('deployments.pending');
 }
 
+/**
+ * Gets the deployment stage label from the numeric representation
+ *
+ * @param int $label
+ * @return string
+ * @see deploy_step_label()
+ */
 function deploy_stage_label($label)
 {
     $step = 'clone';
@@ -127,11 +183,24 @@ function deploy_stage_label($label)
 
     return deploy_step_label($step);
 }
+
+/**
+ * Gets the translated deployment stage label
+ *
+ * @param string $label
+ * @return string
+ */
 function deploy_step_label($label)
 {
     return Lang::get('commands.' . strtolower($label));
 }
 
+/**
+ * Converts a number of seconds into a more human readable format
+ *
+ * @param int $seconds The number of seconds
+ * @return string
+ */
 function human_readable_duration($seconds)
 {
     $units = [
@@ -158,6 +227,12 @@ function human_readable_duration($seconds)
     return substr($readable, 0, -2);
 }
 
+/**
+ * Converts a numeric command number to the string representation
+ *
+ * @param int $command
+ * @return string
+ */
 function command_name($command)
 {
     if ($command === Command::DO_CLONE) {
@@ -171,11 +246,22 @@ function command_name($command)
     return 'purge';
 }
 
+/**
+ * Gets the translated command label
+ *
+ * @param string $command
+ * @return string
+ */
 function command_label($command)
 {
     return Lang::get('commands.' . command_name($command));
 }
 
+/**
+ * Gets a readable list of commands for a stage
+ *
+ * @todo Document this better
+ */
 function command_list_readable($commands, $step, $action)
 {
     if (isset($commands[$step][$action])) {

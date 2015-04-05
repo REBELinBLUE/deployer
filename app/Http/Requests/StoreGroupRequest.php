@@ -3,6 +3,9 @@
 use Input;
 use App\Http\Requests\Request;
 
+/**
+ * Request for validating groups
+ */
 class StoreGroupRequest extends Request
 {
     /**

@@ -5,10 +5,11 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
+/**
+ * Password reset controller
+ */
 class PasswordController extends Controller
 {
-    protected $redirectTo = '/';
-
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
@@ -21,6 +22,13 @@ class PasswordController extends Controller
     */
 
     use ResetsPasswords;
+
+    /**
+     * Where to redirect to once the password has been reset
+     *
+     * @var string
+     */
+    protected $redirectTo = '/';
 
     /**
      * Create a new password controller instance.

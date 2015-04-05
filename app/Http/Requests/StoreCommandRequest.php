@@ -3,9 +3,11 @@
 use Input;
 use App\Http\Requests\Request;
 
+/**
+ * Request for validating commands
+ */
 class StoreCommandRequest extends Request
 {
-
     /**
      * Get the validation rules that apply to the request.
      *

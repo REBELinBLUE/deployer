@@ -10,8 +10,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommandRequest;
 use Illuminate\Http\Request;
 
+/**
+ * Controller for managing commands
+ */
 class CommandController extends Controller
 {
+    /**
+     * Display a listing of before/after commands for the supplied stage
+     *
+     * @param int $project_id
+     * @param string $action Either clone, install, activate or purge
+     * @return Response
+     */
     public function listing($project_id, $action)
     {
         $types = [
@@ -45,6 +55,12 @@ class CommandController extends Controller
         ]);
     }
 
+    /**
+     * Store a newly created command in storage.
+     *
+     * @param StoreCommandRequest $request
+     * @return Response
+     */
     public function store(StoreCommandRequest $request)
     {
         $max = Command::where('project_id', Input::get('project_id'))
@@ -73,6 +89,13 @@ class CommandController extends Controller
         return $command;
     }
 
+    /**
+     * Update the specified command in storage.
+     *
+     * @param int $command_id
+     * @param StoreCommandRequest $request
+     * @return Response
+     */
     public function update($command_id, StoreCommandRequest $request)
     {
         $command = Command::findOrFail($command_id);
@@ -89,6 +112,12 @@ class CommandController extends Controller
         return $command;
     }
 
+    /**
+     * Remove the specified command from storage.
+     *
+     * @param int $command_id
+     * @return Response
+     */
     public function destroy($command_id)
     {
         $command = Command::findOrFail($command_id);
@@ -99,27 +128,11 @@ class CommandController extends Controller
         ], 200);
     }
 
-    public function status($log_id, $include_log = false)
-    {
-        $log = ServerLog::findOrFail($log_id);
-
-        $log->started  = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
-        $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
-        $log->runtime  = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
-        $log->script   = '';
-
-        if (!$include_log) {
-            $log->output = ((is_null($log->output) || !strlen($log->output)) ? null : '');
-        }
-
-        return $log;
-    }
-
-    public function log($log_id)
-    {
-        return $this->status($log_id, true);
-    }
-
+    /**
+     * Re-generates the order for the supplied commands
+     *
+     * @return Response
+     */
     public function reorder()
     {
         $order = 0;
@@ -137,5 +150,41 @@ class CommandController extends Controller
         return Response::json([
             'success' => true
         ], 200);
+    }
+
+    /**
+     * Gets the status of a particular deployment step
+     *
+     * @param int $log_id
+     * @param boolean $include_log
+     * @return Response
+     * @todo Move this to deployment controller
+     */
+    public function status($log_id, $include_log = false)
+    {
+        $log = ServerLog::findOrFail($log_id);
+
+        $log->started  = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
+        $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
+        $log->runtime  = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
+        $log->script   = '';
+
+        if (!$include_log) {
+            $log->output = ((is_null($log->output) || !strlen($log->output)) ? null : '');
+        }
+
+        return $log;
+    }
+
+    /**
+     * Gets the log output of a particular deployment step
+     *
+     * @param int $log_id
+     * @return Response
+     * @todo Move this to deployment controller
+     */
+    public function log($log_id)
+    {
+        return $this->status($log_id, true);
     }
 }

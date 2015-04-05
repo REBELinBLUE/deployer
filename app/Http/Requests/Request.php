@@ -3,6 +3,9 @@
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Generic Request class
+ */
 abstract class Request extends FormRequest
 {
     /**

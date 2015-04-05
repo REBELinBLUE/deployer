@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 
+/**
+ * Project model
+ */
 class Project extends Model
 {
     use SoftDeletes;
@@ -23,46 +26,91 @@ class Project extends Model
     protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at',
                          'updated_at', 'last_run', 'servers', 'commands', 'hash', 'status'];
 
+    /**
+     * Overwrite Laravel's getDate() function to add additional dates
+     *
+     * @return array
+     */
     public function getDates()
     {
         return ['created_at', 'last_run', 'updated_at'];
     }
 
+    /**
+     * Determines whether the project is currently being deployed
+     *
+     * @return boolean
+     */
     public function isDeploying()
     {
-        return ($this->status == 'Deploying' || $this->status == 'Pending');
+        return ((int) $this->status === self::DEPLOYING || (int) $this->status == self::PENDING);
     }
 
+    /**
+     * Belongs to relationship
+     *
+     * @return Group
+     */
     public function group()
     {
         return $this->belongsTo('App\Group');
     }
 
+    /**
+     * Has many relationship
+     *
+     * @return Server
+     */
     public function servers()
     {
         return $this->hasMany('App\Server');
     }
 
+    /**
+     * Has many relationship
+     *
+     * @return Notification
+     */
     public function notifications()
     {
         return $this->hasMany('App\Notification');
     }
 
+    /**
+     * Has many relationship
+     *
+     * @return Deployment
+     */
     public function deployments()
     {
         return $this->hasMany('App\Deployment');
     }
 
+    /**
+     * Has many relationship
+     *
+     * @return Command
+     */
     public function commands()
     {
         return $this->hasMany('App\Command');
     }
 
+    /**
+     * Generates a hash for use in the webhook URL
+     *
+     * @return void
+     */
     public function generateHash()
     {
         $this->hash = Str::random(60);
     }
 
+    /**
+     * Parses the repository URL to get the user, domain, port and path parts
+     *
+     * @return array
+     */
     public function accessDetails()
     {
         $info = [];
@@ -77,6 +125,12 @@ class Project extends Model
         return $info;
     }
 
+    /**
+     * Gets the repository path
+     *
+     * @return string|false
+     * @see \App\Project::accessDetails()
+     */
     public function repositoryPath()
     {
         $info = $this->accessDetails();
@@ -88,6 +142,12 @@ class Project extends Model
         return false;
     }
 
+    /**
+     * Gets the HTTP URL to the repository
+     *
+     * @return string|false
+     * @see \App\Project::accessDetails()
+     */
     public function repositoryURL()
     {
         $info = $this->accessDetails();
@@ -99,6 +159,12 @@ class Project extends Model
         return false;
     }
 
+    /**
+     * Gets the HTTP URL to the branch
+     *
+     * @return string|false
+     * @see \App\Project::accessDetails()
+     */
     public function branchURL()
     {
         $info = $this->accessDetails();
@@ -110,6 +176,11 @@ class Project extends Model
         return false;
     }
 
+    /**
+     * Generates an SSH key and sets the private/public key properties
+     *
+     * @return void
+     */
     public function generateSSHKey()
     {
         $key = tempnam(storage_path() . '/app/', 'sshkey');
@@ -123,7 +194,7 @@ class Project extends Model
         }
 
         $this->private_key = file_get_contents($key);
-        $this->public_key = file_get_contents($key . '.pub');
+        $this->public_key  = file_get_contents($key . '.pub');
 
         unlink($key);
         unlink($key . '.pub');

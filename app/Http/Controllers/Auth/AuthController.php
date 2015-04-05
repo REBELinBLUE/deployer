@@ -5,6 +5,9 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
+/**
+ * Authentication controller
+ */
 class AuthController extends Controller
 {
     /*
@@ -20,6 +23,11 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers;
 
+    /**
+     * Where to redirect to once the user has been authenticated
+     *
+     * @var string
+     */
     protected $redirectTo = '/';
 
     /**
@@ -37,12 +45,21 @@ class AuthController extends Controller
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
-    // Disable laravel's build in register feature as we don't need this
+    /**
+     * Disable laravel's build in register feature as it is not needed
+     *
+     * @return Response
+     */
     public function getRegister()
     {
         return redirect('/');
     }
 
+    /**
+     * Disable laravel's build in register feature as it is not needed
+     *
+     * @return Response
+     */
     public function postRegister()
     {
         return redirect('/');

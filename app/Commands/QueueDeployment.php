@@ -11,6 +11,9 @@ use App\Commands\Command;
 use App\Commands\DeployProject;
 use Illuminate\Contracts\Bus\SelfHandling;
 
+/**
+ * Generates the required database entries to queue a deployment
+ */
 class QueueDeployment extends Command implements SelfHandling
 {
     private $project;
@@ -31,6 +34,7 @@ class QueueDeployment extends Command implements SelfHandling
      * Execute the command.
      *
      * @return void
+     * @todo refactor
      */
     public function handle()
     {

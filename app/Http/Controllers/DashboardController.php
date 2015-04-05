@@ -7,12 +7,15 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+/**
+ * The dashboard controller
+ */
 class DashboardController extends Controller
 {
     /**
      * The main page of the dashboard
      *
-     * @return \Illuminate\View\View
+     * @return \View
      */
     public function index()
     {
