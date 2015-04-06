@@ -79,55 +79,53 @@ class QueueDeployment extends Command implements SelfHandling
             $hooks[$action][$when][] = $command;
         }
 
-        // FIXME: Refactor this, lots of repeating code!
         foreach (array_keys($hooks) as $stage) {
+            $stage = (int) $stage;
+            $before = $stage - 1;
+            $after = $stage + 1;
+
             if (isset($hooks[$stage]['before'])) {
                 foreach ($hooks[$stage]['before'] as $hook) {
-                    $step = new DeployStep;
-                    $step->stage = (int) $stage - 1;
-                    $step->command_id = $hook->id;
-                    $step->deployment_id = $this->deployment->id;
-                    $step->save();
-
-                    foreach ($this->project->servers as $server) {
-                        $log = new ServerLog;
-                        $log->server_id = $server->id;
-                        $log->deploy_step_id = $step->id;
-                        $log->save();
-                    }
+                    $this->create_step($before, $hook);
                 }
             }
 
-            $step = new DeployStep;
-            $step->stage = $stage;
-            $step->deployment_id = $this->deployment->id;
-            $step->save();
-
-            foreach ($this->project->servers as $server) {
-                $log = new ServerLog;
-                $log->server_id = $server->id;
-                $log->deploy_step_id = $step->id;
-                $log->save();
-            }
+            $this->create_step($stage);
 
             if (isset($hooks[$stage]['after'])) {
                 foreach ($hooks[$stage]['after'] as $hook) {
-                    $step = new DeployStep;
-                    $step->stage = (int) $stage + 1;
-                    $step->command_id = $hook->id;
-                    $step->deployment_id = $this->deployment->id;
-                    $step->save();
-
-                    foreach ($this->project->servers as $server) {
-                        $log = new ServerLog;
-                        $log->server_id = $server->id;
-                        $log->deploy_step_id = $step->id;
-                        $log->save();
-                    }
+                    $this->create_step($after, $hook);
                 }
             }
         }
 
         Queue::pushOn('deploy', new DeployProject($this->deployment));
+    }
+
+    /**
+     * Create an instance of DeployStep and a ServerLog entry for each server
+     * 
+     * @param int $stage
+     * @param Command|null $command
+     * @return void
+     * @todo Only create instances of ServerLog for each server which is assigned the command
+     */
+    private function create_step($stage, Stage $command = null) {
+        $step = new DeployStep;
+        $step->stage = $stage;
+
+        if (!is_null($command)) {
+            $step->command_id = $command->id;
+        }
+
+        $step->deployment_id = $this->deployment->id;
+        $step->save();
+
+        foreach ($this->project->servers as $server) {
+            $log = new ServerLog;
+            $log->server_id = $server->id;
+            $log->deploy_step_id = $step->id;
+            $log->save();
+        }
     }
 }
