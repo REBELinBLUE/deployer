@@ -86,15 +86,15 @@ class QueueDeployment extends Command implements SelfHandling
 
             if (isset($hooks[$stage]['before'])) {
                 foreach ($hooks[$stage]['before'] as $hook) {
-                    $this->create_step($before, $hook);
+                    $this->createStep($before, $hook);
                 }
             }
 
-            $this->create_step($stage);
+            $this->createStep($stage);
 
             if (isset($hooks[$stage]['after'])) {
                 foreach ($hooks[$stage]['after'] as $hook) {
-                    $this->create_step($after, $hook);
+                    $this->createStep($after, $hook);
                 }
             }
         }
@@ -104,13 +104,14 @@ class QueueDeployment extends Command implements SelfHandling
 
     /**
      * Create an instance of DeployStep and a ServerLog entry for each server
-     * 
+     *
      * @param int $stage
      * @param Command|null $command
      * @return void
      * @todo Only create instances of ServerLog for each server which is assigned the command
      */
-    private function create_step($stage, Stage $command = null) {
+    private function createStep($stage, Stage $command = null)
+    {
         $step = new DeployStep;
         $step->stage = $stage;
 
