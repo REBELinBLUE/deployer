@@ -3,7 +3,6 @@
 use Queue;
 use App\Notification;
 use App\Commands\Notify;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNotificationRequest;
 
@@ -17,6 +16,8 @@ class NotificationController extends Controller
      *
      * @param int $notification_id
      * @return Response
+     * @deprecated
+     * @todo Remove this as I do not think it is used
      */
     public function show($notification_id)
     {
@@ -28,18 +29,10 @@ class NotificationController extends Controller
      *
      * @param StoreNotificationRequest $request
      * @return Response
-     * @todo Use mass assignment
      */
     public function store(StoreNotificationRequest $request)
     {
-        $notification = new Notification;
-        
-        $notification->name       = $request->name;
-        $notification->channel    = $request->channel;
-        $notification->webhook    = $request->webhook;
-        $notification->project_id = $request->project_id;
-
-        $notification->save();
+        $notification = Notification::create($request->only('name', 'channel', 'webhook', 'project_id'));
 
         Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
 
@@ -49,21 +42,13 @@ class NotificationController extends Controller
     /**
      * Update the specified notification in storage.
      *
-     * @param int $notification_id
+     * @param Notification $notification
      * @param StoreNotificationRequest $request
      * @return Response
-     * @todo Use mass assignment
      */
-    public function update($notification_id, StoreNotificationRequest $request)
+    public function update(Notification $notification, StoreNotificationRequest $request)
     {
-        $notification = Notification::findOrFail($notification_id);
-
-        $notification->name       = $request->name;
-        $notification->channel    = $request->channel;
-        $notification->webhook    = $request->webhook;
-        $notification->project_id = $request->project_id;
-
-        $notification->save();
+        $notification->update($request->only('name', 'channel', 'webhook', 'project_id'));
 
         Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
 
@@ -73,16 +58,15 @@ class NotificationController extends Controller
     /**
      * Remove the specified notification from storage.
      *
-     * @param int $notification_id
+     * @param Notification $notification
      * @return Response
      */
-    public function destroy($notification_id)
+    public function destroy(Notification $notification)
     {
-        $notification = Notification::findOrFail($notification_id);
         $notification->delete();
 
-        return Response::json([
+        return [
             'success' => true
-        ], 200);
+        ];
     }
 }

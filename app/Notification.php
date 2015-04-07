@@ -2,12 +2,22 @@
 
 use Lang;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Notification model
  */
 class Notification extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'channel', 'webhook', 'project_id'];
+
     /**
      * Belongs to relationship
      *
