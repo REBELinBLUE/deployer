@@ -145,7 +145,7 @@ CMD;
         unlink($wrapper);
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not get repository info');
+            throw new \RuntimeException('Could not get repository info'); // FIXME: Handle this situation as it is then unclear what went wrong
         }
 
         $git_info = $process->getOutput();
@@ -384,7 +384,7 @@ EOF'
         return <<<OUT
 #!/bin/sh
 ssh -o CheckHostIP=no \
-    -o IdentitiesOnly=yes
+    -o IdentitiesOnly=yes \
     -o StrictHostKeyChecking=no \
     -o PasswordAuthentication=no \
     -o IdentityFile={$key_file_path} $*
