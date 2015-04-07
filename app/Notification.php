@@ -26,7 +26,7 @@ class Notification extends Model
     public function testPayload()
     {
         return [
-            'text' => Lang::get('notification.test_message')
+            'text' => Lang::get('notifications.test_message')
         ];
     }
 }
