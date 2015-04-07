@@ -29,6 +29,10 @@ class RouteServiceProvider extends ServiceProvider
 
         $router->pattern('id', '[0-9]+');
         $router->pattern('command', '(clone|install|activate|purge)');
+
+        $router->model('project', 'App\Project');
+        $router->model('server', 'App\Server');
+        $router->model('deployment', 'App\Deployment');
     }
 
     /**

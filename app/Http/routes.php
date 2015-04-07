@@ -13,37 +13,27 @@
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/', [
-        'uses'  => 'DashboardController@index'
-    ]);
-
-    Route::get('webhook/{id}/refresh', [
-        'uses' => 'WebhookController@refresh'
-    ]);
-
-    Route::get('projects/{id}', [
-        'uses' => 'ProjectController@show'
-    ]);
+    Route::get('/', 'DashboardController@index');
+    Route::get('webhook/{project}/refresh', 'WebhookController@refresh');
+    Route::get('projects/{project}', 'ProjectController@show');
     
     Route::resource('admin/projects', 'ProjectController', [
         'only' => ['index', 'store', 'update', 'destroy']
     ]);
 
-    Route::post('projects/{id}/deploy', [
+    Route::post('projects/{project}/deploy', [
         'as'   => 'deploy',
         'uses' => 'ProjectController@deploy'
     ]);
 
     // Deployment details
-    Route::get('deployment/{id}', [ // FIXME Should this be on the deployment controller?
+    Route::get('deployment/{deployment}', [ // FIXME Should this be on the deployment controller?
         'as'   => 'deployment',
         'uses' => 'DeploymentController@show'
     ]);
 
     // Servers
-    Route::get('projects/{id}/servers', [
-        'uses' => 'ProjectController@servers'
-    ]);
+    Route::get('projects/{project}/servers', 'ProjectController@servers');
 
     Route::resource('servers', 'ServerController', [
         'only' => ['show', 'store', 'update', 'destroy']
@@ -53,28 +43,20 @@ Route::group(['middleware' => 'auth'], function () {
         'only' => ['store', 'update', 'destroy']
     ]);
 
-    Route::get('servers/{id}/test', [
-        'uses' => 'ServerController@test'
-    ]);
+    Route::get('servers/{server}/test', 'ServerController@test');
 
     // Commands
-    Route::get('status/{id}', [
-        'uses' => 'CommandController@status'
-    ]);
+    Route::get('status/{id}', 'CommandController@status');
 
-    Route::get('log/{id}', [
-        'uses' => 'CommandController@log'
-    ]);
+    Route::get('log/{id}', 'CommandController@log');
 
     Route::resource('commands', 'CommandController', [
         'only' => ['store', 'update', 'destroy']
     ]);
 
-    Route::post('commands/reorder', [
-        'uses' => 'CommandController@reorder'
-    ]);
+    Route::post('commands/reorder', 'CommandController@reorder');
 
-    Route::get('projects/{id}/commands/{command}', [
+    Route::get('projects/{project}/commands/{command}', [
         'as'   => 'commands',
         'uses' => 'CommandController@listing'
     ]);

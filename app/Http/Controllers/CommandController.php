@@ -18,11 +18,11 @@ class CommandController extends Controller
     /**
      * Display a listing of before/after commands for the supplied stage
      *
-     * @param int $project_id
+     * @param Project $project
      * @param string $action Either clone, install, activate or purge
      * @return Response
      */
-    public function listing($project_id, $action)
+    public function listing(Project $project, $action)
     {
         $types = [
             'clone'    => Command::DO_CLONE,
@@ -31,7 +31,7 @@ class CommandController extends Controller
             'purge'    => Command::DO_PURGE
         ];
 
-        $project = Project::findOrFail($project_id);
+        dd($project->id);
         
         $commands = Command::where('project_id', $project->id)
                            ->whereIn('step', array($types[$action] - 1, $types[$action] + 1))
