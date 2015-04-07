@@ -19,10 +19,11 @@ class CommandController extends Controller
      * Display a listing of before/after commands for the supplied stage
      *
      * @param Project $project
+     * @param int $project_id
      * @param string $action Either clone, install, activate or purge
      * @return Response
      */
-    public function listing(Project $project, $action)
+    public function listing(Project $project, $project_id, $action)
     {
         $types = [
             'clone'    => Command::DO_CLONE,
@@ -31,8 +32,6 @@ class CommandController extends Controller
             'purge'    => Command::DO_PURGE
         ];
 
-        dd($project->id);
-        
         $commands = Command::where('project_id', $project->id)
                            ->whereIn('step', array($types[$action] - 1, $types[$action] + 1))
                            ->orderBy('order')
@@ -79,7 +78,7 @@ class CommandController extends Controller
         $command->user       = $request->user;
         $command->project_id = $request->project_id;
         $command->script     = $request->script;
-        $command->step       = ucwords($request->step);
+        $command->step       = $request->step;
         $command->order      = $order;
         $command->save();
 
@@ -93,15 +92,14 @@ class CommandController extends Controller
     /**
      * Update the specified command in storage.
      *
-     * @param int $command_id
+     * @param Command $command
      * @param StoreCommandRequest $request
      * @return Response
      * @todo Use mass assignment
      * @todo Change attach/detach to sync
      */
-    public function update($command_id, StoreCommandRequest $request)
+    public function update(Command $command, StoreCommandRequest $request)
     {
-        $command = Command::findOrFail($command_id);
         $command->name   = $request->name;
         $command->user   = $request->user;
         $command->script = $request->script;

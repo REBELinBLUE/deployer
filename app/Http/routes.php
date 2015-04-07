@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'DeploymentController@show'
     ]);
 
+    //Route::get('projects/{projects}/servers', 'ProjectController@servers');
+
     Route::resource('servers', 'ServerController', [
         'only' => ['show', 'store', 'update', 'destroy']
     ]);
@@ -35,11 +37,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('notifications', 'NotificationController', [
         'only' => ['store', 'update', 'destroy']
     ]);
-
-    // Route::resource('profile/{user}', function(\App\User $user)
-    // {
-    //     dd($user);
-    // });
 
     Route::get('servers/{servers}/test', 'ServerController@test');
 
