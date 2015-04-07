@@ -28,6 +28,9 @@ class StoreUserRequest extends Request
             if (Input::get('password') !== '') {
                 $rules['password'] = 'min:6';
             }
+            else {
+                unset($rules['password']):
+            }
         }
 
         return $rules;
