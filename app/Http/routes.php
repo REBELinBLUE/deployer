@@ -16,10 +16,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'DashboardController@index');
     Route::get('webhook/{project}/refresh', 'WebhookController@refresh');
     Route::get('projects/{project}', 'ProjectController@show');
-    
-    Route::resource('admin/projects', 'ProjectController', [
-        'only' => ['index', 'store', 'update', 'destroy']
-    ]);
 
     Route::post('projects/{project}/deploy', [
         'as'   => 'deploy',
@@ -43,6 +39,11 @@ Route::group(['middleware' => 'auth'], function () {
         'only' => ['store', 'update', 'destroy']
     ]);
 
+    // Route::resource('profile/{user}', function(\App\User $user)
+    // {
+    //     dd($user);
+    // });
+
     Route::get('servers/{server}/test', 'ServerController@test');
 
     // Commands
@@ -61,13 +62,22 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'CommandController@listing'
     ]);
 
-    Route::resource('admin/users', 'UserController', [
-        'only' => ['index', 'store', 'update', 'destroy']
-    ]);
+    Route::group(['prefix' => 'admin'], function() {
 
-    Route::resource('admin/groups', 'GroupController', [
-        'only' => ['index', 'store', 'update']
-    ]);
+        Route::resource('projects', 'ProjectController', [
+            'only' => ['index', 'store', 'update', 'destroy']
+        ]);
+
+        Route::resource('users', 'UserController', [
+            'only' => ['index', 'store', 'update', 'destroy']
+        ]);
+
+        Route::resource('groups', 'GroupController', [
+            'only' => ['index', 'store', 'update']
+        ]);
+
+    });
+
 });
 
 // Webhooks

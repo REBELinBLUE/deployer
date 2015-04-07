@@ -54,15 +54,13 @@ class UserController extends Controller
     /**
      * Update the specified user in storage.
      *
-     * @param int $user_id
+     * @param User $user
      * @param StoreUserRequest $request
      * @return Response
      * @todo Use mass assignment if possible
      */
-    public function update($user_id, StoreUserRequest $request)
+    public function update(User $user, StoreUserRequest $request)
     {
-        $user = User::findOrFail($user_id);
-
         $user->name  = $request->name;
         $user->email = $request->email;
 
@@ -80,12 +78,11 @@ class UserController extends Controller
     /**
      * Remove the specified user from storage.
      *
-     * @param int $user_id
+     * @param User $user
      * @return Response
      */
-    public function destroy($user_id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($user_id);
         $user->delete();
 
         return [
