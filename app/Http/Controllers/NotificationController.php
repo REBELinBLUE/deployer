@@ -14,14 +14,14 @@ class NotificationController extends Controller
     /**
      * Show the specified notification
      *
-     * @param int $notification_id
+     * @param Notification $notification
      * @return Response
      * @deprecated
      * @todo Remove this as I do not think it is used
      */
-    public function show($notification_id)
+    public function show(Notification $notification)
     {
-        return Notification::findOrFail($notification_id);
+        return $notification;
     }
 
     /**
@@ -32,7 +32,12 @@ class NotificationController extends Controller
      */
     public function store(StoreNotificationRequest $request)
     {
-        $notification = Notification::create($request->only('name', 'channel', 'webhook', 'project_id'));
+        $notification = Notification::create($request->only(
+            'name',
+            'channel',
+            'webhook',
+            'project_id'
+        ));
 
         Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
 
@@ -48,7 +53,12 @@ class NotificationController extends Controller
      */
     public function update(Notification $notification, StoreNotificationRequest $request)
     {
-        $notification->update($request->only('name', 'channel', 'webhook', 'project_id'));
+        $notification->update($request->only(
+            'name',
+            'channel',
+            'webhook',
+            'project_id'
+        ));
 
         Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
 
