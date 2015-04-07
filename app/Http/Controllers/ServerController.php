@@ -16,12 +16,12 @@ class ServerController extends Controller
     /**
      * Shows the specified server
      *
-     * @param int $server_id
+     * @param Server $server
      * @return Response
      */
-    public function show($server_id)
+    public function show(Server $server)
     {
-        return Server::findOrFail($server_id);
+        return $server;
     }
 
     /**
@@ -48,15 +48,13 @@ class ServerController extends Controller
     /**
      * Update the specified server in storage.
      *
-     * @param int $server_id
+     * @param Server $server
      * @param StoreServerRequest $request
      * @return Response
      * @todo Use mass assignment if possible
      */
-    public function update($server_id, StoreServerRequest $request)
+    public function update(Server $server, StoreServerRequest $request)
     {
-        $server = Server::findOrFail($server_id);
-
         if ($server->ip_address != $request->ip_address) {
             $server->status = Server::UNTESTED;
         }
@@ -74,12 +72,11 @@ class ServerController extends Controller
     /**
      * Remove the specified server from storage.
      *
-     * @param int $server_id
+     * @param Server $server
      * @return Response
      */
-    public function destroy($server_id)
+    public function destroy(Server $server)
     {
-        $server = Server::findOrFail($server_id);
         $server->delete();
 
         return [
@@ -90,13 +87,11 @@ class ServerController extends Controller
     /**
      * Queues a connection test for the specified server
      *
-     * @param int $server_id
+     * @param Server $server
      * @return Response
      */
-    public function test($server_id)
+    public function test(Server $server)
     {
-        $server = Server::findOrFail($server_id);
-
         $server->status = Server::TESTING;
         $server->save();
 

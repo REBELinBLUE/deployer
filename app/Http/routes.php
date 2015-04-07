@@ -14,10 +14,10 @@
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', 'DashboardController@index');
-    Route::get('webhook/{project}/refresh', 'WebhookController@refresh');
-    Route::get('projects/{project}', 'ProjectController@show');
+    Route::get('webhook/{projects}/refresh', 'WebhookController@refresh');
+    Route::get('projects/{projects}', 'ProjectController@show');
 
-    Route::post('projects/{project}/deploy', [
+    Route::post('projects/{projects}/deploy', [
         'as'   => 'deploy',
         'uses' => 'ProjectController@deploy'
     ]);
@@ -27,9 +27,6 @@ Route::group(['middleware' => 'auth'], function () {
         'as'   => 'deployment',
         'uses' => 'DeploymentController@show'
     ]);
-
-    // Servers
-    Route::get('projects/{project}/servers', 'ProjectController@servers');
 
     Route::resource('servers', 'ServerController', [
         'only' => ['show', 'store', 'update', 'destroy']
@@ -44,7 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     //     dd($user);
     // });
 
-    Route::get('servers/{server}/test', 'ServerController@test');
+    Route::get('servers/{servers}/test', 'ServerController@test');
 
     // Commands
     Route::get('status/{id}', 'CommandController@status');
@@ -57,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('commands/reorder', 'CommandController@reorder');
 
-    Route::get('projects/{project}/commands/{command}', [
+    Route::get('projects/{project}/commands/{step}', [
         'as'   => 'commands',
         'uses' => 'CommandController@listing'
     ]);
