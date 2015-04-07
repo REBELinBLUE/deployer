@@ -35,7 +35,7 @@ class ProjectController extends Controller
         }
 
         return view('projects.listing', [
-            'title'    => Lang::get('projects.managge'),
+            'title'    => Lang::get('projects.manage'),
             'projects' => $projects
         ]);
     }
