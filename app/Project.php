@@ -27,6 +27,13 @@ class Project extends Model
                          'updated_at', 'last_run', 'servers', 'commands', 'hash', 'status'];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url'];
+    
+    /**
      * Overwrite Laravel's getDate() function to add additional dates
      *
      * @return array
