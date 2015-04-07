@@ -23,7 +23,7 @@ class UserTableSeeder extends Seeder
             User::create([
                 'name'     => $faker->firstName . ' ' . $faker->lastName,
                 'email'    => $faker->safeEmail,
-                'password' => bcrypt($faker->safeEmail)
+                'password' => bcrypt($faker->password)
             ]);
         }
     }
