@@ -120,11 +120,11 @@ class Deployment extends Model
     public function notificationPayload()
     {
         $colour = 'good';
-        $message = Lang::get('notification.success_message');
+        $message = Lang::get('notifications.success_message');
 
         if ($this->status === self::FAILED) {
             $colour = 'danger';
-            $message = Lang::get('notification.failed_message');
+            $message = Lang::get('notifications.failed_message');
         }
 
         $payload = [
