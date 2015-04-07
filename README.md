@@ -4,7 +4,7 @@ Deployer is a application for managing the deployment of PHP applications
 
 **Current Build Status**
 
-[![Build Status](http://ci.rebelinblue.com/build-status/image/3?branch=master)](http://ci.rebelinblue.com/build-status/view/3?branch=master)
+[![Build Status](http://ci.rebelinblue.com/build-status/image/6?branch=master)](http://ci.rebelinblue.com/build-status/view/6?branch=master)
 
 ## What it does:
 * Deploys applications to multiple servers accessible via SSH
