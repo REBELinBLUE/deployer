@@ -35,6 +35,7 @@ class GroupController extends Controller
      *
      * @param StoreGroupRequest $request
      * @return Response
+     * @todo Use mass assignment
      */
     public function store(StoreGroupRequest $request)
     {
@@ -54,6 +55,7 @@ class GroupController extends Controller
      * @param int $group_id
      * @param StoreGroupRequest $request
      * @return Response
+     * @todo Use mass assignment
      */
     public function update($group_id, StoreGroupRequest $request)
     {

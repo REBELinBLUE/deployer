@@ -111,6 +111,7 @@ class ProjectController extends Controller
      *
      * @param StoreProjectRequest $request
      * @return Response
+     * @todo Use mass assignment if possible
      */
     public function store(StoreProjectRequest $request)
     {
@@ -140,6 +141,7 @@ class ProjectController extends Controller
      * @param int $project_id
      * @param StoreProjectRequest $request
      * @return Response
+     * @todo Use mass assignment
      */
     public function update($project_id, StoreProjectRequest $request)
     {

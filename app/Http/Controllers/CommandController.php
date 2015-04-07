@@ -60,6 +60,7 @@ class CommandController extends Controller
      *
      * @param StoreCommandRequest $request
      * @return Response
+     * @todo Use mass assignment
      */
     public function store(StoreCommandRequest $request)
     {
@@ -95,6 +96,7 @@ class CommandController extends Controller
      * @param int $command_id
      * @param StoreCommandRequest $request
      * @return Response
+     * @todo Use mass assignment
      */
     public function update($command_id, StoreCommandRequest $request)
     {

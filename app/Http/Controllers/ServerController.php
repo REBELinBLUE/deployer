@@ -29,6 +29,7 @@ class ServerController extends Controller
      *
      * @param StoreServerRequest $request
      * @return Response
+     * @todo Use mass assignment if possible
      */
     public function store(StoreServerRequest $request)
     {
@@ -50,6 +51,7 @@ class ServerController extends Controller
      * @param int $server_id
      * @param StoreServerRequest $request
      * @return Response
+     * @todo Use mass assignment if possible
      */
     public function update($server_id, StoreServerRequest $request)
     {

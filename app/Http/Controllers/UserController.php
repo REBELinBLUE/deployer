@@ -36,6 +36,7 @@ class UserController extends Controller
      *
      * @param StoreUserRequest $request
      * @return Response
+     * @todo Use mass assignment if possible
      */
     public function store(StoreUserRequest $request)
     {
@@ -56,6 +57,7 @@ class UserController extends Controller
      * @param int $user_id
      * @param StoreUserRequest $request
      * @return Response
+     * @todo Use mass assignment if possible
      */
     public function update($user_id, StoreUserRequest $request)
     {

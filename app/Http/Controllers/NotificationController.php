@@ -28,6 +28,7 @@ class NotificationController extends Controller
      *
      * @param StoreNotificationRequest $request
      * @return Response
+     * @todo Use mass assignment
      */
     public function store(StoreNotificationRequest $request)
     {
@@ -51,6 +52,7 @@ class NotificationController extends Controller
      * @param int $notification_id
      * @param StoreNotificationRequest $request
      * @return Response
+     * @todo Use mass assignment
      */
     public function update($notification_id, StoreNotificationRequest $request)
     {
