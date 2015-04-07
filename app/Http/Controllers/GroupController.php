@@ -33,7 +33,7 @@ class GroupController extends Controller
     /**
      * Store a newly created group in storage.
      *
-     * @param StoreGroupRequest $group
+     * @param StoreGroupRequest $request
      * @return Response
      */
     public function store(StoreGroupRequest $request)
@@ -52,7 +52,7 @@ class GroupController extends Controller
      * Update the specified group in storage.
      *
      * @param int $group_id
-     * @param StoreGroupRequest $group
+     * @param StoreGroupRequest $request
      * @return Response
      */
     public function update($group_id, StoreGroupRequest $request)
