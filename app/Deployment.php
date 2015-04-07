@@ -140,7 +140,7 @@ class Deployment extends Model
                             'short' => true
                         ], [
                             'title' => Lang::get('notifications.commit'),
-                            'value' => sprintf('<%s|%s>', $this->commitURL(), $this->shortCommit()),
+                            'value' => $this->commitURL() ? sprintf('<%s|%s>', $this->commitURL(), $this->shortCommit()) : $this->shortCommit(),
                             'short' => true
                         ], [
                             'title' => Lang::get('notifications.committer'),
