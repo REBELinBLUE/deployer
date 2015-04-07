@@ -29,7 +29,7 @@ class StoreUserRequest extends Request
                 $rules['password'] = 'min:6';
             }
             else {
-                unset($rules['password']):
+                unset($rules['password']);
             }
         }
 
