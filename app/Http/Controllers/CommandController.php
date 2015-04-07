@@ -97,6 +97,7 @@ class CommandController extends Controller
      * @param StoreCommandRequest $request
      * @return Response
      * @todo Use mass assignment
+     * @todo Change attach/detach to sync
      */
     public function update($command_id, StoreCommandRequest $request)
     {
@@ -125,9 +126,9 @@ class CommandController extends Controller
         $command = Command::findOrFail($command_id);
         $command->delete();
 
-        return Response::json([
+        return [
             'success' => true
-        ], 200);
+        ];
     }
 
     /**
@@ -149,9 +150,9 @@ class CommandController extends Controller
             $order++;
         }
 
-        return Response::json([
+        return [
             'success' => true
-        ], 200);
+        ];
     }
 
     /**

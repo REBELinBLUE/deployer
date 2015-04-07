@@ -178,9 +178,9 @@ class ProjectController extends Controller
         $project = Project::findOrFail($project_id);
         $project->delete();
 
-        return Response::json([
+        return [
             'success' => true
-        ], 200);
+        ];
     }
 
     /**

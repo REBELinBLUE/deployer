@@ -82,9 +82,9 @@ class ServerController extends Controller
         $server = Server::findOrFail($server_id);
         $server->delete();
 
-        return Response::json([
+        return [
             'success' => true
-        ], 200);
+        ];
     }
 
     /**
@@ -102,8 +102,8 @@ class ServerController extends Controller
 
         Queue::pushOn('connections', new TestServerConnection($server));
 
-        return Response::json([
+        return [
             'success' => true
-        ], 200);
+        ];
     }
 }

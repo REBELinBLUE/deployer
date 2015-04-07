@@ -20,6 +20,7 @@ class GroupController extends Controller
     public function index()
     {
         $groups = Group::all();
+
         foreach ($groups as $group) {
             $group->project_count = count($group->projects);
         }
@@ -35,14 +36,10 @@ class GroupController extends Controller
      *
      * @param StoreGroupRequest $request
      * @return Response
-     * @todo Use mass assignment
      */
     public function store(StoreGroupRequest $request)
     {
-        $group = new Group;
-
-        $group->name = $request->name;
-        $group->save();
+        $group = Group::create($request->only('name'));
 
         $group->project_count = 0;
 
@@ -52,17 +49,13 @@ class GroupController extends Controller
     /**
      * Update the specified group in storage.
      *
-     * @param int $group_id
+     * @param Group $group
      * @param StoreGroupRequest $request
      * @return Response
-     * @todo Use mass assignment
      */
-    public function update($group_id, StoreGroupRequest $request)
+    public function update(Group $group, StoreGroupRequest $request)
     {
-        $group = Group::findOrFail($group_id);
-
-        $group->name = $request->name;
-        $group->save();
+        $group->update($request->only('name'));
 
         $group->project_count = count($group->projects);
 

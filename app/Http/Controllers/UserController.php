@@ -88,8 +88,8 @@ class UserController extends Controller
         $user = User::findOrFail($user_id);
         $user->delete();
 
-        return Response::json([
+        return [
             'success' => true
-        ], 200);
+        ];
     }
 }
