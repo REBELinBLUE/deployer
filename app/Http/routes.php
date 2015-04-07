@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 
     Route::resource('notifications', 'NotificationController', [
-        'only' => ['show', 'store', 'update', 'destroy']
+        'only' => ['store', 'update', 'destroy']
     ]);
 
     Route::get('servers/{id}/test', [
