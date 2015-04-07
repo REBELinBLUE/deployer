@@ -145,6 +145,9 @@ var app = app || {};
         initialize: function() {
             this.$list = $('#project_list tbody');
 
+            $('#project_list').hide();
+            $('#no_projects').show();
+
             this.listenTo(app.Projects, 'add', this.addOne);
             this.listenTo(app.Projects, 'reset', this.addAll);
             this.listenTo(app.Projects, 'all', this.render);

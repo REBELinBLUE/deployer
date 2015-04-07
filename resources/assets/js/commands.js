@@ -150,8 +150,6 @@ var app = app || {};
         });
     });
 
-
-
     app.Command = Backbone.Model.extend({
         urlRoot: '/commands',
         defaults: function() {
@@ -187,6 +185,9 @@ var app = app || {};
             this.$beforeList = $('#commands-before .command-list tbody');
             this.$afterList = $('#commands-after .command-list tbody');
 
+            $('.no-commands').show();
+            $('.command-list').hide();
+
             this.listenTo(app.Commands, 'add', this.addOne);
             this.listenTo(app.Commands, 'reset', this.addAll);
             this.listenTo(app.Commands, 'all', this.render);
@@ -196,9 +197,11 @@ var app = app || {};
                 return !model.isAfter();
             });
 
+            console.log(typeof before);
+
             if (typeof before !== 'undefined') {
                 $('#commands-before .no-commands').hide();
-                $('#commands-before .commandslist').show();
+                $('#commands-before .command-list').show();
             } else {
                 $('#commands-before .no-commands').show();
                 $('#commands-before .command-list').hide();
@@ -207,6 +210,9 @@ var app = app || {};
             var after = app.Commands.find(function(model) { 
                 return model.isAfter();
             });
+
+
+            console.log(typeof after);
 
             if (typeof after !== 'undefined') {
                 $('#commands-after .no-commands').hide();
