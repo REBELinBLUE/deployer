@@ -51,7 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('commands/reorder', 'CommandController@reorder');
 
-    Route::get('projects/{project}/commands/{step}', [
+    Route::get('projects/{projects}/commands/{step}', [
         'as'   => 'commands',
         'uses' => 'CommandController@listing'
     ]);
