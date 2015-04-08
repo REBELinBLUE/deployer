@@ -110,7 +110,7 @@ var app = app || {};
                     that.poller.start();
                 });
             }
-            else if (parseInt(this.get('status')) === FAILED) {
+            else if (parseInt(this.get('status')) === FAILED || parseInt(this.get('status')) === CANCELLED) {
                 _.each(app.Deployment.models, function(remaining) {
                     if (parseInt(remaining.get('status')) === PENDING) {
                         remaining.set({
