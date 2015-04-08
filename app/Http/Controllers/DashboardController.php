@@ -15,7 +15,7 @@ class DashboardController extends Controller
     /**
      * The main page of the dashboard
      *
-     * @return \View
+     * @return View
      */
     public function index()
     {

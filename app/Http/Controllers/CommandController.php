@@ -58,7 +58,6 @@ class CommandController extends Controller
      *
      * @param StoreCommandRequest $request
      * @return Response
-     * @todo Use mass assignment
      */
     public function store(StoreCommandRequest $request)
     {

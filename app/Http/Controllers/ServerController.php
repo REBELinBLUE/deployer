@@ -30,7 +30,6 @@ class ServerController extends Controller
      *
      * @param StoreServerRequest $request
      * @return Response
-     * @todo Use mass assignment if possible
      */
     public function store(StoreServerRequest $request)
     {
