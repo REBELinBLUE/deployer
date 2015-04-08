@@ -10,7 +10,6 @@ return [
     'create'            => 'Add a new user',
     'edit'              => 'Edit a user',
     'warning'           => 'The user could not be saved, please check the form below.',
-    'manage'            => 'Manage users',
-    'creation'          => 'Account Creation'
+    'manage'            => 'Manage users'
 
 ];
