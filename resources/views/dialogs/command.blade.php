@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label for="command_script">{{ Lang::get('commands.bash') }}</label>
                         <textarea rows="10" id="command_script" class="form-control" name="script" placeholder="echo 'Hello world'"></textarea>
-                        <h5>{{ Lang::get('commands.option') }}</h5>
+                        <h5>{{ Lang::get('commands.options') }}</h5>
                         <ul class="list-unstyled">
                             <li><code>@{{ release }}</code> - {{ Lang::get('commands.release_id') }}, e.g. <span class="label label-default">{{ date('YmdHis') }}</span></li>
                             <li><code>@{{ release_path }}</code> - {{ Lang::get('commands.release_path') }}, e.g. <span class="label label-default">/var/www/releases/{{ date('YmdHis') }}/</span></li>
