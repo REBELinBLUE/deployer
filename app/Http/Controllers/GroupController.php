@@ -39,7 +39,9 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        $group = Group::create($request->only('name'));
+        $group = Group::create($request->only(
+            'name'
+        ));
 
         $group->project_count = 0;
 
@@ -55,7 +57,9 @@ class GroupController extends Controller
      */
     public function update(Group $group, StoreGroupRequest $request)
     {
-        $group->update($request->only('name'));
+        $group->update($request->only(
+            'name'
+        ));
 
         $group->project_count = count($group->projects);
 

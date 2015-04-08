@@ -23,6 +23,13 @@ class Server extends Model
     protected $hidden = ['project_id', 'created_at', 'updated_at', 'deleted_at', 'pivot'];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'user', 'ip_address', 'project_id', 'path', 'status'];
+
+    /**
      * Belongs to relationship
      *
      * @return Project

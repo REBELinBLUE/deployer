@@ -72,14 +72,17 @@ class CommandController extends Controller
             $order = (int) $max->order + 1;
         }
 
-        $command = new Command;
-        $command->name       = $request->name;
-        $command->user       = $request->user;
-        $command->project_id = $request->project_id;
-        $command->script     = $request->script;
-        $command->step       = $request->step;
-        $command->order      = $order;
-        $command->save();
+        $fields = $request->only(
+            'name',
+            'user',
+            'project_id',
+            'script',
+            'step'
+        );
+
+        $fields['order'] = $order;
+
+        $command = Command::create($fields);
 
         $command->servers()->attach($request->servers);
 
@@ -94,18 +97,18 @@ class CommandController extends Controller
      * @param Command $command
      * @param StoreCommandRequest $request
      * @return Response
-     * @todo Use mass assignment
-     * @todo Change attach/detach to sync
      */
     public function update(Command $command, StoreCommandRequest $request)
     {
-        $command->name   = $request->name;
-        $command->user   = $request->user;
-        $command->script = $request->script;
+        $command->update($request->only(
+            'name',
+            'user',
+            'script'
+        ));
+
         $command->save();
 
-        $command->servers()->detach();
-        $command->servers()->attach($request->servers);
+        $command->servers()->sync($request->servers);
 
         $command->servers; // Triggers the loading
 

@@ -18,6 +18,7 @@ class ServerController extends Controller
      *
      * @param Server $server
      * @return Response
+     * @todo Check this is used
      */
     public function show(Server $server)
     {
@@ -33,16 +34,17 @@ class ServerController extends Controller
      */
     public function store(StoreServerRequest $request)
     {
-        $server = new Server;
-        $server->name       = $request->name;
-        $server->user       = $request->user;
-        $server->ip_address = $request->ip_address;
-        $server->path       = $request->path;
-        $server->project_id = $request->project_id;
-        $server->status     = Server::UNTESTED;
-        $server->save();
+        $fields = $request->only(
+            'name',
+            'user',
+            'ip_address',
+            'path',
+            'project_id'
+        );
 
-        return $server;
+        $fields['status'] = Server::UNTESTED;
+
+        return Server::create($fields);
     }
 
     /**

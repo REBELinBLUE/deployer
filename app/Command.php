@@ -32,6 +32,13 @@ class Command extends Model
     protected $hidden = ['project', 'created_at', 'deleted_at', 'updated_at'];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'user', 'script', 'project_id', 'step', 'order'];
+
+    /**
      * Belongs to relationship
      *
      * @return Project
