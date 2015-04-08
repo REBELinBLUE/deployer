@@ -70,7 +70,6 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             $this->deployment->status = Deployment::COMPLETED;
             $project->status = Project::FINISHED;
         } catch (\Exception $error) {
-            echo $error;
             $this->deployment->status = Deployment::FAILED;
             $project->status = Project::FAILED;
 
@@ -145,7 +144,7 @@ CMD;
         unlink($wrapper);
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not get repository info'); // FIXME: Handle this situation as it is then unclear what went wrong
+            throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput()); // FIXME: Handle this situation as it is then unclear what went wrong
         }
 
         $git_info = $process->getOutput();
