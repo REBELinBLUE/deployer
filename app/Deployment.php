@@ -18,14 +18,11 @@ class Deployment extends Model
     const LOADING   = 'Loading';
 
     /**
-     * Overwrite Laravel's getDate() function to add additional dates
-     *
-     * @return array
+     * The fields which should be tried as Carbon instances
+     * 
+     * @var array
      */
-    public function getDates()
-    {
-        return ['created_at', 'started_at', 'finished_at', 'updated_at'];
-    }
+    protected $dates = ['started_at', 'finished_at'];
 
     /**
      * Belongs to relationship

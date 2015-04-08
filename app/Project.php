@@ -34,14 +34,11 @@ class Project extends Model
     protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url'];
     
     /**
-     * Overwrite Laravel's getDate() function to add additional dates
-     *
-     * @return array
+     * The fields which should be tried as Carbon instances
+     * 
+     * @var array
      */
-    public function getDates()
-    {
-        return ['created_at', 'last_run', 'updated_at'];
-    }
+    protected $dates = ['last_run'];
 
     /**
      * Determines whether the project is currently being deployed

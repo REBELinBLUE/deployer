@@ -14,6 +14,13 @@ class ServerLog extends Model
     const CANCELLED = 4;
 
     /**
+     * The fields which should be tried as Carbon instances
+     * 
+     * @var array
+     */
+    protected $dates = ['started_at', 'finished_at'];
+
+    /**
      * Belongs to assocation
      *
      * @return Server
@@ -21,16 +28,6 @@ class ServerLog extends Model
     public function server()
     {
         return $this->belongsTo('App\Server');
-    }
-
-    /**
-     * Overwrite Laravel's getDate() function to add additional dates
-     *
-     * @return array
-     */
-    public function getDates()
-    {
-        return ['created_at', 'started_at', 'finished_at', 'updated_at'];
     }
 
     /**
