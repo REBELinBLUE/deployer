@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Auth;
 
+use Lang;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
@@ -41,6 +42,7 @@ class PasswordController extends Controller
     {
         $this->auth = $auth;
         $this->passwords = $passwords;
+        $this->subject = Lang::get('emails.reset_subject');
 
         $this->middleware('guest');
     }
