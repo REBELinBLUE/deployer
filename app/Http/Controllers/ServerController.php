@@ -56,16 +56,20 @@ class ServerController extends Controller
      */
     public function update(Server $server, StoreServerRequest $request)
     {
+
+        $fields = $request->only(
+            'name',
+            'user',
+            'ip_address',
+            'path',
+            'project_id'
+        );
+
         if ($server->ip_address != $request->ip_address) {
-            $server->status = Server::UNTESTED;
+            $fields['status'] = Server::UNTESTED;
         }
 
-        $server->name       = $request->name;
-        $server->user       = $request->user;
-        $server->ip_address = $request->ip_address;
-        $server->path       = $request->path;
-        $server->project_id = $request->project_id;
-        $server->save();
+        $server->update($fields);
 
         return $server;
     }

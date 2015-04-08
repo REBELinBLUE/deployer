@@ -21,6 +21,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+
         foreach ($users as $user) {
             $user->created = $user->created_at->format('jS F Y g:i:s A');
         }
@@ -36,17 +37,19 @@ class UserController extends Controller
      *
      * @param StoreUserRequest $request
      * @return Response
-     * @todo Use mass assignment if possible
      */
     public function store(StoreUserRequest $request)
     {
-        $user = new User;
-        $user->name     = $request->name;
-        $user->email    = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
+        $fields = $request->only(
+            'name',
+            'email'
+        );
 
-        $user->created  = $user->created_at->format('jS F Y g:i:s A');
+        $fields['password'] = bcrypt($request->password);
+
+        $user = User::create($fields);
+
+        $user->created = $user->created_at->format('jS F Y g:i:s A');
 
         return $user;
     }
@@ -57,18 +60,19 @@ class UserController extends Controller
      * @param User $user
      * @param StoreUserRequest $request
      * @return Response
-     * @todo Use mass assignment if possible
      */
     public function update(User $user, StoreUserRequest $request)
     {
-        $user->name  = $request->name;
-        $user->email = $request->email;
+        $fields = $request->only(
+            'name',
+            'email'
+        );
 
         if (isset($request->password)) {
-            $user->password = bcrypt($request->password);
+            $fields['password'] = bcrypt($request->password);
         }
 
-        $user->save();
+        $user->update($fields);
 
         $user->created = $user->created_at->format('jS F Y g:i:s A');
 

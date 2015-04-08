@@ -18,7 +18,6 @@ class CommandController extends Controller
      * Display a listing of before/after commands for the supplied stage
      *
      * @param Project $project
-     * @param int $project_id
      * @param string $action Either clone, install, activate or purge
      * @return Response
      */
