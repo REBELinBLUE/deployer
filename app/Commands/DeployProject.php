@@ -144,7 +144,8 @@ CMD;
         unlink($wrapper);
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput()); // FIXME: Handle this situation as it is then unclear what went wrong
+            // FIXME: Handle this situation as it is then unclear what went wrong
+            throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
         }
 
         $git_info = $process->getOutput();

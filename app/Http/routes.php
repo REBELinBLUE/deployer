@@ -52,7 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'CommandController@listing'
     ]);
 
-    Route::group(['prefix' => 'admin'], function() {
+    Route::group(['prefix' => 'admin'], function () {
 
         Route::resource('projects', 'ProjectController', [
             'only' => ['index', 'store', 'update', 'destroy']

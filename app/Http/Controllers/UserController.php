@@ -50,7 +50,12 @@ class UserController extends Controller
 
         $user = User::create($fields);
 
-        Mail::send('emails.account', [ 'password' => $request->password, 'email' => $user->email ], function ($message) use ($user) {
+        $data = [
+            'password' => $request->password,
+            'email'    => $user->email
+        ];
+
+        Mail::send('emails.account', $data, function ($message) use ($user) {
             $message->to($user->email, $user->name)
                     ->subject(Lang::get('emails.creation_subject'));
         });
