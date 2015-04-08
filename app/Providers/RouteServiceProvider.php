@@ -28,7 +28,16 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot($router);
 
         $router->pattern('id', '[0-9]+');
-        $router->pattern('command', '(clone|install|activate|purge)');
+        $router->pattern('step', '(clone|install|activate|purge)');
+
+        $router->model('commands', 'App\Command');
+        $router->model('deployments', 'App\Deployment');
+        $router->model('groups', 'App\Group');
+        $router->model('notifications', 'App\Notification');
+        $router->model('projects', 'App\Project');
+        $router->model('servers', 'App\Server');
+        $router->model('log', 'App\ServerLog');
+        $router->model('users', 'App\User');
     }
 
     /**

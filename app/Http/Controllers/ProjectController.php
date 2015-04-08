@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use Lang;
-use Response;
 use Carbon\Carbon;
 use App\Command;
 use App\Project;
@@ -43,13 +42,11 @@ class ProjectController extends Controller
     /**
      * The details of an individual project
      *
-     * @param int $project_id The ID of the project to display
+     * @param Project $project
      * @return View
      */
-    public function show($project_id)
+    public function show(Project $project)
     {
-        $project = Project::findOrFail($project_id);
-
         $commands = [
             Command::DO_CLONE    => null,
             Command::DO_INSTALL  => null,
@@ -138,22 +135,21 @@ class ProjectController extends Controller
     /**
      * Update the specified project in storage.
      *
-     * @param int $project_id
+     * @param Project $project
      * @param StoreProjectRequest $request
      * @return Response
-     * @todo Use mass assignment
      */
-    public function update($project_id, StoreProjectRequest $request)
+    public function update(Project $project, StoreProjectRequest $request)
     {
-        $project = Project::findOrFail($project_id);
-
-        $project->name           = $request->name;
-        $project->repository     = $request->repository;
-        $project->branch         = $request->branch;
-        $project->group_id       = $request->group_id;
-        $project->builds_to_keep = $request->builds_to_keep;
-        $project->url            = $request->url;
-        $project->build_url      = $request->build_url;
+        $project->update($request->only(
+            'name',
+            'repository',
+            'branch',
+            'group_id',
+            'builds_to_keep',
+            'url',
+            'build_url'
+        ));
 
         $project->save();
 
@@ -170,12 +166,11 @@ class ProjectController extends Controller
     /**
      * Remove the specified project from storage.
      *
-     * @param int $project_id
+     * @param Project $project
      * @return Response
      */
-    public function destroy($project_id)
+    public function destroy(Project $project)
     {
-        $project = Project::findOrFail($project_id);
         $project->delete();
 
         return [
@@ -184,28 +179,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * Gets the servers for the specified project
-     *
-     * @param int $project_id
-     * @returnResponse
-     */
-    public function servers($project_id)
-    {
-        $project = Project::findOrFail($project_id);
-
-        return $project->servers;
-    }
-
-    /**
      * Adds a deployment for the specified project to the queue
      *
-     * @param int $project_id
+     * @param Project $project
      * @return Response
      * @todo Don't allow this to run if there is already a pending deploy or no servers
      */
-    public function deploy($project_id)
+    public function deploy(Project $project)
     {
-        $project = Project::findOrFail($project_id);
         $deployment = new Deployment;
 
         $this->dispatch(new QueueDeployment($project, $deployment));

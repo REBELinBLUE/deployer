@@ -14,13 +14,11 @@ class DeploymentController extends Controller
     /**
      * Show the deployment details
      *
-     * @param int $deployment_id
+     * @param Deployment $deployment
      * @return Response
      */
-    public function show($deployment_id)
+    public function show(Deployment $deployment)
     {
-        $deployment = Deployment::findOrFail($deployment_id);
-
         $output = [];
         foreach ($deployment->steps as $step) {
             foreach ($step->servers as $server) {

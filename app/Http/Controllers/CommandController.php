@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use Input;
-use Response;
 use App\Project;
 use App\Command;
 use App\ServerLog;
@@ -18,11 +17,12 @@ class CommandController extends Controller
     /**
      * Display a listing of before/after commands for the supplied stage
      *
+     * @param Project $project
      * @param int $project_id
      * @param string $action Either clone, install, activate or purge
      * @return Response
      */
-    public function listing($project_id, $action)
+    public function listing(Project $project, $action)
     {
         $types = [
             'clone'    => Command::DO_CLONE,
@@ -31,8 +31,6 @@ class CommandController extends Controller
             'purge'    => Command::DO_PURGE
         ];
 
-        $project = Project::findOrFail($project_id);
-        
         $commands = Command::where('project_id', $project->id)
                            ->whereIn('step', array($types[$action] - 1, $types[$action] + 1))
                            ->orderBy('order')
@@ -64,8 +62,8 @@ class CommandController extends Controller
      */
     public function store(StoreCommandRequest $request)
     {
-        $max = Command::where('project_id', Input::get('project_id'))
-                      ->where('step', Input::get('step'))
+        $max = Command::where('project_id', $request->project_id)
+                      ->where('step', $request->step)
                       ->orderBy('order', 'desc')
                       ->first();
 
@@ -79,7 +77,7 @@ class CommandController extends Controller
         $command->user       = $request->user;
         $command->project_id = $request->project_id;
         $command->script     = $request->script;
-        $command->step       = ucwords($request->step);
+        $command->step       = $request->step;
         $command->order      = $order;
         $command->save();
 
@@ -93,15 +91,14 @@ class CommandController extends Controller
     /**
      * Update the specified command in storage.
      *
-     * @param int $command_id
+     * @param Command $command
      * @param StoreCommandRequest $request
      * @return Response
      * @todo Use mass assignment
      * @todo Change attach/detach to sync
      */
-    public function update($command_id, StoreCommandRequest $request)
+    public function update(Command $command, StoreCommandRequest $request)
     {
-        $command = Command::findOrFail($command_id);
         $command->name   = $request->name;
         $command->user   = $request->user;
         $command->script = $request->script;
@@ -118,12 +115,11 @@ class CommandController extends Controller
     /**
      * Remove the specified command from storage.
      *
-     * @param int $command_id
+     * @param Command $command
      * @return Response
      */
-    public function destroy($command_id)
+    public function destroy(Command $command)
     {
-        $command = Command::findOrFail($command_id);
         $command->delete();
 
         return [
@@ -158,15 +154,13 @@ class CommandController extends Controller
     /**
      * Gets the status of a particular deployment step
      *
-     * @param int $log_id
+     * @param ServerLog $log
      * @param boolean $include_log
      * @return Response
      * @todo Move this to deployment controller
      */
-    public function status($log_id, $include_log = false)
+    public function status(ServerLog $log, $include_log = false)
     {
-        $log = ServerLog::findOrFail($log_id);
-
         $log->started  = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
         $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
         $log->runtime  = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
@@ -182,12 +176,12 @@ class CommandController extends Controller
     /**
      * Gets the log output of a particular deployment step
      *
-     * @param int $log_id
+     * @param ServerLog $log
      * @return Response
      * @todo Move this to deployment controller
      */
-    public function log($log_id)
+    public function log(ServerLog $log)
     {
-        return $this->status($log_id, true);
+        return $this->status($log, true);
     }
 }
