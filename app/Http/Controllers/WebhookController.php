@@ -39,20 +39,17 @@ class WebhookController extends Controller
     /**
      * Generates a new webhook URL
      *
-     * @param int $project_id
+     * @param Project $project
      * @return Response
-     * @todo Change to use IoC
      */
-    public function refresh($project_id)
+    public function refresh(Project $project)
     {
-        $project = Project::findOrFail($project_id);
-        
         $project->generateHash();
         $project->save();
 
-        return Response::json([
+        return [
             'success' => true,
             'url'     => route('webhook', $project->hash)
-        ], 200);
+        ];
     }
 }
