@@ -154,15 +154,13 @@ class CommandController extends Controller
     /**
      * Gets the status of a particular deployment step
      *
-     * @param int $log_id
+     * @param ServerLog $log
      * @param boolean $include_log
      * @return Response
      * @todo Move this to deployment controller
      */
-    public function status($log_id, $include_log = false)
+    public function status(ServerLog $log, $include_log = false)
     {
-        $log = ServerLog::findOrFail($log_id);
-
         $log->started  = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
         $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
         $log->runtime  = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
@@ -178,12 +176,12 @@ class CommandController extends Controller
     /**
      * Gets the log output of a particular deployment step
      *
-     * @param int $log_id
+     * @param ServerLog $log
      * @return Response
      * @todo Move this to deployment controller
      */
-    public function log($log_id)
+    public function log(ServerLog $log)
     {
-        return $this->status($log_id, true);
+        return $this->status($log, true);
     }
 }

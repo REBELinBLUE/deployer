@@ -23,12 +23,10 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 
     // Deployment details
-    Route::get('deployment/{deployment}', [ // FIXME Should this be on the deployment controller?
+    Route::get('deployment/{deployments}', [ // FIXME Should this be on the deployment controller?
         'as'   => 'deployment',
         'uses' => 'DeploymentController@show'
     ]);
-
-    //Route::get('projects/{projects}/servers', 'ProjectController@servers');
 
     Route::resource('servers', 'ServerController', [
         'only' => ['show', 'store', 'update', 'destroy']
@@ -40,10 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('servers/{servers}/test', 'ServerController@test');
 
-    // Commands
-    Route::get('status/{id}', 'CommandController@status');
-
-    Route::get('log/{id}', 'CommandController@log');
+    Route::get('status/{log}', 'CommandController@status');
+    Route::get('log/{log}', 'CommandController@log');
 
     Route::resource('commands', 'CommandController', [
         'only' => ['store', 'update', 'destroy']

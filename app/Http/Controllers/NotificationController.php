@@ -12,19 +12,6 @@ use App\Http\Requests\StoreNotificationRequest;
 class NotificationController extends Controller
 {
     /**
-     * Show the specified notification
-     *
-     * @param Notification $notification
-     * @return Response
-     * @deprecated
-     * @todo Remove this as I do not think it is used
-     */
-    public function show(Notification $notification)
-    {
-        return $notification;
-    }
-
-    /**
      * Store a newly created notification in storage.
      *
      * @param StoreNotificationRequest $request
