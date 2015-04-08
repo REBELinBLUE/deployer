@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Lang;
+use Mail;
 use Response;
 use App\User;
 use App\Http\Requests;
@@ -48,6 +49,11 @@ class UserController extends Controller
         $fields['password'] = bcrypt($request->password);
 
         $user = User::create($fields);
+
+        Mail::send('emails.account', [ 'password' => $request->password ], function ($message) use ($user) {
+            $message->to($user->email, $user->name)
+                    ->subject(Lang::get('users.creation'));
+        });
 
         $user->created = $user->created_at->format('jS F Y g:i:s A');
 

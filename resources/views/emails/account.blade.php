@@ -1,0 +1,1 @@
+Your account has been created, you can log in at <a href="{{ url('/') }}">{{ url('/') }}</a> using your email address and the password {{ $password }}
