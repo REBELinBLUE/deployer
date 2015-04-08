@@ -22,6 +22,7 @@ Deployer is a application for managing the deployment of PHP applications
 ## Planned features:
 * Rollback deploy
 * Deployment templates
+* Allow users to edit their own details from the user menu
 * Checking application status is 200 on deploy
 
 ## Other changes:
@@ -93,6 +94,9 @@ An example of the config
 **Start the queue listener**
 
     $ php artisan queue:listen --queue=deploy,connections,notify --timeout=0 --tries=1
+
+Finally visit the site to login, the default login is `admin@example.com` with the password `password`
+
 
 # Development
 

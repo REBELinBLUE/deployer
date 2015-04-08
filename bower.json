@@ -1,14 +1,9 @@
 {
-    "name": "Technoworld",
+    "name": "Deployer",
     "version": "0.0.1",
     "authors": [
-        "nino_hilarious <hermawan.nino@gmail.com>"
+        "Stephen Ball <stephen@rebelinblue.com>"
     ],
-    "description": "Laravel with adminLTE template",
-    "keywords": [
-        "laraminLTE"
-    ],
-    "license": "MIT",
     "private": true,
     "ignore": [
         "**/.*",

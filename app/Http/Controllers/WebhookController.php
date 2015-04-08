@@ -31,9 +31,9 @@ class WebhookController extends Controller
             $success = true;
         }
 
-        return Response::json([
+        return [
             'success' => $success
-        ], 200); // FIXME: Surely this should not be 200 on failure
+        ];
     }
 
     /**
