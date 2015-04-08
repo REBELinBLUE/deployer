@@ -63,12 +63,13 @@ class UserController extends Controller
      */
     public function update(User $user, StoreUserRequest $request)
     {
+
         $fields = $request->only(
             'name',
             'email'
         );
 
-        if (isset($request->password)) {
+        if ($request->has('password')) {
             $fields['password'] = bcrypt($request->password);
         }
 
