@@ -138,7 +138,6 @@ class ProjectController extends Controller
      * @param Project $project
      * @param StoreProjectRequest $request
      * @return Response
-     * @todo Use mass assignment
      */
     public function update(Project $project, StoreProjectRequest $request)
     {
@@ -178,17 +177,6 @@ class ProjectController extends Controller
             'success' => true
         ];
     }
-
-    // /**
-    //  * Gets the servers for the specified project
-    //  *
-    //  * @param Project $project
-    //  * @return Response
-    //  */
-    // public function servers(Project $project)
-    // {
-    //     return $project->servers;
-    // }
 
     /**
      * Adds a deployment for the specified project to the queue
