@@ -33,17 +33,13 @@ class ServerController extends Controller
      */
     public function store(StoreServerRequest $request)
     {
-        $fields = $request->only(
+        return Server::create($request->only(
             'name',
             'user',
             'ip_address',
             'path',
             'project_id'
-        );
-
-        $fields['status'] = Server::UNTESTED;
-
-        return Server::create($fields);
+        ));
     }
 
     /**
@@ -56,20 +52,13 @@ class ServerController extends Controller
      */
     public function update(Server $server, StoreServerRequest $request)
     {
-
-        $fields = $request->only(
+        $server->update($request->only(
             'name',
             'user',
             'ip_address',
             'path',
             'project_id'
-        );
-
-        if ($server->ip_address != $request->ip_address) {
-            $fields['status'] = Server::UNTESTED;
-        }
-
-        $server->update($fields);
+        ));
 
         return $server;
     }

@@ -47,4 +47,36 @@ class Server extends Model
     {
         return $this->belongsTo('App\Project');
     }
+
+    /**
+     * Define a mutator for the user, if it has changed or has
+     * not previously been set also set the status to untested
+     * 
+     * @param string $value
+     * @return void
+     */
+    public function setUserAttribute($value)
+    {
+        if (!array_key_exists('user', $this->attributes) || $value !== $this->attributes['user']) {
+            $this->attributes['status'] = self::UNTESTED;
+        }
+
+        $this->attributes['user'] = $value;
+    }
+
+    /**
+     * Define a mutator for the IP Address, if it has changed or
+     * has not previouslybeen set also set the status to untested
+     * 
+     * @param string $value
+     * @return void
+     */
+    public function setIpAddressAttribute($value)
+    {
+        if (!array_key_exists('ip_address', $this->attributes) || $value !== $this->attributes['ip_address']) {
+            $this->attributes['status'] = self::UNTESTED;
+        }
+
+        $this->attributes['ip_address'] = $value;
+    }
 }
