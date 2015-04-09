@@ -159,6 +159,7 @@ class Project extends Model
      *
      * @return string|false
      * @see \App\Project::accessDetails()
+     * @todo Should this be an attribute?
      */
     public function repositoryPath()
     {
@@ -176,6 +177,7 @@ class Project extends Model
      *
      * @return string|false
      * @see \App\Project::accessDetails()
+     * @todo Should this be an attribute?
      */
     public function repositoryURL()
     {
@@ -193,6 +195,7 @@ class Project extends Model
      *
      * @return string|false
      * @see \App\Project::accessDetails()
+     * @todo Should this be an attribute?
      */
     public function branchURL()
     {
@@ -210,12 +213,16 @@ class Project extends Model
      *
      * @return void
      */
-    public function generateSSHKey()
+    private function generateSSHKey()
     {
         $key = tempnam(storage_path() . '/app/', 'sshkey');
         unlink($key);
 
-        $process = new Process(sprintf('ssh-keygen -t rsa -b 2048 -f %s -N "" -C "deploy@deployer"', $key));
+        $process = new Process(sprintf(
+            'ssh-keygen -t rsa -b 2048 -f %s -N "" -C "deploy@deployer"',
+            $key
+        ));
+
         $process->run();
 
         if (!$process->isSuccessful()) {

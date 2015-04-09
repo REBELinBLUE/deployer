@@ -22,10 +22,11 @@ class WebhookController extends Controller
      */
     public function webhook($hash)
     {
-        $project = Project::where('hash', $hash)->firstOrFail();
+        $project = Project::where('hash', $hash)
+                          ->firstOrFail();
 
         $success = false;
-        if (!is_null($project) && count($project->servers)) {
+        if ($project->servers->count() > 0) {
             $this->dispatch(new QueueDeployment($project, new Deployment));
 
             $success = true;

@@ -30,6 +30,7 @@ class CommandController extends Controller
             'purge'    => Command::DO_PURGE
         ];
 
+        // fixme: use a repository
         $commands = Command::where('project_id', $project->id)
                            ->whereIn('step', array($types[$action] - 1, $types[$action] + 1))
                            ->orderBy('order')
@@ -60,6 +61,7 @@ class CommandController extends Controller
      */
     public function store(StoreCommandRequest $request)
     {
+        // fixme: use a repository
         $max = Command::where('project_id', $request->project_id)
                       ->where('step', $request->step)
                       ->orderBy('order', 'desc')

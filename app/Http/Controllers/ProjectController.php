@@ -80,7 +80,7 @@ class ProjectController extends Controller
             'today'         => $deploymentRepository->getTodayCount($project),
             'last_week'     => $deploymentRepository->getLastWeekCount($project),
             'project'       => $project,
-            'servers'       => $project->servers, // FIXME: Order by name
+            'servers'       => $project->servers,       // FIXME: Order by name
             'notifications' => $project->notifications, // FIXME: Order by name
             'commands'      => $commands
         ]);
