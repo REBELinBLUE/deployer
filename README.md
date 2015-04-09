@@ -93,7 +93,7 @@ An example of the config
 
 **Start the queue listener**
 
-    $ php artisan queue:listen --queue=deploy,connections,notify --timeout=0 --tries=1
+    $ php artisan queue:listen --queue=default,deploy,connections,notify --timeout=0 --tries=1
 
 Finally visit the site to login, the default login is `admin@example.com` with the password `password`
 
