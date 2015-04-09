@@ -30,6 +30,15 @@ class Server extends Model
     protected $fillable = ['name', 'user', 'ip_address', 'project_id', 'path', 'status'];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => 'integer'
+    ];
+
+    /**
      * Belongs to relationship
      *
      * @return Project

@@ -41,13 +41,22 @@ class Project extends Model
     protected $dates = ['last_run'];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => 'integer'
+    ];
+
+    /**
      * Determines whether the project is currently being deployed
      *
      * @return boolean
      */
     public function isDeploying()
     {
-        return ((int) $this->status === self::DEPLOYING || (int) $this->status == self::PENDING);
+        return ($this->status === self::DEPLOYING || $this->status === self::PENDING);
     }
 
     /**

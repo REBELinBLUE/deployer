@@ -67,7 +67,7 @@ class CommandController extends Controller
 
         $order = 0;
         if (isset($max)) {
-            $order = (int) $max->order + 1;
+            $order = $max->order + 1;
         }
 
         $fields = $request->only(

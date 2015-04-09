@@ -80,7 +80,6 @@ class QueueDeployment extends Command implements SelfHandling
         }
 
         foreach (array_keys($hooks) as $stage) {
-            $stage = (int) $stage;
             $before = $stage - 1;
             $after = $stage + 1;
 

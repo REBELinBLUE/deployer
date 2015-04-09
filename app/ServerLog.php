@@ -21,6 +21,15 @@ class ServerLog extends Model
     protected $dates = ['started_at', 'finished_at'];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => 'integer'
+    ];
+
+    /**
      * Belongs to assocation
      *
      * @return Server

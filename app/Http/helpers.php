@@ -27,13 +27,13 @@ function loading_value($value)
  */
 function project_css_status(Project $project)
 {
-    if ((int) $project->status === Project::FINISHED) {
+    if ($project->status === Project::FINISHED) {
         return 'success';
-    } elseif ((int) $project->status === Project::DEPLOYING) {
+    } elseif ($project->status === Project::DEPLOYING) {
         return 'warning';
-    } elseif ((int) $project->status === Project::FAILED) {
+    } elseif ($project->status === Project::FAILED) {
         return 'danger';
-    } elseif ((int) $project->status === Project::PENDING) {
+    } elseif ($project->status === Project::PENDING) {
         return 'info';
     }
 
@@ -49,17 +49,17 @@ function project_css_status(Project $project)
  */
 function project_icon_status(Project $project, $rotate = true)
 {
-    if ((int) $project->status === Project::FINISHED) {
+    if ($project->status === Project::FINISHED) {
         return 'check';
-    } elseif ((int) $project->status === Project::DEPLOYING) {
+    } elseif ($project->status === Project::DEPLOYING) {
         if (!$rotate) {
             return 'spinner';
         }
 
         return 'spinner fa-spin';
-    } elseif ((int) $project->status === Project::FAILED) {
+    } elseif ($project->status === Project::FAILED) {
         return 'warning';
-    } elseif ((int) $project->status === Project::PENDING) {
+    } elseif ($project->status === Project::PENDING) {
         return 'clock-o';
     }
 
@@ -74,13 +74,13 @@ function project_icon_status(Project $project, $rotate = true)
  */
 function project_status(Project $project)
 {
-    if ((int) $project->status === Project::FINISHED) {
+    if ($project->status === Project::FINISHED) {
         return Lang::get('projects.finished');
-    } elseif ((int) $project->status === Project::DEPLOYING) {
+    } elseif ($project->status === Project::DEPLOYING) {
         return Lang::get('projects.deploying');
-    } elseif ((int) $project->status === Project::FAILED) {
+    } elseif ($project->status === Project::FAILED) {
         return Lang::get('projects.failed');
-    } elseif ((int) $project->status === Project::PENDING) {
+    } elseif ($project->status === Project::PENDING) {
         return Lang::get('projects.pending');
     }
 
@@ -95,11 +95,11 @@ function project_status(Project $project)
  */
 function timeline_css_status(Deployment $deployment)
 {
-    if ((int) $deployment->status === Deployment::COMPLETED) {
+    if ($deployment->status === Deployment::COMPLETED) {
         return 'green';
-    } elseif ((int) (int) $deployment->status === Deployment::FAILED) {
+    } elseif ($deployment->status === Deployment::FAILED) {
         return 'red';
-    } elseif ((int) $deployment->status === Deployment::DEPLOYING) {
+    } elseif ($deployment->status === Deployment::DEPLOYING) {
         return 'yellow';
     }
 
@@ -114,11 +114,11 @@ function timeline_css_status(Deployment $deployment)
  */
 function deployment_css_status(Deployment $deployment)
 {
-    if ((int) $deployment->status === Deployment::COMPLETED) {
+    if ($deployment->status === Deployment::COMPLETED) {
         return 'success';
-    } elseif ((int) $deployment->status === Deployment::FAILED) {
+    } elseif ($deployment->status === Deployment::FAILED) {
         return 'danger';
-    } elseif ((int) $deployment->status === Deployment::DEPLOYING) {
+    } elseif ($deployment->status === Deployment::DEPLOYING) {
         return 'warning';
     }
 
@@ -133,11 +133,11 @@ function deployment_css_status(Deployment $deployment)
  */
 function deployment_icon_status(Deployment $deployment)
 {
-    if ((int) $deployment->status === Deployment::COMPLETED) {
+    if ($deployment->status === Deployment::COMPLETED) {
         return 'check';
-    } elseif ((int) $deployment->status === Deployment::FAILED) {
+    } elseif ($deployment->status === Deployment::FAILED) {
         return 'warning';
-    } elseif ((int) $deployment->status === Deployment::DEPLOYING) {
+    } elseif ($deployment->status === Deployment::DEPLOYING) {
         return 'spinner fa-spin';
     }
 
@@ -152,11 +152,11 @@ function deployment_icon_status(Deployment $deployment)
  */
 function deployment_status(Deployment $deployment)
 {
-    if ((int) $deployment->status === Deployment::COMPLETED) {
+    if ($deployment->status === Deployment::COMPLETED) {
         return Lang::get('deployments.completed');
-    } elseif ((int) $deployment->status === Deployment::FAILED) {
+    } elseif ($deployment->status === Deployment::FAILED) {
         return Lang::get('deployments.failed');
-    } elseif ((int) $deployment->status === Deployment::DEPLOYING) {
+    } elseif ($deployment->status === Deployment::DEPLOYING) {
         return Lang::get('deployments.deploying');
     }
 
@@ -173,11 +173,11 @@ function deployment_status(Deployment $deployment)
 function deploy_stage_label($label)
 {
     $step = 'clone';
-    if ((int) $label === Command::DO_INSTALL) {
+    if ($label === Command::DO_INSTALL) {
         $step = 'install';
-    } elseif ((int) $label === Command::DO_ACTIVATE) {
+    } elseif ($label === Command::DO_ACTIVATE) {
         $step = 'activate';
-    } elseif ((int) $label === Command::DO_PURGE) {
+    } elseif ($label === Command::DO_PURGE) {
         $step = 'purge';
     }
 

@@ -39,6 +39,15 @@ class Command extends Model
     protected $fillable = ['name', 'user', 'script', 'project_id', 'step', 'order'];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'step' => 'integer'
+    ];
+
+    /**
      * Belongs to relationship
      *
      * @return Project

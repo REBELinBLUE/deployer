@@ -276,7 +276,7 @@ EOF'
 
         $commands = false;
 
-        if ((int) $step->stage === Stage::DO_CLONE) { // Clone the repository
+        if ($step->stage === Stage::DO_CLONE) { // Clone the repository
             $remote_key_file = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
@@ -306,18 +306,18 @@ EOF'
                 sprintf('git checkout %s', $project->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
             ];
-        } elseif ((int) $step->stage == Stage::DO_INSTALL) { // Install composer dependencies
+        } elseif ($step->stage === Stage::DO_INSTALL) { // Install composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
                 sprintf('composer install -n --prefer-dist --no-ansi -d "%s"', $latest_release_dir)
             ];
-        } elseif ((int) $step->stage === Stage::DO_ACTIVATE) { // Activate latest release
+        } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
             $commands = [
                 sprintf('cd %s', $root_dir),
                 sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
                 sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
             ];
-        } elseif ((int) $step->stage === Stage::DO_PURGE) { // Purge old releases
+        } elseif ($step->stage === Stage::DO_PURGE) { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
                 sprintf('(ls -t|head -n %u;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep + 1)
