@@ -1,9 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use Lang;
-use Mail;
-use Response;
+use Event;
 use App\User;
+use App\Events\UserWasCreated;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
@@ -50,15 +50,10 @@ class UserController extends Controller
 
         $user = User::create($fields);
 
-        $data = [
-            'password' => $request->password,
-            'email'    => $user->email
-        ];
-
-        Mail::send('emails.account', $data, function ($message) use ($user) {
-            $message->to($user->email, $user->name)
-                    ->subject(Lang::get('emails.creation_subject'));
-        });
+        Event::fire(new UserWasCreated(
+            $user,
+            $request->password
+        ));
 
         $user->created = $user->created_at->format('jS F Y g:i:s A');
 
