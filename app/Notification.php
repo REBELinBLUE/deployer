@@ -1,6 +1,8 @@
 <?php namespace App;
 
 use Lang;
+use Queue;
+use App\Commands\Notify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,6 +28,24 @@ class Notification extends Model
     public function project()
     {
         return $this->belongsTo('App\Project');
+    }
+
+    /**
+     * Override the boot method to bind model event listeners
+     * 
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // When the notification has been saved queue a test
+        static::saved(function ($model) {
+            Queue::pushOn('notify', new Notify(
+                $model,
+                $model->testPayload()
+            ));
+        });
     }
 
     /**

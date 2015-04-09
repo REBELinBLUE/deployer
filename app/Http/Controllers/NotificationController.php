@@ -1,8 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use Queue;
 use App\Notification;
-use App\Commands\Notify;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNotificationRequest;
 
@@ -16,23 +14,15 @@ class NotificationController extends Controller
      *
      * @param StoreNotificationRequest $request
      * @return Response
-     * @todo Shouldn't the queue::pushOn be some sort of hook on save of the model?
      */
     public function store(StoreNotificationRequest $request)
     {
-        $notification = Notification::create($request->only(
+        return Notification::create($request->only(
             'name',
             'channel',
             'webhook',
             'project_id'
         ));
-
-        Queue::pushOn('notify', new Notify(
-            $notification,
-            $notification->testPayload()
-        ));
-
-        return $notification;
     }
 
     /**
@@ -41,7 +31,6 @@ class NotificationController extends Controller
      * @param Notification $notification
      * @param StoreNotificationRequest $request
      * @return Response
-     * @todo Shouldn't the queue::pushOn be some sort of hook on save of the model?
      */
     public function update(Notification $notification, StoreNotificationRequest $request)
     {
@@ -50,11 +39,6 @@ class NotificationController extends Controller
             'channel',
             'webhook',
             'project_id'
-        ));
-
-        Queue::pushOn('notify', new Notify(
-            $notification,
-            $notification->testPayload()
         ));
 
         return $notification;
