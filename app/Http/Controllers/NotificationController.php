@@ -16,6 +16,7 @@ class NotificationController extends Controller
      *
      * @param StoreNotificationRequest $request
      * @return Response
+     * @todo Shouldn't the queue::pushOn be some sort of hook on save of the model?
      */
     public function store(StoreNotificationRequest $request)
     {
@@ -26,7 +27,10 @@ class NotificationController extends Controller
             'project_id'
         ));
 
-        Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
+        Queue::pushOn('notify', new Notify(
+            $notification,
+            $notification->testPayload()
+        ));
 
         return $notification;
     }
@@ -37,6 +41,7 @@ class NotificationController extends Controller
      * @param Notification $notification
      * @param StoreNotificationRequest $request
      * @return Response
+     * @todo Shouldn't the queue::pushOn be some sort of hook on save of the model?
      */
     public function update(Notification $notification, StoreNotificationRequest $request)
     {
@@ -47,7 +52,10 @@ class NotificationController extends Controller
             'project_id'
         ));
 
-        Queue::pushOn('notify', new Notify($notification, $notification->testPayload()));
+        Queue::pushOn('notify', new Notify(
+            $notification,
+            $notification->testPayload()
+        ));
 
         return $notification;
     }

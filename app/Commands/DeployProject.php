@@ -111,6 +111,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
      * the deployment model
      *
      * @return void
+     * @todo  Change this to use the Gitlab API
      */
     private function updateRepoInfo()
     {

@@ -4,6 +4,7 @@ use Lang;
 use App\Group;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Repositories\GroupRepository;
 use App\Http\Requests\StoreGroupRequest;
 use Illuminate\Http\Request;
 
@@ -17,17 +18,11 @@ class GroupController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(GroupRepository $groups)
     {
-        $groups = Group::all();
-
-        foreach ($groups as $group) {
-            $group->project_count = count($group->projects);
-        }
-
         return view('groups.listing', [
             'title'  => Lang::get('groups.manage'),
-            'groups' => $groups
+            'groups' => $groups->getAll()
         ]);
     }
 

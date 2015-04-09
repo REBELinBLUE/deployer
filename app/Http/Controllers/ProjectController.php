@@ -7,6 +7,7 @@ use App\Project;
 use App\Deployment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Repositories\ProjectRepository;
 use App\Http\Requests\StoreProjectRequest;
 use App\Commands\QueueDeployment;
 
@@ -20,9 +21,9 @@ class ProjectController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(ProjectRepository $project)
     {
-        $projects = Project::all();
+        $projects = $project->getAll();
 
         foreach ($projects as $project) {
             $project->group_name = $project->group->name;
@@ -189,7 +190,10 @@ class ProjectController extends Controller
     {
         $deployment = new Deployment;
 
-        $this->dispatch(new QueueDeployment($project, $deployment));
+        $this->dispatch(new QueueDeployment(
+            $project,
+            $deployment
+        ));
 
         return redirect()->route('deployment', [
             'id' => $deployment->id

@@ -1,10 +1,10 @@
 <?php namespace App\Http\Controllers;
 
 use Lang;
-use App\Project;
-use App\Deployment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Repositories\DeploymentRepository;
+use App\Repositories\ProjectRepository;
 use Illuminate\Http\Request;
 
 /**
@@ -16,15 +16,11 @@ class DashboardController extends Controller
      * The main page of the dashboard
      *
      * @return View
+     * @todo Use a decorator pattern here
      */
-    public function index()
+    public function index(DeploymentRepository $deployment, ProjectRepository $projects)
     {
-        // Get the latest 15 deployments
-        $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
-        $deployments = Deployment::whereRaw($raw_sql) // FIXME: Surely there is a nicer way to do this?
-                                 ->take(15)
-                                 ->orderBy('started_at', 'DESC')
-                                 ->get();
+        $deployments = $repository->getTimeline();
 
         $grouped_by_date = [];
         foreach ($deployments as $deployment) {
@@ -40,7 +36,7 @@ class DashboardController extends Controller
         return view('dashboard.index', [
             'title'    => Lang::get('dashboard.title'),
             'latest'   => $grouped_by_date,
-            'projects' => Project::orderBy('name')->get()
+            'projects' => $projects->getAll()
         ]);
     }
 }

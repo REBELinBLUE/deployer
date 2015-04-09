@@ -52,7 +52,7 @@ class ServerController extends Controller
      * @param Server $server
      * @param StoreServerRequest $request
      * @return Response
-     * @todo Use mass assignment if possible
+     * @todo  Shouldn't changing the status on IP change be up to the model not the controller?
      */
     public function update(Server $server, StoreServerRequest $request)
     {
@@ -94,6 +94,7 @@ class ServerController extends Controller
      *
      * @param Server $server
      * @return Response
+     * @todo Shouldn't changing the status to testing automatically add the model to the queue on save?
      */
     public function test(Server $server)
     {
