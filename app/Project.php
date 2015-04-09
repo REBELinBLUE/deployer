@@ -50,6 +50,22 @@ class Project extends Model
     ];
 
     /**
+     * Override the boot method to bind model event listeners
+     * 
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // When first creating the model generate an SSH Key pair and a webhook hash
+        static::creating(function ($model) {
+            $model->generateSSHKey();
+            $model->generateHash();
+        });
+    }
+
+    /**
      * Determines whether the project is currently being deployed
      *
      * @return boolean
@@ -116,7 +132,7 @@ class Project extends Model
      */
     public function generateHash()
     {
-        $this->hash = Str::random(60);
+        $this->attributes['hash'] = Str::random(60);
     }
 
     /**
@@ -206,8 +222,8 @@ class Project extends Model
             throw new \RuntimeException($process->getErrorOutput());
         }
 
-        $this->private_key = file_get_contents($key);
-        $this->public_key  = file_get_contents($key . '.pub');
+        $this->attributes['private_key'] = file_get_contents($key);
+        $this->attributes['public_key']  = file_get_contents($key . '.pub');
 
         unlink($key);
         unlink($key . '.pub');

@@ -95,19 +95,15 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $project = new Project;
-
-        $project->name           = $request->name;
-        $project->repository     = $request->repository;
-        $project->branch         = $request->branch;
-        $project->group_id       = $request->group_id;
-        $project->builds_to_keep = $request->builds_to_keep;
-        $project->url            = $request->url;
-        $project->build_url      = $request->build_url;
-
-        $project->generateSSHKey();
-        $project->generateHash();
-        $project->save();
+        $project = Project::create($request->only(
+            'name',
+            'repository',
+            'branch',
+            'group_id',
+            'builds_to_keep',
+            'url',
+            'build_url'
+        ));
 
         $project->group_name     = $project->group->name;
         $project->deploy         = Lang::get('app.never');
