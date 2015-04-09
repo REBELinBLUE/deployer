@@ -18,6 +18,13 @@ class Group extends Model
     protected $fillable = ['name'];
 
     /**
+     * Additional attributes to include in the JSON representation
+     *
+     * @var array
+     */
+    protected $appends = ['project_count'];
+
+    /**
      * Has many relationshop
      *
      * @return Project
@@ -25,5 +32,15 @@ class Group extends Model
     public function projects()
     {
         return $this->hasMany('App\Project');
+    }
+
+    /**
+     * Define a mutator for the count of projects
+     * 
+     * @return int
+     */
+    public function getProjectCountAttribute()
+    {
+        return $this->projects()->count();
     }
 }
