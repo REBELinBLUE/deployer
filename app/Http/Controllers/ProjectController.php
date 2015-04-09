@@ -1,13 +1,13 @@
 <?php namespace App\Http\Controllers;
 
 use Lang;
-use Carbon\Carbon;
 use App\Command;
 use App\Project;
 use App\Deployment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\ProjectRepository;
+use App\Repositories\DeploymentRepository;
 use App\Http\Requests\StoreProjectRequest;
 use App\Commands\QueueDeployment;
 
@@ -21,9 +21,9 @@ class ProjectController extends Controller
      *
      * @return Response
      */
-    public function index(ProjectRepository $project)
+    public function index(ProjectRepository $projectRepository)
     {
-        $projects = $project->getAll();
+        $projects = $projectRepository->getAll();
 
         foreach ($projects as $project) {
             $project->group_name = $project->group->name;
@@ -44,9 +44,10 @@ class ProjectController extends Controller
      * The details of an individual project
      *
      * @param Project $project
+     * @param DeploymentRepository $deploymentRepository
      * @return View
      */
-    public function show(Project $project)
+    public function show(Project $project, DeploymentRepository $deploymentRepository)
     {
         $commands = [
             Command::DO_CLONE    => null,
@@ -73,30 +74,11 @@ class ProjectController extends Controller
             $commands[$action][$when][] = $command->name;
         }
 
-        $deployments = Deployment::where('project_id', $project->id)
-                                 ->take($project->builds_to_keep)
-                                 ->orderBy('started_at', 'DESC')
-                                 ->get();
-
-        $now       = Carbon::now();
-        $lastWeek  = Carbon::now()->subWeek();
-        $yesterday = Carbon::now()->yesterday();
-
-        $today = Deployment::where('project_id', $project->id)
-                           ->where('started_at', '>=', $now->format('Y-m-d') . ' 00:00:00')
-                           ->where('started_at', '<=', $now->format('Y-m-d') . ' 23:59:59')
-                           ->count();
-
-        $week = Deployment::where('project_id', $project->id)
-                          ->where('started_at', '>=', $lastWeek->format('Y-m-d') . ' 00:00:00')
-                          ->where('started_at', '<=', $yesterday->format('Y-m-d') . ' 23:59:59')
-                          ->count();
-
         return view('projects.details', [
             'title'         => $project->name,
-            'deployments'   => $deployments,
-            'today'         => $today,
-            'last_week'     => $week,
+            'deployments'   => $deploymentRepository->getLatest($project), // FIXME: Make project injected in the constructor so we don't have to keep passing it
+            'today'         => $deploymentRepository->getTodayCount($project),
+            'last_week'     => $deploymentRepository->getLastWeekCount($project),
             'project'       => $project,
             'servers'       => $project->servers, // FIXME: Order by name
             'notifications' => $project->notifications, // FIXME: Order by name

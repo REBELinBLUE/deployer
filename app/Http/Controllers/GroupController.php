@@ -18,11 +18,11 @@ class GroupController extends Controller
      *
      * @return Response
      */
-    public function index(GroupRepository $groups)
+    public function index(GroupRepository $groupRepository)
     {
         return view('groups.listing', [
             'title'  => Lang::get('groups.manage'),
-            'groups' => $groups->getAll()
+            'groups' => $groupRepository->getAll()
         ]);
     }
 

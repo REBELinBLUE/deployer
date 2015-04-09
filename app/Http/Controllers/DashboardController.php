@@ -18,9 +18,9 @@ class DashboardController extends Controller
      * @return View
      * @todo Use a decorator pattern here
      */
-    public function index(DeploymentRepository $deployment, ProjectRepository $projects)
+    public function index(DeploymentRepository $deploymentRepository, ProjectRepository $projectRepository)
     {
-        $deployments = $repository->getTimeline();
+        $deployments = $deploymentRepository->getTimeline();
 
         $grouped_by_date = [];
         foreach ($deployments as $deployment) {
@@ -36,7 +36,7 @@ class DashboardController extends Controller
         return view('dashboard.index', [
             'title'    => Lang::get('dashboard.title'),
             'latest'   => $grouped_by_date,
-            'projects' => $projects->getAll()
+            'projects' => $projectRepository->getAll()
         ]);
     }
 }
