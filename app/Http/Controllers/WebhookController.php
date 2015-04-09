@@ -25,15 +25,15 @@ class WebhookController extends Controller
         $project = Project::where('hash', $hash)
                           ->firstOrFail();
 
-        $success = false;
         if ($project->servers->count() > 0) {
-            $this->dispatch(new QueueDeployment($project, new Deployment));
-
-            $success = true;
+            $this->dispatch(new QueueDeployment(
+                $project,
+                new Deployment
+            ));
         }
 
         return [
-            'success' => $success
+            'success' => true
         ];
     }
 
@@ -49,8 +49,7 @@ class WebhookController extends Controller
         $project->save();
 
         return [
-            'success' => true,
-            'url'     => route('webhook', $project->hash)
+            'url' => route('webhook', $project->hash)
         ];
     }
 }

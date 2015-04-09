@@ -105,8 +105,8 @@ class ProjectController extends Controller
             'build_url'
         ));
 
-        $project->group_name     = $project->group->name;
-        $project->deploy         = Lang::get('app.never');
+        $project->group_name = $project->group->name;
+        $project->deploy     = Lang::get('app.never');
 
         return $project;
     }
@@ -132,11 +132,11 @@ class ProjectController extends Controller
 
         $project->save();
 
-        $project->group_name     = $project->group->name;
-        $project->deploy         = Lang::get('app.never');
+        $project->group_name = $project->group->name;
+        $project->deploy     = Lang::get('app.never');
 
         if ($project->last_run) {
-            $project->deploy     = $project->last_run->format('jS F Y g:i:s A');
+            $project->deploy = $project->last_run->format('jS F Y g:i:s A');
         }
 
         return $project;
