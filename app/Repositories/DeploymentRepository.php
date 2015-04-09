@@ -2,11 +2,19 @@
 
 use App\Project;
 use App\Deployment;
-
 use Carbon\Carbon;
 
+/**
+ * The deployment repository
+ */
 class DeploymentRepository
 {
+    /**
+     * Gets the latest deployments for a project
+     * 
+     * @param Project $project
+     * @return array
+     */
     public function getLatest(Project $project)
     {
         return Deployment::where('project_id', $project->id)
@@ -15,9 +23,13 @@ class DeploymentRepository
                          ->get();
     }
 
+    /**
+     * Gets the latest deployments for all projects
+     * 
+     * @return array
+     */
     public function getTimeline()
     {
-        // Get the latest 15 deployments
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
         return Deployment::whereRaw($raw_sql) // FIXME: Surely there is a nicer way to do this?
                          ->take(15)
@@ -25,6 +37,13 @@ class DeploymentRepository
                          ->get();
     }
 
+    /**
+     * Gets the number of times a project has been deployed today
+     * 
+     * @param Project $project
+     * @return int
+     * @see DeploymentRepository::getBetweenDates()
+     */
     public function getTodayCount(Project $project)
     {
         $now = Carbon::now();
@@ -32,7 +51,13 @@ class DeploymentRepository
         return $this->getBetweenDates($project, $now, $now);
     }
 
-
+    /**
+     * Gets the number of times a project has been deployed in the last week
+     * 
+     * @param Project $project
+     * @return int
+     * @see DeploymentRepository::getBetweenDates()
+     */
     public function getLastWeekCount(Project $project)
     {
         $lastWeek  = Carbon::now()->subWeek();
@@ -41,6 +66,14 @@ class DeploymentRepository
         return $this->getBetweenDates($project, $lastWeek, $yesterday);
     }
 
+    /**
+     * Gets the number of times a project has been deployed between the specified dates
+     * 
+     * @param Project $project
+     * @param Carbon $startDate
+     * @param Carbon $endDate
+     * @return int
+     */
     private function getBetweenDates(Project $project, Carbon $startDate, Carbon $endDate)
     {
         return Deployment::where('project_id', $project->id)
