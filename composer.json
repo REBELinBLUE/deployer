@@ -12,7 +12,8 @@
     "require-dev": {
         "fzaninotto/faker": "dev-master",
         "phpunit/phpunit": "~4.0",
-        "phpspec/phpspec": "~2.1"
+        "phpspec/phpspec": "~2.1",
+        "doctrine/dbal": "~2.5"
     },
     "autoload": {
         "classmap": [

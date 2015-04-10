@@ -81,6 +81,7 @@
     @include('dialogs.server')
     @include('dialogs.key')
     @include('dialogs.channel')
+    @include('dialogs.reason')
 @stop
 
 @section('javascript')
@@ -95,10 +96,7 @@
 
 @section('right-buttons')
     <div class="pull-right">
-        <form method="post" action="{{ route('deploy', ['id' => $project->id]) }}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-            <button type="button" class="btn btn-default" title="{{ Lang::get('projects.view_ssh_key') }}" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> {{ Lang::get('projects.ssh_key') }}</button>
-            <button type="submit" class="btn btn-danger" title="{{ Lang::get('projects.deploy_project') }}" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></i> {{ Lang::get('projects.deploy') }}</button>
-        </form>
+        <button type="button" class="btn btn-default" title="{{ Lang::get('projects.view_ssh_key') }}" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> {{ Lang::get('projects.ssh_key') }}</button>
+        <button  data-toggle="modal" data-backdrop="static" data-target="#reason" type="button" class="btn btn-danger" title="{{ Lang::get('projects.deploy_project') }}" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></i> {{ Lang::get('projects.deploy') }}</button>
     </div>
 @stop

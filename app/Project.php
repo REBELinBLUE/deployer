@@ -61,8 +61,13 @@ class Project extends Model
 
         // When first creating the model generate an SSH Key pair and a webhook hash
         static::creating(function ($model) {
-            $model->generateSSHKey();
-            $model->generateHash();
+            if (!array_key_exists('private_key', $model->attributes)) {
+                $model->generateSSHKey();
+            }
+
+            if (!array_key_exists('hash', $model->attributes)) {
+                $model->generateHash();
+            }
         });
     }
 

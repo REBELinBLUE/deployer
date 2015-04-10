@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Lang;
+use Input;
 use App\Command;
 use App\Project;
 use App\Deployment;
@@ -168,6 +169,9 @@ class ProjectController extends Controller
     public function deploy(Project $project)
     {
         $deployment = new Deployment;
+        $deployment->update([
+            'reason' => Input::get('reasons')
+        ]);
 
         $this->dispatch(new QueueDeployment(
             $project,
