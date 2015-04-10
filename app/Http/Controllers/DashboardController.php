@@ -3,8 +3,8 @@
 use Lang;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Repositories\DeploymentRepository;
-use App\Repositories\ProjectRepository;
+use App\Repositories\Contracts\DeploymentRepositoryInterface;
+use App\Repositories\Contracts\ProjectRepositoryInterface;
 use Illuminate\Http\Request;
 
 /**
@@ -18,7 +18,7 @@ class DashboardController extends Controller
      * @return View
      * @todo Use a decorator pattern here
      */
-    public function index(DeploymentRepository $deploymentRepository, ProjectRepository $projectRepository)
+    public function index(DeploymentRepositoryInterface $deploymentRepository, ProjectRepositoryInterface $projectRepository)
     {
         $deployments = $deploymentRepository->getTimeline();
 

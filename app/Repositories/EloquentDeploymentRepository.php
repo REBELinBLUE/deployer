@@ -3,11 +3,12 @@
 use App\Project;
 use App\Deployment;
 use Carbon\Carbon;
+use App\Repositories\Contracts\DeploymentRepositoryInterface;
 
 /**
  * The deployment repository
  */
-class DeploymentRepository
+class EloquentDeploymentRepository implements DeploymentRepositoryInterface
 {
     /**
      * Gets the latest deployments for a project

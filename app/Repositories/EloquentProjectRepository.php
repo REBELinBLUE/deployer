@@ -2,10 +2,12 @@
 
 use App\Project;
 
+use App\Repositories\Contracts\ProjectRepositoryInterface;
+
 /**
  * The project repository
  */
-class ProjectRepository
+class EloquentProjectRepository implements ProjectRepositoryInterface
 {
     /**
      * Gets all projects

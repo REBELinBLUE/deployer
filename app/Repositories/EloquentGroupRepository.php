@@ -1,11 +1,11 @@
 <?php namespace App\Repositories;
 
-use App\Group;
+use App\Repositories\Contracts\GroupRepositoryInterface;
 
 /**
  * The group repository
  */
-class GroupRepository
+class EloquentGroupRepository implements GroupRepositoryInterface
 {
     /**
      * Gets all groups

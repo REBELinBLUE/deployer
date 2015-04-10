@@ -147,6 +147,7 @@ return [
         'App\Providers\BusServiceProvider',
         'App\Providers\ConfigServiceProvider',
         'App\Providers\EventServiceProvider',
+        'App\Providers\RepositoryServiceProvider',
         'App\Providers\RouteServiceProvider',
         'App\Providers\ViewServiceProvider',
 

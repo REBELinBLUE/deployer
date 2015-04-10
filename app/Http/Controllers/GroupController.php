@@ -4,7 +4,7 @@ use Lang;
 use App\Group;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Repositories\GroupRepository;
+use App\Repositories\GroupRepositoryInterface;
 use App\Http\Requests\StoreGroupRequest;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class GroupController extends Controller
      *
      * @return Response
      */
-    public function index(GroupRepository $groupRepository)
+    public function index(GroupRepositoryInterface $groupRepository)
     {
         return view('groups.listing', [
             'title'  => Lang::get('groups.manage'),

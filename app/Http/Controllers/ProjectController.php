@@ -6,8 +6,8 @@ use App\Project;
 use App\Deployment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Repositories\ProjectRepository;
-use App\Repositories\DeploymentRepository;
+use App\Repositories\Contracts\ProjectRepositoryInterface;
+use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Http\Requests\StoreProjectRequest;
 use App\Commands\QueueDeployment;
 
@@ -19,9 +19,10 @@ class ProjectController extends Controller
     /**
      * Shows all projects
      *
+     * @param ProjectRepositoryInterface $projectRepository
      * @return Response
      */
-    public function index(ProjectRepository $projectRepository)
+    public function index(ProjectRepositoryInterface $projectRepository)
     {
         $projects = $projectRepository->getAll();
 
@@ -44,10 +45,10 @@ class ProjectController extends Controller
      * The details of an individual project
      *
      * @param Project $project
-     * @param DeploymentRepository $deploymentRepository
+     * @param DeploymentRepositoryInterface $deploymentRepository
      * @return View
      */
-    public function show(Project $project, DeploymentRepository $deploymentRepository)
+    public function show(Project $project, DeploymentRepositoryInterface $deploymentRepository)
     {
         $commands = [
             Command::DO_CLONE    => null,
