@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
  * User registrar service
  * @todo Check if this is used and if not then remove it
  * @todo Use this concept for the other models to remove code from the controllers
+ * @todo Check this is used
  */
 class Registrar implements RegistrarContract
 {

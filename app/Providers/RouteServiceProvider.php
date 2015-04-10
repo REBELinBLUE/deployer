@@ -32,7 +32,6 @@ class RouteServiceProvider extends ServiceProvider
 
         $router->model('commands', 'App\Command');
         $router->model('deployments', 'App\Deployment');
-        $router->model('groups', 'App\Group');
         $router->model('notifications', 'App\Notification');
         $router->model('projects', 'App\Project');
         $router->model('servers', 'App\Server');

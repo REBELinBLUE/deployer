@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use Lang;
-use App\Group;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\GroupRepositoryInterface;
@@ -14,16 +13,34 @@ use Illuminate\Http\Request;
 class GroupController extends Controller
 {
     /**
+     * The group repository
+     * 
+     * @var GroupRepositoryInterface
+     */
+    private $groupRepository;
+
+    /**
+     * Class constructor
+     * 
+     * @param GroupRepositoryInterface $groupRepository
+     * @return void
+     */
+    public function __construct(GroupRepositoryInterface $groupRepository)
+    {
+        $this->groupRepository = $groupRepository;
+    }
+
+    /**
      * Display a listing of the groups.
      *
      * @param GroupRepositoryInterface $groupRepository
      * @return Response
      */
-    public function index(GroupRepositoryInterface $groupRepository)
+    public function index()
     {
         return view('groups.listing', [
             'title'  => Lang::get('groups.manage'),
-            'groups' => $groupRepository->getAll()
+            'groups' => $this->groupRepository->getAll()
         ]);
     }
 
@@ -35,24 +52,18 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        return Group::create($request->only(
-            'name'
-        ));
+        return $this->groupRepository->create($request->only('name'));
     }
 
     /**
      * Update the specified group in storage.
      *
-     * @param Group $group
+     * @param int $group_id
      * @param StoreGroupRequest $request
      * @return Response
      */
-    public function update(Group $group, StoreGroupRequest $request)
+    public function update($group_id, StoreGroupRequest $request)
     {
-        $group->update($request->only(
-            'name'
-        ));
-
-        return $group;
+        return $this->groupRepository->updateById($request->only('name'), $group_id);
     }
 }

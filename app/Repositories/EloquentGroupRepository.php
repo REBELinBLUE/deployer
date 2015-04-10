@@ -1,13 +1,24 @@
 <?php namespace App\Repositories;
 
 use App\Group;
+use App\Repositories\EloquentRepository;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 
 /**
  * The group repository
  */
-class EloquentGroupRepository implements GroupRepositoryInterface
+class EloquentGroupRepository extends EloquentRepository implements GroupRepositoryInterface
 {
+    /**
+     * Class constructor
+     * 
+     * @param Group $model
+     */
+    public function __construct(Group $model)
+    {
+        $this->model = $model;
+    }
+
     /**
      * Gets all groups
      *
@@ -15,13 +26,6 @@ class EloquentGroupRepository implements GroupRepositoryInterface
      */ 
     public function getAll()
     {
-        $groups = Group::orderBy('name')
-                       ->get();
-
-        foreach ($groups as $group) {
-            $group->project_count = count($group->projects);
-        }
-
-        return $groups;
+        return $this->model->orderBy('name')->get();
     }
 }

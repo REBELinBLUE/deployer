@@ -7,8 +7,18 @@ use App\Repositories\Contracts\ProjectRepositoryInterface;
 /**
  * The project repository
  */
-class EloquentProjectRepository implements ProjectRepositoryInterface
+class EloquentProjectRepository extends EloquentRepository implements ProjectRepositoryInterface
 {
+    /**
+     * Class constructor
+     * 
+     * @param Project $model
+     */
+    public function __construct(Project $model)
+    {
+        $this->model = $model;
+    }
+
     /**
      * Gets all projects
      *
@@ -16,7 +26,6 @@ class EloquentProjectRepository implements ProjectRepositoryInterface
      */ 
     public function getAll()
     {
-        return Project::orderBy('name')
-                      ->get();
+        return $this->moidel->orderBy('name')->get();
     }
 }

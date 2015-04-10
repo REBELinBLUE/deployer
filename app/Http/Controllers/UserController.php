@@ -69,7 +69,6 @@ class UserController extends Controller
      */
     public function update(User $user, StoreUserRequest $request)
     {
-
         $fields = $request->only(
             'name',
             'email'
