@@ -1,5 +1,6 @@
 <?php namespace App\Repositories;
 
+use App\Group;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 
 /**

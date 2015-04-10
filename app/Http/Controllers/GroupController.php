@@ -4,7 +4,7 @@ use Lang;
 use App\Group;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Repositories\GroupRepositoryInterface;
+use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Http\Requests\StoreGroupRequest;
 use Illuminate\Http\Request;
 
@@ -16,6 +16,7 @@ class GroupController extends Controller
     /**
      * Display a listing of the groups.
      *
+     * @param GroupRepositoryInterface $groupRepository
      * @return Response
      */
     public function index(GroupRepositoryInterface $groupRepository)
