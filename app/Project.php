@@ -46,7 +46,8 @@ class Project extends Model
      * @var array
      */
     protected $casts = [
-        'status' => 'integer'
+        'status'         => 'integer',
+        'builds_to_keep' => 'integer'
     ];
 
     /**

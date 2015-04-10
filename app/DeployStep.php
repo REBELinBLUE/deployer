@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class DeployStep extends Model
 {
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'stage' => 'integer'
+    ];
+
+    /**
      * Has many relationship
      *
      * @return ServerLog
