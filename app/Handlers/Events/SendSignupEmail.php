@@ -18,7 +18,7 @@ class SendSignupEmail implements ShouldBeQueued
     /**
      * Create the event handler.
      *
-     * @return void
+     * @return SendSignupEmail
      */
     public function __construct()
     {

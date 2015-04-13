@@ -1,5 +1,6 @@
 <?php namespace App;
 
+use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -25,7 +26,7 @@ class Group extends Model
     protected $appends = ['project_count'];
 
     /**
-     * Has many relationshop
+     * Has many relationship
      *
      * @return Project
      */
@@ -36,7 +37,7 @@ class Group extends Model
 
     /**
      * Define a mutator for the count of projects
-     * 
+     *
      * @return int
      */
     public function getProjectCountAttribute()
@@ -44,3 +45,4 @@ class Group extends Model
         return $this->projects()->count();
     }
 }
+

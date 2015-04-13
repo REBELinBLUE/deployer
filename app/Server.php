@@ -66,7 +66,7 @@ class Server extends Model
 
     /**
      * Define a mutator for the IP Address, if it has changed or
-     * has not previouslybeen set also set the status to untested
+     * has not previously been set also set the status to untested
      * 
      * @param string $value
      * @return void

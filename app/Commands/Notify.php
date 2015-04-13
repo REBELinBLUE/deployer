@@ -21,9 +21,11 @@ class Notify extends Command implements SelfHandling, ShouldBeQueued
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param Notification $notification
+     * @param array $payload
+     * @return Notify
      */
-    public function __construct(Notification $notification, $payload)
+    public function __construct(Notification $notification, array $payload)
     {
         $this->notification = $notification;
         $this->payload = $payload;

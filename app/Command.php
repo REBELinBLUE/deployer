@@ -1,11 +1,10 @@
 <?php namespace App;
 
-use App\Server;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * The commanbd model
+ * The command model
  */
 class Command extends Model
 {
@@ -65,23 +64,5 @@ class Command extends Model
     public function servers()
     {
         return $this->belongsToMany('App\Server');
-    }
-
-    /**
-     * Checks if the server is assigned to this command
-     *
-     * @param Server $server The server to check
-     * @return boolean
-     * @todo See if laravel has a built in way of handling this
-     */
-    public function hasServer(Server $server)
-    {
-        foreach ($this->servers as $test) {
-            if ($test->id === $server->id) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

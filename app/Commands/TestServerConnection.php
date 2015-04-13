@@ -21,7 +21,8 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param Server $server
+     * @return TestServerConnection
      */
     public function __construct(Server $server)
     {

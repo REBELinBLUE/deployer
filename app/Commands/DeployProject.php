@@ -31,7 +31,8 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param Deployment $deployment
+     * @return DeployProject
      */
     public function __construct(Deployment $deployment)
     {

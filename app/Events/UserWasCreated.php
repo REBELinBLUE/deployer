@@ -33,7 +33,7 @@ class UserWasCreated extends Event
      *
      * @param User $user
      * @param string $password
-     * @return void
+     * @return UserWasCreated
      */
     public function __construct(User $user, $password)
     {

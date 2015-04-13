@@ -22,7 +22,9 @@ class QueueDeployment extends Command implements SelfHandling
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param Project $project
+     * @param Deployment $deployment
+     * @return QueueDeployment
      */
     public function __construct(Project $project, Deployment $deployment)
     {
