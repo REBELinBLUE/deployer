@@ -2,6 +2,16 @@ var app = app || {};
 
 (function ($) {
 
+    $('#reason button').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var icon = target.find('i');
+        var dialog = target.parents('.modal');
+
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
+        dialog.find('textarea').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+    });
+
    // FIXME: This seems very wrong
     $('#project').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);

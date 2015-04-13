@@ -5,7 +5,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title"><i class="fa fa-code"></i> <span>{{ Lang::get('deployments.reason') }}</span></h4>
+                    <h4 class="modal-title"><i class="fa  fa-comment-o"></i> <span>{{ Lang::get('deployments.reason') }}</span></h4>
                 </div>
                 <form role="form">
                     <input type="hidden" name="project_id" value="{{ $project->id }}" />
