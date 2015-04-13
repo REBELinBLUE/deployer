@@ -1,6 +1,9 @@
 @extends('layout')
 
 @section('content')
+    @if (!empty($deployment->reason))
+        <p><strong>{{ Lang::get('deployments.reason') }}</strong>: {{ $deployment->reason }}</p>
+    @endif
     <div class="row">
         @foreach($deployment->steps as $step)
         <div class="col-xs-12">

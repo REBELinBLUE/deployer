@@ -169,9 +169,7 @@ class ProjectController extends Controller
     public function deploy(Project $project)
     {
         $deployment = new Deployment;
-        $deployment->update([
-            'reason' => Input::get('reasons')
-        ]);
+        $deployment->reason = Input::get('reason');
 
         $this->dispatch(new QueueDeployment(
             $project,

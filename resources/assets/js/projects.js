@@ -8,7 +8,6 @@ var app = app || {};
         var dialog = target.parents('.modal');
 
         icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
-        dialog.find('textarea').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
     });
 
