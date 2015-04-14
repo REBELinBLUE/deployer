@@ -26,6 +26,6 @@ return [
     'edit'                 => 'Edit a command',
     'none'                 => 'No commands have been configured',
     'optional'             => 'Optional',
-    'optional_description' => 'Ask at Deploy time whether or not the include this step'
+    'optional_description' => 'Ask at deploy time whether or not the include this step'
 
 ];

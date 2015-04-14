@@ -38,7 +38,8 @@ class ServerController extends Controller
             'user',
             'ip_address',
             'path',
-            'project_id'
+            'project_id',
+            'deploy_code'
         ));
     }
 
@@ -57,7 +58,8 @@ class ServerController extends Controller
             'user',
             'ip_address',
             'path',
-            'project_id'
+            'project_id',
+            'deploy_code'
         ));
 
         return $server;

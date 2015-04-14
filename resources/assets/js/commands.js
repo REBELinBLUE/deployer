@@ -115,7 +115,7 @@ var app = app || {};
             step:       $('#command_step').val(),
             project_id: $('input[name="project_id"]').val(),
             servers:    server_ids,
-            optional:   $('#command_optional').is(':checked') ? 'true' : 'false'
+            optional:   $('#command_optional').is(':checked')
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -262,7 +262,7 @@ var app = app || {};
             $('#command_name').val(this.model.get('name'));
             $('#command_script').val(this.model.get('script'));
             $('#command_user').val(this.model.get('user'));
-            $('#command_optional').val(this.model.get('optional'));
+            $('#command_optional').prop('checked', (this.model.get('optional') === true));
 
             $('.command-server').prop('checked', false);
             $(this.model.get('servers')).each(function (index, server) {

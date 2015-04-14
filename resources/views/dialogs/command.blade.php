@@ -48,7 +48,6 @@
                         </ul>
                     </div>
                     @endif
-
                     <div class="form-group">
                         <label>{{ Lang::get('commands.optional') }}</label>
                         <div class="checkbox">
