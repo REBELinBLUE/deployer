@@ -84,7 +84,7 @@ An example of the config
 
     $ touch storage/database.sqlite
     $ php artisan migrate:install
-    $ php artisan migrate:refresh
+    $ php artisan migrate
 
 **Compile the assets**
 
