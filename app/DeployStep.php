@@ -13,7 +13,8 @@ class DeployStep extends Model
      * @var array
      */
     protected $casts = [
-        'stage' => 'integer'
+        'stage'    => 'integer',
+        'optional' => 'boolean'
     ];
 
     /**

@@ -44,6 +44,7 @@ var app = app || {};
             $('#command_name').val('');
             $('#command_script').val('');
             $('#command_user').val('');
+            $('#command_optional').val('');
 
             $('.command-server').prop('checked', true);
         }
@@ -113,7 +114,8 @@ var app = app || {};
             user:       $('#command_user').val(),
             step:       $('#command_step').val(),
             project_id: $('input[name="project_id"]').val(),
-            servers:    server_ids
+            servers:    server_ids,
+            optional:   $('#command_optional').is(':checked') ? 'true' : 'false'
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -197,8 +199,6 @@ var app = app || {};
                 return !model.isAfter();
             });
 
-            console.log(typeof before);
-
             if (typeof before !== 'undefined') {
                 $('#commands-before .no-commands').hide();
                 $('#commands-before .command-list').show();
@@ -210,9 +210,6 @@ var app = app || {};
             var after = app.Commands.find(function(model) { 
                 return model.isAfter();
             });
-
-
-            console.log(typeof after);
 
             if (typeof after !== 'undefined') {
                 $('#commands-after .no-commands').hide();
@@ -265,6 +262,7 @@ var app = app || {};
             $('#command_name').val(this.model.get('name'));
             $('#command_script').val(this.model.get('script'));
             $('#command_user').val(this.model.get('user'));
+            $('#command_optional').val(this.model.get('optional'));
 
             $('.command-server').prop('checked', false);
             $(this.model.get('servers')).each(function (index, server) {

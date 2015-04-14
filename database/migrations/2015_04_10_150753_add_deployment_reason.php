@@ -12,7 +12,7 @@ class AddDeploymentReason extends Migration
      */
     public function up()
     {
-        Schema::table('deployments', function  (Blueprint $table) {
+        Schema::table('deployments', function (Blueprint $table) {
             $table->text('reason')->nullable();
         });
     }
