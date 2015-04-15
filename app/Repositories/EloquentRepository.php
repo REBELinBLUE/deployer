@@ -37,12 +37,12 @@ abstract class EloquentRepository
      * Updates an instance by it's ID
      * 
      * @param array $fields
-     * @param int $id
+     * @param int $model_id
      * @return Model
      */
-    public function updateById(array $fields, $id)
+    public function updateById(array $fields, $model_id)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $this->model->findOrFail($model_id);
 
         $model->update($fields);
 
