@@ -18,6 +18,7 @@ class QueueDeployment extends Command implements SelfHandling
 {
     private $project;
     private $deployment;
+    private $optional;
 
     /**
      * Create a new command instance.
@@ -26,10 +27,11 @@ class QueueDeployment extends Command implements SelfHandling
      * @param Deployment $deployment
      * @return QueueDeployment
      */
-    public function __construct(Project $project, Deployment $deployment)
+    public function __construct(Project $project, Deployment $deployment, array $optional = array())
     {
         $this->project = $project;
         $this->deployment = $deployment;
+        $this->optional = $optional;
     }
 
     /**
@@ -68,6 +70,11 @@ class QueueDeployment extends Command implements SelfHandling
             $when = ($command->step % 3 === 0 ? 'after' : 'before');
             if ($when === 'before') {
                 $action = $command->step + 1;
+            }
+
+            // Check if the command is optional, and if it is check it exists in the optional array
+            if ($command->optional && !in_array($command->id, $this->optional)) {
+                continue;
             }
 
             if (!is_array($hooks[$action])) {

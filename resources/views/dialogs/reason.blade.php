@@ -21,7 +21,7 @@
                             <li>
                                 <div class="checkbox">
                                     <label for="deployment_command_{{ $command->id }}">
-                                        <input type="checkbox" class="command-server" name="commands[]" id="deployment_command_{{ $command->id }}" value="{{ $command->id }}" /> {{ $command->name }}
+                                        <input type="checkbox" class="deployment-command" name="optional[]" id="deployment_command_{{ $command->id }}" value="{{ $command->id }}" /> {{ $command->name }}
                                     </label>
                                 </div>
                             </li>

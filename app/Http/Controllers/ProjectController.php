@@ -178,9 +178,17 @@ class ProjectController extends Controller
         $deployment = new Deployment;
         $deployment->reason = Input::get('reason');
 
+        $optional = [];
+
+        if (Input::has('optional'))
+        {
+            $optional = Input::get('optional');
+        }
+
         $this->dispatch(new QueueDeployment(
             $project,
-            $deployment
+            $deployment,
+            $optional
         ));
 
         return redirect()->route('deployment', [
