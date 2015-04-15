@@ -98,7 +98,7 @@ class Project extends Model
      */
     public function servers()
     {
-        return $this->hasMany('App\Server');
+        return $this->hasMany('App\Server')->orderBy('name');
     }
 
     /**
@@ -108,7 +108,7 @@ class Project extends Model
      */
     public function notifications()
     {
-        return $this->hasMany('App\Notification');
+        return $this->hasMany('App\Notification')->orderBy('name');
     }
 
     /**
