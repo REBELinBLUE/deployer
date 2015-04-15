@@ -18,6 +18,13 @@ class DeployStep extends Model
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['stage', 'deployment_id', 'command_id'];
+
+    /**
      * Has many relationship
      *
      * @return ServerLog

@@ -94,15 +94,15 @@ class QueueDeployment extends Command implements SelfHandling
 
             if (isset($hooks[$stage]['before'])) {
                 foreach ($hooks[$stage]['before'] as $hook) {
-                    $this->createStep($before, $hook);
+                    $this->createCommandStep($before, $hook);
                 }
             }
 
-            $this->createStep($stage);
+            $this->createDeployStep($stage);
 
             if (isset($hooks[$stage]['after'])) {
                 foreach ($hooks[$stage]['after'] as $hook) {
-                    $this->createStep($after, $hook);
+                    $this->createCommandStep($after, $hook);
                 }
             }
         }
@@ -111,36 +111,53 @@ class QueueDeployment extends Command implements SelfHandling
     }
 
     /**
-     * Create an instance of DeployStep and a ServerLog entry for each server
+     * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command
      *
      * @param int $stage
-     * @param Command|null $command
+     * @param Command $command
      * @return void
-     * @todo Only create instances of ServerLog for each server which is assigned the command
-     * @todo Refactor this
+     * @todo refactor these 2 functions
      */
-    private function createStep($stage, Stage $command = null)
+    private function createCommandStep($stage, Stage $command)
     {
-        $step = new DeployStep;
-        $step->stage = $stage;
+        $step = DeployStep::create([
+            'stage'         => $stage,
+            'deployment_id' => $this->deployment->id,
+            'command_id'    => $command->id
+        ]);
 
-        if (!is_null($command)) {
-            $step->command_id = $command->id;
+        foreach ($command->servers as $server) {
+            ServerLog::create([
+                'server_id'      => $server->id,
+                'deploy_step_id' => $step->id
+            ]);
         }
+    }
 
-        $step->deployment_id = $this->deployment->id;
-        $step->save();
+    /**
+     * Create an instance of DeployStep and a ServerLog entry for each server which can have code deployed
+     *
+     * @param int $stage
+     * @return void
+     */
+    private function createDeployStep($stage)
+    {
+        $step = DeployStep::create([
+            'stage'         => $stage,
+            'deployment_id' => $this->deployment->id
+        ]);
 
+        // TODO: Clean this up so we only get the list of servers which we should display do
         foreach ($this->project->servers as $server) {
             // If command is null it is preparing one of the 4 default steps so skip servers should don't have the code deployed
-            if (is_null($command) && !$server->deploy_code) {
+            if (!$server->deploy_code) {
                 continue;
             }
 
-            $log = new ServerLog;
-            $log->server_id = $server->id;
-            $log->deploy_step_id = $step->id;
-            $log->save();
+            ServerLog::create([
+                'server_id'      => $server->id,
+                'deploy_step_id' => $step->id
+            ]);
         }
     }
 }
