@@ -21,22 +21,32 @@ class DashboardController extends Controller
     public function index(DeploymentRepositoryInterface $deploymentRepository, ProjectRepositoryInterface $projectRepository)
     {
         $deployments = $deploymentRepository->getTimeline();
+        $projects = $projectRepository->getAll();
 
-        $grouped_by_date = [];
+        $deploys_by_date = [];
         foreach ($deployments as $deployment) {
             $date = $deployment->started_at->format('Y-m-d');
 
-            if (!isset($grouped_by_date[$date])) {
-                $grouped_by_date[$date] = [];
+            if (!isset($deploys_by_date[$date])) {
+                $deploys_by_date[$date] = [];
             }
 
-            $grouped_by_date[$date][] = $deployment;
+            $deploys_by_date[$date][] = $deployment;
+        }
+
+        $projects_by_group = [];
+        foreach ($projects as $project) {
+            if (!isset($projects_by_group[$project->group->name])) {
+                $projects_by_group[$project->group->name] = [];
+            }
+
+            $projects_by_group[$project->group->name][] = $project;
         }
 
         return view('dashboard.index', [
             'title'    => Lang::get('dashboard.title'),
-            'latest'   => $grouped_by_date,
-            'projects' => $projectRepository->getAll()
+            'latest'   => $deploys_by_date,
+            'projects' => $projects_by_group
         ]);
     }
 }

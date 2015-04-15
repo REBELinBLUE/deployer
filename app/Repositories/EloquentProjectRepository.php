@@ -27,6 +27,8 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
      */ 
     public function getAll()
     {
-        return $this->model->orderBy('name')->get();
+        return $this->model
+                    ->orderBy('name')
+                    ->get();
     }
 }

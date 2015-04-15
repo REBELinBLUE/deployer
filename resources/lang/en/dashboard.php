@@ -5,7 +5,7 @@ return [
     'title'          => 'Dashboard',
     'projects'       => 'Projects',
     'latest'         => 'Latest Deployment|Latest Deployments',
-    'no_projects'    => 'You have not yet setup any projects, click the button above to get started!',
+    'no_projects'    => 'You have not yet setup any projects',
     'no_deployments' => 'There have not been any deployments yet.',
     'status'         => 'Status',
     'site'           => 'View the site',
