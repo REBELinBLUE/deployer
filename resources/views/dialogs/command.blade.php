@@ -39,7 +39,7 @@
                             @foreach ($project->servers as $server)
                             <li>
                                 <div class="checkbox">
-                                    <label>
+                                    <label for="command_server_{{ $server->id }}">
                                         <input type="checkbox" class="command-server" name="servers[]" id="command_server_{{ $server->id }}" value="{{ $server->id }}" /> {{ $server->name }} ({{ $server->ip_address }})
                                     </label>
                                 </div>
@@ -48,6 +48,15 @@
                         </ul>
                     </div>
                     @endif
+                    <div class="form-group">
+                        <label>{{ Lang::get('commands.optional') }}</label>
+                        <div class="checkbox">
+                            <label for="command_optional">
+                                <input type="checkbox" value="1" name="optional" id="command_optional" /> 
+                                {{ Lang::get('commands.optional_description') }}
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> {{ Lang::get('app.delete') }}</button>

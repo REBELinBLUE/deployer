@@ -77,7 +77,8 @@ class CommandController extends Controller
             'user',
             'project_id',
             'script',
-            'step'
+            'step',
+            'optional'
         );
 
         $fields['order'] = $order;
@@ -103,7 +104,8 @@ class CommandController extends Controller
         $command->update($request->only(
             'name',
             'user',
-            'script'
+            'script',
+            'optional'
         ));
 
         $command->save();

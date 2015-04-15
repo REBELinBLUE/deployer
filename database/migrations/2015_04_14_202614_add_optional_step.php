@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class AddOptionalStep extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('servers', function (Blueprint $table) {
+            $table->boolean('deploy_code')->default(true);
+        });
+
+        Schema::table('commands', function (Blueprint $table) {
+            $table->boolean('optional')->default(false);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('servers', function (Blueprint $table) {
+            $table->dropColumn('deploy_code');
+        });
+
+        Schema::table('commands', function (Blueprint $table) {
+            $table->dropColumn('optional');
+        });
+    }
+}

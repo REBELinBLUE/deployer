@@ -58,6 +58,8 @@ class ProjectController extends Controller
             Command::DO_PURGE    => null
         ];
 
+        $optional = [];
+
         foreach ($project->commands as $command) {
             $action = $command->step - 1;
             $when = ($command->step % 3 === 0 ? 'after' : 'before');
@@ -74,6 +76,10 @@ class ProjectController extends Controller
             }
 
             $commands[$action][$when][] = $command->name;
+
+            if ($command->optional) {
+                $optional[] = $command;
+            }
         }
 
         return view('projects.details', [
@@ -82,9 +88,10 @@ class ProjectController extends Controller
             'today'         => $deploymentRepository->getTodayCount($project),
             'last_week'     => $deploymentRepository->getLastWeekCount($project),
             'project'       => $project,
-            'servers'       => $project->servers,       // FIXME: Order by name
-            'notifications' => $project->notifications, // FIXME: Order by name
-            'commands'      => $commands
+            'servers'       => $project->servers,
+            'notifications' => $project->notifications,
+            'commands'      => $commands,
+            'optional'      => $optional // FIXME: Is there a cleaner way to do this?
         ]);
     }
 
@@ -171,9 +178,17 @@ class ProjectController extends Controller
         $deployment = new Deployment;
         $deployment->reason = Input::get('reason');
 
+        $optional = [];
+
+        if (Input::has('optional'))
+        {
+            $optional = Input::get('optional');
+        }
+
         $this->dispatch(new QueueDeployment(
             $project,
-            $deployment
+            $deployment,
+            $optional
         ));
 
         return redirect()->route('deployment', [

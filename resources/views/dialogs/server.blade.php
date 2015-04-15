@@ -30,6 +30,15 @@
                         <label for="server_path">{{ Lang::get('servers.path') }}</label>
                         <input type="text" class="form-control" id="server_path" name="path" placeholder="/var/www/project" />
                     </div>
+                    <div class="form-group">
+                        <label>{{ Lang::get('servers.deploy_code') }}</label>
+                        <div class="checkbox">
+                            <label for="server_deploy_code">
+                                <input type="checkbox" value="1" name="deploy_code" id="server_deploy_code" /> 
+                                {{ Lang::get('servers.deploy_description') }}
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> {{ Lang::get('app.delete') }}</button>

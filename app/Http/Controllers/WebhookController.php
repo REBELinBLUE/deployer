@@ -25,10 +25,13 @@ class WebhookController extends Controller
         $project = Project::where('hash', $hash)
                           ->firstOrFail();
 
-        if ($project->servers->count() > 0) {
+        if ($project->servers->count() > 0) { // FIXME: This should filter to deployable servers
+            $optional = []; // FIXME: Come up with some way to specify which commands should run or not
+
             $this->dispatch(new QueueDeployment(
                 $project,
                 new Deployment
+                $optional
             ));
         }
 
