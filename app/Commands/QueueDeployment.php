@@ -117,6 +117,7 @@ class QueueDeployment extends Command implements SelfHandling
      * @param Command|null $command
      * @return void
      * @todo Only create instances of ServerLog for each server which is assigned the command
+     * @todo Refactor this
      */
     private function createStep($stage, Stage $command = null)
     {
@@ -131,6 +132,11 @@ class QueueDeployment extends Command implements SelfHandling
         $step->save();
 
         foreach ($this->project->servers as $server) {
+            // If command is null it is preparing one of the 4 default steps so skip servers should don't have the code deployed
+            if (is_null($command) && !$server->deploy_code) {
+                continue;
+            }
+
             $log = new ServerLog;
             $log->server_id = $server->id;
             $log->deploy_step_id = $step->id;
