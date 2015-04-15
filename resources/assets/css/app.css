@@ -46,3 +46,7 @@ body.dragging * {
     left:              -5px;
     border-right:      none;
 }
+
+#deploy-reason {
+    padding: 0 !important;
+}

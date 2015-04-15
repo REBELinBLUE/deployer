@@ -1,6 +1,6 @@
 <div class="box">
     <div class="box-header">
-        <h3 class="box-title">{{ Lang::get('deployments.recent') }}</h3>
+        <h3 class="box-title">{{ Lang::get('deployments.latest') }}</h3>
     </div>
     
     @if (!count($deployments))
@@ -25,7 +25,12 @@
                 @foreach ($deployments as $deployment)
                 <tr id="deployment_{{ $deployment->id }}">
                     <td>{{ $deployment->started_at->format('jS F Y g:i:s A') }}</td>
-                    <td>{{ !empty($deployment->user_id) ? Lang::get('deployments.manually') : Lang::get('deployments.webhook') }}</td>
+                    <td>
+                        {{ !empty($deployment->user_id) ? Lang::get('deployments.manually') : Lang::get('deployments.webhook') }}
+                        @if (!empty($deployment->reason))
+                            <button class="btn btn-box-tool" id="deploy-reason"><i class="fa fa-comment-o" data-toggle="tooltip" title="{{ $deployment->reason }}"></i></button>
+                        @endif
+                    </td>
                     <td>
                         @if (!empty($deployment->user_id))
                             {{ $deployment->user->name }}

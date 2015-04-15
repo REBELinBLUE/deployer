@@ -3,7 +3,7 @@
 return [
 
     'label'           => 'Deployments',
-    'recent'          => 'Recent Deployments',
+    'latest'          => 'Latest Deployments',
     'none'            => 'There have not been any deployments yet.',
     'started'         => 'Started',
     'deployer'        => 'Deployer',
