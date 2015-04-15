@@ -13,11 +13,11 @@ class AddOptionalStep extends Migration
     public function up()
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->boolean('deploy_code')->default('true');
+            $table->boolean('deploy_code')->default(true);
         });
 
         Schema::table('commands', function (Blueprint $table) {
-            $table->boolean('optional')->default('false');
+            $table->boolean('optional')->default(false);
         });
     }
 

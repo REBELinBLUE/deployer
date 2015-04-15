@@ -29,6 +29,7 @@ return [
     'cancelled'       => 'Cancelled',
     'loading'         => 'Loading',
     'reason'          => 'Reason for deployment',
-    'describe_reason' => 'Please describe briefly the reason for this deployment'
+    'describe_reason' => 'Please describe briefly the reason for this deployment',
+    'optional'        => 'Select the optional deploy steps to run'
 
 ];
