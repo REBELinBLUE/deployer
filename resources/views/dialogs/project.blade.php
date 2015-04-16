@@ -20,11 +20,22 @@
                     <div class="form-group">
                         <label for="project_group_id">{{ Lang::get('projects.group') }}</label>
                         <select id="project_group_id" name="group_id" class="form-control">
-                            @foreach(App\Group::all() as $group)
+                            @foreach($groups as $group)
                                 <option value="{{ $group->id }}">{{ $group->name }}</option>
                             @endforeach
                         </select>
                     </div>
+                    @if(count($templates) > 0)
+                    <div class="form-group" id="template-list">
+                        <label for="project_template_id">{{ Lang::get('templates.type') }}</label>
+                        <select id="project_template_id" name="template_id" class="form-control">
+                            <option value="">{{ Lang::get('templates.none') }}</option>
+                            @foreach($templates as $template)
+                                <option value="{{ $template->id }}">{{ $template->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @endif
                     <div class="form-group">
                         <label for="project_repository">{{ Lang::get('projects.repository') }}</label>
                         <input type="text" class="form-control" name="repository" id="project_repository"  placeholder="git@git.example.com:repositories/project.git" />

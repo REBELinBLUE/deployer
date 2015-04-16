@@ -4,12 +4,15 @@ use Lang;
 use Input;
 use App\Command;
 use App\Project;
+use App\Group;
+use App\Template;
 use App\Deployment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Http\Requests\StoreProjectRequest;
+use App\Commands\SetupProject;
 use App\Commands\QueueDeployment;
 
 /**
@@ -37,8 +40,10 @@ class ProjectController extends Controller
         }
 
         return view('projects.listing', [
-            'title'    => Lang::get('projects.manage'),
-            'projects' => $projects
+            'title'     => Lang::get('projects.manage'),
+            'projects'  => $projects,
+            'templates' => Template::all(),
+            'groups'    => Group::all()
         ]);
     }
 
@@ -114,6 +119,13 @@ class ProjectController extends Controller
             'url',
             'build_url'
         ));
+
+        if ($request->has('template_id')) {
+            $this->dispatch(new SetupProject(
+                $project,
+                Template::find($request->template_id)
+            ));
+        }
 
         $project->group_name = $project->group->name;
         $project->deploy     = Lang::get('app.never');
