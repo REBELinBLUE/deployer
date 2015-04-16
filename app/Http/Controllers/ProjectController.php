@@ -16,7 +16,7 @@ use App\Commands\SetupProject;
 use App\Commands\QueueDeployment;
 
 /**
- * The controller for managging projects
+ * The controller for managing projects
  */
 class ProjectController extends Controller
 {
@@ -120,6 +120,7 @@ class ProjectController extends Controller
             'build_url'
         ));
 
+        // FIXME: Should this be an event rather than a command?
         if ($request->has('template_id')) {
             $this->dispatch(new SetupProject(
                 $project,

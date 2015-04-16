@@ -3,6 +3,9 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * The Command Template model
+ */
 class CommandTemplate extends Model
 {
     use SoftDeletes;

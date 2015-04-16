@@ -32,6 +32,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ url('admin/projects') }}">{{ Lang::get('app.projects') }}</a></li>
+                    <li><a href="{{ url('admin/templates') }}">{{ Lang::get('app.templates') }}</a></li>
                     <li><a href="{{ url('admin/groups') }}">{{ Lang::get('app.groups') }}</a></li>
                     <li><a href="{{ url('admin/users') }}">{{ Lang::get('app.users') }}</a></li>
                 </ul>

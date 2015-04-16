@@ -35,8 +35,7 @@ class SetupProject extends Command implements SelfHandling
      */
     public function handle()
     {
-        foreach ($this->template->commands as $command)
-        {
+        foreach ($this->template->commands as $command) {
             $data = $command->toArray();
 
             $data['project_id'] = $this->project->id;
