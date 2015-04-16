@@ -30,7 +30,7 @@ class WebhookController extends Controller
 
             $this->dispatch(new QueueDeployment(
                 $project,
-                new Deployment
+                new Deployment,
                 $optional
             ));
         }
