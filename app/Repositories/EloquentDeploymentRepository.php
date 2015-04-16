@@ -26,7 +26,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
 
     /**
      * Gets the latest deployments for all projects
-     * 
+     *
      * @return array
      */
     public function getTimeline()
@@ -40,7 +40,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
 
     /**
      * Gets the number of times a project has been deployed today
-     * 
+     *
      * @param Project $project
      * @return int
      * @see DeploymentRepository::getBetweenDates()

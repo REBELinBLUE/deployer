@@ -149,7 +149,8 @@ class QueueDeployment extends Command implements SelfHandling
 
         // TODO: Clean this up so we only get the list of servers which we should display do
         foreach ($this->project->servers as $server) {
-            // If command is null it is preparing one of the 4 default steps so skip servers should don't have the code deployed
+            // If command is null it is preparing one of the 4 default steps so
+            // skip servers should don't have the code deployed
             if (!$server->deploy_code) {
                 continue;
             }

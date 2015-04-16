@@ -18,7 +18,8 @@ class DashboardController extends Controller
      * @return View
      * @todo Use a decorator pattern here
      */
-    public function index(DeploymentRepositoryInterface $deploymentRepository, ProjectRepositoryInterface $projectRepository)
+    public function index(DeploymentRepositoryInterface $deploymentRepository, 
+                          ProjectRepositoryInterface $projectRepository)
     {
         $deployments = $deploymentRepository->getTimeline();
         $projects = $projectRepository->getAll();

@@ -19,7 +19,7 @@ class Deployment extends Model
 
     /**
      * The fields which should be tried as Carbon instances
-     * 
+     *
      * @var array
      */
     protected $dates = ['started_at', 'finished_at'];
@@ -147,10 +147,10 @@ class Deployment extends Model
                         ], [
                             'title' => Lang::get('notifications.commit'),
                             'value' => $this->commitURL() ? sprintf(
-                                                                '<%s|%s>',
-                                                                $this->commitURL(),
-                                                                $this->shortCommit()
-                                                            ) : $this->shortCommit(),
+                                '<%s|%s>',
+                                $this->commitURL(),
+                                $this->shortCommit()
+                            ) : $this->shortCommit(),
                             'short' => true
                         ], [
                             'title' => Lang::get('notifications.committer'),
