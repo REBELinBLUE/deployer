@@ -16,4 +16,14 @@ class Template extends Model
      * @var array
      */
     protected $fillable = ['name'];
+
+    /**
+     * Has many relationship
+     *
+     * @return Command
+     */
+    public function commands()
+    {
+        return $this->hasMany('App\CommandTemplate');
+    }
 }

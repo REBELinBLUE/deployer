@@ -33,14 +33,4 @@ class CommandTemplate extends Model
     {
         return $this->belongsTo('App\Template');
     }
-
-    /**
-     * Has many relationship
-     *
-     * @return Command
-     */
-    public function commands()
-    {
-        return $this->hasMany('App\CommandTemplate');
-    }
 }
