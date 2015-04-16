@@ -21,8 +21,7 @@ class DashboardController extends Controller
     public function index(
         DeploymentRepositoryInterface $deploymentRepository,
         ProjectRepositoryInterface $projectRepository
-    )
-    {
+    ) {
         $deployments = $deploymentRepository->getTimeline();
         $projects = $projectRepository->getAll();
 
