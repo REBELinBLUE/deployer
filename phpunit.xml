@@ -16,6 +16,7 @@
     </testsuites>
     <logging>
         <log type="coverage-html" target="storage/coverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" />
+        <log type="coverage-clover" target="storage/coverage/clover.xml" />
         <log type="tap" target="storage/logs/tap.log" logIncompleteSkipped="false" />
     </logging>
     <php>
