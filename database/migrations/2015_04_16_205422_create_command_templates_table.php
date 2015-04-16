@@ -4,7 +4,7 @@ use App\Command;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTemplateCommandsTable extends Migration
+class CreateCommandTemplatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTemplateCommandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('template_commands', function(Blueprint $table)
+        Schema::create('command_templates', function(Blueprint $table)
         {
             $table->increments('id');
             $table->string('name');
@@ -38,6 +38,6 @@ class CreateTemplateCommandsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('template_commands');
+        Schema::drop('command_templates');
     }
 }
