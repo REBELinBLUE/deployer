@@ -132,7 +132,6 @@ git log --pretty=format:"%%H%%x09%%an" && \
 rm -rf {$workingdir}
 CMD;
 
-        //$this->outputToConsole('Checking repository state' . PHP_EOL);
         $process = new Process(sprintf(
             $cmd,
             $this->deployment->project->branch,
@@ -195,9 +194,6 @@ CMD;
             if ($step->command) {
                 $prefix = $step->command->name;
             }
-
-            //$this->outputToConsole($prefix . ' on ' . $log->server->name .
-            //                       ' (' . $log->server->ip_address . ')' . PHP_EOL);
 
             $server = $log->server;
             $script = $this->getScript($step, $server);
@@ -345,7 +341,6 @@ EOF'
      */
     private function logError($message)
     {
-        // $this->outputToConsole("\033[0;31m" . $message .  "\033[0m");
         return '<error>' . $message . '</error>';
     }
 
@@ -357,22 +352,7 @@ EOF'
      */
     private function logSuccess($message)
     {
-        // $this->outputToConsole("\033[0;32m" . $message .  "\033[0m");
-
-        // $this->outputToConsole($message);
         return '<info>' . $message . '</info>';
-    }
-
-    /**
-     * Outputs the command output
-     *
-     * @param string $message
-     * @return string
-     */
-    private function outputToConsole($message)
-    {
-        // FIXME: Only output in debug mode
-        //echo 'Deployment #' . $this->deployment->id . ': '  . $message;
     }
 
     /**

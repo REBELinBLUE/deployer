@@ -1,6 +1,5 @@
 <?php namespace App;
 
-use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
