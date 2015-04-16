@@ -57,5 +57,9 @@ failure:
         committer: true
 
 complete:
+    env:
+        CODECLIMATE_REPO_TOKEN: "f5222770741fef12c55315f61a267c8a615908e511241618ce171129e8217e63"
+    shell:
+        - "echo $CODECLIMATE_REPO_TOKEN"
 
 success:
