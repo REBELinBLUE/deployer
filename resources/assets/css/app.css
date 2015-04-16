@@ -50,3 +50,8 @@ body.dragging * {
 #deploy-reason {
     padding: 0 !important;
 }
+
+/* Make sure there is always a space between the icon and the label as HTMLMin removes it */
+span.label i.fa {
+    margin-right: 2px;
+}
