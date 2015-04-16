@@ -45,4 +45,3 @@ class Group extends Model
         return $this->projects()->count();
     }
 }
-

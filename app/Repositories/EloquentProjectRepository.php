@@ -11,7 +11,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
 {
     /**
      * Class constructor
-     * 
+     *
      * @param Project $model
      * @return EloquentProjectRepository
      */
@@ -24,7 +24,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
      * Gets all projects
      *
      * @return array
-     */ 
+     */
     public function getAll()
     {
         return $this->model

@@ -35,7 +35,7 @@ class Project extends Model
     
     /**
      * The fields which should be tried as Carbon instances
-     * 
+     *
      * @var array
      */
     protected $dates = ['last_run'];
@@ -52,7 +52,7 @@ class Project extends Model
 
     /**
      * Override the boot method to bind model event listeners
-     * 
+     *
      * @return void
      */
     public static function boot()

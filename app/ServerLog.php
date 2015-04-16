@@ -15,7 +15,7 @@ class ServerLog extends Model
 
     /**
      * The fields which should be tried as Carbon instances
-     * 
+     *
      * @var array
      */
     protected $dates = ['started_at', 'finished_at'];

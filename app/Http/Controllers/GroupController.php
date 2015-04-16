@@ -14,14 +14,14 @@ class GroupController extends Controller
 {
     /**
      * The group repository
-     * 
+     *
      * @var GroupRepositoryInterface
      */
     private $groupRepository;
 
     /**
      * Class constructor
-     * 
+     *
      * @param GroupRepositoryInterface $groupRepository
      * @return void
      */

@@ -82,9 +82,10 @@ class ProjectController extends Controller
             }
         }
 
+        // FIXME: Make project injected in the constructor so we don't have to keep passing it
         return view('projects.details', [
             'title'         => $project->name,
-            'deployments'   => $deploymentRepository->getLatest($project), // FIXME: Make project injected in the constructor so we don't have to keep passing it
+            'deployments'   => $deploymentRepository->getLatest($project),
             'today'         => $deploymentRepository->getTodayCount($project),
             'last_week'     => $deploymentRepository->getLastWeekCount($project),
             'project'       => $project,
@@ -180,8 +181,7 @@ class ProjectController extends Controller
 
         $optional = [];
 
-        if (Input::has('optional'))
-        {
+        if (Input::has('optional')) {
             $optional = Input::get('optional');
         }
 

@@ -52,7 +52,7 @@ class Server extends Model
     /**
      * Define a mutator for the user, if it has changed or has
      * not previously been set also set the status to untested
-     * 
+     *
      * @param string $value
      * @return void
      */
@@ -68,7 +68,7 @@ class Server extends Model
     /**
      * Define a mutator for the IP Address, if it has changed or
      * has not previously been set also set the status to untested
-     * 
+     *
      * @param string $value
      * @return void
      */

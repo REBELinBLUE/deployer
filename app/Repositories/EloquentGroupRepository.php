@@ -11,7 +11,7 @@ class EloquentGroupRepository extends EloquentRepository implements GroupReposit
 {
     /**
      * Class constructor
-     * 
+     *
      * @param Group $model
      * @return EloquentGroupRepository
      */
@@ -24,7 +24,7 @@ class EloquentGroupRepository extends EloquentRepository implements GroupReposit
      * Gets all groups
      *
      * @return array
-     */ 
+     */
     public function getAll()
     {
         return $this->model->orderBy('name')->get();

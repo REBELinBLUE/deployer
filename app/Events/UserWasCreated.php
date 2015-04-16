@@ -16,14 +16,14 @@ class UserWasCreated extends Event
 
     /**
      * The user which was created
-     * 
+     *
      * @var User
      */
     public $user;
 
     /**
      * The plain password, this is never stored on the model
-     * 
+     *
      * @var string
      */
     public $password;

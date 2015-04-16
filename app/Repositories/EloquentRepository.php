@@ -7,14 +7,14 @@ abstract class EloquentRepository
 {
     /**
      * An instance of the model
-     * 
+     *
      * @var Model
      */
     protected $model;
 
     /**
      * Get's all records from the model
-     * 
+     *
      * @return Collection
      */
     public function getAll()
@@ -24,7 +24,7 @@ abstract class EloquentRepository
 
     /**
      * Creates a new instance of the model
-     * 
+     *
      * @param array $fields
      * @return Model
      */
@@ -35,7 +35,7 @@ abstract class EloquentRepository
 
     /**
      * Updates an instance by it's ID
-     * 
+     *
      * @param array $fields
      * @param int $model_id
      * @return Model

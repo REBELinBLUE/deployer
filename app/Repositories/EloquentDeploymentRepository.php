@@ -12,7 +12,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
 {
     /**
      * Gets the latest deployments for a project
-     * 
+     *
      * @param Project $project
      * @return array
      */
@@ -54,7 +54,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
 
     /**
      * Gets the number of times a project has been deployed in the last week
-     * 
+     *
      * @param Project $project
      * @return int
      * @see DeploymentRepository::getBetweenDates()
@@ -69,7 +69,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
 
     /**
      * Gets the number of times a project has been deployed between the specified dates
-     * 
+     *
      * @param Project $project
      * @param Carbon $startDate
      * @param Carbon $endDate
