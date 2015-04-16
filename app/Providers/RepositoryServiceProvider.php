@@ -2,6 +2,10 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * The repository service provider, binds interfaces to
+ * concrete classes for dependency injection
+ */
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
