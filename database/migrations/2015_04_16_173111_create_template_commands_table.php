@@ -4,7 +4,7 @@ use App\Command;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommandsTable extends Migration
+class CreateTemplateCommandsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateCommandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('commands', function (Blueprint $table) {
+        Schema::create('template_commands', function(Blueprint $table)
+        {
             $table->increments('id');
             $table->string('name');
             $table->text('user');
             $table->text('script');
-            $table->unsignedInteger('project_id');
+            $table->unsignedInteger('template_id');
             $table->enum('step', [Command::BEFORE_CLONE, Command::AFTER_CLONE,
                                   Command::BEFORE_INSTALL, Command::AFTER_INSTALL,
                                   Command::BEFORE_ACTIVATE, Command::AFTER_ACTIVATE,
@@ -26,7 +27,7 @@ class CreateCommandsTable extends Migration
             $table->unsignedInteger('order')->default(0);
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('template_id')->references('id')->on('templates');
         });
     }
 
@@ -37,6 +38,6 @@ class CreateCommandsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('commands');
+        Schema::drop('template_commands');
     }
 }
