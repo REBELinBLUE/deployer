@@ -50,6 +50,7 @@ test:
     php_loc:
     php_docblock_checker:
     technical_debt:
+        allowed_errors: -1
 
 failure:
     email:
