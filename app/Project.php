@@ -218,6 +218,7 @@ class Project extends Model
      * Generates an SSH key and sets the private/public key properties
      *
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
     private function generateSSHKey()
     {
