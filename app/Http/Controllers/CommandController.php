@@ -46,7 +46,7 @@ class CommandController extends Controller
             'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
-            'title'      => deploy_step_label($action),
+            'title'      => Lang::get('commands.' . strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
             'commands'   => $commands

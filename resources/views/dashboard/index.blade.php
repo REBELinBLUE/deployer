@@ -35,7 +35,7 @@
                                     <td><a href="{{ url('projects', ['id' => $project->id]) }}" title="View Details">{{ $project->name }}</a></td>
                                     <td>{{ $project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
                                     <td>
-                                        <span class="label label-{{ project_css_status($project) }}"><i class="fa fa-{{ project_icon_status($project) }}"></i> {{ project_status($project) }}</span>
+                                        <span class="label label-{{ $project->css_class }}"><i class="fa fa-{{ $project->icon }}"></i> {{ $project->readable_status }}</span>
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right">
@@ -72,10 +72,10 @@
 
                             @foreach ($deployments as $deployment)
                             <li>
-                                <i class="fa fa-{{ deployment_icon_status($deployment, false) }} bg-{{ timeline_css_status($deployment) }}"></i>
+                                <i class="fa fa-{{ $deployment->icon }} bg-{{ $deployment->timeline_css_class }}"></i>
                                 <div class="timeline-item">
                                     <span class="time"><i class="fa fa-clock-o"></i> {{ $deployment->started_at->format('H:i') }}</span>
-                                    <h3 class="timeline-header"><a href="{{ url('projects', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">{{ Lang::get('dashboard.deployment_num', ['id' => $deployment->id]) }}</a> - {{ deployment_status($deployment) }}</h3>
+                                    <h3 class="timeline-header"><a href="{{ url('projects', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">{{ Lang::get('dashboard.deployment_num', ['id' => $deployment->id]) }}</a> - {{ $deployment->readable_status }}</h3>
                                     <!--div class="timeline-body">
                                         <a href="#" target="_blank">commit (email)</a> - log
                                     </div-->
