@@ -4,9 +4,11 @@ use Lang;
 use App\Project;
 use Robbo\Presenter\Presenter;
 
+/**
+ * The view presenter for a project class
+ */
 class ProjectPresenter extends Presenter
 {
-
     /**
      * Gets the translated project status string
      *
