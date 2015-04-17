@@ -200,7 +200,7 @@ class Project extends Model implements PresentableInterface
 
     /**
      * Gets the view presenter
-     * 
+     *
      * @return ProjectPresenter
      */
     public function getPresenter()

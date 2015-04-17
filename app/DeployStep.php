@@ -48,7 +48,7 @@ class DeployStep extends Model implements PresentableInterface
 
     /**
      * Gets the view presenter
-     * 
+     *
      * @return DeployStepPresenter
      */
     public function getPresenter()

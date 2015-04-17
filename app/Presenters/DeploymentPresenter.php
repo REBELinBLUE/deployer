@@ -83,7 +83,7 @@ class DeploymentPresenter extends Presenter
 
     /**
      * Gets the name of the committer, or the "Loading" string if it has not yet been determined
-     * 
+     *
      * @return string
      */
     public function presentCommitterName()
@@ -97,10 +97,11 @@ class DeploymentPresenter extends Presenter
 
     /**
      * Gets the short commit hash, or the "Loading" string if it has not yet been determined
-     * 
+     *
      * @return string
      */
-    public function presentShortCommitHash() {
+    public function presentShortCommitHash()
+    {
         if ($this->committer === Deployment::LOADING) {
             return Lang::get('deployments.loading');
         }

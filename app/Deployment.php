@@ -173,7 +173,7 @@ class Deployment extends Model implements PresentableInterface
 
     /**
      * Gets the view presenter
-     * 
+     *
      * @return DeploymentPresenter
      */
     public function getPresenter()
