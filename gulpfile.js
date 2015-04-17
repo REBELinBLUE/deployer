@@ -53,7 +53,7 @@ elixir(function(mix) {
         'commands.js',
         'users.js',
         'groups.js',
-        'AdminLTE.js',
+        'AdminLTE.js'
     ], 'public/js/app.js', 'resources/assets/js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
