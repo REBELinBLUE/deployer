@@ -19,25 +19,6 @@ function loading_value($value)
 }
 
 /**
- * Gets the CSS class for the deployment status for the timeline
- *
- * @param Deployment $deployment
- * @return string
- */
-function timeline_css_status( $deployment)
-{
-    if ($deployment->status === Deployment::COMPLETED) {
-        return 'green';
-    } elseif ($deployment->status === Deployment::FAILED) {
-        return 'red';
-    } elseif ($deployment->status === Deployment::DEPLOYING) {
-        return 'yellow';
-    }
-
-    return 'aqua';
-}
-
-/**
  * Gets the deployment stage label from the numeric representation
  *
  * @param int $label

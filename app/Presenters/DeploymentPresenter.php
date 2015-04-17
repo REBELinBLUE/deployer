@@ -32,7 +32,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    function presentIcon()
+    public function presentIcon()
     {
         if ($this->status === Deployment::COMPLETED) {
             return 'check';
@@ -50,7 +50,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    function presentCssClass()
+    public function presentCssClass()
     {
         if ($this->status === Deployment::COMPLETED) {
             return 'success';
@@ -61,5 +61,23 @@ class DeploymentPresenter extends Presenter
         }
 
         return 'info';
+    }
+
+    /**
+     * Gets the CSS class for the deployment status for the timeline
+     *
+     * @return string
+     */
+    public function presentTimelineCssClass()
+    {
+        if ($this->status === Deployment::COMPLETED) {
+            return 'green';
+        } elseif ($this->status === Deployment::FAILED) {
+            return 'red';
+        } elseif ($this->status === Deployment::DEPLOYING) {
+            return 'yellow';
+        }
+
+        return 'aqua';
     }
 }
