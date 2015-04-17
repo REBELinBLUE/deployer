@@ -198,6 +198,11 @@ class Project extends Model implements PresentableInterface
         return false;
     }
 
+    /**
+     * Gets the view presenter
+     * 
+     * @return ProjectPresenter
+     */
     public function getPresenter()
     {
         return new ProjectPresenter($this);
