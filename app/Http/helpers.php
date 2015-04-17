@@ -19,38 +19,6 @@ function loading_value($value)
 }
 
 /**
- * Gets the deployment stage label from the numeric representation
- *
- * @param int $label
- * @return string
- * @see deploy_step_label()
- */
-function deploy_stage_label($label)
-{
-    $step = 'clone';
-    if ($label === Command::DO_INSTALL) {
-        $step = 'install';
-    } elseif ($label === Command::DO_ACTIVATE) {
-        $step = 'activate';
-    } elseif ($label === Command::DO_PURGE) {
-        $step = 'purge';
-    }
-
-    return deploy_step_label($step);
-}
-
-/**
- * Gets the translated deployment stage label
- *
- * @param string $label
- * @return string
- */
-function deploy_step_label($label)
-{
-    return Lang::get('commands.' . strtolower($label));
-}
-
-/**
  * Converts a number of seconds into a more human readable format
  *
  * @param int $seconds The number of seconds
