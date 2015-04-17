@@ -1,7 +1,6 @@
 <?php
 
 use App\Command;
-use App\Project;
 use App\Deployment;
 
 /**
@@ -25,7 +24,7 @@ function loading_value($value)
  * @param Deployment $deployment
  * @return string
  */
-function timeline_css_status(Deployment $deployment)
+function timeline_css_status( $deployment)
 {
     if ($deployment->status === Deployment::COMPLETED) {
         return 'green';
@@ -36,63 +35,6 @@ function timeline_css_status(Deployment $deployment)
     }
 
     return 'aqua';
-}
-
-/**
- * Gets the CSS class for the deployment status
- *
- * @param Deployment $deployment
- * @return string
- */
-function deployment_css_status(Deployment $deployment)
-{
-    if ($deployment->status === Deployment::COMPLETED) {
-        return 'success';
-    } elseif ($deployment->status === Deployment::FAILED) {
-        return 'danger';
-    } elseif ($deployment->status === Deployment::DEPLOYING) {
-        return 'warning';
-    }
-
-    return 'info';
-}
-
-/**
- * Gets the CSS icon class for the deployment status
- *
- * @param Deployment $deployment
- * @return string
- */
-function deployment_icon_status(Deployment $deployment)
-{
-    if ($deployment->status === Deployment::COMPLETED) {
-        return 'check';
-    } elseif ($deployment->status === Deployment::FAILED) {
-        return 'warning';
-    } elseif ($deployment->status === Deployment::DEPLOYING) {
-        return 'spinner fa-spin';
-    }
-
-    return 'clock-o';
-}
-
-/**
- * Gets the translated deployment status string
- *
- * @param Deployment $deployment
- * @return string
- */
-function deployment_status(Deployment $deployment)
-{
-    if ($deployment->status === Deployment::COMPLETED) {
-        return Lang::get('deployments.completed');
-    } elseif ($deployment->status === Deployment::FAILED) {
-        return Lang::get('deployments.failed');
-    } elseif ($deployment->status === Deployment::DEPLOYING) {
-        return Lang::get('deployments.deploying');
-    }
-
-    return Lang::get('deployments.pending');
 }
 
 /**

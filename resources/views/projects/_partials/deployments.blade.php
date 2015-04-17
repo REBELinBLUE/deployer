@@ -46,7 +46,7 @@
                         {{ loading_value($deployment->shortCommit()) }}
                         @endif
                     <td>
-                        <span class="label label-{{ deployment_css_status($deployment) }}"><i class="fa fa-{{ deployment_icon_status($deployment) }}"></i> {{ deployment_status($deployment) }}</span>
+                        <span class="label label-{{ $deployment->css_class }}"><i class="fa fa-{{ $deployment->icon }}"></i> {{ $deployment->readable_status }}</span>
                     </td>
                     <td>
                         <div class="btn-group pull-right">

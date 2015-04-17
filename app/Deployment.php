@@ -3,11 +3,13 @@
 use Lang;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Robbo\Presenter\PresentableInterface;
+use App\Presenters\DeploymentPresenter;
 
 /**
  * Deployment model
  */
-class Deployment extends Model
+class Deployment extends Model implements PresentableInterface
 {
     use SoftDeletes;
 
@@ -167,5 +169,15 @@ class Deployment extends Model
         ];
 
         return $payload;
+    }
+
+    /**
+     * Gets the view presenter
+     * 
+     * @return DeploymentPresenter
+     */
+    public function getPresenter()
+    {
+        return new DeploymentPresenter($this);
     }
 }
