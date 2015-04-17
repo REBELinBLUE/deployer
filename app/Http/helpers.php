@@ -52,7 +52,7 @@ function command_name($command)
         return Lang::get('commands.activate');
     }
 
-    return return Lang::get('commands.purge');
+    return Lang::get('commands.purge');
 }
 
 /**
