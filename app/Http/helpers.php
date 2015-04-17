@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Finish moving this logic to view presenters
+
 use App\Command;
 
 /**
@@ -43,14 +45,14 @@ function human_readable_duration($seconds)
 function command_name($command)
 {
     if ($command === Command::DO_CLONE) {
-        return 'clone';
+        return Lang::get('commands.clone');
     } elseif ($command === Command::DO_INSTALL) {
-        return 'install';
+        return Lang::get('commands.install');
     } elseif ($command === Command::DO_ACTIVATE) {
-        return 'activate';
+        return Lang::get('commands.activate');
     }
 
-    return 'purge';
+    return return Lang::get('commands.purge');
 }
 
 /**
