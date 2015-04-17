@@ -2,9 +2,7 @@
 
 use Lang;
 use Mail;
-
 use App\Events\UserWasCreated;
-
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 

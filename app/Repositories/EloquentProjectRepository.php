@@ -1,7 +1,6 @@
 <?php namespace App\Repositories;
 
 use App\Project;
-
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 
 /**
