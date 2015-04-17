@@ -80,4 +80,31 @@ class DeploymentPresenter extends Presenter
 
         return 'aqua';
     }
+
+    /**
+     * Gets the name of the committer, or the "Loading" string if it has not yet been determined
+     * 
+     * @return string
+     */
+    public function presentCommitterName()
+    {
+        if ($this->committer === Deployment::LOADING) {
+            return Lang::get('deployments.loading');
+        }
+
+        return $this->committer;
+    }
+
+    /**
+     * Gets the short commit hash, or the "Loading" string if it has not yet been determined
+     * 
+     * @return string
+     */
+    public function presentShortCommitHash() {
+        if ($this->committer === Deployment::LOADING) {
+            return Lang::get('deployments.loading');
+        }
+
+        return $this->object->shortCommit();
+    }
 }

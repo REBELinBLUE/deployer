@@ -1,22 +1,6 @@
 <?php
 
 use App\Command;
-use App\Deployment;
-
-/**
- * Checks if the deployment commit info is currently loading
- *
- * @param  string $value The commit info to check
- * @return string Either the commit info, or the Loading string from the language
- */
-function loading_value($value)
-{
-    if ($value === Deployment::LOADING) {
-        return Lang::get('deployments.loading');
-    }
-
-    return $value;
-}
 
 /**
  * Converts a number of seconds into a more human readable format
