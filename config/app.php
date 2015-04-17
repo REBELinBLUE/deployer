@@ -139,6 +139,7 @@ return [
         'Collective\Remote\RemoteServiceProvider',
         'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
         'Creativeorange\Gravatar\GravatarServiceProvider',
+        'Robbo\Presenter\PresenterServiceProvider',
         
         /*
          * Application Service Providers...
