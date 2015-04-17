@@ -4,11 +4,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
+use Robbo\Presenter\PresentableInterface;
+use App\Presenters\ProjectPresenter;
 
 /**
  * Project model
  */
-class Project extends Model
+class Project extends Model implements PresentableInterface
 {
     use SoftDeletes;
 
@@ -194,6 +196,11 @@ class Project extends Model
         }
 
         return false;
+    }
+
+    public function getPresenter()
+    {
+        return new ProjectPresenter($this);
     }
 
     /**
