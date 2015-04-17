@@ -33,7 +33,7 @@ class ServerController extends Controller
      */
     public function store(StoreServerRequest $request)
     {
-        return Server::create($request->only(
+        $server = Server::create($request->only(
             'name',
             'user',
             'ip_address',
@@ -41,6 +41,15 @@ class ServerController extends Controller
             'project_id',
             'deploy_code'
         ));
+
+        // Add the server to the existing commands
+        if ($request->has('add_commands') && $request->add_commands === true) {
+            foreach ($server->project->commands as $command) {
+                $command->servers()->attach($server->id);
+            }
+        }
+
+        return $server;
     }
 
     /**

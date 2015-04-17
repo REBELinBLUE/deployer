@@ -15,11 +15,12 @@ class StoreServerRequest extends Request
     public function rules()
     {
         return [
-            'name'       => 'required|max:255',
-            'user'       => 'required|max:255',
-            'ip_address' => 'required|ip',
-            'path'       => 'required',
-            'project_id' => 'required|integer|exists:projects,id'
+            'name'         => 'required|max:255',
+            'user'         => 'required|max:255',
+            'ip_address'   => 'required|ip',
+            'path'         => 'required',
+            'add_commands' => 'boolean',
+            'project_id'   => 'required|integer|exists:projects,id'
         ];
     }
 }
