@@ -30,7 +30,7 @@
         <td><%- command_count %></td>
         <td>
             <div class="btn-group pull-right">
-                <button class="btn btn-default btn-edit" title="{{ Lang::get('templates.edit') }}" data-toggle="modal" data-target="#templates" data-template-id="<%- id %>"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-default btn-edit" title="{{ Lang::get('templates.edit') }}" data-toggle="modal" data-target="#template" data-template-id="<%- id %>"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>

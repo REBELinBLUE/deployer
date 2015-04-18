@@ -23,6 +23,38 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
+    $('#template button.btn-delete').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var icon = target.find('i');
+        var dialog = target.parents('.modal');
+
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-trash');
+        dialog.find('input').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+        var template = app.Templates.get($('#template_id').val());
+
+        template.destroy({
+            wait: true,
+            success: function(model, response, options) {
+                dialog.modal('hide');
+                $('.callout-danger', dialog).hide();
+
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+
+                app.Templates.remove(template);
+            },
+            error: function() {
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+            }
+        })
+    });
+
+    // FIXME: This seems very wrong
     $('#template button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');

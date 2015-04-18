@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Lang;
+use App\Template;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\TemplateRepositoryInterface;
@@ -62,5 +63,20 @@ class TemplateController extends Controller
     public function update($template_id, StoreTemplateRequest $request)
     {
         return $this->templateRepository->updateById($request->only('name'), $template_id);
+    }
+
+    /**
+     * Remove the specified template from storage.
+     *
+     * @param Template $template
+     * @return Response
+     */
+    public function destroy(Template $template)
+    {
+        $template->delete();
+
+        return [
+            'success' => true
+        ];
     }
 }
