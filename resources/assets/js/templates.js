@@ -172,7 +172,10 @@ var app = app || {};
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'destroy', this.remove);
 
-            this.template = _.template($('#template-template').html());
+            var source = $('#template-template').html();
+            source = source.replace('var_template_id', '<%- id %>');
+
+            this.template = _.template(source);
         },
         render: function () {
             var data = this.model.toJSON();
