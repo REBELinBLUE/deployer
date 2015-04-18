@@ -29,7 +29,7 @@
                     <div class="form-group" id="template-list">
                         <label for="project_template_id">{{ Lang::get('templates.type') }}</label>
                         <select id="project_template_id" name="template_id" class="form-control">
-                            <option value="">{{ Lang::get('templates.none') }}</option>
+                            <option value="">{{ Lang::get('templates.custom') }}</option>
                             @foreach($templates as $template)
                                 <option value="{{ $template->id }}">{{ $template->name }}</option>
                             @endforeach

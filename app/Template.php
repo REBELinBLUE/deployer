@@ -18,6 +18,13 @@ class Template extends Model
     protected $fillable = ['name'];
 
     /**
+     * Additional attributes to include in the JSON representation
+     *
+     * @var array
+     */
+    protected $appends = ['command_count'];
+
+    /**
      * Has many relationship
      *
      * @return Command
@@ -25,5 +32,15 @@ class Template extends Model
     public function commands()
     {
         return $this->hasMany('App\CommandTemplate');
+    }
+
+    /**
+     * Define a mutator for the count of commands
+     *
+     * @return int
+     */
+    public function getCommandCountAttribute()
+    {
+        return $this->commands()->count();
     }
 }

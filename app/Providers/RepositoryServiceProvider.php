@@ -39,5 +39,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\GroupRepositoryInterface',
             'App\Repositories\EloquentGroupRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Contracts\TemplateRepositoryInterface',
+            'App\Repositories\EloquentTemplateRepository'
+        );
     }
 }
