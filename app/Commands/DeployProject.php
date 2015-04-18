@@ -294,7 +294,7 @@ EOF'
                 sprintf('cd %s', $releases_dir),
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
                 sprintf(
-                    'git clone --branch %s --depth 1 %s %s',
+                    'git clone --branch %s --depth 1 --recursive %s %s',
                     $project->branch,
                     $project->repository,
                     $latest_release_dir
