@@ -18,18 +18,47 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(array_keys($commands) as $step)
+                <!-- FIXME: Refactor this -->
                 <tr>
-                    <td>{{ command_label($step) }}</td>
-                    <td>{{ command_list_readable($commands, $step, 'before') }}</td>
-                    <td>{{ command_list_readable($commands, $step, 'after') }}</td>
+                    <td>{{ Lang::get('commands.clone') }}</td>
+                    <td>{{ $project->before_clone }}</td>
+                    <td>{{ $project->after_clone }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route('commands', ['id' => $project->id, 'command' => command_name($step)]) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route('commands', ['id' => $project->id, 'command' => 'clone']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
-                @endforeach
+                <tr>
+                    <td>{{ Lang::get('commands.install') }}</td>
+                    <td>{{ $project->before_install }}</td>
+                    <td>{{ $project->after_install }}</td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <a href="{{ route('commands', ['id' => $project->id, 'command' => 'install']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ Lang::get('commands.activate') }}</td>
+                    <td>{{ $project->before_activate }}</td>
+                    <td>{{ $project->after_activate }}</td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <a href="{{ route('commands', ['id' => $project->id, 'command' => 'activate']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ Lang::get('commands.purge') }}</td>
+                    <td>{{ $project->before_purge }}</td>
+                    <td>{{ $project->after_purge }}</td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <a href="{{ route('commands', ['id' => $project->id, 'command' => 'purge']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

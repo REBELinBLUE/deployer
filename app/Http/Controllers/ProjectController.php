@@ -61,21 +61,6 @@ class ProjectController extends Controller
         $optional = [];
 
         foreach ($project->commands as $command) {
-            $action = $command->step - 1;
-            $when = ($command->step % 3 === 0 ? 'after' : 'before');
-            if ($when === 'before') {
-                $action = $command->step + 1;
-            }
-
-            if (!is_array($commands[$action])) {
-                $commands[$action] = [];
-            }
-
-            if (!isset($commands[$action][$when])) {
-                $commands[$action][$when] = [];
-            }
-
-            $commands[$action][$when][] = $command->name;
 
             if ($command->optional) {
                 $optional[] = $command;
