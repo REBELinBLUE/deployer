@@ -30,7 +30,7 @@
         <td><%- command_count %></td>
         <td>
             <div class="btn-group pull-right">
-                 <a href="{{ route('commandtemplates', ['id' => 'var_template_id']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                 <a href="{{ url('admin/templates/var_template_id/commands') }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
                 <button class="btn btn-default btn-edit" title="{{ Lang::get('templates.edit') }}" data-toggle="modal" data-target="#template" data-template-id="<%- id %>"><i class="fa fa-edit"></i></button>
             </div>
         </td>
