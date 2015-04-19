@@ -2,7 +2,6 @@
 
 use Lang;
 use Input;
-use App\Command;
 use App\Project;
 use App\Deployment;
 use App\Http\Requests;
@@ -51,21 +50,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project, DeploymentRepositoryInterface $deploymentRepository)
     {
-        $commands = [
-            Command::DO_CLONE    => null,
-            Command::DO_INSTALL  => null,
-            Command::DO_ACTIVATE => null,
-            Command::DO_PURGE    => null
-        ];
-
-        $optional = [];
-
-        foreach ($project->commands as $command) {
-
-            if ($command->optional) {
-                $optional[] = $command;
-            }
-        }
+        $optional = $project->commands->filter(function($command) {
+            return $command->optional;
+        });
 
         // FIXME: Make project injected in the constructor so we don't have to keep passing it
         return view('projects.details', [
@@ -76,8 +63,7 @@ class ProjectController extends Controller
             'project'       => $project,
             'servers'       => $project->servers,
             'notifications' => $project->notifications,
-            'commands'      => $commands,
-            'optional'      => $optional // FIXME: Is there a cleaner way to do this?
+            'optional'      => $optional
         ]);
     }
 

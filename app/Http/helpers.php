@@ -1,14 +1,12 @@
 <?php
 
-// TODO: Finish moving this logic to view presenters
-
-use App\Command;
-
 /**
  * Converts a number of seconds into a more human readable format
  *
  * @param int $seconds The number of seconds
  * @return string
+ * @todo Remove this and move to a view presenter
+ * @todo Translate
  */
 function human_readable_duration($seconds)
 {
