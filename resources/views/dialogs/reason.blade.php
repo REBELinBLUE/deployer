@@ -9,6 +9,40 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <div class="modal-body">
+
+                    <div class="callout callout-danger">
+                        <i class="icon fa fa-warning"></i> {{ Lang::get('deployments.warning') }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deployment_source">{{ Lang::get('deployments.source') }}</label>
+                        <ul class="list-unstyled">
+                            <li>
+                                <div class="checkbox">
+                                    <label for="deployment_source_default">
+                                        <input type="radio" class="deployment-source" name="source" id="deployment_source_default" value="{{ $project->branch }}" checked /> {{ Lang::get('deployments.default', [ 'branch' => $project->branch ]) }}
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <label for="deployment_source_branch">
+                                        <input type="radio" class="deployment-source" name="source" id="deployment_source_branch" value="branch" /> {{ Lang::get('deployments.branch') }}
+                                        <input type="text" class="form-control deployment-source" name="source_branch" id="deployment_branch" placeholder="master" />
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <label for="deployment_source_tag">
+                                        <input type="radio" class="deployment-source" name="source" id="deployment_source_tag" value="tag" /> {{ Lang::get('deployments.tag') }}
+                                        <input type="text" class="form-control deployment-source" name="source_tag" id="deployment_tag" placeholder="1.0.0" />
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr />
                     <div class="form-group">
                         <label for="deployment_reason">{{ Lang::get('deployments.describe_reason') }}</label>
                         <textarea rows="10" id="deployment_reason" class="form-control" name="reason" placeholder="For example, Allows users to reset their password"></textarea>

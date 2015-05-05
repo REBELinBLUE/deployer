@@ -29,6 +29,11 @@ return [
     'cancelled'       => 'Cancelled',
     'loading'         => 'Loading',
     'reason'          => 'Reason for deployment',
+    'source'          => 'Source',
+    'default'         => 'Default branch (:branch)',
+    'branch'          => 'A different branch',
+    'tag'             => 'A tag',
+    'warning'         => 'The deployment could not be started, please make sure you have entered all required values.',
     'describe_reason' => 'Please describe briefly the reason for this deployment',
     'optional'        => 'Select the optional deploy steps to run'
 

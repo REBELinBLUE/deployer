@@ -55,3 +55,7 @@ body.dragging * {
 span.label i.fa {
     margin-right: 2px;
 }
+
+input[type=text].deployment-source {
+    display: none;
+}

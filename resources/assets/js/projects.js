@@ -1,11 +1,39 @@
 var app = app || {};
 
 (function ($) {
+    $('.deployment-source:radio').on('change', function (event) {
+        var target = $(event.currentTarget);
 
-    $('#reason button').on('click', function (event) {
+        $('input[type=text].deployment-source').hide();
+        if (target.val() === 'branch') {
+            $('#deployment_branch').show();
+        } else if (target.val() === 'tag') {
+            $('#deployment_tag').show();
+        }
+    });
+
+    $('#reason').on('show.bs.modal', function (event) {
+        var modal = $(this);
+        $('.callout-danger', modal).hide();
+    });
+
+    $('#reason button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
+        var source = $('input[name=source]:checked').val();
+
+        $('.has-error', source).removeClass('has-error');
+
+        if (source === 'branch' || source === 'tag') {
+            if ($('#deployment_' + source).val() === '') {
+                $('#deployment_' + source).parentsUntil('div').addClass('has-error');
+
+                $('.callout-danger', dialog).show();
+                event.stopPropagation();
+                return;
+            }
+        }
 
         icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
         $('button.close', dialog).hide();
