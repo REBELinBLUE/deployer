@@ -37,6 +37,7 @@ class ServerController extends Controller
             'name',
             'user',
             'ip_address',
+            'port',
             'path',
             'project_id',
             'deploy_code'
@@ -57,6 +58,7 @@ class ServerController extends Controller
             'name',
             'user',
             'ip_address',
+            'port',
             'path',
             'project_id',
             'deploy_code'

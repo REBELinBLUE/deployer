@@ -98,7 +98,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
     private function configureServers()
     {
         foreach ($this->deployment->project->servers as $server) {
-            Config::set('remote.connections.server' . $server->id . '.host', $server->ip_address);
+            Config::set('remote.connections.server' . $server->id . '.host', $server->ip_address . ':' . $server->port);
             Config::set('remote.connections.server' . $server->id . '.username', $server->user);
             Config::set('remote.connections.server' . $server->id . '.password', '');
             Config::set('remote.connections.server' . $server->id . '.key', $this->private_key);
@@ -215,6 +215,7 @@ CMD;
                          -o StrictHostKeyChecking=no \
                          -o PasswordAuthentication=no \
                          -o IdentityFile=' . $this->private_key . ' \
+                         -p ' . $server->port . ' \
                          ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
                          '.$script.'
 EOF'

@@ -23,6 +23,7 @@ var app = app || {};
             $('#server_id').val('');
             $('#server_name').val('');
             $('#server_address').val('');
+            $('#server_port').val('22');
             $('#server_user').val('');
             $('#server_path').val('');
             $('#server_deploy_code').prop('checked', true);
@@ -84,6 +85,7 @@ var app = app || {};
         server.save({
             name:        $('#server_name').val(),
             ip_address:  $('#server_address').val(),
+            port:        $('#server_port').val(),
             user:        $('#server_user').val(),
             path:        $('#server_path').val(),
             deploy_code: $('#server_deploy_code').is(':checked'),
@@ -257,6 +259,7 @@ var app = app || {};
             $('#server_id').val(this.model.id);
             $('#server_name').val(this.model.get('name'));
             $('#server_address').val(this.model.get('ip_address'));
+            $('#server_port').val(this.model.get('port'));
             $('#server_user').val(this.model.get('user'));
             $('#server_path').val(this.model.get('path'));
 
