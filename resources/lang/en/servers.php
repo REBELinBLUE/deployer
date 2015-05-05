@@ -9,6 +9,7 @@ return [
     'name'               => 'Name',
     'connect_as'         => 'Connect As',
     'ip_address'         => 'IP Address',
+    'port'               => 'Port',
     'status'             => 'Connection Status',
     'test'               => 'Test the server connection',
     'path'               => 'Project Path',

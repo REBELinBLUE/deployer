@@ -42,17 +42,12 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
         $key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($key, $this->server->project->private_key);
 
-        Config::set('remote.connections.runtime.host', $this->server->ip_address);
+        Config::set('remote.connections.runtime.host', $this->server->ip_address . ':' . $this->server->port);
         Config::set('remote.connections.runtime.username', $this->server->user);
         Config::set('remote.connections.runtime.password', '');
         Config::set('remote.connections.runtime.key', $key);
         Config::set('remote.connections.runtime.keyphrase', '');
         Config::set('remote.connections.runtime.root', $this->server->path);
-
-        //echo sprintf('Connecting to server #%s %s (%s)',
-        //             $this->server->id,
-        //             $this->server->name,
-        //             $this->server->ip_address) . PHP_EOL;
 
         try {
             SSH::into('runtime')->run([

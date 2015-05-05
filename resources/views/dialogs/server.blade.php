@@ -27,6 +27,10 @@
                         <input type="text" class="form-control" id="server_address" name="ip_address" placeholder="192.168.0.1" />
                     </div>
                     <div class="form-group">
+                        <label for="server_port">{{ Lang::get('servers.port') }}</label>
+                        <input type="number" class="form-control" id="server_port" name="port" placeholder="22" value="22" />
+                    </div>
+                    <div class="form-group">
                         <label for="server_path">{{ Lang::get('servers.path') }}</label>
                         <input type="text" class="form-control" id="server_path" name="path" placeholder="/var/www/project" />
                     </div>
