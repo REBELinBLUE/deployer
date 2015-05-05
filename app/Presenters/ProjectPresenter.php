@@ -76,7 +76,7 @@ class ProjectPresenter extends Presenter
 
     /**
      * Gets the readable list of before clone commands
-     * 
+     *
      * @return string
      * @see self::commandNames()
      */
@@ -87,7 +87,7 @@ class ProjectPresenter extends Presenter
 
     /**
      * Gets the readable list of after clone commands
-     * 
+     *
      * @return string
      * @see self::commandNames()
      */
@@ -98,7 +98,7 @@ class ProjectPresenter extends Presenter
 
     /**
      * Gets the readable list of before install commands
-     * 
+     *
      * @return string
      * @see self::commandNames()
      */
@@ -109,7 +109,7 @@ class ProjectPresenter extends Presenter
 
     /**
      * Gets the readable list of after install commands
-     * 
+     *
      * @return string
      * @see self::commandNames()
      */
@@ -120,7 +120,7 @@ class ProjectPresenter extends Presenter
 
     /**
      * Gets the readable list of before activate commands
-     * 
+     *
      * @return string
      * @see self::commandNames()
      */
@@ -131,7 +131,7 @@ class ProjectPresenter extends Presenter
 
     /**
      * Gets the readable list of after activate commands
-     * 
+     *
      * @return string
      * @see self::commandNames()
      */
@@ -142,7 +142,7 @@ class ProjectPresenter extends Presenter
 
     /**
      * Gets the readable list of before purge commands
-     * 
+     *
      * @return string
      * @see self::commandNames()
      */
@@ -153,7 +153,7 @@ class ProjectPresenter extends Presenter
 
     /**
      * Gets the readable list of after purge commands
-     * 
+     *
      * @return string
      * @see self::commandNames()
      */
@@ -168,11 +168,11 @@ class ProjectPresenter extends Presenter
      * @param int $stage
      * @return string
      */
-    private function commandNames($stage) {
+    private function commandNames($stage)
+    {
         $commands = [];
 
-        foreach ($this->object->commands as $command)
-        {
+        foreach ($this->object->commands as $command) {
             if ($command->step === $stage) {
                 $commands[] = $command->name;
             }
@@ -184,5 +184,4 @@ class ProjectPresenter extends Presenter
 
         return Lang::get('app.none');
     }
-
 }

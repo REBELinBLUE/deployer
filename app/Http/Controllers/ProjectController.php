@@ -50,7 +50,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project, DeploymentRepositoryInterface $deploymentRepository)
     {
-        $optional = $project->commands->filter(function($command) {
+        $optional = $project->commands->filter(function ($command) {
             return $command->optional;
         });
 
