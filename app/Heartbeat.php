@@ -27,6 +27,13 @@ class Heartbeat extends Model
     protected $fillable = ['name', 'interval', 'project_id'];
 
     /**
+     * The fields which should be tried as Carbon instances
+     *
+     * @var array
+     */
+    protected $dates = ['last_activity'];
+
+    /**
      * Additional attributes to include in the JSON representation
      *
      * @var array
