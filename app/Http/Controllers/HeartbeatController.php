@@ -9,6 +9,12 @@ use App\Http\Requests\StoreHeartbeatRequest;
  */
 class HeartbeatController extends Controller
 {
+    /**
+     * Handles the callback URL for the heartbeat
+     *
+     * @param string $hash The webhook hash
+     * @return Response
+     */
     public function ping($hash)
     {
         $heartbeat = Heartbeat::where('hash', $hash)

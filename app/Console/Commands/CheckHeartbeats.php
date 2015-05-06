@@ -37,8 +37,7 @@ class CheckHeartbeats extends Command
         $heartbeats = Heartbeat::where('status', Heartbeat::OK)
                                ->get();
 
-        foreach ($heartbeats as $heartbeat)
-        {
+        foreach ($heartbeats as $heartbeat) {
             $last_heard_from = $heartbeat->last_activity;
             if ($heartbeat->status === Heartbeat::UNTESTED) {
                 $last_heard_from = $heartbeat->created_at;

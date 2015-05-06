@@ -104,7 +104,7 @@ class Heartbeat extends Model
 
     /**
      * Updates the last_activity timestamp
-     * 
+     *
      * @return boolean
      */
     public function pinged()
