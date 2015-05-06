@@ -35,7 +35,7 @@
     <td><%- ip_address %></td>
     <td><%- port %></td>
     <td>
-         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i>&nbsp;<%- status %></span>
+         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <%- status %></span>
     </td>
     <td>
         <div class="btn-group pull-right">

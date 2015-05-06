@@ -63,6 +63,7 @@ class ProjectController extends Controller
             'project'       => $project,
             'servers'       => $project->servers,
             'notifications' => $project->notifications,
+            'heartbeats'    => $project->heartbeats,
             'optional'      => $optional
         ]);
     }

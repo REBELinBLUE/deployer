@@ -59,6 +59,7 @@
                     <li><a href="#servers" data-toggle="tab"><span class="fa fa-tasks"></span> {{ Lang::get('servers.label') }}</a></li>
                     <li><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ Lang::get('commands.label') }}</a></li>
                     <li><a href="#notifications" data-toggle="tab"><span class="fa fa-bullhorn"></span> {{ Lang::get('notifications.label') }}</a></li>
+                    <li><a href="#heartbeats" data-toggle="tab"><span class="fa fa-heart"></span> {{ Lang::get('heartbeats.label') }}</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="deployments">
@@ -73,12 +74,16 @@
                     <div class="tab-pane" id="notifications">
                         @include('projects._partials.notifications')
                     </div>
+                    <div class="tab-pane" id="heartbeats">
+                        @include('projects._partials.heartbeats')
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     @include('dialogs.server')
+    @include('dialogs.heartbeat')
     @include('dialogs.key')
     @include('dialogs.channel')
     @include('dialogs.reason')
@@ -88,9 +93,11 @@
     <script type="text/javascript">
         new app.ServersTab();
         new app.NotificationsTab();
+        new app.HeartbeatsTab();
 
         app.Servers.add({!! $servers->toJson() !!});
         app.Notifications.add({!! $notifications->toJson() !!});
+        app.Heartbeats.add({!! $heartbeats->toJson() !!});
     </script>
 @stop
 
