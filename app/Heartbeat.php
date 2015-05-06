@@ -8,9 +8,9 @@ class Heartbeat extends Model
 {
     use SoftDeletes;
 
-    const OK         = 0;
-    const UNTESTED   = 1;
-    const MISSING    = 2;
+    const OK       = 0;
+    const UNTESTED = 1;
+    const MISSING  = 2;
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -25,6 +25,13 @@ class Heartbeat extends Model
      * @var array
      */
     protected $fillable = ['name', 'interval', 'project_id'];
+
+    /**
+     * Additional attributes to include in the JSON representation
+     *
+     * @var array
+     */
+    protected $appends = ['callback_url'];
 
     /**
      * The attributes that should be casted to native types.
@@ -70,6 +77,30 @@ class Heartbeat extends Model
      */
     public function generateHash()
     {
-        $this->attributes['hash'] = Str::random(60);
+        $this->attributes['hash'] = Str::quickRandom(30);
+    }
+
+    /**
+     * Define a mutator for the callback URL
+     *
+     * @return string
+     * @todo  Shouldn't this be a presenter?
+     */
+    public function getCallbackUrlAttribute()
+    {
+        return route('heartbeat', $this->hash);
+    }
+
+    /**
+     * Updates the last_activity timestamp
+     * 
+     * @return boolean
+     */
+    public function pinged()
+    {
+        $this->status        = self::OK;
+        $this->last_activity = $this->freshTimestamp();
+
+        return $this->save();
     }
 }

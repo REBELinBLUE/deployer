@@ -8,8 +8,11 @@ return [
     'url'           => 'Webhook URL',
     'none'          => 'The project does not currently have any heartbeats setup',
     'name'          => 'Name',
-    'status'        => 'Heartbeat Status',
+    'status'        => 'Status',
     'interval'      => 'Frequency',
-    'last_check_in' => 'Last Check-In'
+    'last_check_in' => 'Last Check-In',
+    'ok'            => 'Healthy',
+    'untested'      => 'Untested',
+    'missing'       => 'Failed'
 
 ];

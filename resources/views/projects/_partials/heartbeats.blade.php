@@ -30,12 +30,18 @@
 </div>
 
 <script type="text/template" id="heartbeat-template">
-    <td>%- name %</td>
-    <td>%- url %</td>
-    <td>%- interval %</td>
-    <td>%- checkin %</td>
+    <td><%- name %></td>
+    <td><%- callback_url %></td>
+    <td><%- interval %></td>
     <td>
-         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> %- status %</span>
+        <% if (has_run) { %>
+            <%- last_activity %>
+        <% } else { %>
+            {{ Lang::get('app.never') }}
+        <% } %>
+    </td>
+    <td>
+         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <%- status %></span>
     </td>
     <td>
         <div class="btn-group pull-right">
@@ -45,13 +51,13 @@
 </script>
 
 <script type="text/javascript">
-    // Lang.status = {
-    //     successful: '{{ Lang::get('servers.successful') }}',
-    //     testing: '{{ Lang::get('servers.testing') }}',
-    //     failed: '{{ Lang::get('servers.failed') }}',
-    //     untested: '{{ Lang::get('servers.untested') }}'
-    // };
-
-    Lang.create = '{{ Lang::get('heartbeats.create') }}';
-    Lang.edit = '{{ Lang::get('heartbeats.edit') }}';
+    Lang.heartbeats = {
+        status: {
+            ok: '{{ Lang::get('heartbeats.ok') }}',
+            untested: '{{ Lang::get('heartbeats.untested') }}',
+            missing: '{{ Lang::get('heartbeats.missing') }}'
+        },
+        create: '{{ Lang::get('heartbeats.create') }}',
+        edit: '{{ Lang::get('heartbeats.edit') }}'
+    };
 </script>

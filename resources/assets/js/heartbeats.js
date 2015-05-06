@@ -9,14 +9,14 @@ var app = app || {};
     $('#heartbeat').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.create;
+        var title = Lang.heartbeats.create;
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.edit;
+            title = Lang.heartbeats.edit;
             $('.btn-danger', modal).show();
         } else {
             $('#heartbeat_id').val('');
@@ -26,10 +26,8 @@ var app = app || {};
         modal.find('.modal-title span').text(title);
     });
 
-
-    /*
     // FIXME: This seems very wrong
-    $('#server button.btn-delete').on('click', function (event) {
+    $('#heartbeat button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -38,9 +36,9 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var server = app.Servers.get($('#server_id').val());
+        var heartbeat = app.Heartbeats.get($('#heartbeat_id').val());
 
-        server.destroy({
+        heartbeat.destroy({
             wait: true,
             success: function(model, response, options) {
                 dialog.modal('hide');
@@ -50,7 +48,7 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
 
-                app.Servers.remove(server);
+                app.Heartbeats.remove(heartbeat);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -61,7 +59,7 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#server button.btn-save').on('click', function (event) {
+    $('#heartbeat button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -70,21 +68,17 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var server_id = $('#server_id').val();
+        var heartbeat_id = $('#heartbeat_id').val();
 
-        if (server_id) {
-            var server = app.Servers.get(server_id);
+        if (heartbeat_id) {
+            var heartbeat = app.Heartbeats.get(heartbeat_id);
         } else {
-            var server = new app.Server();
+            var heartbeat = new app.Heartbeat();
         }
 
-        server.save({
-            name:        $('#server_name').val(),
-            ip_address:  $('#server_address').val(),
-            port:        $('#server_port').val(),
-            user:        $('#server_user').val(),
-            path:        $('#server_path').val(),
-            deploy_code: $('#server_deploy_code').is(':checked'),
+        heartbeat.save({
+            name:        $('#heartbeat_name').val(),
+            interval:    30,
             project_id:  $('input[name="project_id"]').val()
         }, {
             wait: true,
@@ -96,8 +90,8 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
 
-                if (!server_id) {
-                    app.Servers.add(response);
+                if (!heartbeat_id) {
+                    app.Heartbeats.add(response);
                 }
             },
             error: function(model, response, options) {
@@ -121,7 +115,6 @@ var app = app || {};
             }
         });
     });
-    */
 
     app.Heartbeat = Backbone.Model.extend({
         urlRoot: '/heartbeats',
@@ -197,21 +190,20 @@ var app = app || {};
 
             data.status_css = 'primary';
             data.icon_css   = 'question';
-            data.status     = Lang.status.untested;
+            data.status     = Lang.heartbeats.status.untested;
+            data.has_run    = false;
 
-            // if (parseInt(this.model.get('status')) === SUCCESSFUL) {
-            //     data.status_css = 'success';
-            //     data.icon_css   = 'check';
-            //     data.status     = Lang.status.successful;
-            // } else if (parseInt(this.model.get('status')) === TESTING) {
-            //     data.status_css = 'warning';
-            //     data.icon_css   = 'spinner';
-            //     data.status     = Lang.status.testing;
-            // } else if (parseInt(this.model.get('status')) === FAILED) {
-            //     data.status_css = 'danger';
-            //     data.icon_css   = 'warning';
-            //     data.status     = Lang.status.failed;
-            // }
+            if (parseInt(this.model.get('status')) === OK) {
+                data.status_css = 'success';
+                data.icon_css   = 'check';
+                data.status     = Lang.heartbeats.status.ok;
+                data.has_run    = true;
+            } else if (parseInt(this.model.get('status')) === MISSING) {
+                data.status_css = 'danger';
+                data.icon_css   = 'warning';
+                data.status     = Lang.heartbeats.status.missing;
+                data.has_run    = data.last_run ? true : false;
+            }
 
             this.$el.html(this.template(data));
 

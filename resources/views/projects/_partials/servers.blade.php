@@ -51,13 +51,14 @@
 </script>
 
 <script type="text/javascript">
-    Lang.status = {
-        successful: '{{ Lang::get('servers.successful') }}',
-        testing: '{{ Lang::get('servers.testing') }}',
-        failed: '{{ Lang::get('servers.failed') }}',
-        untested: '{{ Lang::get('servers.untested') }}'
+    Lang.servers = {
+        status: {
+            successful: '{{ Lang::get('servers.successful') }}',
+            testing: '{{ Lang::get('servers.testing') }}',
+            failed: '{{ Lang::get('servers.failed') }}',
+            untested: '{{ Lang::get('servers.untested') }}'
+        },
+        create: '{{ Lang::get('servers.create') }}',
+        edit: '{{ Lang::get('servers.edit') }}'
     };
-
-    Lang.create = '{{ Lang::get('servers.create') }}';
-    Lang.edit = '{{ Lang::get('servers.edit') }}';
 </script>
