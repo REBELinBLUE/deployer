@@ -1,7 +1,9 @@
 <?php namespace App\Console\Commands;
 
+use Queue;
 use Carbon\Carbon;
 use App\Heartbeat;
+use App\Commands\Notify;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -32,7 +34,8 @@ class CheckHeartbeats extends Command
      */
     public function fire()
     {
-        $heartbeats = Heartbeat::where('status', '=', Heartbeat::OK);
+        $heartbeats = Heartbeat::where('status', Heartbeat::OK)
+                               ->get();
 
         foreach ($heartbeats as $heartbeat)
         {
@@ -46,6 +49,10 @@ class CheckHeartbeats extends Command
             if (Carbon::now()->gt($next_time)) {
                 $heartbeat->status = Heartbeat::MISSING;
                 $heartbeat->save();
+
+                foreach ($heartbeat->project->notifications as $notification) {
+                    Queue::pushOn('notify', new Notify($notification, $heartbeat->notificationPayload()));
+                }
             }
         }
     }

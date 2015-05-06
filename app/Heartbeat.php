@@ -1,9 +1,13 @@
 <?php namespace App;
 
+use Lang;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
+/**
+ * Heartbeat model
+ */
 class Heartbeat extends Model
 {
     use SoftDeletes;
@@ -109,5 +113,38 @@ class Heartbeat extends Model
         $this->last_activity = $this->freshTimestamp();
 
         return $this->save();
+    }
+
+    /**
+     * Generates a slack payload for the heartbeat failuyre
+     *
+     * @return array
+     */
+    public function notificationPayload()
+    {
+        $message = 'We have not heard from JOB in a while!'; //Lang::get('notifications.failed_message');
+
+        $payload = [
+            'attachments' => [
+                [
+                    'fallback' => $message,
+                    'text'     => $message,
+                    'color'    => 'danger',
+                    'fields'   => [
+                        [
+                            'title' => Lang::get('notifications.project'),
+                            'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
+                            'short' => true
+                        ], [
+                            'title' => Lang::get('heartbeats.checkin'),
+                            'value' => '10',
+                            'short' => true
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        return $payload;
     }
 }
