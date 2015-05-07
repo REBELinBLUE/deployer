@@ -20,6 +20,7 @@ class CreateHeartbeatsTable extends Migration
             $table->string('hash')->unique();
             $table->integer('interval');
             $table->unsignedInteger('project_id');
+            $table->unsignedInteger('missed')->default(0);
             $table->enum('status', [Heartbeat::OK, Heartbeat::UNTESTED,
                                     Heartbeat::MISSING])->default(Heartbeat::UNTESTED);
             $table->dateTime('last_activity')->nullable()->default(null);

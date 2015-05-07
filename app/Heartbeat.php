@@ -111,6 +111,7 @@ class Heartbeat extends Model
     public function pinged()
     {
         $this->status        = self::OK;
+        $this->missed        = 0;
         $this->last_activity = $this->freshTimestamp();
 
         return $this->save();

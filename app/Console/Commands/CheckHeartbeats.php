@@ -34,8 +34,7 @@ class CheckHeartbeats extends Command
      */
     public function fire()
     {
-        $heartbeats = Heartbeat::where('status', '!=', Heartbeat::MISSING)
-                               ->get();
+        $heartbeats = Heartbeat::all();
 
         foreach ($heartbeats as $heartbeat) {
             $last_heard_from = $heartbeat->last_activity;
@@ -43,10 +42,13 @@ class CheckHeartbeats extends Command
                 $last_heard_from = $heartbeat->created_at;
             }
 
-            $next_time = $last_heard_from->addMinutes($heartbeat->interval);
+            $missed = $heartbeat->missed + 1;
+
+            $next_time = $last_heard_from->addMinutes($heartbeat->interval * $missed);
 
             if (Carbon::now()->gt($next_time)) {
                 $heartbeat->status = Heartbeat::MISSING;
+                $heartbeat->missed = $missed;
                 $heartbeat->save();
 
                 foreach ($heartbeat->project->notifications as $notification) {
