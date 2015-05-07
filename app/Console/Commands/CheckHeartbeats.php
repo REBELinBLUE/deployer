@@ -34,7 +34,7 @@ class CheckHeartbeats extends Command
      */
     public function fire()
     {
-        $heartbeats = Heartbeat::where('status', Heartbeat::OK)
+        $heartbeats = Heartbeat::where('status', '!=', Heartbeat::MISSING)
                                ->get();
 
         foreach ($heartbeats as $heartbeat) {

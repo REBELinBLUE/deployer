@@ -1,6 +1,7 @@
 <?php namespace App;
 
 use Lang;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -122,7 +123,14 @@ class Heartbeat extends Model
      */
     public function notificationPayload()
     {
-        $message = 'We have not heard from JOB in a while!'; //Lang::get('notifications.failed_message');
+        $message = Lang::get('heartbeats.message', [ 'job' => $this->name ]);
+
+        if (is_null($this->last_activity)) {
+            $heard_from = Lang::get('app.never');
+        }
+        else {
+            $heard_from = $this->last_activity->diffForHumans();
+        }
 
         $payload = [
             'attachments' => [
@@ -136,8 +144,8 @@ class Heartbeat extends Model
                             'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
                             'short' => true
                         ], [
-                            'title' => Lang::get('heartbeats.checkin'),
-                            'value' => '10',
+                            'title' => Lang::get('heartbeats.last_check_in'),
+                            'value' => $heard_from,
                             'short' => true
                         ]
                     ]

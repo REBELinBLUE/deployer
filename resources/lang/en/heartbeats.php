@@ -13,6 +13,7 @@ return [
     'last_check_in' => 'Last Check-In',
     'ok'            => 'Healthy',
     'untested'      => 'Untested',
-    'missing'       => 'Failed'
+    'missing'       => 'Failed',
+    'message'       => ':job failed to check in at the expected time!'
 
 ];

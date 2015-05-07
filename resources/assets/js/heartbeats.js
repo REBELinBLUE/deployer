@@ -202,7 +202,7 @@ var app = app || {};
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.heartbeats.status.missing;
-                data.has_run    = data.last_run ? true : false;
+                data.has_run    = data.last_activity ? true : false;
             }
 
             this.$el.html(this.template(data));
