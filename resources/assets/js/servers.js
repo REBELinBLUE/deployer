@@ -10,14 +10,14 @@ var app = app || {};
     $('#server').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.create;
+        var title = Lang.servers.create;
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.edit;
+            title = Lang.servers.edit;
             $('.btn-danger', modal).show();
         } else {
             $('#server_id').val('');
@@ -234,20 +234,20 @@ var app = app || {};
 
             data.status_css = 'primary';
             data.icon_css   = 'question';
-            data.status     = Lang.status.untested;
+            data.status     = Lang.servers.status.untested;
 
             if (parseInt(this.model.get('status')) === SUCCESSFUL) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
-                data.status     = Lang.status.successful;
+                data.status     = Lang.servers.status.successful;
             } else if (parseInt(this.model.get('status')) === TESTING) {
                 data.status_css = 'warning';
                 data.icon_css   = 'spinner';
-                data.status     = Lang.status.testing;
+                data.status     = Lang.servers.status.testing;
             } else if (parseInt(this.model.get('status')) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
-                data.status     = Lang.status.failed;
+                data.status     = Lang.servers.status.failed;
             }
 
             this.$el.html(this.template(data));

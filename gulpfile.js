@@ -16,6 +16,7 @@ var paths = {
     'backbone'        : bower_path + '/backbone',
     'backbone_poller' : bower_path + '/backbone-poller',
     'underscore'      : bower_path + '/underscore',
+    'moment'          : bower_path + '/moment',
     'jquery'          : bower_path + '/jquery',
     'jquery_sortable' : bower_path + '/jquery-sortable',
     'bootstrap'       : bower_path + '/bootstrap-sass-official/assets',
@@ -40,6 +41,7 @@ elixir(function(mix) {
         paths.jquery          + '/dist/jquery.js',
         paths.jquery_sortable + '/source/js/jquery-sortable.js',
         paths.underscore      + '/underscore.js',
+        paths.moment          + '/moment.js',
         paths.bootstrap       + '/javascripts/bootstrap.js',
         paths.backbone        + '/backbone.js',
         paths.backbone_poller + '/backbone.poller.js'
@@ -48,6 +50,7 @@ elixir(function(mix) {
         'app.js',
         'projects.js',
         'servers.js',
+        'heartbeats.js',
         'notifications.js',
         'deployment.js',
         'commands.js',

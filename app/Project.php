@@ -106,6 +106,16 @@ class Project extends Model implements PresentableInterface
     /**
      * Has many relationship
      *
+     * @return Heartbeat
+     */
+    public function heartbeats()
+    {
+        return $this->hasMany('App\Heartbeat')->orderBy('name');
+    }
+
+    /**
+     * Has many relationship
+     *
      * @return Notification
      */
     public function notifications()

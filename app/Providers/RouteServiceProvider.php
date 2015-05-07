@@ -33,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('commands', 'App\Command');
         $router->model('deployments', 'App\Deployment');
         $router->model('notifications', 'App\Notification');
+        $router->model('heartbeats', 'App\Heartbeat');
         $router->model('projects', 'App\Project');
         $router->model('servers', 'App\Server');
         $router->model('log', 'App\ServerLog');

@@ -37,8 +37,7 @@ class NotificationController extends Controller
         $notification->update($request->only(
             'name',
             'channel',
-            'webhook',
-            'project_id'
+            'webhook'
         ));
 
         return $notification;
