@@ -21,6 +21,7 @@ var app = app || {};
         } else {
             $('#heartbeat_id').val('');
             $('#heartbeat_name').val('');
+            $('#heartbeat_interval_30').prop('checked', true);
         }
 
         modal.find('.modal-title span').text(title);
@@ -78,7 +79,7 @@ var app = app || {};
 
         heartbeat.save({
             name:        $('#heartbeat_name').val(),
-            interval:    30,
+            interval:    parseInt($('input[name=interval]:checked').val()),
             project_id:  $('input[name="project_id"]').val()
         }, {
             wait: true,
@@ -205,6 +206,13 @@ var app = app || {};
                 data.has_run    = data.last_activity ? true : false;
             }
 
+            data.interval_label = Lang.heartbeats.intervals[data.interval];
+
+            data.formatted_date = '';
+            if (data.has_run) {
+                data.formatted_date = moment(data.last_activity).format('Do MMM YYYY h:mm:ss A');
+            }
+
             this.$el.html(this.template(data));
 
             return this;
@@ -213,6 +221,7 @@ var app = app || {};
             // FIXME: Sure this is wrong?
             $('#heartbeat_id').val(this.model.id);
             $('#heartbeat_name').val(this.model.get('name'));
+            $('#heartbeat_interval_' + this.model.get('interval')).prop('checked', true);
         }
     });
 })(jQuery);

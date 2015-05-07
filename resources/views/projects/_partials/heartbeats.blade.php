@@ -32,10 +32,10 @@
 <script type="text/template" id="heartbeat-template">
     <td><%- name %></td>
     <td><%- callback_url %></td>
-    <td><%- interval %></td>
+    <td><%- interval_label %></td>
     <td>
         <% if (has_run) { %>
-            <%- last_activity %>
+            <%- formatted_date %>
         <% } else { %>
             {{ Lang::get('app.never') }}
         <% } %>
@@ -56,6 +56,15 @@
             ok: '{{ Lang::get('heartbeats.ok') }}',
             untested: '{{ Lang::get('heartbeats.untested') }}',
             missing: '{{ Lang::get('heartbeats.missing') }}'
+        },
+        intervals: {
+            10: '{{ Lang::get('heartbeats.interval_10') }}',
+            30: '{{ Lang::get('heartbeats.interval_30') }}',
+            60: '{{ Lang::get('heartbeats.interval_60') }}',
+            120: '{{ Lang::get('heartbeats.interval_120') }}',
+            720: '{{ Lang::get('heartbeats.interval_720') }}',
+            1440: '{{ Lang::get('heartbeats.interval_1440') }}',
+            10080: '{{ Lang::get('heartbeats.interval_10080') }}'
         },
         create: '{{ Lang::get('heartbeats.create') }}',
         edit: '{{ Lang::get('heartbeats.edit') }}'
