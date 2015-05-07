@@ -16,6 +16,7 @@ class StoreHeartbeatRequest extends Request
     {
         return [
             'name'       => 'required|max:255',
+            'interval'   => 'required|integer',
             'project_id' => 'required|integer|exists:projects,id'
         ];
     }
