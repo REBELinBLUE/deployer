@@ -12,8 +12,8 @@ return [
     'interval'      => 'Frequency',
     'last_check_in' => 'Last Check-In',
     'ok'            => 'Healthy',
-    'untested'      => 'Untested',
-    'missing'       => 'Failed',
+    'untested'      => 'Waiting for Heartbeat',
+    'missing'       => 'Missing in Action',
     'message'       => ':job failed to check in at the expected time!'
 
 ];
