@@ -17,7 +17,7 @@ class CreateHeartbeatsTable extends Migration
         Schema::create('heartbeats', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('hash');
+            $table->string('hash')->unique();
             $table->integer('interval');
             $table->unsignedInteger('project_id');
             $table->enum('status', [Heartbeat::OK, Heartbeat::UNTESTED,
