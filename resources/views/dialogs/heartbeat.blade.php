@@ -18,6 +18,22 @@
                         <label for="heartbeat_name">{{ Lang::get('heartbeats.name') }}</label>
                         <input type="text" class="form-control" id="heartbeat_name" name="name" placeholder="My Cronjob" />
                     </div>
+
+                    <div class="form-group">
+                        <label for="heartbeat_interval">{{ Lang::get('heartbeats.interval') }}</label>
+                        <ul class="list-unstyled">
+
+                            @foreach ([10, 30, 60, 120, 720, 1440, 10080] as $time)
+                            <li>
+                                <div class="checkbox">
+                                    <label for="heartbeat_interval_{{ $time }}">
+                                        <input type="radio" class="heartbeat-interval" name="interval" id="heartbeat_interval_{{ $time }}" value="{{ $time }}" /> {{ Lang::get('heartbeats.interval_' . $time) }}
+                                    </label>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> {{ Lang::get('app.delete') }}</button>
