@@ -128,8 +128,7 @@ class Heartbeat extends Model
 
         if (is_null($this->last_activity)) {
             $heard_from = Lang::get('app.never');
-        }
-        else {
+        } else {
             $heard_from = $this->last_activity->diffForHumans();
         }
 
