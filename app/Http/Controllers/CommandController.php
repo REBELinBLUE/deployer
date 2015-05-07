@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Lang;
 use Input;
 use App\Project;
 use App\Command;
