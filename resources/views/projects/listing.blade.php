@@ -33,7 +33,13 @@
         <td><%- group_name %></td>
         <td><%- repository %></td>
         <td><span class="label label-default"><%- branch %></span></td>
-        <td><%- deploy %></td>
+        <td>
+            <% if (deploy) { %>
+                <%- deploy %>
+            <% } else { %>
+                {{ Lang::get('app.never') }}
+            <% } %>
+        </td>
         <td>
             <div class="btn-group pull-right">
                 <button class="btn btn-default btn-edit" title="{{ Lang::get('app.edit') }}" data-toggle="modal" data-target="#project"><i class="fa fa-edit"></i></button>

@@ -195,7 +195,11 @@ var app = app || {};
             this.template = _.template($('#project-template').html());
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var data = this.model.toJSON();
+
+            data.deploy = data.last_run ? moment(data.last_run).format('Do MMM YYYY h:mm:ss A') : false;
+
+            this.$el.html(this.template(data));
 
             return this;
         },

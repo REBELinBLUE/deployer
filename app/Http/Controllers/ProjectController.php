@@ -26,13 +26,9 @@ class ProjectController extends Controller
     {
         $projects = $projectRepository->getAll();
 
+        // FIXME: Clean this up, it shouldn't be needed?
         foreach ($projects as $project) {
             $project->group_name = $project->group->name;
-            $project->deploy     = Lang::get('app.never');
-
-            if ($project->last_run) {
-                $project->deploy = $project->last_run->format('jS F Y g:i:s A');
-            }
         }
 
         return view('projects.listing', [
@@ -88,7 +84,6 @@ class ProjectController extends Controller
         ));
 
         $project->group_name = $project->group->name;
-        $project->deploy     = Lang::get('app.never');
 
         return $project;
     }
@@ -115,11 +110,6 @@ class ProjectController extends Controller
         $project->save();
 
         $project->group_name = $project->group->name;
-        $project->deploy     = Lang::get('app.never');
-
-        if ($project->last_run) {
-            $project->deploy = $project->last_run->format('jS F Y g:i:s A');
-        }
 
         return $project;
     }

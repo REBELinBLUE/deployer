@@ -26,7 +26,7 @@ class Project extends Model implements PresentableInterface
      * @var array
      */
     protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at', 'heartbeats',
-                         'updated_at', 'last_run', 'servers', 'commands', 'hash', 'status'];
+                         'updated_at', 'servers', 'commands', 'hash', 'status'];
 
     /**
      * The attributes that are mass assignable.
@@ -34,7 +34,7 @@ class Project extends Model implements PresentableInterface
      * @var array
      */
     protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url'];
-    
+
     /**
      * The fields which should be tried as Carbon instances
      *
