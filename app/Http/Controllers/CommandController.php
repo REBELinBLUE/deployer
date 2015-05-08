@@ -167,8 +167,6 @@ class CommandController extends Controller
      */
     public function status(ServerLog $log, $include_log = false)
     {
-        $log->started  = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
-        $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
         $log->runtime  = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
         $log->script   = '';
 

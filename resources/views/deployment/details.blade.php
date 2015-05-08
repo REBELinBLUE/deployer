@@ -40,9 +40,27 @@
         <td width="10%">
              <span class="label label-<%- status_css %>"><i class="fa fa-<%- icon_css %>"></i> <span><%- status %></span></span>
         </td>
-        <td width="20%"><%- start_time %></td>
-        <td width="20%"><%- end_time %></td>
-        <td width="10%"><%- total_time %></td>
+        <td width="20%">
+            <% if (formatted_start_time) { %>
+                <%- formatted_start_time %>
+            <% } else { %>
+                {{ Lang::get('app.na') }}
+            <% } %>
+        </td>
+        <td width="20%">
+            <% if (formatted_end_time) { %>
+                <%- formatted_end_time %>
+            <% } else { %>
+                {{ Lang::get('app.na') }}
+            <% } %>
+        </td>
+        <td width="10%">
+         <% if (total_time) { %>
+                <%- total_time %>
+            <% } else { %>
+                {{ Lang::get('app.na') }}
+            <% } %>
+            </td>
         <td width="10%">
             <div class="btn-group pull-right">
                 <% if (output !== null) { %>
