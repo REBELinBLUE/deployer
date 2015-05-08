@@ -4,6 +4,7 @@ use App\ServerLog;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+// TODO: Test this migration on mysql as it seems to be acting strangely
 class ChangeOutputColumn extends Migration
 {
     /**
