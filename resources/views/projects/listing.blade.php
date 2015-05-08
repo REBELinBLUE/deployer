@@ -50,7 +50,7 @@
 @section('javascript')
     <script type="text/javascript">
         new app.ProjectsTab();
-        app.Projects.add({!! $projects->toJson() !!});
+        app.Projects.add({!! $projects !!});
     </script>
 @stop
 

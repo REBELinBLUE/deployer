@@ -25,7 +25,7 @@ class Project extends Model implements PresentableInterface
      *
      * @var array
      */
-    protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at',
+    protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at', 'heartbeats',
                          'updated_at', 'last_run', 'servers', 'commands', 'hash', 'status'];
 
     /**
