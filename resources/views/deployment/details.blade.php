@@ -44,21 +44,21 @@
             <% if (formatted_start_time) { %>
                 <%- formatted_start_time %>
             <% } else { %>
-                {{ Lang::get('app.na') }}
+                {{ Lang::get('app.not_applicable') }}
             <% } %>
         </td>
         <td width="20%">
             <% if (formatted_end_time) { %>
                 <%- formatted_end_time %>
             <% } else { %>
-                {{ Lang::get('app.na') }}
+                {{ Lang::get('app.not_applicable') }}
             <% } %>
         </td>
         <td width="10%">
          <% if (total_time) { %>
                 <%- total_time %>
             <% } else { %>
-                {{ Lang::get('app.na') }}
+                {{ Lang::get('app.not_applicable') }}
             <% } %>
             </td>
         <td width="10%">

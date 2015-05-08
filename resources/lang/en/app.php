@@ -20,7 +20,6 @@ return [
     'save'           => 'Save',
     'close'          => 'Close',
     'never'          => 'Never',
-    'none'           => 'None',
-    'na'             => 'N/A'
+    'none'           => 'None'
 
 ];
