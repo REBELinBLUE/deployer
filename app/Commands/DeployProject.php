@@ -331,6 +331,7 @@ EOF'
 
             $commands = str_replace('{{ release }}', $release_id, $commands);
             $commands = str_replace('{{ release_path }}', $latest_release_dir, $commands);
+            $commands = str_replace('{{ project_path }}', $root_dir, $commands);
         }
 
         if (is_array($commands)) {
