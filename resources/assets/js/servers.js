@@ -242,7 +242,7 @@ var app = app || {};
                 data.status     = Lang.servers.status.successful;
             } else if (parseInt(this.model.get('status')) === TESTING) {
                 data.status_css = 'warning';
-                data.icon_css   = 'spinner';
+                data.icon_css   = 'spinner fa-pulse';
                 data.status     = Lang.servers.status.testing;
             } else if (parseInt(this.model.get('status')) === FAILED) {
                 data.status_css = 'danger';
