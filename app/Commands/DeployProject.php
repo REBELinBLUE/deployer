@@ -188,8 +188,6 @@ CMD;
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
 
-            $log->status = ServerLog::COMPLETED;
-
             $prefix = $step->stage;
             if ($step->command) {
                 $prefix = $step->command->name;
@@ -223,12 +221,15 @@ EOF'
                 $process->setTimeout(null);
 
                 $output = '';
-                $process->run(function ($type, $output_line) use (&$output) {
+                $process->run(function ($type, $output_line) use (&$output, &$log) {
                     if ($type == Process::ERR) {
                         $output .= $this->logError($output_line);
                     } else {
                         $output .= $this->logSuccess($output_line);
                     }
+
+                    $log->output = $output;
+                    $log->save();
                 });
 
                 if (!$process->isSuccessful()) {
@@ -239,6 +240,7 @@ EOF'
                 $log->output = $output;
             }
 
+            $log->status = ServerLog::COMPLETED;
             $log->finished_at = date('Y-m-d H:i:s');
             $log->save();
 
