@@ -138,7 +138,7 @@ var app = app || {};
             var that = this;
             $('.deploy-step tbody').each(function(index, element) {
                 that.$containers.push({
-                    step: $(element).attr('id').replace('step_', ''),
+                    step: parseInt($(element).attr('id').replace('step_', '')),
                     element: element
                 })
             });
@@ -153,7 +153,7 @@ var app = app || {};
             });
 
             var found = _.find(this.$containers, function(element) { 
-                return element.step === step.get('deploy_step_id');
+                return parseInt(element.step) === parseInt(step.get('deploy_step_id'));
             });
 
             $(found.element).append(view.render().el);
