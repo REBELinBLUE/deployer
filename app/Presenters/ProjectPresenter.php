@@ -44,7 +44,7 @@ class ProjectPresenter extends Presenter
             //     return 'spinner';
             // }
 
-            return 'spinner fa-spin';
+            return 'spinner fa-pulse';
         } elseif ($this->status === Project::FAILED) {
             return 'warning';
         } elseif ($this->status === Project::PENDING) {

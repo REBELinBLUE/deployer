@@ -39,7 +39,7 @@ class DeploymentPresenter extends Presenter
         } elseif ($this->status === Deployment::FAILED) {
             return 'warning';
         } elseif ($this->status === Deployment::DEPLOYING) {
-            return 'spinner fa-spin';
+            return 'spinner fa-pulse';
         }
 
         return 'clock-o';

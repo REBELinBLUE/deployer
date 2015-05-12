@@ -59,7 +59,7 @@
                     <li><a href="#servers" data-toggle="tab"><span class="fa fa-tasks"></span> {{ Lang::get('servers.label') }}</a></li>
                     <li><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ Lang::get('commands.label') }}</a></li>
                     <li><a href="#notifications" data-toggle="tab"><span class="fa fa-bullhorn"></span> {{ Lang::get('notifications.label') }}</a></li>
-                    <li><a href="#heartbeats" data-toggle="tab"><span class="fa fa-heart"></span> {{ Lang::get('heartbeats.label') }}</a></li>
+                    <li><a href="#heartbeats" data-toggle="tab"><span class="fa fa-heartbeat"></span> {{ Lang::get('heartbeats.label') }}</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="deployments">
