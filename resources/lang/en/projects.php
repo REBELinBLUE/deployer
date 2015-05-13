@@ -9,7 +9,7 @@ return [
     'group'           => 'Group',
     'repository'      => 'Repository',
     'builds'          => 'Builds to keep',
-    'branch'          => 'Branch',
+    'branch'          => 'Default Branch',
     'image'           => 'Build Image',
     'latest'          => 'Latest Deploy',
     'create'          => 'Add a new project',
