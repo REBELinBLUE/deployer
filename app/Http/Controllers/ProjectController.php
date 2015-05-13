@@ -33,7 +33,7 @@ class ProjectController extends Controller
 
         return view('projects.listing', [
             'title'    => Lang::get('projects.manage'),
-            'projects' => $projects->toJson() // Because PresentableInterface results in toJson() not working in the view
+            'projects' => $projects->toJson() // Because PresentableInterface toJson() is not working in the view
         ]);
     }
 
