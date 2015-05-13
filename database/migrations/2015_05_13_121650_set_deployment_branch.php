@@ -17,6 +17,7 @@ class SetDeploymentBranch extends Migration
             $table->string('branch')->default('master');
         });
 
+        // FIXME: This isn't working correctly!
         foreach (Deployment::all() as $deployment) {
             $deployment->branch = $deployment->project->branch;
             $deployment->save();
