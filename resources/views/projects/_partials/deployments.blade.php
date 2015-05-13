@@ -63,6 +63,9 @@
                 @endforeach
             </tbody>
         </table>
+        {!! $deployments->render() !!}
     </div>
+
     @endif
+    
 </div>
