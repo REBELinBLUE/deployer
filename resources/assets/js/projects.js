@@ -30,7 +30,7 @@ var app = app || {};
             $('#project_repository').val('');
             $('#project_branch').val('master');
             $('#project_group_id').val($("#project_group_id option:first").val());
-            $('#project_builds_to_keep').val('');
+            $('#project_builds_to_keep').val(10);
             $('#project_url').val('');
             $('#project_build_url').val('');
         }
