@@ -180,6 +180,7 @@ CMD;
      * @param DeployStep $step
      * @return void
      * @throws \RuntimeException
+     * @todo Remove build on failure
      */
     private function runStep(DeployStep $step)
     {
