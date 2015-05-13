@@ -4,7 +4,6 @@ use App\ServerLog;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-// FIXME: Prevent this migration from causing errors on SQLite
 class ChangeOutputColumn extends Migration
 {
     /**
