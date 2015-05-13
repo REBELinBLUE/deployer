@@ -75,10 +75,13 @@
                                 <i class="fa fa-{{ $deployment->icon }} bg-{{ $deployment->timeline_css_class }}"></i>
                                 <div class="timeline-item">
                                     <span class="time"><i class="fa fa-clock-o"></i> {{ $deployment->started_at->format('H:i') }}</span>
-                                    <h3 class="timeline-header"><a href="{{ url('projects', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">{{ Lang::get('dashboard.deployment_num', ['id' => $deployment->id]) }}</a> - {{ $deployment->readable_status }}</h3>
+                                    <h3 class="timeline-header"><a href="{{ url('projects', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">{{ Lang::get('dashboard.deployment_num', ['id' => $deployment->id]) }}</a> - <a href="{{ $deployment->branchURL() }}" target="_blank"><span class="label label-default">{{ $deployment->branch }}</span></a> {{ $deployment->readable_status }}</h3>
+
+                                    @if (!empty($$deployment->reason))
                                     <div class="timeline-body">
-                                        <a href="{{ $deployment->branchURL() }}" target="_blank"><span class="label label-default">{{ $deployment->branch }}</span></a> - {{ $deployment->reason }}
+                                         {{ $deployment->reason }}
                                     </div>
+                                    @endif
                                 </div>
                             </li>
                             @endforeach
