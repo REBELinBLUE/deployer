@@ -159,7 +159,7 @@ class Deployment extends Model implements PresentableInterface
                             'value' => $this->committer,
                             'short' => true
                         ], [
-                            'title' => Lang::get('notifications.branch'),
+                            'title' => Lang::get('notifications.proanch'),
                             'value' => $this->project->branch,
                             'short' => true
                         ]
@@ -179,5 +179,23 @@ class Deployment extends Model implements PresentableInterface
     public function getPresenter()
     {
         return new DeploymentPresenter($this);
+    }
+
+    /**
+     * Gets the HTTP URL to the branch
+     *
+     * @return string|false
+     * @see \App\Project::accessDetails()
+     * @todo Should this be an attribute?
+     */
+    public function branchURL()
+    {
+        $info = $this->project->accessDetails();
+
+        if (isset($info['domain']) && isset($info['reference'])) {
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
+        }
+
+        return false;
     }
 }
