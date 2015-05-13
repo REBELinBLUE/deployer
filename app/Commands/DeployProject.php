@@ -233,14 +233,13 @@ EOF'
                 });
 
                 if (!$process->isSuccessful()) {
-                    $log->status = ServerLog::FAILED;
                     $failed = true;
                 }
 
                 $log->output = $output;
             }
 
-            $log->status = ServerLog::COMPLETED;
+            $log->status = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
             $log->finished_at = date('Y-m-d H:i:s');
             $log->save();
 
