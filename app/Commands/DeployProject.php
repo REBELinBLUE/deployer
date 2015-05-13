@@ -134,9 +134,9 @@ CMD;
 
         $process = new Process(sprintf(
             $cmd,
-            $this->deployment->project->branch,
+            $this->deployment->branch,
             $this->deployment->project->repository,
-            $this->deployment->project->branch
+            $this->deployment->branch
         ));
 
         $process->setTimeout(null);
@@ -296,12 +296,12 @@ EOF'
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
                 sprintf(
                     'git clone --branch %s --depth 1 --recursive %s %s',
-                    $project->branch,
+                    $this->deployment->branch,
                     $project->repository,
                     $latest_release_dir
                 ),
                 sprintf('cd %s', $latest_release_dir),
-                sprintf('git checkout %s', $project->branch),
+                sprintf('git checkout %s', $this->deployment->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
             ];
         } elseif ($step->stage === Stage::DO_INSTALL) { // Install composer dependencies

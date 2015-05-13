@@ -150,6 +150,14 @@ class ProjectController extends Controller
         $deployment = new Deployment;
         $deployment->reason = Input::get('reason');
 
+        if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
+            $deployment->branch = Input::get('source_' . Input::get('source'));
+        }
+
+        if (empty($deployment->branch)) {
+            $deployment->branch = $project->branch;
+        }
+
         $optional = [];
 
         if (Input::has('optional')) {

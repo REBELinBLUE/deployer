@@ -17,6 +17,7 @@
                     <th>{{ Lang::get('deployments.deployer') }}</th>
                     <th>{{ Lang::get('deployments.committer') }}</th>
                     <th>{{ Lang::get('deployments.commit') }}</th>
+                    <th>{{ Lang::get('deployments.branch') }}</th>
                     <th>{{ Lang::get('app.status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -45,6 +46,8 @@
                         @else
                         {{ $deployment->short_commit_hash }}
                         @endif
+                    </td>
+                    <td><a href="{{ $deployment->branchURL() }}" target="_blank"><span class="label label-default">{{ $deployment->branch }}</span></a></td>
                     <td>
                         <span class="label label-{{ $deployment->css_class }}"><i class="fa fa-{{ $deployment->icon }}"></i> {{ $deployment->readable_status }}</span>
                     </td>
