@@ -76,9 +76,9 @@
                                 <div class="timeline-item">
                                     <span class="time"><i class="fa fa-clock-o"></i> {{ $deployment->started_at->format('H:i') }}</span>
                                     <h3 class="timeline-header"><a href="{{ url('projects', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">{{ Lang::get('dashboard.deployment_num', ['id' => $deployment->id]) }}</a> - {{ $deployment->readable_status }}</h3>
-                                    <!--div class="timeline-body">
-                                        <a href="#" target="_blank">commit (email)</a> - log
-                                    </div-->
+                                    <div class="timeline-body">
+                                        <a href="{{ $deployment->branchURL() }}" target="_blank">span class="label label-default">{{ $deployment->branch }}</span></a> - {{ $deployment->reason }}
+                                    </div>
                                 </div>
                             </li>
                             @endforeach
