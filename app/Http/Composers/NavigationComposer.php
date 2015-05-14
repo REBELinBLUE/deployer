@@ -18,7 +18,7 @@ class NavigationComposer
     {
         $active_group = null;
         $active_project = null;
-        if (isset($view->project))  {
+        if (isset($view->project)) {
             $active_group = $view->project->group_id;
             $active_project = $view->project->id;
         }

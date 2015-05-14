@@ -87,7 +87,7 @@ class Deployment extends Model implements PresentableInterface
 
     /**
      * Determines if the deployment is the latest deployment
-     * 
+     *
      * @return boolean
      */
     public function isCurrent()
