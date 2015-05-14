@@ -9,8 +9,7 @@
             </li>
 
             @foreach($groups as $group)
-            <!-- FIXME Clean this up, {{ $active_group === $group->id ? 'active' : null }} doesn't seem to work -->
-            <li class="treeview @if ($active_group === $group->id) active @endif">
+            <li class="treeview {{ $active_group === $group->id ? 'active' : null }}">
                 <a href="#">
                     <i class="fa fa-book"></i>
                     <span>{{ $group->name }}</span>
@@ -18,7 +17,7 @@
                 </a>
                 <ul class="treeview-menu">
                     @foreach($group->projects as $project)
-                        <li class="@if ($active_project === $project->id) active @endif"><a href="{{ url('projects', $project->id) }}">{{ $project->name }}</a></li>
+                        <li class="{{ $active_project === $project->id ? 'active' : null }}"><a href="{{ url('projects', $project->id) }}">{{ $project->name }}</a></li>
                     @endforeach
                 </ul>
             </li>

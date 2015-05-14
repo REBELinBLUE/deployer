@@ -30,19 +30,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($group_projects as $project)
-                                <tr id="project_{{ $project->id }}">
-                                    <td><a href="{{ url('projects', ['id' => $project->id]) }}" title="View Details">{{ $project->name }}</a></td>
-                                    <td>{{ $project->last_run ? $project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
+                                @foreach ($group_projects as $group_project)
+                                <tr id="project_{{ $group_project->id }}">
+                                    <td><a href="{{ url('projects', ['id' => $group_project->id]) }}" title="View Details">{{ $group_project->name }}</a></td>
+                                    <td>{{ $group_project->last_run ? $group_project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
                                     <td>
-                                        <span class="label label-{{ $project->css_class }}"><i class="fa fa-{{ $project->icon }}"></i> {{ $project->readable_status }}</span>
+                                        <span class="label label-{{ $group_project->css_class }}"><i class="fa fa-{{ $group_project->icon }}"></i> {{ $group_project->readable_status }}</span>
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right">
                                             @if(isset($project->url))
-                                            <a href="{{ $project->url }}" class="btn btn-default" title="{{ Lang::get('dashboard.site') }}" target="_blank"><i class="fa fa-globe"></i></a>
+                                            <a href="{{ $group_project->url }}" class="btn btn-default" title="{{ Lang::get('dashboard.site') }}" target="_blank"><i class="fa fa-globe"></i></a>
                                             @endif
-                                            <a href="{{ url('projects', ['id' => $project->id]) }}" class="btn btn-default" title="{{ Lang::get('dashboard.view') }}"><i class="fa fa-info-circle"></i></a>
+                                            <a href="{{ url('projects', ['id' => $group_project->id]) }}" class="btn btn-default" title="{{ Lang::get('dashboard.view') }}"><i class="fa fa-info-circle"></i></a>
                                         </div>
                                     </td>
                                 </tr>
