@@ -25,16 +25,20 @@ var app = app || {};
         }
     });
 
-    if ($("#command_script").length > 0) {
-        var editor = ace.edit('command_script');
-        editor.getSession().setMode('ace/mode/sh');
-    }
+    var editor;
+
+    $('#command').on('hidden.bs.modal', function (event) {
+        editor.destroy();
+    });
 
     // FIXME: This seems very wrong
     $('#command').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
         var title = Lang.create;
+
+        editor = ace.edit('command_script');
+        editor.getSession().setMode('ace/mode/sh');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -81,9 +85,6 @@ var app = app || {};
                 dialog.find('input').removeAttr('disabled');
 
                 app.Commands.remove(command);
-
-                editor.setValue('');
-                editor.gotoLine(1);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -272,8 +273,7 @@ var app = app || {};
             $('#command_id').val(this.model.id);
             $('#command_step').val(this.model.get('step'));
             $('#command_name').val(this.model.get('name'));
-            editor.setValue(this.model.get('script'));
-            editor.gotoLine(1);
+            $('#command_script').text(this.model.get('script'));
             $('#command_user').val(this.model.get('user'));
             $('#command_optional').prop('checked', (this.model.get('optional') === true));
 
