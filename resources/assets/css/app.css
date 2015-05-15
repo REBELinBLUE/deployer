@@ -48,7 +48,7 @@ body.dragging * {
 }
 
 .deploy-reason {
-    cursor: help;
+    cursor: pointer;
 }
 
 /* Make sure there is always a space between the icon and the label as HTMLMin removes it */
