@@ -332,7 +332,7 @@ EOF'
             $tokens = [
                 '{{ release }}'         => $release_id,
                 '{{ release_path }}'    => $latest_release_dir,
-                '{{ project_path }}'    => $root_dir
+                '{{ project_path }}'    => $root_dir,
                 '{{ sha }}'             => $this->deployment->commit,
                 '{{ short_sha }}'       => $this->deployment->shortCommit()
             ];
