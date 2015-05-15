@@ -202,7 +202,7 @@ class Deployment extends Model implements PresentableInterface
                             'value' => $this->committer,
                             'short' => true
                         ], [
-                            'title' => Lang::get('notifications.proanch'),
+                            'title' => Lang::get('notifications.branch'),
                             'value' => $this->project->branch,
                             'short' => true
                         ]
