@@ -29,7 +29,7 @@
                     <td>
                         {{ !empty($deployment->user_id) ? Lang::get('deployments.manually') : Lang::get('deployments.webhook') }}
                         @if (!empty($deployment->reason))
-                            <i class="fa fa-comment-o pull-right" data-toggle="tooltip"  data-placement="right" title="{{ $deployment->reason }}"></i>
+                            <i class="fa fa-comment-o" data-toggle="tooltip"  data-placement="right" title="{{ $deployment->reason }}"></i>
                         @endif
                     </td>
                     <td>
