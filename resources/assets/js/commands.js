@@ -25,6 +25,11 @@ var app = app || {};
         }
     });
 
+    if ($("#command_script").length > 0) {
+        var editor = ace.edit('command_script');
+        editor.getSession().setMode('ace/mode/sh');
+    }
+
     // FIXME: This seems very wrong
     $('#command').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -42,7 +47,8 @@ var app = app || {};
             $('#command_id').val('');
             $('#command_step').val(button.data('step'));
             $('#command_name').val('');
-            $('#command_script').val('');
+            editor.setValue('');
+            editor.gotoLine(1);
             $('#command_user').val('');
             $('#command_optional').val('');
 
@@ -75,6 +81,9 @@ var app = app || {};
                 dialog.find('input').removeAttr('disabled');
 
                 app.Commands.remove(command);
+
+                editor.setValue('');
+                editor.gotoLine(1);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -110,7 +119,7 @@ var app = app || {};
 
         command.save({
             name:       $('#command_name').val(),
-            script:     $('#command_script').val(),
+            script:     editor.getValue(),
             user:       $('#command_user').val(),
             step:       $('#command_step').val(),
             project_id: $('input[name="project_id"]').val(),
@@ -129,6 +138,9 @@ var app = app || {};
                 if (!command_id) {
                     app.Commands.add(response);
                 }
+
+                editor.setValue('');
+                editor.gotoLine(1);
             },
             error: function(model, response, options) {
                 $('.callout-danger', dialog).show();
@@ -260,7 +272,8 @@ var app = app || {};
             $('#command_id').val(this.model.id);
             $('#command_step').val(this.model.get('step'));
             $('#command_name').val(this.model.get('name'));
-            $('#command_script').val(this.model.get('script'));
+            editor.setValue(this.model.get('script'));
+            editor.gotoLine(1);
             $('#command_user').val(this.model.get('user'));
             $('#command_optional').prop('checked', (this.model.get('optional') === true));
 

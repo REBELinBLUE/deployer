@@ -59,3 +59,7 @@ span.label i.fa {
 input[type=text].deployment-source {
     display: none;
 }
+
+#command_script { 
+    height: 250px;
+}

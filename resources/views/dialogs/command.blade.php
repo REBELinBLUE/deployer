@@ -25,7 +25,8 @@
                     </div>
                     <div class="form-group">
                         <label for="command_script">{{ Lang::get('commands.bash') }}</label>
-                        <textarea rows="10" id="command_script" class="form-control" name="script" placeholder="echo 'Hello world'"></textarea>
+                        <div id="command_script" class="form-control"></div>
+                        <!--textarea rows="10" id="command_script" class="form-control" name="script" placeholder="echo 'Hello world'"></textarea-->
                         <h5>{{ Lang::get('commands.options') }}</h5>
                         <ul class="list-unstyled">
                             <li><code>@{{ project_path }}</code> - {{ Lang::get('commands.project_path') }}, e.g. <span class="label label-default">/var/www/</span></li>
