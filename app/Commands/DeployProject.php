@@ -329,9 +329,15 @@ EOF'
         } else { // Custom step!
             $commands = $step->command->script;
 
-            $commands = str_replace('{{ release }}', $release_id, $commands);
-            $commands = str_replace('{{ release_path }}', $latest_release_dir, $commands);
-            $commands = str_replace('{{ project_path }}', $root_dir, $commands);
+            $tokens = [
+                '{{ release }}'         => $release_id,
+                '{{ release_path }}'    => $latest_release_dir,
+                '{{ project_path }}'    => $root_dir
+                '{{ sha }}'             => $this->deployment->commit,
+                '{{ short_sha }}'       => $this->deployment->shortCommit()
+            ];
+
+            $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);
         }
 
         if (is_array($commands)) {

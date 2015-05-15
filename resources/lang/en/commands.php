@@ -25,8 +25,11 @@ return [
     'warning'              => 'The command could not be saved, please check the form below.',
     'create'               => 'Add a new command',
     'edit'                 => 'Edit a command',
+    'sha'                  => 'The commit SHA hash',
+    'short_sha'            => 'The short commit SHA hash',
     'none'                 => 'No commands have been configured',
     'optional'             => 'Optional',
+    'example'              => 'e.g.',
     'optional_description' => 'Ask at deploy time whether or not the include this step'
 
 ];
