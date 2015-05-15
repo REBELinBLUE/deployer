@@ -29,7 +29,7 @@
                     <td>
                         {{ !empty($deployment->user_id) ? Lang::get('deployments.manually') : Lang::get('deployments.webhook') }}
                         @if (!empty($deployment->reason))
-                            <button class="btn btn-box-tool" id="deploy-reason"><i class="fa fa-comment-o" data-toggle="tooltip" title="{{ $deployment->reason }}"></i></button>
+                            <button class="btn btn-box-tool" id="deploy-reason"><i class="fa fa-comment-o" data-toggle="tooltip"  data-placement="right" title="{{ $deployment->reason }}"></i></button>
                         @endif
                     </td>
                     <td>
