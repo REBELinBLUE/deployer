@@ -75,6 +75,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             $project->status = Project::FAILED;
 
             $this->cancelPendingSteps($this->deployment->steps);
+            $this->cleanupDeployment();
         }
 
         $this->deployment->finished_at = date('Y-m-d H:i:s');
@@ -158,6 +159,52 @@ CMD;
     }
 
     /**
+     * Removed left over artifacts from a failed deploy on each server
+     *
+     * @return void
+     * @todo Clean this up as there is some duplication with getScript()
+     */
+    private function cleanupDeployment()
+    {
+        $project = $this->deployment->project;
+
+        $release_id = date('YmdHis', strtotime($this->deployment->started_at));
+
+        foreach ($project->servers as $server) {
+
+            if (!$server->deploy_code) {
+                continue;
+            }
+
+            $root_dir = preg_replace('#/$#', '', $server->path);
+
+            if (empty($root_dir)) {
+                continue;
+            }
+
+            $releases_dir = $root_dir . '/releases';
+            $latest_release_dir = $releases_dir . '/' . $release_id;
+
+            $remote_key_file = $root_dir . '/id_rsa';
+            $remote_wrapper_file = $root_dir . '/wrapper.sh';
+
+            $commands = [
+                sprintf('cd %s', $root_dir),
+                sprintf('[ -f %s ] && rm %s', $remote_key_file, $remote_key_file),
+                sprintf('[ -f %s ] && rm %s', $remote_wrapper_file, $remote_wrapper_file),
+                sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir)
+            ];
+
+            $script = implode(PHP_EOL, $commands);
+
+            $process = new Process($this->sshCommand($server, $script));
+            $process->setTimeout(null);
+
+            $process->run();
+        }
+    }
+
+    /**
      * Finds all pending steps and marks them as cancelled
      *
      * @return void
@@ -207,18 +254,7 @@ CMD;
             $failed = false;
 
             if (!empty($script)) {
-                $script = 'set -e' . PHP_EOL . $script;
-                $process = new Process(
-                    'ssh -o CheckHostIP=no \
-                         -o IdentitiesOnly=yes \
-                         -o StrictHostKeyChecking=no \
-                         -o PasswordAuthentication=no \
-                         -o IdentityFile=' . $this->private_key . ' \
-                         -p ' . $server->port . ' \
-                         ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
-                         '.$script.'
-EOF'
-                );
+                $process = new Process($this->sshCommand($server, $script, $user));
                 $process->setTimeout(null);
 
                 $output = '';
@@ -367,6 +403,32 @@ EOF'
     private function logSuccess($message)
     {
         return '<info>' . $message . '</info>';
+    }
+
+    /**
+     * Generates the SSH command for running the script on a server
+     *
+     * @param Server $server
+     * @param string $script The script to run
+     * @param string $user
+     * @return string
+     */
+    private function sshCommand(Server $server, $script, $user = null) {
+        if (is_null($user)) {
+            $user = $server->user;
+        }
+
+        $script = 'set -e' . PHP_EOL . $script;
+        return 'ssh -o CheckHostIP=no \
+                 -o IdentitiesOnly=yes \
+                 -o StrictHostKeyChecking=no \
+                 -o PasswordAuthentication=no \
+                 -o IdentityFile=' . $this->private_key . ' \
+                 -p ' . $server->port . ' \
+                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 '.$script.'
+EOF';
+
     }
 
     /**
