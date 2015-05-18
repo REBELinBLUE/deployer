@@ -30,8 +30,6 @@ class StoreServerRequest extends Request
                 return false;
             }
         );
-
-        parent::__construct($factory);
     }
 
     /**
