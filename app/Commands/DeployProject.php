@@ -76,9 +76,11 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 
             $this->cancelPendingSteps($this->deployment->steps);
 
-            // Cleanup the release if it has not been activated
-            if ($step->stage <= Stage::DO_ACTIVATE) {
-                $this->cleanupDeployment();
+            if (isset($step)) {
+                // Cleanup the release if it has not been activated
+                if ($step->stage <= Stage::DO_ACTIVATE) {
+                    $this->cleanupDeployment();
+                }
             }
         }
 
