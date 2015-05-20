@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Input;
 use App\Project;
 use App\Deployment;
 use App\Commands\QueueDeployment;
@@ -28,9 +29,13 @@ class WebhookController extends Controller
         if ($project->servers->count() > 0) { // FIXME: This should filter to deployable servers
             $optional = []; // FIXME: Come up with some way to specify which commands should run or not
 
+            $deployment = new Deployment;
+            $deployment->reason = Input::get('reason');
+            $deployment->branch = $project->branch;
+
             $this->dispatch(new QueueDeployment(
                 $project,
-                new Deployment,
+                $deployment,
                 $optional
             ));
         }
