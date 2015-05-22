@@ -177,7 +177,6 @@ CMD;
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
 
         foreach ($project->servers as $server) {
-
             if (!$server->deploy_code) {
                 continue;
             }
@@ -247,39 +246,45 @@ CMD;
                 $prefix = $step->command->name;
             }
 
-            $server = $log->server;
-            $script = $this->getScript($step, $server);
+            try {
+                $server = $log->server;
+                $script = $this->getScript($step, $server);
 
-            $user = $server->user;
-            if (isset($step->command)) {
-                $user = $step->command->user;
-            }
+                $user = $server->user;
+                if (isset($step->command)) {
+                    $user = $step->command->user;
+                }
 
-            $log->script = $script;
+                $log->script = $script;
 
-            $failed = false;
+                $failed = false;
 
-            if (!empty($script)) {
-                $process = new Process($this->sshCommand($server, $script, $user));
-                $process->setTimeout(null);
+                if (!empty($script)) {
+                    $process = new Process($this->sshCommand($server, $script, $user));
+                    $process->setTimeout(null);
 
-                $output = '';
-                $process->run(function ($type, $output_line) use (&$output, &$log) {
-                    if ($type == Process::ERR) {
-                        $output .= $this->logError($output_line);
-                    } else {
-                        $output .= $this->logSuccess($output_line);
+                    $output = '';
+                    $process->run(function ($type, $output_line) use (&$output, &$log) {
+                        if ($type == Process::ERR) {
+                            $output .= $this->logError($output_line);
+                        } else {
+                            $output .= $this->logSuccess($output_line);
+                        }
+
+                        $log->output = $output;
+                        $log->save();
+                    });
+
+                    if (!$process->isSuccessful()) {
+                        $failed = true;
                     }
 
                     $log->output = $output;
-                    $log->save();
-                });
-
-                if (!$process->isSuccessful()) {
-                    $failed = true;
                 }
-
-                $log->output = $output;
+            } catch (\Exception $e) {
+                $msg = '['.$server->ip_address.']:'.$e->getMessage();
+                $log->output .= $this->logError($msg);
+                $failed = true;
             }
 
             $log->status = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
@@ -419,7 +424,8 @@ CMD;
      * @param string $user
      * @return string
      */
-    private function sshCommand(Server $server, $script, $user = null) {
+    private function sshCommand(Server $server, $script, $user = null)
+    {
         if (is_null($user)) {
             $user = $server->user;
         }
