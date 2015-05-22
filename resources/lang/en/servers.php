@@ -8,7 +8,7 @@ return [
     'none'               => 'The project does not currently have any servers setup',
     'name'               => 'Name',
     'connect_as'         => 'Connect As',
-    'ip_address'         => 'IP Address',
+    'ip_address'         => 'Host',
     'port'               => 'Port',
     'status'             => 'Connection Status',
     'test'               => 'Test the server connection',

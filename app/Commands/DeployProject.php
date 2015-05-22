@@ -75,7 +75,13 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             $project->status = Project::FAILED;
 
             $this->cancelPendingSteps($this->deployment->steps);
-            $this->cleanupDeployment();
+
+            if (isset($step)) {
+                // Cleanup the release if it has not been activated
+                if ($step->stage <= Stage::DO_ACTIVATE) {
+                    $this->cleanupDeployment();
+                }
+            }
         }
 
         $this->deployment->finished_at = date('Y-m-d H:i:s');
