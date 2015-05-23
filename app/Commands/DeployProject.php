@@ -359,8 +359,9 @@ CMD;
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
                 sprintf(
-                    'composer install --no-interaction --optimize-autoloader ' .
+                    '[ -f %s/composer.json ] && composer install --no-interaction --optimize-autoloader ' .
                     '--no-dev --prefer-dist --no-ansi --working-dir "%s"',
+                    $latest_release_dir,
                     $latest_release_dir
                 )
             ];
