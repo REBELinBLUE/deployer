@@ -144,6 +144,15 @@ class Project extends Model implements PresentableInterface
     }
 
     /**
+     * Has many relationship
+     * @return SharedFile
+     */
+    public function shareFiles()
+    {
+        return $this->hasMany('App\SharedFile');
+    }
+
+    /**
      * Generates a hash for use in the webhook URL
      *
      * @return void

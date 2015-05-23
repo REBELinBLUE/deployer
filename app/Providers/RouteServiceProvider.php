@@ -38,6 +38,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('servers', 'App\Server');
         $router->model('log', 'App\ServerLog');
         $router->model('users', 'App\User');
+        $router->model('shared-files', 'App\SharedFile');
     }
 
     /**

@@ -320,6 +320,7 @@ CMD;
 
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
         $latest_release_dir = $releases_dir . '/' . $release_id;
+        $release_shared_dir = $root_dir . '/shared';
 
         $commands = false;
 
@@ -341,6 +342,7 @@ CMD;
                 sprintf('chmod 0600 %s', $remote_key_file),
                 sprintf('chmod +x %s', $remote_wrapper_file),
                 sprintf('[ ! -d %s ] && mkdir %s', $releases_dir, $releases_dir),
+                sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
                 sprintf('cd %s', $releases_dir),
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
                 sprintf(
@@ -364,10 +366,53 @@ CMD;
             ];
         } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
             $commands = [
-                sprintf('cd %s', $root_dir),
-                sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
-                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
+                sprintf('cd %s', $root_dir)
             ];
+
+            foreach ($project->shareFiles as $filecfg) {
+                if ($filecfg->file) {
+                    $pathinfo = pathinfo($filecfg->file);
+                    $isDir = false;
+                    if (substr($filecfg->file, 0, 1) == '/') {
+                        $filecfg->file = substr($filecfg->file, 1);
+                    }
+                    if (substr($filecfg->file, -1) == '/') {
+                        $isDir = true;
+                        $filecfg->file = substr($filecfg->file, 0, -1);
+                    }
+                    if (isset($pathinfo['extension'])) {
+                        $filename = $pathinfo['filename'].'.'.$pathinfo['extension'];
+                    } else {
+                        $filename = $pathinfo['filename'];
+                    }
+                    $sourceFile = $release_shared_dir.'/'.$filename;
+                    $targetFile = $latest_release_dir.'/'.$filecfg->file;
+                    if ($isDir) {
+                        $commands[] = sprintf(
+                            '[ -d %s ] && cp -pRn %s %s && rm -rf %s',
+                            $targetFile,
+                            $targetFile,
+                            $sourceFile,
+                            $targetFile
+                        );
+                        $commands[] = sprintf('[ ! -d %s ] && mkdir %s', $sourceFile, $sourceFile);
+                    } else {
+                        $commands[] = sprintf(
+                            '[ -f %s ] && cp -pRn %s %s && rm -rf %s',
+                            $targetFile,
+                            $targetFile,
+                            $sourceFile,
+                            $targetFile
+                        );
+                        $commands[] = sprintf('[ ! -f %s ] && touch %s', $sourceFile, $sourceFile);
+                    }
+                    $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
+                }
+            }
+
+            $commands[] = sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir);
+            $commands[] = sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir);
+
         } elseif ($step->stage === Stage::DO_PURGE) { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
