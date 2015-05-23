@@ -17,7 +17,7 @@
 
                     <div class="form-group">
                         <label for="command_name">{{ Lang::get('commands.name') }}</label>
-                        <input type="text" class="form-control" name="name" id="command_name" placeholder="Migrations" />
+                        <input type="text" class="form-control" name="name" id="command_name" placeholder="{{ Lang::get('commands.migrations') }}" />
                     </div>
                     <div class="form-group">
                         <label for="command_user">{{ Lang::get('commands.run_as') }}</label>
@@ -26,7 +26,6 @@
                     <div class="form-group">
                         <label for="command_script">{{ Lang::get('commands.bash') }}</label>
                         <div id="command_script" class="form-control"></div>
-                        <!--textarea rows="10" id="command_script" class="form-control" name="script" placeholder="echo 'Hello world'"></textarea-->
                         <h5>{{ Lang::get('commands.options') }}</h5>
                         <ul class="list-unstyled">
                             <li><code>@{{ project_path }}</code> - {{ Lang::get('commands.project_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www/</span></li>

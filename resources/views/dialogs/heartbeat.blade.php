@@ -11,12 +11,12 @@
                 <div class="modal-body">
 
                     <div class="callout callout-danger">
-                        <i class="icon fa fa-warning"></i> {{ Lang::get('heartbeat.warning') }}
+                        <i class="icon fa fa-warning"></i> {{ Lang::get('heartbeats.warning') }}
                     </div>
 
                     <div class="form-group">
                         <label for="heartbeat_name">{{ Lang::get('heartbeats.name') }}</label>
-                        <input type="text" class="form-control" id="heartbeat_name" name="name" placeholder="My Cronjob" />
+                        <input type="text" class="form-control" id="heartbeat_name" name="name" placeholder="{{ Lang::get('heartbeats.my_cronjob') }}" />
                     </div>
 
                     <div class="form-group">

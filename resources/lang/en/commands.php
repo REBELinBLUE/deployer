@@ -9,6 +9,7 @@ return [
     'before'               => 'Before',
     'name'                 => 'Name',
     'run_as'               => 'Run As',
+    'migrations'           => 'Migrations',
     'bash'                 => 'Bash Script',
     'servers'              => 'Servers',
     'options'              => 'You can use the following tokens in your script',

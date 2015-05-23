@@ -6,6 +6,7 @@ return [
     'warning'         => 'The project could not be saved, please check the form below.',
     'none'            => 'There are currently no projects setup',
     'name'            => 'Name',
+    'awesome'         => 'My awesome webapp',
     'group'           => 'Group',
     'repository'      => 'Repository',
     'builds'          => 'Builds to keep',

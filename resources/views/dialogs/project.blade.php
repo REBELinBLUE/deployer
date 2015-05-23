@@ -15,7 +15,7 @@
 
                     <div class="form-group">
                         <label for="project_name">{{ Lang::get('projects.name') }}</label>
-                        <input type="text" class="form-control" name="name" id="project_name" placeholder="My awesome webapp" />
+                        <input type="text" class="form-control" name="name" id="project_name" placeholder="{{ Lang::get('projects.awesome') }}" />
                     </div>
                     <div class="form-group">
                         <label for="project_group_id">{{ Lang::get('projects.group') }}</label>

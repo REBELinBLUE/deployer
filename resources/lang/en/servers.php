@@ -4,6 +4,7 @@ return [
 
     'label'              => 'Servers',
     'create'             => 'Add a new server',
+    'web'                => 'Web server',
     'edit'               => 'Edit the server',
     'none'               => 'The project does not currently have any servers setup',
     'name'               => 'Name',

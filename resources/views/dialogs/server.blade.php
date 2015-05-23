@@ -16,7 +16,7 @@
 
                     <div class="form-group">
                         <label for="server_name">{{ Lang::get('servers.name') }}</label>
-                        <input type="text" class="form-control" id="server_name" name="name" placeholder="Web Server" />
+                        <input type="text" class="form-control" id="server_name" name="name" placeholder="{{ Lang::get('servers.web') }}" />
                     </div>
                     <div class="form-group">
                         <label for="server_user">{{ Lang::get('servers.connect_as') }}</label>

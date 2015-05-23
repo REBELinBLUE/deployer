@@ -10,6 +10,7 @@ return [
     'name'           => 'Name',
     'status'         => 'Status',
     'interval'       => 'Frequency',
+    'my_cronjob'     => 'My Cronjob',
     'last_check_in'  => 'Last Check-In',
     'ok'             => 'Healthy',
     'untested'       => 'Waiting for Heartbeat',
