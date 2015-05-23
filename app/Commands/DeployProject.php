@@ -177,7 +177,6 @@ CMD;
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
 
         foreach ($project->servers as $server) {
-
             if (!$server->deploy_code) {
                 continue;
             }
@@ -247,39 +246,45 @@ CMD;
                 $prefix = $step->command->name;
             }
 
-            $server = $log->server;
-            $script = $this->getScript($step, $server);
+            try {
+                $server = $log->server;
+                $script = $this->getScript($step, $server);
 
-            $user = $server->user;
-            if (isset($step->command)) {
-                $user = $step->command->user;
-            }
+                $user = $server->user;
+                if (isset($step->command)) {
+                    $user = $step->command->user;
+                }
 
-            $log->script = $script;
+                $log->script = $script;
 
-            $failed = false;
+                $failed = false;
 
-            if (!empty($script)) {
-                $process = new Process($this->sshCommand($server, $script, $user));
-                $process->setTimeout(null);
+                if (!empty($script)) {
+                    $process = new Process($this->sshCommand($server, $script, $user));
+                    $process->setTimeout(null);
 
-                $output = '';
-                $process->run(function ($type, $output_line) use (&$output, &$log) {
-                    if ($type == Process::ERR) {
-                        $output .= $this->logError($output_line);
-                    } else {
-                        $output .= $this->logSuccess($output_line);
+                    $output = '';
+                    $process->run(function ($type, $output_line) use (&$output, &$log) {
+                        if ($type == Process::ERR) {
+                            $output .= $this->logError($output_line);
+                        } else {
+                            $output .= $this->logSuccess($output_line);
+                        }
+
+                        $log->output = $output;
+                        $log->save();
+                    });
+
+                    if (!$process->isSuccessful()) {
+                        $failed = true;
                     }
 
                     $log->output = $output;
-                    $log->save();
-                });
-
-                if (!$process->isSuccessful()) {
-                    $failed = true;
                 }
-
-                $log->output = $output;
+            } catch (\Exception $e) {
+                $msg = '['.$server->ip_address.']:'.$e->getMessage();
+                $log->output .= $this->logError($msg);
+                $failed = true;
             }
 
             $log->status = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
@@ -315,6 +320,7 @@ CMD;
 
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
         $latest_release_dir = $releases_dir . '/' . $release_id;
+        $release_shared_dir = $root_dir . '/shared';
 
         $commands = false;
 
@@ -336,6 +342,7 @@ CMD;
                 sprintf('chmod 0600 %s', $remote_key_file),
                 sprintf('chmod +x %s', $remote_wrapper_file),
                 sprintf('[ ! -d %s ] && mkdir %s', $releases_dir, $releases_dir),
+                sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
                 sprintf('cd %s', $releases_dir),
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
                 sprintf(
@@ -359,10 +366,53 @@ CMD;
             ];
         } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
             $commands = [
-                sprintf('cd %s', $root_dir),
-                sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
-                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
+                sprintf('cd %s', $root_dir)
             ];
+
+            foreach ($project->shareFiles as $filecfg) {
+                if ($filecfg->file) {
+                    $pathinfo = pathinfo($filecfg->file);
+                    $isDir = false;
+                    if (substr($filecfg->file, 0, 1) == '/') {
+                        $filecfg->file = substr($filecfg->file, 1);
+                    }
+                    if (substr($filecfg->file, -1) == '/') {
+                        $isDir = true;
+                        $filecfg->file = substr($filecfg->file, 0, -1);
+                    }
+                    if (isset($pathinfo['extension'])) {
+                        $filename = $pathinfo['filename'].'.'.$pathinfo['extension'];
+                    } else {
+                        $filename = $pathinfo['filename'];
+                    }
+                    $sourceFile = $release_shared_dir.'/'.$filename;
+                    $targetFile = $latest_release_dir.'/'.$filecfg->file;
+                    if ($isDir) {
+                        $commands[] = sprintf(
+                            '[ -d %s ] && cp -pRn %s %s && rm -rf %s',
+                            $targetFile,
+                            $targetFile,
+                            $sourceFile,
+                            $targetFile
+                        );
+                        $commands[] = sprintf('[ ! -d %s ] && mkdir %s', $sourceFile, $sourceFile);
+                    } else {
+                        $commands[] = sprintf(
+                            '[ -f %s ] && cp -pRn %s %s && rm -rf %s',
+                            $targetFile,
+                            $targetFile,
+                            $sourceFile,
+                            $targetFile
+                        );
+                        $commands[] = sprintf('[ ! -f %s ] && touch %s', $sourceFile, $sourceFile);
+                    }
+                    $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
+                }
+            }
+
+            $commands[] = sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir);
+            $commands[] = sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir);
+
         } elseif ($step->stage === Stage::DO_PURGE) { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
@@ -419,7 +469,8 @@ CMD;
      * @param string $user
      * @return string
      */
-    private function sshCommand(Server $server, $script, $user = null) {
+    private function sshCommand(Server $server, $script, $user = null)
+    {
         if (is_null($user)) {
             $user = $server->user;
         }

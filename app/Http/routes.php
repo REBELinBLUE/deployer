@@ -56,6 +56,8 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'CommandController@listing'
     ]);
 
+    Route::resource('shared-files', 'SharedFilesController');
+
     Route::group(['prefix' => 'admin'], function () {
 
         Route::resource('projects', 'ProjectController', [
