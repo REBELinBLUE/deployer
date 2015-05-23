@@ -1,7 +1,6 @@
 <?php namespace App\Commands;
 
 use Config;
-use SSH;
 use Queue;
 use App\Deployment;
 use App\DeployStep;
@@ -19,7 +18,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * Deploys an actual project
- * @todo: rewrite this as it is doing way too much
+ * @todo: rewrite this as it is doing way too much and is very messy now
  */
 class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 {
@@ -95,23 +94,6 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         }
 
         unlink($this->private_key);
-    }
-
-    /**
-     * Generate SSH configuration keys for each server
-     *
-     * @return void
-     */
-    private function configureServers()
-    {
-        foreach ($this->deployment->project->servers as $server) {
-            Config::set('remote.connections.server' . $server->id . '.host', $server->ip_address . ':' . $server->port);
-            Config::set('remote.connections.server' . $server->id . '.username', $server->user);
-            Config::set('remote.connections.server' . $server->id . '.password', '');
-            Config::set('remote.connections.server' . $server->id . '.key', $this->private_key);
-            Config::set('remote.connections.server' . $server->id . '.keyphrase', '');
-            Config::set('remote.connections.server' . $server->id . '.root', $server->path);
-        }
     }
 
     /**
@@ -204,7 +186,6 @@ CMD;
 
             $process = new Process($this->sshCommand($server, $script));
             $process->setTimeout(null);
-
             $process->run();
         }
     }
@@ -328,14 +309,8 @@ CMD;
             $remote_key_file = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
-            $this->configureServers();
-
-            $server_name = 'server' . $server->id;
-
-            // Upload the files we need
-            // FIXME: See if we can find a way around this as we have the entire SSH package just for this
-            SSH::into($server_name)->putString($remote_key_file, $project->private_key);
-            SSH::into($server_name)->putString($remote_wrapper_file, $this->gitWrapperScript($remote_key_file));
+            // FIXME: This does not belong here as this function should only being returning the commands not running them!
+            $this->prepareServer($server);
 
             $commands = [
                 sprintf('cd %s', $root_dir),
@@ -511,5 +486,63 @@ ssh -o CheckHostIP=no \
     -o IdentityFile={$key_file_path} $*
 
 OUT;
+    }
+
+    /**
+     * Sends a file to a remote server
+     *
+     * @param string $local_file
+     * @param string $remote_file
+     * @param Server $server
+     * @return void
+     * @throws RuntimeException
+     */
+    private function sendFile($local_file, $remote_file, Server $server)
+    {
+        $copy = sprintf(
+            'scp -o CheckHostIP=no ' .
+            '-o IdentitiesOnly=yes ' .
+            '-o StrictHostKeyChecking=no ' .
+            '-o PasswordAuthentication=no ' .
+            '-i %s %s %s@%s:%s',
+            $this->private_key,
+            $local_file,
+            $server->user,
+            $server->ip_address,
+            $remote_file
+        );
+
+        $process = new Process($copy);
+        $process->setTimeout(null);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException('Could not send file - ' . $process->getErrorOutput());
+        }
+    }
+
+    /**
+     * Prepares a server for code deployment by adding the files which are required
+     *
+     * @param Server $server
+     * @return void
+     */
+    private function prepareServer(Server $server)
+    {
+        $root_dir = preg_replace('#/$#', '', $server->path);
+
+        $remote_key_file = $root_dir . '/id_rsa';
+        $remote_wrapper_file = $root_dir . '/wrapper.sh';
+
+        // Upload the SSH private key
+        $this->sendFile($this->private_key, $remote_key_file, $server);
+
+        $wrapper = tempnam(storage_path() . '/app/', 'wrapper');
+        file_put_contents($wrapper, $this->gitWrapperScript($remote_key_file));
+
+        // Upload the wrapper file
+        $this->sendFile($wrapper, $remote_wrapper_file, $server);
+
+        unlink($wrapper);
     }
 }

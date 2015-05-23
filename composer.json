@@ -1,7 +1,6 @@
 {
     "require": {
         "laravel/framework": "5.*",
-        "laravelcollective/remote": "~5.0",
         "graham-campbell/htmlmin": "~3.0",
         "pda/pheanstalk": "~3.0",
         "creativeorange/gravatar": "~1.0",
