@@ -18,7 +18,7 @@ class Notification extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'channel', 'webhook', 'project_id'];
+    protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon'];
 
     /**
      * Belongs to relationship
