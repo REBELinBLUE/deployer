@@ -282,7 +282,7 @@ CMD;
                     $log->output = $output;
                 }
             } catch (\Exception $e) {
-                $msg = '['.$server->ip_address.']:'.$e->getMessage();
+                $msg = '[' . $server->ip_address . ']:' . $e->getMessage();
                 $log->output .= $this->logError($msg);
                 $failed = true;
             }
@@ -373,20 +373,25 @@ CMD;
                 if ($filecfg->file) {
                     $pathinfo = pathinfo($filecfg->file);
                     $isDir = false;
+
                     if (substr($filecfg->file, 0, 1) == '/') {
                         $filecfg->file = substr($filecfg->file, 1);
                     }
+
                     if (substr($filecfg->file, -1) == '/') {
                         $isDir = true;
                         $filecfg->file = substr($filecfg->file, 0, -1);
                     }
+
                     if (isset($pathinfo['extension'])) {
                         $filename = $pathinfo['filename'].'.'.$pathinfo['extension'];
                     } else {
                         $filename = $pathinfo['filename'];
                     }
+
                     $sourceFile = $release_shared_dir.'/'.$filename;
                     $targetFile = $latest_release_dir.'/'.$filecfg->file;
+
                     if ($isDir) {
                         $commands[] = sprintf(
                             '[ -d %s ] && cp -pRn %s %s && rm -rf %s',
@@ -406,13 +411,13 @@ CMD;
                         );
                         $commands[] = sprintf('[ ! -f %s ] && touch %s', $sourceFile, $sourceFile);
                     }
+
                     $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
                 }
             }
 
             $commands[] = sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir);
             $commands[] = sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir);
-
         } elseif ($step->stage === Stage::DO_PURGE) { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
