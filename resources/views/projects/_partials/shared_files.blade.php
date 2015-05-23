@@ -17,7 +17,6 @@
                 <tr>
                     <th>{{ Lang::get('sharedFiles.name') }}</th>
                     <th>{{ Lang::get('sharedFiles.file') }}</th>
-                    <th>{{ Lang::get('sharedFiles.updatedAt') }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -31,7 +30,6 @@
 <script type="text/template" id="files-template">
     <td><%- name %></td>
     <td><%- file %></td>
-    <td><%- updated_at %></td>
     <td>
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('sharedFiles.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#sharefile"><i class="fa fa-edit"></i></button>

@@ -384,13 +384,13 @@ CMD;
                     }
 
                     if (isset($pathinfo['extension'])) {
-                        $filename = $pathinfo['filename'].'.'.$pathinfo['extension'];
+                        $filename = $pathinfo['filename'] . '.' . $pathinfo['extension'];
                     } else {
                         $filename = $pathinfo['filename'];
                     }
 
-                    $sourceFile = $release_shared_dir.'/'.$filename;
-                    $targetFile = $latest_release_dir.'/'.$filecfg->file;
+                    $sourceFile = $release_shared_dir . '/' . $filename;
+                    $targetFile = $latest_release_dir . '/' . $filecfg->file;
 
                     if ($isDir) {
                         $commands[] = sprintf(
