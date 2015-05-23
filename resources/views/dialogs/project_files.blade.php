@@ -16,15 +16,15 @@
 
                     <div class="form-group">
                         <label for="project-file-name">{{ Lang::get('projectFiles.name') }}</label>
-                        <input type="text" class="form-control" id="project-file-name" name="project-file-name" placeholder="Laravel Storage" />
+                        <input type="text" class="form-control" id="project-file-name" name="project-file-name" placeholder="{{ Lang::get('projectFiles.environment') }}" />
                     </div>
                     <div class="form-group">
                         <label for="project-file-path">{{ Lang::get('projectFiles.path') }}</label>
-                        <input type="text" class="form-control" id="project-file-path" name="path" placeholder="Path like '/app/config/deployer.php'" />
+                        <input type="text" class="form-control" id="project-file-path" name="path" placeholder="{{ Lang::get('projectFiles.pathTip')}}" />
                     </div>
                     <div class="form-group">
                         <label for="project-file-content">{{ Lang::get('projectFiles.content') }}</label>
-                        <textarea class="form-control" id="project-file-content" name="content" placeholder="File content may be ini or json or php array"></textarea>
+                        <textarea class="form-control" id="project-file-content" name="content" placeholder="{{ Lang::get('projectFiles.contentTip') }}"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

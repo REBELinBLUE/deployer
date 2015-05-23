@@ -17,7 +17,6 @@
                 <tr>
                     <th>{{ Lang::get('projectFiles.name') }}</th>
                     <th>{{ Lang::get('projectFiles.path') }}</th>
-                    <th>{{ Lang::get('projectFiles.updatedAt') }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -31,7 +30,6 @@
 <script type="text/template" id="project-files-template">
     <td><%- name %></td>
     <td><%- path %></td>
-    <td><%- updated_at %></td>
     <td>
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-default btn-view" title="{{ Lang::get('projectFiles.view') }}" data-toggle="modal" data-backdrop="static" data-target="#view-projectfile"><i class="fa fa-eye"></i></button>
