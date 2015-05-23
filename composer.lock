@@ -380,35 +380,35 @@
         },
         {
             "name": "graham-campbell/htmlmin",
-            "version": "v3.0.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-HTMLMin.git",
-                "reference": "de12b55cb2449824e102a5dd165289e34a9147e1"
+                "reference": "5804d4a4c60f6caa4bfd8a00e3030a4832d26f88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/de12b55cb2449824e102a5dd165289e34a9147e1",
-                "reference": "de12b55cb2449824e102a5dd165289e34a9147e1",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/5804d4a4c60f6caa4bfd8a00e3030a4832d26f88",
+                "reference": "5804d4a4c60f6caa4bfd8a00e3030a4832d26f88",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "5.0.*",
-                "illuminate/filesystem": "5.0.*",
-                "illuminate/http": "5.0.*",
-                "illuminate/routing": "5.0.*",
-                "illuminate/support": "5.0.*",
-                "illuminate/view": "5.0.*",
+                "illuminate/contracts": "5.0.*|5.1.*",
+                "illuminate/filesystem": "5.0.*|5.1.*",
+                "illuminate/http": "5.0.*|5.1.*",
+                "illuminate/routing": "5.0.*|5.1.*",
+                "illuminate/support": "5.0.*|5.1.*",
+                "illuminate/view": "5.0.*|5.1.*",
                 "mrclay/minify": "~2.2",
-                "php": ">=5.4.7"
+                "php": ">=5.5.9"
             },
             "require-dev": {
-                "graham-campbell/testbench": "~2.0"
+                "graham-campbell/testbench": "~2.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -439,7 +439,7 @@
                 "laravel",
                 "minifier"
             ],
-            "time": "2015-03-10 19:45:07"
+            "time": "2015-05-20 22:49:46"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -2832,12 +2832,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "1dc7404280b32ee661ea65606efcf792be6fc4ca"
+                "reference": "bcc07d0cb56cf5ec4fb6e66dda5f5fb9e39e5c27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/1dc7404280b32ee661ea65606efcf792be6fc4ca",
-                "reference": "1dc7404280b32ee661ea65606efcf792be6fc4ca",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/bcc07d0cb56cf5ec4fb6e66dda5f5fb9e39e5c27",
+                "reference": "bcc07d0cb56cf5ec4fb6e66dda5f5fb9e39e5c27",
                 "shasum": ""
             },
             "require": {
@@ -2876,7 +2876,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2015-04-27 20:30:06"
+            "time": "2015-05-20 13:03:42"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
