@@ -3,6 +3,9 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Shared files or directories for a project
+ */
 class SharedFile extends Model
 {
 
