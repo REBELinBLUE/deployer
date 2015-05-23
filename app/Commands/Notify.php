@@ -42,6 +42,15 @@ class Notify extends Command implements SelfHandling, ShouldBeQueued
             'channel' => $this->notification->channel
         ];
 
+        if (!empty($this->notification->icon)) {
+            $icon_field = 'icon_url';
+            if (preg_match('/:(.*):/', $this->notification->icon)) {
+                $icon_field = 'icon_emoji';
+            }
+
+            $payload[$icon_field] = $this->notification->icon;
+        }
+
         $payload = array_merge($payload, $this->payload);
 
         Request::post($this->notification->webhook)
