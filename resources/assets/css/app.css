@@ -60,6 +60,13 @@ input[type=text].deployment-source {
     display: none;
 }
 
-#command_script { 
+#command_script,
+#project-file-content { 
     height: 250px;
+}
+
+#view-projectfile pre {
+    height: 500px;
+    max-height: 500px;
+    overflow-y: scroll;
 }

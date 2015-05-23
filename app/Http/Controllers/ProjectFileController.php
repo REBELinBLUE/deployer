@@ -1,9 +1,9 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use App\ProjectFile;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreProjectFileRequest;
 
 class ProjectFileController extends Controller
 {
@@ -13,9 +13,14 @@ class ProjectFileController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(StoreProjectFileRequest $request)
     {
-        //
+        return ProjectFile::create($request->only(
+            'name',
+            'path',
+            'content',
+            'project_id'
+        ));
     }
 
     /**
@@ -24,9 +29,15 @@ class ProjectFileController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(ProjectFile $file, StoreProjectFileRequest $request)
     {
-        //
+        $file->update($request->only(
+            'name',
+            'path',
+            'content'
+        ));
+
+        return $file;
     }
 
     /**
@@ -35,8 +46,12 @@ class ProjectFileController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(ProjectFile $file)
     {
-        //
+        $file->delete();
+
+        return [
+            'success' => true
+        ];
     }
 }
