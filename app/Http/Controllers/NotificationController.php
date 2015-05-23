@@ -21,7 +21,8 @@ class NotificationController extends Controller
             'name',
             'channel',
             'webhook',
-            'project_id'
+            'project_id',
+            'icon'
         ));
     }
 
@@ -37,7 +38,8 @@ class NotificationController extends Controller
         $notification->update($request->only(
             'name',
             'channel',
-            'webhook'
+            'webhook',
+            'icon'
         ));
 
         return $notification;
