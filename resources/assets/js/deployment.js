@@ -138,7 +138,7 @@ var app = app || {};
             var that = this;
             $('.deploy-step tbody').each(function(index, element) {
                 that.$containers.push({
-                    step: $(element).attr('id').replace('step_', ''),
+                    step: parseInt($(element).attr('id').replace('step_', '')),
                     element: element
                 })
             });
@@ -153,7 +153,7 @@ var app = app || {};
             });
 
             var found = _.find(this.$containers, function(element) { 
-                return element.step === step.get('deploy_step_id');
+                return parseInt(element.step) === parseInt(step.get('deploy_step_id'));
             });
 
             $(found.element).append(view.render().el);
@@ -204,21 +204,9 @@ var app = app || {};
                 }
             }
 
-            data.start_time = 'N/A';
-            data.end_time   = 'N/A';
-            data.total_time = 'N/A';
-
-            if (data.started !== null) {
-                data.start_time = data.started;
-            }
-
-            if (data.finished !== null) {
-                data.end_time = data.finished;
-            }
-
-            if (data.runtime !== null) {
-                data.total_time = data.runtime;
-            }
+            data.formatted_start_time = data.started_at ? moment(data.started_at).format('h:mm:ss A') : false;
+            data.formatted_end_time   = data.finished_at ? moment(data.finished_at).format('h:mm:ss A') : false;
+            data.total_time           = data.runtime !== null ? data.runtime : false;
 
             this.$el.html(this.template(data));
 

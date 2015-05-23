@@ -17,6 +17,7 @@
                     <th>{{ Lang::get('servers.name') }}</th>
                     <th>{{ Lang::get('servers.connect_as') }}</th>
                     <th>{{ Lang::get('servers.ip_address') }}</th>
+                    <th>{{ Lang::get('servers.port') }}</th>
                     <th>{{ Lang::get('servers.status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -32,8 +33,9 @@
     <td><%- name %></td>
     <td><%- user %></td>
     <td><%- ip_address %></td>
+    <td><%- port %></td>
     <td>
-         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i>&nbsp;<%- status %></span>
+         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <%- status %></span>
     </td>
     <td>
         <div class="btn-group pull-right">
@@ -49,13 +51,14 @@
 </script>
 
 <script type="text/javascript">
-    Lang.status = {
-        successful: '{{ Lang::get('servers.successful') }}',
-        testing: '{{ Lang::get('servers.testing') }}',
-        failed: '{{ Lang::get('servers.failed') }}',
-        untested: '{{ Lang::get('servers.untested') }}'
+    Lang.servers = {
+        status: {
+            successful: '{{ Lang::get('servers.successful') }}',
+            testing: '{{ Lang::get('servers.testing') }}',
+            failed: '{{ Lang::get('servers.failed') }}',
+            untested: '{{ Lang::get('servers.untested') }}'
+        },
+        create: '{{ Lang::get('servers.create') }}',
+        edit: '{{ Lang::get('servers.edit') }}'
     };
-
-    Lang.create = '{{ Lang::get('servers.create') }}';
-    Lang.edit = '{{ Lang::get('servers.edit') }}';
 </script>

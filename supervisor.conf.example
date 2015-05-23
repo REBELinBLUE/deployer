@@ -1,0 +1,11 @@
+[program:deployer]
+command=php artisan queue:listen --queue=default,deploy,connections,notify --timeout=0 --tries=1
+directory=/var/www/deployer
+process_name=%(program_name)s_%(process_num)s
+numprocs=3
+numprocs_start=0
+stdout_logfile=/var/www/deploy/storage/logs/supervisord-%(process_num)s-stdout.log
+stderr_logfile=/var/www/deployer/storage/logs/supervisord-%(process_num)s-stderr.log
+redirect_stderr=true
+autostart=true
+autorestart=true

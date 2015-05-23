@@ -1,7 +1,6 @@
 <?php namespace App\Commands;
 
 use Config;
-use SSH;
 use Queue;
 use App\Deployment;
 use App\DeployStep;
@@ -19,7 +18,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * Deploys an actual project
- * @todo: rewrite this as it is doing way too much
+ * @todo: rewrite this as it is doing way too much and is very messy now
  */
 class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 {
@@ -75,6 +74,13 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             $project->status = Project::FAILED;
 
             $this->cancelPendingSteps($this->deployment->steps);
+
+            if (isset($step)) {
+                // Cleanup the release if it has not been activated
+                if ($step->stage <= Stage::DO_ACTIVATE) {
+                    $this->cleanupDeployment();
+                }
+            }
         }
 
         $this->deployment->finished_at = date('Y-m-d H:i:s');
@@ -88,23 +94,6 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         }
 
         unlink($this->private_key);
-    }
-
-    /**
-     * Generate SSH configuration keys for each server
-     *
-     * @return void
-     */
-    private function configureServers()
-    {
-        foreach ($this->deployment->project->servers as $server) {
-            Config::set('remote.connections.server' . $server->id . '.host', $server->ip_address);
-            Config::set('remote.connections.server' . $server->id . '.username', $server->user);
-            Config::set('remote.connections.server' . $server->id . '.password', '');
-            Config::set('remote.connections.server' . $server->id . '.key', $this->private_key);
-            Config::set('remote.connections.server' . $server->id . '.keyphrase', '');
-            Config::set('remote.connections.server' . $server->id . '.root', $server->path);
-        }
     }
 
     /**
@@ -134,9 +123,9 @@ CMD;
 
         $process = new Process(sprintf(
             $cmd,
-            $this->deployment->project->branch,
+            $this->deployment->branch,
             $this->deployment->project->repository,
-            $this->deployment->project->branch
+            $this->deployment->branch
         ));
 
         $process->setTimeout(null);
@@ -155,6 +144,50 @@ CMD;
         $this->deployment->commit    = $parts[0];
         $this->deployment->committer = trim($parts[1]);
         $this->deployment->save();
+    }
+
+    /**
+     * Removed left over artifacts from a failed deploy on each server
+     *
+     * @return void
+     * @todo Clean this up as there is some duplication with getScript()
+     */
+    private function cleanupDeployment()
+    {
+        $project = $this->deployment->project;
+
+        $release_id = date('YmdHis', strtotime($this->deployment->started_at));
+
+        foreach ($project->servers as $server) {
+            if (!$server->deploy_code) {
+                continue;
+            }
+
+            $root_dir = preg_replace('#/$#', '', $server->path);
+
+            if (empty($root_dir)) {
+                continue;
+            }
+
+            $releases_dir = $root_dir . '/releases';
+            $latest_release_dir = $releases_dir . '/' . $release_id;
+
+            $remote_key_file = $root_dir . '/id_rsa';
+            $remote_wrapper_file = $root_dir . '/wrapper.sh';
+
+            $commands = [
+                sprintf('cd %s', $root_dir),
+                sprintf('[ -f %s ] && rm %s', $remote_key_file, $remote_key_file),
+                sprintf('[ -f %s ] && rm %s', $remote_wrapper_file, $remote_wrapper_file),
+                sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir)
+            ];
+
+            $script = implode(PHP_EOL, $commands);
+
+            $process = new Process($this->sshCommand($server, $script));
+            $process->setTimeout(null);
+            $process->run();
+        }
     }
 
     /**
@@ -180,6 +213,7 @@ CMD;
      * @param DeployStep $step
      * @return void
      * @throws \RuntimeException
+     * @todo Remove build on failure
      */
     private function runStep(DeployStep $step)
     {
@@ -188,56 +222,53 @@ CMD;
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
 
-            $log->status = ServerLog::COMPLETED;
-
             $prefix = $step->stage;
             if ($step->command) {
                 $prefix = $step->command->name;
             }
 
-            $server = $log->server;
-            $script = $this->getScript($step, $server);
+            try {
+                $server = $log->server;
+                $script = $this->getScript($step, $server);
 
-            $user = $server->user;
-            if (isset($step->command)) {
-                $user = $step->command->user;
-            }
-
-            $log->script = $script;
-
-            $failed = false;
-
-            if (!empty($script)) {
-                $script = 'set -e' . PHP_EOL . $script;
-                $process = new Process(
-                    'ssh -o CheckHostIP=no \
-                         -o IdentitiesOnly=yes \
-                         -o StrictHostKeyChecking=no \
-                         -o PasswordAuthentication=no \
-                         -o IdentityFile=' . $this->private_key . ' \
-                         ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
-                         '.$script.'
-EOF'
-                );
-                $process->setTimeout(null);
-
-                $output = '';
-                $process->run(function ($type, $output_line) use (&$output) {
-                    if ($type == Process::ERR) {
-                        $output .= $this->logError($output_line);
-                    } else {
-                        $output .= $this->logSuccess($output_line);
-                    }
-                });
-
-                if (!$process->isSuccessful()) {
-                    $log->status = ServerLog::FAILED;
-                    $failed = true;
+                $user = $server->user;
+                if (isset($step->command)) {
+                    $user = $step->command->user;
                 }
 
-                $log->output = $output;
+                $log->script = $script;
+
+                $failed = false;
+
+                if (!empty($script)) {
+                    $process = new Process($this->sshCommand($server, $script, $user));
+                    $process->setTimeout(null);
+
+                    $output = '';
+                    $process->run(function ($type, $output_line) use (&$output, &$log) {
+                        if ($type == Process::ERR) {
+                            $output .= $this->logError($output_line);
+                        } else {
+                            $output .= $this->logSuccess($output_line);
+                        }
+
+                        $log->output = $output;
+                        $log->save();
+                    });
+
+                    if (!$process->isSuccessful()) {
+                        $failed = true;
+                    }
+
+                    $log->output = $output;
+                }
+            } catch (\Exception $e) {
+                $msg = '[' . $server->ip_address . ']:' . $e->getMessage();
+                $log->output .= $this->logError($msg);
+                $failed = true;
             }
 
+            $log->status = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
             $log->finished_at = date('Y-m-d H:i:s');
             $log->save();
 
@@ -270,6 +301,7 @@ EOF'
 
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
         $latest_release_dir = $releases_dir . '/' . $release_id;
+        $release_shared_dir = $root_dir . '/shared';
 
         $commands = false;
 
@@ -277,43 +309,91 @@ EOF'
             $remote_key_file = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
-            $this->configureServers();
-
-            $server_name = 'server' . $server->id;
-
-            // Upload the files we need
-            // FIXME: See if we can find a way around this as we have the entire SSH package just for this
-            SSH::into($server_name)->putString($remote_key_file, $project->private_key);
-            SSH::into($server_name)->putString($remote_wrapper_file, $this->gitWrapperScript($remote_key_file));
+            // FIXME: This does not belong here as this function should only being returning the commands not running them!
+            $this->prepareServer($server);
 
             $commands = [
                 sprintf('cd %s', $root_dir),
                 sprintf('chmod 0600 %s', $remote_key_file),
                 sprintf('chmod +x %s', $remote_wrapper_file),
                 sprintf('[ ! -d %s ] && mkdir %s', $releases_dir, $releases_dir),
+                sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
                 sprintf('cd %s', $releases_dir),
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
                 sprintf(
-                    'git clone --branch %s --depth 1 %s %s',
-                    $project->branch,
+                    'git clone --branch %s --depth 1 --recursive %s %s',
+                    $this->deployment->branch,
                     $project->repository,
                     $latest_release_dir
                 ),
                 sprintf('cd %s', $latest_release_dir),
-                sprintf('git checkout %s', $project->branch),
+                sprintf('git checkout %s', $this->deployment->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
             ];
         } elseif ($step->stage === Stage::DO_INSTALL) { // Install composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
-                sprintf('composer install -n --prefer-dist --no-ansi -d "%s"', $latest_release_dir)
+                sprintf(
+                    '[ -f %s/composer.json ] && composer install --no-interaction --optimize-autoloader ' .
+                    '--no-dev --prefer-dist --no-ansi --working-dir "%s"',
+                    $latest_release_dir,
+                    $latest_release_dir
+                )
             ];
         } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
             $commands = [
-                sprintf('cd %s', $root_dir),
-                sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
-                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
+                sprintf('cd %s', $root_dir)
             ];
+
+            foreach ($project->shareFiles as $filecfg) {
+                if ($filecfg->file) {
+                    $pathinfo = pathinfo($filecfg->file);
+                    $isDir = false;
+
+                    if (substr($filecfg->file, 0, 1) == '/') {
+                        $filecfg->file = substr($filecfg->file, 1);
+                    }
+
+                    if (substr($filecfg->file, -1) == '/') {
+                        $isDir = true;
+                        $filecfg->file = substr($filecfg->file, 0, -1);
+                    }
+
+                    if (isset($pathinfo['extension'])) {
+                        $filename = $pathinfo['filename'] . '.' . $pathinfo['extension'];
+                    } else {
+                        $filename = $pathinfo['filename'];
+                    }
+
+                    $sourceFile = $release_shared_dir . '/' . $filename;
+                    $targetFile = $latest_release_dir . '/' . $filecfg->file;
+
+                    if ($isDir) {
+                        $commands[] = sprintf(
+                            '[ -d %s ] && cp -pRn %s %s && rm -rf %s',
+                            $targetFile,
+                            $targetFile,
+                            $sourceFile,
+                            $targetFile
+                        );
+                        $commands[] = sprintf('[ ! -d %s ] && mkdir %s', $sourceFile, $sourceFile);
+                    } else {
+                        $commands[] = sprintf(
+                            '[ -f %s ] && cp -pRn %s %s && rm -rf %s',
+                            $targetFile,
+                            $targetFile,
+                            $sourceFile,
+                            $targetFile
+                        );
+                        $commands[] = sprintf('[ ! -f %s ] && touch %s', $sourceFile, $sourceFile);
+                    }
+
+                    $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
+                }
+            }
+
+            $commands[] = sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir);
+            $commands[] = sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir);
         } elseif ($step->stage === Stage::DO_PURGE) { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
@@ -322,8 +402,15 @@ EOF'
         } else { // Custom step!
             $commands = $step->command->script;
 
-            $commands = str_replace('{{ release }}', $release_id, $commands);
-            $commands = str_replace('{{ release_path }}', $latest_release_dir, $commands);
+            $tokens = [
+                '{{ release }}'         => $release_id,
+                '{{ release_path }}'    => $latest_release_dir,
+                '{{ project_path }}'    => $root_dir,
+                '{{ sha }}'             => $this->deployment->commit,
+                '{{ short_sha }}'       => $this->deployment->shortCommit()
+            ];
+
+            $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);
         }
 
         if (is_array($commands)) {
@@ -356,6 +443,33 @@ EOF'
     }
 
     /**
+     * Generates the SSH command for running the script on a server
+     *
+     * @param Server $server
+     * @param string $script The script to run
+     * @param string $user
+     * @return string
+     */
+    private function sshCommand(Server $server, $script, $user = null)
+    {
+        if (is_null($user)) {
+            $user = $server->user;
+        }
+
+        $script = 'set -e' . PHP_EOL . $script;
+        return 'ssh -o CheckHostIP=no \
+                 -o IdentitiesOnly=yes \
+                 -o StrictHostKeyChecking=no \
+                 -o PasswordAuthentication=no \
+                 -o IdentityFile=' . $this->private_key . ' \
+                 -p ' . $server->port . ' \
+                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 '.$script.'
+EOF';
+
+    }
+
+    /**
      * Generates the content of a git bash script
      *
      * @param string $key_file_path The path to the public key to use
@@ -372,5 +486,63 @@ ssh -o CheckHostIP=no \
     -o IdentityFile={$key_file_path} $*
 
 OUT;
+    }
+
+    /**
+     * Sends a file to a remote server
+     *
+     * @param string $local_file
+     * @param string $remote_file
+     * @param Server $server
+     * @return void
+     * @throws RuntimeException
+     */
+    private function sendFile($local_file, $remote_file, Server $server)
+    {
+        $copy = sprintf(
+            'scp -o CheckHostIP=no ' .
+            '-o IdentitiesOnly=yes ' .
+            '-o StrictHostKeyChecking=no ' .
+            '-o PasswordAuthentication=no ' .
+            '-i %s %s %s@%s:%s',
+            $this->private_key,
+            $local_file,
+            $server->user,
+            $server->ip_address,
+            $remote_file
+        );
+
+        $process = new Process($copy);
+        $process->setTimeout(null);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException('Could not send file - ' . $process->getErrorOutput());
+        }
+    }
+
+    /**
+     * Prepares a server for code deployment by adding the files which are required
+     *
+     * @param Server $server
+     * @return void
+     */
+    private function prepareServer(Server $server)
+    {
+        $root_dir = preg_replace('#/$#', '', $server->path);
+
+        $remote_key_file = $root_dir . '/id_rsa';
+        $remote_wrapper_file = $root_dir . '/wrapper.sh';
+
+        // Upload the SSH private key
+        $this->sendFile($this->private_key, $remote_key_file, $server);
+
+        $wrapper = tempnam(storage_path() . '/app/', 'wrapper');
+        file_put_contents($wrapper, $this->gitWrapperScript($remote_key_file));
+
+        // Upload the wrapper file
+        $this->sendFile($wrapper, $remote_wrapper_file, $server);
+
+        unlink($wrapper);
     }
 }

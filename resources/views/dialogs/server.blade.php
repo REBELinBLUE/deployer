@@ -16,7 +16,7 @@
 
                     <div class="form-group">
                         <label for="server_name">{{ Lang::get('servers.name') }}</label>
-                        <input type="text" class="form-control" id="server_name" name="name" placeholder="Web Server" />
+                        <input type="text" class="form-control" id="server_name" name="name" placeholder="{{ Lang::get('servers.web') }}" />
                     </div>
                     <div class="form-group">
                         <label for="server_user">{{ Lang::get('servers.connect_as') }}</label>
@@ -25,6 +25,10 @@
                     <div class="form-group">
                         <label for="server_address">{{ Lang::get('servers.ip_address') }}</label>
                         <input type="text" class="form-control" id="server_address" name="ip_address" placeholder="192.168.0.1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="server_port">{{ Lang::get('servers.port') }}</label>
+                        <input type="number" class="form-control" id="server_port" name="port" placeholder="22" value="22" />
                     </div>
                     <div class="form-group">
                         <label for="server_path">{{ Lang::get('servers.path') }}</label>

@@ -24,8 +24,6 @@ class DeploymentController extends Controller
             foreach ($step->servers as $server) {
                 $server->server;
 
-                $server->started  = ($server->started_at ? $server->started_at->format('g:i:s A') : null);
-                $server->finished = ($server->finished_at ? $server->finished_at->format('g:i:s A') : null);
                 $server->runtime  = ($server->runtime() === false ? null : human_readable_duration($server->runtime()));
                 $server->output   = ((is_null($server->output) || !strlen($server->output)) ? null : '');
                 $server->script   = '';

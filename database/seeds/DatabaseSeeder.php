@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call('DeploymentTableSeeder');
         $this->call('CommandTableSeeder');
         $this->call('NotificationTableSeeder');
+        $this->call('HeartbeatTableSeeder');
         $this->call('TemplateTableSeeder');
     }
 }

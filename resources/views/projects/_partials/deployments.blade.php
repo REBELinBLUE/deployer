@@ -17,6 +17,7 @@
                     <th>{{ Lang::get('deployments.deployer') }}</th>
                     <th>{{ Lang::get('deployments.committer') }}</th>
                     <th>{{ Lang::get('deployments.commit') }}</th>
+                    <th>{{ Lang::get('deployments.branch') }}</th>
                     <th>{{ Lang::get('app.status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -28,29 +29,33 @@
                     <td>
                         {{ !empty($deployment->user_id) ? Lang::get('deployments.manually') : Lang::get('deployments.webhook') }}
                         @if (!empty($deployment->reason))
-                            <button class="btn btn-box-tool" id="deploy-reason"><i class="fa fa-comment-o" data-toggle="tooltip" title="{{ $deployment->reason }}"></i></button>
+                            <i class="fa fa-comment-o deploy-reason" data-toggle="tooltip" data-placement="right" title="{{ $deployment->reason }}"></i>
                         @endif
                     </td>
                     <td>
                         @if (!empty($deployment->user_id))
                             {{ $deployment->user->name }}
                         @else
-                            {{ loading_value($deployment->committer) }}
+                            {{ $deployment->committer_name }}
                         @endif
                     </td>
-                    <td>{{ loading_value($deployment->committer) }}</td>
+                    <td>{{ $deployment->committer_name }}</td>
                     <td>
                         @if ($deployment->commitURL())
                         <a href="{{ $deployment->commitURL() }}" target="_blank">{{ $deployment->shortCommit() }}</a></td>
                         @else
-                        {{ loading_value($deployment->shortCommit()) }}
+                        {{ $deployment->short_commit_hash }}
                         @endif
+                    </td>
+                    <td><a href="{{ $deployment->branchURL() }}" target="_blank"><span class="label label-default">{{ $deployment->branch }}</span></a></td>
                     <td>
-                        <span class="label label-{{ deployment_css_status($deployment) }}"><i class="fa fa-{{ deployment_icon_status($deployment) }}"></i> {{ deployment_status($deployment) }}</span>
+                        <span class="label label-{{ $deployment->css_class }}"><i class="fa fa-{{ $deployment->icon }}"></i> {{ $deployment->readable_status }}</span>
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-default" title="{{ Lang::get('deployments.reactivate') }}" {{ $deployment->isRunning() ? 'disabled' : '' }}><i class="fa fa-cloud-upload"></i></button>
+                            @if($deployment->isSuccessful() && !$deployment->isCurrent())
+                            <button type="button" class="btn btn-default btn-redeploy" title="{{ Lang::get('deployments.reactivate') }}"><i class="fa fa-cloud-upload"></i></button>
+                            @endif
                             <a href="{{ route('deployment', ['id' => $deployment->id]) }}" type="button" class="btn btn-default" title="{{ Lang::get('app.details') }}"><i class="fa fa-info-circle"></i></a>
                         </div>
                     </td>
@@ -58,6 +63,9 @@
                 @endforeach
             </tbody>
         </table>
+        {!! $deployments->render() !!}
     </div>
+
     @endif
+    
 </div>

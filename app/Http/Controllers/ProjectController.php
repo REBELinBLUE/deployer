@@ -2,7 +2,6 @@
 
 use Lang;
 use Input;
-use App\Command;
 use App\Project;
 use App\Group;
 use App\Template;
@@ -30,20 +29,16 @@ class ProjectController extends Controller
     {
         $projects = $projectRepository->getAll();
 
+        // FIXME: Clean this up, it shouldn't be needed?
         foreach ($projects as $project) {
             $project->group_name = $project->group->name;
-            $project->deploy     = Lang::get('app.never');
-
-            if ($project->last_run) {
-                $project->deploy = $project->last_run->format('jS F Y g:i:s A');
-            }
         }
 
         return view('projects.listing', [
             'title'     => Lang::get('projects.manage'),
-            'projects'  => $projects,
             'templates' => Template::all(),
-            'groups'    => Group::all()
+            'groups'    => Group::all(),
+            'projects'  => $projects->toJson() // Because PresentableInterface toJson() is not working in the view
         ]);
     }
 
@@ -56,36 +51,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project, DeploymentRepositoryInterface $deploymentRepository)
     {
-        $commands = [
-            Command::DO_CLONE    => null,
-            Command::DO_INSTALL  => null,
-            Command::DO_ACTIVATE => null,
-            Command::DO_PURGE    => null
-        ];
-
-        $optional = [];
-
-        foreach ($project->commands as $command) {
-            $action = $command->step - 1;
-            $when = ($command->step % 3 === 0 ? 'after' : 'before');
-            if ($when === 'before') {
-                $action = $command->step + 1;
-            }
-
-            if (!is_array($commands[$action])) {
-                $commands[$action] = [];
-            }
-
-            if (!isset($commands[$action][$when])) {
-                $commands[$action][$when] = [];
-            }
-
-            $commands[$action][$when][] = $command->name;
-
-            if ($command->optional) {
-                $optional[] = $command;
-            }
-        }
+        $optional = $project->commands->filter(function ($command) {
+            return $command->optional;
+        });
 
         // FIXME: Make project injected in the constructor so we don't have to keep passing it
         return view('projects.details', [
@@ -96,8 +64,9 @@ class ProjectController extends Controller
             'project'       => $project,
             'servers'       => $project->servers,
             'notifications' => $project->notifications,
-            'commands'      => $commands,
-            'optional'      => $optional // FIXME: Is there a cleaner way to do this?
+            'heartbeats'    => $project->heartbeats,
+            'sharedFiles'   => $project->shareFiles,
+            'optional'      => $optional
         ]);
     }
 
@@ -129,7 +98,6 @@ class ProjectController extends Controller
         }
 
         $project->group_name = $project->group->name;
-        $project->deploy     = Lang::get('app.never');
 
         return $project;
     }
@@ -156,11 +124,6 @@ class ProjectController extends Controller
         $project->save();
 
         $project->group_name = $project->group->name;
-        $project->deploy     = Lang::get('app.never');
-
-        if ($project->last_run) {
-            $project->deploy = $project->last_run->format('jS F Y g:i:s A');
-        }
 
         return $project;
     }
@@ -191,6 +154,14 @@ class ProjectController extends Controller
     {
         $deployment = new Deployment;
         $deployment->reason = Input::get('reason');
+
+        if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
+            $deployment->branch = Input::get('source_' . Input::get('source'));
+        }
+
+        if (empty($deployment->branch)) {
+            $deployment->branch = $project->branch;
+        }
 
         $optional = [];
 

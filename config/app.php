@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -136,9 +136,9 @@ return [
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
-        'Collective\Remote\RemoteServiceProvider',
         'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
         'Creativeorange\Gravatar\GravatarServiceProvider',
+        'Robbo\Presenter\PresenterServiceProvider',
         
         /*
          * Application Service Providers...

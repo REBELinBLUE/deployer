@@ -9,8 +9,7 @@
             </li>
 
             @foreach($groups as $group)
-            <li class="treeview">
-                {{-- (Request::is('projects/*') OR Request::is('deployment/*')) ? 'active' : null --}}
+            <li class="treeview {{ $active_group === $group->id ? 'active' : null }}">
                 <a href="#">
                     <i class="fa fa-book"></i>
                     <span>{{ $group->name }}</span>
@@ -18,7 +17,7 @@
                 </a>
                 <ul class="treeview-menu">
                     @foreach($group->projects as $project)
-                        <li><a href="{{ url('projects', $project->id) }}">{{ $project->name }}</a></li>
+                        <li class="{{ $active_project === $project->id ? 'active' : null }}"><a href="{{ url('projects', $project->id) }}">{{ $project->name }}</a></li>
                     @endforeach
                 </ul>
             </li>
@@ -31,10 +30,10 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ url('admin/projects') }}">{{ Lang::get('app.projects') }}</a></li>
-                    <li><a href="{{ url('admin/templates') }}">{{ Lang::get('app.templates') }}</a></li>
-                    <li><a href="{{ url('admin/groups') }}">{{ Lang::get('app.groups') }}</a></li>
-                    <li><a href="{{ url('admin/users') }}">{{ Lang::get('app.users') }}</a></li>
+                    <li class="{{ Request::is('admin/projects') ? 'active' : null }}"><a href="{{ url('admin/projects') }}">{{ Lang::get('app.projects') }}</a></li>
+                    <li class="{{ Request::is('admin/templates') ? 'active' : null }}"><a href="{{ url('admin/templates') }}">{{ Lang::get('app.templates') }}</a></li>
+                    <li class="{{ Request::is('admin/groups') ? 'active' : null }}"><a href="{{ url('admin/groups') }}">{{ Lang::get('app.groups') }}</a></li>
+                    <li class="{{ Request::is('admin/users') ? 'active' : null }}"><a href="{{ url('admin/users') }}">{{ Lang::get('app.users') }}</a></li>
                 </ul>
             </li>
         </ul>

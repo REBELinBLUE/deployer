@@ -10,7 +10,7 @@ var app = app || {};
     $('#server').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.create;
+        var title = Lang.servers.create;
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -18,12 +18,13 @@ var app = app || {};
         $('#add-server-command', modal).hide();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.edit;
+            title = Lang.servers.edit;
             $('.btn-danger', modal).show();
         } else {
             $('#server_id').val('');
             $('#server_name').val('');
             $('#server_address').val('');
+            $('#server_port').val('22');
             $('#server_user').val('');
             $('#server_path').val('');
             $('#server_deploy_code').prop('checked', true);
@@ -86,6 +87,7 @@ var app = app || {};
         server.save({
             name:         $('#server_name').val(),
             ip_address:   $('#server_address').val(),
+            port:         $('#server_port').val(),
             user:         $('#server_user').val(),
             path:         $('#server_path').val(),
             deploy_code:  $('#server_deploy_code').is(':checked'),
@@ -235,20 +237,20 @@ var app = app || {};
 
             data.status_css = 'primary';
             data.icon_css   = 'question';
-            data.status     = Lang.status.untested;
+            data.status     = Lang.servers.status.untested;
 
             if (parseInt(this.model.get('status')) === SUCCESSFUL) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
-                data.status     = Lang.status.successful;
+                data.status     = Lang.servers.status.successful;
             } else if (parseInt(this.model.get('status')) === TESTING) {
                 data.status_css = 'warning';
-                data.icon_css   = 'spinner';
-                data.status     = Lang.status.testing;
+                data.icon_css   = 'spinner fa-pulse';
+                data.status     = Lang.servers.status.testing;
             } else if (parseInt(this.model.get('status')) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
-                data.status     = Lang.status.failed;
+                data.status     = Lang.servers.status.failed;
             }
 
             this.$el.html(this.template(data));
@@ -260,6 +262,7 @@ var app = app || {};
             $('#server_id').val(this.model.id);
             $('#server_name').val(this.model.get('name'));
             $('#server_address').val(this.model.get('ip_address'));
+            $('#server_port').val(this.model.get('port'));
             $('#server_user').val(this.model.get('user'));
             $('#server_path').val(this.model.get('path'));
 

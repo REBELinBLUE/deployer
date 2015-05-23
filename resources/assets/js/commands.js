@@ -25,11 +25,20 @@ var app = app || {};
         }
     });
 
+    var editor;
+
+    $('#command').on('hidden.bs.modal', function (event) {
+        editor.destroy();
+    });
+
     // FIXME: This seems very wrong
     $('#command').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
         var title = Lang.create;
+
+        editor = ace.edit('command_script');
+        editor.getSession().setMode('ace/mode/sh');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -42,7 +51,8 @@ var app = app || {};
             $('#command_id').val('');
             $('#command_step').val(button.data('step'));
             $('#command_name').val('');
-            $('#command_script').val('');
+            editor.setValue('');
+            editor.gotoLine(1);
             $('#command_user').val('');
             $('#command_optional').val('');
 
@@ -110,7 +120,7 @@ var app = app || {};
 
         command.save({
             name:       $('#command_name').val(),
-            script:     $('#command_script').val(),
+            script:     editor.getValue(),
             user:       $('#command_user').val(),
             step:       $('#command_step').val(),
             project_id: $('input[name="project_id"]').val(),
@@ -129,6 +139,9 @@ var app = app || {};
                 if (!command_id) {
                     app.Commands.add(response);
                 }
+
+                editor.setValue('');
+                editor.gotoLine(1);
             },
             error: function(model, response, options) {
                 $('.callout-danger', dialog).show();
@@ -260,7 +273,7 @@ var app = app || {};
             $('#command_id').val(this.model.id);
             $('#command_step').val(this.model.get('step'));
             $('#command_name').val(this.model.get('name'));
-            $('#command_script').val(this.model.get('script'));
+            $('#command_script').text(this.model.get('script'));
             $('#command_user').val(this.model.get('user'));
             $('#command_optional').prop('checked', (this.model.get('optional') === true));
 

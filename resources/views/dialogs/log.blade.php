@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div id="loading">
-                    <i class="fa fa-spinner fa-spin"></i> {{ Lang::get('deployments.loading') }}
+                    <i class="fa fa-spinner fa-pulse"></i> {{ Lang::get('deployments.loading') }}
                 </div>
                 <pre></pre>
             </div>

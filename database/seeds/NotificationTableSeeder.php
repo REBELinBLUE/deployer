@@ -12,9 +12,9 @@ class NotificationTableSeeder extends Seeder
 
         Notification::create([
             'name'       => 'Deployer',
-            'channel'    => '#deploy',
-            'icon'       => '',
-            'webhook'    => 'https://hooks.slack.com/services/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',
+            'channel'    => '#testing',
+            'icon'       => ':ghost:',
+            'webhook'    => 'https://hooks.slack.com/services/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',
             'project_id' => 1
         ]);
     }

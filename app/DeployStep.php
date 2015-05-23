@@ -1,11 +1,13 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Robbo\Presenter\PresentableInterface;
+use App\Presenters\DeployStepPresenter;
 
 /**
  * The deployment step model
  */
-class DeployStep extends Model
+class DeployStep extends Model implements PresentableInterface
 {
     /**
      * The attributes that should be casted to native types.
@@ -42,5 +44,15 @@ class DeployStep extends Model
     public function command()
     {
         return $this->belongsTo('App\Command');
+    }
+
+    /**
+     * Gets the view presenter
+     *
+     * @return DeployStepPresenter
+     */
+    public function getPresenter()
+    {
+        return new DeployStepPresenter($this);
     }
 }

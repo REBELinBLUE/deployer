@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Lang;
 use Input;
 use App\Project;
 use App\Command;
@@ -46,7 +47,7 @@ class CommandController extends Controller
             'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
-            'title'      => deploy_step_label($action),
+            'title'      => Lang::get('commands.' . strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
             'commands'   => $commands
@@ -166,8 +167,6 @@ class CommandController extends Controller
      */
     public function status(ServerLog $log, $include_log = false)
     {
-        $log->started  = ($log->started_at ? $log->started_at->format('g:i:s A') : null);
-        $log->finished = ($log->finished_at ? $log->finished_at->format('g:i:s A') : null);
         $log->runtime  = ($log->runtime() === false ? null : human_readable_duration($log->runtime()));
         $log->script   = '';
 

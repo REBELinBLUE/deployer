@@ -1,11 +1,39 @@
 var app = app || {};
 
 (function ($) {
+    $('.deployment-source:radio').on('change', function (event) {
+        var target = $(event.currentTarget);
 
-    $('#reason button').on('click', function (event) {
+        $('input[type=text].deployment-source').hide();
+        if (target.val() === 'branch') {
+            $('#deployment_branch').show();
+        } else if (target.val() === 'tag') {
+            $('#deployment_tag').show();
+        }
+    });
+
+    $('#reason').on('show.bs.modal', function (event) {
+        var modal = $(this);
+        $('.callout-danger', modal).hide();
+    });
+
+    $('#reason button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
+        var source = $('input[name=source]:checked').val();
+
+        $('.has-error', source).removeClass('has-error');
+
+        if (source === 'branch' || source === 'tag') {
+            if ($('#deployment_' + source).val() === '') {
+                $('#deployment_' + source).parentsUntil('div').addClass('has-error');
+
+                $('.callout-danger', dialog).show();
+                event.stopPropagation();
+                return;
+            }
+        }
 
         icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
         $('button.close', dialog).hide();
@@ -32,7 +60,7 @@ var app = app || {};
             $('#project_repository').val('');
             $('#project_branch').val('master');
             $('#project_group_id').val($("#project_group_id option:first").val());
-            $('#project_builds_to_keep').val('');
+            $('#project_builds_to_keep').val(10);
             $('#project_url').val('');
             $('#project_build_url').val('');
         }
@@ -198,7 +226,11 @@ var app = app || {};
             this.template = _.template($('#project-template').html());
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var data = this.model.toJSON();
+
+            data.deploy = data.last_run ? moment(data.last_run).format('Do MMM YYYY h:mm:ss A') : false;
+
+            this.$el.html(this.template(data));
 
             return this;
         },

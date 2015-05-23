@@ -5,5 +5,4 @@
  */
 abstract class Command
 {
-    
 }

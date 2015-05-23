@@ -4,11 +4,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
+use Robbo\Presenter\PresentableInterface;
+use App\Presenters\ProjectPresenter;
 
 /**
  * Project model
  */
-class Project extends Model
+class Project extends Model implements PresentableInterface
 {
     use SoftDeletes;
 
@@ -23,8 +25,8 @@ class Project extends Model
      *
      * @var array
      */
-    protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at',
-                         'updated_at', 'last_run', 'servers', 'commands', 'hash', 'status'];
+    protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at', 'heartbeats',
+                         'updated_at', 'servers', 'commands', 'hash', 'status'];
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +34,7 @@ class Project extends Model
      * @var array
      */
     protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url'];
-    
+
     /**
      * The fields which should be tried as Carbon instances
      *
@@ -104,6 +106,16 @@ class Project extends Model
     /**
      * Has many relationship
      *
+     * @return Heartbeat
+     */
+    public function heartbeats()
+    {
+        return $this->hasMany('App\Heartbeat')->orderBy('name');
+    }
+
+    /**
+     * Has many relationship
+     *
      * @return Notification
      */
     public function notifications()
@@ -129,6 +141,15 @@ class Project extends Model
     public function commands()
     {
         return $this->hasMany('App\Command');
+    }
+
+    /**
+     * Has many relationship
+     * @return SharedFile
+     */
+    public function shareFiles()
+    {
+        return $this->hasMany('App\SharedFile');
     }
 
     /**
@@ -194,6 +215,16 @@ class Project extends Model
         }
 
         return false;
+    }
+
+    /**
+     * Gets the view presenter
+     *
+     * @return ProjectPresenter
+     */
+    public function getPresenter()
+    {
+        return new ProjectPresenter($this);
     }
 
     /**

@@ -3,11 +3,13 @@
 use Lang;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Robbo\Presenter\PresentableInterface;
+use App\Presenters\DeploymentPresenter;
 
 /**
  * Deployment model
  */
-class Deployment extends Model
+class Deployment extends Model implements PresentableInterface
 {
     use SoftDeletes;
 
@@ -73,6 +75,31 @@ class Deployment extends Model
         return ($this->status == self::DEPLOYING);
     }
 
+   /**
+     * Determines whether the deployment is successful
+     *
+     * @return boolean
+     */
+    public function isSuccessful()
+    {
+        return ($this->status == self::COMPLETED);
+    }
+
+    /**
+     * Determines if the deployment is the latest deployment
+     *
+     * @return boolean
+     */
+    public function isCurrent()
+    {
+        $latest = Deployment::where('project_id', $this->project_id)
+                            ->where('status', self::COMPLETED)
+                            ->orderBy('id', 'desc')
+                            ->first();
+
+        return ($latest->id === $this->id);
+    }
+
     /**
      * Determines how long the deploy took
      *
@@ -116,6 +143,24 @@ class Deployment extends Model
         }
 
         return $this->commit;
+    }
+
+    /**
+     * Gets the HTTP URL to the branch
+     *
+     * @return string|false
+     * @see \App\Project::accessDetails()
+     * @todo Should this be an attribute?
+     */
+    public function branchURL()
+    {
+        $info = $this->project->accessDetails();
+
+        if (isset($info['domain']) && isset($info['reference'])) {
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
+        }
+
+        return false;
     }
 
     /**
@@ -167,5 +212,15 @@ class Deployment extends Model
         ];
 
         return $payload;
+    }
+
+    /**
+     * Gets the view presenter
+     *
+     * @return DeploymentPresenter
+     */
+    public function getPresenter()
+    {
+        return new DeploymentPresenter($this);
     }
 }

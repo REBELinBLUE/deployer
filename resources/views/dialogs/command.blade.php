@@ -17,7 +17,7 @@
 
                     <div class="form-group">
                         <label for="command_name">{{ Lang::get('commands.name') }}</label>
-                        <input type="text" class="form-control" name="name" id="command_name" placeholder="Migrations" />
+                        <input type="text" class="form-control" name="name" id="command_name" placeholder="{{ Lang::get('commands.migrations') }}" />
                     </div>
                     <div class="form-group">
                         <label for="command_user">{{ Lang::get('commands.run_as') }}</label>
@@ -25,11 +25,14 @@
                     </div>
                     <div class="form-group">
                         <label for="command_script">{{ Lang::get('commands.bash') }}</label>
-                        <textarea rows="10" id="command_script" class="form-control" name="script" placeholder="echo 'Hello world'"></textarea>
+                        <div id="command_script" class="form-control"></div>
                         <h5>{{ Lang::get('commands.options') }}</h5>
                         <ul class="list-unstyled">
-                            <li><code>@{{ release }}</code> - {{ Lang::get('commands.release_id') }}, e.g. <span class="label label-default">{{ date('YmdHis') }}</span></li>
-                            <li><code>@{{ release_path }}</code> - {{ Lang::get('commands.release_path') }}, e.g. <span class="label label-default">/var/www/releases/{{ date('YmdHis') }}/</span></li>
+                            <li><code>@{{ project_path }}</code> - {{ Lang::get('commands.project_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www/</span></li>
+                            <li><code>@{{ release }}</code> - {{ Lang::get('commands.release_id') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ date('YmdHis') }}</span></li>
+                            <li><code>@{{ release_path }}</code> - {{ Lang::get('commands.release_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www/releases/{{ date('YmdHis') }}/</span></li>
+                            <!--li><code>@{{ sha }}</code> - {{ Lang::get('commands.sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e6f6fd15c50efe53e090308861ec8a8288</span></li>
+                            <li><code>@{{ short_sha }}</code> - {{ Lang::get('commands.short_sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e</span></li-->
                         </ul>
                     </div>
                     @if (count($project->servers))

@@ -13,9 +13,11 @@ var elixir = require('laravel-elixir');
 
 var bower_path = './vendor/bower_components';
 var paths = {
+    'ace'             : bower_path + '/ace-min-noconflict',
     'backbone'        : bower_path + '/backbone',
     'backbone_poller' : bower_path + '/backbone-poller',
     'underscore'      : bower_path + '/underscore',
+    'moment'          : bower_path + '/moment',
     'jquery'          : bower_path + '/jquery',
     'jquery_sortable' : bower_path + '/jquery-sortable',
     'bootstrap'       : bower_path + '/bootstrap-sass-official/assets',
@@ -40,21 +42,26 @@ elixir(function(mix) {
         paths.jquery          + '/dist/jquery.js',
         paths.jquery_sortable + '/source/js/jquery-sortable.js',
         paths.underscore      + '/underscore.js',
+        paths.moment          + '/moment.js',
         paths.bootstrap       + '/javascripts/bootstrap.js',
         paths.backbone        + '/backbone.js',
-        paths.backbone_poller + '/backbone.poller.js'
+        paths.backbone_poller + '/backbone.poller.js',
+        paths.ace             + '/ace.js',
+        paths.ace             + '/mode-sh.js'
     ], 'public/js/vendor.js', bower_path)
     .scripts([
         'app.js',
         'projects.js',
         'servers.js',
+        'heartbeats.js',
         'notifications.js',
+        'shareFiles.js',
         'deployment.js',
         'commands.js',
         'users.js',
         'groups.js',
         'templates.js',
-        'AdminLTE.js',
+        'AdminLTE.js'
     ], 'public/js/app.js', 'resources/assets/js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')

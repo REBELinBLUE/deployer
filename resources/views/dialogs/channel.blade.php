@@ -16,10 +16,11 @@
 
                     <div class="form-group">
                         <label for="notification_name">{{ Lang::get('notifications.name') }}</label>
-                        <input type="text" class="form-control" id="notification_name" name="name" placeholder="Bot" />
+                        <input type="text" class="form-control" id="notification_name" name="name" placeholder="{{ Lang::get('notifications.bot') }}" />
                     </div>
                     <div class="form-group">
                         <label for="notification_icon">{{ Lang::get('notifications.icon') }}</label>
+                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('notifications.icon_info') }}"></i>
                         <input type="text" class="form-control" id="notification_icon" name="icon" placeholder=":ghost:" />
                     </div>
                     <div class="form-group">

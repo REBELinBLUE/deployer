@@ -32,6 +32,10 @@ Route::group(['middleware' => 'auth'], function () {
         'only' => ['show', 'store', 'update', 'destroy']
     ]);
 
+    Route::resource('heartbeats', 'HeartbeatController', [
+        'only' => ['store', 'update', 'destroy']
+    ]);
+
     Route::resource('notifications', 'NotificationController', [
         'only' => ['store', 'update', 'destroy']
     ]);
@@ -51,6 +55,8 @@ Route::group(['middleware' => 'auth'], function () {
         'as'   => 'commands',
         'uses' => 'CommandController@listing'
     ]);
+
+    Route::resource('shared-files', 'SharedFilesController');
 
     Route::group(['prefix' => 'admin'], function () {
 
@@ -82,6 +88,11 @@ Route::group(['middleware' => 'auth'], function () {
 Route::post('deploy/{hash}', [
     'as'   => 'webhook',
     'uses' => 'WebhookController@webhook'
+]);
+
+Route::get('heartbeat/{hash}', [
+    'as'   => 'heartbeat',
+    'uses' => 'HeartbeatController@ping'
 ]);
 
 Route::controllers([

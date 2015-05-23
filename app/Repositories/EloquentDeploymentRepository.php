@@ -19,9 +19,8 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     public function getLatest(Project $project)
     {
         return Deployment::where('project_id', $project->id)
-                         ->take($project->builds_to_keep)
                          ->orderBy('started_at', 'DESC')
-                         ->get();
+                         ->paginate($project->builds_to_keep);
     }
 
     /**

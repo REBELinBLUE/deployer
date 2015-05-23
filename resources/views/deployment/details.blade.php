@@ -9,7 +9,7 @@
         <div class="col-xs-12">
             <div class="box deploy-step">
                 <div class="box-header">
-                    <h3 class="box-title"><i class="fa fa-terminal"></i> <span>{{ $step->command ? $step->command->name : deploy_stage_label($step->stage) }}</span></h3>
+                    <h3 class="box-title"><i class="fa fa-terminal"></i> <span>{{ $step->name }}</span></h3>
                 </div>
                 <div class="box-body table-responsive">
                     <table class="table table-hover">
@@ -40,9 +40,27 @@
         <td width="10%">
              <span class="label label-<%- status_css %>"><i class="fa fa-<%- icon_css %>"></i> <span><%- status %></span></span>
         </td>
-        <td width="20%"><%- start_time %></td>
-        <td width="20%"><%- end_time %></td>
-        <td width="10%"><%- total_time %></td>
+        <td width="20%">
+            <% if (formatted_start_time) { %>
+                <%- formatted_start_time %>
+            <% } else { %>
+                {{ Lang::get('app.not_applicable') }}
+            <% } %>
+        </td>
+        <td width="20%">
+            <% if (formatted_end_time) { %>
+                <%- formatted_end_time %>
+            <% } else { %>
+                {{ Lang::get('app.not_applicable') }}
+            <% } %>
+        </td>
+        <td width="10%">
+         <% if (total_time) { %>
+                <%- total_time %>
+            <% } else { %>
+                {{ Lang::get('app.not_applicable') }}
+            <% } %>
+            </td>
         <td width="10%">
             <div class="btn-group pull-right">
                 <% if (output !== null) { %>

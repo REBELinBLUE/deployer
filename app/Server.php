@@ -27,7 +27,7 @@ class Server extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'user', 'ip_address', 'project_id', 'path', 'status', 'deploy_code'];
+    protected $fillable = ['name', 'user', 'ip_address', 'project_id', 'path', 'status', 'deploy_code', 'port'];
 
     /**
      * The attributes that should be casted to native types.
@@ -79,5 +79,21 @@ class Server extends Model
         }
 
         $this->attributes['ip_address'] = $value;
+    }
+
+    /**
+     * Define a mutator for the port, if it has changed or
+     * has not previously been set also set the status to untested
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setPortAttribute($value)
+    {
+        if (!array_key_exists('port', $this->attributes) || $value !== $this->attributes['port']) {
+            $this->attributes['status'] = self::UNTESTED;
+        }
+
+        $this->attributes['port'] = $value;
     }
 }
