@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-bullhorn"></i> <span>{{ Lang::get('projectFiles.create') }}</span></h4>
+                <h4 class="modal-title"><i class="fa fa-file-code-o"></i> <span>{{ Lang::get('projectFiles.create') }}</span></h4>
             </div>
             <form role="form">
                 <input type="hidden" id="project_file_id" name="id" />
@@ -35,12 +35,13 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="view-projectfile">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-bullhorn"></i> <span>{{ Lang::get('projectFiles.view') }}</span></h4>
+                <h4 class="modal-title"><i class="fa fa-eye"></i> <span>{{ Lang::get('projectFiles.view') }}</span></h4>
             </div>
             <div class="modal-body">
             </div>
