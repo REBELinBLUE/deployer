@@ -10,7 +10,7 @@ return [
     'path'               => 'Path',
     'content'            => 'Content',
     'warning'            => 'The file could not be saved, please check the form below.',
-    'view'               => 'View file',
+    'view'               => 'View file content',
     'config'             => 'Application Configuration'
 
 ];

@@ -3,9 +3,24 @@ var app = app || {};
 (function ($) {
 
     var editor;
+    var previewfile;
 
-    $('#projectfile').on('hidden.bs.modal', function (event) {
+    $('#projectfile, #view-projectfile').on('hidden.bs.modal', function (event) {
         editor.destroy();
+    });
+
+    $('#view-projectfile').on('show.bs.modal', function (event) {
+        editor = ace.edit('preview-content');
+        editor.setReadOnly(true);
+        editor.getSession().setUseWrapMode(true);
+
+        var extension = previewfile.substr(previewfile.lastIndexOf('.') + 1).toLowerCase();
+
+        if (extension == 'php' || extension == 'ini') {
+            editor.getSession().setMode('ace/mode/' + extension);
+        } else if (extension == 'yml') {
+            editor.getSession().setMode('ace/mode/yaml');
+        }
     });
 
     // FIXME: This seems very wrong
@@ -175,7 +190,7 @@ var app = app || {};
         },
         addOne: function (file) {
 
-            var view = new app.PorjectFileView({ 
+            var view = new app.ProjectFileView({ 
                 model: file
             });
 
@@ -187,7 +202,7 @@ var app = app || {};
         }
     });
 
-    app.PorjectFileView = Backbone.View.extend({
+    app.ProjectFileView = Backbone.View.extend({
         tagName:  'tr',
         events: {
             'click .btn-edit': 'editFile',
@@ -207,7 +222,8 @@ var app = app || {};
             return this;
         },
         viewFile: function() {
-            $('#view-projectfile .modal-body').html('<pre>' + this.model.get('content') + '</pre>');
+            previewfile = this.model.get('path');
+            $('#preview-content').text(this.model.get('content'));
         },
         editFile: function() {
             // FIXME: Sure this is wrong?
