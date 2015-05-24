@@ -162,6 +162,15 @@ class Project extends Model implements PresentableInterface
     }
 
     /**
+     * Has many relationship
+     * @return SharedFile
+     */
+    public function notifyEmails()
+    {
+        return $this->hasMany('App\NotifyEmail');
+    }
+
+    /**
      * Generates a hash for use in the webhook URL
      *
      * @return void
