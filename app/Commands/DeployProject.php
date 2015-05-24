@@ -309,7 +309,9 @@ CMD;
             $remote_key_file = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
-            // FIXME: This does not belong here as this function should only being returning the commands not running them!
+            // FIXME: This does not belong here as this function should
+            // only being returning the commands
+            // not running them!
             $this->prepareServer($server);
 
             $commands = [
@@ -340,6 +342,16 @@ CMD;
                     $latest_release_dir
                 )
             ];
+
+            // write project file to release dir
+            
+            $projectFiles = $project->projectFiles;
+            foreach ($projectFiles as $file) {
+                if ($file->path) {
+                    $filepath = $latest_release_dir . '/' . $file->path;
+                    $this->sendFileFromString($server, $filepath, $file->content);
+                }
+            }
         } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
             $commands = [
                 sprintf('cd %s', $root_dir)
@@ -542,6 +554,24 @@ OUT;
 
         // Upload the wrapper file
         $this->sendFile($wrapper, $remote_wrapper_file, $server);
+
+        unlink($wrapper);
+    }
+
+    /**
+     * send a string to server
+     * @param  Server $server   target server
+     * @param  string $filename remote filename
+     * @param  string $content  the file content
+     * @return void
+     */
+    private function sendFileFromString(Server $server, $filepath, $content)
+    {
+        $wrapper = tempnam(storage_path() . '/app/', 'wrapper');
+        file_put_contents($wrapper, $content);
+
+        // Upload the wrapper file
+        $this->sendFile($wrapper, $filepath, $server);
 
         unlink($wrapper);
     }
