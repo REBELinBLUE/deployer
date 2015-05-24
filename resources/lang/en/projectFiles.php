@@ -3,8 +3,8 @@
 return [
 
     'label'              => 'Project Files',
-    'create'             => 'Add file',
-    'edit'               => 'Edit file',
+    'create'             => 'Add a new file',
+    'edit'               => 'Edit the file',
     'none'               => 'Add files which you want to write into the release directory',
     'name'               => 'Name',
     'path'               => 'Path',

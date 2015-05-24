@@ -5,14 +5,14 @@ var app = app || {};
     $('#sharefile').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = 'Add file or folder';
+        var title = Lang.sharedFiles.create;
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = 'Edit file';
+            title = Lang.sharedFiles.edit;
             $('.btn-danger', modal).show();
         } else {
             $('#file_id').val('');

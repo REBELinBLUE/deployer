@@ -12,7 +12,7 @@ var app = app || {};
     $('#projectfile').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = 'Add file';
+        var title = Lang.projectFiles.create;
 
         editor = ace.edit('project-file-content');
 
@@ -30,7 +30,7 @@ var app = app || {};
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = 'Edit file';
+            title = Lang.projectFiles.edit;
             $('.btn-danger', modal).show();
         } else {
             $('#project_file_id').val('');

@@ -36,3 +36,10 @@
         </div>
     </td>
 </script>
+
+<script type="text/javascript">
+    Lang.notifications = {
+        create: '{{ Lang::get('notifications.create') }}',
+        edit: '{{ Lang::get('notifications.edit') }}'
+    };
+</script>
