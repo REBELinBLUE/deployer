@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\StoreProjectFileRequest;
 
+/**
+ * Manage the project global file like some environment files
+ */
 class ProjectFileController extends Controller
 {
 
