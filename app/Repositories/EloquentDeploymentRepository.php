@@ -39,7 +39,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
 
     /**
      * Gets pending deployments
-     * 
+     *
      * @return array
      */
     public function getPending()
@@ -49,7 +49,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
 
     /**
      * Gets running deployments
-     * 
+     *
      * @return array
      */
     public function getRunning()
