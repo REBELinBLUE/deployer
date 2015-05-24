@@ -1,11 +1,29 @@
 var app = app || {};
 
 (function ($) {
+
+    var editor;
+
+    $('#projectfile').on('hidden.bs.modal', function (event) {
+        editor.destroy();
+    });
+
     // FIXME: This seems very wrong
     $('#projectfile').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
         var title = 'Add file';
+
+        editor = ace.edit('project-file-content');
+
+        var filename = $('#project-file-path').val();
+        var extension = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
+
+        if (extension == 'php' || extension == 'ini') {
+            editor.getSession().setMode('ace/mode/' + extension);
+        } else if (extension == 'yml') {
+            editor.getSession().setMode('ace/mode/yaml');
+        }
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -18,11 +36,13 @@ var app = app || {};
             $('#project_file_id').val('');
             $('#project-file-name').val('');
             $('#project-file-path').val('');
-            $('#project-file-content').val('');
+            editor.setValue('');
+            editor.gotoLine(1);
         }
 
         modal.find('.modal-title span').text(title);
     });
+
 
     // FIXME: This seems very wrong
     $('#projectfile button.btn-delete').on('click', function (event) {
@@ -76,8 +96,8 @@ var app = app || {};
 
         file.save({
             name:       $('#project-file-name').val(),
-            path:    $('#project-file-path').val(),
-            content: $('#project-file-content').val(),
+            path:       $('#project-file-path').val(),
+            content:    editor.getValue(),
             project_id: $('input[name="project_id"]').val()
         }, {
             wait: true,
@@ -92,6 +112,9 @@ var app = app || {};
                 if (!project_file_id) {
                     app.ProjectFiles.add(response);
                 }
+
+                editor.setValue('');
+                editor.gotoLine(1);
             },
             error: function(model, response, options) {
                 $('.callout-danger', dialog).show();
@@ -191,7 +214,7 @@ var app = app || {};
             $('#project_file_id').val(this.model.id);
             $('#project-file-name').val(this.model.get('name'));
             $('#project-file-path').val(this.model.get('path'));
-            $('#project-file-content').val(this.model.get('content'));
+            $('#project-file-content').text(this.model.get('content'));
         }
     });
 
