@@ -343,7 +343,16 @@ CMD;
                 )
             ];
 
-            // write project file to release dir
+            // the shared file must be created in the install step
+            $shareFileCommands = $this->shareFileCommands(
+                $project,
+                $latest_release_dir,
+                $release_shared_dir
+            );
+
+            $commands = array_merge($commands, $shareFileCommands);
+
+            // write project file to release dir before install
             
             $projectFiles = $project->projectFiles;
             foreach ($projectFiles as $file) {
@@ -354,58 +363,10 @@ CMD;
             }
         } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
             $commands = [
-                sprintf('cd %s', $root_dir)
+                sprintf('cd %s', $root_dir),
+                sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
+                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
             ];
-
-            foreach ($project->shareFiles as $filecfg) {
-                if ($filecfg->file) {
-                    $pathinfo = pathinfo($filecfg->file);
-                    $isDir = false;
-
-                    if (substr($filecfg->file, 0, 1) == '/') {
-                        $filecfg->file = substr($filecfg->file, 1);
-                    }
-
-                    if (substr($filecfg->file, -1) == '/') {
-                        $isDir = true;
-                        $filecfg->file = substr($filecfg->file, 0, -1);
-                    }
-
-                    if (isset($pathinfo['extension'])) {
-                        $filename = $pathinfo['filename'] . '.' . $pathinfo['extension'];
-                    } else {
-                        $filename = $pathinfo['filename'];
-                    }
-
-                    $sourceFile = $release_shared_dir . '/' . $filename;
-                    $targetFile = $latest_release_dir . '/' . $filecfg->file;
-
-                    if ($isDir) {
-                        $commands[] = sprintf(
-                            '[ -d %s ] && cp -pRn %s %s && rm -rf %s',
-                            $targetFile,
-                            $targetFile,
-                            $sourceFile,
-                            $targetFile
-                        );
-                        $commands[] = sprintf('[ ! -d %s ] && mkdir %s', $sourceFile, $sourceFile);
-                    } else {
-                        $commands[] = sprintf(
-                            '[ -f %s ] && cp -pRn %s %s && rm -rf %s',
-                            $targetFile,
-                            $targetFile,
-                            $sourceFile,
-                            $targetFile
-                        );
-                        $commands[] = sprintf('[ ! -f %s ] && touch %s', $sourceFile, $sourceFile);
-                    }
-
-                    $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
-                }
-            }
-
-            $commands[] = sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir);
-            $commands[] = sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir);
         } elseif ($step->stage === Stage::DO_PURGE) { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
@@ -574,5 +535,64 @@ OUT;
         $this->sendFile($wrapper, $filepath, $server);
 
         unlink($wrapper);
+    }
+
+    /**
+     * create the command for share files
+     * @param  Project $project     the related project
+     * @param  string  $release_dir current release dir
+     * @param  string  $shared_dir  the shared dir
+     * @return array
+     */
+    private function shareFileCommands(Project $project, $release_dir, $shared_dir)
+    {
+        $commands = array();
+        foreach ($project->shareFiles as $filecfg) {
+            if ($filecfg->file) {
+                $pathinfo = pathinfo($filecfg->file);
+                $isDir = false;
+
+                if (substr($filecfg->file, 0, 1) == '/') {
+                    $filecfg->file = substr($filecfg->file, 1);
+                }
+
+                if (substr($filecfg->file, -1) == '/') {
+                    $isDir = true;
+                    $filecfg->file = substr($filecfg->file, 0, -1);
+                }
+
+                if (isset($pathinfo['extension'])) {
+                    $filename = $pathinfo['filename'] . '.' . $pathinfo['extension'];
+                } else {
+                    $filename = $pathinfo['filename'];
+                }
+
+                $sourceFile = $shared_dir . '/' . $filename;
+                $targetFile = $release_dir . '/' . $filecfg->file;
+
+                if ($isDir) {
+                    $commands[] = sprintf(
+                        '[ -d %s ] && cp -pRn %s %s && rm -rf %s',
+                        $targetFile,
+                        $targetFile,
+                        $sourceFile,
+                        $targetFile
+                    );
+                    $commands[] = sprintf('[ ! -d %s ] && mkdir %s', $sourceFile, $sourceFile);
+                } else {
+                    $commands[] = sprintf(
+                        '[ -f %s ] && cp -pRn %s %s && rm -rf %s',
+                        $targetFile,
+                        $targetFile,
+                        $sourceFile,
+                        $targetFile
+                    );
+                    $commands[] = sprintf('[ ! -f %s ] && touch %s', $sourceFile, $sourceFile);
+                }
+
+                $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
+            }
+        }
+        return $commands;
     }
 }
