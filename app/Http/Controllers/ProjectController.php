@@ -66,6 +66,7 @@ class ProjectController extends Controller
             'notifications' => $project->notifications,
             'heartbeats'    => $project->heartbeats,
             'sharedFiles'   => $project->shareFiles,
+            'projectFiles'  => $project->projectFiles,
             'optional'      => $optional
         ]);
     }
@@ -120,8 +121,6 @@ class ProjectController extends Controller
             'url',
             'build_url'
         ));
-
-        $project->save();
 
         $project->group_name = $project->group->name;
 

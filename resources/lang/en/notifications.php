@@ -4,7 +4,7 @@ return [
 
     'label'           => 'Notifications',
     'create'          => 'Add a new notification',
-    'edit'            => 'Edit a notification',
+    'edit'            => 'Edit the notification',
     'none'            => 'The project does not currently have any notifications setup',
     'name'            => 'Name',
     'channel'         => 'Channel',
@@ -15,7 +15,7 @@ return [
     'webhook'         => 'Webhook URL',
     'test_message'    => 'This is a test to ensure the notification is setup correctly, if you ' .
                          'can see this it means it is! :+1:',
-    'success_message' => 'Deployment %s successful! :smile:',
+    'success_message' => 'Deployment %s successful! :smile:', // FIXME: Shouldn't this use the Lang :deployment tokens instead of sprintf?
     'failed_message'  => 'Deployment %s failed! :cry:',
     'branch'          => 'Branch',
     'project'         => 'Project',

@@ -47,7 +47,10 @@ elixir(function(mix) {
         paths.backbone        + '/backbone.js',
         paths.backbone_poller + '/backbone.poller.js',
         paths.ace             + '/ace.js',
-        paths.ace             + '/mode-sh.js'
+        paths.ace             + '/mode-sh.js',
+        paths.ace             + '/mode-php.js',
+        paths.ace             + '/mode-yaml.js',
+        paths.ace             + '/mode-ini.js'
     ], 'public/js/vendor.js', bower_path)
     .scripts([
         'app.js',
@@ -56,6 +59,7 @@ elixir(function(mix) {
         'heartbeats.js',
         'notifications.js',
         'shareFiles.js',
+        'projectFiles.js',
         'deployment.js',
         'commands.js',
         'users.js',

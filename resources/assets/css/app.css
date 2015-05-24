@@ -60,6 +60,21 @@ input[type=text].deployment-source {
     display: none;
 }
 
-#command_script { 
+#command_script,
+#project-file-content { 
     height: 250px;
+}
+
+
+#preview-content {
+    height: 500px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+#deploying_menu li a p,
+#deploying_menu li a h4,
+#pending_menu li a p,
+#pending_menu li a h4 {
+    margin-left: 0;
 }

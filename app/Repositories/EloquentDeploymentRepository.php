@@ -38,6 +38,26 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     }
 
     /**
+     * Gets pending deployments
+     * 
+     * @return array
+     */
+    public function getPending()
+    {
+        return $this->getStatus(Deployment::PENDING);
+    }
+
+    /**
+     * Gets running deployments
+     * 
+     * @return array
+     */
+    public function getRunning()
+    {
+        return $this->getStatus(Deployment::DEPLOYING);
+    }
+
+    /**
      * Gets the number of times a project has been deployed today
      *
      * @param Project $project
@@ -80,5 +100,20 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
                          ->where('started_at', '>=', $startDate->format('Y-m-d') . ' 00:00:00')
                          ->where('started_at', '<=', $endDate->format('Y-m-d') . ' 23:59:59')
                          ->count();
+    }
+
+    /**
+     * Gets deployments with a supplied status
+     *
+     * @param int $status
+     * @return array
+     */
+    public function getStatus($status)
+    {
+        $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
+        return Deployment::whereRaw($raw_sql) // FIXME: Surely there is a nicer way to do this?
+                         ->where('status', $status)
+                         ->orderBy('started_at', 'DESC')
+                         ->get();
     }
 }

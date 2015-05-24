@@ -1,13 +1,12 @@
 <?php namespace App\Commands;
 
-use Config;
-use SSH;
 use App\Server;
 use App\Commands\Command;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Symfony\Component\Process\Process;
 
 /**
  * Tests if a server can successfully be SSHed into
@@ -42,19 +41,17 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
         $key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($key, $this->server->project->private_key);
 
-        Config::set('remote.connections.runtime.host', $this->server->ip_address . ':' . $this->server->port);
-        Config::set('remote.connections.runtime.username', $this->server->user);
-        Config::set('remote.connections.runtime.password', '');
-        Config::set('remote.connections.runtime.key', $key);
-        Config::set('remote.connections.runtime.keyphrase', '');
-        Config::set('remote.connections.runtime.root', $this->server->path);
-
         try {
-            SSH::into('runtime')->run([
-                'ls'
-            ]);
+            $command = $this->sshCommand($this->server, $key, 'ls');
+            $process = new Process($command);
+            $process->setTimeout(null);
+            $process->run();
 
-            $this->server->status = Server::SUCCESSFUL;
+            if (!$process->isSuccessful()) {
+                $this->server->status = Server::FAILED;
+            } else {
+                $this->server->status = Server::SUCCESSFUL;
+            }
         } catch (\Exception $error) {
             $this->server->status = Server::FAILED;
         }
@@ -62,5 +59,27 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
         $this->server->save();
 
         unlink($key);
+    }
+
+    /**
+     * Generates the SSH command for running the script on a server
+     *
+     * @param Server $server
+     * @param string $script The script to run
+     * @return string
+     */
+    private function sshCommand(Server $server, $private_key, $script)
+    {
+        $script = 'set -e' . PHP_EOL . $script;
+        return 'ssh -o CheckHostIP=no \
+                 -o IdentitiesOnly=yes \
+                 -o StrictHostKeyChecking=no \
+                 -o PasswordAuthentication=no \
+                 -o IdentityFile=' . $private_key . ' \
+                 -p ' . $server->port . ' \
+                 ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 '.$script.'
+EOF';
+
     }
 }

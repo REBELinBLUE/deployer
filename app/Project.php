@@ -153,6 +153,15 @@ class Project extends Model implements PresentableInterface
     }
 
     /**
+     * Has many relationship to project file
+     * @return ProjectFile
+     */
+    public function projectFiles()
+    {
+        return $this->hasMany('App\ProjectFile');
+    }
+
+    /**
      * Generates a hash for use in the webhook URL
      *
      * @return void

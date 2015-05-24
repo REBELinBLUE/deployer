@@ -13,6 +13,7 @@ class StoreServerRequest extends Request
      *
      * @param Factory $factory
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function __construct(Factory $factory)
     {

@@ -1,30 +1,66 @@
 var app = app || {};
 
 (function ($) {
+
+    var editor;
+    var previewfile;
+
+    $('#projectfile, #view-projectfile').on('hidden.bs.modal', function (event) {
+        editor.destroy();
+    });
+
+    $('#view-projectfile').on('show.bs.modal', function (event) {
+        editor = ace.edit('preview-content');
+        editor.setReadOnly(true);
+        editor.getSession().setUseWrapMode(true);
+
+        var extension = previewfile.substr(previewfile.lastIndexOf('.') + 1).toLowerCase();
+
+        if (extension == 'php' || extension == 'ini') {
+            editor.getSession().setMode('ace/mode/' + extension);
+        } else if (extension == 'yml') {
+            editor.getSession().setMode('ace/mode/yaml');
+        }
+    });
+
     // FIXME: This seems very wrong
-    $('#sharefile').on('show.bs.modal', function (event) {
+    $('#projectfile').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.sharedFiles.create;
+        var title = Lang.projectFiles.create;
+
+        editor = ace.edit('project-file-content');
+
+        var filename = $('#project-file-path').val();
+        var extension = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
+
+        if (extension == 'php' || extension == 'ini') {
+            editor.getSession().setMode('ace/mode/' + extension);
+        } else if (extension == 'yml') {
+            editor.getSession().setMode('ace/mode/yaml');
+        }
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.sharedFiles.edit;
+            title = Lang.projectFiles.edit;
             $('.btn-danger', modal).show();
         } else {
-            $('#file_id').val('');
-            $('#name').val('');
-            $('#file').val('');
+            $('#project_file_id').val('');
+            $('#project-file-name').val('');
+            $('#project-file-path').val('');
+            editor.setValue('');
+            editor.gotoLine(1);
         }
 
         modal.find('.modal-title span').text(title);
     });
 
+
     // FIXME: This seems very wrong
-    $('#sharefile button.btn-delete').on('click', function (event) {
+    $('#projectfile button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -33,7 +69,7 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var file = app.SharedFiles.get($('#file_id').val());
+        var file = app.ProjectFiles.get($('#project_file_id').val());
 
         file.destroy({
             wait: true,
@@ -45,7 +81,7 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
 
-                app.SharedFiles.remove(file);
+                app.ProjectFiles.remove(file);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -56,7 +92,7 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#sharefile button.btn-save').on('click', function (event) {
+    $('#projectfile button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -65,17 +101,18 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var file_id = $('#file_id').val();
+        var project_file_id = $('#project_file_id').val();
 
-        if (file_id) {
-            var file = app.SharedFiles.get(file_id);
+        if (project_file_id) {
+            var file = app.ProjectFiles.get(project_file_id);
         } else {
-            var file = new app.SharedFile();
+            var file = new app.ProjectFile();
         }
 
         file.save({
-            name:       $('#name').val(),
-            file:    $('#file').val(),
+            name:       $('#project-file-name').val(),
+            path:       $('#project-file-path').val(),
+            content:    editor.getValue(),
             project_id: $('input[name="project_id"]').val()
         }, {
             wait: true,
@@ -87,9 +124,12 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
 
-                if (!file_id) {
-                    app.SharedFiles.add(response);
+                if (!project_file_id) {
+                    app.ProjectFiles.add(response);
                 }
+
+                editor.setValue('');
+                editor.gotoLine(1);
             },
             error: function(model, response, options) {
                 $('.callout-danger', dialog).show();
@@ -113,44 +153,44 @@ var app = app || {};
         });
     });
 
-    app.SharedFile = Backbone.Model.extend({
-        urlRoot: '/shared-files',
+    app.ProjectFile = Backbone.Model.extend({
+        urlRoot: '/project-file',
         poller: false
     });
 
-    var SharedFiles = Backbone.Collection.extend({
-        model: app.SharedFile
+    var ProjectFiles = Backbone.Collection.extend({
+        model: app.ProjectFile
     });
 
-    app.SharedFiles = new SharedFiles();
+    app.ProjectFiles = new ProjectFiles();
 
-    app.SharedFilesTab = Backbone.View.extend({
+    app.ProjectFilesTab = Backbone.View.extend({
         el: '#app',
         events: {
 
         },
         initialize: function() {
-            this.$list = $('#file_list tbody');
+            this.$list = $('#projectfile_list tbody');
 
-            $('#no_files').show();
-            $('#file_list').hide();
+            $('#no_projectfiles').show();
+            $('#projectfile_list').hide();
 
-            this.listenTo(app.SharedFiles, 'add', this.addOne);
-            this.listenTo(app.SharedFiles, 'reset', this.addAll);
-            this.listenTo(app.SharedFiles, 'all', this.render);
+            this.listenTo(app.ProjectFiles, 'add', this.addOne);
+            this.listenTo(app.ProjectFiles, 'reset', this.addAll);
+            this.listenTo(app.ProjectFiles, 'all', this.render);
         },
         render: function () {
-            if (app.SharedFiles.length) {
-                $('#no_files').hide();
-                $('#file_list').show();
+            if (app.ProjectFiles.length) {
+                $('#no_projectfiles').hide();
+                $('#projectfile_list').show();
             } else {
-                $('#no_files').show();
-                $('#file_list').hide();
+                $('#no_projectfiles').show();
+                $('#projectfile_list').hide();
             }
         },
         addOne: function (file) {
 
-            var view = new app.FileView({ 
+            var view = new app.ProjectFileView({ 
                 model: file
             });
 
@@ -158,20 +198,21 @@ var app = app || {};
         },
         addAll: function () {
             this.$list.html('');
-            app.SharedFiles.each(this.addOne, this);
+            app.ProjectFiles.each(this.addOne, this);
         }
     });
 
-    app.FileView = Backbone.View.extend({
+    app.ProjectFileView = Backbone.View.extend({
         tagName:  'tr',
         events: {
-            'click .btn-edit': 'editFile'
+            'click .btn-edit': 'editFile',
+            'click .btn-view': 'viewFile'
         },
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'destroy', this.remove);
 
-            this.template = _.template($('#files-template').html());
+            this.template = _.template($('#project-files-template').html());
         },
         render: function () {
             var data = this.model.toJSON();
@@ -180,11 +221,16 @@ var app = app || {};
 
             return this;
         },
+        viewFile: function() {
+            previewfile = this.model.get('path');
+            $('#preview-content').text(this.model.get('content'));
+        },
         editFile: function() {
             // FIXME: Sure this is wrong?
-            $('#file_id').val(this.model.id);
-            $('#name').val(this.model.get('name'));
-            $('#file').val(this.model.get('file'));
+            $('#project_file_id').val(this.model.id);
+            $('#project-file-name').val(this.model.get('name'));
+            $('#project-file-path').val(this.model.get('path'));
+            $('#project-file-content').text(this.model.get('content'));
         }
     });
 
