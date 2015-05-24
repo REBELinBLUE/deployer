@@ -109,8 +109,6 @@ class ProjectController extends Controller
             'build_url'
         ));
 
-        $project->save();
-
         $project->group_name = $project->group->name;
 
         return $project;
