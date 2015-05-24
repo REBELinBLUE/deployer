@@ -61,6 +61,7 @@ class ProjectController extends Controller
             'notifications' => $project->notifications,
             'heartbeats'    => $project->heartbeats,
             'sharedFiles'   => $project->shareFiles,
+            'projectFiles'  => $project->projectFiles,
             'optional'      => $optional
         ]);
     }

@@ -309,7 +309,9 @@ CMD;
             $remote_key_file = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
-            // FIXME: This does not belong here as this function should only being returning the commands not running them!
+            // FIXME: This does not belong here as this function should
+            // only being returning the commands
+            // not running them!
             $this->prepareServer($server);
 
             $commands = [
@@ -340,60 +342,31 @@ CMD;
                     $latest_release_dir
                 )
             ];
-        } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
-            $commands = [
-                sprintf('cd %s', $root_dir)
-            ];
 
-            foreach ($project->shareFiles as $filecfg) {
-                if ($filecfg->file) {
-                    $pathinfo = pathinfo($filecfg->file);
-                    $isDir = false;
+            // the shared file must be created in the install step
+            $shareFileCommands = $this->shareFileCommands(
+                $project,
+                $latest_release_dir,
+                $release_shared_dir
+            );
 
-                    if (substr($filecfg->file, 0, 1) == '/') {
-                        $filecfg->file = substr($filecfg->file, 1);
-                    }
+            $commands = array_merge($commands, $shareFileCommands);
 
-                    if (substr($filecfg->file, -1) == '/') {
-                        $isDir = true;
-                        $filecfg->file = substr($filecfg->file, 0, -1);
-                    }
-
-                    if (isset($pathinfo['extension'])) {
-                        $filename = $pathinfo['filename'] . '.' . $pathinfo['extension'];
-                    } else {
-                        $filename = $pathinfo['filename'];
-                    }
-
-                    $sourceFile = $release_shared_dir . '/' . $filename;
-                    $targetFile = $latest_release_dir . '/' . $filecfg->file;
-
-                    if ($isDir) {
-                        $commands[] = sprintf(
-                            '[ -d %s ] && cp -pRn %s %s && rm -rf %s',
-                            $targetFile,
-                            $targetFile,
-                            $sourceFile,
-                            $targetFile
-                        );
-                        $commands[] = sprintf('[ ! -d %s ] && mkdir %s', $sourceFile, $sourceFile);
-                    } else {
-                        $commands[] = sprintf(
-                            '[ -f %s ] && cp -pRn %s %s && rm -rf %s',
-                            $targetFile,
-                            $targetFile,
-                            $sourceFile,
-                            $targetFile
-                        );
-                        $commands[] = sprintf('[ ! -f %s ] && touch %s', $sourceFile, $sourceFile);
-                    }
-
-                    $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
+            // write project file to release dir before install
+            
+            $projectFiles = $project->projectFiles;
+            foreach ($projectFiles as $file) {
+                if ($file->path) {
+                    $filepath = $latest_release_dir . '/' . $file->path;
+                    $this->sendFileFromString($server, $filepath, $file->content);
                 }
             }
-
-            $commands[] = sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir);
-            $commands[] = sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir);
+        } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
+            $commands = [
+                sprintf('cd %s', $root_dir),
+                sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
+                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
+            ];
         } elseif ($step->stage === Stage::DO_PURGE) { // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
@@ -544,5 +517,82 @@ OUT;
         $this->sendFile($wrapper, $remote_wrapper_file, $server);
 
         unlink($wrapper);
+    }
+
+    /**
+     * send a string to server
+     * @param  Server $server   target server
+     * @param  string $filename remote filename
+     * @param  string $content  the file content
+     * @return void
+     */
+    private function sendFileFromString(Server $server, $filepath, $content)
+    {
+        $wrapper = tempnam(storage_path() . '/app/', 'wrapper');
+        file_put_contents($wrapper, $content);
+
+        // Upload the wrapper file
+        $this->sendFile($wrapper, $filepath, $server);
+
+        unlink($wrapper);
+    }
+
+    /**
+     * create the command for share files
+     * @param  Project $project     the related project
+     * @param  string  $release_dir current release dir
+     * @param  string  $shared_dir  the shared dir
+     * @return array
+     */
+    private function shareFileCommands(Project $project, $release_dir, $shared_dir)
+    {
+        $commands = array();
+        foreach ($project->shareFiles as $filecfg) {
+            if ($filecfg->file) {
+                $pathinfo = pathinfo($filecfg->file);
+                $isDir = false;
+
+                if (substr($filecfg->file, 0, 1) == '/') {
+                    $filecfg->file = substr($filecfg->file, 1);
+                }
+
+                if (substr($filecfg->file, -1) == '/') {
+                    $isDir = true;
+                    $filecfg->file = substr($filecfg->file, 0, -1);
+                }
+
+                if (isset($pathinfo['extension'])) {
+                    $filename = $pathinfo['filename'] . '.' . $pathinfo['extension'];
+                } else {
+                    $filename = $pathinfo['filename'];
+                }
+
+                $sourceFile = $shared_dir . '/' . $filename;
+                $targetFile = $release_dir . '/' . $filecfg->file;
+
+                if ($isDir) {
+                    $commands[] = sprintf(
+                        '[ -d %s ] && cp -pRn %s %s && rm -rf %s',
+                        $targetFile,
+                        $targetFile,
+                        $sourceFile,
+                        $targetFile
+                    );
+                    $commands[] = sprintf('[ ! -d %s ] && mkdir %s', $sourceFile, $sourceFile);
+                } else {
+                    $commands[] = sprintf(
+                        '[ -f %s ] && cp -pRn %s %s && rm -rf %s',
+                        $targetFile,
+                        $targetFile,
+                        $sourceFile,
+                        $targetFile
+                    );
+                    $commands[] = sprintf('[ ! -f %s ] && touch %s', $sourceFile, $sourceFile);
+                }
+
+                $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
+            }
+        }
+        return $commands;
     }
 }
