@@ -11,7 +11,7 @@ class TemplateCommandController extends Controller
 {
     /**
      * Shows the commands associated with a template
-     * 
+     *
      * @param Template $template
      * @return Response
      */
