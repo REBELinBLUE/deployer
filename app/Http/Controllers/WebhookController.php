@@ -20,14 +20,16 @@ class WebhookController extends Controller
      * @return Response
      * @todo Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
      *       http://doc.gitlab.com/ee/web_hooks/web_hooks.html
+     * @todo Allow optional commands to be specified in the POST data
      */
     public function webhook($hash)
     {
         $project = Project::where('hash', $hash)
                           ->firstOrFail();
 
+        $success = false;
         if ($project->servers->count() > 0) { // FIXME: This should filter to deployable servers
-            $optional = []; // FIXME: Come up with some way to specify which commands should run or not
+            $optional = [];
 
             $deployment = new Deployment;
             $deployment->reason = Input::get('reason');
@@ -38,10 +40,12 @@ class WebhookController extends Controller
                 $deployment,
                 $optional
             ));
+
+            $success = true;
         }
 
         return [
-            'success' => true
+            'success' => $success
         ];
     }
 
