@@ -45,7 +45,6 @@ class ProjectController extends Controller
             return $command->optional;
         });
 
-        // FIXME: Make project injected in the constructor so we don't have to keep passing it
         return view('projects.details', [
             'title'         => $project->name,
             'deployments'   => $deploymentRepository->getLatest($project),

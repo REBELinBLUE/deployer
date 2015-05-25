@@ -22,7 +22,7 @@ class Project extends Model implements PresentableInterface
 
     /**
      * The attributes excluded from the model's JSON form.
-     *
+     * 
      * @var array
      */
     protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at', 'heartbeats',
