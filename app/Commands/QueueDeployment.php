@@ -147,7 +147,6 @@ class QueueDeployment extends Command implements SelfHandling
             'deployment_id' => $this->deployment->id
         ]);
 
-        // TODO: Clean this up so we only get the list of servers which we should deploy to
         foreach ($this->project->servers as $server) {
             // If command is null it is preparing one of the 4 default steps so
             // skip servers which shouldn't have the code deployed
