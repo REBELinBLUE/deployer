@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-bullhorn"></i> {{ Lang::get('notifyEmails.create') }}</h4>
+                <h4 class="modal-title"><i class="fa fa-envelope"></i> <span>{{ Lang::get('notifyEmails.create') }}</span></h4>
             </div>
             <form role="form">
                 <input type="hidden" id="notifyemail_id" name="id" />
