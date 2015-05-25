@@ -3,6 +3,9 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Email list for a deployment notification.
+ */
 class NotifyEmail extends Model
 {
 
