@@ -43,6 +43,7 @@
                     </div>
                     <div class="form-group">
                         <label for="project_build_url">{{ Lang::get('projects.image') }}</label>
+                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('projects.ci_image') }}"></i>
                         <input type="text" class="form-control" name="build_url" id="project_build_url" placeholder="http://ci.example.com/status.png?project=1" />
                     </div>
                 </div>
