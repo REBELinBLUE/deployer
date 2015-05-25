@@ -40,6 +40,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('users', 'App\User');
         $router->model('shared-files', 'App\SharedFile');
         $router->model('project-file', 'App\ProjectFile');
+        $router->model('notify-email', 'App\NotifyEmail');
     }
 
     /**
