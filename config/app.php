@@ -135,6 +135,10 @@ return [
         'Illuminate\Translation\TranslationServiceProvider',
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
+
+        /*
+         * Package Service Providers...
+         */
         'Barryvdh\Debugbar\ServiceProvider',
         'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
         'Creativeorange\Gravatar\GravatarServiceProvider',
