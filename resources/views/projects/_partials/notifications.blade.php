@@ -1,7 +1,7 @@
 <div class="box">
     <div class="box-header">
         <div class="pull-right">
-            <button type="button" class="btn btn-default" title="{{ Lang::get('commands.create') }}" data-toggle="modal" data-target="#notification"><span class="fa fa-plus"></span> {{ Lang::get('notifications.create') }}</button>
+            <button type="button" class="btn btn-default" title="{{ Lang::get('notifications.create') }}" data-toggle="modal" data-target="#notification"><span class="fa fa-plus"></span> {{ Lang::get('notifications.create') }}</button>
         </div>
         <h3 class="box-title">{{ Lang::get('notifications.label') }}</h3>
     </div>

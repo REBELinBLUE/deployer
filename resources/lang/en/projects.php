@@ -9,9 +9,11 @@ return [
     'awesome'         => 'My awesome webapp',
     'group'           => 'Group',
     'repository'      => 'Repository',
-    'builds'          => 'Builds to keep',
+    'builds'          => 'Builds to Keep',
     'branch'          => 'Default Branch',
     'image'           => 'Build Image',
+    'ci_image'        => 'If you use a CI server which generates an image to indicate the build status ' .
+                         'can put the URL here to have it show on the project page',
     'latest'          => 'Latest Deploy',
     'create'          => 'Add a new project',
     'edit'            => 'Edit a project',
