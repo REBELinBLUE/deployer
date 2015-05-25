@@ -59,6 +59,7 @@ class ProjectController extends Controller
             'project'       => $project,
             'servers'       => $project->servers,
             'notifications' => $project->notifications,
+            'notifyEmails'  => $project->notifyEmails,
             'heartbeats'    => $project->heartbeats,
             'sharedFiles'   => $project->shareFiles,
             'projectFiles'  => $project->projectFiles,
