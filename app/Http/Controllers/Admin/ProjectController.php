@@ -1,21 +1,16 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\Admin;
 
 use Lang;
-use Input;
 use App\Project;
-use App\Group;
 use App\Template;
-use App\Deployment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
-use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Http\Requests\StoreProjectRequest;
 use App\Commands\SetupProject;
-use App\Commands\QueueDeployment;
 
 /**
- * The controller for managing projects
+ * The controller for managging projects
  */
 class ProjectController extends Controller
 {
@@ -34,34 +29,6 @@ class ProjectController extends Controller
             'templates' => Template::all(),
             'groups'    => Group::all(),
             'projects'  => $projects->toJson() // Because PresentableInterface toJson() is not working in the view
-        ]);
-    }
-
-    /**
-     * The details of an individual project
-     *
-     * @param Project $project
-     * @param DeploymentRepositoryInterface $deploymentRepository
-     * @return View
-     */
-    public function show(Project $project, DeploymentRepositoryInterface $deploymentRepository)
-    {
-        $optional = $project->commands->filter(function ($command) {
-            return $command->optional;
-        });
-
-        return view('projects.details', [
-            'title'         => $project->name,
-            'deployments'   => $deploymentRepository->getLatest($project),
-            'today'         => $deploymentRepository->getTodayCount($project),
-            'last_week'     => $deploymentRepository->getLastWeekCount($project),
-            'project'       => $project,
-            'servers'       => $project->servers,
-            'notifications' => $project->notifications,
-            'heartbeats'    => $project->heartbeats,
-            'sharedFiles'   => $project->shareFiles,
-            'projectFiles'  => $project->projectFiles,
-            'optional'      => $optional
         ]);
     }
 
@@ -130,42 +97,5 @@ class ProjectController extends Controller
         return [
             'success' => true
         ];
-    }
-
-    /**
-     * Adds a deployment for the specified project to the queue
-     *
-     * @param Project $project
-     * @return Response
-     * @todo Don't allow this to run if there is already a pending deploy or no servers
-     */
-    public function deploy(Project $project)
-    {
-        $deployment = new Deployment;
-        $deployment->reason = Input::get('reason');
-
-        if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
-            $deployment->branch = Input::get('source_' . Input::get('source'));
-        }
-
-        if (empty($deployment->branch)) {
-            $deployment->branch = $project->branch;
-        }
-
-        $optional = [];
-
-        if (Input::has('optional')) {
-            $optional = Input::get('optional');
-        }
-
-        $this->dispatch(new QueueDeployment(
-            $project,
-            $deployment,
-            $optional
-        ));
-
-        return redirect()->route('deployment', [
-            'id' => $deployment->id
-        ]);
     }
 }

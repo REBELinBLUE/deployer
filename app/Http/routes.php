@@ -15,11 +15,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', 'DashboardController@index');
     Route::get('webhook/{projects}/refresh', 'WebhookController@refresh');
-    Route::get('projects/{projects}', 'ProjectController@show');
 
+    Route::get('projects/{projects}', 'DeploymentController@project');
+    
     Route::post('projects/{projects}/deploy', [
         'as'   => 'deploy',
-        'uses' => 'ProjectController@deploy'
+        'uses' => 'DeploymentController@deploy'
     ]);
 
     // Deployment details
@@ -59,7 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('shared-files', 'SharedFilesController');
     Route::resource('project-file', 'ProjectFileController');
 
-    Route::group(['prefix' => 'admin'], function () {
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         Route::resource('projects', 'ProjectController', [
             'only' => ['index', 'store', 'update', 'destroy']
