@@ -8,6 +8,9 @@ use App\Repositories\Contracts\TemplateRepositoryInterface;
 use App\Http\Requests\StoreTemplateRequest;
 use Illuminate\Http\Request;
 
+/**
+ * The controller for managing deployment tempaltes
+ */
 class TemplateController extends Controller
 {
    /**
