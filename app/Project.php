@@ -43,6 +43,13 @@ class Project extends Model implements PresentableInterface
     protected $dates = ['last_run'];
 
     /**
+     * Additional attributes to include in the JSON representation
+     *
+     * @var array
+     */
+    protected $appends = ['group_name'];
+
+    /**
      * The attributes that should be casted to native types.
      *
      * @var array
@@ -261,6 +268,16 @@ class Project extends Model implements PresentableInterface
         }
 
         return false;
+    }
+
+    /**
+     * Define a mutator for the group name
+     *
+     * @return int
+     */
+    public function getGroupNameAttribute()
+    {
+        return $this->group->name;
     }
 
     /**

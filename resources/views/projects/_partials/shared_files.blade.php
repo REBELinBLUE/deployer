@@ -36,3 +36,10 @@
         </div>
     </td>
 </script>
+
+<script type="text/javascript">
+    Lang.sharedFiles = {
+        create: '{{ Lang::get('sharedFiles.create') }}',
+        edit: '{{ Lang::get('sharedFiles.edit') }}'
+    };
+</script>

@@ -37,3 +37,10 @@
         </div>
     </td>
 </script>
+
+<script type="text/javascript">
+    Lang.projectFiles = {
+        create: '{{ Lang::get('projectFiles.create') }}',
+        edit: '{{ Lang::get('projectFiles.edit') }}'
+    };
+</script>

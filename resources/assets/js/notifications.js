@@ -5,14 +5,14 @@ var app = app || {};
     $('#notification').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = 'Add notification';
+        var title = Lang.notifications.create;
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = 'Edit notification';
+            title = Lang.notifications.edit;
             $('.btn-danger', modal).show();
         } else {
             $('#notification_id').val('');

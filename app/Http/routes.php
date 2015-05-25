@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 
     // Deployment details
-    Route::get('deployment/{deployments}', [ // FIXME Should this be on the deployment controller?
+    Route::get('deployment/{deployments}', [
         'as'   => 'deployment',
         'uses' => 'DeploymentController@show'
     ]);

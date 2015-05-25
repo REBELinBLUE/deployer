@@ -42,7 +42,7 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
         file_put_contents($key, $this->server->project->private_key);
 
         try {
-            $command = $this->sshCommand($this->server, $key, 'ls', $this->server->user);
+            $command = $this->sshCommand($this->server, $key, 'ls');
             $process = new Process($command);
             $process->setTimeout(null);
             $process->run();
@@ -66,15 +66,10 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
      *
      * @param Server $server
      * @param string $script The script to run
-     * @param string $user
      * @return string
      */
-    private function sshCommand(Server $server, $private_key, $script, $user = null)
+    private function sshCommand(Server $server, $private_key, $script)
     {
-        if (is_null($user)) {
-            $user = $server->user;
-        }
-
         $script = 'set -e' . PHP_EOL . $script;
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
@@ -82,7 +77,7 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
                  -o PasswordAuthentication=no \
                  -o IdentityFile=' . $private_key . ' \
                  -p ' . $server->port . ' \
-                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
                  '.$script.'
 EOF';
 

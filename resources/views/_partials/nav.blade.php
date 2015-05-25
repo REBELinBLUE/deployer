@@ -6,12 +6,62 @@
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+
+                @if ($pending_count > 0)
+                <li class="dropdown messages-menu" id="pending_menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-clock-o"></i>
+                        <span class="label label-info">{{ $pending_count }}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header">{{ Lang::choice('dashboard.pending', $pending_count, ['count' => $pending_count]) }}</li>
+                        <li>
+                            <ul class="menu">
+                                @foreach ($pending as $deployment)
+                                    <li>
+                                        <a href="{{ route('deployment', ['id' => $deployment->id]) }}">
+                                            <h4>{{ $deployment->project->name }} <small class="pull-right">{{ Lang::get('dashboard.started') }}: {{ $deployment->started_at->format('g:i:s A') }}</small></h4>
+                                            <p>{{ Lang::get('deployments.branch') }}: {{ $deployment->branch }}</p>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+
+                @if ($deploying_count > 0)
+                <li class="dropdown messages-menu" id="deploying_menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-spinner"></i>
+                        <span class="label label-warning">{{ $deploying_count }}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header">{{ Lang::choice('dashboard.running', $deploying_count, ['count' => $deploying_count]) }}</li>
+                        <li>
+                            <ul class="menu">
+                                @foreach ($deploying as $deployment)
+                                    <li>
+                                        <a href="{{ route('deployment', ['id' => $deployment->id]) }}">
+                                            <h4>{{ $deployment->project->name }} <small class="pull-right">{{ Lang::get('dashboard.started') }}: {{ $deployment->started_at->format('g:i:s A') }}</small></h4>
+                                            <p>{{ Lang::get('deployments.branch') }}: {{ $deployment->branch }}</p>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="{{ Gravatar::get(Auth::user()->email) }}" class="user-image" />
                         <span class="hidden-xs">{{ Auth::user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
+
                         <li class="user-header">
                             <img src="{{ Gravatar::get(Auth::user()->email) }}" class="img-circle" />
                             <p>

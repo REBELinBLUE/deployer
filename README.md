@@ -16,7 +16,7 @@ The code is written to follow PSR-2 standards, this can be tested using PHP_Code
 
     $ phpcs --standard=PSR2 app
 
-Code style can be checked with
+Code mess can be checked with
 
     $ phpmd app text design,unusedcode,naming
 

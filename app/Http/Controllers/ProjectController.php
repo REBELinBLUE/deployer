@@ -26,11 +26,6 @@ class ProjectController extends Controller
     {
         $projects = $projectRepository->getAll();
 
-        // FIXME: Clean this up, it shouldn't be needed?
-        foreach ($projects as $project) {
-            $project->group_name = $project->group->name;
-        }
-
         return view('projects.listing', [
             'title'    => Lang::get('projects.manage'),
             'projects' => $projects->toJson() // Because PresentableInterface toJson() is not working in the view
@@ -50,7 +45,6 @@ class ProjectController extends Controller
             return $command->optional;
         });
 
-        // FIXME: Make project injected in the constructor so we don't have to keep passing it
         return view('projects.details', [
             'title'         => $project->name,
             'deployments'   => $deploymentRepository->getLatest($project),
@@ -86,8 +80,6 @@ class ProjectController extends Controller
             'build_url'
         ));
 
-        $project->group_name = $project->group->name;
-
         return $project;
     }
 
@@ -109,8 +101,6 @@ class ProjectController extends Controller
             'url',
             'build_url'
         ));
-
-        $project->group_name = $project->group->name;
 
         return $project;
     }

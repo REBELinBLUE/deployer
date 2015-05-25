@@ -22,7 +22,7 @@
     <body class="skin-green">
         <div class="wrapper">
 
-            @include('._partials.nav')
+            @include('_partials.nav')
 
             @include('_partials.sidebar')
 

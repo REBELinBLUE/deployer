@@ -79,5 +79,9 @@
     Lang.notifyEmails = {
         create: '{{ Lang::get('notifyEmails.create') }}',
         edit: '{{ Lang::get('notifyEmails.edit') }}'
+
+    Lang.notifications = {
+        create: '{{ Lang::get('notifications.create') }}',
+        edit: '{{ Lang::get('notifications.edit') }}'
     };
 </script>

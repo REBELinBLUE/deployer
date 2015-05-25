@@ -34,6 +34,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     private function composeNavigation()
     {
+        view()->composer('_partials.nav', 'App\Http\Composers\HeaderComposer');
         view()->composer('_partials.sidebar', 'App\Http\Composers\NavigationComposer');
     }
 }

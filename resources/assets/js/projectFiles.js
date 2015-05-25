@@ -1,28 +1,63 @@
 var app = app || {};
 
 (function ($) {
+
+    var editor;
+    var previewfile;
+
+    $('#projectfile, #view-projectfile').on('hidden.bs.modal', function (event) {
+        editor.destroy();
+    });
+
+    $('#view-projectfile').on('show.bs.modal', function (event) {
+        editor = ace.edit('preview-content');
+        editor.setReadOnly(true);
+        editor.getSession().setUseWrapMode(true);
+
+        var extension = previewfile.substr(previewfile.lastIndexOf('.') + 1).toLowerCase();
+
+        if (extension == 'php' || extension == 'ini') {
+            editor.getSession().setMode('ace/mode/' + extension);
+        } else if (extension == 'yml') {
+            editor.getSession().setMode('ace/mode/yaml');
+        }
+    });
+
     // FIXME: This seems very wrong
     $('#projectfile').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = 'Add file';
+        var title = Lang.projectFiles.create;
+
+        editor = ace.edit('project-file-content');
+
+        var filename = $('#project-file-path').val();
+        var extension = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
+
+        if (extension == 'php' || extension == 'ini') {
+            editor.getSession().setMode('ace/mode/' + extension);
+        } else if (extension == 'yml') {
+            editor.getSession().setMode('ace/mode/yaml');
+        }
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = 'Edit file';
+            title = Lang.projectFiles.edit;
             $('.btn-danger', modal).show();
         } else {
             $('#project_file_id').val('');
             $('#project-file-name').val('');
             $('#project-file-path').val('');
-            $('#project-file-content').val('');
+            editor.setValue('');
+            editor.gotoLine(1);
         }
 
         modal.find('.modal-title span').text(title);
     });
+
 
     // FIXME: This seems very wrong
     $('#projectfile button.btn-delete').on('click', function (event) {
@@ -76,8 +111,8 @@ var app = app || {};
 
         file.save({
             name:       $('#project-file-name').val(),
-            path:    $('#project-file-path').val(),
-            content: $('#project-file-content').val(),
+            path:       $('#project-file-path').val(),
+            content:    editor.getValue(),
             project_id: $('input[name="project_id"]').val()
         }, {
             wait: true,
@@ -92,6 +127,9 @@ var app = app || {};
                 if (!project_file_id) {
                     app.ProjectFiles.add(response);
                 }
+
+                editor.setValue('');
+                editor.gotoLine(1);
             },
             error: function(model, response, options) {
                 $('.callout-danger', dialog).show();
@@ -152,7 +190,7 @@ var app = app || {};
         },
         addOne: function (file) {
 
-            var view = new app.PorjectFileView({ 
+            var view = new app.ProjectFileView({ 
                 model: file
             });
 
@@ -164,7 +202,7 @@ var app = app || {};
         }
     });
 
-    app.PorjectFileView = Backbone.View.extend({
+    app.ProjectFileView = Backbone.View.extend({
         tagName:  'tr',
         events: {
             'click .btn-edit': 'editFile',
@@ -184,14 +222,15 @@ var app = app || {};
             return this;
         },
         viewFile: function() {
-            $('#view-projectfile .modal-body').html('<pre>' + this.model.get('content') + '</pre>');
+            previewfile = this.model.get('path');
+            $('#preview-content').text(this.model.get('content'));
         },
         editFile: function() {
             // FIXME: Sure this is wrong?
             $('#project_file_id').val(this.model.id);
             $('#project-file-name').val(this.model.get('name'));
             $('#project-file-path').val(this.model.get('path'));
-            $('#project-file-content').val(this.model.get('content'));
+            $('#project-file-content').text(this.model.get('content'));
         }
     });
 

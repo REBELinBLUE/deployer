@@ -3,8 +3,8 @@
 return [
 
     'label'              => 'Shared Files',
-    'create'             => 'Add file or folder',
-    'edit'               => 'Edit the server',
+    'create'             => 'Add a new file or folder',
+    'edit'               => 'Edit the file or folder',
     'none'               => 'You can add files or directories which should be shared across all releases',
     'name'               => 'Name',
     'file'               => 'Path',

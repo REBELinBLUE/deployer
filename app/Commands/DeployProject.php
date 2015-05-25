@@ -548,17 +548,17 @@ OUT;
         // Upload the SSH private key
         $this->sendFile($this->private_key, $remote_key_file, $server);
 
-        $wrapper = tempnam(storage_path() . '/app/', 'wrapper');
-        file_put_contents($wrapper, $this->gitWrapperScript($remote_key_file));
-
         // Upload the wrapper file
-        $this->sendFile($wrapper, $remote_wrapper_file, $server);
-
-        unlink($wrapper);
+        $this->sendFileFromString(
+            $server,
+            $remote_wrapper_file,
+            $this->gitWrapperScript($remote_key_file)
+        );
     }
 
     /**
      * send a string to server
+     *
      * @param  Server $server   target server
      * @param  string $filename remote filename
      * @param  string $content  the file content
@@ -566,7 +566,7 @@ OUT;
      */
     private function sendFileFromString(Server $server, $filepath, $content)
     {
-        $wrapper = tempnam(storage_path() . '/app/', 'wrapper');
+        $wrapper = tempnam(storage_path() . '/app/', 'tmpfile');
         file_put_contents($wrapper, $content);
 
         // Upload the wrapper file
@@ -577,6 +577,7 @@ OUT;
 
     /**
      * create the command for share files
+     *
      * @param  Project $project     the related project
      * @param  string  $release_dir current release dir
      * @param  string  $shared_dir  the shared dir
