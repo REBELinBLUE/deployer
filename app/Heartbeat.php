@@ -96,7 +96,7 @@ class Heartbeat extends Model
      * Define a mutator for the callback URL
      *
      * @return string
-     * @todo  Shouldn't this be a presenter?
+     * TODO: Shouldn't this be a presenter?
      */
     public function getCallbackUrlAttribute()
     {

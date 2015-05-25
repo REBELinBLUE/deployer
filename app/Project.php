@@ -202,7 +202,7 @@ class Project extends Model implements PresentableInterface
      *
      * @return string|false
      * @see \App\Project::accessDetails()
-     * @todo Should this be an attribute?
+     * TODO: Should this be an attribute?
      */
     public function repositoryPath()
     {
@@ -220,7 +220,7 @@ class Project extends Model implements PresentableInterface
      *
      * @return string|false
      * @see \App\Project::accessDetails()
-     * @todo Should this be an attribute?
+     * TODO: Should this be an attribute?
      */
     public function repositoryURL()
     {
@@ -248,7 +248,7 @@ class Project extends Model implements PresentableInterface
      *
      * @return string|false
      * @see \App\Project::accessDetails()
-     * @todo Should this be an attribute?
+     * TODO: Should this be an attribute?
      */
     public function branchURL()
     {

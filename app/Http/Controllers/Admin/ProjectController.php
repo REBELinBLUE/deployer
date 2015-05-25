@@ -38,7 +38,6 @@ class ProjectController extends Controller
      *
      * @param StoreProjectRequest $request
      * @return Response
-     * @todo Use mass assignment if possible
      */
     public function store(StoreProjectRequest $request)
     {

@@ -5,8 +5,8 @@
  *
  * @param int $seconds The number of seconds
  * @return string
- * @todo Remove this and move to a view presenter
- * @todo Translate
+ * TODO: Remove this and move to a view presenter
+ * TODO: Translate
  */
 function human_readable_duration($seconds)
 {

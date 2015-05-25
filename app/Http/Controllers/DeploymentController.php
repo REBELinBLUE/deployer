@@ -83,7 +83,7 @@ class DeploymentController extends Controller
      *
      * @param Project $project
      * @return Response
-     * @todo Don't allow this to run if there is already a pending deploy or no servers
+     * TODO: Don't allow this to run if there is already a pending deploy or no servers
      */
     public function deploy(Project $project)
     {

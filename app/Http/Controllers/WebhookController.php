@@ -18,9 +18,9 @@ class WebhookController extends Controller
      *
      * @param string $hash The webhook hash
      * @return Response
-     * @todo Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
+     * TODO: Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
      *       http://doc.gitlab.com/ee/web_hooks/web_hooks.html
-     * @todo Allow optional commands to be specified in the POST data
+     * TODO: Allow optional commands to be specified in the POST data
      */
     public function webhook($hash)
     {
