@@ -97,6 +97,7 @@
     @include('dialogs.reason')
     @include('dialogs.shared_files')
     @include('dialogs.project_files')
+    @include('dialogs.notify_email');
 @stop
 
 @section('javascript')
