@@ -3,6 +3,7 @@
 use Lang;
 use App\Project;
 use App\Template;
+use App\Group;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
