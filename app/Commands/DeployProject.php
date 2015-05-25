@@ -2,6 +2,8 @@
 
 use Config;
 use Queue;
+use Mail;
+use Lang;
 use App\Deployment;
 use App\DeployStep;
 use App\ServerLog;
@@ -93,7 +95,43 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             Queue::pushOn('notify', new Notify($notification, $this->deployment->notificationPayload()));
         }
 
+        // Send email notification
+        $this->sendEmailNotifications($project, $this->deployment);
+
         unlink($this->private_key);
+    }
+
+    /**
+     * send notifications to project emails
+     * @param  Project    $project    the project
+     * @param  Deployment $deployment this project deployment
+     * @return void
+     */
+    private function sendEmailNotifications(Project $project, Deployment $deployment)
+    {
+        $emails = $project->notifyEmails;
+
+        if ($emails) {
+            $status = strtolower($project->getPresenter()->readable_status);
+            $subject = Lang::get(
+                'notifyEmails.subject',
+                ['status'=>$status,'project'=>$project->name]
+            );
+            $projectArr = $project->toArray();
+            $deploymentArr = $deployment->toArray();
+            $deploymentArr['commitURL'] = $deployment->commitURL();
+            $deploymentArr['shortCommit'] = $deployment->shortCommit();
+            Mail::queue(
+                'emails.deployed',
+                ['project'=>$projectArr,'deployment'=>$deploymentArr],
+                function ($message) use ($emails, $subject) {
+                    foreach ($emails as $email) {
+                        $message->to($email->email, $email->name);
+                    }
+                    $message->subject($subject);
+                }
+            );
+        }
     }
 
     /**
