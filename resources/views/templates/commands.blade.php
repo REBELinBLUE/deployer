@@ -2,11 +2,37 @@
 
 @section('content')
     <div class="row">
+        <div class="col-md-12"> 
+            <h2>Clone</h2>
+        </div>
         @include('commands._partials.list', [ 'step' => 'Before', 'action' => 1 ])
         @include('commands._partials.list', [ 'step' => 'After', 'action' => 3 ])
     </div>
 
-    @include('dialogs.command')
+    <div class="row">
+        <div class="col-md-12"> 
+            <h2>Install</h2>
+        </div>
+        @include('commands._partials.list', [ 'step' => 'Before', 'action' => 4 ])
+        @include('commands._partials.list', [ 'step' => 'After', 'action' => 6 ])
+    </div>
+
+    <div class="row">
+        <div class="col-md-12"> 
+            <h2>Activate</h2>
+        </div>
+        @include('commands._partials.list', [ 'step' => 'Before', 'action' => 7 ])
+        @include('commands._partials.list', [ 'step' => 'After', 'action' => 9 ])
+    </div>
+
+    <div class="row">
+        <div class="col-md-12"> 
+            <h2>Purge</h2>
+        </div>
+        @include('commands._partials.list', [ 'step' => 'Before', 'action' => 10 ])
+        @include('commands._partials.list', [ 'step' => 'After', 'action' => 12 ])
+    </div>
+
 
     <script type="text/template" id="command-template">
         <td data-command-id="<%- id %>"><%- name %></td>

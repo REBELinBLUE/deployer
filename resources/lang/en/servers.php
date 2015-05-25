@@ -19,8 +19,8 @@ return [
     'testing'            => 'Testing',
     'failed'             => 'Failed',
     'untested'           => 'Untested',
-    'deploy_code'        => 'Deploy code',
-    'deploy_description' => 'Whether or not the code should be deployed to this server',
+    'options'            => 'Options',
+    'deploy_code'        => 'Code should be deployed to this server',
     'add_command'        => 'Add the new server to all existing commands'
 
 ];

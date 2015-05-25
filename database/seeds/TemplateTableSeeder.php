@@ -22,19 +22,27 @@ class TemplateTableSeeder extends Seeder
         ]);
 
         CommandTemplate::create([
-            'name'        => 'Welcome',
-            'script'      => "echo \"Before Clone {{ release }}\"",
+            'name'        => 'Down',
+            'script'      => "php artisan down",
             'template_id' => 1,
             'user'        => 'vagrant',
-            'step'        => Command::BEFORE_CLONE
+            'step'        => Command::BEFORE_ACTIVATE
         ]);
 
         CommandTemplate::create([
-            'name'        => 'Goodbye',
-            'script'      => "echo \"After Purge {{ release }}\"",
+            'name'        => 'Run Migrations',
+            'script'      => "php artisan migrate --force",
             'template_id' => 1,
             'user'        => 'vagrant',
-            'step'        => Command::AFTER_PURGE
+            'step'        => Command::BEFORE_ACTIVATE
+        ]);
+
+        CommandTemplate::create([
+            'name'        => 'Up',
+            'script'      => "php artisan up",
+            'template_id' => 1,
+            'user'        => 'vagrant',
+            'step'        => Command::BEFORE_ACTIVATE
         ]);
     }
 }

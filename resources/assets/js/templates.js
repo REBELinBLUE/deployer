@@ -86,6 +86,8 @@ var app = app || {};
 
                 if (!template_id) {
                     app.Templates.add(response);
+
+                    window.location.href = '/admin/templates/' + response.id + '/commands';
                 }
             },
             error: function(model, response, options) {
