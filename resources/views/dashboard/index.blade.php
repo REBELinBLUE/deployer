@@ -74,7 +74,7 @@
                             <li>
                                 <i class="fa fa-{{ $deployment->icon }} bg-{{ $deployment->timeline_css_class }}"></i>
                                 <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> {{ $deployment->started_at->format('H:i') }}</span>
+                                    <span class="time"><i class="fa fa-clock-o"></i> {{ $deployment->started_at->format('g:i:s A') }}</span>
                                     <h3 class="timeline-header"><a href="{{ url('projects', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">{{ Lang::get('dashboard.deployment_num', ['id' => $deployment->id]) }}</a> - {{ $deployment->readable_status }}</h3>
 
                                     @if (!empty($deployment->reason))
