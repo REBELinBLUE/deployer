@@ -74,3 +74,10 @@
         </div>
     </td>
 </script>
+
+<script type="text/javascript">
+    Lang.notifyEmails = {
+        create: '{{ Lang::get('notifyEmails.create') }}',
+        edit: '{{ Lang::get('notifyEmails.edit') }}'
+    };
+</script>

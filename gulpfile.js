@@ -55,6 +55,7 @@ elixir(function(mix) {
         'servers.js',
         'heartbeats.js',
         'notifications.js',
+        'notifyEmails.js',
         'shareFiles.js',
         'projectFiles.js',
         'deployment.js',
