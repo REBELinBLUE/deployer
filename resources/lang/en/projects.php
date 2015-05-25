@@ -9,7 +9,7 @@ return [
     'awesome'         => 'My awesome webapp',
     'group'           => 'Group',
     'repository'      => 'Repository',
-    'builds'          => 'Builds to keep',
+    'builds'          => 'Builds to Keep',
     'branch'          => 'Default Branch',
     'image'           => 'Build Image',
     'latest'          => 'Latest Deploy',
