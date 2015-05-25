@@ -163,7 +163,7 @@ class CommandController extends Controller
      * @param ServerLog $log
      * @param boolean $include_log
      * @return Response
-     * @todo Move this to deployment controller
+     * TODO: Move this to deployment controller
      */
     public function status(ServerLog $log, $include_log = false)
     {
@@ -182,7 +182,7 @@ class CommandController extends Controller
      *
      * @param ServerLog $log
      * @return Response
-     * @todo Move this to deployment controller
+     * TODO: Move this to deployment controller
      */
     public function log(ServerLog $log)
     {

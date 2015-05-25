@@ -150,7 +150,7 @@ class Deployment extends Model implements PresentableInterface
      *
      * @return string|false
      * @see \App\Project::accessDetails()
-     * @todo Should this be an attribute?
+     * TODO: Should this be an attribute?
      */
     public function branchURL()
     {

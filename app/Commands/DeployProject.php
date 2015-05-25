@@ -18,7 +18,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * Deploys an actual project
- * @todo: rewrite this as it is doing way too much and is very messy now
+ * TODO: rewrite this as it is doing way too much and is very messy now
  */
 class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 {
@@ -101,7 +101,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
      * the deployment model
      *
      * @return void
-     * @todo  Change this to use the Gitlab API
+     * TODO: Change this to use the Gitlab API
      */
     private function updateRepoInfo()
     {
@@ -150,7 +150,7 @@ CMD;
      * Removed left over artifacts from a failed deploy on each server
      *
      * @return void
-     * @todo Clean this up as there is some duplication with getScript()
+     * TODO: Clean this up as there is some duplication with getScript()
      */
     private function cleanupDeployment()
     {
@@ -213,7 +213,7 @@ CMD;
      * @param DeployStep $step
      * @return void
      * @throws \RuntimeException
-     * @todo Remove build on failure
+     * TODO: Remove build on failure
      */
     private function runStep(DeployStep $step)
     {

@@ -38,7 +38,7 @@ class QueueDeployment extends Command implements SelfHandling
      * Execute the command.
      *
      * @return void
-     * @todo refactor
+     * TODO: refactor
      */
     public function handle()
     {
@@ -116,7 +116,7 @@ class QueueDeployment extends Command implements SelfHandling
      * @param int $stage
      * @param Command $command
      * @return void
-     * @todo refactor these 2 functions
+     * TODO: refactor these 2 functions
      */
     private function createCommandStep($stage, Stage $command)
     {
