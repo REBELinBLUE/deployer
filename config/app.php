@@ -203,7 +203,6 @@ return [
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View'      => 'Illuminate\Support\Facades\View',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
-        'SSH'       => 'Collective\Remote\RemoteFacade',
         'Gravatar'  => 'Creativeorange\Gravatar\Facades\Gravatar',
 
     ],
