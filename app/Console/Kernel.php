@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $customBooters = [
-        'App\Bootstrap\ConfigureLogging',
+        'Illuminate\Foundation\Bootstrap\ConfigureLogging' => 'App\Bootstrap\ConfigureLogging',
     ];
 
     /**
@@ -22,7 +22,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $disabledBooters = [
-        'Illuminate\Foundation\Bootstrap\ConfigureLogging',
     ];
 
     /**
@@ -55,6 +54,14 @@ class Kernel extends ConsoleKernel
      */
     protected function bootstrappers()
     {
+        foreach ($this->bootstrappers as &$bootstrapper) {
+            foreach ($this->customBooters as $sourceBooter => $newBooter) {
+                if ($bootstrapper == $sourceBooter) {
+                    $bootstrapper = $newBooter;
+                    unset($this->customBooters[$sourceBooter]);
+                }
+            }
+        }
         return array_merge(
             array_diff(
                 $this->bootstrappers,

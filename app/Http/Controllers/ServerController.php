@@ -4,14 +4,13 @@ use Response;
 use Queue;
 use App\Server;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use App\Commands\TestServerConnection;
 use App\Http\Requests\StoreServerRequest;
 
 /**
  * Server management controller
  */
-class ServerController extends Controller
+class ServerController extends ResourceController
 {
     /**
      * Shows the specified server
