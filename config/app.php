@@ -135,6 +135,10 @@ return [
         'Illuminate\Translation\TranslationServiceProvider',
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
+
+        /*
+         * Package Service Providers...
+         */
         'Barryvdh\Debugbar\ServiceProvider',
         'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
         'Creativeorange\Gravatar\GravatarServiceProvider',
@@ -199,7 +203,6 @@ return [
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View'      => 'Illuminate\Support\Facades\View',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
-        'SSH'       => 'Collective\Remote\RemoteFacade',
         'Gravatar'  => 'Creativeorange\Gravatar\Facades\Gravatar',
 
     ],

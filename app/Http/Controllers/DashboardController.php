@@ -16,7 +16,7 @@ class DashboardController extends Controller
      * The main page of the dashboard
      *
      * @return View
-     * @todo Use a decorator pattern here
+     * TODO: Use a decorator pattern here
      */
     public function index(
         DeploymentRepositoryInterface $deploymentRepository,

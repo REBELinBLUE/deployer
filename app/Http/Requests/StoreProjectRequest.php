@@ -4,6 +4,7 @@ use App\Http\Requests\Request;
 
 /**
  * Request for validating projects
+ * TODO: Define a better validator for the repository, should ensure it is a valid URL and has .git at the end
  */
 class StoreProjectRequest extends Request
 {
