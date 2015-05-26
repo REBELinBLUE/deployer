@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserWasCreated' => [
             'App\Handlers\Events\SendSignupEmail',
         ],
+        'App\Events\DeployFinished' => [
+            'App\Handlers\Events\Notify'
+        ],
     ];
 
     /**

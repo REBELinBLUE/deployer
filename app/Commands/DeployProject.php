@@ -9,7 +9,7 @@ use App\Server;
 use App\Command as Stage;
 use App\Project;
 use App\Commands\Command;
-use App\Commands\Notify;
+use App\Events\DeployFinished;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -89,9 +89,8 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $project->last_run = date('Y-m-d H:i:s');
         $project->save();
 
-        foreach ($project->notifications as $notification) {
-            Queue::pushOn('notify', new Notify($notification, $this->deployment->notificationPayload()));
-        }
+        // Notify user or others the deployment has been finished
+        event(new DeployFinished($project, $this->deployment));
 
         unlink($this->private_key);
     }

@@ -1,13 +1,12 @@
 <?php namespace App\Http\Controllers;
 
 use App\Notification;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNotificationRequest;
 
 /**
  * Controller for managing notifications
  */
-class NotificationController extends Controller
+class NotificationController extends ResourceController
 {
     /**
      * Store a newly created notification in storage.

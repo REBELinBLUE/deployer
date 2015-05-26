@@ -97,6 +97,7 @@
     @include('dialogs.reason')
     @include('dialogs.shared_files')
     @include('dialogs.project_files')
+    @include('dialogs.notify_email')
 @stop
 
 @section('javascript')
@@ -106,12 +107,14 @@
         new app.HeartbeatsTab();
         new app.SharedFilesTab();
         new app.ProjectFilesTab();
+        new app.NotifyEmailsTab();
 
         app.Servers.add({!! $servers->toJson() !!});
         app.Notifications.add({!! $notifications->toJson() !!});
         app.Heartbeats.add({!! $heartbeats->toJson() !!});
         app.SharedFiles.add({!! $sharedFiles->toJson() !!});
         app.ProjectFiles.add({!! $projectFiles->toJson() !!});
+        app.NotifyEmails.add({!! $notifyEmails->toJson() !!});
     </script>
 @stop
 
