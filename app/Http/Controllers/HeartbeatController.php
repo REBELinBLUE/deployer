@@ -1,13 +1,12 @@
 <?php namespace App\Http\Controllers;
 
 use App\Heartbeat;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreHeartbeatRequest;
 
 /**
  * Controller for managing notifications
  */
-class HeartbeatController extends Controller
+class HeartbeatController extends ResourceController
 {
     /**
      * Handles the callback URL for the heartbeat
