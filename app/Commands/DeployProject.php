@@ -2,8 +2,6 @@
 
 use Config;
 use Queue;
-use Mail;
-use Lang;
 use App\Deployment;
 use App\DeployStep;
 use App\ServerLog;
@@ -11,7 +9,7 @@ use App\Server;
 use App\Command as Stage;
 use App\Project;
 use App\Commands\Command;
-use App\Commands\Notify;
+use App\Events\DeployFinished;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -91,47 +89,10 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $project->last_run = date('Y-m-d H:i:s');
         $project->save();
 
-        foreach ($project->notifications as $notification) {
-            Queue::pushOn('notify', new Notify($notification, $this->deployment->notificationPayload()));
-        }
-
-        // Send email notification
-        $this->sendEmailNotifications($project, $this->deployment);
+        // Notify user or others the deployment has been finished
+        event(new DeployFinished($project, $this->deployment));
 
         unlink($this->private_key);
-    }
-
-    /**
-     * send notifications to project emails
-     * @param  Project    $project    the project
-     * @param  Deployment $deployment this project deployment
-     * @return void
-     */
-    private function sendEmailNotifications(Project $project, Deployment $deployment)
-    {
-        $emails = $project->notifyEmails;
-
-        if ($emails) {
-            $status = strtolower($project->getPresenter()->readable_status);
-            $subject = Lang::get(
-                'notifyEmails.subject',
-                ['status'=>$status,'project'=>$project->name]
-            );
-            $projectArr = $project->toArray();
-            $deploymentArr = $deployment->toArray();
-            $deploymentArr['commitURL'] = $deployment->commitURL();
-            $deploymentArr['shortCommit'] = $deployment->shortCommit();
-            Mail::queue(
-                'emails.deployed',
-                ['project'=>$projectArr,'deployment'=>$deploymentArr],
-                function ($message) use ($emails, $subject) {
-                    foreach ($emails as $email) {
-                        $message->to($email->email, $email->name);
-                    }
-                    $message->subject($subject);
-                }
-            );
-        }
     }
 
     /**
