@@ -6,7 +6,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * Generic Controller class
- * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class Controller extends BaseController
 {
