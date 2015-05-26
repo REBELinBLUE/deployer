@@ -36,9 +36,11 @@ class Notify implements ShouldBeQueued
     {
         $project = $event->project;
         $deployment = $event->deployment;
+
         foreach ($project->notifications as $notification) {
             Queue::pushOn('notify', new SlackNotify($notification, $deployment->notificationPayload()));
         }
+
         //Send email notification
         $this->dispatch(new MailDeployNotification($project, $deployment));
     }

@@ -12,7 +12,6 @@ use Illuminate\Queue\SerializesModels;
  */
 class DeployFinished extends Event
 {
-
     use SerializesModels;
 
     public $project;

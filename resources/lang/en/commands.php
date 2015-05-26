@@ -4,6 +4,7 @@ return [
 
     'label'                => 'Commands',
     'deploy_webhook'       => 'Deployments may be triggered by using the following webhook URL',
+    'webhook_example'      => 'If the POST data contains the field \'reason\' it will set the deployment reason',
     'generate_webhook'     => 'Generate a new webhook URL (old URL will stop working)',
     'step'                 => 'Step',
     'before'               => 'Before',
