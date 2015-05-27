@@ -1,37 +1,30 @@
 var app = app || {};
 
 (function ($) {
-   // FIXME: This seems very wrong
-    $('#user').on('show.bs.modal', function (event) {
+    // FIXME: This seems very wrong
+    $('#notifyemail').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.create;
+        var title = Lang.notifyEmails.create;
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
-        $('.existing-only', modal).hide();
-        $('.new-only', modal).hide();
         $('.has-error', modal).removeClass('has-error');
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.edit;
+            title = Lang.notifyEmails.edit;
             $('.btn-danger', modal).show();
-            $('.existing-only', modal).show();
         } else {
-            $('#user_id').val('');
-            $('#user_name').val('');
-            $('#user_email').val('');
-            $('#user_password').val('');
-            $('#user_password_confirmation').val('');
-
-            $('.new-only', modal).show();
+            $('#notifyemail_id').val('');
+            $('#notifyemail_name').val('');
+            $('#notifyemail_address').val('');
         }
 
         modal.find('.modal-title span').text(title);
     });
 
     // FIXME: This seems very wrong
-    $('#user button.btn-delete').on('click', function (event) {
+    $('#notifyemail button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -40,9 +33,9 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var user = app.Users.get($('#user_id').val());
+        var file = app.NotifyEmails.get($('#notifyemail_id').val());
 
-        user.destroy({
+        file.destroy({
             wait: true,
             success: function(model, response, options) {
                 dialog.modal('hide');
@@ -52,7 +45,7 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
 
-                app.Users.remove(user);
+                app.NotifyEmails.remove(file);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -63,7 +56,7 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#user button.btn-save').on('click', function (event) {
+    $('#notifyemail button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -72,19 +65,18 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var user_id = $('#user_id').val();
+        var notifyemail_id = $('#notifyemail_id').val();
 
-        if (user_id) {
-            var user = app.Users.get(user_id);
+        if (notifyemail_id) {
+            var file = app.NotifyEmails.get(notifyemail_id);
         } else {
-            var user = new app.User();
+            var file = new app.NotifyEmail();
         }
 
-        user.save({
-            name:                  $('#user_name').val(),
-            email:                 $('#user_email').val(),
-            password:              $('#user_password').val(),
-            password_confirmation: $('#user_password_confirmation').val()
+        file.save({
+            name:       $('#notifyemail_name').val(),
+            email:      $('#notifyemail_address').val(),
+            project_id: $('input[name="project_id"]').val()
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -95,8 +87,8 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
 
-                if (!user_id) {
-                    app.Users.add(response);
+                if (!notifyemail_id) {
+                    app.NotifyEmails.add(response);
                 }
             },
             error: function(model, response, options) {
@@ -121,56 +113,65 @@ var app = app || {};
         });
     });
 
-    app.User = Backbone.Model.extend({
-        urlRoot: '/admin/users',
-        poller: false,
-        initialize: function() {
-
-        }
+    app.NotifyEmail = Backbone.Model.extend({
+        urlRoot: '/notify-email',
+        poller: false
     });
 
-    var Users = Backbone.Collection.extend({
-        model: app.User
+    var NotifyEmails = Backbone.Collection.extend({
+        model: app.NotifyEmail
     });
 
-    app.Users = new Users();
+    app.NotifyEmails = new NotifyEmails();
 
-    app.UsersTab = Backbone.View.extend({
+    app.NotifyEmailsTab = Backbone.View.extend({
         el: '#app',
         events: {
 
         },
         initialize: function() {
-            this.$list = $('#user_list tbody');
+            this.$list = $('#notifyemail_list tbody');
 
-            this.listenTo(app.Users, 'add', this.addOne);
-            this.listenTo(app.Users, 'reset', this.addAll);
-            this.listenTo(app.Users, 'all', this.render);
+            $('#no_notifyemails').show();
+            $('#notifyemail_list').hide();
+
+            this.listenTo(app.NotifyEmails, 'add', this.addOne);
+            this.listenTo(app.NotifyEmails, 'reset', this.addAll);
+            this.listenTo(app.NotifyEmails, 'all', this.render);
         },
-        addOne: function (user) {
+        render: function () {
+            if (app.NotifyEmails.length) {
+                $('#no_notifyemails').hide();
+                $('#notifyemail_list').show();
+            } else {
+                $('#no_notifyemails').show();
+                $('#notifyemail_list').hide();
+            }
+        },
+        addOne: function (file) {
 
-            var view = new app.UserView({ 
-                model: user
+            var view = new app.EmailView({ 
+                model: file
             });
 
             this.$list.append(view.render().el);
         },
         addAll: function () {
             this.$list.html('');
-            app.Servers.each(this.addOne, this);
+            app.NotifyEmails.each(this.addOne, this);
         }
     });
 
-    app.UserView = Backbone.View.extend({
+    app.EmailView = Backbone.View.extend({
         tagName:  'tr',
         events: {
-            'click .btn-edit': 'editUser'
+            'click .btn-edit': 'editEmail'
         },
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'destroy', this.remove);
 
-            this.template = _.template($('#user-template').html());
+            this.template = _.template($('#notifyemail-template').html());
         },
         render: function () {
             var data = this.model.toJSON();
@@ -179,10 +180,12 @@ var app = app || {};
 
             return this;
         },
-        editUser: function() {
-            $('#user_id').val(this.model.id);
-            $('#user_name').val(this.model.get('name'));
-            $('#user_email').val(this.model.get('email'));
+        editEmail: function() {
+            // FIXME: Sure this is wrong?
+            $('#notifyemail_id').val(this.model.id);
+            $('#notifyemail_name').val(this.model.get('name'));
+            $('#notifyemail_address').val(this.model.get('email'));
         }
     });
+
 })(jQuery);

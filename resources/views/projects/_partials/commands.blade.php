@@ -1,5 +1,5 @@
 <div class="callout">
-    <h4>{{ Lang::get('commands.deploy_webhook') }}</h4>
+    <h4>{{ Lang::get('commands.deploy_webhook') }} <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('commands.webhook_example') }}"></i></h4>
     <code id="webhook">{{ route('webhook', $project->hash) }}</code><button class="btn btn-xs btn-link" id="new_webhook" title="{{ Lang::get('commands.generate_webhook') }}" data-project-id="{{ $project->id }}"><i class="fa fa-refresh"></i></button>
 </div>
 

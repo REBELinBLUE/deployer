@@ -95,7 +95,7 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
             }
-        })
+        });
     });
 
     // FIXME: This seems very wrong
@@ -148,7 +148,7 @@ var app = app || {};
 
                     var name = element.attr('name');
 
-                    if (typeof errors[name] != 'undefined') {
+                    if (typeof errors[name] !== 'undefined') {
                         element.parent('div').addClass('has-error');
                     }
                 });
