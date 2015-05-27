@@ -178,6 +178,15 @@ class Project extends Model implements PresentableInterface
     }
 
     /**
+     * Has many urls to check
+     * @return UrlCheck
+     */
+    public function checkedUrls()
+    {
+        return $this->hasMany('App\UrlCheck');
+    }
+
+    /**
      * Generates a hash for use in the webhook URL
      *
      * @return void

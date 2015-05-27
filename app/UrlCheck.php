@@ -16,4 +16,14 @@ class UrlCheck extends Model
      * @var array
      */
     protected $fillable = ['title', 'url', 'project_id', 'period', 'is_report'];
+
+    /**
+     * Belongs to relationship
+     *
+     * @return Project
+     */
+    public function project()
+    {
+        return $this->belongsTo('App\Project');
+    }
 }
