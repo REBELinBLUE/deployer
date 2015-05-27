@@ -15,7 +15,7 @@ class CreateUrlChecksTable extends Migration {
      */
     public function up()
     {
-        Schema::create('url_checks', function(Blueprint $table)
+        Schema::create('check_urls', function(Blueprint $table)
         {
             $table->increments('id');
             $table->string('title');
@@ -36,6 +36,6 @@ class CreateUrlChecksTable extends Migration {
      */
     public function down()
     {
-        Schema::drop('url_checks');
+        Schema::drop('check_urls');
     }
 }

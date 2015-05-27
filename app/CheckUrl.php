@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * The application's  url store for health check
  */
-class UrlCheck extends Model
+class CheckUrl extends Model
 {
     use SoftDeletes;
 
