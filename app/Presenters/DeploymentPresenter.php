@@ -10,6 +10,23 @@ use Robbo\Presenter\Presenter;
 class DeploymentPresenter extends Presenter
 {
     /**
+     * Returns the build status needed by CCTray
+     * These strings can not be translated
+     *
+     * @return string
+     */
+    public function presentCcTrayStatus()
+    {
+        if ($this->status === Deployment::COMPLETED) {
+            return 'Success';
+        } elseif ($this->status === Deployment::FAILED) {
+            return 'Failure';
+        }
+
+        return 'Unknown';
+    }
+
+    /**
      * Gets the translated deployment status string
      *
      * @return string
