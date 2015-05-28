@@ -55,6 +55,12 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * Generates an XML file for CCTray
+     * 
+     * @param ProjectRepositoryInterface $projectRepository
+     * @return Response
+     */
     public function cctray(ProjectRepositoryInterface $projectRepository) {
         $projects = $projectRepository->getAll();
 
