@@ -102,6 +102,7 @@
     @include('dialogs.shared_files')
     @include('dialogs.project_files')
     @include('dialogs.notify_email')
+    @include('dialogs.check_urls')
 @stop
 
 @section('javascript')
