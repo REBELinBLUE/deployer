@@ -47,6 +47,4 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo service php5-fpm restart"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"DROP DATABASE IF EXISTS deployer\";"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci\";"
-    config.vm.provision "shell", inline: "composer --working-dir=/var/www/deployer install";
-    config.vm.provision "shell", inline: "php /var/www/deployer/artisan migrate";
 end
