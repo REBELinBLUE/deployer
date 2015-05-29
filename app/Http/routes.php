@@ -14,6 +14,7 @@
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', 'DashboardController@index');
+
     Route::get('webhook/{projects}/refresh', 'WebhookController@refresh');
 
     Route::get('projects/{projects}', 'DeploymentController@project');
@@ -84,6 +85,8 @@ Route::post('deploy/{hash}', [
     'as'   => 'webhook',
     'uses' => 'WebhookController@webhook'
 ]);
+
+Route::get('cctray.xml', 'DashboardController@cctray');
 
 Route::get('heartbeat/{hash}', [
     'as'   => 'heartbeat',
