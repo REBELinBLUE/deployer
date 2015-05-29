@@ -15,14 +15,30 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="name">{{ Lang::get('checkUrls.name') }}</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="{{ Lang::get('checkUrls.cache') }}" />
+                        <label for="title">{{ Lang::get('checkUrls.title') }}</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="{{ Lang::get('checkUrls.title') }}" />
                     </div>
                     <div class="form-group">
-                        <label for="file">{{ Lang::get('checkUrls.file') }}</label> 
-                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('checkUrls.example') }}"></i>
+                        <label for="url">{{ Lang::get('checkUrls.url') }}</label> 
+                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('checkUrls.urlExample') }}"></i>
 
-                        <input type="text" class="form-control" id="file" name="file" placeholder="" />
+                        <input type="text" class="form-control" id="url" name="url" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="period">{{ Lang::get('checkUrls.period') }}</label>
+                        <select name="period" id="period" class="form-control">
+                            <option value="5"> 5 {{ Lang::get('checkUrls.length') }}</option>
+                            <option value="15"> 15 {{ Lang::get('checkUrls.length') }}</option>
+                            <option value="30"> 30 {{ Lang::get('checkUrls.length') }}</option>
+                            <option value="60"> 60 {{ Lang::get('checkUrls.length') }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="is_report">
+                            {{ Lang::get('checkUrls.is_report') }}
+                            <br>
+                            <input type="checkbox" id="is_report" name="is_report" />
+                        </label>
                     </div>
                 </div>
                 <div class="modal-footer">
