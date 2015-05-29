@@ -30,6 +30,19 @@ Vagrant.configure("2") do |config|
 
     config.vm.synced_folder "./", "/var/www/deployer"
 
+    # Configure The Public Key For SSH Access
+    config.vm.provision "shell" do |s|
+        s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
+        s.args = [File.read(File.expand_path("~/.ssh/id_rsa.pub"))]
+    end
+
+    # Copy The SSH Private Keys To The Box
+    config.vm.provision "shell" do |s|
+        s.privileged = false
+        s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
+        s.args = [File.read(File.expand_path("~/.ssh/id_rsa")), "id_rsa"]
+    end
+
     # Update composer
     config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
 
