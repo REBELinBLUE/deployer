@@ -61,7 +61,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('shared-files', 'SharedFilesController');
     Route::resource('project-file', 'ProjectFileController');
     Route::resource('notify-email', 'NotifyEmailController');
-    Route::resource('check-url', 'CheckUrlController');
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 

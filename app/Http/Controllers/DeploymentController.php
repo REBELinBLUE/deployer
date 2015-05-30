@@ -40,7 +40,6 @@ class DeploymentController extends Controller
             'heartbeats'    => $project->heartbeats,
             'sharedFiles'   => $project->shareFiles,
             'projectFiles'  => $project->projectFiles,
-            'checkUrls'     => $project->checkUrls,
             'optional'      => $optional
         ]);
     }
