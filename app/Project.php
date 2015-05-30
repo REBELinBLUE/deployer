@@ -181,7 +181,7 @@ class Project extends Model implements PresentableInterface
      * Has many urls to check
      * @return CheckUrl
      */
-    public function checkedUrls()
+    public function checkUrls()
     {
         return $this->hasMany('App\CheckUrl');
     }

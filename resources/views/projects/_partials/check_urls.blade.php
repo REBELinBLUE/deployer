@@ -7,7 +7,7 @@
     </div>
 
 
-    <div class="box-body" id="no_files">
+    <div class="box-body" id="no_checkurls">
         <p>{{ Lang::get('checkUrls.none') }}</p>
     </div>
 
@@ -28,3 +28,22 @@
         </table>
     </div>
 </div>
+
+<script type="text/template" id="checkUrls-template">
+    <td><%- title %></td>
+    <td><%- url %></td>
+    <td><%- period %> {{ Lang::get('checkUrls.length') }}</td>
+    <td><%- is_report?'Yes':'No' %></td>
+    <td>
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('checkUrls.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#checkurl"><i class="fa fa-edit"></i></button>
+        </div>
+    </td>
+</script>
+
+<script type="text/javascript">
+    Lang.CheckUrls = {
+        create: '{{ Lang::get('checkUrls.create') }}',
+        edit: '{{ Lang::get('checkUrls.edit') }}'
+    };
+</script>

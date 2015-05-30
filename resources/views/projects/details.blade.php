@@ -113,6 +113,7 @@
         new app.SharedFilesTab();
         new app.ProjectFilesTab();
         new app.NotifyEmailsTab();
+        new app.CheckUrlsTab();
 
         app.Servers.add({!! $servers->toJson() !!});
         app.Notifications.add({!! $notifications->toJson() !!});
@@ -120,6 +121,7 @@
         app.SharedFiles.add({!! $sharedFiles->toJson() !!});
         app.ProjectFiles.add({!! $projectFiles->toJson() !!});
         app.NotifyEmails.add({!! $notifyEmails->toJson() !!});
+        app.CheckUrls.add({!! $checkUrls->toJson() !!});
     </script>
 @stop
 

@@ -16,13 +16,11 @@
 
                     <div class="form-group">
                         <label for="title">{{ Lang::get('checkUrls.title') }}</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="{{ Lang::get('checkUrls.title') }}" />
+                        <input type="text" class="form-control" id="title" name="title" placeholder="{{ Lang::get('checkUrls.titleTip') }}" />
                     </div>
                     <div class="form-group">
                         <label for="url">{{ Lang::get('checkUrls.url') }}</label> 
-                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('checkUrls.urlExample') }}"></i>
-
-                        <input type="text" class="form-control" id="url" name="url" placeholder="" />
+                        <input type="text" class="form-control" id="url" name="url" placeholder="{{ Lang::get('checkUrls.urlExample') }}" />
                     </div>
                     <div class="form-group">
                         <label for="period">{{ Lang::get('checkUrls.period') }}</label>
