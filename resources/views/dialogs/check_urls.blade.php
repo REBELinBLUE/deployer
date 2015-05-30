@@ -37,7 +37,7 @@
                         <label for="is_report">
                             {{ Lang::get('checkUrls.is_report') }}
                             <br>
-                            <input type="checkbox" id="is_report" name="is_report" />
+                            <input type="checkbox" id="is_report" name="is_report" value="{{ \App\CheckUrl::REPORT }}" />
                         </label>
                     </div>
                 </div>

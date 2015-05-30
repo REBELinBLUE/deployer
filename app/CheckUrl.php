@@ -10,6 +10,8 @@ class CheckUrl extends Model
 {
     use SoftDeletes;
 
+    const REPORT = 1;
+
     /**
      * The attributes that are mass assignable.
      *
