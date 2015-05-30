@@ -3,3 +3,4 @@ node_modules/
 .vagrant/
 .env
 _ide_helper.php
+sftp-config.json
