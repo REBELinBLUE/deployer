@@ -152,7 +152,6 @@ var app = app || {};
             }
         },
         addOne: function (url) {
-
             var view = new app.CheckUrlView({ 
                 model: url
             });
@@ -168,7 +167,7 @@ var app = app || {};
     app.CheckUrlView = Backbone.View.extend({
         tagName:  'tr',
         events: {
-            'click .btn-edit': 'editFile'
+            'click .btn-edit': 'editUrl'
         },
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
@@ -178,12 +177,17 @@ var app = app || {};
         },
         render: function () {
             var data = this.model.toJSON();
+            if (data.last_status) {
+                data.status_css = 'danger';
+            } else {
+                data.status_css = 'success';
+            }
 
             this.$el.html(this.template(data));
 
             return this;
         },
-        editFile: function() {
+        editUrl: function() {
             $('#url_id').val(this.model.id);
             $('#title').val(this.model.get('title'));
             $('#url').val(this.model.get('url'));

@@ -14,6 +14,7 @@ return [
     'is_report'          => 'Report when failed',
     'length'             => 'Minutes',
     'warning'            => 'The link could not be saved, please check the form below.',
-    'urlExample'         => 'A valid url link, must begin with http or https'
+    'urlExample'         => 'A valid url link, must begin with http or https',
+    'last_status'        => 'Last Status'
 
 ];

@@ -19,6 +19,7 @@
                     <th>{{ Lang::get('checkUrls.url') }}</th>
                     <th>{{ Lang::get('checkUrls.period') }}</th>
                     <th>{{ Lang::get('checkUrls.is_report') }}</th>
+                    <th>{{ Lang::get('checkUrls.last_status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -34,6 +35,11 @@
     <td><%- url %></td>
     <td><%- period %> {{ Lang::get('checkUrls.length') }}</td>
     <td><%- is_report?'Yes':'No' %></td>
+    <td>
+        <span class="label label-<%- status_css %>">
+            <%- last_status?'Fail':'Success' %>
+        </span>
+    </td>
     <td>
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('checkUrls.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#checkurl"><i class="fa fa-edit"></i></button>
