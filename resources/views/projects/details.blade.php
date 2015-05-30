@@ -62,6 +62,7 @@
                     <li><a href="#heartbeats" data-toggle="tab"><span class="fa fa-heartbeat"></span> {{ Lang::get('heartbeats.label') }}</a></li>
                     <li><a href="#shared-files" data-toggle="tab"><span class="fa fa-folder"></span> {{ Lang::get('sharedFiles.label') }}</a></li>
                     <li><a href="#project-files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ Lang::get('projectFiles.label') }}</a></li>
+                    <li><a href="#check-urls" data-toggle="tab"><span class="fa fa-link"></span> {{ Lang::get('checkUrls.label') }}</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="deployments">
@@ -85,6 +86,9 @@
                     <div class="tab-pane" id="project-files">
                         @include('projects._partials.project_files')
                     </div>
+                    <div class="tab-pane" id="check-urls">
+                        @include('projects._partials.check_urls')
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,6 +102,7 @@
     @include('dialogs.shared_files')
     @include('dialogs.project_files')
     @include('dialogs.notify_email')
+    @include('dialogs.check_urls')
 @stop
 
 @section('javascript')
@@ -108,6 +113,7 @@
         new app.SharedFilesTab();
         new app.ProjectFilesTab();
         new app.NotifyEmailsTab();
+        new app.CheckUrlsTab();
 
         app.Servers.add({!! $servers->toJson() !!});
         app.Notifications.add({!! $notifications->toJson() !!});
@@ -115,6 +121,7 @@
         app.SharedFiles.add({!! $sharedFiles->toJson() !!});
         app.ProjectFiles.add({!! $projectFiles->toJson() !!});
         app.NotifyEmails.add({!! $notifyEmails->toJson() !!});
+        app.CheckUrls.add({!! $checkUrls->toJson() !!});
     </script>
 @stop
 

@@ -3,6 +3,7 @@
 use Queue;
 use App\Commands\Notify as SlackNotify;
 use App\Commands\MailDeployNotification;
+use App\Commands\RequestProjectCheckUrl;
 use App\Events\DeployFinished;
 
 use Illuminate\Queue\InteractsWithQueue;
@@ -43,5 +44,8 @@ class Notify implements ShouldBeQueued
 
         //Send email notification
         $this->dispatch(new MailDeployNotification($project, $deployment));
+
+        //Trigger to check the project urls
+        $this->dispatch(new RequestProjectCheckUrl($project->checkUrls));
     }
 }

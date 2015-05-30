@@ -61,6 +61,7 @@ elixir(function(mix) {
         'notifyEmails.js',
         'shareFiles.js',
         'projectFiles.js',
+        'checkUrls.js',
         'deployment.js',
         'commands.js',
         'users.js',
