@@ -14,6 +14,7 @@
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', 'DashboardController@index');
+
     Route::get('webhook/{projects}/refresh', 'WebhookController@refresh');
 
     Route::get('projects/{projects}', 'DeploymentController@project');
@@ -68,6 +69,14 @@ Route::group(['middleware' => 'auth'], function () {
             'only' => ['index', 'store', 'update', 'destroy']
         ]);
 
+        Route::resource('templates', 'TemplateController', [
+            'only' => ['index', 'store', 'update', 'destroy']
+        ]);
+
+        Route::resource('templates/{template}/commands', 'TemplateCommandController', [
+            'only' => ['index', 'store', 'update', 'destroy']
+        ]);
+
         Route::resource('users', 'UserController', [
             'only' => ['index', 'store', 'update', 'destroy']
         ]);
@@ -85,6 +94,8 @@ Route::post('deploy/{hash}', [
     'as'   => 'webhook',
     'uses' => 'WebhookController@webhook'
 ]);
+
+Route::get('cctray.xml', 'DashboardController@cctray');
 
 Route::get('heartbeat/{hash}', [
     'as'   => 'heartbeat',

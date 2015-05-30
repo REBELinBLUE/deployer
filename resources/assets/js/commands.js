@@ -1,14 +1,14 @@
 var app = app || {};
 
 (function ($) {
-    var list = $('.command-list table').sortable({
+    $('.command-list table').sortable({
         containerSelector: 'table',
         itemPath: '> tbody',
         itemSelector: 'tr',
         placeholder: '<tr class="placeholder"/>',
         delay: 500,
         onDrop: function (item, container, _super) {
-            _super(item, container)
+            _super(item, container);
 
             var ids = [];
             $('tbody tr td:first-child', container.el[0]).each(function (idx, element) {
@@ -91,7 +91,7 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
             }
-        })
+        });
     });
 
     // FIXME: This seems very wrong
@@ -153,7 +153,7 @@ var app = app || {};
 
                     var name = element.attr('name');
 
-                    if (typeof errors[name] != 'undefined') {
+                    if (typeof errors[name] !== 'undefined') {
                         element.parent('div').addClass('has-error');
                     }
                 });

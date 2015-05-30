@@ -24,7 +24,6 @@ var app = app || {};
         modal.find('.modal-title span').text(title);
     });
 
-    // FIXME: This seems very wrong
     $('#checkurl button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
@@ -56,7 +55,6 @@ var app = app || {};
         })
     });
 
-    // FIXME: This seems very wrong
     $('#checkurl button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
@@ -104,7 +102,7 @@ var app = app || {};
 
                     var name = element.attr('name');
 
-                    if (typeof errors[name] != 'undefined') {
+                    if (typeof errors[name] !== 'undefined') {
                         element.parent('div').addClass('has-error');
                     }
                 });

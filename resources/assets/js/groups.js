@@ -66,7 +66,7 @@ var app = app || {};
 
                     var name = element.attr('name');
 
-                    if (typeof errors[name] != 'undefined') {
+                    if (typeof errors[name] !== 'undefined') {
                         element.parent('div').addClass('has-error');
                     }
                 });
