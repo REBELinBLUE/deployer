@@ -21,7 +21,7 @@ class CreateUrlChecksTable extends Migration {
             $table->string('title');
             $table->string('url');
             $table->unsignedInteger('project_id');
-            $table->integer('period');
+            $table->integer('period')->index();
             $table->boolean('is_report'); // Report the user when it's check failed
             $table->boolean('last_status')->nullable();
             $table->timestamps();
