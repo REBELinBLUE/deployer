@@ -1,4 +1,24 @@
 {
+    "name": "rebelinblue/deployer",
+    "description": "Simple deployment management for PHP projects.",
+    "minimum-stability": "stable",
+    "type": "project",
+    "keywords": ["php", "deployer", "deploy", "deployment"],
+    "homepage": "http://deployer.rebelinblue.com/",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Stephen Ball",
+            "email": "stephen@rebelinblue.com",
+            "homepage": "http://www.rebelinblue.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email" : "deployer@stephen.rebelinblue.com",
+        "issues": "https://github.com/REBELinBLUE/deployer/issues",
+        "source": "https://github.com/REBELinBLUE/deployer"
+    },
     "require": {
         "laravel/framework": "5.*",
         "graham-campbell/htmlmin": "~3.0",

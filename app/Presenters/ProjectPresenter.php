@@ -11,6 +11,25 @@ use Robbo\Presenter\Presenter;
 class ProjectPresenter extends Presenter
 {
     /**
+     * Returns the build status needed by CCTray
+     * These strings can not be translated
+     *
+     * @return string
+     */
+    public function presentCcTrayStatus()
+    {
+        if ($this->status === Project::FINISHED || $this->status === Project::FAILED) {
+            return 'Sleeping';
+        } elseif ($this->status === Project::DEPLOYING) {
+            return 'Building';
+        } elseif ($this->status === Project::PENDING) {
+            return 'Pending';
+        }
+
+        return 'Unknown';
+    }
+
+    /**
      * Gets the translated project status string
      *
      * @return string

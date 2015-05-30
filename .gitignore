@@ -1,5 +1,5 @@
-/vendor
-/node_modules
+vendor/
+node_modules/
+.vagrant/
 .env
 _ide_helper.php
-sftp-config.json

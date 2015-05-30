@@ -19,7 +19,9 @@ return [
         realpath(__DIR__ . '/../app/Providers/BusServiceProvider.php'),
         realpath(__DIR__ . '/../app/Providers/ConfigServiceProvider.php'),
         realpath(__DIR__ . '/../app/Providers/EventServiceProvider.php'),
+        realpath(__DIR__ . '/../app/Providers/RepositoryServiceProvider.php'),
         realpath(__DIR__ . '/../app/Providers/RouteServiceProvider.php'),
+        realpath(__DIR__ . '/../app/Providers/ViewServiceProvider.php'),
 
     ],
 

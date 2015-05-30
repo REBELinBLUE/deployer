@@ -137,7 +137,7 @@ class Project extends Model implements PresentableInterface
      */
     public function deployments()
     {
-        return $this->hasMany('App\Deployment');
+        return $this->hasMany('App\Deployment')->orderBy('started_at', 'DESC');
     }
 
     /**
