@@ -26,7 +26,7 @@
                         <label for="period">{{ Lang::get('checkUrls.period') }}</label>
                         <select name="period" id="period" class="form-control">
                             <option value="5"> 5 {{ Lang::get('checkUrls.length') }}</option>
-                            <option value="15"> 15 {{ Lang::get('checkUrls.length') }}</option>
+                            <option value="10"> 10 {{ Lang::get('checkUrls.length') }}</option>
                             <option value="30"> 30 {{ Lang::get('checkUrls.length') }}</option>
                             <option value="60"> 60 {{ Lang::get('checkUrls.length') }}</option>
                         </select>

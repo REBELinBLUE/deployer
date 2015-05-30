@@ -12,6 +12,8 @@ class CheckUrl extends Model
 
     const REPORT = 1;
 
+    const ERROR = 1;
+
     /**
      * The attributes that are mass assignable.
      *
