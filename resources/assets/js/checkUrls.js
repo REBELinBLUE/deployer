@@ -52,7 +52,7 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
             }
-        })
+        });
     });
 
     $('#checkurl button.btn-save').on('click', function (event) {
