@@ -27,7 +27,6 @@ return [
     'failed'           => 'Failed',
     'running'          => 'Running',
     'cancelled'        => 'Cancelled',
-    'loading'          => 'Loading',
     'reason'           => 'Reason for deployment',
     'source'           => 'Source',
     'default'          => 'Default branch (:branch)',
