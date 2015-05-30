@@ -35,6 +35,7 @@ class Notify extends Command implements SelfHandling, ShouldBeQueued
      * Execute the command.
      *
      * @return void
+     * @todo Should use the supplied name
      */
     public function handle()
     {

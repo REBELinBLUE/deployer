@@ -68,6 +68,14 @@ Route::group(['middleware' => 'auth'], function () {
             'only' => ['index', 'store', 'update', 'destroy']
         ]);
 
+        Route::resource('templates', 'TemplateController', [
+            'only' => ['index', 'store', 'update', 'destroy']
+        ]);
+
+        Route::resource('templates/{template}/commands', 'TemplateCommandController', [
+            'only' => ['index', 'store', 'update', 'destroy']
+        ]);
+
         Route::resource('users', 'UserController', [
             'only' => ['index', 'store', 'update', 'destroy']
         ]);
