@@ -30,20 +30,6 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'DeploymentController@show'
     ]);
 
-    Route::resource('servers', 'ServerController', [
-        'only' => ['show', 'store', 'update', 'destroy']
-    ]);
-
-    Route::resource('heartbeats', 'HeartbeatController', [
-        'only' => ['store', 'update', 'destroy']
-    ]);
-
-    Route::resource('notifications', 'NotificationController', [
-        'only' => ['store', 'update', 'destroy']
-    ]);
-
-    Route::get('servers/{servers}/test', 'ServerController@test');
-
     Route::get('status/{log}', 'CommandController@status');
     Route::get('log/{log}', 'CommandController@log');
 
@@ -58,10 +44,22 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'CommandController@listing'
     ]);
 
-    Route::resource('shared-files', 'SharedFilesController');
-    Route::resource('project-file', 'ProjectFileController');
-    Route::resource('notify-email', 'NotifyEmailController');
-    Route::resource('check-url', 'CheckUrlController');
+    Route::group(['namespace' => 'Resources'], function () {
+
+        Route::get('servers/{servers}/test', 'ServerController@test');
+
+        $actions = [
+            'only' => ['store', 'update', 'destroy']
+        ];
+
+        Route::resource('servers', 'ServerController', $actions);
+        Route::resource('heartbeats', 'HeartbeatController', $actions);
+        Route::resource('notifications', 'NotificationController', $actions);
+        Route::resource('shared-files', 'SharedFilesController', $actions);
+        Route::resource('project-file', 'ProjectFileController', $actions);
+        Route::resource('notify-email', 'NotifyEmailController', $actions);
+        Route::resource('check-url', 'CheckUrlController', $actions);
+    });
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
