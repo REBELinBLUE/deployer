@@ -30,22 +30,23 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'DeploymentController@show'
     ]);
 
-    Route::get('status/{log}', 'CommandController@status');
-    Route::get('log/{log}', 'CommandController@log');
-
-    Route::resource('commands', 'CommandController', [
-        'only' => ['store', 'update', 'destroy']
-    ]);
-
-    Route::post('commands/reorder', 'CommandController@reorder');
-
-    Route::get('projects/{projects}/commands/{step}', [
-        'as'   => 'commands',
-        'uses' => 'CommandController@listing'
-    ]);
 
     Route::group(['namespace' => 'Resources'], function () {
 
+        Route::get('status/{log}', 'CommandController@status');
+        Route::get('log/{log}', 'CommandController@log');
+
+        Route::resource('commands', 'CommandController', [
+            'only' => ['store', 'update', 'destroy']
+        ]);
+
+        Route::post('commands/reorder', 'CommandController@reorder');
+
+        Route::get('projects/{projects}/commands/{step}', [
+            'as'   => 'commands',
+            'uses' => 'CommandController@listing'
+        ]);
+    
         Route::get('servers/{servers}/test', 'ServerController@test');
 
         $actions = [
