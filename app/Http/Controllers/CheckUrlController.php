@@ -4,7 +4,7 @@ use App\CheckUrl;
 use App\Http\Requests\StoreCheckUrlRequest;
 
 /**
- * Controller for managing files
+ * Controller for managing URLs
  */
 class CheckUrlController extends ResourceController
 {

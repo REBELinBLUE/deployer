@@ -73,10 +73,10 @@ var app = app || {};
         }
 
         url.save({
-            title:       $('#title').val(),
-            url:    $('#url').val(),
-            is_report: $('#is_report').prop('checked'),
-            period: $('#period').val(),
+            title:      $('#title').val(),
+            url:        $('#url').val(),
+            is_report:  $('#is_report').prop('checked'),
+            period:     $('#period').val(),
             project_id: $('input[name="project_id"]').val()
         }, {
             wait: true,
@@ -175,10 +175,21 @@ var app = app || {};
         },
         render: function () {
             var data = this.model.toJSON();
+
             if (data.last_status) {
                 data.status_css = 'danger';
+                data.icon_css   = 'warning';
+                data.status     = Lang.CheckUrls.failure;
             } else {
                 data.status_css = 'success';
+                data.icon_css   = 'check';
+                data.status     = Lang.CheckUrls.success;
+            }
+
+            data.report = Lang.CheckUrls.no;
+
+            if (data.is_report) {
+                data.report = Lang.CheckUrls.yes;
             }
 
             this.$el.html(this.template(data));

@@ -17,7 +17,7 @@
                 <tr>
                     <th>{{ Lang::get('checkUrls.title') }}</th>
                     <th>{{ Lang::get('checkUrls.url') }}</th>
-                    <th>{{ Lang::get('checkUrls.period') }}</th>
+                    <th>{{ Lang::get('checkUrls.frequency') }}</th>
                     <th>{{ Lang::get('checkUrls.is_report') }}</th>
                     <th>{{ Lang::get('checkUrls.last_status') }}</th>
                     <th>&nbsp;</th>
@@ -34,10 +34,11 @@
     <td><%- title %></td>
     <td><%- url %></td>
     <td><%- period %> {{ Lang::get('checkUrls.length') }}</td>
-    <td><%- is_report?'Yes':'No' %></td>
+    <td><%- report %></td>
     <td>
         <span class="label label-<%- status_css %>">
-            <%- last_status?'Fail':'Success' %>
+            <i class="fa fa-<%-icon_css %>"></i>
+            <%- status %>
         </span>
     </td>
     <td>
@@ -50,6 +51,10 @@
 <script type="text/javascript">
     Lang.CheckUrls = {
         create: '{{ Lang::get('checkUrls.create') }}',
-        edit: '{{ Lang::get('checkUrls.edit') }}'
+        edit: '{{ Lang::get('checkUrls.edit') }}',
+        success: '{{ Lang::get('checkUrls.successful') }}',
+        failure: '{{ Lang::get('checkUrls.failed') }}',
+        yes: '{{ Lang::get('app.yes') }}',
+        no: '{{ Lang::get('app.no') }}' 
     };
 </script>

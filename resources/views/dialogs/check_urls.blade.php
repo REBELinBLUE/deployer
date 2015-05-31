@@ -20,10 +20,10 @@
                     </div>
                     <div class="form-group">
                         <label for="url">{{ Lang::get('checkUrls.url') }}</label> 
-                        <input type="text" class="form-control" id="url" name="url" placeholder="{{ Lang::get('checkUrls.urlExample') }}" />
+                        <input type="text" class="form-control" id="url" name="url" placeholder="http://admin.example.com/" />
                     </div>
                     <div class="form-group">
-                        <label for="period">{{ Lang::get('checkUrls.period') }}</label>
+                        <label for="period">{{ Lang::get('checkUrls.frequency') }}</label>
                         <select name="period" id="period" class="form-control">
                             <option value="5"> 5 {{ Lang::get('checkUrls.length') }}</option>
                             <option value="10"> 10 {{ Lang::get('checkUrls.length') }}</option>

@@ -3,18 +3,18 @@
 return [
 
     'label'              => 'Check Links',
-    'create'             => 'Add a new url',
-    'edit'               => 'Edit the url',
-    'view'               => 'View the url',
-    'none'               => 'You can add urls which should be requested periodically after a deployment finished.',
+    'create'             => 'Add a new URL',
+    'edit'               => 'Edit the URL',
+    'none'               => 'You can add URLs which should be requested periodically and after a deployment has finished.',
     'title'              => 'Title',
-    'titleTip'           => 'The using of this url',
+    'titleTip'           => 'Admin Panel',
     'url'                => 'URL',
-    'period'             => 'Period',
+    'frequency'          => 'Frequency',
     'is_report'          => 'Report when failed',
     'length'             => 'Minutes',
     'warning'            => 'The link could not be saved, please check the form below.',
-    'urlExample'         => 'A valid url link, must begin with http or https',
-    'last_status'        => 'Last Status'
+    'last_status'        => 'Status',
+    'successful'         => 'Successful',
+    'failed'             => 'Failed'
 
 ];

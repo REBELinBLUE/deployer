@@ -22,7 +22,6 @@
                     <div class="form-group">
                         <label for="heartbeat_interval">{{ Lang::get('heartbeats.interval') }}</label>
                         <ul class="list-unstyled">
-
                             @foreach ([10, 30, 60, 120, 720, 1440, 10080] as $time)
                             <li>
                                 <div class="checkbox">
