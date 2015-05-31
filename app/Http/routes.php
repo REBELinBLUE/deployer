@@ -30,15 +30,10 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'DeploymentController@show'
     ]);
 
-
     Route::group(['namespace' => 'Resources'], function () {
 
         Route::get('status/{log}', 'CommandController@status');
         Route::get('log/{log}', 'CommandController@log');
-
-        Route::resource('commands', 'CommandController', [
-            'only' => ['store', 'update', 'destroy']
-        ]);
 
         Route::post('commands/reorder', 'CommandController@reorder');
 
@@ -46,13 +41,14 @@ Route::group(['middleware' => 'auth'], function () {
             'as'   => 'commands',
             'uses' => 'CommandController@listing'
         ]);
-    
+
         Route::get('servers/{servers}/test', 'ServerController@test');
 
         $actions = [
             'only' => ['store', 'update', 'destroy']
         ];
 
+        Route::resource('commands', 'CommandController', $actions);
         Route::resource('servers', 'ServerController', $actions);
         Route::resource('heartbeats', 'HeartbeatController', $actions);
         Route::resource('notifications', 'NotificationController', $actions);

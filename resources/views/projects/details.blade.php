@@ -45,6 +45,7 @@
                         <li><a href="#">{{ Lang::get('projects.build_status') }} <span class="pull-right"><img src="{{ $project->build_url }}" /></span></a></li>
                         @endif
                         <li><a href="#">{{ Lang::get('projects.app_status') }} <span class="pull-right text-green">????</span></a></li>
+                        <li><a href="#">{{ Lang::get('projects.heartbeats_status') }} <span class="pull-right text-green">????</span></a></li>
                     </ul>
                 </div>
             </div>
