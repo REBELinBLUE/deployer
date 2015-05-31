@@ -23,3 +23,18 @@ Code mess can be checked with
 PHP Docblocks can be checked with
 
     $ phpdoccheck --directory="app"
+
+The project includes a Vagrantfile for running deployer, it uses laravel/homestead. The VM uses the domain deploy.app and the IP address 192.168.10.10 so you will need to add them to your /etc/hosts file
+
+Once you have started the VM you will need to run the following commands
+
+    $ vagrant ssh
+    $ cd /var/www/deployer
+    $ composer install
+    $ npm install
+    $ bower install
+    $ gulp && gulp copy
+    $ php artisan key:generate
+    $ php artisan migrate
+
+The VM will set up the cronjob needed for heartbeats and it will setup supervisor to ensure the queue listener is always running

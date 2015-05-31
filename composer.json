@@ -1,8 +1,8 @@
 {
     "name": "rebelinblue/deployer",
     "description": "Simple deployment management for PHP projects.",
-    "minimum-stability": "dev",
-    "type": "library",
+    "minimum-stability": "stable",
+    "type": "project",
     "keywords": ["php", "deployer", "deploy", "deployment"],
     "homepage": "http://deployer.rebelinblue.com/",
     "license": "BSD-2-Clause",
@@ -30,7 +30,7 @@
         "robclancy/presenter": "1.3.*"
     },
     "require-dev": {
-        "fzaninotto/faker": "dev-master",
+        "fzaninotto/faker": "~1.5",
         "phpunit/phpunit": "~4.0",
         "phpspec/phpspec": "~2.1",
         "doctrine/dbal": "~2.5"

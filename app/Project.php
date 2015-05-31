@@ -1,6 +1,5 @@
 <?php namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
@@ -10,7 +9,7 @@ use App\Presenters\ProjectPresenter;
 /**
  * Project model
  */
-class Project extends Model implements PresentableInterface
+class Project extends ProjectRelation implements PresentableInterface
 {
     use SoftDeletes;
 
@@ -88,93 +87,6 @@ class Project extends Model implements PresentableInterface
     public function isDeploying()
     {
         return ($this->status === self::DEPLOYING || $this->status === self::PENDING);
-    }
-
-    /**
-     * Belongs to relationship
-     *
-     * @return Group
-     */
-    public function group()
-    {
-        return $this->belongsTo('App\Group');
-    }
-
-    /**
-     * Has many relationship
-     *
-     * @return Server
-     */
-    public function servers()
-    {
-        return $this->hasMany('App\Server')->orderBy('name');
-    }
-
-    /**
-     * Has many relationship
-     *
-     * @return Heartbeat
-     */
-    public function heartbeats()
-    {
-        return $this->hasMany('App\Heartbeat')->orderBy('name');
-    }
-
-    /**
-     * Has many relationship
-     *
-     * @return Notification
-     */
-    public function notifications()
-    {
-        return $this->hasMany('App\Notification')->orderBy('name');
-    }
-
-    /**
-     * Has many relationship
-     *
-     * @return Deployment
-     */
-    public function deployments()
-    {
-        return $this->hasMany('App\Deployment');
-    }
-
-    /**
-     * Has many relationship
-     *
-     * @return Command
-     */
-    public function commands()
-    {
-        return $this->hasMany('App\Command');
-    }
-
-    /**
-     * Has many relationship
-     * @return SharedFile
-     */
-    public function shareFiles()
-    {
-        return $this->hasMany('App\SharedFile');
-    }
-
-    /**
-     * Has many relationship to project file
-     * @return ProjectFile
-     */
-    public function projectFiles()
-    {
-        return $this->hasMany('App\ProjectFile');
-    }
-
-    /**
-     * Has many relationship
-     * @return SharedFile
-     */
-    public function notifyEmails()
-    {
-        return $this->hasMany('App\NotifyEmail');
     }
 
     /**

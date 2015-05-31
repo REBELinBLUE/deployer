@@ -1,32 +1,35 @@
-<div class="modal fade" id="heartbeat">
+<div class="modal fade" id="checkurl">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-heartbeat"></i> <span>{{ Lang::get('heartbeats.create') }}</span></h4>
+                <h4 class="modal-title"><i class="fa fa-folder"></i> <span>{{ Lang::get('checkUrls.create') }}</span></h4>
             </div>
             <form role="form">
-                <input type="hidden" id="heartbeat_id" name="id" />
+                <input type="hidden" id="url_id" name="id" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <div class="modal-body">
 
                     <div class="callout callout-danger">
-                        <i class="icon fa fa-warning"></i> {{ Lang::get('heartbeats.warning') }}
+                        <i class="icon fa fa-warning"></i> {{ Lang::get('checkUrls.warning') }}
                     </div>
 
                     <div class="form-group">
-                        <label for="heartbeat_name">{{ Lang::get('heartbeats.name') }}</label>
-                        <input type="text" class="form-control" id="heartbeat_name" name="name" placeholder="{{ Lang::get('heartbeats.my_cronjob') }}" />
+                        <label for="title">{{ Lang::get('checkUrls.title') }}</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="{{ Lang::get('checkUrls.titleTip') }}" />
                     </div>
-
                     <div class="form-group">
-                        <label for="heartbeat_interval">{{ Lang::get('heartbeats.interval') }}</label>
+                        <label for="url">{{ Lang::get('checkUrls.url') }}</label> 
+                        <input type="text" class="form-control" id="url" name="url" placeholder="http://admin.example.com/" />
+                    </div>
+                    <div class="form-group">
+                        <label for="period">{{ Lang::get('checkUrls.frequency') }}</label>
                         <ul class="list-unstyled">
-                            @foreach ([10, 30, 60, 120, 720, 1440, 10080] as $time)
+                            @foreach ([5, 10, 30, 60] as $time)
                             <li>
                                 <div class="checkbox">
-                                    <label for="heartbeat_interval_{{ $time }}">
-                                        <input type="radio" class="heartbeat-interval" name="interval" id="heartbeat_interval_{{ $time }}" value="{{ $time }}" /> {{ Lang::get('heartbeats.interval_' . $time) }}
+                                    <label for="period_{{ $time }}">
+                                        <input type="radio" class="checkurl-period" name="period" id="period_{{ $time }}" value="{{ $time }}" /> {{ $time }} {{ Lang::get('checkUrls.length') }}
                                     </label>
                                 </div>
                             </li>

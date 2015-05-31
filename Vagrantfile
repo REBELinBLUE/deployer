@@ -30,6 +30,19 @@ Vagrant.configure("2") do |config|
 
     config.vm.synced_folder "./", "/var/www/deployer"
 
+    # Configure The Public Key For SSH Access
+    config.vm.provision "shell" do |s|
+        s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
+        s.args = [File.read(File.expand_path("~/.ssh/id_rsa.pub"))]
+    end
+
+    # Copy The SSH Private Keys To The Box
+    config.vm.provision "shell" do |s|
+        s.privileged = false
+        s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
+        s.args = [File.read(File.expand_path("~/.ssh/id_rsa")), "id_rsa"]
+    end
+
     # Update composer
     config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
 
@@ -47,6 +60,4 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo service php5-fpm restart"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"DROP DATABASE IF EXISTS deployer\";"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci\";"
-    config.vm.provision "shell", inline: "composer --working-dir=/var/www/deployer install";
-    config.vm.provision "shell", inline: "php /var/www/deployer/artisan migrate";
 end

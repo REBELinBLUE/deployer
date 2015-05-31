@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\Resources;
 
 use App\Heartbeat;
 use App\Http\Requests\StoreHeartbeatRequest;

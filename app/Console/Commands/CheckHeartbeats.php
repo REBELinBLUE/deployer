@@ -18,7 +18,7 @@ class CheckHeartbeats extends Command
      *
      * @var string
      */
-    protected $name = 'heartbeat:check';
+    protected $name = 'deployer:heartbeats';
 
     /**
      * The console command description.

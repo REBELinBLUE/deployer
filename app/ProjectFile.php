@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ProjectFile extends Model
 {
-
     use SoftDeletes;
 
     /**
