@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class NotifyEmail extends Model
 {
-
     use SoftDeletes;
 
     /**

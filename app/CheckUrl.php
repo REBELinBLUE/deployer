@@ -10,16 +10,21 @@ class CheckUrl extends Model
 {
     use SoftDeletes;
 
-    const REPORT = 1;
-
-    const ERROR = 1;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['title', 'url', 'project_id', 'period', 'is_report'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_report' => 'boolean'
+    ];
 
     /**
      * Belongs to relationship

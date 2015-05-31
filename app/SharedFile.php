@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class SharedFile extends Model
 {
-
     use SoftDeletes;
 
     /**
