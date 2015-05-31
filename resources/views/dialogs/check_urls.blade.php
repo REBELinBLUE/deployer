@@ -24,19 +24,17 @@
                     </div>
                     <div class="form-group">
                         <label for="period">{{ Lang::get('checkUrls.frequency') }}</label>
-                        <select name="period" id="period" class="form-control">
-                            <option value="5"> 5 {{ Lang::get('checkUrls.length') }}</option>
-                            <option value="10"> 10 {{ Lang::get('checkUrls.length') }}</option>
-                            <option value="30"> 30 {{ Lang::get('checkUrls.length') }}</option>
-                            <option value="60"> 60 {{ Lang::get('checkUrls.length') }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="is_report">
-                            {{ Lang::get('checkUrls.is_report') }}
-                            <br>
-                            <input type="checkbox" id="is_report" name="is_report" value="1" />
-                        </label>
+                        <ul class="list-unstyled">
+                            @foreach ([5, 10, 30, 60] as $time)
+                            <li>
+                                <div class="checkbox">
+                                    <label for="period_{{ $time }}">
+                                        <input type="radio" class="checkurl-period" name="period" id="period_{{ $time }}" value="{{ $time }}" /> {{ $time }} {{ Lang::get('checkUrls.length') }}
+                                    </label>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
                 <div class="modal-footer">

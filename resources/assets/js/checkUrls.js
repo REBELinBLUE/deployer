@@ -17,8 +17,8 @@ var app = app || {};
             $('#url_id').val('');
             $('#title').val('');
             $('#url').val('');
-            $('#period').val(5);
-            $('#is_report').prop('checked',false);
+            $('#period_5').prop('checked', true);
+            //$('#is_report').prop('checked', false);
         }
 
         modal.find('.modal-title span').text(title);
@@ -75,8 +75,8 @@ var app = app || {};
         url.save({
             title:      $('#title').val(),
             url:        $('#url').val(),
-            is_report:  $('#is_report').prop('checked'),
-            period:     $('#period').val(),
+            is_report:  true, // $('#is_report').prop('checked'),
+            period:     parseInt($('input[name=period]:checked').val()),
             project_id: $('input[name="project_id"]').val()
         }, {
             wait: true,
@@ -186,11 +186,11 @@ var app = app || {};
                 data.status     = Lang.CheckUrls.success;
             }
 
-            data.report = Lang.CheckUrls.no;
+            // data.report = Lang.CheckUrls.no;
 
-            if (data.is_report) {
-                data.report = Lang.CheckUrls.yes;
-            }
+            // if (data.is_report) {
+            //     data.report = Lang.CheckUrls.yes;
+            // }
 
             this.$el.html(this.template(data));
 
@@ -200,7 +200,7 @@ var app = app || {};
             $('#url_id').val(this.model.id);
             $('#title').val(this.model.get('title'));
             $('#url').val(this.model.get('url'));
-            $('#period').val(this.model.get('period'));
+            $('#period_' + this.model.get('period')).prop('checked', true);
             $('#is_report').prop('checked', this.model.get('is_report'));
         }
     });

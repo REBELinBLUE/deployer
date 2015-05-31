@@ -18,7 +18,6 @@
                     <th>{{ Lang::get('checkUrls.title') }}</th>
                     <th>{{ Lang::get('checkUrls.url') }}</th>
                     <th>{{ Lang::get('checkUrls.frequency') }}</th>
-                    <th>{{ Lang::get('checkUrls.is_report') }}</th>
                     <th>{{ Lang::get('checkUrls.last_status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -34,7 +33,6 @@
     <td><%- title %></td>
     <td><%- url %></td>
     <td><%- period %> {{ Lang::get('checkUrls.length') }}</td>
-    <td><%- report %></td>
     <td>
         <span class="label label-<%- status_css %>">
             <i class="fa fa-<%-icon_css %>"></i>
