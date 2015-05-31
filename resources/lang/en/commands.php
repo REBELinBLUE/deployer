@@ -23,7 +23,7 @@ return [
     'install'              => 'Install Composer Dependencies',
     'activate'             => 'Activate New Release',
     'purge'                => 'Purge Old Releases',
-    'title'                => ':step Commands',
+    'title'                => ':step Commands', // FIXME :step isn't translated!
     'warning'              => 'The command could not be saved, please check the form below.',
     'create'               => 'Add a new command',
     'edit'                 => 'Edit a command',
