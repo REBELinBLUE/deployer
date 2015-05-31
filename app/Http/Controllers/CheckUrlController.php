@@ -5,6 +5,7 @@ use App\Http\Requests\StoreCheckUrlRequest;
 
 /**
  * Controller for managing URLs
+ * TODO: Change create/update to queue a check of the URL
  */
 class CheckUrlController extends ResourceController
 {
