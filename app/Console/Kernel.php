@@ -43,10 +43,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('heartbeat:check')
+        $schedule->command('deployer:heartbeats')
                  ->everyFiveMinutes()
                  ->withoutOverlapping();
-        $schedule->command('checkurl')
+
+        $schedule->command('deployer:checkurls')
                  ->everyFiveMinutes()
                  ->withoutOverlapping();
     }

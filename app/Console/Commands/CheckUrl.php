@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class CheckUrl extends Command
 {
-
     use DispatchesCommands;
 
     /**
@@ -21,14 +20,14 @@ class CheckUrl extends Command
      *
      * @var string
      */
-    protected $name = 'checkurl';
+    protected $name = 'deployer:checkurls';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Request the project check url and notify when failed.';
+    protected $description = 'Request the project check URL and notify when failed.';
 
     /**
      * Create a new command instance.
@@ -48,18 +47,20 @@ class CheckUrl extends Command
     public function fire()
     {
         $period = [];
-        $minitue = intval(date('i'));
-        if ($minitue == 0) {
+
+        $minute = intval(date('i'));
+        if ($minute == 0) {
             $period = [60, 30, 10, 5];
         } else {
-            if ($minitue % 30 == 0) {
+            if ($minute % 30 == 0) {
                 $period = [30, 10, 5];
-            } elseif ($minitue % 10 == 0) {
+            } elseif ($minute % 10 == 0) {
                 $period = [10, 5];
-            } elseif ($minitue % 5 == 0) {
+            } elseif ($minute % 5 == 0) {
                 $period = [5];
             }
         }
+
         if (empty($period)) {
             return true;
         }
