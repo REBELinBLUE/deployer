@@ -49,7 +49,7 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $appends = ['group_name'];
+    protected $appends = ['group_name', 'webhook_url'];
 
     /**
      * The attributes that should be casted to native types.
@@ -186,13 +186,24 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Define a mutator for the group name
+     * Define a accessor for the group name
      *
      * @return int
      */
     public function getGroupNameAttribute()
     {
         return $this->group->name;
+    }
+
+     /**
+     * Define an accessor for the webhook URL
+     *
+     * @return string
+     * TODO: Shouldn't this be a presenter?
+     */
+    public function getWebhookUrlAttribute()
+    {
+        return route('webhook', $this->hash);
     }
 
     /**
