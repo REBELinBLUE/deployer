@@ -21,6 +21,8 @@ return [
     'save'           => 'Save',
     'close'          => 'Close',
     'never'          => 'Never',
-    'none'           => 'None'
+    'none'           => 'None',
+    'yes'            => 'Yes',
+    'no'             => 'No'
 
 ];

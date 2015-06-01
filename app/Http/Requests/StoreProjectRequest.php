@@ -22,8 +22,8 @@ class StoreProjectRequest extends Request
             'group_id'       => 'required|integer|exists:groups,id',
             'builds_to_keep' => 'required|integer|min:1|max:20',
             'template_id'    => 'integer|exists:templates,id',
-            'url'            => 'url',
-            'build_url'      => 'url'
+            'url'            => 'url|active_url',
+            'build_url'      => 'url|active_url'
         ];
     }
 }

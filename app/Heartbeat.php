@@ -93,7 +93,7 @@ class Heartbeat extends Model
     }
 
     /**
-     * Define a mutator for the callback URL
+     * Define a accessor for the callback URL
      *
      * @return string
      * TODO: Shouldn't this be a presenter?

@@ -30,7 +30,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\CheckHeartbeats'
+        'App\Console\Commands\CheckHeartbeats',
+        'App\Console\Commands\CheckUrl'
     ];
 
     /**
@@ -41,7 +42,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('heartbeat:check')
+        $schedule->command('deployer:heartbeats')
+                 ->everyFiveMinutes()
+                 ->withoutOverlapping();
+
+        $schedule->command('deployer:checkurls')
                  ->everyFiveMinutes()
                  ->withoutOverlapping();
     }

@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\Resources;
 
 use Lang;
 use Input;
@@ -6,14 +6,13 @@ use App\Project;
 use App\Command;
 use App\ServerLog;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommandRequest;
 use Illuminate\Http\Request;
 
 /**
  * Controller for managing commands
  */
-class CommandController extends Controller
+class CommandController extends ResourceController
 {
     /**
      * Display a listing of before/after commands for the supplied stage

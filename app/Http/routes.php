@@ -30,37 +30,33 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'DeploymentController@show'
     ]);
 
-    Route::resource('servers', 'ServerController', [
-        'only' => ['show', 'store', 'update', 'destroy']
-    ]);
+    Route::group(['namespace' => 'Resources'], function () {
 
-    Route::resource('heartbeats', 'HeartbeatController', [
-        'only' => ['store', 'update', 'destroy']
-    ]);
+        Route::get('status/{log}', 'CommandController@status');
+        Route::get('log/{log}', 'CommandController@log');
 
-    Route::resource('notifications', 'NotificationController', [
-        'only' => ['store', 'update', 'destroy']
-    ]);
+        Route::post('commands/reorder', 'CommandController@reorder');
 
-    Route::get('servers/{servers}/test', 'ServerController@test');
+        Route::get('projects/{projects}/commands/{step}', [
+            'as'   => 'commands',
+            'uses' => 'CommandController@listing'
+        ]);
 
-    Route::get('status/{log}', 'CommandController@status');
-    Route::get('log/{log}', 'CommandController@log');
+        Route::get('servers/{servers}/test', 'ServerController@test');
 
-    Route::resource('commands', 'CommandController', [
-        'only' => ['store', 'update', 'destroy']
-    ]);
+        $actions = [
+            'only' => ['store', 'update', 'destroy']
+        ];
 
-    Route::post('commands/reorder', 'CommandController@reorder');
-
-    Route::get('projects/{projects}/commands/{step}', [
-        'as'   => 'commands',
-        'uses' => 'CommandController@listing'
-    ]);
-
-    Route::resource('shared-files', 'SharedFilesController');
-    Route::resource('project-file', 'ProjectFileController');
-    Route::resource('notify-email', 'NotifyEmailController');
+        Route::resource('commands', 'CommandController', $actions);
+        Route::resource('servers', 'ServerController', $actions);
+        Route::resource('heartbeats', 'HeartbeatController', $actions);
+        Route::resource('notifications', 'NotificationController', $actions);
+        Route::resource('shared-files', 'SharedFilesController', $actions);
+        Route::resource('project-file', 'ProjectFileController', $actions);
+        Route::resource('notify-email', 'NotifyEmailController', $actions);
+        Route::resource('check-url', 'CheckUrlController', $actions);
+    });
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 

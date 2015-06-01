@@ -52,7 +52,9 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        return $this->groupRepository->create($request->only('name'));
+        return $this->groupRepository->create($request->only(
+            'name'
+        ));
     }
 
     /**
@@ -64,6 +66,8 @@ class GroupController extends Controller
      */
     public function update($group_id, StoreGroupRequest $request)
     {
-        return $this->groupRepository->updateById($request->only('name'), $group_id);
+        return $this->groupRepository->updateById($request->only(
+            'name'
+        ), $group_id);
     }
 }

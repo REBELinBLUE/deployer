@@ -4,9 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Email list for a deployment notification.
+ * The application's  url store for health check
  */
-class NotifyEmail extends Model
+class CheckUrl extends Model
 {
     use SoftDeletes;
 
@@ -15,7 +15,16 @@ class NotifyEmail extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'project_id'];
+    protected $fillable = ['title', 'url', 'project_id', 'period', 'is_report'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_report' => 'boolean'
+    ];
 
     /**
      * Belongs to relationship

@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\Resources;
 
 use Response;
 use Queue;
@@ -12,18 +12,6 @@ use App\Http\Requests\StoreServerRequest;
  */
 class ServerController extends ResourceController
 {
-    /**
-     * Shows the specified server
-     *
-     * @param Server $server
-     * @return Response
-     * TODO: Check this is used
-     */
-    public function show(Server $server)
-    {
-        return $server;
-    }
-
     /**
      * Store a newly created server in storage.
      *
