@@ -24,8 +24,11 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at', 'heartbeats',
-                         'updated_at', 'servers', 'commands', 'hash', 'status'];
+    protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
+                         'updated_at', 'servers', 'commands', 'hash', 'status',
+                         'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
+                         'notifications', 'deployments', 'shareFiles', 'projectFiles',
+                         'notifyEmails'];
 
     /**
      * The attributes that are mass assignable.
