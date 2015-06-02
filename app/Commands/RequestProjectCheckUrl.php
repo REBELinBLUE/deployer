@@ -42,6 +42,7 @@ class RequestProjectCheckUrl extends Command implements SelfHandling, ShouldBeQu
 
         if ($reponse->hasErrors()) {
             foreach ($this->link->project->notifications as $notification) {
+                // FIXME: Notify is self queuing isn't it?
                 Queue::pushOn('notify', new Notify($notification, $this->link->notificationPayload()));
             }
         }

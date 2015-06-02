@@ -107,6 +107,7 @@ class QueueDeployment extends Command implements SelfHandling
             }
         }
 
+        // FIXME: DeployProject is self queuing isn't it?
         Queue::pushOn('deploy', new DeployProject($this->deployment));
     }
 
