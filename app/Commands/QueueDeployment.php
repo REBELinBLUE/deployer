@@ -57,7 +57,6 @@ class QueueDeployment extends Command implements SelfHandling
         $this->deployment->project->status = Project::PENDING;
         $this->deployment->project->save();
 
-
         $hooks = [
             Stage::DO_CLONE    => null,
             Stage::DO_INSTALL  => null,
@@ -107,8 +106,7 @@ class QueueDeployment extends Command implements SelfHandling
             }
         }
 
-        // FIXME: DeployProject is self queuing isn't it?
-        Queue::pushOn('deploy', new DeployProject($this->deployment));
+        Queue::push(new DeployProject($this->deployment));
     }
 
     /**

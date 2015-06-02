@@ -1,6 +1,5 @@
 <?php namespace App\Handlers\Events;
 
-use Queue;
 use App\Commands\Notify as SlackNotify;
 use App\Commands\MailDeployNotification;
 use App\Commands\RequestProjectCheckUrl;
@@ -15,8 +14,8 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  */
 class Notify implements ShouldBeQueued
 {
-    use InteractsWithQueue;
-    use DispatchesCommands;
+    use InteractsWithQueue, DispatchesCommands;
+
     /**
      * Create the event handler.
      *
@@ -39,7 +38,7 @@ class Notify implements ShouldBeQueued
         $deployment = $event->deployment;
 
         foreach ($project->notifications as $notification) {
-            Queue::pushOn('notify', new SlackNotify($notification, $deployment->notificationPayload()));
+            $this->dispatch(new SlackNotify($notification, $deployment->notificationPayload()));
         }
 
         //Send email notification

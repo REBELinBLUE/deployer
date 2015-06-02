@@ -53,7 +53,10 @@ class CheckHeartbeats extends Command
                     $heartbeat->save();
 
                     foreach ($heartbeat->project->notifications as $notification) {
-                        Queue::pushOn('notify', new Notify($notification, $heartbeat->notificationPayload()));
+                        Queue::push(new Notify(
+                            $notification,
+                            $heartbeat->notificationPayload()
+                        ));
                     }
                 }
             }

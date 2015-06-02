@@ -41,7 +41,7 @@ class Notification extends Model
 
         // When the notification has been saved queue a test
         static::saved(function ($model) {
-            Queue::pushOn('notify', new Notify(
+            Queue::push(new Notify(
                 $model,
                 $model->testPayload()
             ));
