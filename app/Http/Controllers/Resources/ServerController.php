@@ -13,6 +13,17 @@ use App\Http\Requests\StoreServerRequest;
 class ServerController extends ResourceController
 {
     /**
+     * Returns the server
+     * 
+     * @param Server $server
+     * @return Model
+     */
+    public function show(Server $server)
+    {
+        return $server;
+    }
+
+    /**
      * Store a newly created server in storage.
      *
      * @param StoreServerRequest $request
@@ -81,7 +92,7 @@ class ServerController extends ResourceController
         $server->status = Server::TESTING;
         $server->save();
 
-        Queue::pushOn('connections', new TestServerConnection($server));
+        $this->dispatch(new TestServerConnection($server));
 
         return [
             'success' => true
