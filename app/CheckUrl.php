@@ -35,4 +35,33 @@ class CheckUrl extends Model
     {
         return $this->belongsTo('App\Project');
     }
+
+    /**
+     * Generates a slack payload for the link failure
+     *
+     * @return array
+     */
+    public function notificationPayload()
+    {
+        $message = Lang::get('checkurls.message', [ 'link' => $this->title ]);
+
+        $payload = [
+            'attachments' => [
+                [
+                    'fallback' => $message,
+                    'text'     => $message,
+                    'color'    => 'danger',
+                    'fields'   => [
+                        [
+                            'title' => Lang::get('notifications.project'),
+                            'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
+                            'short' => true
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        return $payload;
+    }
 }

@@ -15,6 +15,7 @@ return [
     'warning'            => 'The link could not be saved, please check the form below.',
     'last_status'        => 'Status',
     'successful'         => 'Successful',
-    'failed'             => 'Failed'
+    'failed'             => 'Failed',
+    'message'            => ':link appears to be down!',
 
 ];

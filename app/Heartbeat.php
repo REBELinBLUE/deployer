@@ -118,7 +118,7 @@ class Heartbeat extends Model
     }
 
     /**
-     * Generates a slack payload for the heartbeat failuyre
+     * Generates a slack payload for the heartbeat failure
      *
      * @return array
      */

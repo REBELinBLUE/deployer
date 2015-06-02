@@ -68,7 +68,11 @@ class CheckUrl extends Command
         $command = $this;
 
         CheckUrlModel::whereIn('period', $period)->chunk(10, function ($urls) use ($command) {
-            $command->dispatch(new RequestProjectCheckUrl($urls));
+
+            foreach ($urls as $url) {
+                $command->dispatch(new RequestProjectCheckUrl($url));
+            }
+
         });
     }
 }
