@@ -34,27 +34,30 @@ class CheckHeartbeats extends Command
      */
     public function fire()
     {
-        $heartbeats = Heartbeat::all();
+        Heartbeat::chunk(10, function ($heartbeats) {
 
-        foreach ($heartbeats as $heartbeat) {
-            $last_heard_from = $heartbeat->last_activity;
-            if (!$last_heard_from) {
-                $last_heard_from = $heartbeat->created_at;
-            }
+            foreach ($heartbeats as $heartbeat) {
 
-            $missed = $heartbeat->missed + 1;
+                $last_heard_from = $heartbeat->last_activity;
+                if (!$last_heard_from) {
+                    $last_heard_from = $heartbeat->created_at;
+                }
 
-            $next_time = $last_heard_from->addMinutes($heartbeat->interval * $missed);
+                $missed = $heartbeat->missed + 1;
 
-            if (Carbon::now()->gt($next_time)) {
-                $heartbeat->status = Heartbeat::MISSING;
-                $heartbeat->missed = $missed;
-                $heartbeat->save();
+                $next_time = $last_heard_from->addMinutes($heartbeat->interval * $missed);
 
-                foreach ($heartbeat->project->notifications as $notification) {
-                    Queue::pushOn('notify', new Notify($notification, $heartbeat->notificationPayload()));
+                if (Carbon::now()->gt($next_time)) {
+                    $heartbeat->status = Heartbeat::MISSING;
+                    $heartbeat->missed = $missed;
+                    $heartbeat->save();
+
+                    foreach ($heartbeat->project->notifications as $notification) {
+                        Queue::pushOn('notify', new Notify($notification, $heartbeat->notificationPayload()));
+                    }
                 }
             }
-        }
+
+        });
     }
 }
