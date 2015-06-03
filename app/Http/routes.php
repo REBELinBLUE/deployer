@@ -87,10 +87,12 @@ Route::post('deploy/{hash}', [
 
 Route::get('cctray.xml', 'DashboardController@cctray');
 
-Route::get('heartbeat/{hash}', [
-    'as'   => 'heartbeat',
-    'uses' => 'HeartbeatController@ping'
-]);
+Route::group(['namespace' => 'Resources'], function () {
+    Route::get('heartbeat/{hash}', [
+        'as'   => 'heartbeat',
+        'uses' => 'HeartbeatController@ping'
+    ]);
+});
 
 Route::controllers([
     'auth'     => 'Auth\AuthController',
