@@ -48,11 +48,13 @@ var app = app || {};
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
+        $('#template-list', modal).hide();
 
         if (button.hasClass('btn-edit')) {
             title = Lang.edit;
             $('.btn-danger', modal).show();
         } else {
+            $('#template-list', modal).show();
             $('#project_id').val('');
             $('#project_name').val('');
             $('#project_repository').val('');
@@ -123,7 +125,8 @@ var app = app || {};
             group_id: $('#project_group_id').val(),
             builds_to_keep: $('#project_builds_to_keep').val(),
             url: $('#project_url').val(),
-            build_url: $('#project_build_url').val()
+            build_url: $('#project_build_url').val(),
+            template_id: $('#project_template_id') ? $('#project_template_id').val() : null
         }, {
             wait: true,
             success: function(model, response, options) {

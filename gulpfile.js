@@ -66,6 +66,7 @@ elixir(function(mix) {
         'commands.js',
         'users.js',
         'groups.js',
+        'templates.js',
         'AdminLTE.js'
     ], 'public/js/app.js', 'resources/assets/js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')

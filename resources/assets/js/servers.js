@@ -15,6 +15,7 @@ var app = app || {};
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
+        $('#add-server-command', modal).hide();
 
         if (button.hasClass('btn-edit')) {
             title = Lang.servers.edit;
@@ -27,6 +28,7 @@ var app = app || {};
             $('#server_user').val('');
             $('#server_path').val('');
             $('#server_deploy_code').prop('checked', true);
+            $('#add-server-command', modal).show();
         }
 
         modal.find('.modal-title span').text(title);
@@ -83,13 +85,14 @@ var app = app || {};
         }
 
         server.save({
-            name:        $('#server_name').val(),
-            ip_address:  $('#server_address').val(),
-            port:        $('#server_port').val(),
-            user:        $('#server_user').val(),
-            path:        $('#server_path').val(),
-            deploy_code: $('#server_deploy_code').is(':checked'),
-            project_id:  $('input[name="project_id"]').val()
+            name:         $('#server_name').val(),
+            ip_address:   $('#server_address').val(),
+            port:         $('#server_port').val(),
+            user:         $('#server_user').val(),
+            path:         $('#server_path').val(),
+            deploy_code:  $('#server_deploy_code').is(':checked'),
+            project_id:   $('input[name="project_id"]').val(),
+            add_commands: $('#server_commands').is(':checked')
         }, {
             wait: true,
             success: function(model, response, options) {
