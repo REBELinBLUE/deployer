@@ -69,7 +69,7 @@ class QueueDeployment extends Command implements SelfHandling
 
     /**
      * Builds up a list of commands to run before/after each stage
-     * 
+     *
      * @return array
      */
     private function buildCommandList()
