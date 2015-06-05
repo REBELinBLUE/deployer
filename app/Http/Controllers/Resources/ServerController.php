@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers\Resources;
 
 use Response;
-use Queue;
 use App\Server;
 use App\Http\Requests;
 use App\Commands\TestServerConnection;

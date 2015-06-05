@@ -1,6 +1,5 @@
 <?php namespace App\Http\Requests;
 
-use Input;
 use App\Http\Requests\Request;
 
 /**

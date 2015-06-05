@@ -7,7 +7,6 @@ use App\Command;
 use App\ServerLog;
 use App\Http\Requests;
 use App\Http\Requests\StoreCommandRequest;
-use Illuminate\Http\Request;
 
 /**
  * Controller for managing commands

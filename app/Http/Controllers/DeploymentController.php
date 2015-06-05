@@ -4,8 +4,6 @@ use Lang;
 use Input;
 use App\Project;
 use App\Deployment;
-use App\ServerLog;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Commands\QueueDeployment;

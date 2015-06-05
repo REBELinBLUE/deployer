@@ -5,7 +5,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Http\Requests\StoreGroupRequest;
-use Illuminate\Http\Request;
 
 /**
  * Group management controller

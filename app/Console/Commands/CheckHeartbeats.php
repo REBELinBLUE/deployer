@@ -5,8 +5,6 @@ use Carbon\Carbon;
 use App\Heartbeat;
 use App\Commands\Notify;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Checks that any expected heartbeats have checked-in
