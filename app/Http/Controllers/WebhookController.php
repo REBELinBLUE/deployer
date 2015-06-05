@@ -5,7 +5,6 @@ use App\Project;
 use App\Deployment;
 use App\Commands\QueueDeployment;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 /**
  * The deployment webhook controller
