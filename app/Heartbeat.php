@@ -75,7 +75,7 @@ class Heartbeat extends Model
         parent::boot();
 
         // When first creating the model generate a webhook hash
-        static::creating(function ($model) {
+        static::creating(function (Heartbeat $model) {
             if (!array_key_exists('hash', $model->attributes)) {
                 $model->generateHash();
             }
