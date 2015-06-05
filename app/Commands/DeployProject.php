@@ -221,11 +221,6 @@ CMD;
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
 
-            $prefix = $step->stage;
-            if ($step->command) {
-                $prefix = $step->command->name;
-            }
-
             try {
                 $server = $log->server;
                 $script = $this->getScript($step, $server);
