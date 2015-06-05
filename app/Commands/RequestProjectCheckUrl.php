@@ -1,9 +1,8 @@
 <?php namespace App\Commands;
 
+use Queue;
 use App\Commands\Command;
-
 use Httpful\Request;
-
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 use Illuminate\Queue\InteractsWithQueue;
