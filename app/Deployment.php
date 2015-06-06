@@ -5,11 +5,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Robbo\Presenter\PresentableInterface;
 use App\Presenters\DeploymentPresenter;
+use App\Contracts\RuntimeInterface;
 
 /**
  * Deployment model
  */
-class Deployment extends Model implements PresentableInterface
+class Deployment extends Model implements PresentableInterface, RuntimeInterface
 {
     use SoftDeletes;
 

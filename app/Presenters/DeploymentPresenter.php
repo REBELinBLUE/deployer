@@ -9,6 +9,8 @@ use Robbo\Presenter\Presenter;
  */
 class DeploymentPresenter extends Presenter
 {
+    use RuntimePresenter;
+
     /**
      * Returns the build status needed by CCTray
      * These strings can not be translated

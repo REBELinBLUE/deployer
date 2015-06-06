@@ -57,7 +57,7 @@ class DeploymentController extends Controller
             foreach ($step->servers as $server) {
                 $server->server;
 
-                $server->runtime  = ($server->runtime() === false ? null : human_readable_duration($server->runtime()));
+                $server->runtime  = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
                 $server->output   = ((is_null($server->output) || !strlen($server->output)) ? null : '');
                 $server->script   = '';
                 $server->first    = (count($output) === 0); // FIXME: Let backbone.js take care of this
@@ -75,7 +75,7 @@ class DeploymentController extends Controller
             'title'      => Lang::get('deployments.details'),
             'project'    => $project,
             'deployment' => $deployment,
-            'output'     => $output
+            'output'     => json_encode($output) // Because PresentableInterface does not correctly json encode the models
         ]);
     }
 

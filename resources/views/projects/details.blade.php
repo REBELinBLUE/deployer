@@ -28,7 +28,7 @@
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="#">{{ Lang::get('projects.today') }} <span class="pull-right">{{ number_format($today) }}</span></a></li>
                         <li><a href="#">{{ Lang::get('projects.last_week') }} <span class="pull-right">{{ number_format($last_week) }}</span></a></li>
-                        <li><a href="#">{{ Lang::get('projects.latest_duration') }}<span class="pull-right">{{ (count($deployments) == 0 OR !$deployments[0]->finished_at) ? Lang::get('app.not_applicable') : human_readable_duration($deployments[0]->runtime()) }} </span></a></li>
+                        <li><a href="#">{{ Lang::get('projects.latest_duration') }}<span class="pull-right">{{ (count($deployments) == 0 OR !$deployments[0]->finished_at) ? Lang::get('app.not_applicable') : $deployments[0]->readable_runtime }} </span></a></li>
                     </ul>
                 </div>
             </div>
