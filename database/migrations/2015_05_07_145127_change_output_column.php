@@ -1,6 +1,5 @@
 <?php
 
-use DB;
 use Illuminate\Database\Migrations\Migration;
 
 class ChangeOutputColumn extends Migration
