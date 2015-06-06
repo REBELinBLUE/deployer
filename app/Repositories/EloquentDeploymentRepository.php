@@ -31,7 +31,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     public function getTimeline()
     {
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
-        return Deployment::whereRaw($raw_sql) // FIXME: Surely there is a nicer way to do this?
+        return Deployment::whereRaw($raw_sql)
                          ->take(15)
                          ->orderBy('started_at', 'DESC')
                          ->get();
@@ -81,7 +81,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     public function getLastWeekCount(Project $project)
     {
         $lastWeek  = Carbon::now()->subWeek();
-        $yesterday = Carbon::now()->yesterday(); // FIXME: Should this be today?
+        $yesterday = Carbon::now()->yesterday();
 
         return $this->getBetweenDates($project, $lastWeek, $yesterday);
     }
@@ -108,10 +108,10 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
      * @param int $status
      * @return array
      */
-    public function getStatus($status)
+    private function getStatus($status)
     {
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
-        return Deployment::whereRaw($raw_sql) // FIXME: Surely there is a nicer way to do this?
+        return Deployment::whereRaw($raw_sql)
                          ->where('status', $status)
                          ->orderBy('started_at', 'DESC')
                          ->get();

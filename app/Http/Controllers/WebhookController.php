@@ -26,7 +26,7 @@ class WebhookController extends Controller
                           ->firstOrFail();
 
         $success = false;
-        if ($project->servers->count() > 0) { // FIXME: This should filter to deployable servers
+        if ($project->servers->where('deploy_code', true)->count() > 0) {
             $optional = [];
 
             $deployment = new Deployment;
