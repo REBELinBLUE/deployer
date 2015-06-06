@@ -75,7 +75,7 @@ class DeploymentController extends Controller
             'title'      => Lang::get('deployments.details'),
             'project'    => $project,
             'deployment' => $deployment,
-            'output'     => json_encode($output) // Because PresentableInterface does not correctly json encode the models
+            'output'     => json_encode($output) // PresentableInterface does not correctly json encode the models
         ]);
     }
 
