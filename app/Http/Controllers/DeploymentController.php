@@ -3,6 +3,7 @@
 use Lang;
 use Input;
 use App\Project;
+use App\Command;
 use App\Deployment;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
@@ -22,7 +23,7 @@ class DeploymentController extends Controller
      */
     public function project(Project $project, DeploymentRepositoryInterface $deploymentRepository)
     {
-        $optional = $project->commands->filter(function ($command) {
+        $optional = $project->commands->filter(function (Command $command) {
             return $command->optional;
         });
 
