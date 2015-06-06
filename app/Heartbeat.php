@@ -96,7 +96,6 @@ class Heartbeat extends Model
      * Define a accessor for the callback URL
      *
      * @return string
-     * TODO: Shouldn't this be a presenter?
      */
     public function getCallbackUrlAttribute()
     {

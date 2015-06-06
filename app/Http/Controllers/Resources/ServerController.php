@@ -47,7 +47,6 @@ class ServerController extends ResourceController
      * @param Server $server
      * @param StoreServerRequest $request
      * @return Response
-     * TODO: Shouldn't changing the status on IP change be up to the model not the controller?
      */
     public function update(Server $server, StoreServerRequest $request)
     {

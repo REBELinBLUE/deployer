@@ -212,7 +212,6 @@ CMD;
      * @param DeployStep $step
      * @return void
      * @throws \RuntimeException
-     * TODO: Remove build on failure
      */
     private function runStep(DeployStep $step)
     {
@@ -513,7 +512,7 @@ OUT;
     }
 
     /**
-     * send a string to server
+     * Send a string to server
      *
      * @param  Server $server   target server
      * @param  string $filename remote filename
