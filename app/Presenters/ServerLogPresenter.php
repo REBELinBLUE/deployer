@@ -10,5 +10,4 @@ use Robbo\Presenter\Presenter;
 class ServerLogPresenter extends Presenter
 {
     use RuntimePresenter;
-
 }
