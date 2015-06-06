@@ -16,7 +16,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next)
     {
         if ($this->excludedRoutes($request)) {
             return $this->addCookieToResponse($request, $next($request));
