@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $customBooters = [
-        'Illuminate\Foundation\Bootstrap\ConfigureLogging' => 'App\Bootstrap\ConfigureLogging',
+        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => \App\Bootstrap\ConfigureLogging::class,
     ];
 
     /**
