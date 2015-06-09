@@ -15,11 +15,11 @@ class CheckUrl extends Command
     use DispatchesJobs;
 
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'deployer:checkurls';
+    protected $signature = 'deployer:checkurls';
 
     /**
      * The console command description.
@@ -43,7 +43,7 @@ class CheckUrl extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $period = [];
 
