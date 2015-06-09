@@ -1,6 +1,6 @@
 <?php namespace App\Jobs;
 
-use App\Jobs\Command;
+use App\Jobs\Job;
 use App\Notification;
 use Httpful\Request;
 use Illuminate\Queue\SerializesModels;
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 /**
  * Sends notification to slack
  */
-class Notify extends Command implements SelfHandling, ShouldQueue
+class Notify extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

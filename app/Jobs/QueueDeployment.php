@@ -7,14 +7,14 @@ use App\Project;
 use App\Deployment;
 use App\DeployStep;
 use App\ServerLog;
-use App\Jobs\Command;
+use App\Jobs\Job;
 use App\Jobs\DeployProject;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Generates the required database entries to queue a deployment
  */
-class QueueDeployment extends Command implements SelfHandling
+class QueueDeployment extends Job implements SelfHandling
 {
     private $project;
     private $deployment;
