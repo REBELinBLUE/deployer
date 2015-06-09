@@ -5,8 +5,8 @@ use Lang;
 use App\Commands\Command;
 use App\Project;
 use App\Deployment;
-
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Mail\Message;
 
 /**
  * Send email notifications for deployment
@@ -38,21 +38,25 @@ class MailDeployNotification extends Command implements SelfHandling
 
         if ($emails) {
             $status = strtolower($this->project->getPresenter()->readable_status);
+
             $subject = Lang::get(
                 'notifyEmails.subject',
-                ['status'=>$status,'project'=>$this->project->name]
+                ['status' => $status, 'project' => $this->project->name]
             );
+
             $projectArr = $this->project->toArray();
             $deploymentArr = $this->deployment->toArray();
             $deploymentArr['commitURL'] = $this->deployment->commitURL();
             $deploymentArr['shortCommit'] = $this->deployment->shortCommit();
+
             Mail::queue(
                 'emails.deployed',
-                ['project'=>$projectArr,'deployment'=>$deploymentArr],
-                function ($message) use ($emails, $subject) {
+                ['project' => $projectArr, 'deployment' => $deploymentArr],
+                function (Message $message) use ($emails, $subject) {
                     foreach ($emails as $email) {
                         $message->to($email->email, $email->name);
                     }
+
                     $message->subject($subject);
                 }
             );

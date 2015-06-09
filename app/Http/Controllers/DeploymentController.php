@@ -3,9 +3,8 @@
 use Lang;
 use Input;
 use App\Project;
+use App\Command;
 use App\Deployment;
-use App\ServerLog;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Commands\QueueDeployment;
@@ -24,7 +23,7 @@ class DeploymentController extends Controller
      */
     public function project(Project $project, DeploymentRepositoryInterface $deploymentRepository)
     {
-        $optional = $project->commands->filter(function ($command) {
+        $optional = $project->commands->filter(function (Command $command) {
             return $command->optional;
         });
 
@@ -58,7 +57,7 @@ class DeploymentController extends Controller
             foreach ($step->servers as $server) {
                 $server->server;
 
-                $server->runtime  = ($server->runtime() === false ? null : human_readable_duration($server->runtime()));
+                $server->runtime  = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
                 $server->output   = ((is_null($server->output) || !strlen($server->output)) ? null : '');
                 $server->script   = '';
                 $server->first    = (count($output) === 0); // FIXME: Let backbone.js take care of this
@@ -76,7 +75,7 @@ class DeploymentController extends Controller
             'title'      => Lang::get('deployments.details'),
             'project'    => $project,
             'deployment' => $deployment,
-            'output'     => $output
+            'output'     => json_encode($output) // PresentableInterface does not correctly json encode the models
         ]);
     }
 

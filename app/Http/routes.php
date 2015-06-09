@@ -48,8 +48,11 @@ Route::group(['middleware' => 'auth'], function () {
             'only' => ['store', 'update', 'destroy']
         ];
 
+        Route::resource('servers', 'ServerController', [
+            'only' => ['show', 'store', 'update', 'destroy']
+        ]);
+
         Route::resource('commands', 'CommandController', $actions);
-        Route::resource('servers', 'ServerController', $actions);
         Route::resource('heartbeats', 'HeartbeatController', $actions);
         Route::resource('notifications', 'NotificationController', $actions);
         Route::resource('shared-files', 'SharedFilesController', $actions);
@@ -84,10 +87,12 @@ Route::post('deploy/{hash}', [
 
 Route::get('cctray.xml', 'DashboardController@cctray');
 
-Route::get('heartbeat/{hash}', [
-    'as'   => 'heartbeat',
-    'uses' => 'HeartbeatController@ping'
-]);
+Route::group(['namespace' => 'Resources'], function () {
+    Route::get('heartbeat/{hash}', [
+        'as'   => 'heartbeat',
+        'uses' => 'HeartbeatController@ping'
+    ]);
+});
 
 Route::controllers([
     'auth'     => 'Auth\AuthController',

@@ -59,10 +59,6 @@ class ProjectPresenter extends Presenter
         if ($this->status === Project::FINISHED) {
             return 'check';
         } elseif ($this->status === Project::DEPLOYING) {
-            // if (!$rotate) {
-            //     return 'spinner';
-            // }
-
             return 'spinner fa-pulse';
         } elseif ($this->status === Project::FAILED) {
             return 'warning';

@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers\Resources;
 
 use Response;
-use Queue;
 use App\Server;
 use App\Http\Requests;
 use App\Commands\TestServerConnection;
@@ -12,6 +11,17 @@ use App\Http\Requests\StoreServerRequest;
  */
 class ServerController extends ResourceController
 {
+    /**
+     * Returns the server
+     * 
+     * @param Server $server
+     * @return Model
+     */
+    public function show(Server $server)
+    {
+        return $server;
+    }
+
     /**
      * Store a newly created server in storage.
      *
@@ -37,7 +47,6 @@ class ServerController extends ResourceController
      * @param Server $server
      * @param StoreServerRequest $request
      * @return Response
-     * TODO: Shouldn't changing the status on IP change be up to the model not the controller?
      */
     public function update(Server $server, StoreServerRequest $request)
     {
@@ -81,7 +90,7 @@ class ServerController extends ResourceController
         $server->status = Server::TESTING;
         $server->save();
 
-        Queue::pushOn('connections', new TestServerConnection($server));
+        $this->dispatch(new TestServerConnection($server));
 
         return [
             'success' => true

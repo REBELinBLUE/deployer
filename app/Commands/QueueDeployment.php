@@ -38,26 +38,42 @@ class QueueDeployment extends Command implements SelfHandling
      * Execute the command.
      *
      * @return void
-     * TODO: refactor
      */
     public function handle()
     {
-        $this->deployment->status = Deployment::PENDING;
-        $this->deployment->started_at = date('Y-m-d H:i:s');
-        $this->deployment->project_id = $this->project->id;
+        $this->setDeploymentStatus();
 
-        if (Auth::check()) {
-            $this->deployment->user_id = Auth::user()->id;
+        $hooks = $this->buildCommandList();
+
+        foreach (array_keys($hooks) as $stage) {
+            $before = $stage - 1;
+            $after = $stage + 1;
+
+            if (isset($hooks[$stage]['before'])) {
+                foreach ($hooks[$stage]['before'] as $hook) {
+                    $this->createCommandStep($before, $hook);
+                }
+            }
+
+            $this->createDeployStep($stage);
+
+            if (isset($hooks[$stage]['after'])) {
+                foreach ($hooks[$stage]['after'] as $hook) {
+                    $this->createCommandStep($after, $hook);
+                }
+            }
         }
 
-        $this->deployment->committer = Deployment::LOADING;
-        $this->deployment->commit    = Deployment::LOADING;
-        $this->deployment->save();
+        Queue::push(new DeployProject($this->deployment));
+    }
 
-        $this->deployment->project->status = Project::PENDING;
-        $this->deployment->project->save();
-
-
+    /**
+     * Builds up a list of commands to run before/after each stage
+     *
+     * @return array
+     */
+    private function buildCommandList()
+    {
         $hooks = [
             Stage::DO_CLONE    => null,
             Stage::DO_INSTALL  => null,
@@ -88,26 +104,30 @@ class QueueDeployment extends Command implements SelfHandling
             $hooks[$action][$when][] = $command;
         }
 
-        foreach (array_keys($hooks) as $stage) {
-            $before = $stage - 1;
-            $after = $stage + 1;
+        return $hooks;
+    }
 
-            if (isset($hooks[$stage]['before'])) {
-                foreach ($hooks[$stage]['before'] as $hook) {
-                    $this->createCommandStep($before, $hook);
-                }
-            }
+    /**
+     * Sets the deployment to pending
+     *
+     * @return void
+     */
+    private function setDeploymentStatus()
+    {
+        $this->deployment->status = Deployment::PENDING;
+        $this->deployment->started_at = date('Y-m-d H:i:s');
+        $this->deployment->project_id = $this->project->id;
 
-            $this->createDeployStep($stage);
-
-            if (isset($hooks[$stage]['after'])) {
-                foreach ($hooks[$stage]['after'] as $hook) {
-                    $this->createCommandStep($after, $hook);
-                }
-            }
+        if (Auth::check()) {
+            $this->deployment->user_id = Auth::user()->id;
         }
 
-        Queue::pushOn('deploy', new DeployProject($this->deployment));
+        $this->deployment->committer = Deployment::LOADING;
+        $this->deployment->commit    = Deployment::LOADING;
+        $this->deployment->save();
+
+        $this->deployment->project->status = Project::PENDING;
+        $this->deployment->project->save();
     }
 
     /**

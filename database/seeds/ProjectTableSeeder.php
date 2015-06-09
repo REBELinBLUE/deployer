@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
 
 use App\Project;
 

@@ -1,5 +1,5 @@
 [program:deployer]
-command=php artisan queue:listen --queue=default,deploy,connections,notify --timeout=0 --tries=1
+command=php artisan queue:listen --timeout=0 --tries=1
 directory=/var/www/deployer
 process_name=%(program_name)s_%(process_num)s
 numprocs=3

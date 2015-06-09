@@ -84,6 +84,6 @@
 @section('javascript')
     <script type="text/javascript">
         new app.DeploymentView();
-        app.Deployment.add({!! json_encode($output) !!});
+        app.Deployment.add({!! $output !!});
     </script>
 @stop

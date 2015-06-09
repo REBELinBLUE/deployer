@@ -1,7 +1,5 @@
 <?php
 
-use App\ServerLog;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class ChangeOutputColumn extends Migration

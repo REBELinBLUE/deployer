@@ -2,6 +2,7 @@
 
 use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
+use Illuminate\Http\Request;
 
 /**
  * Middleware to prevent CSRF
@@ -30,7 +31,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @param \Illuminate\Http\Request $request
      * @return boolean
      */
-    protected function excludedRoutes($request)
+    protected function excludedRoutes(Request $request)
     {
         $routes = [
             'deploy/*'

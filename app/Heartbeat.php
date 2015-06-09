@@ -75,7 +75,7 @@ class Heartbeat extends Model
         parent::boot();
 
         // When first creating the model generate a webhook hash
-        static::creating(function ($model) {
+        static::creating(function (Heartbeat $model) {
             if (!array_key_exists('hash', $model->attributes)) {
                 $model->generateHash();
             }
@@ -93,10 +93,9 @@ class Heartbeat extends Model
     }
 
     /**
-     * Define a mutator for the callback URL
+     * Define a accessor for the callback URL
      *
      * @return string
-     * TODO: Shouldn't this be a presenter?
      */
     public function getCallbackUrlAttribute()
     {
@@ -118,7 +117,7 @@ class Heartbeat extends Model
     }
 
     /**
-     * Generates a slack payload for the heartbeat failuyre
+     * Generates a slack payload for the heartbeat failure
      *
      * @return array
      */

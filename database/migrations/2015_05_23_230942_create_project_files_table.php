@@ -8,7 +8,6 @@ use Illuminate\Database\Migrations\Migration;
  */
 class CreateProjectFilesTable extends Migration
 {
-
     /**
      * Run the migrations.
      *

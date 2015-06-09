@@ -40,8 +40,8 @@ class Notification extends Model
         parent::boot();
 
         // When the notification has been saved queue a test
-        static::saved(function ($model) {
-            Queue::pushOn('notify', new Notify(
+        static::saved(function (Notification $model) {
+            Queue::push(new Notify(
                 $model,
                 $model->testPayload()
             ));

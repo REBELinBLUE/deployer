@@ -2,11 +2,9 @@
 
 use Lang;
 use Response;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
-use Illuminate\Http\Request;
 
 /**
  * The dashboard controller

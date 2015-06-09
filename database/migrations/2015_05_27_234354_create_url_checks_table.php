@@ -6,8 +6,8 @@ use Illuminate\Database\Migrations\Migration;
 /**
  * Create application' health url table
  */
-class CreateUrlChecksTable extends Migration {
-
+class CreateUrlChecksTable extends Migration
+{
     /**
      * Run the migrations.
      *

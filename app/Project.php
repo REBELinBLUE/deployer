@@ -24,8 +24,11 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $hidden = ['private_key', 'public_key', 'created_at', 'deleted_at', 'heartbeats',
-                         'updated_at', 'servers', 'commands', 'hash', 'status'];
+    protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
+                         'updated_at', 'servers', 'commands', 'hash', 'status',
+                         'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
+                         'notifications', 'deployments', 'shareFiles', 'projectFiles',
+                         'notifyEmails'];
 
     /**
      * The attributes that are mass assignable.
@@ -46,7 +49,7 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $appends = ['group_name'];
+    protected $appends = ['group_name', 'webhook_url'];
 
     /**
      * The attributes that should be casted to native types.
@@ -68,7 +71,7 @@ class Project extends ProjectRelation implements PresentableInterface
         parent::boot();
 
         // When first creating the model generate an SSH Key pair and a webhook hash
-        static::creating(function ($model) {
+        static::creating(function (Project $model) {
             if (!array_key_exists('private_key', $model->attributes)) {
                 $model->generateSSHKey();
             }
@@ -183,13 +186,24 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Define a mutator for the group name
+     * Define a accessor for the group name
      *
      * @return int
      */
     public function getGroupNameAttribute()
     {
         return $this->group->name;
+    }
+
+     /**
+     * Define an accessor for the webhook URL
+     *
+     * @return string
+     * TODO: Shouldn't this be a presenter?
+     */
+    public function getWebhookUrlAttribute()
+    {
+        return route('webhook', $this->hash);
     }
 
     /**

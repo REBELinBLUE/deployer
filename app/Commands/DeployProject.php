@@ -212,7 +212,6 @@ CMD;
      * @param DeployStep $step
      * @return void
      * @throws \RuntimeException
-     * TODO: Remove build on failure
      */
     private function runStep(DeployStep $step)
     {
@@ -220,11 +219,6 @@ CMD;
             $log->status = ServerLog::RUNNING;
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
-
-            $prefix = $step->stage;
-            if ($step->command) {
-                $prefix = $step->command->name;
-            }
 
             try {
                 $server = $log->server;
@@ -518,7 +512,7 @@ OUT;
     }
 
     /**
-     * send a string to server
+     * Send a string to server
      *
      * @param  Server $server   target server
      * @param  string $filename remote filename

@@ -1,11 +1,14 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Robbo\Presenter\PresentableInterface;
+use App\Presenters\ServerLogPresenter;
+use App\Contracts\RuntimeInterface;
 
 /**
  * Server log model
  */
-class ServerLog extends Model
+class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 {
     const COMPLETED = 0;
     const PENDING   = 1;
@@ -58,5 +61,15 @@ class ServerLog extends Model
         }
 
         return $this->started_at->diffInSeconds($this->finished_at);
+    }
+
+    /**
+     * Gets the view presenter
+     *
+     * @return ServerLogPresenter
+     */
+    public function getPresenter()
+    {
+        return new ServerLogPresenter($this);
     }
 }

@@ -1,9 +1,8 @@
 <?php namespace App\Commands;
 
+use Queue;
 use App\Commands\Command;
-
 use Httpful\Request;
-
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 use Illuminate\Queue\InteractsWithQueue;
@@ -16,16 +15,16 @@ class RequestProjectCheckUrl extends Command implements SelfHandling, ShouldBeQu
 {
     use InteractsWithQueue, SerializesModels;
 
-    private $urls;
+    private $link;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct($urls)
+    public function __construct($link)
     {
-        $this->urls = $urls;
+        $this->link = $link;
     }
 
     /**
@@ -35,10 +34,18 @@ class RequestProjectCheckUrl extends Command implements SelfHandling, ShouldBeQu
      */
     public function handle()
     {
-        foreach ($this->urls as $link) {
-            $reponse = Request::get($link->url)->send();
-            $link->last_status = $reponse->hasErrors();
-            $link->save();
+        $reponse = Request::get($this->link->url)->send();
+
+        $this->link->last_status = $reponse->hasErrors();
+        $this->link->save();
+
+        if ($reponse->hasErrors()) {
+            foreach ($this->link->project->notifications as $notification) {
+                Queue::push(new Notify(
+                    $notification,
+                    $this->link->notificationPayload()
+                ));
+            }
         }
     }
 }
