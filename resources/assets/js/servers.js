@@ -1,6 +1,14 @@
 var app = app || {};
 
 (function ($) {
+    app.listener.on('server-status', function (data) {
+        var server = app.Servers.get(data.server.id);
+
+        server.set({
+            status: data.server.status
+        });
+    });
+
     var SUCCESSFUL = 0;
     var UNTESTED   = 1;
     var FAILED     = 2;
@@ -142,7 +150,6 @@ var app = app || {};
         changeStatus: function() {
             if (parseInt(this.get('status')) === TESTING) {
                 var that = this;
-
                 $.ajax({
                     type: 'GET',
                     url: this.urlRoot + '/' + this.id + '/test'
@@ -151,16 +158,17 @@ var app = app || {};
                         status: FAILED
                     });
                 }).success(function () {
-                    that.poller = Backbone.Poller.get(that, {
-                        condition: function(model) {
-                            return parseInt(model.get('status')) === TESTING;
-                        },
-                        delay: 2500
-                    });
-                    that.poller.start();
+                    // that.poller = Backbone.Poller.get(that, {
+                    //     condition: function(model) {
+                    //         return parseInt(model.get('status')) === TESTING;
+                    //     },
+                    //     delay: 2500
+                    // });
+                    // that.poller.start();
                 });
             }
         }
+        
     });
 
     var Servers = Backbone.Collection.extend({

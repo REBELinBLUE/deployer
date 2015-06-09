@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use Lang;
-use Event;
 use App\User;
 use App\Events\UserWasCreated;
 use App\Http\Requests;
@@ -49,7 +48,7 @@ class UserController extends Controller
 
         $user = User::create($fields);
 
-        Event::fire(new UserWasCreated(
+        event(new UserWasCreated(
             $user,
             $request->password
         ));

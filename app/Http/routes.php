@@ -48,10 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
             'only' => ['store', 'update', 'destroy']
         ];
 
-        Route::resource('servers', 'ServerController', [
-            'only' => ['show', 'store', 'update', 'destroy']
-        ]);
-
+        Route::resource('servers', 'ServerController', $actions);
         Route::resource('commands', 'CommandController', $actions);
         Route::resource('heartbeats', 'HeartbeatController', $actions);
         Route::resource('notifications', 'NotificationController', $actions);

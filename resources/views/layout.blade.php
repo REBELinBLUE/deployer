@@ -16,6 +16,8 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
 
+        <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+
         <meta name="token" content="{{ Session::token() }}" />
         <script type="text/javascript">var Lang = {};</script>
     </head>
