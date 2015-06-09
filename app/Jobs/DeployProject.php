@@ -8,7 +8,7 @@ use App\ServerLog;
 use App\Server;
 use App\Command as Stage;
 use App\Project;
-use App\Jobs\Command;
+use App\Jobs\Job;
 use App\Events\DeployFinished;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -20,7 +20,7 @@ use Symfony\Component\Process\Process;
  * Deploys an actual project
  * TODO: rewrite this as it is doing way too much and is very messy now
  */
-class DeployProject extends Command implements SelfHandling, ShouldQueue
+class DeployProject extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
