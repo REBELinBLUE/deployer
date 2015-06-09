@@ -7,7 +7,7 @@ use App\Command;
 use App\Deployment;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
-use App\Commands\QueueDeployment;
+use App\Jobs\QueueDeployment;
 
 /**
  * The controller for showing the status of deployments

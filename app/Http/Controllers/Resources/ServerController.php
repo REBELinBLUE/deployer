@@ -3,7 +3,7 @@
 use Response;
 use App\Server;
 use App\Http\Requests;
-use App\Commands\TestServerConnection;
+use App\Jobs\TestServerConnection;
 use App\Http\Requests\StoreServerRequest;
 
 /**

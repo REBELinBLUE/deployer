@@ -3,7 +3,7 @@
 use Queue;
 use Carbon\Carbon;
 use App\Heartbeat;
-use App\Commands\Notify;
+use App\Jobs\Notify;
 use Illuminate\Console\Command;
 
 /**
@@ -12,11 +12,11 @@ use Illuminate\Console\Command;
 class CheckHeartbeats extends Command
 {
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'deployer:heartbeats';
+    protected $signature = 'deployer:heartbeats';
 
     /**
      * The console command description.
@@ -26,11 +26,21 @@ class CheckHeartbeats extends Command
     protected $description = 'Checks that any expected heartbeats have checked-in';
 
     /**
-     * Checks that heartbeats happened as expected
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         Heartbeat::chunk(10, function ($heartbeats) {
             foreach ($heartbeats as $heartbeat) {

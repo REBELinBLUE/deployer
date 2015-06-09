@@ -1,17 +1,17 @@
-<?php namespace App\Commands;
+<?php namespace App\Jobs;
 
 use Queue;
-use App\Commands\Command;
+use App\Jobs\Job;
 use Httpful\Request;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
  * Request the urls
  */
-class RequestProjectCheckUrl extends Command implements SelfHandling, ShouldBeQueued
+class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

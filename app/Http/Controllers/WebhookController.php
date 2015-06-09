@@ -3,7 +3,7 @@
 use Input;
 use App\Project;
 use App\Deployment;
-use App\Commands\QueueDeployment;
+use App\Jobs\QueueDeployment;
 use App\Http\Controllers\Controller;
 
 /**

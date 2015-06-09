@@ -1,17 +1,17 @@
-<?php namespace App\Commands;
+<?php namespace App\Jobs;
 
 use App\Server;
-use App\Commands\Command;
+use App\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Symfony\Component\Process\Process;
 
 /**
  * Tests if a server can successfully be SSHed into
  */
-class TestServerConnection extends Command implements SelfHandling, ShouldBeQueued
+class TestServerConnection extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
