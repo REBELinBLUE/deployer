@@ -5,6 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
+/**
+ * Middleware to prevent access to pages when already authenticated
+ */
 class RedirectIfAuthenticated
 {
     /**
