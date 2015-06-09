@@ -15,10 +15,10 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\UserWasCreated' => [
-            'App\Handlers\Events\SendSignupEmail',
+            'App\Listeners\Events\SendSignupEmail',
         ],
         'App\Events\DeployFinished' => [
-            'App\Handlers\Events\Notify'
+            'App\Listeners\Events\Notify'
         ],
     ];
 
