@@ -1,8 +1,8 @@
-<?php namespace App\Commands;
+<?php namespace App\Jobs;
 
 use Mail;
 use Lang;
-use App\Commands\Command;
+use App\Jobs\Command;
 use App\Project;
 use App\Deployment;
 use Illuminate\Contracts\Bus\SelfHandling;

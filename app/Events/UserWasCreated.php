@@ -3,7 +3,6 @@
 use App\Events\Event;
 use App\User;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
 
 /**
  * Event which is fired when a user is created

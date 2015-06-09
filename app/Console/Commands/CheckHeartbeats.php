@@ -3,7 +3,7 @@
 use Queue;
 use Carbon\Carbon;
 use App\Heartbeat;
-use App\Commands\Notify;
+use App\Jobs\Notify;
 use Illuminate\Console\Command;
 
 /**

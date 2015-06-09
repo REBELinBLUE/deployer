@@ -1,4 +1,4 @@
-<?php namespace App\Commands;
+<?php namespace App\Jobs;
 
 use Config;
 use Queue;
@@ -8,19 +8,19 @@ use App\ServerLog;
 use App\Server;
 use App\Command as Stage;
 use App\Project;
-use App\Commands\Command;
+use App\Jobs\Command;
 use App\Events\DeployFinished;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Symfony\Component\Process\Process;
 
 /**
  * Deploys an actual project
  * TODO: rewrite this as it is doing way too much and is very messy now
  */
-class DeployProject extends Command implements SelfHandling, ShouldBeQueued
+class DeployProject extends Command implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

@@ -2,7 +2,7 @@
 
 use Lang;
 use Queue;
-use App\Commands\Notify;
+use App\Jobs\Notify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

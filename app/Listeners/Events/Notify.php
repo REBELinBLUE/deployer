@@ -1,20 +1,20 @@
-<?php namespace App\Handlers\Events;
+<?php namespace App\Listeners\Events;
 
-use App\Commands\Notify as SlackNotify;
-use App\Commands\MailDeployNotification;
-use App\Commands\RequestProjectCheckUrl;
+use App\Jobs\Notify as SlackNotify;
+use App\Jobs\MailDeployNotification;
+use App\Jobs\RequestProjectCheckUrl;
 use App\Events\DeployFinished;
 
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * When a deploy finished, notify the followed user.
  */
-class Notify implements ShouldBeQueued
+class Notify implements ShouldQueue
 {
-    use InteractsWithQueue, DispatchesCommands;
+    use InteractsWithQueue, DispatchesJobs;
 
     /**
      * Create the event handler.

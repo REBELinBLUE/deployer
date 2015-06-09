@@ -1,4 +1,4 @@
-<?php namespace App\Commands;
+<?php namespace App\Jobs;
 
 use Auth;
 use Queue;
@@ -7,8 +7,8 @@ use App\Project;
 use App\Deployment;
 use App\DeployStep;
 use App\ServerLog;
-use App\Commands\Command;
-use App\Commands\DeployProject;
+use App\Jobs\Command;
+use App\Jobs\DeployProject;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**

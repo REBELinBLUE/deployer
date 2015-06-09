@@ -19,11 +19,18 @@
         "issues": "https://github.com/REBELinBLUE/deployer/issues",
         "source": "https://github.com/REBELinBLUE/deployer"
     },
+    "repositories":
+    [
+            {
+                "type": "vcs",
+                "url": "https://github.com/REBELinBLUE/gravatar"
+            }
+    ],
     "require": {
-        "laravel/framework": "5.*",
+        "laravel/framework": "5.1.*",
         "graham-campbell/htmlmin": "~3.0",
         "pda/pheanstalk": "~3.0",
-        "creativeorange/gravatar": "~1.0",
+        "creativeorange/gravatar": "dev-master",
         "filp/whoops": "~1.0",
         "barryvdh/laravel-debugbar": "~2.0",
         "nategood/httpful": "~0.2.19",

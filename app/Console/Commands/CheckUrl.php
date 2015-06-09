@@ -1,10 +1,9 @@
 <?php namespace App\Console\Commands;
 
 use App\CheckUrl as CheckUrlModel;
-use App\Commands\RequestProjectCheckUrl;
-
+use App\Jobs\RequestProjectCheckUrl;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -13,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class CheckUrl extends Command
 {
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The console command name.
