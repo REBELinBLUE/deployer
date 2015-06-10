@@ -1,52 +1,52 @@
-<?php namespace App\Listeners\Events;
-
-use App\Jobs\Notify as SlackNotify;
-use App\Jobs\MailDeployNotification;
-use App\Jobs\RequestProjectCheckUrl;
-use App\Events\DeployFinished;
-
+<?php namespace App\Jobs;
+use App\Jobs\Job;
+use App\Notification;
+use Httpful\Request;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-
 /**
- * When a deploy finished, notify the followed user.
+ * Sends notification to slack
  */
-class Notify implements ShouldQueue
+class Notify extends Job implements SelfHandling, ShouldQueue
 {
-    use InteractsWithQueue, DispatchesJobs;
-
+    use InteractsWithQueue, SerializesModels;
+    private $payload;
+    private $notification;
     /**
-     * Create the event handler.
+     * Create a new command instance.
      *
-     * @return void
+     * @param Notification $notification
+     * @param array $payload
+     * @return Notify
      */
-    public function __construct()
+    public function __construct(Notification $notification, array $payload)
     {
-        //
+        $this->notification = $notification;
+        $this->payload = $payload;
     }
-
     /**
-     * Handle the event.
+     * Execute the command.
      *
-     * @param  DeployFinished  $event
      * @return void
      */
-    public function handle(DeployFinished $event)
+    public function handle()
     {
-        $project = $event->project;
-        $deployment = $event->deployment;
-
-        foreach ($project->notifications as $notification) {
-            $this->dispatch(new SlackNotify($notification, $deployment->notificationPayload()));
+        $payload = [
+            'channel' => $this->notification->channel
+        ];
+        if (!empty($this->notification->icon)) {
+            $icon_field = 'icon_url';
+            if (preg_match('/:(.*):/', $this->notification->icon)) {
+                $icon_field = 'icon_emoji';
+            }
+            $payload[$icon_field] = $this->notification->icon;
         }
-
-        //Send email notification
-        $this->dispatch(new MailDeployNotification($project, $deployment));
-
-        //Trigger to check the project urls
-        foreach ($project->checkUrls as $url) {
-            $this->dispatch(new RequestProjectCheckUrl($url));
-        }
+        $payload = array_merge($payload, $this->payload);
+        Request::post($this->notification->webhook)
+               ->sendsJson()
+               ->body($payload)
+               ->send();
     }
 }
