@@ -36,7 +36,7 @@ class MailDeployNotification extends Job implements SelfHandling
     {
         $emails = $this->project->notifyEmails;
 
-        if ($emails) {
+        if ($emails->count() > 0) {
             $status = strtolower($this->project->getPresenter()->readable_status);
 
             $subject = Lang::get(
