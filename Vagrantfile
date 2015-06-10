@@ -58,6 +58,9 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo service cron restart"
     config.vm.provision "shell", inline: "sudo service nginx restart"
     config.vm.provision "shell", inline: "sudo service php5-fpm restart"
+    config.vm.provision "shell", inline: "curl http://get.sensiolabs.org/php-cs-fixer.phar -o php-cs-fixer"
+    config.vm.provision "shell", inline: "sudo chmod a+x php-cs-fixer"
+    config.vm.provision "shell", inline: "sudo mv php-cs-fixer /usr/local/bin/php-cs-fixer"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"DROP DATABASE IF EXISTS deployer\";"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci\";"
 end
