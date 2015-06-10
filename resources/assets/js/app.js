@@ -21,9 +21,9 @@ var app = app || {};
 
     function updateNavBar(data) {
         data.time = moment(data.started.date).format('h:mm:ss A');
-        data.url = '/deployment/' + data.id;
+        data.url = '/deployment/' + data.deployment_id;
 
-        $('#deployment_info_' + data.id).remove();
+        $('#deployment_info_' + data.deployment_id).remove();
         $('#pending_menu, #deploying_menu').show();
 
         var template = _.template($('#deployment_list_template').html());
