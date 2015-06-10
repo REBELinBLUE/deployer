@@ -21,4 +21,16 @@ abstract class Job
     */
 
     use Queueable;
+
+    /**
+     * Overwrite the queue method to push to a different queue
+     * 
+     * @param Queue $queue
+     * @param Job $command
+     * @return void
+     */
+    public function queue($queue, Job $command)
+    {
+        $queue->pushOn('low', $command);
+    }
 }
