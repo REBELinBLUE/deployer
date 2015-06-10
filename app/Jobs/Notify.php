@@ -33,10 +33,10 @@ class Notify extends Job implements SelfHandling, ShouldQueue
      * Overwrite the queue method to push to a different queue
      * 
      * @param Queue $queue
-     * @param TestServerConnection $command
+     * @param Notify $command
      * @return void
      */
-    public function queue($queue, TestServerConnection $command)
+    public function queue($queue, Notify $command)
     {
         $queue->pushOn('low', $command);
     }
