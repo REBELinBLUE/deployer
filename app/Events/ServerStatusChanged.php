@@ -11,7 +11,8 @@ class ServerStatusChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
-    public $server;
+    public $id;
+    public $status;
 
     /**
      * Create a new event instance.
@@ -20,7 +21,8 @@ class ServerStatusChanged extends Event implements ShouldBroadcast
      */
     public function __construct(Server $server)
     {
-        $this->server = $server;
+        $this->id = $server->id;
+        $this->status = $server->status;
     }
 
     /**

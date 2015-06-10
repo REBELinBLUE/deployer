@@ -59,7 +59,7 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
 
         $this->server->save();
 
-        event(new ServerStatusChanged($this->server));
+        event(new ServerStatusChanged($this->server)); // FIXME: Move this to a model event on save if changed
 
         unlink($key);
     }

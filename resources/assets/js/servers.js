@@ -2,11 +2,12 @@ var app = app || {};
 
 (function ($) {
     app.listener.on('server-status', function (data) {
-        var server = app.Servers.get(data.server.id);
-
-        server.set({
-            status: data.server.status
-        });
+        var server = app.Servers.get(data.id);
+        if (server) {
+            server.set({
+                status: data.status
+            });
+        }
     });
 
     var SUCCESSFUL = 0;
