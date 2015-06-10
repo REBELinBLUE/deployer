@@ -34,12 +34,12 @@ class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
-        $reponse = Request::get($this->link->url)->send();
+        $response = Request::get($this->link->url)->send();
 
-        $this->link->last_status = $reponse->hasErrors();
+        $this->link->last_status = $response->hasErrors();
         $this->link->save();
 
-        if ($reponse->hasErrors()) {
+        if ($response->hasErrors()) {
             foreach ($this->link->project->notifications as $notification) {
                 Queue::push(new Notify(
                     $notification,

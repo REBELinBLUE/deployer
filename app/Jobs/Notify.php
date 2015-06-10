@@ -1,61 +1,52 @@
-<?php namespace App\Jobs;
+<?php namespace App\Listeners\Events;
 
-use App\Jobs\Job;
-use App\Notification;
-use Httpful\Request;
-use Illuminate\Queue\SerializesModels;
+use App\Jobs\Notify as SlackNotify;
+use App\Jobs\MailDeployNotification;
+use App\Jobs\RequestProjectCheckUrl;
+use App\Events\DeployFinished;
+
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Sends notification to slack
+ * When a deploy finished, notify the followed user.
  */
-class Notify extends Job implements SelfHandling, ShouldQueue
+class Notify implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
-
-    private $payload;
-    private $notification;
+    use InteractsWithQueue, DispatchesJobs;
 
     /**
-     * Create a new command instance.
-     *
-     * @param Notification $notification
-     * @param array $payload
-     * @return Notify
-     */
-    public function __construct(Notification $notification, array $payload)
-    {
-        $this->notification = $notification;
-        $this->payload = $payload;
-    }
-
-    /**
-     * Execute the command.
+     * Create the event handler.
      *
      * @return void
      */
-    public function handle()
+    public function __construct()
     {
-        $payload = [
-            'channel' => $this->notification->channel
-        ];
+        //
+    }
 
-        if (!empty($this->notification->icon)) {
-            $icon_field = 'icon_url';
-            if (preg_match('/:(.*):/', $this->notification->icon)) {
-                $icon_field = 'icon_emoji';
-            }
+    /**
+     * Handle the event.
+     *
+     * @param  DeployFinished  $event
+     * @return void
+     */
+    public function handle(DeployFinished $event)
+    {
+        $project = $event->project;
+        $deployment = $event->deployment;
 
-            $payload[$icon_field] = $this->notification->icon;
+        foreach ($project->notifications as $notification) {
+            $this->dispatch(new SlackNotify($notification, $deployment->notificationPayload()));
         }
 
-        $payload = array_merge($payload, $this->payload);
+        //Send email notification
+        $this->dispatch(new MailDeployNotification($project, $deployment));
 
-        Request::post($this->notification->webhook)
-               ->sendsJson()
-               ->body($payload)
-               ->send();
+        //Trigger to check the project urls
+        foreach ($project->checkUrls as $url) {
+            $this->dispatch(new RequestProjectCheckUrl($url));
+        }
     }
 }
