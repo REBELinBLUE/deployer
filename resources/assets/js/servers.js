@@ -132,26 +132,7 @@ var app = app || {};
 
 
     app.Server = Backbone.Model.extend({
-        urlRoot: '/servers',
-        initialize: function() {
-            this.on('change:status', this.changeStatus, this);
-
-            this.changeStatus();
-        },
-        changeStatus: function() {
-            if (parseInt(this.get('status')) === TESTING) {
-                var that = this;
-                $.ajax({
-                    type: 'GET',
-                    url: this.urlRoot + '/' + this.id + '/test'
-                }).fail(function (response) {
-                    that.set({
-                        status: FAILED
-                    });
-                });
-            }
-        }
-        
+        urlRoot: '/servers'
     });
 
     var Servers = Backbone.Collection.extend({
@@ -272,6 +253,17 @@ var app = app || {};
             this.model.set({
                 status: TESTING
             });
+
+            var that = this;
+            $.ajax({
+                type: 'GET',
+                url: this.model.urlRoot + '/' + this.model.id + '/test'
+            }).fail(function (response) {
+                that.model.set({
+                    status: FAILED
+                });
+            });
+
         }
     });
 })(jQuery);
