@@ -40,6 +40,18 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
     }
 
     /**
+     * Overwrite the queue method to push to a different queue
+     * 
+     * @param Queue $queue
+     * @param DeployProject $command
+     * @return void
+     */
+    public function queue($queue, DeployProject $command)
+    {
+        $queue->pushOn('high', $command);
+    }
+
+    /**
      * Execute the command.
      *
      * @return void

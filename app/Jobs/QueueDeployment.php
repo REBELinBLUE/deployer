@@ -10,12 +10,15 @@ use App\ServerLog;
 use App\Jobs\Job;
 use App\Jobs\DeployProject;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Generates the required database entries to queue a deployment
  */
 class QueueDeployment extends Job implements SelfHandling
 {
+    use DispatchesCommands;
+
     private $project;
     private $deployment;
     private $optional;
@@ -64,7 +67,7 @@ class QueueDeployment extends Job implements SelfHandling
             }
         }
 
-        Queue::push(new DeployProject($this->deployment));
+        $this->dispatch(new DeployProject($this->deployment));
     }
 
     /**

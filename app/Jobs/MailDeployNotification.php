@@ -44,14 +44,19 @@ class MailDeployNotification extends Job implements SelfHandling
                 ['status' => $status, 'project' => $this->project->name]
             );
 
-            $projectArr = $this->project->toArray();
             $deploymentArr = $this->deployment->toArray();
             $deploymentArr['commitURL'] = $this->deployment->commitURL();
             $deploymentArr['shortCommit'] = $this->deployment->shortCommit();
 
-            Mail::queue(
+            $data = [
+                'project'    => $this->project->toArray(),
+                'deployment' => $deploymentArr
+            ];
+
+            Mail::queueOn(
+                'low',
                 'emails.deployed',
-                ['project' => $projectArr, 'deployment' => $deploymentArr],
+                $data,
                 function (Message $message) use ($emails, $subject) {
                     foreach ($emails as $email) {
                         $message->to($email->email, $email->name);

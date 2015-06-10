@@ -39,9 +39,14 @@ class SendSignupEmail implements ShouldQueue
             'email'    => $user->email
         ];
 
-        Mail::send('emails.account', $data, function (Message $message) use ($user) {
-            $message->to($user->email, $user->name)
-                    ->subject(Lang::get('emails.creation_subject'));
-        });
+        Mail::queueOn(
+            'low',
+            'emails.account',
+            $data,
+            function (Message $message) use ($user) {
+                $message->to($user->email, $user->name)
+                        ->subject(Lang::get('emails.creation_subject'));
+            }
+        );
     }
 }

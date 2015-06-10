@@ -1,5 +1,5 @@
 [program:deployer-listener]
-command=php artisan queue:listen --timeout=0 --tries=1
+command=php artisan queue:listen --queue=high,low --timeout=0 --tries=1
 directory=/var/www/deployer
 process_name=queue_%(process_num)s
 numprocs=3
@@ -21,7 +21,7 @@ stderr_logfile=/var/www/deployer/storage/logs/node-stderr.log
 stdout_logfile=/var/www/deployer/storage/logs/node-stdout.log
 
 [program:deployer-broadcast]
-command=php artisan queue:listen --queue=broadcast --timeout=0 --tries=1
+command=php artisan queue:listen --timeout=0 --tries=1
 directory=/var/www/deployer
 numprocs=1
 stderr_logfile=/var/www/deployer/storage/logs/broadcast-stderr.log
