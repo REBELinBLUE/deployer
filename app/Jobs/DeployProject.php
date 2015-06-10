@@ -258,8 +258,8 @@ CMD;
                             $output .= $this->logSuccess($output_line);
                         }
 
-                        //$log->output = $output;
-                        //$log->save();
+                        $log->output = $output;
+                        $log->save();
                     });
 
                     if (!$process->isSuccessful()) {
