@@ -43,7 +43,7 @@ elixir(function(mix) {
     ], 'public/css/app.css', 'resources/assets/css')
     .scripts([
         paths.html5shiv + '/dist/html5shiv.js',
-        paths.respond   + '/dist/respond.min.js'
+        paths.respond   + '/dest/respond.min.js'
     ], 'public/js/ie.js', bower_path)
     .scripts([
         paths.jquery          + '/dist/jquery.js',

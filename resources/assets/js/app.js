@@ -5,16 +5,22 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 var app = app || {};
 
 (function ($) {
-    var PENDING = 1;
-    var RUNNING = 2;
+    var COMPLETED = 0;
+    var PENDING   = 1;
+    var RUNNING   = 2;
+    var FAILED    = 3;
+    var CANCELLED = 4;
 
     app.listener = io.connect(window.location.protocol + '//' + window.location.hostname + ':6001'); // FIXME Allow this to be specified so that people can set up reverse proxies in nginx, for instance
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
     app.listener.on('deployment-status', function (data) {
+        updateNavBar(data);
+    });
 
-        data.time = moment(data.started.date).format('h:mm:ss A');;
+    function updateNavBar(data) {
+        data.time = moment(data.started.date).format('h:mm:ss A');
         data.url = '/deployment/' + data.id;
 
         $('#deployment_info_' + data.id).remove();
@@ -54,7 +60,7 @@ var app = app || {};
 
         $('#pending_menu span.label-info').html(pending);
         $('#pending_menu .header').text(pending_label);
-    });
+    }
 
     $(document).ready(function () {
         if ($('#pending_menu ul.menu li').length > 0) {
