@@ -76,10 +76,12 @@ class ServerController extends ResourceController
      */
     public function test(Server $server)
     {
-        $server->status = Server::TESTING;
-        $server->save();
+        if ($status->status != Server::TESTING) {
+            $server->status = Server::TESTING;
+            $server->save();
 
-        $this->dispatch(new TestServerConnection($server));
+            $this->dispatch(new TestServerConnection($server));
+        }
 
         return [
             'success' => true
