@@ -44,8 +44,6 @@ var app = app || {};
         });
     });
 
-    var isChecking = false;
-
     app.ServerLog = Backbone.Model.extend({
         urlRoot: '/status'
     });
