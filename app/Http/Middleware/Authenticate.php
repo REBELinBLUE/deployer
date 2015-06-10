@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
 /**
- * Authentication middleware
+ * Authentication middleware.
  */
 class Authenticate
 {

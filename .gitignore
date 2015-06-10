@@ -4,3 +4,4 @@ node_modules/
 .env
 _ide_helper.php
 sftp-config.json
+.php_cs.cache

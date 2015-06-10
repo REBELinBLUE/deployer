@@ -1,4 +1,6 @@
-<?php namespace App\Repositories;
+<?php
+
+namespace App\Repositories;
 
 use App\Project;
 use App\Deployment;
@@ -6,12 +8,12 @@ use Carbon\Carbon;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 
 /**
- * The deployment repository
+ * The deployment repository.
  */
 class EloquentDeploymentRepository implements DeploymentRepositoryInterface
 {
     /**
-     * Gets the latest deployments for a project
+     * Gets the latest deployments for a project.
      *
      * @param Project $project
      * @return array
@@ -24,13 +26,14 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     }
 
     /**
-     * Gets the latest deployments for all projects
+     * Gets the latest deployments for all projects.
      *
      * @return array
      */
     public function getTimeline()
     {
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
+
         return Deployment::whereRaw($raw_sql)
                          ->take(15)
                          ->orderBy('started_at', 'DESC')
@@ -38,7 +41,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     }
 
     /**
-     * Gets pending deployments
+     * Gets pending deployments.
      *
      * @return array
      */
@@ -48,7 +51,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     }
 
     /**
-     * Gets running deployments
+     * Gets running deployments.
      *
      * @return array
      */
@@ -58,7 +61,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     }
 
     /**
-     * Gets the number of times a project has been deployed today
+     * Gets the number of times a project has been deployed today.
      *
      * @param Project $project
      * @return int
@@ -72,7 +75,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     }
 
     /**
-     * Gets the number of times a project has been deployed in the last week
+     * Gets the number of times a project has been deployed in the last week.
      *
      * @param Project $project
      * @return int
@@ -80,14 +83,14 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
      */
     public function getLastWeekCount(Project $project)
     {
-        $lastWeek  = Carbon::now()->subWeek();
+        $lastWeek = Carbon::now()->subWeek();
         $yesterday = Carbon::now()->yesterday();
 
         return $this->getBetweenDates($project, $lastWeek, $yesterday);
     }
 
     /**
-     * Gets the number of times a project has been deployed between the specified dates
+     * Gets the number of times a project has been deployed between the specified dates.
      *
      * @param Project $project
      * @param Carbon $startDate
@@ -97,13 +100,13 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     private function getBetweenDates(Project $project, Carbon $startDate, Carbon $endDate)
     {
         return Deployment::where('project_id', $project->id)
-                         ->where('started_at', '>=', $startDate->format('Y-m-d') . ' 00:00:00')
-                         ->where('started_at', '<=', $endDate->format('Y-m-d') . ' 23:59:59')
+                         ->where('started_at', '>=', $startDate->format('Y-m-d').' 00:00:00')
+                         ->where('started_at', '<=', $endDate->format('Y-m-d').' 23:59:59')
                          ->count();
     }
 
     /**
-     * Gets deployments with a supplied status
+     * Gets deployments with a supplied status.
      *
      * @param int $status
      * @return array
@@ -111,6 +114,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     private function getStatus($status)
     {
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
+
         return Deployment::whereRaw($raw_sql)
                          ->where('status', $status)
                          ->orderBy('started_at', 'DESC')

@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php
+
+namespace App\Http\Controllers\Admin;
 
 use Lang;
 use App\Http\Requests;
@@ -7,19 +9,19 @@ use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Http\Requests\StoreGroupRequest;
 
 /**
- * Group management controller
+ * Group management controller.
  */
 class GroupController extends Controller
 {
     /**
-     * The group repository
+     * The group repository.
      *
      * @var GroupRepositoryInterface
      */
     private $groupRepository;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param GroupRepositoryInterface $groupRepository
      * @return void

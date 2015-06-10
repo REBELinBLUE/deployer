@@ -1,15 +1,17 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use Illuminate\Validation\Factory;
 
 /**
- * Request for validating servers
+ * Request for validating servers.
  */
 class StoreServerRequest extends Request
 {
     /**
-     * Overwrite the parent constructor to define a new validator
+     * Overwrite the parent constructor to define a new validator.
      *
      * @param Factory $factory
      * @return void

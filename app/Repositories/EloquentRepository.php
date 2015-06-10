@@ -1,19 +1,21 @@
-<?php namespace App\Repositories;
+<?php
+
+namespace App\Repositories;
 
 /**
- * Abstract class for eloquent repositories
+ * Abstract class for eloquent repositories.
  */
 abstract class EloquentRepository
 {
     /**
-     * An instance of the model
+     * An instance of the model.
      *
      * @var Model
      */
     protected $model;
 
     /**
-     * Get's all records from the model
+     * Get's all records from the model.
      *
      * @return Collection
      */
@@ -23,7 +25,7 @@ abstract class EloquentRepository
     }
 
     /**
-     * Creates a new instance of the model
+     * Creates a new instance of the model.
      *
      * @param array $fields
      * @return Model
@@ -34,7 +36,7 @@ abstract class EloquentRepository
     }
 
     /**
-     * Updates an instance by it's ID
+     * Updates an instance by it's ID.
      *
      * @param array $fields
      * @param int $model_id

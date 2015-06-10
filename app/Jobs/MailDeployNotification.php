@@ -1,4 +1,6 @@
-<?php namespace App\Jobs;
+<?php
+
+namespace App\Jobs;
 
 use Mail;
 use Lang;
@@ -9,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Mail\Message;
 
 /**
- * Send email notifications for deployment
+ * Send email notifications for deployment.
  */
 class MailDeployNotification extends Job implements SelfHandling
 {

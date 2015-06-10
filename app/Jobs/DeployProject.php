@@ -1,4 +1,6 @@
-<?php namespace App\Jobs;
+<?php
+
+namespace App\Jobs;
 
 use Config;
 use Queue;
@@ -18,7 +20,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * Deploys an actual project
- * TODO: rewrite this as it is doing way too much and is very messy now
+ * TODO: rewrite this as it is doing way too much and is very messy now.
  */
 class DeployProject extends Job implements SelfHandling, ShouldQueue
 {
@@ -54,7 +56,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
         $project->status = Project::DEPLOYING;
         $project->save();
 
-        $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
+        $this->private_key = tempnam(storage_path().'/app/', 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
 
         try {
@@ -97,17 +99,17 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
 
     /**
      * Clones the repository locally to get the latest log entry and updates
-     * the deployment model
+     * the deployment model.
      *
      * @return void
      * TODO: Change this to use the Gitlab API
      */
     private function updateRepoInfo()
     {
-        $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
+        $wrapper = tempnam(storage_path().'/app/', 'gitssh');
         file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
 
-        $workingdir = tempnam(storage_path() . '/app/', 'clone');
+        $workingdir = tempnam(storage_path().'/app/', 'clone');
         unlink($workingdir);
 
         $cmd = <<< CMD
@@ -134,19 +136,19 @@ CMD;
 
         if (!$process->isSuccessful()) {
             // FIXME: Handle this situation as it is then unclear what went wrong
-            throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
+            throw new \RuntimeException('Could not get repository info - '.$process->getErrorOutput());
         }
 
         $git_info = $process->getOutput();
 
         $parts = explode("\x09", $git_info);
-        $this->deployment->commit    = $parts[0];
+        $this->deployment->commit = $parts[0];
         $this->deployment->committer = trim($parts[1]);
         $this->deployment->save();
     }
 
     /**
-     * Removed left over artifacts from a failed deploy on each server
+     * Removed left over artifacts from a failed deploy on each server.
      *
      * @return void
      * TODO: Clean this up as there is some duplication with getScript()
@@ -168,11 +170,11 @@ CMD;
                 continue;
             }
 
-            $releases_dir = $root_dir . '/releases';
-            $latest_release_dir = $releases_dir . '/' . $release_id;
+            $releases_dir = $root_dir.'/releases';
+            $latest_release_dir = $releases_dir.'/'.$release_id;
 
-            $remote_key_file = $root_dir . '/id_rsa';
-            $remote_wrapper_file = $root_dir . '/wrapper.sh';
+            $remote_key_file = $root_dir.'/id_rsa';
+            $remote_wrapper_file = $root_dir.'/wrapper.sh';
 
             $commands = [
                 sprintf('cd %s', $root_dir),
@@ -190,7 +192,7 @@ CMD;
     }
 
     /**
-     * Finds all pending steps and marks them as cancelled
+     * Finds all pending steps and marks them as cancelled.
      *
      * @return void
      */
@@ -207,7 +209,7 @@ CMD;
     }
 
     /**
-     * Executes the commands for a step
+     * Executes the commands for a step.
      *
      * @param DeployStep $step
      * @return void
@@ -256,7 +258,7 @@ CMD;
                     $log->output = $output;
                 }
             } catch (\Exception $e) {
-                $msg = '[' . $server->ip_address . ']:' . $e->getMessage();
+                $msg = '['.$server->ip_address.']:'.$e->getMessage();
                 $log->output .= $this->logError($msg);
                 $failed = true;
             }
@@ -273,7 +275,7 @@ CMD;
     }
 
     /**
-     * Generates the actual bash commands to run on the server
+     * Generates the actual bash commands to run on the server.
      *
      * @param DeployStep $step
      * @param Server     $server
@@ -290,17 +292,17 @@ CMD;
             return '';
         }
 
-        $releases_dir = $root_dir . '/releases';
+        $releases_dir = $root_dir.'/releases';
 
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
-        $latest_release_dir = $releases_dir . '/' . $release_id;
-        $release_shared_dir = $root_dir . '/shared';
+        $latest_release_dir = $releases_dir.'/'.$release_id;
+        $release_shared_dir = $root_dir.'/shared';
 
         $commands = false;
 
         if ($step->stage === Stage::DO_CLONE) { // Clone the repository
-            $remote_key_file = $root_dir . '/id_rsa';
-            $remote_wrapper_file = $root_dir . '/wrapper.sh';
+            $remote_key_file = $root_dir.'/id_rsa';
+            $remote_wrapper_file = $root_dir.'/wrapper.sh';
 
             // FIXME: This does not belong here as this function should
             // only being returning the commands
@@ -329,7 +331,7 @@ CMD;
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
                 sprintf(
-                    '[ -f %s/composer.json ] && composer install --no-interaction --optimize-autoloader ' .
+                    '[ -f %s/composer.json ] && composer install --no-interaction --optimize-autoloader '.
                     '--no-dev --prefer-dist --no-ansi --working-dir "%s"',
                     $latest_release_dir,
                     $latest_release_dir
@@ -346,11 +348,11 @@ CMD;
             $commands = array_merge($commands, $shareFileCommands);
 
             // write project file to release dir before install
-            
+
             $projectFiles = $project->projectFiles;
             foreach ($projectFiles as $file) {
                 if ($file->path) {
-                    $filepath = $latest_release_dir . '/' . $file->path;
+                    $filepath = $latest_release_dir.'/'.$file->path;
                     $this->sendFileFromString($server, $filepath, $file->content);
                 }
             }
@@ -387,29 +389,29 @@ CMD;
     }
 
     /**
-     * Generates an error string to log to the DB
+     * Generates an error string to log to the DB.
      *
      * @param string $message
      * @return string
      */
     private function logError($message)
     {
-        return '<error>' . $message . '</error>';
+        return '<error>'.$message.'</error>';
     }
 
     /**
-     * Generates an general output string to log to the DB
+     * Generates an general output string to log to the DB.
      *
      * @param string $message
      * @return string
      */
     private function logSuccess($message)
     {
-        return '<info>' . $message . '</info>';
+        return '<info>'.$message.'</info>';
     }
 
     /**
-     * Generates the SSH command for running the script on a server
+     * Generates the SSH command for running the script on a server.
      *
      * @param Server $server
      * @param string $script The script to run
@@ -422,21 +424,21 @@ CMD;
             $user = $server->user;
         }
 
-        $script = 'set -e' . PHP_EOL . $script;
+        $script = 'set -e'.PHP_EOL.$script;
+
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
                  -o StrictHostKeyChecking=no \
                  -o PasswordAuthentication=no \
-                 -o IdentityFile=' . $this->private_key . ' \
-                 -p ' . $server->port . ' \
-                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 -o IdentityFile='.$this->private_key.' \
+                 -p '.$server->port.' \
+                 '.$user.'@'.$server->ip_address.' \'bash -s\' << EOF
                  '.$script.'
 EOF';
-
     }
 
     /**
-     * Generates the content of a git bash script
+     * Generates the content of a git bash script.
      *
      * @param string $key_file_path The path to the public key to use
      * @return string
@@ -455,7 +457,7 @@ OUT;
     }
 
     /**
-     * Sends a file to a remote server
+     * Sends a file to a remote server.
      *
      * @param string $local_file
      * @param string $remote_file
@@ -466,10 +468,10 @@ OUT;
     private function sendFile($local_file, $remote_file, Server $server)
     {
         $copy = sprintf(
-            'scp -o CheckHostIP=no ' .
-            '-o IdentitiesOnly=yes ' .
-            '-o StrictHostKeyChecking=no ' .
-            '-o PasswordAuthentication=no ' .
+            'scp -o CheckHostIP=no '.
+            '-o IdentitiesOnly=yes '.
+            '-o StrictHostKeyChecking=no '.
+            '-o PasswordAuthentication=no '.
             '-i %s %s %s@%s:%s',
             $this->private_key,
             $local_file,
@@ -483,12 +485,12 @@ OUT;
         $process->run();
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not send file - ' . $process->getErrorOutput());
+            throw new \RuntimeException('Could not send file - '.$process->getErrorOutput());
         }
     }
 
     /**
-     * Prepares a server for code deployment by adding the files which are required
+     * Prepares a server for code deployment by adding the files which are required.
      *
      * @param Server $server
      * @return void
@@ -497,8 +499,8 @@ OUT;
     {
         $root_dir = preg_replace('#/$#', '', $server->path);
 
-        $remote_key_file = $root_dir . '/id_rsa';
-        $remote_wrapper_file = $root_dir . '/wrapper.sh';
+        $remote_key_file = $root_dir.'/id_rsa';
+        $remote_wrapper_file = $root_dir.'/wrapper.sh';
 
         // Upload the SSH private key
         $this->sendFile($this->private_key, $remote_key_file, $server);
@@ -512,7 +514,7 @@ OUT;
     }
 
     /**
-     * Send a string to server
+     * Send a string to server.
      *
      * @param  Server $server   target server
      * @param  string $filename remote filename
@@ -521,7 +523,7 @@ OUT;
      */
     private function sendFileFromString(Server $server, $filepath, $content)
     {
-        $wrapper = tempnam(storage_path() . '/app/', 'tmpfile');
+        $wrapper = tempnam(storage_path().'/app/', 'tmpfile');
         file_put_contents($wrapper, $content);
 
         // Upload the wrapper file
@@ -531,7 +533,7 @@ OUT;
     }
 
     /**
-     * create the command for share files
+     * create the command for share files.
      *
      * @param  Project $project     the related project
      * @param  string  $release_dir current release dir
@@ -540,7 +542,7 @@ OUT;
      */
     private function shareFileCommands(Project $project, $release_dir, $shared_dir)
     {
-        $commands = array();
+        $commands = [];
         foreach ($project->shareFiles as $filecfg) {
             if ($filecfg->file) {
                 $pathinfo = pathinfo($filecfg->file);
@@ -556,13 +558,13 @@ OUT;
                 }
 
                 if (isset($pathinfo['extension'])) {
-                    $filename = $pathinfo['filename'] . '.' . $pathinfo['extension'];
+                    $filename = $pathinfo['filename'].'.'.$pathinfo['extension'];
                 } else {
                     $filename = $pathinfo['filename'];
                 }
 
-                $sourceFile = $shared_dir . '/' . $filename;
-                $targetFile = $release_dir . '/' . $filecfg->file;
+                $sourceFile = $shared_dir.'/'.$filename;
+                $targetFile = $release_dir.'/'.$filecfg->file;
 
                 if ($isDir) {
                     $commands[] = sprintf(
@@ -587,6 +589,7 @@ OUT;
                 $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
             }
         }
+
         return $commands;
     }
 }

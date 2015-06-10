@@ -1,14 +1,14 @@
-<?php namespace App\Events;
+<?php
+
+namespace App\Events;
 
 use App\Deployment;
 use App\Project;
-
 use App\Events\Event;
-
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Deploy finished event
+ * Deploy finished event.
  */
 class DeployFinished extends Event
 {

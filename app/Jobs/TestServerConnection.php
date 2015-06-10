@@ -1,4 +1,6 @@
-<?php namespace App\Jobs;
+<?php
+
+namespace App\Jobs;
 
 use App\Server;
 use App\Jobs\Job;
@@ -9,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Symfony\Component\Process\Process;
 
 /**
- * Tests if a server can successfully be SSHed into
+ * Tests if a server can successfully be SSHed into.
  */
 class TestServerConnection extends Job implements SelfHandling, ShouldQueue
 {
@@ -38,7 +40,7 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
         $this->server->status = Server::TESTING;
         $this->server->save();
 
-        $key = tempnam(storage_path() . '/app/', 'sshkey');
+        $key = tempnam(storage_path().'/app/', 'sshkey');
         file_put_contents($key, $this->server->project->private_key);
 
         try {
@@ -62,7 +64,7 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
     }
 
     /**
-     * Generates the SSH command for running the script on a server
+     * Generates the SSH command for running the script on a server.
      *
      * @param Server $server
      * @param string $script The script to run
@@ -70,16 +72,16 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
      */
     private function sshCommand(Server $server, $private_key, $script)
     {
-        $script = 'set -e' . PHP_EOL . $script;
+        $script = 'set -e'.PHP_EOL.$script;
+
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
                  -o StrictHostKeyChecking=no \
                  -o PasswordAuthentication=no \
-                 -o IdentityFile=' . $private_key . ' \
-                 -p ' . $server->port . ' \
-                 ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 -o IdentityFile='.$private_key.' \
+                 -p '.$server->port.' \
+                 '.$server->user.'@'.$server->ip_address.' \'bash -s\' << EOF
                  '.$script.'
 EOF';
-
     }
 }

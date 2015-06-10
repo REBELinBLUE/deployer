@@ -1,10 +1,12 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 use App\Command;
 use App\Http\Requests\Request;
 
 /**
- * Request for validating commands
+ * Request for validating commands.
  */
 class StoreCommandRequest extends Request
 {
@@ -19,7 +21,7 @@ class StoreCommandRequest extends Request
             'name'       => 'required|max:255',
             'user'       => 'required|max:255',
             'script'     => 'required',
-            'step'       => 'required|integer|min:' . Command::BEFORE_CLONE . '|max:' . Command::AFTER_PURGE,
+            'step'       => 'required|integer|min:'.Command::BEFORE_CLONE.'|max:'.Command::AFTER_PURGE,
             'project_id' => 'required|integer|exists:projects,id'
         ];
 

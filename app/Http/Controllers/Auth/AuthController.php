@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers\Auth;
+<?php
+
+namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
@@ -6,14 +8,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 /**
- * Authentication controller
+ * Authentication controller.
  */
 class AuthController extends Controller
 {
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect to once the user has been authenticated
+     * Where to redirect to once the user has been authenticated.
      *
      * @var string
      */

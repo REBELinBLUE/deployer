@@ -1,10 +1,11 @@
-<?php namespace App\Listeners\Events;
+<?php
+
+namespace App\Listeners\Events;
 
 use App\Jobs\Notify as SlackNotify;
 use App\Jobs\MailDeployNotification;
 use App\Jobs\RequestProjectCheckUrl;
 use App\Events\DeployFinished;
-
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;

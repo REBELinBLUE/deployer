@@ -1,10 +1,12 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
+
+namespace App\Http\Controllers\Resources;
 
 use App\NotifyEmail;
 use App\Http\Requests\StoreNotifyEmailRequest;
 
 /**
- * Controller for managing NotifyEmails
+ * Controller for managing NotifyEmails.
  */
 class NotifyEmailController extends ResourceController
 {

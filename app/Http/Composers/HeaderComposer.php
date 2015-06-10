@@ -1,17 +1,19 @@
-<?php namespace App\Http\Composers;
+<?php
+
+namespace App\Http\Composers;
 
 use Illuminate\Contracts\View\View;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 
 /**
- * View composer for the header bar
+ * View composer for the header bar.
  */
 class HeaderComposer
 {
     private $deploymentRepository;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param DeploymentRepositoryInterface $user
      */
@@ -21,7 +23,7 @@ class HeaderComposer
     }
 
     /**
-     * Generates the pending and deploying projects for the view
+     * Generates the pending and deploying projects for the view.
      *
      * @param \Illuminate\Contracts\View\View $view
      * @return void

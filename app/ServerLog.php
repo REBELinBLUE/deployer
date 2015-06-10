@@ -1,4 +1,6 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
@@ -6,18 +8,18 @@ use App\Presenters\ServerLogPresenter;
 use App\Contracts\RuntimeInterface;
 
 /**
- * Server log model
+ * Server log model.
  */
 class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 {
     const COMPLETED = 0;
-    const PENDING   = 1;
-    const RUNNING   = 2;
-    const FAILED    = 3;
+    const PENDING = 1;
+    const RUNNING = 2;
+    const FAILED = 3;
     const CANCELLED = 4;
 
     /**
-     * The fields which should be tried as Carbon instances
+     * The fields which should be tried as Carbon instances.
      *
      * @var array
      */
@@ -40,7 +42,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     ];
 
     /**
-     * Belongs to assocation
+     * Belongs to assocation.
      *
      * @return Server
      */
@@ -50,7 +52,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Calculates how long the commands were running on the server for
+     * Calculates how long the commands were running on the server for.
      *
      * @return false|int Returns false if the command has not yet finished or the runtime in seconds
      */
@@ -64,7 +66,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Gets the view presenter
+     * Gets the view presenter.
      *
      * @return ServerLogPresenter
      */
