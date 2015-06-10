@@ -29,7 +29,7 @@ abstract class Job
      * @param Job $command
      * @return void
      */
-    public function queue($queue, Job $command)
+    public function queue($queue, $command)
     {
         $queue->pushOn('low', $command);
     }

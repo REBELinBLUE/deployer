@@ -46,7 +46,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
      * @param DeployProject $command
      * @return void
      */
-    public function queue($queue, DeployProject $command)
+    public function queue($queue, $command)
     {
         $queue->pushOn('high', $command);
     }
@@ -258,8 +258,8 @@ CMD;
                             $output .= $this->logSuccess($output_line);
                         }
 
-                        $log->output = $output;
-                        $log->save();
+                        // $log->output = $output;
+                        // $log->save();
                     });
 
                     if (!$process->isSuccessful()) {
