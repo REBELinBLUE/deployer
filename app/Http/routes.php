@@ -30,10 +30,9 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'DeploymentController@show'
     ]);
 
-    Route::group(['namespace' => 'Resources'], function () {
+    Route::get('log/{log}', 'DeploymentController@log');
 
-        Route::get('status/{log}', 'CommandController@status');
-        Route::get('log/{log}', 'CommandController@log');
+    Route::group(['namespace' => 'Resources'], function () {
 
         Route::post('commands/reorder', 'CommandController@reorder');
 

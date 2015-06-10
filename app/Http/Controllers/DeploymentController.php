@@ -5,6 +5,7 @@ use Input;
 use App\Project;
 use App\Command;
 use App\Deployment;
+use App\ServerLog;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Jobs\QueueDeployment;
@@ -60,7 +61,6 @@ class DeploymentController extends Controller
                 $server->runtime  = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
                 $server->output   = ((is_null($server->output) || !strlen($server->output)) ? null : '');
                 $server->script   = '';
-                $server->first    = (count($output) === 0); // FIXME: Let backbone.js take care of this
 
                 $output[] = $server;
             }
@@ -114,5 +114,19 @@ class DeploymentController extends Controller
         return redirect()->route('deployment', [
             'id' => $deployment->id
         ]);
+    }
+
+    /**
+     * Gets the log output of a particular deployment step
+     *
+     * @param ServerLog $log
+     * @return Response
+     */
+    public function log(ServerLog $log)
+    {
+        $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
+        $log->script  = '';
+
+        return $log;
     }
 }

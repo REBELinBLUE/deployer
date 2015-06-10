@@ -154,36 +154,4 @@ class CommandController extends ResourceController
             'success' => true
         ];
     }
-
-    /**
-     * Gets the status of a particular deployment step
-     *
-     * @param ServerLog $log
-     * @param boolean $include_log
-     * @return Response
-     * TODO: Move this to deployment controller
-     */
-    public function status(ServerLog $log, $include_log = false)
-    {
-        $log->runtime  = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
-        $log->script   = '';
-
-        if (!$include_log) {
-            $log->output = ((is_null($log->output) || !strlen($log->output)) ? null : '');
-        }
-
-        return $log;
-    }
-
-    /**
-     * Gets the log output of a particular deployment step
-     *
-     * @param ServerLog $log
-     * @return Response
-     * TODO: Move this to deployment controller
-     */
-    public function log(ServerLog $log)
-    {
-        return $this->status($log, true);
-    }
 }
