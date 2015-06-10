@@ -1,7 +1,7 @@
-[program:deployer]
+[program:deployer-listener]
 command=php artisan queue:listen --timeout=0 --tries=1
 directory=/var/www/deployer
-process_name=%(program_name)s_%(process_num)s
+process_name=queue_%(process_num)s
 numprocs=3
 numprocs_start=0
 stdout_logfile=/var/www/deployer/storage/logs/supervisord-%(process_num)s-stdout.log
