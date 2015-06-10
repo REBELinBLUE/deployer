@@ -70,6 +70,6 @@ var app = app || {};
         if ($('#deploying_menu ul.menu li').length > 0) {
             $('#deploying_menu').show();
         }
-    })
+    });
 
 })(jQuery);
