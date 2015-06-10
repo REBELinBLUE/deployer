@@ -29,7 +29,7 @@ var paths = {
 };
 
 elixir(function(mix) {
-    mix.sass('vendor.scss', 'public/css', {
+    mix.sass('vendor.scss', 'public/css/vendor.css', {
         includePaths: [
             paths.bootstrap   + '/stylesheets',
             paths.fontawesome + '/scss',
