@@ -9,6 +9,7 @@ abstract class Event
      * @param string $name
      * @param mixed $arguments
      * @return void
+     * TODO: figure out how to get the events on another queue, this seems weird
      */
     public function queue($queue, $name, $arguments)
     {
