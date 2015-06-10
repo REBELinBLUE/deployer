@@ -17,7 +17,7 @@ class StoreNotificationRequest extends Request
         return [
             'name'       => 'required|max:255',
             'channel'    => 'required|max:255',
-            'webhook'    => 'required|active_url',
+            'webhook'    => 'required|url',
             'project_id' => 'required|integer|exists:projects,id'
         ];
     }
