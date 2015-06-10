@@ -12,6 +12,7 @@ var elixir = require('laravel-elixir');
  */
 
 var bower_path = './vendor/bower_components';
+
 var paths = {
     'ace'             : bower_path + '/ace-min-noconflict',
     'backbone'        : bower_path + '/backbone',
@@ -21,7 +22,10 @@ var paths = {
     'jquery_sortable' : bower_path + '/jquery-sortable',
     'bootstrap'       : bower_path + '/bootstrap-sass-official/assets',
     'fontawesome'     : bower_path + '/fontawesome',
-    'ionicons'        : bower_path + '/ionicons'
+    'socketio_client' : bower_path + '/socket.io-client',
+    'ionicons'        : bower_path + '/ionicons',
+    'html5shiv'       : bower_path + '/html5shiv',
+    'respond'         : bower_path + '/respond'
 };
 
 elixir(function(mix) {
@@ -38,12 +42,17 @@ elixir(function(mix) {
         'app.css'
     ], 'public/css/app.css', 'resources/assets/css')
     .scripts([
+        paths.html5shiv + '/dist/html5shiv.js',
+        paths.respond   + '/dist/respond.min.js'
+    ], 'public/js/ie.js', bower_path)
+    .scripts([
         paths.jquery          + '/dist/jquery.js',
         paths.jquery_sortable + '/source/js/jquery-sortable.js',
         paths.underscore      + '/underscore.js',
         paths.moment          + '/moment.js',
         paths.bootstrap       + '/javascripts/bootstrap.js',
         paths.backbone        + '/backbone.js',
+        paths.socketio_client + '/socket.io.js',
         paths.ace             + '/ace.js',
         paths.ace             + '/mode-sh.js',
         paths.ace             + '/mode-php.js',
@@ -73,6 +82,7 @@ elixir(function(mix) {
         'public/css/app.css',
         'public/css/vendor.css',
         'public/js/app.js',
+        'public/js/ie.js',
         'public/js/vendor.js'
     ])
     .copy('public/fonts', 'public/build/fonts');
