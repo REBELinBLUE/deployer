@@ -15,16 +15,16 @@ class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    private $link;
+    private $links;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct($link)
+    public function __construct($links)
     {
-        $this->link = $link;
+        $this->links = $links;
     }
 
     /**
@@ -34,17 +34,19 @@ class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
-        $response = Request::get($this->link->url)->send();
+        foreach ($this->links as $link) {
+            $response = Request::get($link->url)->send();
 
-        $this->link->last_status = $response->hasErrors();
-        $this->link->save();
+            $link->last_status = $response->hasErrors();
+            $link->save();
 
-        if ($response->hasErrors()) {
-            foreach ($this->link->project->notifications as $notification) {
-                Queue::push(new Notify(
-                    $notification,
-                    $this->link->notificationPayload()
-                ));
+            if ($response->hasErrors()) {
+                foreach ($link->project->notifications as $notification) {
+                    Queue::push(new Notify(
+                        $notification,
+                        $link->notificationPayload()
+                    ));
+                }
             }
         }
     }

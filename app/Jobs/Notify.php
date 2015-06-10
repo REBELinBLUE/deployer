@@ -12,8 +12,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class Notify extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
+
     private $payload;
     private $notification;
+
     /**
      * Create a new command instance.
      *
@@ -26,6 +28,7 @@ class Notify extends Job implements SelfHandling, ShouldQueue
         $this->notification = $notification;
         $this->payload = $payload;
     }
+
     /**
      * Execute the command.
      *
@@ -36,14 +39,18 @@ class Notify extends Job implements SelfHandling, ShouldQueue
         $payload = [
             'channel' => $this->notification->channel
         ];
+
         if (!empty($this->notification->icon)) {
             $icon_field = 'icon_url';
             if (preg_match('/:(.*):/', $this->notification->icon)) {
                 $icon_field = 'icon_emoji';
             }
+
             $payload[$icon_field] = $this->notification->icon;
         }
+
         $payload = array_merge($payload, $this->payload);
+
         Request::post($this->notification->webhook)
                ->sendsJson()
                ->body($payload)
