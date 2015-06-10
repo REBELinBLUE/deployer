@@ -45,8 +45,6 @@ class Notify implements ShouldQueue
         $this->dispatch(new MailDeployNotification($project, $deployment));
 
         //Trigger to check the project urls
-        foreach ($project->checkUrls as $url) {
-            $this->dispatch(new RequestProjectCheckUrl($url));
-        }
+        $this->dispatch(new RequestProjectCheckUrl($project->checkUrls));
     }
 }
