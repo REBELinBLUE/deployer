@@ -122,7 +122,7 @@ var app = app || {};
     });
 
     app.User = Backbone.Model.extend({
-        urlRoot: '/admin/users'
+        urlRoot: '/admin/users',
         initialize: function() {
 
         }
