@@ -7,7 +7,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Symfony\Component\Process\Process;
-use App\Events\ServerStatusChanged;
 
 /**
  * Tests if a server can successfully be SSHed into
@@ -58,8 +57,6 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
         }
 
         $this->server->save();
-
-        event(new ServerStatusChanged($this->server)); // FIXME: Move this to a model event on save if changed
 
         unlink($key);
     }

@@ -72,7 +72,7 @@ class ServerController extends ResourceController
      *
      * @param Server $server
      * @return Response
-     * TODO: Shouldn't changing the status to testing automatically add the model to the queue on save?
+     * TODO: Shouldn't changing the status to testing automatically add the TestServerConnect to the queue on save?
      */
     public function test(Server $server)
     {

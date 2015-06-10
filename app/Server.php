@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Events\ServerStatusChanged;
 
 /**
  * Server model
@@ -38,6 +39,21 @@ class Server extends Model
         'status'      => 'integer',
         'deploy_code' => 'boolean'
     ];
+
+    /**
+     * Override the boot method to bind model event listeners
+     *
+     * @return void
+     * TODO: Shouldn't this method take care of setting up a TestServerConnection if the status has changed to testing?
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::changed(function (Server $model) {
+            event(new ServerStatusChanged($model));
+        });
+    }
 
     /**
      * Belongs to relationship
