@@ -50,7 +50,7 @@ class Server extends Model
     {
         parent::boot();
 
-        static::changed(function (Server $model) {
+        static::updated(function (Server $model) {
             event(new ServerStatusChanged($model));
         });
     }
