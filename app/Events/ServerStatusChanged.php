@@ -21,7 +21,7 @@ class ServerStatusChanged extends Event implements ShouldBroadcast
      */
     public function __construct(Server $server)
     {
-        $this->id = $server->id;
+        $this->id     = $server->id;
         $this->status = $server->status;
     }
 

@@ -53,6 +53,15 @@
         <script src="{{ elixir('js/vendor.js') }}"></script>
         <script src="{{ elixir('js/app.js') }}"></script>
 
+        <script type="text/javascript">
+            Lang.nav = {
+                single_pending: '{{ Lang::choice('dashboard.pending', 1) }}',
+                multi_pending: '{{ Lang::choice('dashboard.pending', '%s') }}',
+                single_running: '{{ Lang::choice('dashboard.running', 1) }}',
+                multi_running: '{{ Lang::choice('dashboard.running', '%s') }}'
+            };
+        </script>
+
         @yield('javascript')
     </body>
 </html>

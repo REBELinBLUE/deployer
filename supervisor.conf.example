@@ -9,3 +9,13 @@ stderr_logfile=/var/www/deployer/storage/logs/supervisord-%(process_num)s-stderr
 redirect_stderr=true
 autostart=true
 autorestart=true
+
+[program:socket]
+command=node socket.js
+directory=/var/www/deployer
+numprocs=1
+autostart=true
+autorestart=true
+environment=NODE_ENV=production
+stderr_logfile=/var/www/deployer/storage/logs/node.err.log
+stdout_logfile=/var/www/deployer/storage/logs/node.out.log

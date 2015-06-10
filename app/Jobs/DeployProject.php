@@ -15,6 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Symfony\Component\Process\Process;
+use App\Events\DeploymentStatusChanged;
 
 /**
  * Deploys an actual project

@@ -17,7 +17,7 @@
                         <li>
                             <ul class="menu">
                                 @foreach ($pending as $deployment)
-                                    <li>
+                                    <li id="deployment_info_{{ $deployment->id }}">
                                         <a href="{{ route('deployment', ['id' => $deployment->id]) }}">
                                             <h4>{{ $deployment->project->name }} <small class="pull-right">{{ Lang::get('dashboard.started') }}: {{ $deployment->started_at->format('g:i:s A') }}</small></h4>
                                             <p>{{ Lang::get('deployments.branch') }}: {{ $deployment->branch }}</p>
@@ -39,7 +39,7 @@
                         <li>
                             <ul class="menu">
                                 @foreach ($deploying as $deployment)
-                                    <li>
+                                    <li id="deployment_info_{{ $deployment->id }}">
                                         <a href="{{ route('deployment', ['id' => $deployment->id]) }}">
                                             <h4>{{ $deployment->project->name }} <small class="pull-right">{{ Lang::get('dashboard.started') }}: {{ $deployment->started_at->format('g:i:s A') }}</small></h4>
                                             <p>{{ Lang::get('deployments.branch') }}: {{ $deployment->branch }}</p>
@@ -50,6 +50,7 @@
                         </li>
                     </ul>
                 </li>
+
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -75,3 +76,12 @@
         </div>
     </nav>
 </header>
+
+<script type="text/template" id="deployment_list_template">
+    <li id="deployment_info_<%- id %>">
+        <a href="<%- url %>">
+            <h4><%- project %> <small class="pull-right">{{ Lang::get('dashboard.started') }}: <%- time %></small></h4>
+            <p>{{ Lang::get('deployments.branch') }}: <%- branch %></p>
+        </a>
+    </li>
+</script>

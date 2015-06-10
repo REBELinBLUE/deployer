@@ -37,6 +37,7 @@ class Notify implements ShouldQueue
         $project = $event->project;
         $deployment = $event->deployment;
 
+        // FIXME: Change this so it is link the other 2 notifications
         foreach ($project->notifications as $notification) {
             $this->dispatch(new SlackNotify($notification, $deployment->notificationPayload()));
         }
