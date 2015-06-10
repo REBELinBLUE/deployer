@@ -8,14 +8,14 @@ var app = app || {};
     var PENDING = 1;
     var RUNNING = 2;
 
-    app.listener = io.connect(window.location.protocol + '//' + window.location.hostname + ':6001');
+    app.listener = io.connect(window.location.protocol + '//' + window.location.hostname + ':6001'); // FIXME Allow this to be specified so that people can set up reverse proxies in nginx, for instance
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
     app.listener.on('deployment-status', function (data) {
 
         data.time = moment(data.started.date).format('h:mm:ss A');;
-        data.url = '/deployments/' + data.id;
+        data.url = '/deployment/' + data.id;
 
         $('#deployment_info_' + data.id).remove();
         $('#pending_menu, #deploying_menu').show();
