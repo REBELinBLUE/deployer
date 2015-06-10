@@ -132,7 +132,7 @@ var app = app || {};
 
 
     app.Server = Backbone.Model.extend({
-        urlRoot: '/servers'
+        urlRoot: '/servers',
         initialize: function() {
             this.on('change:status', this.changeStatus, this);
 
