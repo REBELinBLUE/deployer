@@ -47,8 +47,7 @@ var app = app || {};
     var isChecking = false;
 
     app.ServerLog = Backbone.Model.extend({
-        urlRoot: '/status',
-        poller: false
+        urlRoot: '/status'
     });
 
     var Deployment = Backbone.Collection.extend({

@@ -114,8 +114,7 @@ var app = app || {};
     });
 
     app.NotifyEmail = Backbone.Model.extend({
-        urlRoot: '/notify-email',
-        poller: false
+        urlRoot: '/notify-email'
     });
 
     var NotifyEmails = Backbone.Collection.extend({

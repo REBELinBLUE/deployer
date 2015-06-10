@@ -161,11 +161,7 @@ var app = app || {};
     });
 
     app.Project = Backbone.Model.extend({
-        urlRoot: '/admin/projects',
-        poller: false,
-        initialize: function() {
-
-        }
+        urlRoot: '/admin/projects'
     });
 
     var Projects = Backbone.Collection.extend({

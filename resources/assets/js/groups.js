@@ -80,7 +80,6 @@ var app = app || {};
 
     app.Group = Backbone.Model.extend({
         urlRoot: '/admin/groups',
-        poller: false,
         initialize: function() {
 
         }

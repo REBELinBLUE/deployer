@@ -15,7 +15,6 @@ var bower_path = './vendor/bower_components';
 var paths = {
     'ace'             : bower_path + '/ace-min-noconflict',
     'backbone'        : bower_path + '/backbone',
-    'backbone_poller' : bower_path + '/backbone-poller',
     'underscore'      : bower_path + '/underscore',
     'moment'          : bower_path + '/moment',
     'jquery'          : bower_path + '/jquery',
@@ -45,7 +44,6 @@ elixir(function(mix) {
         paths.moment          + '/moment.js',
         paths.bootstrap       + '/javascripts/bootstrap.js',
         paths.backbone        + '/backbone.js',
-        paths.backbone_poller + '/backbone.poller.js',
         paths.ace             + '/ace.js',
         paths.ace             + '/mode-sh.js',
         paths.ace             + '/mode-php.js',

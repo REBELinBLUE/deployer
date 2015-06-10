@@ -115,8 +115,7 @@ var app = app || {};
     });
 
     app.CheckUrl = Backbone.Model.extend({
-        urlRoot: '/check-url',
-        poller: false
+        urlRoot: '/check-url'
     });
 
     var CheckUrls = Backbone.Collection.extend({

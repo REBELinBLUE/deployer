@@ -120,8 +120,7 @@ var app = app || {};
 
 
     app.Notification = Backbone.Model.extend({
-        urlRoot: '/notifications',
-        poller: false
+        urlRoot: '/notifications'
     });
 
     var Notifications = Backbone.Collection.extend({

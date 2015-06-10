@@ -118,8 +118,7 @@ var app = app || {};
     });
 
     app.Heartbeat = Backbone.Model.extend({
-        urlRoot: '/heartbeats',
-        poller: false
+        urlRoot: '/heartbeats'
     });
 
     var Heartbeats = Backbone.Collection.extend({

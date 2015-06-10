@@ -114,8 +114,7 @@ var app = app || {};
     });
 
     app.SharedFile = Backbone.Model.extend({
-        urlRoot: '/shared-files',
-        poller: false
+        urlRoot: '/shared-files'
     });
 
     var SharedFiles = Backbone.Collection.extend({

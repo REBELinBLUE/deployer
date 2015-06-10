@@ -154,8 +154,7 @@ var app = app || {};
     });
 
     app.ProjectFile = Backbone.Model.extend({
-        urlRoot: '/project-file',
-        poller: false
+        urlRoot: '/project-file'
     });
 
     var ProjectFiles = Backbone.Collection.extend({

@@ -132,11 +132,10 @@ var app = app || {};
 
 
     app.Server = Backbone.Model.extend({
-        urlRoot: '/servers',
-        poller: false,
+        urlRoot: '/servers'
         initialize: function() {
             this.on('change:status', this.changeStatus, this);
-            
+
             this.changeStatus();
         },
         changeStatus: function() {
@@ -149,14 +148,6 @@ var app = app || {};
                     that.set({
                         status: FAILED
                     });
-                }).success(function () {
-                    // that.poller = Backbone.Poller.get(that, {
-                    //     condition: function(model) {
-                    //         return parseInt(model.get('status')) === TESTING;
-                    //     },
-                    //     delay: 2500
-                    // });
-                    // that.poller.start();
                 });
             }
         }

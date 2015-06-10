@@ -14,7 +14,6 @@
   "dependencies": {
     "ace-min-noconflict": "~1.1.8",
     "backbone": "~1.1.2",
-    "backbone-poller": "~0.3.0",
     "bootstrap-sass-official": "~3.3.3",
     "fontawesome": "~4.3.0",
     "ionicons": "~2.0.1",
