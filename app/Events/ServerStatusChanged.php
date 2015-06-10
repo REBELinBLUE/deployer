@@ -7,6 +7,9 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+/**
+ * Event which fires when the server status has changed
+ */
 class ServerStatusChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;

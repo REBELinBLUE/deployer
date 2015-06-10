@@ -7,6 +7,9 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+/**
+ * Event which fires when the project status has changed
+ */
 class ProjectStatusChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;

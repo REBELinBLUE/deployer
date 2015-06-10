@@ -7,6 +7,9 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+/**
+ * Event which fires when the deployment status has changed
+ */
 class DeploymentStatusChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;
