@@ -4,7 +4,6 @@ use App\Jobs\Notify as SlackNotify;
 use App\Jobs\MailDeployNotification;
 use App\Jobs\RequestProjectCheckUrl;
 use App\Events\DeployFinished;
-
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -12,7 +11,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 /**
  * When a deploy finished, notify the followed user.
  */
-class Notify implements ShouldQueue
+class Notify extends Event implements ShouldQueue
 {
     use InteractsWithQueue, DispatchesJobs;
 

@@ -10,7 +10,7 @@ use Illuminate\Mail\Message;
 /**
  * Sends an email when the user has been created
  */
-class SendSignupEmail implements ShouldQueue
+class SendSignupEmail extends Event implements ShouldQueue
 {
     use InteractsWithQueue;
 
