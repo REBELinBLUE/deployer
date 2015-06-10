@@ -10,12 +10,22 @@ redirect_stderr=true
 autostart=true
 autorestart=true
 
-[program:socket]
+[program:deployer-socketio]
 command=node socket.js
 directory=/var/www/deployer
 numprocs=1
 autostart=true
 autorestart=true
 environment=NODE_ENV=production
-stderr_logfile=/var/www/deployer/storage/logs/node.err.log
-stdout_logfile=/var/www/deployer/storage/logs/node.out.log
+stderr_logfile=/var/www/deployer/storage/logs/node-stderr.log
+stdout_logfile=/var/www/deployer/storage/logs/node-stdout.log
+
+[program:deployer-broadcast]
+command=php artisan queue:listen --queue=broadcast --timeout=0 --tries=1
+directory=/var/www/deployer
+numprocs=1
+stderr_logfile=/var/www/deployer/storage/logs/broadcast-stderr.log
+stdout_logfile=/var/www/deployer/storage/logs/broadcast-stdout.log
+redirect_stderr=true
+autostart=true
+autorestart=true

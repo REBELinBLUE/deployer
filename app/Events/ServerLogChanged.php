@@ -7,11 +7,16 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ServerLogChanged extends Event
+class ServerLogChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
-    public $log;
+    public $id;
+    public $output;
+    public $runtime;
+    public $status;
+    public $started_at;
+    public $finished_at;
 
     /**
      * Create a new event instance.
@@ -20,7 +25,12 @@ class ServerLogChanged extends Event
      */
     public function __construct(ServerLog $log)
     {
-        $this->log = $log;
+        $this->status       = $log->status;
+        $this->started_at   = $log->started_at;
+        $this->finished_at  = $log->finished_at;
+        $this->id           = $log->id;
+        $this->output       = ((is_null($log->output) || !strlen($log->output)) ? null : '');
+        $this->runtime      = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
     }
 
     /**

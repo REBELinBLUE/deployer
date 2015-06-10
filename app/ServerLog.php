@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
 use App\Presenters\ServerLogPresenter;
 use App\Contracts\RuntimeInterface;
+use App\Events\ServerLogChanged;
 
 /**
  * Server log model
@@ -38,6 +39,20 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     protected $casts = [
         'status' => 'integer'
     ];
+
+    /**
+     * Override the boot method to bind model event listeners
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function (ServerLog $model) {
+            event(new ServerLogChanged($model));
+        });
+    }
 
     /**
      * Belongs to assocation
