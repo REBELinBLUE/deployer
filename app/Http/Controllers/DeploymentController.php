@@ -119,7 +119,7 @@ class DeploymentController extends Controller
     }
 
     /**
-     * Gets the log output of a particular deployment step
+     * Gets the log output of a particular deployment step.
      *
      * @param ServerLog $log
      * @return Response
@@ -127,7 +127,7 @@ class DeploymentController extends Controller
     public function log(ServerLog $log)
     {
         $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
-        $log->script  = '';
+        $log->script = '';
 
         return $log;
     }

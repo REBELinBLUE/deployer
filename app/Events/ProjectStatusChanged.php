@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 /**
- * Event which fires when the project status has changed
+ * Event which fires when the project status has changed.
  */
 class ProjectStatusChanged extends Event implements ShouldBroadcast
 {

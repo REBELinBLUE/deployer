@@ -43,7 +43,7 @@ class Server extends Model
     ];
 
     /**
-     * Override the boot method to bind model event listeners
+     * Override the boot method to bind model event listeners.
      *
      * @return void
      * TODO: Shouldn't this method take care of setting up a TestServerConnection if the status has changed to testing?

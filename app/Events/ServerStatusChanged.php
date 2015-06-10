@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 /**
- * Event which fires when the server status has changed
+ * Event which fires when the server status has changed.
  */
 class ServerStatusChanged extends Event implements ShouldBroadcast
 {
@@ -25,7 +25,7 @@ class ServerStatusChanged extends Event implements ShouldBroadcast
     public function __construct(Server $server)
     {
         $this->server_id = $server->id;
-        $this->status    = $server->status;
+        $this->status = $server->status;
     }
 
     /**

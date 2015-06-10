@@ -23,7 +23,7 @@ abstract class Job
     use Queueable;
 
     /**
-     * Overwrite the queue method to push to a different queue
+     * Overwrite the queue method to push to a different queue.
      *
      * @param Queue $queue
      * @param Job $command

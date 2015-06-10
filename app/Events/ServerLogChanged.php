@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 /**
- * Event which fires when the server log status has changed
+ * Event which fires when the server log status has changed.
  */
 class ServerLogChanged extends Event implements ShouldBroadcast
 {
@@ -28,12 +28,12 @@ class ServerLogChanged extends Event implements ShouldBroadcast
      */
     public function __construct(ServerLog $log)
     {
-        $this->status       = $log->status;
-        $this->started_at   = $log->started_at;
-        $this->finished_at  = $log->finished_at;
-        $this->log_id       = $log->id;
-        $this->output       = ((is_null($log->output) || !strlen($log->output)) ? null : '');
-        $this->runtime      = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
+        $this->status = $log->status;
+        $this->started_at = $log->started_at;
+        $this->finished_at = $log->finished_at;
+        $this->log_id = $log->id;
+        $this->output = ((is_null($log->output) || !strlen($log->output)) ? null : '');
+        $this->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
     }
 
     /**
