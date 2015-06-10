@@ -11,7 +11,7 @@ class ServerStatusChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
-    public $id;
+    public $server_id;
     public $status;
 
     /**
@@ -21,8 +21,8 @@ class ServerStatusChanged extends Event implements ShouldBroadcast
      */
     public function __construct(Server $server)
     {
-        $this->id     = $server->id;
-        $this->status = $server->status;
+        $this->server_id = $server->id;
+        $this->status    = $server->status;
     }
 
     /**

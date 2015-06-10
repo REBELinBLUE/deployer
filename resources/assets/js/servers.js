@@ -166,7 +166,7 @@ var app = app || {};
             this.listenTo(app.Servers, 'all', this.render);
 
             app.listener.on('server-status', function (data) {
-                var server = app.Servers.get(data.id);
+                var server = app.Servers.get(data.server_id);
                 if (server) {
                     server.set({
                         status: data.status

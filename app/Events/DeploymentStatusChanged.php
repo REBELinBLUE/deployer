@@ -11,7 +11,7 @@ class DeploymentStatusChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
-    public $id;
+    public $deployment_id;
     public $status;
     public $project;
     public $branch;
@@ -24,11 +24,11 @@ class DeploymentStatusChanged extends Event implements ShouldBroadcast
      */
     public function __construct(Deployment $deployment)
     {
-        $this->id      = $deployment->id;
-        $this->status  = $deployment->status;
-        $this->project = $deployment->project->name;
-        $this->branch  = $deployment->branch;
-        $this->started = $deployment->started_at;
+        $this->deployment_id = $deployment->id;
+        $this->status        = $deployment->status;
+        $this->project       = $deployment->project->name;
+        $this->branch        = $deployment->branch;
+        $this->started       = $deployment->started_at;
     }
 
     /**

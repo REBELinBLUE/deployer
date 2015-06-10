@@ -74,7 +74,7 @@ var app = app || {};
             this.listenTo(app.Deployment, 'all', this.render);
 
             app.listener.on('serverlog-status', function (data) {
-                var deployment = app.Deployment.get(data.id);
+                var deployment = app.Deployment.get(data.log_id);
 
                 if (deployment) {
                     deployment.set({

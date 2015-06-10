@@ -11,7 +11,7 @@ class ServerLogChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
-    public $id;
+    public $log_id;
     public $output;
     public $runtime;
     public $status;
@@ -28,7 +28,7 @@ class ServerLogChanged extends Event implements ShouldBroadcast
         $this->status       = $log->status;
         $this->started_at   = $log->started_at;
         $this->finished_at  = $log->finished_at;
-        $this->id           = $log->id;
+        $this->log_id       = $log->id;
         $this->output       = ((is_null($log->output) || !strlen($log->output)) ? null : '');
         $this->runtime      = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
     }
