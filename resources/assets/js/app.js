@@ -37,7 +37,7 @@ var app = app || {};
         if (pending === 0) {
             $('#pending_menu').hide();
         }
-        else if (deploying === 1) {
+        else if (pending === 1) {
             pending_label = Lang.nav.single_pending;
         }
 
@@ -57,12 +57,12 @@ var app = app || {};
     });
 
     $(document).ready(function () {
-        if ($('#pending_menu ul.menu li').length === 0) {
-            $('#pending_menu').hide();
+        if ($('#pending_menu ul.menu li').length > 0) {
+            $('#pending_menu').show();
         }
 
-        if ($('#deploying_menu ul.menu li').length === 0) {
-            $('#deploying_menu').hide();
+        if ($('#deploying_menu ul.menu li').length > 0) {
+            $('#deploying_menu').show();
         }
     })
 
