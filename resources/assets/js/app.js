@@ -8,7 +8,7 @@ var app = app || {};
     var PENDING = 1;
     var RUNNING = 2;
 
-    app.listener = io.connect('http://deploy.app:6001');
+    app.listener = io.connect(window.location.protocol + '//' + window.location.hostname + ':6001');
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
