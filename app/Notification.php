@@ -1,17 +1,17 @@
 <?php namespace App;
 
 use Lang;
-use Queue;
 use App\Jobs\Notify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Notification model
  */
 class Notification extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, DispatchesCommands;
 
     /**
      * The attributes that are mass assignable.
@@ -41,7 +41,7 @@ class Notification extends Model
 
         // When the notification has been saved queue a test
         static::saved(function (Notification $model) {
-            Queue::push(new Notify(
+            $model->dispatch(new Notify(
                 $model,
                 $model->testPayload()
             ));

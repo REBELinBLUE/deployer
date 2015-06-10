@@ -1,6 +1,5 @@
 <?php namespace App\Console\Commands;
 
-use Queue;
 use Carbon\Carbon;
 use App\Heartbeat;
 use App\Jobs\Notify;
@@ -42,7 +41,9 @@ class CheckHeartbeats extends Command
      */
     public function handle()
     {
-        Heartbeat::chunk(10, function ($heartbeats) {
+        $command = $this;
+
+        Heartbeat::chunk(10, function ($heartbeats) use ($command) {
             foreach ($heartbeats as $heartbeat) {
                 $last_heard_from = $heartbeat->last_activity;
                 if (!$last_heard_from) {
@@ -59,7 +60,7 @@ class CheckHeartbeats extends Command
                     $heartbeat->save();
 
                     foreach ($heartbeat->project->notifications as $notification) {
-                        Queue::push(new Notify(
+                        $command->dispatch(new Notify(
                             $notification,
                             $heartbeat->notificationPayload()
                         ));
