@@ -1,9 +1,11 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
 /**
- * Request for validating notifications
+ * Request for validating notifications.
  */
 class StoreNotificationRequest extends Request
 {

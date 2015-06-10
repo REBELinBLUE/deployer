@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use Lang;
 use Input;
@@ -11,12 +13,12 @@ use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Jobs\QueueDeployment;
 
 /**
- * The controller for showing the status of deployments
+ * The controller for showing the status of deployments.
  */
 class DeploymentController extends Controller
 {
     /**
-     * The details of an individual project
+     * The details of an individual project.
      *
      * @param Project $project
      * @param DeploymentRepositoryInterface $deploymentRepository
@@ -46,7 +48,7 @@ class DeploymentController extends Controller
     }
 
     /**
-     * Show the deployment details
+     * Show the deployment details.
      *
      * @param Deployment $deployment
      * @return Response
@@ -58,9 +60,9 @@ class DeploymentController extends Controller
             foreach ($step->servers as $server) {
                 $server->server;
 
-                $server->runtime  = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
-                $server->output   = ((is_null($server->output) || !strlen($server->output)) ? null : '');
-                $server->script   = '';
+                $server->runtime = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
+                $server->output = ((is_null($server->output) || !strlen($server->output)) ? null : '');
+                $server->script = '';
 
                 $output[] = $server;
             }
@@ -80,7 +82,7 @@ class DeploymentController extends Controller
     }
 
     /**
-     * Adds a deployment for the specified project to the queue
+     * Adds a deployment for the specified project to the queue.
      *
      * @param Project $project
      * @return Response
@@ -91,8 +93,8 @@ class DeploymentController extends Controller
         $deployment = new Deployment;
         $deployment->reason = Input::get('reason');
 
-        if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
-            $deployment->branch = Input::get('source_' . Input::get('source'));
+        if (Input::has('source') && Input::has('source_'.Input::get('source'))) {
+            $deployment->branch = Input::get('source_'.Input::get('source'));
         }
 
         if (empty($deployment->branch)) {

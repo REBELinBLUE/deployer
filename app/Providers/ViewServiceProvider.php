@@ -1,9 +1,11 @@
-<?php namespace App\Providers;
+<?php
+
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
- * The view service provider
+ * The view service provider.
  */
 class ViewServiceProvider extends ServiceProvider
 {
@@ -28,7 +30,7 @@ class ViewServiceProvider extends ServiceProvider
     }
 
     /**
-     * Registers view composers
+     * Registers view composers.
      *
      * @return void
      */

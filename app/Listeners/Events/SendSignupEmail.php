@@ -1,4 +1,6 @@
-<?php namespace App\Listeners\Events;
+<?php
+
+namespace App\Listeners\Events;
 
 use Lang;
 use Mail;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
 
 /**
- * Sends an email when the user has been created
+ * Sends an email when the user has been created.
  */
 class SendSignupEmail extends Event implements ShouldQueue
 {

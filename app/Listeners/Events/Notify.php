@@ -1,4 +1,6 @@
-<?php namespace App\Listeners\Events;
+<?php
+
+namespace App\Listeners\Events;
 
 use App\Jobs\Notify as SlackNotify;
 use App\Jobs\MailDeployNotification;

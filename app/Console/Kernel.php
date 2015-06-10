@@ -1,16 +1,17 @@
-<?php namespace App\Console;
+<?php
+
+namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 /**
- * Kernel class
+ * Kernel class.
  */
 class Kernel extends ConsoleKernel
 {
-
     /**
-     * The custom bootstrappers like Logging or Environment detector
+     * The custom bootstrappers like Logging or Environment detector.
      * @var array
      */
     protected $customBooters = [
@@ -18,11 +19,11 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
-     * Disable bootstrapper list
+     * Disable bootstrapper list.
      * @var array
      */
     protected $disabledBooters = [
-        
+
     ];
 
     /**
@@ -68,6 +69,7 @@ class Kernel extends ConsoleKernel
                 }
             }
         }
+
         return array_merge(
             array_diff(
                 $this->bootstrappers,

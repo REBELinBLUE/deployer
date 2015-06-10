@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
+
+namespace App\Http\Controllers\Resources;
 
 use Response;
 use App\Server;
@@ -7,7 +9,7 @@ use App\Jobs\TestServerConnection;
 use App\Http\Requests\StoreServerRequest;
 
 /**
- * Server management controller
+ * Server management controller.
  */
 class ServerController extends ResourceController
 {
@@ -68,7 +70,7 @@ class ServerController extends ResourceController
     }
 
     /**
-     * Queues a connection test for the specified server
+     * Queues a connection test for the specified server.
      *
      * @param Server $server
      * @return Response
@@ -76,7 +78,7 @@ class ServerController extends ResourceController
      */
     public function test(Server $server)
     {
-        if ($server->status !== Server::TESTING) {
+        if ($server->status !== Server::TESTING) { // FIXME: Move to a method on the Server
             $server->status = Server::TESTING;
             $server->save();
 

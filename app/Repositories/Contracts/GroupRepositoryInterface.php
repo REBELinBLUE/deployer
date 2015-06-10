@@ -1,4 +1,6 @@
-<?php namespace App\Repositories\Contracts;
+<?php
+
+namespace App\Repositories\Contracts;
 
 interface GroupRepositoryInterface
 {

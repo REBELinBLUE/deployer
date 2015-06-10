@@ -1,14 +1,16 @@
-<?php namespace App\Presenters;
+<?php
+
+namespace App\Presenters;
 
 use App\Contracts\RuntimeInterface;
 
 /**
- * View presenter for calculating the runtime in a readable format
+ * View presenter for calculating the runtime in a readable format.
  */
 trait RuntimePresenter
 {
     /**
-     * Converts a number of seconds into a more human readable format
+     * Converts a number of seconds into a more human readable format.
      *
      * @param int $seconds The number of seconds
      * @return string
@@ -37,8 +39,8 @@ trait RuntimePresenter
         $readable = '';
         foreach ($units as $name => $divisor) {
             if ($quot = intval($seconds / $divisor)) {
-                $readable .= $quot . ' ' . $name;
-                $readable .= (abs($quot) > 1 ? 's' : '') . ', ';
+                $readable .= $quot.' '.$name;
+                $readable .= (abs($quot) > 1 ? 's' : '').', ';
                 $seconds -= $quot * $divisor;
             }
         }

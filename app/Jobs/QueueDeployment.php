@@ -1,4 +1,6 @@
-<?php namespace App\Jobs;
+<?php
+
+namespace App\Jobs;
 
 use Auth;
 use Queue;
@@ -13,7 +15,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
- * Generates the required database entries to queue a deployment
+ * Generates the required database entries to queue a deployment.
  */
 class QueueDeployment extends Job implements SelfHandling
 {
@@ -30,7 +32,7 @@ class QueueDeployment extends Job implements SelfHandling
      * @param Deployment $deployment
      * @return QueueDeployment
      */
-    public function __construct(Project $project, Deployment $deployment, array $optional = array())
+    public function __construct(Project $project, Deployment $deployment, array $optional = [])
     {
         $this->project = $project;
         $this->deployment = $deployment;
@@ -71,7 +73,7 @@ class QueueDeployment extends Job implements SelfHandling
     }
 
     /**
-     * Builds up a list of commands to run before/after each stage
+     * Builds up a list of commands to run before/after each stage.
      *
      * @return array
      */
@@ -111,7 +113,7 @@ class QueueDeployment extends Job implements SelfHandling
     }
 
     /**
-     * Sets the deployment to pending
+     * Sets the deployment to pending.
      *
      * @return void
      */
@@ -126,7 +128,7 @@ class QueueDeployment extends Job implements SelfHandling
         }
 
         $this->deployment->committer = Deployment::LOADING;
-        $this->deployment->commit    = Deployment::LOADING;
+        $this->deployment->commit = Deployment::LOADING;
         $this->deployment->save();
 
         $this->deployment->project->status = Project::PENDING;
@@ -134,7 +136,7 @@ class QueueDeployment extends Job implements SelfHandling
     }
 
     /**
-     * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command
+     * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command.
      *
      * @param int $stage
      * @param Command $command
@@ -158,7 +160,7 @@ class QueueDeployment extends Job implements SelfHandling
     }
 
     /**
-     * Create an instance of DeployStep and a ServerLog entry for each server which can have code deployed
+     * Create an instance of DeployStep and a ServerLog entry for each server which can have code deployed.
      *
      * @param int $stage
      * @return void

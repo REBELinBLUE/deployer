@@ -5,12 +5,12 @@ namespace App\Http;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 /**
- * Kernel class
+ * Kernel class.
  */
 class Kernel extends HttpKernel
 {
     /**
-     * The custom bootstrappers like Logging or Environment detector
+     * The custom bootstrappers like Logging or Environment detector.
      * @var array
      */
     protected $customBooters = [
@@ -18,7 +18,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * Disable bootstrapper list
+     * Disable bootstrapper list.
      * @var array
      */
     protected $disabledBooters = [
@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
                 }
             }
         }
+
         return array_merge(
             array_diff(
                 $this->bootstrappers,

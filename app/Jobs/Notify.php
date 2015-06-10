@@ -11,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
- * Sends notification to slack
+ * Sends notification to slack.
  */
 class Notify extends Job implements SelfHandling, ShouldQueue
 {

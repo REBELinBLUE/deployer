@@ -1,4 +1,6 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Lang;
 use Illuminate\Database\Eloquent\Model;
@@ -9,20 +11,20 @@ use App\Contracts\RuntimeInterface;
 use App\Events\DeploymentStatusChanged;
 
 /**
- * Deployment model
+ * Deployment model.
  */
 class Deployment extends Model implements PresentableInterface, RuntimeInterface
 {
     use SoftDeletes;
 
     const COMPLETED = 0;
-    const PENDING   = 1;
+    const PENDING = 1;
     const DEPLOYING = 2;
-    const FAILED    = 3;
-    const LOADING   = 'Loading';
+    const FAILED = 3;
+    const LOADING = 'Loading';
 
     /**
-     * The fields which should be tried as Carbon instances
+     * The fields which should be tried as Carbon instances.
      *
      * @var array
      */
@@ -52,7 +54,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -62,7 +64,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return User
      */
@@ -72,7 +74,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Has many relationship
+     * Has many relationship.
      *
      * @return DeployStep
      */
@@ -82,33 +84,33 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Determines whether the deployment is running
+     * Determines whether the deployment is running.
      *
-     * @return boolean
+     * @return bool
      */
     public function isRunning()
     {
-        return ($this->status == self::DEPLOYING);
-    }
-
-   /**
-     * Determines whether the deployment is successful
-     *
-     * @return boolean
-     */
-    public function isSuccessful()
-    {
-        return ($this->status == self::COMPLETED);
+        return ($this->status === self::DEPLOYING);
     }
 
     /**
-     * Determines if the deployment is the latest deployment
+     * Determines whether the deployment is successful.
      *
-     * @return boolean
+     * @return bool
+     */
+    public function isSuccessful()
+    {
+        return ($this->status === self::COMPLETED);
+    }
+
+    /**
+     * Determines if the deployment is the latest deployment.
+     *
+     * @return bool
      */
     public function isCurrent()
     {
-        $latest = Deployment::where('project_id', $this->project_id)
+        $latest = self::where('project_id', $this->project_id)
                             ->where('status', self::COMPLETED)
                             ->orderBy('id', 'desc')
                             ->first();
@@ -117,7 +119,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Determines how long the deploy took
+     * Determines how long the deploy took.
      *
      * @return false|int False if the deploy is still running, otherwise the runtime in seconds
      */
@@ -131,7 +133,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Gets the HTTP URL to the commit
+     * Gets the HTTP URL to the commit.
      *
      * @return string|false
      */
@@ -140,7 +142,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         if ($this->commit != self::LOADING) {
             $info = $this->project->accessDetails();
             if (isset($info['domain']) && isset($info['reference'])) {
-                return 'http://' . $info['domain'] . '/' . $info['reference'] . '/commit/' . $this->commit;
+                return 'http://'.$info['domain'].'/'.$info['reference'].'/commit/'.$this->commit;
             }
         }
 
@@ -148,13 +150,13 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Gets the short commit hash
+     * Gets the short commit hash.
      *
      * @return string
      */
     public function shortCommit()
     {
-        if ($this->commit != self::LOADING) {
+        if ($this->commit !== self::LOADING) {
             return substr($this->commit, 0, 7);
         }
 
@@ -162,7 +164,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Gets the HTTP URL to the branch
+     * Gets the HTTP URL to the branch.
      *
      * @return string|false
      * @see \App\Project::accessDetails()
@@ -173,14 +175,14 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         $info = $this->project->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
+            return 'http://'.$info['domain'].'/'.$info['reference'].'/tree/'.$this->branch;
         }
 
         return false;
     }
 
     /**
-     * Generates a slack payload for the deployment
+     * Generates a slack payload for the deployment.
      *
      * @return array
      */
@@ -197,7 +199,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         $payload = [
             'attachments' => [
                 [
-                    'fallback' => sprintf($message, '#' . $this->id),
+                    'fallback' => sprintf($message, '#'.$this->id),
                     'text'     => sprintf($message, sprintf('<%s|#%u>', url('deployment', $this->id), $this->id)),
                     'color'    => $colour,
                     'fields'   => [
@@ -231,7 +233,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Gets the view presenter
+     * Gets the view presenter.
      *
      * @return DeploymentPresenter
      */

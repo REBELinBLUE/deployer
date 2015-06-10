@@ -1,11 +1,13 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Lang;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * The application's  url store for health check
+ * The application's  url store for health check.
  */
 class CheckUrl extends Model
 {
@@ -28,7 +30,7 @@ class CheckUrl extends Model
     ];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -38,13 +40,13 @@ class CheckUrl extends Model
     }
 
     /**
-     * Generates a slack payload for the link failure
+     * Generates a slack payload for the link failure.
      *
      * @return array
      */
     public function notificationPayload()
     {
-        $message = Lang::get('checkurls.message', [ 'link' => $this->title ]);
+        $message = Lang::get('checkurls.message', ['link' => $this->title]);
 
         $payload = [
             'attachments' => [

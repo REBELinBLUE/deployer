@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php
+
+namespace App\Http\Controllers\Admin;
 
 use Lang;
 use App\User;
@@ -8,7 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 
 /**
- * User management controller
+ * User management controller.
  */
 class UserController extends Controller
 {

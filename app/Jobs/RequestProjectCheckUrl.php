@@ -1,4 +1,6 @@
-<?php namespace App\Jobs;
+<?php
+
+namespace App\Jobs;
 
 use App\Jobs\Job;
 use Httpful\Request;
@@ -9,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
- * Request the urls
+ * Request the urls.
  */
 class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
 {

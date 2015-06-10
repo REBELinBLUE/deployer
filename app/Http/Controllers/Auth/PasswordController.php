@@ -1,18 +1,20 @@
-<?php namespace App\Http\Controllers\Auth;
+<?php
+
+namespace App\Http\Controllers\Auth;
 
 use Lang;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 /**
- * Password reset controller
+ * Password reset controller.
  */
 class PasswordController extends Controller
 {
     use ResetsPasswords;
 
     /**
-     * Where to redirect to once the password has been reset
+     * Where to redirect to once the password has been reset.
      *
      * @var string
      */

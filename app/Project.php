@@ -1,4 +1,6 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -7,16 +9,16 @@ use Robbo\Presenter\PresentableInterface;
 use App\Presenters\ProjectPresenter;
 
 /**
- * Project model
+ * Project model.
  */
 class Project extends ProjectRelation implements PresentableInterface
 {
     use SoftDeletes;
 
-    const FINISHED     = 0;
-    const PENDING      = 1;
-    const DEPLOYING    = 2;
-    const FAILED       = 3;
+    const FINISHED = 0;
+    const PENDING = 1;
+    const DEPLOYING = 2;
+    const FAILED = 3;
     const NOT_DEPLOYED = 4;
 
     /**
@@ -38,14 +40,14 @@ class Project extends ProjectRelation implements PresentableInterface
     protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url'];
 
     /**
-     * The fields which should be tried as Carbon instances
+     * The fields which should be tried as Carbon instances.
      *
      * @var array
      */
     protected $dates = ['last_run'];
 
     /**
-     * Additional attributes to include in the JSON representation
+     * Additional attributes to include in the JSON representation.
      *
      * @var array
      */
@@ -62,7 +64,7 @@ class Project extends ProjectRelation implements PresentableInterface
     ];
 
     /**
-     * Override the boot method to bind model event listeners
+     * Override the boot method to bind model event listeners.
      *
      * @return void
      */
@@ -83,9 +85,9 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Determines whether the project is currently being deployed
+     * Determines whether the project is currently being deployed.
      *
-     * @return boolean
+     * @return bool
      */
     public function isDeploying()
     {
@@ -93,7 +95,7 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Generates a hash for use in the webhook URL
+     * Generates a hash for use in the webhook URL.
      *
      * @return void
      */
@@ -103,7 +105,7 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Parses the repository URL to get the user, domain, port and path parts
+     * Parses the repository URL to get the user, domain, port and path parts.
      *
      * @return array
      */
@@ -122,7 +124,7 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Gets the repository path
+     * Gets the repository path.
      *
      * @return string|false
      * @see \App\Project::accessDetails()
@@ -140,7 +142,7 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Gets the HTTP URL to the repository
+     * Gets the HTTP URL to the repository.
      *
      * @return string|false
      * @see \App\Project::accessDetails()
@@ -151,14 +153,14 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'];
+            return 'http://'.$info['domain'].'/'.$info['reference'];
         }
 
         return false;
     }
 
     /**
-     * Gets the view presenter
+     * Gets the view presenter.
      *
      * @return ProjectPresenter
      */
@@ -168,7 +170,7 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Gets the HTTP URL to the branch
+     * Gets the HTTP URL to the branch.
      *
      * @return string|false
      * @see \App\Project::accessDetails()
@@ -179,14 +181,14 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
+            return 'http://'.$info['domain'].'/'.$info['reference'].'/tree/'.$this->branch;
         }
 
         return false;
     }
 
     /**
-     * Define a accessor for the group name
+     * Define a accessor for the group name.
      *
      * @return int
      */
@@ -195,8 +197,8 @@ class Project extends ProjectRelation implements PresentableInterface
         return $this->group->name;
     }
 
-     /**
-     * Define an accessor for the webhook URL
+    /**
+     * Define an accessor for the webhook URL.
      *
      * @return string
      * TODO: Shouldn't this be a presenter?
@@ -207,14 +209,14 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Generates an SSH key and sets the private/public key properties
+     * Generates an SSH key and sets the private/public key properties.
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
     private function generateSSHKey()
     {
-        $key = tempnam(storage_path() . '/app/', 'sshkey');
+        $key = tempnam(storage_path().'/app/', 'sshkey');
         unlink($key);
 
         $process = new Process(sprintf(
@@ -229,9 +231,9 @@ class Project extends ProjectRelation implements PresentableInterface
         }
 
         $this->attributes['private_key'] = file_get_contents($key);
-        $this->attributes['public_key']  = file_get_contents($key . '.pub');
+        $this->attributes['public_key'] = file_get_contents($key.'.pub');
 
         unlink($key);
-        unlink($key . '.pub');
+        unlink($key.'.pub');
     }
 }

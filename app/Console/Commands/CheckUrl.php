@@ -1,4 +1,6 @@
-<?php namespace App\Console\Commands;
+<?php
+
+namespace App\Console\Commands;
 
 use App\CheckUrl as CheckUrlModel;
 use App\Jobs\RequestProjectCheckUrl;
@@ -8,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Schedule the url check
+ * Schedule the url check.
  */
 class CheckUrl extends Command
 {

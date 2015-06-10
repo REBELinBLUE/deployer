@@ -1,14 +1,15 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
+
+namespace App\Http\Controllers\Resources;
 
 use App\ProjectFile;
 use App\Http\Requests\StoreProjectFileRequest;
 
 /**
- * Manage the project global file like some environment files
+ * Manage the project global file like some environment files.
  */
 class ProjectFileController extends ResourceController
 {
-
     /**
      * Store a newly created resource in storage.
      *

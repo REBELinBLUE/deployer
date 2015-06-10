@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
+
+namespace App\Http\Controllers\Resources;
 
 use Lang;
 use Input;
@@ -9,12 +11,12 @@ use App\Http\Requests;
 use App\Http\Requests\StoreCommandRequest;
 
 /**
- * Controller for managing commands
+ * Controller for managing commands.
  */
 class CommandController extends ResourceController
 {
     /**
-     * Display a listing of before/after commands for the supplied stage
+     * Display a listing of before/after commands for the supplied stage.
      *
      * @param Project $project
      * @param string $action Either clone, install, activate or purge
@@ -31,7 +33,7 @@ class CommandController extends ResourceController
 
         // fixme: use a repository
         $commands = Command::where('project_id', $project->id)
-                           ->whereIn('step', array($types[$action] - 1, $types[$action] + 1))
+                           ->whereIn('step', [$types[$action] - 1, $types[$action] + 1])
                            ->orderBy('order')
                            ->get();
 
@@ -45,7 +47,7 @@ class CommandController extends ResourceController
             'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
-            'title'      => Lang::get('commands.' . strtolower($action)),
+            'title'      => Lang::get('commands.'.strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
             'commands'   => $commands
@@ -132,7 +134,7 @@ class CommandController extends ResourceController
     }
 
     /**
-     * Re-generates the order for the supplied commands
+     * Re-generates the order for the supplied commands.
      *
      * @return Response
      */

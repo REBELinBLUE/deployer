@@ -1,4 +1,6 @@
-<?php namespace App\Console\Commands;
+<?php
+
+namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use App\Heartbeat;
@@ -6,7 +8,7 @@ use App\Jobs\Notify;
 use Illuminate\Console\Command;
 
 /**
- * Checks that any expected heartbeats have checked-in
+ * Checks that any expected heartbeats have checked-in.
  */
 class CheckHeartbeats extends Command
 {
