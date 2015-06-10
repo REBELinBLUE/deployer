@@ -7,7 +7,6 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 
-                @if ($pending_count > 0)
                 <li class="dropdown messages-menu" id="pending_menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-clock-o"></i>
@@ -29,9 +28,7 @@
                         </li>
                     </ul>
                 </li>
-                @endif
 
-                @if ($deploying_count > 0)
                 <li class="dropdown messages-menu" id="deploying_menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-spinner"></i>
@@ -53,7 +50,6 @@
                         </li>
                     </ul>
                 </li>
-                @endif
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

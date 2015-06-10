@@ -1,15 +1,6 @@
 var app = app || {};
 
 (function ($) {
-    app.listener.on('server-status', function (data) {
-        var server = app.Servers.get(data.id);
-        if (server) {
-            server.set({
-                status: data.status
-            });
-        }
-    });
-
     var SUCCESSFUL = 0;
     var UNTESTED   = 1;
     var FAILED     = 2;
@@ -201,6 +192,15 @@ var app = app || {};
             this.listenTo(app.Servers, 'add', this.addOne);
             this.listenTo(app.Servers, 'reset', this.addAll);
             this.listenTo(app.Servers, 'all', this.render);
+
+            app.listener.on('server-status', function (data) {
+                var server = app.Servers.get(data.id);
+                if (server) {
+                    server.set({
+                        status: data.status
+                    });
+                }
+            });
         },
         render: function () {
             if (app.Servers.length) {

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Robbo\Presenter\PresentableInterface;
 use App\Presenters\DeploymentPresenter;
 use App\Contracts\RuntimeInterface;
+use App\Events\DeploymentStatusChanged;
 
 /**
  * Deployment model
@@ -35,6 +36,20 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     protected $casts = [
         'status' => 'integer'
     ];
+
+    /**
+     * Override the boot method to bind model event listeners
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saved(function (Deployment $model) {
+            event(new DeploymentStatusChanged($model));
+        });
+    }
 
     /**
      * Belongs to relationship

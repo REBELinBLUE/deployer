@@ -12,4 +12,10 @@ var app = app || {};
 
     app.listener = io.connect('http://deploy.app:6001');
 
+
+    app.listener.on('deployment-status', function (data) {
+
+        console.log(data);
+    });
+
 })(jQuery);
