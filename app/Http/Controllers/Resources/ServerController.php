@@ -76,7 +76,7 @@ class ServerController extends ResourceController
      */
     public function test(Server $server)
     {
-        if ($status->status != Server::TESTING) {
+        if ($server->status !== Server::TESTING) {
             $server->status = Server::TESTING;
             $server->save();
 
