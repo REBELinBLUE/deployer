@@ -1,4 +1,6 @@
-<?php namespace App\Jobs;
+<?php
+
+namespace App\Jobs;
 
 use Config;
 use Queue;
@@ -41,7 +43,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
 
     /**
      * Overwrite the queue method to push to a different queue
-     * 
+     *
      * @param Queue $queue
      * @param DeployProject $command
      * @return void
