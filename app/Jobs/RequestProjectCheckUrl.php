@@ -1,4 +1,6 @@
-<?php namespace App\Jobs;
+<?php
+
+namespace App\Jobs;
 
 use Queue;
 use App\Jobs\Job;
@@ -9,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Request the urls
+ * Request the urls.
  */
 class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
 {

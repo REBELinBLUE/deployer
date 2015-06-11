@@ -1,4 +1,6 @@
-<?php namespace App\Console\Commands;
+<?php
+
+namespace App\Console\Commands;
 
 use App\CheckUrl as CheckUrlModel;
 use App\Jobs\RequestProjectCheckUrl;
@@ -8,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Schedule the url check
+ * Schedule the url check.
  */
 class CheckUrl extends Command
 {
@@ -68,9 +70,7 @@ class CheckUrl extends Command
 
         CheckUrlModel::whereIn('period', $period)->chunk(10, function ($urls) use ($command) {
 
-            foreach ($urls as $url) {
-                $command->dispatch(new RequestProjectCheckUrl($url));
-            }
+            $command->dispatch(new RequestProjectCheckUrl($urls));
 
         });
     }

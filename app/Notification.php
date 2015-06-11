@@ -1,4 +1,6 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Lang;
 use Queue;
@@ -7,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Notification model
+ * Notification model.
  */
 class Notification extends Model
 {
@@ -21,7 +23,7 @@ class Notification extends Model
     protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon'];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -31,7 +33,7 @@ class Notification extends Model
     }
 
     /**
-     * Override the boot method to bind model event listeners
+     * Override the boot method to bind model event listeners.
      *
      * @return void
      */
@@ -49,7 +51,7 @@ class Notification extends Model
     }
 
     /**
-     * Generates a test payload for Slack
+     * Generates a test payload for Slack.
      *
      * @return array
      */

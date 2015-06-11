@@ -1,19 +1,21 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Server model
+ * Server model.
  */
 class Server extends Model
 {
     use SoftDeletes;
 
     const SUCCESSFUL = 0;
-    const UNTESTED   = 1;
-    const FAILED     = 2;
-    const TESTING    = 3;
+    const UNTESTED = 1;
+    const FAILED = 2;
+    const TESTING = 3;
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -40,7 +42,7 @@ class Server extends Model
     ];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -51,7 +53,7 @@ class Server extends Model
 
     /**
      * Define a mutator for the user, if it has changed or has
-     * not previously been set also set the status to untested
+     * not previously been set also set the status to untested.
      *
      * @param string $value
      * @return void
@@ -67,7 +69,7 @@ class Server extends Model
 
     /**
      * Define a mutator for the IP Address, if it has changed or
-     * has not previously been set also set the status to untested
+     * has not previously been set also set the status to untested.
      *
      * @param string $value
      * @return void
@@ -83,7 +85,7 @@ class Server extends Model
 
     /**
      * Define a mutator for the port, if it has changed or
-     * has not previously been set also set the status to untested
+     * has not previously been set also set the status to untested.
      *
      * @param string $value
      * @return void

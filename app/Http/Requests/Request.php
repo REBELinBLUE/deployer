@@ -1,10 +1,12 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Generic Request class
+ * Generic Request class.
  */
 abstract class Request extends FormRequest
 {

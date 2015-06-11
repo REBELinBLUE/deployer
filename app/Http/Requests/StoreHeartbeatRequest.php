@@ -1,9 +1,11 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
 /**
- * Request for validating heartbeats
+ * Request for validating heartbeats.
  */
 class StoreHeartbeatRequest extends Request
 {

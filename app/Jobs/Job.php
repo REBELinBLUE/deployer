@@ -5,7 +5,7 @@ namespace App\Jobs;
 use Illuminate\Bus\Queueable;
 
 /**
- * Generic Job class
+ * Generic Job class.
  */
 abstract class Job
 {

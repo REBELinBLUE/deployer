@@ -1,4 +1,6 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Lang;
 use Carbon\Carbon;
@@ -7,15 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 /**
- * Heartbeat model
+ * Heartbeat model.
  */
 class Heartbeat extends Model
 {
     use SoftDeletes;
 
-    const OK       = 0;
+    const OK = 0;
     const UNTESTED = 1;
-    const MISSING  = 2;
+    const MISSING = 2;
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -32,14 +34,14 @@ class Heartbeat extends Model
     protected $fillable = ['name', 'interval', 'project_id'];
 
     /**
-     * The fields which should be tried as Carbon instances
+     * The fields which should be tried as Carbon instances.
      *
      * @var array
      */
     protected $dates = ['last_activity'];
 
     /**
-     * Additional attributes to include in the JSON representation
+     * Additional attributes to include in the JSON representation.
      *
      * @var array
      */
@@ -56,7 +58,7 @@ class Heartbeat extends Model
     ];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -66,7 +68,7 @@ class Heartbeat extends Model
     }
 
     /**
-     * Override the boot method to bind model event listeners
+     * Override the boot method to bind model event listeners.
      *
      * @return void
      */
@@ -83,7 +85,7 @@ class Heartbeat extends Model
     }
 
     /**
-     * Generates a hash for use in the webhook URL
+     * Generates a hash for use in the webhook URL.
      *
      * @return void
      */
@@ -93,7 +95,7 @@ class Heartbeat extends Model
     }
 
     /**
-     * Define a accessor for the callback URL
+     * Define a accessor for the callback URL.
      *
      * @return string
      */
@@ -103,27 +105,27 @@ class Heartbeat extends Model
     }
 
     /**
-     * Updates the last_activity timestamp
+     * Updates the last_activity timestamp.
      *
-     * @return boolean
+     * @return bool
      */
     public function pinged()
     {
-        $this->status        = self::OK;
-        $this->missed        = 0;
+        $this->status = self::OK;
+        $this->missed = 0;
         $this->last_activity = $this->freshTimestamp();
 
         return $this->save();
     }
 
     /**
-     * Generates a slack payload for the heartbeat failure
+     * Generates a slack payload for the heartbeat failure.
      *
      * @return array
      */
     public function notificationPayload()
     {
-        $message = Lang::get('heartbeats.message', [ 'job' => $this->name ]);
+        $message = Lang::get('heartbeats.message', ['job' => $this->name]);
 
         if (is_null($this->last_activity)) {
             $heard_from = Lang::get('app.never');

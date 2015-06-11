@@ -1,4 +1,6 @@
-<?php namespace App\Presenters;
+<?php
+
+namespace App\Presenters;
 
 use Lang;
 use App\Project;
@@ -6,13 +8,13 @@ use App\Command;
 use Robbo\Presenter\Presenter;
 
 /**
- * The view presenter for a project class
+ * The view presenter for a project class.
  */
 class ProjectPresenter extends Presenter
 {
     /**
      * Returns the build status needed by CCTray
-     * These strings can not be translated
+     * These strings can not be translated.
      *
      * @return string
      */
@@ -30,7 +32,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the translated project status string
+     * Gets the translated project status string.
      *
      * @return string
      */
@@ -50,7 +52,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the CSS icon class for the project status
+     * Gets the CSS icon class for the project status.
      *
      * @return string
      */
@@ -70,7 +72,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the CSS class for the project status
+     * Gets the CSS class for the project status.
      *
      * @return string
      */
@@ -90,7 +92,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of before clone commands
+     * Gets the readable list of before clone commands.
      *
      * @return string
      * @see self::commandNames()
@@ -101,7 +103,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of after clone commands
+     * Gets the readable list of after clone commands.
      *
      * @return string
      * @see self::commandNames()
@@ -112,7 +114,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of before install commands
+     * Gets the readable list of before install commands.
      *
      * @return string
      * @see self::commandNames()
@@ -123,7 +125,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of after install commands
+     * Gets the readable list of after install commands.
      *
      * @return string
      * @see self::commandNames()
@@ -134,7 +136,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of before activate commands
+     * Gets the readable list of before activate commands.
      *
      * @return string
      * @see self::commandNames()
@@ -145,7 +147,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of after activate commands
+     * Gets the readable list of after activate commands.
      *
      * @return string
      * @see self::commandNames()
@@ -156,7 +158,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of before purge commands
+     * Gets the readable list of before purge commands.
      *
      * @return string
      * @see self::commandNames()
@@ -167,7 +169,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of after purge commands
+     * Gets the readable list of after purge commands.
      *
      * @return string
      * @see self::commandNames()
@@ -178,7 +180,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of commands
+     * Gets the readable list of commands.
      *
      * @param int $stage
      * @return string
