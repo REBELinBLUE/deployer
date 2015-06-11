@@ -151,7 +151,7 @@ var app = app || {};
             this.listenTo(app.Heartbeats, 'all', this.render);
 
             app.listener.on('heartbeat:ModelChanged', function (data) {
-                var heartbeat = app.Heartbeats.get(data.model.id);
+                var heartbeat = app.Heartbeats.get(parseInt(data.model.id));
 
                 if (heartbeat) {
                     heartbeat.set(data.model);
@@ -159,13 +159,13 @@ var app = app || {};
             });
 
             app.listener.on('heartbeat:ModelCreated', function (data) {
-                if (data.model.project_id === app.project_id) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.Heartbeats.add(data.model);
                 }
             });
 
             app.listener.on('heartbeat:ModelTrashed', function (data) {
-                var heartbeat = app.Heartbeats.get(data.model.id);
+                var heartbeat = app.Heartbeats.get(parseInt(data.model.id));
 
                 if (heartbeat) {
                     app.Heartbeats.remove(heartbeat);

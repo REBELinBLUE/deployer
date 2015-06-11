@@ -165,7 +165,7 @@ var app = app || {};
             this.listenTo(app.Servers, 'all', this.render);
 
             app.listener.on('server:ModelChanged', function (data) {
-                var server = app.Servers.get(data.model.id);
+                var server = app.Servers.get(parseInt(data.model.id));
 
                 if (server) {
                     server.set(data.model);
@@ -173,13 +173,13 @@ var app = app || {};
             });
 
             app.listener.on('server:ModelCreated', function (data) {
-                if (data.model.project_id === app.project_id) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.Servers.add(data.model);
                 }
             });
 
             app.listener.on('server:ModelTrashed', function (data) {
-                var server = app.Servers.get(data.model.id);
+                var server = app.Servers.get(parseInt(data.model.id));
 
                 if (server) {
                     app.Servers.remove(server);
