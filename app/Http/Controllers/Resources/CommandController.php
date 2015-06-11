@@ -6,8 +6,6 @@ use Lang;
 use Input;
 use App\Project;
 use App\Command;
-use App\ServerLog;
-use App\Http\Requests;
 use App\Http\Requests\StoreCommandRequest;
 
 /**
