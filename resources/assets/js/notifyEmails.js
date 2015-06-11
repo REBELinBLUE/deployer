@@ -136,6 +136,28 @@ var app = app || {};
             this.listenTo(app.NotifyEmails, 'reset', this.addAll);
             this.listenTo(app.NotifyEmails, 'remove', this.addAll);
             this.listenTo(app.NotifyEmails, 'all', this.render);
+
+            app.listener.on('email:ModelChanged', function (data) {
+                var email = app.NotifyEmails.get(parseInt(data.model.id));
+
+                if (server) {
+                    email.set(data.model);
+                }
+            });
+
+            app.listener.on('email:ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.NotifyEmails.add(data.model);
+                }
+            });
+
+            app.listener.on('email:ModelTrashed', function (data) {
+                var email = app.NotifyEmails.get(parseInt(data.model.id));
+
+                if (email) {
+                    app.NotifyEmails.remove(email);
+                }
+            });
         },
         render: function () {
             if (app.NotifyEmails.length) {
