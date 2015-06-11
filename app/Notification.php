@@ -7,6 +7,9 @@ use App\Jobs\Notify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use App\Events\ModelCreated;
+use App\Events\ModelChanged;
+use App\Events\ModelTrashed;
 
 /**
  * Notification model.
@@ -21,6 +24,13 @@ class Notification extends Model
      * @var array
      */
     protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon'];
+
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
      * Belongs to relationship.
@@ -47,6 +57,18 @@ class Notification extends Model
                 $model,
                 $model->testPayload()
             ));
+        });
+
+        static::updated(function (Notification $model) {
+            event(new ModelChanged($model, 'notification'));
+        });
+
+        static::created(function (Notification $model) {
+            event(new ModelCreated($model, 'notification'));
+        });
+
+        static::deleted(function (Notification $model) {
+            event(new ModelTrashed($model, 'notification'));
         });
     }
 
