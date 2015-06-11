@@ -71,7 +71,7 @@ var app = app || {};
 
             this.listenTo(app.Deployment, 'add', this.addOne);
             this.listenTo(app.Deployment, 'reset', this.addAll);
-            this.listenTo(app.Deployment, 'update', this.addAll);
+            this.listenTo(app.Deployment, 'remove', this.addAll);
             this.listenTo(app.Deployment, 'all', this.render);
 
             app.listener.on('serverlog:ServerLogChanged', function (data) {

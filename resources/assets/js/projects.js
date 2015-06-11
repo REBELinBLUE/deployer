@@ -181,7 +181,7 @@ var app = app || {};
 
             this.listenTo(app.Projects, 'add', this.addOne);
             this.listenTo(app.Projects, 'reset', this.addAll);
-            this.listenTo(app.Projects, 'update', this.addAll);
+            this.listenTo(app.Projects, 'remove', this.addAll);
             this.listenTo(app.Projects, 'all', this.render);
         },
         render: function () {

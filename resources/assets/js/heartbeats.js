@@ -147,7 +147,7 @@ var app = app || {};
 
             this.listenTo(app.Heartbeats, 'add', this.addOne);
             this.listenTo(app.Heartbeats, 'reset', this.addAll);
-            this.listenTo(app.Heartbeats, 'update', this.addAll);
+            this.listenTo(app.Heartbeats, 'remove', this.addAll);
             this.listenTo(app.Heartbeats, 'all', this.render);
 
             app.listener.on('heartbeat:ModelChanged', function (data) {

@@ -203,7 +203,7 @@ var app = app || {};
 
             this.listenTo(app.Commands, 'add', this.addOne);
             this.listenTo(app.Commands, 'reset', this.addAll);
-            this.listenTo(app.Commands, 'update', this.addAll);
+            this.listenTo(app.Commands, 'remove', this.addAll);
             this.listenTo(app.Commands, 'all', this.render);
         },
         render: function () {

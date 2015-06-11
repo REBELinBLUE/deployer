@@ -140,7 +140,7 @@ var app = app || {};
 
             this.listenTo(app.Notifications, 'add', this.addOne);
             this.listenTo(app.Notifications, 'reset', this.addAll);
-            this.listenTo(app.Notifications, 'update', this.addAll);
+            this.listenTo(app.Notifications, 'remove', this.addAll);
             this.listenTo(app.Notifications, 'all', this.render);
         },
         render: function () {
