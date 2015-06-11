@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use App\Events\HeartbeatStatusChanged;
 
 /**
  * Heartbeat model.
@@ -81,6 +82,10 @@ class Heartbeat extends Model
             if (!array_key_exists('hash', $model->attributes)) {
                 $model->generateHash();
             }
+        });
+
+        static::updated(function (Heartbeat $model) {
+            event(new HeartbeatStatusChanged($model));
         });
     }
 

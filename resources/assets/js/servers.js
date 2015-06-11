@@ -167,6 +167,7 @@ var app = app || {};
 
             app.listener.on('server-status', function (data) {
                 var server = app.Servers.get(data.server_id);
+
                 if (server) {
                     server.set({
                         status: data.status

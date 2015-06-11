@@ -150,6 +150,17 @@ var app = app || {};
             this.listenTo(app.Heartbeats, 'add', this.addOne);
             this.listenTo(app.Heartbeats, 'reset', this.addAll);
             this.listenTo(app.Heartbeats, 'all', this.render);
+
+            app.listener.on('heartbeat-status', function (data) {
+                var heartbeat = app.Heartbeats.get(data.heartbeat_id);
+
+                if (heartbeat) {
+                    heartbeat.set({
+                        last_activity: data.last_activity ? data.last_activity.date : false,
+                        status: data.status
+                    });
+                }
+            });
         },
         render: function () {
             if (app.Heartbeats.length) {
