@@ -1,6 +1,9 @@
 var app = app || {};
 
 (function ($) {
+    var SUCCESS = 0;
+    var FAILED = 1;
+
     $('#checkurl').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
@@ -196,7 +199,7 @@ var app = app || {};
         render: function () {
             var data = this.model.toJSON();
 
-            if (data.last_status) {
+            if (parseInt(data.last_status) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.CheckUrls.failure;
