@@ -189,6 +189,8 @@ var app = app || {};
                 data.status     = Lang.CheckUrls.success;
             }
 
+            data.interval_label = data.period + ' ' + Lang.CheckUrls.length;
+
             // data.report = Lang.CheckUrls.no;
 
             // if (data.is_report) {
