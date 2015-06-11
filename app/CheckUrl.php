@@ -9,7 +9,6 @@ use App\Events\ModelChanged;
 use App\Events\ModelCreated;
 use App\Events\ModelTrashed;
 
-
 /**
  * The application's  url store for health check.
  */
