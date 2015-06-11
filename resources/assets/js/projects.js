@@ -183,6 +183,26 @@ var app = app || {};
             this.listenTo(app.Projects, 'reset', this.addAll);
             this.listenTo(app.Projects, 'remove', this.addAll);
             this.listenTo(app.Projects, 'all', this.render);
+
+            app.listener.on('project:ModelChanged', function (data) {
+                var project = app.Projects.get(parseInt(data.model.id));
+
+                if (project) {
+                    project.set(data.model);
+                }
+            });
+
+            app.listener.on('project:ModelCreated', function (data) {
+                app.Projects.add(data.model);
+            });
+
+            app.listener.on('project:ModelTrashed', function (data) {
+                var project = app.Projects.get(parseInt(data.model.id));
+
+                if (project) {
+                    app.Projects.remove(project);
+                }
+            });
         },
         render: function () {
             if (app.Projects.length) {

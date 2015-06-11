@@ -7,6 +7,9 @@ use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 use Robbo\Presenter\PresentableInterface;
 use App\Presenters\ProjectPresenter;
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 
 /**
  * Project model.
@@ -81,6 +84,18 @@ class Project extends ProjectRelation implements PresentableInterface
             if (!array_key_exists('hash', $model->attributes)) {
                 $model->generateHash();
             }
+        });
+
+        static::created(function (Project $model) {
+            event(new ModelCreated($model, 'project'));
+        });
+
+        static::updated(function (Project $model) {
+            event(new ModelChanged($model, 'project'));
+        });
+
+        static::deleted(function (Project $model) {
+            event(new ModelTrashed($model, 'project'));
         });
     }
 
