@@ -32,7 +32,7 @@
 <script type="text/template" id="checkUrls-template">
     <td><%- title %></td>
     <td><%- url %></td>
-    <td><%- period %> {{ Lang::get('checkUrls.length') }}</td>
+    <td><%- interval_label %></td>
     <td>
         <span class="label label-<%- status_css %>">
             <i class="fa fa-<%-icon_css %>"></i>
@@ -53,6 +53,7 @@
         success: '{{ Lang::get('checkUrls.successful') }}',
         failure: '{{ Lang::get('checkUrls.failed') }}',
         yes: '{{ Lang::get('app.yes') }}',
-        no: '{{ Lang::get('app.no') }}' 
+        no: '{{ Lang::get('app.no') }}',
+        length: '{{ strtolower(Lang::get('checkUrls.length')) }}'
     };
 </script>
