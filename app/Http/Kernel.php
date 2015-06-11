@@ -14,7 +14,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $customBooters = [
-        Illuminate\Foundation\Bootstrap\ConfigureLogging::class => \App\Bootstrap\ConfigureLogging::class,
+        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => \App\Bootstrap\ConfigureLogging::class,
     ];
 
     /**
