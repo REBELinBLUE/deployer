@@ -1,5 +1,5 @@
 [program:deployer]
-command=php artisan queue:work --sleep=3 --tries=3 --daemon
+command=php artisan queue:work --sleep=3 --tries=1 --timeout=0 --daemon
 directory=/var/www/deployer
 process_name=%(program_name)s_%(process_num)s
 numprocs=3
