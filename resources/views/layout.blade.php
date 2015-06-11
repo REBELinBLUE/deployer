@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <title>{{ Lang::get('app.name') }}</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+        <link rel="author" href="humans.txt" />
 
         <!-- Style -->
         <link href="{{ elixir('css/vendor.css') }}" rel="stylesheet" type="text/css" />
