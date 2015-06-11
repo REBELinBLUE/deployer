@@ -48,8 +48,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.Heartbeats.remove(heartbeat);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');

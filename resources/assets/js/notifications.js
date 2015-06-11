@@ -46,8 +46,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.Notifications.remove(notification);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
