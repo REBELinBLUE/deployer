@@ -14,7 +14,7 @@ abstract class Event
     //  * @param mixed $arguments
     //  * @return void
     //  * TODO: figure out how to get the events on another queue, this seems weird
-     
+
     // // public function queue($queue, $name, $arguments)
     // // {
     // //     //$queue->pushOn('low', $arguments);
