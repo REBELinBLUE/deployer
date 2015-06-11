@@ -134,6 +134,7 @@ var app = app || {};
 
             this.listenTo(app.SharedFiles, 'add', this.addOne);
             this.listenTo(app.SharedFiles, 'reset', this.addAll);
+            this.listenTo(app.SharedFiles, 'update', this.addAll);
             this.listenTo(app.SharedFiles, 'all', this.render);
         },
         render: function () {

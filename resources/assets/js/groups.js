@@ -101,6 +101,7 @@ var app = app || {};
 
             this.listenTo(app.Groups, 'add', this.addOne);
             this.listenTo(app.Groups, 'reset', this.addAll);
+            this.listenTo(app.Groups, 'update', this.addAll);
             this.listenTo(app.Groups, 'all', this.render);
         },
         addOne: function (group) {

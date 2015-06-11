@@ -135,6 +135,7 @@ var app = app || {};
 
             this.listenTo(app.CheckUrls, 'add', this.addOne);
             this.listenTo(app.CheckUrls, 'reset', this.addAll);
+            this.listenTo(app.CheckUrls, 'update', this.addAll);
             this.listenTo(app.CheckUrls, 'all', this.render);
 
             app.listener.on('link:ModelChanged', function (data) {

@@ -161,6 +161,7 @@ var app = app || {};
 
             this.listenTo(app.Servers, 'add', this.addOne);
             this.listenTo(app.Servers, 'reset', this.addAll);
+            this.listenTo(app.Servers, 'update', this.addAll);
             this.listenTo(app.Servers, 'all', this.render);
 
             app.listener.on('server:ModelChanged', function (data) {

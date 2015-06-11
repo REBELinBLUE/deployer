@@ -134,6 +134,7 @@ var app = app || {};
 
             this.listenTo(app.NotifyEmails, 'add', this.addOne);
             this.listenTo(app.NotifyEmails, 'reset', this.addAll);
+            this.listenTo(app.NotifyEmails, 'update', this.addAll);
             this.listenTo(app.NotifyEmails, 'all', this.render);
         },
         render: function () {

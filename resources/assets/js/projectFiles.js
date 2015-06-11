@@ -174,6 +174,7 @@ var app = app || {};
 
             this.listenTo(app.ProjectFiles, 'add', this.addOne);
             this.listenTo(app.ProjectFiles, 'reset', this.addAll);
+            this.listenTo(app.ProjectFiles, 'update', this.addAll);
             this.listenTo(app.ProjectFiles, 'all', this.render);
         },
         render: function () {

@@ -142,6 +142,7 @@ var app = app || {};
 
             this.listenTo(app.Users, 'add', this.addOne);
             this.listenTo(app.Users, 'reset', this.addAll);
+            this.listenTo(app.Users, 'update', this.addAll);
             this.listenTo(app.Users, 'all', this.render);
         },
         addOne: function (user) {
