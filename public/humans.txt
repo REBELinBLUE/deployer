@@ -1,0 +1,26 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+/* TEAM */
+
+Role:       Developer
+Person:     Stephen Ball
+Email:      deployer@stephen.rebelinblue.com
+Site:       http://rebelinblue.com
+Twitter:    @stephendball
+Location:   London, England
+
+/* THANKS */
+
+https://github.com/iflamed
+
+Almsaeed Studio for AdminLTE - https://almsaeedstudio.com
+
+/* TECHNOLOGY */
+
+CSS2, HTML5
+Laravel 5.1
+Gulp, Node, Socket.io
+beanstalkd, redis
+
+Source: https://github.com/REBELinBLUE/deployer
