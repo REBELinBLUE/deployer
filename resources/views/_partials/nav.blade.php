@@ -78,7 +78,7 @@
 </header>
 
 <script type="text/template" id="deployment_list_template">
-    <li id="deployment_info_<%- id %>">
+    <li id="deployment_info_<%- deployment_id %>">
         <a href="<%- url %>">
             <h4><%- project %> <small class="pull-right">{{ Lang::get('dashboard.started') }}: <%- time %></small></h4>
             <p>{{ Lang::get('deployments.branch') }}: <%- branch %></p>

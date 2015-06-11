@@ -73,7 +73,7 @@ var app = app || {};
             this.listenTo(app.Deployment, 'reset', this.addAll);
             this.listenTo(app.Deployment, 'all', this.render);
 
-            app.listener.on('serverlog-status', function (data) {
+            app.listener.on('serverlog:ServerLogChanged', function (data) {
                 var deployment = app.Deployment.get(data.log_id);
 
                 if (deployment) {
@@ -83,7 +83,9 @@ var app = app || {};
                         runtime: data.runtime,
                         started_at: data.started_at ? data.started_at.date : false,
                         finished_at: data.finished_at ? data.finished_at.date : false
-                    })
+                    });
+
+                    // FIXME: If cancelled update all other deployments straight away
                 }
             });
 

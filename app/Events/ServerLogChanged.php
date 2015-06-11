@@ -43,6 +43,6 @@ class ServerLogChanged extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['serverlog-status'];
+        return ['serverlog'];
     }
 }
