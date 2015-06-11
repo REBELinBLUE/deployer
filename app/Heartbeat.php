@@ -7,7 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use App\Events\HeartbeatStatusChanged;
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 
 /**
  * Heartbeat model.
@@ -25,7 +27,7 @@ class Heartbeat extends Model
      *
      * @var array
      */
-    protected $hidden = ['project_id', 'created_at', 'updated_at', 'deleted_at', 'pivot'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
 
     /**
      * The attributes that are mass assignable.
@@ -84,8 +86,16 @@ class Heartbeat extends Model
             }
         });
 
+        static::created(function (Heartbeat $model) {
+            event(new ModelCreated($model, 'heartbeats'));
+        });
+
         static::updated(function (Heartbeat $model) {
-            event(new HeartbeatStatusChanged($model));
+            event(new ModelChanged($model, 'heartbeats'));
+        });
+
+        static::created(function (Heartbeat $model) {
+            event(new ModelTrashed($model, 'heartbeats'));
         });
     }
 

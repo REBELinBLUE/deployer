@@ -151,14 +151,25 @@ var app = app || {};
             this.listenTo(app.Heartbeats, 'reset', this.addAll);
             this.listenTo(app.Heartbeats, 'all', this.render);
 
-            app.listener.on('heartbeat-status', function (data) {
-                var heartbeat = app.Heartbeats.get(data.heartbeat_id);
+            app.listener.on('heartbeats:ModelChanged', function (data) {
+                var heartbeat = app.Heartbeats.get(data.model.id);
 
                 if (heartbeat) {
-                    heartbeat.set({
-                        last_activity: data.last_activity ? data.last_activity.date : false,
-                        status: data.status
-                    });
+                    heartbeat.set(data.model);
+                }
+            });
+
+            app.listener.on('heartbeats:ModelCreated', function (data) {
+                if (data.model.project_id === app.project_id) {
+                    app.Heartbeats.add(data.model);
+                }
+            });
+
+            app.listener.on('heartbeats:ModelTrashed', function (data) {
+                var heartbeat = app.Heartbeats.get(data.model.id);
+
+                if (heartbeat) {
+                    app.Heartbeats.remove(heartbeat);
                 }
             });
         },
