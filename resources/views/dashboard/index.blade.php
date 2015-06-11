@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-7">
 
-            @if (!count($projects))
+            @if (!count($gprojects))
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">{{ Lang::get('dashboard.projects') }}</h3>
@@ -14,7 +14,7 @@
                     </div>
                 </div>
             @else
-                @foreach ($projects as $group => $group_projects)
+                @foreach ($gprojects as $group => $group_projects)
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">{{ $group }}</h3>
@@ -95,4 +95,10 @@
             </div>
         </div>
     </div>
+@stop
+
+@section('javascript')
+    <script type="text/javascript">
+        var projects = {!! $projects !!};
+    </script>
 @stop

@@ -49,9 +49,10 @@ class DashboardController extends Controller
         ksort($projects_by_group);
 
         return view('dashboard.index', [
-            'title'    => Lang::get('dashboard.title'),
-            'latest'   => $deploys_by_date,
-            'projects' => $projects_by_group
+            'title'     => Lang::get('dashboard.title'),
+            'latest'    => $deploys_by_date,
+            'gprojects' => $projects_by_group,
+            'projects'  => $projects->toJSON()
         ]);
     }
 
