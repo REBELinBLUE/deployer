@@ -86,6 +86,7 @@ var app = app || {};
                     });
 
                     // FIXME: If cancelled update all other deployments straight away
+                    // FIXME: If completed fake making the next model "running" so it looks responsive
                 }
             });
 
