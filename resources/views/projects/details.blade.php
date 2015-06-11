@@ -123,6 +123,8 @@
         app.NotifyEmails.add({!! $notifyEmails->toJson() !!});
         app.Heartbeats.add({!! $heartbeats->toJson() !!});
         app.CheckUrls.add({!! $checkUrls->toJson() !!});
+
+        app.project_id = {{ $project->id }};
     </script>
 @stop
 

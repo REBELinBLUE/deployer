@@ -166,12 +166,15 @@ var app = app || {};
             this.listenTo(app.Servers, 'all', this.render);
 
             app.listener.on('server-status', function (data) {
-                var server = app.Servers.get(data.server_id);
+                if (data.model.project_id === app.project_id) {
+                    var server = app.Servers.get(data.model.id);
 
-                if (server) {
-                    server.set({
-                        status: data.status
-                    });
+                    if (server) {
+                        server.set(data.model);
+                    }
+                    else {
+                        app.Servers.add(data.model);
+                    }
                 }
             });
         },

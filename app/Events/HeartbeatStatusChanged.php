@@ -27,7 +27,8 @@ class HeartbeatStatusChanged extends Event implements ShouldBroadcast
     {
         $this->heartbeat_id = $heartbeat->id;
         $this->status = $heartbeat->status;
-        $this->last_activity = $heartbeat->last_activity; // FIXME: Change so it only sends the actual date not timezone and timezone_type
+        $this->last_activity = $heartbeat->last_activity;
+        // FIXME: Change so it only sends the actual date not timezone and timezone_type
     }
 
     /**
