@@ -103,6 +103,26 @@ var app = app || {};
             this.listenTo(app.Groups, 'reset', this.addAll);
             this.listenTo(app.Groups, 'remove', this.addAll);
             this.listenTo(app.Groups, 'all', this.render);
+
+            app.listener.on('group:ModelChanged', function (data) {
+                var group = app.Groups.get(parseInt(data.model.id));
+
+                if (group) {
+                    group.set(data.model);
+                }
+            });
+
+            app.listener.on('group:ModelCreated', function (data) {
+                app.Groups.add(data.model);
+            });
+
+            app.listener.on('group:ModelTrashed', function (data) {
+                var group = app.Groups.get(parseInt(data.model.id));
+
+                if (group) {
+                    app.Groups.remove(group);
+                }
+            });
         },
         addOne: function (group) {
 
