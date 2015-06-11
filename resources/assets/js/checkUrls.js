@@ -139,7 +139,7 @@ var app = app || {};
             this.listenTo(app.CheckUrls, 'reset', this.addAll);
             this.listenTo(app.CheckUrls, 'all', this.render);
 
-            app.listener.on('links:ModelChanged', function (data) {
+            app.listener.on('link:ModelChanged', function (data) {
                 var link = app.CheckUrls.get(data.model.id);
 
                 if (link) {
@@ -147,13 +147,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('links:ModelCreated', function (data) {
+            app.listener.on('link:ModelCreated', function (data) {
                 if (data.model.project_id === app.project_id) {
                     app.CheckUrls.add(data.model);
                 }
             });
 
-            app.listener.on('links:ModelTrashed', function (data) {
+            app.listener.on('link:ModelTrashed', function (data) {
                 var link = app.CheckUrls.get(data.model.id);
 
                 if (link) {

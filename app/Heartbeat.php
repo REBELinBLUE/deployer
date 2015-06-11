@@ -86,16 +86,17 @@ class Heartbeat extends Model
             }
         });
 
+        // FIXME: make a trait which creates these
         static::created(function (Heartbeat $model) {
-            event(new ModelCreated($model, 'heartbeats'));
+            event(new ModelCreated($model, 'heartbeat'));
         });
 
         static::updated(function (Heartbeat $model) {
-            event(new ModelChanged($model, 'heartbeats'));
+            event(new ModelChanged($model, 'heartbeat'));
         });
 
         static::deleted(function (Heartbeat $model) {
-            event(new ModelTrashed($model, 'heartbeats'));
+            event(new ModelTrashed($model, 'heartbeat'));
         });
     }
 

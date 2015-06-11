@@ -51,15 +51,15 @@ class CheckUrl extends Model
         parent::boot();
 
         static::created(function (CheckUrl $model) {
-            event(new ModelCreated($model, 'links'));
+            event(new ModelCreated($model, 'link'));
         });
 
         static::updated(function (CheckUrl $model) {
-            event(new ModelChanged($model, 'links'));
+            event(new ModelChanged($model, 'link'));
         });
 
         static::deleted(function (CheckUrl $model) {
-            event(new ModelTrashed($model, 'links'));
+            event(new ModelTrashed($model, 'link'));
         });
     }
 
