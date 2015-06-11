@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Add model event broadcasts
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
