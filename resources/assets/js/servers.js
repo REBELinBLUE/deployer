@@ -165,16 +165,25 @@ var app = app || {};
             this.listenTo(app.Servers, 'reset', this.addAll);
             this.listenTo(app.Servers, 'all', this.render);
 
-            app.listener.on('server-status', function (data) {
-                if (data.model.project_id === app.project_id) {
-                    var server = app.Servers.get(data.model.id);
+            app.listener.on('server:ModelChanged', function (data) {
+                var server = app.Servers.get(data.model.id);
 
-                    if (server) {
-                        server.set(data.model);
-                    }
-                    else {
-                        app.Servers.add(data.model);
-                    }
+                if (server) {
+                    server.set(data.model);
+                }
+            });
+
+            app.listener.on('server:ModelCreated', function (data) {
+                if (data.model.project_id === app.project_id) {
+                    app.Servers.add(data.model);
+                }
+            });
+
+            app.listener.on('server:ModelTrashed', function (data) {
+                var server = app.Servers.get(data.model.id);
+
+                if (server) {
+                    app.Servers.remove(server);
                 }
             });
         },

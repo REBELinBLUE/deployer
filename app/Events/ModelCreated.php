@@ -10,20 +10,22 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 /**
  * Event which fires when the server status has changed.
  */
-class ServerStatusChanged extends Event implements ShouldBroadcast
+class ModelCreated extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
     public $model;
+    private $channel;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Server $server)
+    public function __construct($model, $channel)
     {
-        $this->model = $server;
+        $this->model = $model;
+        $this->channel = $channel;
     }
 
     /**
@@ -33,6 +35,6 @@ class ServerStatusChanged extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['server-status'];
+        return [$this->channel];
     }
 }

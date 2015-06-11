@@ -4,7 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Events\ServerStatusChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelChanged;
+use App\Events\ModelTrashed;
 
 /**
  * Server model.
@@ -52,8 +54,16 @@ class Server extends Model
     {
         parent::boot();
 
-        static::saved(function (Server $model) {
-            event(new ServerStatusChanged($model));
+        static::updated(function (Server $model) {
+            event(new ModelChanged($model, 'server'));
+        });
+
+        static::created(function (Server $model) {
+            event(new ModelCreated($model, 'server'));
+        });
+
+        static::deleted(function (Server $model) {
+            event(new ModelTrashed($model, 'server'));
         });
     }
 
