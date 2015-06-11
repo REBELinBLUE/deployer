@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 
 /**
  * User model.
@@ -28,5 +31,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['deleted_at', 'updated_at', 'password', 'remember_token'];
+
+   /**
+     * Override the boot method to bind model event listeners.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function (User $model) {
+            event(new ModelCreated($model, 'user'));
+        });
+
+        static::updated(function (User $model) {
+            event(new ModelChanged($model, 'user'));
+        });
+
+        static::deleted(function (User $model) {
+            event(new ModelTrashed($model, 'user'));
+        });
+    }
 }

@@ -58,7 +58,6 @@ class Group extends Model
         });
     }
 
-
     /**
      * Has many relationship.
      *

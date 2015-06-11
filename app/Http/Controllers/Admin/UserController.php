@@ -21,15 +21,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-
-        foreach ($users as $user) {
-            $user->created = $user->created_at->format('jS F Y g:i:s A');
-        }
-
         return view('users.listing', [
             'title' => Lang::get('users.manage'),
-            'users' => $users
+            'users' => User::all()
         ]);
     }
 
