@@ -94,7 +94,7 @@ class Heartbeat extends Model
             event(new ModelChanged($model, 'heartbeats'));
         });
 
-        static::created(function (Heartbeat $model) {
+        static::deleted(function (Heartbeat $model) {
             event(new ModelTrashed($model, 'heartbeats'));
         });
     }
