@@ -11,7 +11,8 @@ var app = app || {};
     var FAILED    = 3;
     var CANCELLED = 4;
 
-    app.listener = io.connect(window.location.protocol + '//' + window.location.hostname + ':6001'); // FIXME Allow this to be specified so that people can set up reverse proxies in nginx, for instance
+    // FIXME: Allow this to be specified as some people may not run nginx so the reverse proxy won't be running
+    app.listener = io.connect(window.location.protocol + '//' + window.location.hostname);
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
