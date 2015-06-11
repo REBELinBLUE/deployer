@@ -15,7 +15,7 @@ var app = app || {};
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
-    app.listener.on('deployment-status:DeploymentStatusChanged', function (data) {
+    app.listener.on('deployment:DeploymentStatusChanged', function (data) {
         updateNavBar(data);
     });
 

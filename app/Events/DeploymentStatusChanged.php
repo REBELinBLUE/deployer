@@ -41,6 +41,6 @@ class DeploymentStatusChanged extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['deployment-status'];
+        return ['deployment'];
     }
 }
