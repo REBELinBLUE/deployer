@@ -184,7 +184,7 @@ var app = app || {};
             this.listenTo(app.Projects, 'remove', this.addAll);
             this.listenTo(app.Projects, 'all', this.render);
 
-            app.listener.on('project:ModelChanged', function (data) {
+            app.listener.on('project:App\\Events\\ModelChanged', function (data) {
                 var project = app.Projects.get(parseInt(data.model.id));
 
                 if (project) {
@@ -192,11 +192,11 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('project:ModelCreated', function (data) {
+            app.listener.on('project:App\\Events\\ModelCreated', function (data) {
                 app.Projects.add(data.model);
             });
 
-            app.listener.on('project:ModelTrashed', function (data) {
+            app.listener.on('project:App\\Events\\ModelTrashed', function (data) {
                 var project = app.Projects.get(parseInt(data.model.id));
 
                 if (project) {

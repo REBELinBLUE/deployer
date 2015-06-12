@@ -137,7 +137,7 @@ var app = app || {};
             this.listenTo(app.NotifyEmails, 'remove', this.addAll);
             this.listenTo(app.NotifyEmails, 'all', this.render);
 
-            app.listener.on('email:ModelChanged', function (data) {
+            app.listener.on('email:App\\Events\\ModelChanged', function (data) {
                 var email = app.NotifyEmails.get(parseInt(data.model.id));
 
                 if (server) {
@@ -145,13 +145,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('email:ModelCreated', function (data) {
+            app.listener.on('email:App\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.NotifyEmails.add(data.model);
                 }
             });
 
-            app.listener.on('email:ModelTrashed', function (data) {
+            app.listener.on('email:App\\Events\\ModelTrashed', function (data) {
                 var email = app.NotifyEmails.get(parseInt(data.model.id));
 
                 if (email) {

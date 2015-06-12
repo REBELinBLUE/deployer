@@ -144,7 +144,7 @@ var app = app || {};
             this.listenTo(app.Notifications, 'all', this.render);
 
 
-            app.listener.on('notification:ModelChanged', function (data) {
+            app.listener.on('notification:App\\Events\\ModelChanged', function (data) {
                 var notification = app.Notifications.get(parseInt(data.model.id));
 
                 if (server) {
@@ -152,13 +152,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('notification:ModelCreated', function (data) {
+            app.listener.on('notification:App\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.Notifications.add(data.model);
                 }
             });
 
-            app.listener.on('notification:ModelTrashed', function (data) {
+            app.listener.on('notification:App\\Events\\ModelTrashed', function (data) {
                 var notification = app.Notifications.get(parseInt(data.model.id));
 
                 if (notification) {

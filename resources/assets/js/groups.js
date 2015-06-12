@@ -104,7 +104,7 @@ var app = app || {};
             this.listenTo(app.Groups, 'remove', this.addAll);
             this.listenTo(app.Groups, 'all', this.render);
 
-            app.listener.on('group:ModelChanged', function (data) {
+            app.listener.on('group:App\\Events\\ModelChanged', function (data) {
                 var group = app.Groups.get(parseInt(data.model.id));
 
                 if (group) {
@@ -112,11 +112,11 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('group:ModelCreated', function (data) {
+            app.listener.on('group:App\\Events\\ModelCreated', function (data) {
                 app.Groups.add(data.model);
             });
 
-            app.listener.on('group:ModelTrashed', function (data) {
+            app.listener.on('group:App\\Events\\ModelTrashed', function (data) {
                 var group = app.Groups.get(parseInt(data.model.id));
 
                 if (group) {

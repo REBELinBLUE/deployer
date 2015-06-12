@@ -74,7 +74,7 @@ var app = app || {};
             this.listenTo(app.Deployment, 'remove', this.addAll);
             this.listenTo(app.Deployment, 'all', this.render);
 
-            app.listener.on('serverlog:ServerLogChanged', function (data) {
+            app.listener.on('serverlog:App\\Events\\ServerLogChanged', function (data) {
                 var deployment = app.Deployment.get(data.log_id);
 
                 if (deployment) {

@@ -145,7 +145,7 @@ var app = app || {};
             this.listenTo(app.Users, 'remove', this.addAll);
             this.listenTo(app.Users, 'all', this.render);
 
-            app.listener.on('user:ModelChanged', function (data) {
+            app.listener.on('user:App\\Events\\ModelChanged', function (data) {
                 var user = app.Users.get(parseInt(data.model.id));
 
                 if (user) {
@@ -153,11 +153,11 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('user:ModelCreated', function (data) {
+            app.listener.on('user:App\\Events\\ModelCreated', function (data) {
                 app.Users.add(data.model);
             });
 
-            app.listener.on('user:ModelTrashed', function (data) {
+            app.listener.on('user:App\\Events\\ModelTrashed', function (data) {
                 var user = app.Users.get(parseInt(data.model.id));
 
                 if (user) {
