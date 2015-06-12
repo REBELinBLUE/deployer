@@ -176,6 +176,26 @@ var app = app || {};
             this.listenTo(app.ProjectFiles, 'reset', this.addAll);
             this.listenTo(app.ProjectFiles, 'remove', this.addAll);
             this.listenTo(app.ProjectFiles, 'all', this.render);
+
+            app.listener.on('file:ModelChanged', function (data) {
+                var file = app.ProjectFiles.get(parseInt(data.model.id));
+
+                if (file) {
+                    file.set(data.model);
+                }
+            });
+
+            app.listener.on('file:ModelCreated', function (data) {
+                app.ProjectFiles.add(data.model);
+            });
+
+            app.listener.on('file:ModelTrashed', function (data) {
+                var file = app.ProjectFiles.get(parseInt(data.model.id));
+
+                if (file) {
+                    app.ProjectFiles.remove(file);
+                }
+            });
         },
         render: function () {
             if (app.ProjectFiles.length) {
