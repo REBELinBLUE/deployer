@@ -46,7 +46,7 @@ class CheckHeartbeats extends Command
      */
     public function handle()
     {
-        Heartbeat::chunk(10, function ($heartbeats) use ($command) {
+        Heartbeat::chunk(10, function ($heartbeats) {
             foreach ($heartbeats as $heartbeat) {
                 $last_heard_from = $heartbeat->last_activity;
                 if (!$last_heard_from) {
