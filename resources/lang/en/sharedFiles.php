@@ -2,10 +2,10 @@
 
 return [
 
-    'label'              => 'Shared Files',
+    'label'              => 'Persistant Files',
     'create'             => 'Add a new file or folder',
     'edit'               => 'Edit the file or folder',
-    'none'               => 'You can add files or directories which should be shared across all releases',
+    'none'               => 'You can add files or directories which should persist across all releases',
     'name'               => 'Name',
     'file'               => 'Path',
     'warning'            => 'The file could not be saved, please check the form below.',
