@@ -2,11 +2,11 @@
 
 namespace App\Jobs;
 
-use Queue;
 use App\Jobs\Job;
 use Httpful\Request;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
  */
 class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
+    use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
     private $links;
 
@@ -44,7 +44,7 @@ class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
 
             if ($response->hasErrors()) {
                 foreach ($link->project->notifications as $notification) {
-                    Queue::push(new Notify(
+                    $this->dispatch(new Notify(
                         $notification,
                         $link->notificationPayload()
                     ));

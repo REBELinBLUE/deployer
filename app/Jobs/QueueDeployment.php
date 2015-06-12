@@ -2,22 +2,24 @@
 
 namespace App\Jobs;
 
-use Auth;
-use Queue;
 use App\Command as Stage;
-use App\Project;
 use App\Deployment;
 use App\DeployStep;
-use App\ServerLog;
-use App\Jobs\Job;
 use App\Jobs\DeployProject;
+use App\Jobs\Job;
+use App\Project;
+use App\ServerLog;
+use Auth;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Generates the required database entries to queue a deployment.
  */
 class QueueDeployment extends Job implements SelfHandling
 {
+    use DispatchesJobs;
+
     private $project;
     private $deployment;
     private $optional;
@@ -31,9 +33,9 @@ class QueueDeployment extends Job implements SelfHandling
      */
     public function __construct(Project $project, Deployment $deployment, array $optional = [])
     {
-        $this->project = $project;
+        $this->project    = $project;
         $this->deployment = $deployment;
-        $this->optional = $optional;
+        $this->optional   = $optional;
     }
 
     /**
@@ -49,7 +51,7 @@ class QueueDeployment extends Job implements SelfHandling
 
         foreach (array_keys($hooks) as $stage) {
             $before = $stage - 1;
-            $after = $stage + 1;
+            $after  = $stage + 1;
 
             if (isset($hooks[$stage]['before'])) {
                 foreach ($hooks[$stage]['before'] as $hook) {
@@ -66,7 +68,7 @@ class QueueDeployment extends Job implements SelfHandling
             }
         }
 
-        Queue::push(new DeployProject($this->deployment));
+        $this->dispatch(new DeployProject($this->deployment));
     }
 
     /**
@@ -80,12 +82,12 @@ class QueueDeployment extends Job implements SelfHandling
             Stage::DO_CLONE    => null,
             Stage::DO_INSTALL  => null,
             Stage::DO_ACTIVATE => null,
-            Stage::DO_PURGE    => null
+            Stage::DO_PURGE    => null,
         ];
 
         foreach ($this->project->commands as $command) {
             $action = $command->step - 1;
-            $when = ($command->step % 3 === 0 ? 'after' : 'before');
+            $when   = ($command->step % 3 === 0 ? 'after' : 'before');
             if ($when === 'before') {
                 $action = $command->step + 1;
             }
@@ -116,7 +118,7 @@ class QueueDeployment extends Job implements SelfHandling
      */
     private function setDeploymentStatus()
     {
-        $this->deployment->status = Deployment::PENDING;
+        $this->deployment->status     = Deployment::PENDING;
         $this->deployment->started_at = date('Y-m-d H:i:s');
         $this->deployment->project_id = $this->project->id;
 
@@ -125,7 +127,7 @@ class QueueDeployment extends Job implements SelfHandling
         }
 
         $this->deployment->committer = Deployment::LOADING;
-        $this->deployment->commit = Deployment::LOADING;
+        $this->deployment->commit    = Deployment::LOADING;
         $this->deployment->save();
 
         $this->deployment->project->status = Project::PENDING;
@@ -145,13 +147,13 @@ class QueueDeployment extends Job implements SelfHandling
         $step = DeployStep::create([
             'stage'         => $stage,
             'deployment_id' => $this->deployment->id,
-            'command_id'    => $command->id
+            'command_id'    => $command->id,
         ]);
 
         foreach ($command->servers as $server) {
             ServerLog::create([
                 'server_id'      => $server->id,
-                'deploy_step_id' => $step->id
+                'deploy_step_id' => $step->id,
             ]);
         }
     }
@@ -166,7 +168,7 @@ class QueueDeployment extends Job implements SelfHandling
     {
         $step = DeployStep::create([
             'stage'         => $stage,
-            'deployment_id' => $this->deployment->id
+            'deployment_id' => $this->deployment->id,
         ]);
 
         foreach ($this->project->servers as $server) {
@@ -178,7 +180,7 @@ class QueueDeployment extends Job implements SelfHandling
 
             ServerLog::create([
                 'server_id'      => $server->id,
-                'deploy_step_id' => $step->id
+                'deploy_step_id' => $step->id,
             ]);
         }
     }
