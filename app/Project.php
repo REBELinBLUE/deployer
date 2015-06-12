@@ -15,10 +15,10 @@ class Project extends ProjectRelation implements PresentableInterface
 {
     use SoftDeletes;
 
-    const FINISHED = 0;
-    const PENDING = 1;
-    const DEPLOYING = 2;
-    const FAILED = 3;
+    const FINISHED     = 0;
+    const PENDING      = 1;
+    const DEPLOYING    = 2;
+    const FAILED       = 3;
     const NOT_DEPLOYED = 4;
 
     /**
@@ -59,7 +59,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $casts = [
-        'status' => 'integer',
+        'status'         => 'integer',
         'builds_to_keep' => 'integer',
     ];
 
@@ -126,9 +126,9 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = [];
 
         if (preg_match('#^(.+)@(.+):([0-9]*)\/?(.+)\.git#', $this->repository, $matches)) {
-            $info['user'] = $matches[1];
-            $info['domain'] = $matches[2];
-            $info['port'] = $matches[3];
+            $info['user']      = $matches[1];
+            $info['domain']    = $matches[2];
+            $info['port']      = $matches[3];
             $info['reference'] = $matches[4];
         }
 
@@ -210,7 +210,7 @@ class Project extends ProjectRelation implements PresentableInterface
             $missed = 0;
             foreach ($this->heartbeats as $beat) {
                 $last_activity = strtotime($beat->last_activity);
-                $now = time();
+                $now           = time();
                 if (($now - $beat->interval * 60) > $last_activity) {
                     $missed++;
                 }
@@ -284,7 +284,7 @@ class Project extends ProjectRelation implements PresentableInterface
         }
 
         $this->attributes['private_key'] = file_get_contents($key);
-        $this->attributes['public_key'] = file_get_contents($key . '.pub');
+        $this->attributes['public_key']  = file_get_contents($key . '.pub');
 
         unlink($key);
         unlink($key . '.pub');
