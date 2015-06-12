@@ -6,7 +6,6 @@ use App\Presenters\ProjectPresenter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Robbo\Presenter\PresentableInterface;
-use App\Presenters\ProjectPresenter;
 use App\Events\ModelChanged;
 use App\Events\ModelCreated;
 use App\Events\ModelTrashed;
