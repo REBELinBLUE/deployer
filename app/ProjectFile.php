@@ -1,7 +1,5 @@
 <?php
 
-// TODO: Add model event broadcasts
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -52,7 +50,6 @@ class ProjectFile extends Model
             event(new ModelTrashed($model, 'file'));
         });
     }
-
 
     /**
      * Belongs to relationship.

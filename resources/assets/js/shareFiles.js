@@ -136,6 +136,28 @@ var app = app || {};
             this.listenTo(app.SharedFiles, 'reset', this.addAll);
             this.listenTo(app.SharedFiles, 'remove', this.addAll);
             this.listenTo(app.SharedFiles, 'all', this.render);
+
+            app.listener.on('share:ModelChanged', function (data) {
+                var share = app.SharedFiles.get(parseInt(data.model.id));
+
+                if (share) {
+                    share.set(data.model);
+                }
+            });
+
+            app.listener.on('share:ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.SharedFiles.add(data.model);
+                }
+            });
+
+            app.listener.on('share:ModelTrashed', function (data) {
+                var share = app.SharedFiles.get(parseInt(data.model.id));
+
+                if (share) {
+                    app.SharedFiles.remove(share);
+                }
+            });
         },
         render: function () {
             if (app.SharedFiles.length) {
