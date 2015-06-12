@@ -143,7 +143,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function commitURL()
     {
-        if ($this->commit != self::LOADING) {
+        if ($this->commit !== self::LOADING) {
             $info = $this->project->accessDetails();
             if (isset($info['domain']) && isset($info['reference'])) {
                 return 'http://'.$info['domain'].'/'.$info['reference'].'/commit/'.$this->commit;

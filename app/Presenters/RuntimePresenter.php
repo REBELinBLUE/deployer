@@ -32,7 +32,7 @@ trait RuntimePresenter
             'second' => 1
         ];
 
-        if ($seconds == 0) {
+        if ($seconds === 0) {
             return '0 seconds';
         }
 

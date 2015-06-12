@@ -74,7 +74,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
 
         try {
             // If the build has been manually triggered update the git information from the remote repository
-            if ($this->deployment->commit == Deployment::LOADING) {
+            if ($this->deployment->commit === Deployment::LOADING) {
                 $this->updateRepoInfo();
             }
 
@@ -213,7 +213,7 @@ CMD;
     {
         foreach ($this->deployment->steps as $step) {
             foreach ($step->servers as $log) {
-                if ($log->status == ServerLog::PENDING) {
+                if ($log->status === ServerLog::PENDING) {
                     $log->status = ServerLog::CANCELLED;
                     $log->save();
                 }
@@ -225,8 +225,8 @@ CMD;
      * Executes the commands for a step.
      *
      * @param DeployStep $step
-     * @return void
      * @throws \RuntimeException
+     * @return void
      */
     private function runStep(DeployStep $step)
     {
@@ -254,7 +254,7 @@ CMD;
 
                     $output = '';
                     $process->run(function ($type, $output_line) use (&$output, &$log) {
-                        if ($type == Process::ERR) {
+                        if ($type === Process::ERR) {
                             $output .= $this->logError($output_line);
                         } else {
                             $output .= $this->logSuccess($output_line);
@@ -475,8 +475,8 @@ OUT;
      * @param string $local_file
      * @param string $remote_file
      * @param Server $server
-     * @return void
      * @throws RuntimeException
+     * @return void
      */
     private function sendFile($local_file, $remote_file, Server $server)
     {
@@ -561,11 +561,11 @@ OUT;
                 $pathinfo = pathinfo($filecfg->file);
                 $isDir    = false;
 
-                if (substr($filecfg->file, 0, 1) == '/') {
+                if (substr($filecfg->file, 0, 1) === '/') {
                     $filecfg->file = substr($filecfg->file, 1);
                 }
 
-                if (substr($filecfg->file, -1) == '/') {
+                if (substr($filecfg->file, -1) === '/') {
                     $isDir         = true;
                     $filecfg->file = substr($filecfg->file, 0, -1);
                 }

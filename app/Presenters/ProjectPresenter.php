@@ -218,7 +218,7 @@ class ProjectPresenter extends Presenter
     public function presentHeartBeatStatus()
     {
         $status = $this->heartbeatsStatus();
-        if ($status['length'] == 0) {
+        if ($status['length'] === 0) {
             return 'N/A';
         }
 
