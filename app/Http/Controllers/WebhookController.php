@@ -1,18 +1,20 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use Input;
 use App\Project;
 use App\Deployment;
-use App\Commands\QueueDeployment;
+use App\Jobs\QueueDeployment;
 use App\Http\Controllers\Controller;
 
 /**
- * The deployment webhook controller
+ * The deployment webhook controller.
  */
 class WebhookController extends Controller
 {
     /**
-     * Handles incoming requests from Gitlab or PHPCI to trigger deploy
+     * Handles incoming requests from Gitlab or PHPCI to trigger deploy.
      *
      * @param string $hash The webhook hash
      * @return Response
@@ -48,7 +50,7 @@ class WebhookController extends Controller
     }
 
     /**
-     * Generates a new webhook URL
+     * Generates a new webhook URL.
      *
      * @param Project $project
      * @return Response

@@ -18,7 +18,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('webhook/{projects}/refresh', 'WebhookController@refresh');
 
     Route::get('projects/{projects}', 'DeploymentController@project');
-    
+
     Route::post('projects/{projects}/deploy', [
         'as'   => 'deploy',
         'uses' => 'DeploymentController@deploy'

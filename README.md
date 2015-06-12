@@ -34,7 +34,7 @@ Once you have started the VM you will need to run the following commands
     $ composer install
     $ npm install
     $ bower install
-    $ gulp && gulp copy
+    $ gulp
     $ php artisan key:generate
     $ php artisan migrate
 

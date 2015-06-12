@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use Lang;
 use Response;
@@ -7,12 +9,12 @@ use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 
 /**
- * The dashboard controller
+ * The dashboard controller.
  */
 class DashboardController extends Controller
 {
     /**
-     * The main page of the dashboard
+     * The main page of the dashboard.
      *
      * @return View
      * TODO: Use a decorator pattern here
@@ -54,7 +56,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Generates an XML file for CCTray
+     * Generates an XML file for CCTray.
      *
      * @param ProjectRepositoryInterface $projectRepository
      * @return Response

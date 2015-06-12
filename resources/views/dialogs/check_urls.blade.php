@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-folder"></i> <span>{{ Lang::get('checkUrls.create') }}</span></h4>
+                <h4 class="modal-title"><i class="fa fa-link"></i> <span>{{ Lang::get('checkUrls.create') }}</span></h4>
             </div>
             <form role="form">
                 <input type="hidden" id="url_id" name="id" />
@@ -19,7 +19,7 @@
                         <input type="text" class="form-control" id="title" name="title" placeholder="{{ Lang::get('checkUrls.titleTip') }}" />
                     </div>
                     <div class="form-group">
-                        <label for="url">{{ Lang::get('checkUrls.url') }}</label> 
+                        <label for="url">{{ Lang::get('checkUrls.url') }}</label>
                         <input type="text" class="form-control" id="url" name="url" placeholder="http://admin.example.com/" />
                     </div>
                     <div class="form-group">

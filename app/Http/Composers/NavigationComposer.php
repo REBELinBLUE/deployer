@@ -1,15 +1,17 @@
-<?php namespace App\Http\Composers;
+<?php
+
+namespace App\Http\Composers;
 
 use App\Group;
 use Illuminate\Contracts\View\View;
 
 /**
- * View composer for the navigation bar
+ * View composer for the navigation bar.
  */
 class NavigationComposer
 {
     /**
-     * Generates the group listing for the view
+     * Generates the group listing for the view.
      *
      * @param \Illuminate\Contracts\View\View $view
      * @return void

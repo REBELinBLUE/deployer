@@ -1,19 +1,21 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
+
+namespace App\Http\Controllers\Resources;
 
 use Response;
 use App\Server;
 use App\Http\Requests;
-use App\Commands\TestServerConnection;
+use App\Jobs\TestServerConnection;
 use App\Http\Requests\StoreServerRequest;
 
 /**
- * Server management controller
+ * Server management controller.
  */
 class ServerController extends ResourceController
 {
     /**
-     * Returns the server
-     * 
+     * Returns the server.
+     *
      * @param Server $server
      * @return Model
      */
@@ -79,7 +81,7 @@ class ServerController extends ResourceController
     }
 
     /**
-     * Queues a connection test for the specified server
+     * Queues a connection test for the specified server.
      *
      * @param Server $server
      * @return Response

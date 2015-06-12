@@ -1,9 +1,11 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
+
+namespace App\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
 
 /**
- * Generic Controller class
+ * Generic Controller class.
  */
 abstract class ResourceController extends Controller
 {

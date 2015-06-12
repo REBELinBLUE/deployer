@@ -1,18 +1,20 @@
-<?php namespace App\Presenters;
+<?php
 
-use Lang;
-use App\Project;
+namespace App\Presenters;
+
 use App\Command;
+use App\Project;
+use Lang;
 use Robbo\Presenter\Presenter;
 
 /**
- * The view presenter for a project class
+ * The view presenter for a project class.
  */
 class ProjectPresenter extends Presenter
 {
     /**
      * Returns the build status needed by CCTray
-     * These strings can not be translated
+     * These strings can not be translated.
      *
      * @return string
      */
@@ -30,7 +32,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the translated project status string
+     * Gets the translated project status string.
      *
      * @return string
      */
@@ -50,7 +52,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the CSS icon class for the project status
+     * Gets the CSS icon class for the project status.
      *
      * @return string
      */
@@ -70,7 +72,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the CSS class for the project status
+     * Gets the CSS class for the project status.
      *
      * @return string
      */
@@ -90,7 +92,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of before clone commands
+     * Gets the readable list of before clone commands.
      *
      * @return string
      * @see self::commandNames()
@@ -101,7 +103,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of after clone commands
+     * Gets the readable list of after clone commands.
      *
      * @return string
      * @see self::commandNames()
@@ -112,7 +114,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of before install commands
+     * Gets the readable list of before install commands.
      *
      * @return string
      * @see self::commandNames()
@@ -123,7 +125,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of after install commands
+     * Gets the readable list of after install commands.
      *
      * @return string
      * @see self::commandNames()
@@ -134,7 +136,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of before activate commands
+     * Gets the readable list of before activate commands.
      *
      * @return string
      * @see self::commandNames()
@@ -145,7 +147,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of after activate commands
+     * Gets the readable list of after activate commands.
      *
      * @return string
      * @see self::commandNames()
@@ -156,7 +158,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of before purge commands
+     * Gets the readable list of before purge commands.
      *
      * @return string
      * @see self::commandNames()
@@ -167,7 +169,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of after purge commands
+     * Gets the readable list of after purge commands.
      *
      * @return string
      * @see self::commandNames()
@@ -178,7 +180,67 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Gets the readable list of commands
+     * Show the application status
+     * @return string
+     */
+    public function presentAppStatus()
+    {
+        $status = $this->applicationCheckUrlStatus();
+        if ($status['length'] === 0) {
+            return 'N/A';
+        }
+        return ($status['length'] - $status['missed']) . '/' . $status['length'];
+    }
+
+    /**
+     * Show the application status css
+     * @return string
+     */
+    public function presentAppStatusCss()
+    {
+        $status = $this->applicationCheckUrlStatus();
+        if ($status['length'] === 0) {
+            $css = 'label-warning';
+        } elseif ($status['missed']) {
+            $css = 'label-danger';
+        } else {
+            $css = 'label-success';
+        }
+        return $css;
+    }
+
+    /**
+     * Show heartbeat status count
+     * @return string
+     */
+    public function presentHeartBeatStatus()
+    {
+        $status = $this->heartbeatsStatus();
+        if ($status['length'] == 0) {
+            return 'N/A';
+        }
+        return ($status['length'] - $status['missed']) . '/' . $status['length'];
+    }
+
+    /**
+     * The application heartbeat status css
+     * @return [type] [description]
+     */
+    public function presentHeartBeatStatusCss()
+    {
+        $status = $this->heartbeatsStatus();
+        if ($status['length'] === 0) {
+            $css = 'label-warning';
+        } elseif ($status['missed']) {
+            $css = 'label-danger';
+        } else {
+            $css = 'label-success';
+        }
+        return $css;
+    }
+
+    /**
+     * Gets the readable list of commands.
      *
      * @param int $stage
      * @return string

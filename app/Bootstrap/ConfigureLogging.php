@@ -1,11 +1,13 @@
-<?php namespace App\Bootstrap;
+<?php
+
+namespace App\Bootstrap;
 
 use Illuminate\Log\Writer;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Bootstrap\ConfigureLogging as BaseLoggingConfiguration;
 
 /**
- * Configure the logging, split the CLI log file with the web log file
+ * Configure the logging, split the CLI log file with the web log file.
  */
 class ConfigureLogging extends BaseLoggingConfiguration
 {
@@ -19,7 +21,7 @@ class ConfigureLogging extends BaseLoggingConfiguration
     protected function configureSingleHandler(Application $app, Writer $log)
     {
         $fileName = php_sapi_name();
-        $log->useFiles($app->storagePath() . '/logs/' . $fileName . '.log');
+        $log->useFiles($app->storagePath().'/logs/'.$fileName.'.log');
     }
 
     /**
@@ -33,7 +35,7 @@ class ConfigureLogging extends BaseLoggingConfiguration
     {
         $fileName = php_sapi_name();
         $log->useDailyFiles(
-            $app->storagePath() . '/logs/' . $fileName . '.log',
+            $app->storagePath().'/logs/'.$fileName.'.log',
             $app->make('config')->get('app.log_max_files', 5)
         );
     }

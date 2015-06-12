@@ -1,16 +1,18 @@
-<?php namespace App\Handlers\Events;
+<?php
+
+namespace App\Listeners\Events;
 
 use Lang;
 use Mail;
 use App\Events\UserWasCreated;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
 
 /**
- * Sends an email when the user has been created
+ * Sends an email when the user has been created.
  */
-class SendSignupEmail implements ShouldBeQueued
+class SendSignupEmail implements ShouldQueue
 {
     use InteractsWithQueue;
 

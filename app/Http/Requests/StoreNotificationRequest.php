@@ -1,9 +1,11 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
 /**
- * Request for validating notifications
+ * Request for validating notifications.
  */
 class StoreNotificationRequest extends Request
 {
@@ -17,8 +19,8 @@ class StoreNotificationRequest extends Request
         return [
             'name'       => 'required|max:255',
             'channel'    => 'required|max:255',
-            'webhook'    => 'required|active_url',
-            'project_id' => 'required|integer|exists:projects,id'
+            'webhook'    => 'required|url',
+            'project_id' => 'required|integer|exists:projects,id',
         ];
     }
 }

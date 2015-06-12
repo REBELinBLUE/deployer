@@ -1,10 +1,12 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Static file for project
+ * Static file for project.
  */
 class ProjectFile extends Model
 {
@@ -18,7 +20,7 @@ class ProjectFile extends Model
     protected $fillable = ['name', 'path', 'content', 'project_id'];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */

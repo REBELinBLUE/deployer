@@ -1,16 +1,18 @@
-<?php namespace App\Repositories;
+<?php
+
+namespace App\Repositories;
 
 use App\Group;
 use App\Repositories\EloquentRepository;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 
 /**
- * The group repository
+ * The group repository.
  */
 class EloquentGroupRepository extends EloquentRepository implements GroupRepositoryInterface
 {
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param Group $model
      * @return EloquentGroupRepository
@@ -21,7 +23,7 @@ class EloquentGroupRepository extends EloquentRepository implements GroupReposit
     }
 
     /**
-     * Gets all groups
+     * Gets all groups.
      *
      * @return array
      */

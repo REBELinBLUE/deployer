@@ -1,10 +1,12 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Shared files or directories for a project
+ * Shared files or directories for a project.
  */
 class SharedFile extends Model
 {
@@ -18,7 +20,7 @@ class SharedFile extends Model
     protected $fillable = ['name', 'file', 'project_id'];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */

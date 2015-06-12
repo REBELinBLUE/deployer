@@ -1,15 +1,17 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
+
+namespace App\Http\Controllers\Resources;
 
 use App\Heartbeat;
 use App\Http\Requests\StoreHeartbeatRequest;
 
 /**
- * Controller for managing notifications
+ * Controller for managing notifications.
  */
 class HeartbeatController extends ResourceController
 {
     /**
-     * Handles the callback URL for the heartbeat
+     * Handles the callback URL for the heartbeat.
      *
      * @param string $hash The webhook hash
      * @return Response

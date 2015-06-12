@@ -1,9 +1,11 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
 /**
- * Request for validating check urls
+ * Request for validating check urls.
  */
 class StoreCheckUrlRequest extends Request
 {
@@ -15,11 +17,11 @@ class StoreCheckUrlRequest extends Request
     public function rules()
     {
         return [
-            'title'       => 'required|max:255',
-            'url'         => 'required|active_url',
-            'period'      => 'required',
-            'is_report'   => 'required',
-            'project_id'  => 'required|integer|exists:projects,id'
+            'title'      => 'required|max:255',
+            'url'        => 'required|url',
+            'period'     => 'required',
+            'is_report'  => 'required',
+            'project_id' => 'required|integer|exists:projects,id',
         ];
     }
 }

@@ -1,21 +1,25 @@
-<?php namespace App\Commands;
+<?php
 
-use Auth;
-use Queue;
+namespace App\Jobs;
+
 use App\Command as Stage;
-use App\Project;
 use App\Deployment;
 use App\DeployStep;
+use App\Jobs\DeployProject;
+use App\Jobs\Job;
+use App\Project;
 use App\ServerLog;
-use App\Commands\Command;
-use App\Commands\DeployProject;
+use Auth;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Generates the required database entries to queue a deployment
+ * Generates the required database entries to queue a deployment.
  */
-class QueueDeployment extends Command implements SelfHandling
+class QueueDeployment extends Job implements SelfHandling
 {
+    use DispatchesJobs;
+
     private $project;
     private $deployment;
     private $optional;
@@ -27,11 +31,11 @@ class QueueDeployment extends Command implements SelfHandling
      * @param Deployment $deployment
      * @return QueueDeployment
      */
-    public function __construct(Project $project, Deployment $deployment, array $optional = array())
+    public function __construct(Project $project, Deployment $deployment, array $optional = [])
     {
-        $this->project = $project;
+        $this->project    = $project;
         $this->deployment = $deployment;
-        $this->optional = $optional;
+        $this->optional   = $optional;
     }
 
     /**
@@ -47,7 +51,7 @@ class QueueDeployment extends Command implements SelfHandling
 
         foreach (array_keys($hooks) as $stage) {
             $before = $stage - 1;
-            $after = $stage + 1;
+            $after  = $stage + 1;
 
             if (isset($hooks[$stage]['before'])) {
                 foreach ($hooks[$stage]['before'] as $hook) {
@@ -64,11 +68,11 @@ class QueueDeployment extends Command implements SelfHandling
             }
         }
 
-        Queue::push(new DeployProject($this->deployment));
+        $this->dispatch(new DeployProject($this->deployment));
     }
 
     /**
-     * Builds up a list of commands to run before/after each stage
+     * Builds up a list of commands to run before/after each stage.
      *
      * @return array
      */
@@ -78,12 +82,12 @@ class QueueDeployment extends Command implements SelfHandling
             Stage::DO_CLONE    => null,
             Stage::DO_INSTALL  => null,
             Stage::DO_ACTIVATE => null,
-            Stage::DO_PURGE    => null
+            Stage::DO_PURGE    => null,
         ];
 
         foreach ($this->project->commands as $command) {
             $action = $command->step - 1;
-            $when = ($command->step % 3 === 0 ? 'after' : 'before');
+            $when   = ($command->step % 3 === 0 ? 'after' : 'before');
             if ($when === 'before') {
                 $action = $command->step + 1;
             }
@@ -108,13 +112,13 @@ class QueueDeployment extends Command implements SelfHandling
     }
 
     /**
-     * Sets the deployment to pending
+     * Sets the deployment to pending.
      *
      * @return void
      */
     private function setDeploymentStatus()
     {
-        $this->deployment->status = Deployment::PENDING;
+        $this->deployment->status     = Deployment::PENDING;
         $this->deployment->started_at = date('Y-m-d H:i:s');
         $this->deployment->project_id = $this->project->id;
 
@@ -131,7 +135,7 @@ class QueueDeployment extends Command implements SelfHandling
     }
 
     /**
-     * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command
+     * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command.
      *
      * @param int $stage
      * @param Command $command
@@ -143,19 +147,19 @@ class QueueDeployment extends Command implements SelfHandling
         $step = DeployStep::create([
             'stage'         => $stage,
             'deployment_id' => $this->deployment->id,
-            'command_id'    => $command->id
+            'command_id'    => $command->id,
         ]);
 
         foreach ($command->servers as $server) {
             ServerLog::create([
                 'server_id'      => $server->id,
-                'deploy_step_id' => $step->id
+                'deploy_step_id' => $step->id,
             ]);
         }
     }
 
     /**
-     * Create an instance of DeployStep and a ServerLog entry for each server which can have code deployed
+     * Create an instance of DeployStep and a ServerLog entry for each server which can have code deployed.
      *
      * @param int $stage
      * @return void
@@ -164,7 +168,7 @@ class QueueDeployment extends Command implements SelfHandling
     {
         $step = DeployStep::create([
             'stage'         => $stage,
-            'deployment_id' => $this->deployment->id
+            'deployment_id' => $this->deployment->id,
         ]);
 
         foreach ($this->project->servers as $server) {
@@ -176,7 +180,7 @@ class QueueDeployment extends Command implements SelfHandling
 
             ServerLog::create([
                 'server_id'      => $server->id,
-                'deploy_step_id' => $step->id
+                'deploy_step_id' => $step->id,
             ]);
         }
     }

@@ -1,27 +1,29 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * The command model
+ * The command model.
  */
 class Command extends Model
 {
     use SoftDeletes;
 
-    const BEFORE_CLONE    = 1;
-    const DO_CLONE        = 2;
-    const AFTER_CLONE     = 3;
-    const BEFORE_INSTALL  = 4;
-    const DO_INSTALL      = 5;
-    const AFTER_INSTALL   = 6;
+    const BEFORE_CLONE = 1;
+    const DO_CLONE = 2;
+    const AFTER_CLONE = 3;
+    const BEFORE_INSTALL = 4;
+    const DO_INSTALL = 5;
+    const AFTER_INSTALL = 6;
     const BEFORE_ACTIVATE = 7;
-    const DO_ACTIVATE     = 8;
-    const AFTER_ACTIVATE  = 9;
-    const BEFORE_PURGE    = 10;
-    const DO_PURGE        = 11;
-    const AFTER_PURGE     = 12;
+    const DO_ACTIVATE = 8;
+    const AFTER_ACTIVATE = 9;
+    const BEFORE_PURGE = 10;
+    const DO_PURGE = 11;
+    const AFTER_PURGE = 12;
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -48,7 +50,7 @@ class Command extends Model
     ];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -58,7 +60,7 @@ class Command extends Model
     }
 
     /**
-     * Belongs to many relationship
+     * Belongs to many relationship.
      *
      * @return Server
      */

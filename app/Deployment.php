@@ -1,14 +1,16 @@
-<?php namespace App;
+<?php
 
-use Lang;
+namespace App;
+
+use App\Contracts\RuntimeInterface;
+use App\Presenters\DeploymentPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Lang;
 use Robbo\Presenter\PresentableInterface;
-use App\Presenters\DeploymentPresenter;
-use App\Contracts\RuntimeInterface;
 
 /**
- * Deployment model
+ * Deployment model.
  */
 class Deployment extends Model implements PresentableInterface, RuntimeInterface
 {
@@ -20,8 +22,10 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     const FAILED    = 3;
     const LOADING   = 'Loading';
 
+    public static $currentDeployment = [];
+
     /**
-     * The fields which should be tried as Carbon instances
+     * The fields which should be tried as Carbon instances.
      *
      * @var array
      */
@@ -33,11 +37,11 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * @var array
      */
     protected $casts = [
-        'status' => 'integer'
+        'status' => 'integer',
     ];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -47,7 +51,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return User
      */
@@ -57,7 +61,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Has many relationship
+     * Has many relationship.
      *
      * @return DeployStep
      */
@@ -67,19 +71,19 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Determines whether the deployment is running
+     * Determines whether the deployment is running.
      *
-     * @return boolean
+     * @return bool
      */
     public function isRunning()
     {
         return ($this->status == self::DEPLOYING);
     }
 
-   /**
-     * Determines whether the deployment is successful
+    /**
+     * Determines whether the deployment is successful.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSuccessful()
     {
@@ -87,22 +91,24 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Determines if the deployment is the latest deployment
+     * Determines if the deployment is the latest deployment.
      *
-     * @return boolean
+     * @return bool
      */
     public function isCurrent()
     {
-        $latest = Deployment::where('project_id', $this->project_id)
-                            ->where('status', self::COMPLETED)
-                            ->orderBy('id', 'desc')
-                            ->first();
+        if (!isset(self::$currentDeployment[$this->project_id])) {
+            self::$currentDeployment[$this->project_id] = self::where('project_id', $this->project_id)
+                ->where('status', self::COMPLETED)
+                ->orderBy('id', 'desc')
+                ->first();
+        }
 
-        return ($latest->id === $this->id);
+        return (self::$currentDeployment[$this->project_id]->id === $this->id);
     }
 
     /**
-     * Determines how long the deploy took
+     * Determines how long the deploy took.
      *
      * @return false|int False if the deploy is still running, otherwise the runtime in seconds
      */
@@ -116,7 +122,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Gets the HTTP URL to the commit
+     * Gets the HTTP URL to the commit.
      *
      * @return string|false
      */
@@ -133,7 +139,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Gets the short commit hash
+     * Gets the short commit hash.
      *
      * @return string
      */
@@ -147,7 +153,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Gets the HTTP URL to the branch
+     * Gets the HTTP URL to the branch.
      *
      * @return string|false
      * @see \App\Project::accessDetails()
@@ -165,17 +171,17 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Generates a slack payload for the deployment
+     * Generates a slack payload for the deployment.
      *
      * @return array
      */
     public function notificationPayload()
     {
-        $colour = 'good';
+        $colour  = 'good';
         $message = Lang::get('notifications.success_message');
 
         if ($this->status === self::FAILED) {
-            $colour = 'danger';
+            $colour  = 'danger';
             $message = Lang::get('notifications.failed_message');
         }
 
@@ -189,7 +195,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                         [
                             'title' => Lang::get('notifications.project'),
                             'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
-                            'short' => true
+                            'short' => true,
                         ], [
                             'title' => Lang::get('notifications.commit'),
                             'value' => $this->commitURL() ? sprintf(
@@ -197,26 +203,26 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                                 $this->commitURL(),
                                 $this->shortCommit()
                             ) : $this->shortCommit(),
-                            'short' => true
+                            'short' => true,
                         ], [
                             'title' => Lang::get('notifications.committer'),
                             'value' => $this->committer,
-                            'short' => true
+                            'short' => true,
                         ], [
                             'title' => Lang::get('notifications.branch'),
                             'value' => $this->project->branch,
-                            'short' => true
-                        ]
-                    ]
-                ]
-            ]
+                            'short' => true,
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         return $payload;
     }
 
     /**
-     * Gets the view presenter
+     * Gets the view presenter.
      *
      * @return DeploymentPresenter
      */

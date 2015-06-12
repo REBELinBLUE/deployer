@@ -1,11 +1,13 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
+
+namespace App\Http\Controllers\Resources;
 
 use App\CheckUrl;
 use App\Http\Requests\StoreCheckUrlRequest;
 
 /**
  * Controller for managing URLs
- * TODO: Change create/update to queue a check of the URL
+ * TODO: Change create/update to queue a check of the URL.
  */
 class CheckUrlController extends ResourceController
 {
