@@ -186,7 +186,9 @@ var app = app || {};
             });
 
             app.listener.on('file:ModelCreated', function (data) {
-                app.ProjectFiles.add(data.model);
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.ProjectFiles.add(data.model);
+                }
             });
 
             app.listener.on('file:ModelTrashed', function (data) {
