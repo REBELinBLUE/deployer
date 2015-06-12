@@ -2,9 +2,9 @@
 
 namespace App\Presenters;
 
-use Lang;
-use App\Project;
 use App\Command;
+use App\Project;
+use Lang;
 use Robbo\Presenter\Presenter;
 
 /**
@@ -177,6 +177,66 @@ class ProjectPresenter extends Presenter
     public function presentAfterPurge()
     {
         return $this->commandNames(Command::AFTER_PURGE);
+    }
+
+    /**
+     * Show the application status
+     * @return string
+     */
+    public function presentAppStatus()
+    {
+        $status = $this->applicationCheckUrlStatus();
+        if ($status['length'] === 0) {
+            return 'N/A';
+        }
+        return ($status['length'] - $status['missed']) . '/' . $status['length'];
+    }
+
+    /**
+     * Show the application status css
+     * @return string
+     */
+    public function presentAppStatusCss()
+    {
+        $status = $this->applicationCheckUrlStatus();
+        if ($status['length'] === 0) {
+            $css = 'label-warning';
+        } elseif ($status['missed']) {
+            $css = 'label-danger';
+        } else {
+            $css = 'label-success';
+        }
+        return $css;
+    }
+
+    /**
+     * Show heartbeat status count
+     * @return string
+     */
+    public function presentHeartBeatStatus()
+    {
+        $status = $this->heartbeatsStatus();
+        if ($status['length'] == 0) {
+            return 'N/A';
+        }
+        return ($status['length'] - $status['missed']) . '/' . $status['length'];
+    }
+
+    /**
+     * The application heartbeat status css
+     * @return [type] [description]
+     */
+    public function presentHeartBeatStatusCss()
+    {
+        $status = $this->heartbeatsStatus();
+        if ($status['length'] === 0) {
+            $css = 'label-warning';
+        } elseif ($status['missed']) {
+            $css = 'label-danger';
+        } else {
+            $css = 'label-success';
+        }
+        return $css;
     }
 
     /**

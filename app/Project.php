@@ -2,11 +2,11 @@
 
 namespace App;
 
+use App\Presenters\ProjectPresenter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use Symfony\Component\Process\Process;
 use Robbo\Presenter\PresentableInterface;
-use App\Presenters\ProjectPresenter;
+use Symfony\Component\Process\Process;
 
 /**
  * Project model.
@@ -27,10 +27,10 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
-                         'updated_at', 'servers', 'commands', 'hash', 'status',
-                         'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-                         'notifications', 'deployments', 'shareFiles', 'projectFiles',
-                         'notifyEmails'];
+        'updated_at', 'servers', 'commands', 'hash', 'status',
+        'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
+        'notifications', 'deployments', 'shareFiles', 'projectFiles',
+        'notifyEmails'];
 
     /**
      * The attributes that are mass assignable.
@@ -59,9 +59,21 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $casts = [
-        'status'         => 'integer',
-        'builds_to_keep' => 'integer'
+        'status' => 'integer',
+        'builds_to_keep' => 'integer',
     ];
+
+    /**
+     * The heart beats status count
+     * @var array
+     */
+    protected $heartbeatStatus = [];
+
+    /**
+     * The check url's status count
+     * @var array
+     */
+    protected $checkurlStatus = [];
 
     /**
      * Override the boot method to bind model event listeners.
@@ -153,7 +165,7 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://'.$info['domain'].'/'.$info['reference'];
+            return 'http://' . $info['domain'] . '/' . $info['reference'];
         }
 
         return false;
@@ -181,10 +193,51 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://'.$info['domain'].'/'.$info['reference'].'/tree/'.$this->branch;
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
         }
 
         return false;
+    }
+
+    /**
+     * Count the missed heartbeat
+     * @return [type] [description]
+     */
+    public function heartbeatsStatus()
+    {
+        if (empty($this->heartbeatStatus)) {
+            $length = count($this->heartbeats);
+            $missed = 0;
+            foreach ($this->heartbeats as $beat) {
+                $last_activity = strtotime($beat->last_activity);
+                $now = time();
+                if (($now - $beat->interval * 60) > $last_activity) {
+                    $missed++;
+                }
+            }
+            $this->heartbeatStatus = ['missed' => $missed, 'length' => $length];
+        }
+        return $this->heartbeatStatus;
+    }
+
+    /**
+     * Count the application url check status
+     * @return array
+     */
+    public function applicationCheckUrlStatus()
+    {
+        if (empty($this->checkurlStatus)) {
+            $length = count($this->checkUrls);
+            $missed = 0;
+
+            foreach ($this->checkUrls as $link) {
+                if ($link->last_status) {
+                    $missed++;
+                }
+            }
+            $this->checkurlStatus = ['missed' => $missed, 'length' => $length];
+        }
+        return $this->checkurlStatus;
     }
 
     /**
@@ -216,7 +269,7 @@ class Project extends ProjectRelation implements PresentableInterface
      */
     private function generateSSHKey()
     {
-        $key = tempnam(storage_path().'/app/', 'sshkey');
+        $key = tempnam(storage_path() . '/app/', 'sshkey');
         unlink($key);
 
         $process = new Process(sprintf(
@@ -231,9 +284,9 @@ class Project extends ProjectRelation implements PresentableInterface
         }
 
         $this->attributes['private_key'] = file_get_contents($key);
-        $this->attributes['public_key'] = file_get_contents($key.'.pub');
+        $this->attributes['public_key'] = file_get_contents($key . '.pub');
 
         unlink($key);
-        unlink($key.'.pub');
+        unlink($key . '.pub');
     }
 }

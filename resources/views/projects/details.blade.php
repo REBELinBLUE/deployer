@@ -44,8 +44,8 @@
                         @if(!empty($project->build_url))
                         <li><a href="#">{{ Lang::get('projects.build_status') }} <span class="pull-right"><img src="{{ $project->build_url }}" /></span></a></li>
                         @endif
-                        <li><a href="#">{{ Lang::get('projects.app_status') }} <span class="pull-right text-green">????</span></a></li>
-                        <li><a href="#">{{ Lang::get('projects.heartbeats_status') }} <span class="pull-right text-green">????</span></a></li>
+                        <li><a href="#">{{ Lang::get('projects.app_status') }} <span class="pull-right label {{ $project->app_status_css }}">{{ $project->app_status }}</span></a></li>
+                        <li><a href="#">{{ Lang::get('projects.heartbeats_status') }} <span class="pull-right label {{ $project->heart_beat_status_css }}">{{ $project->heart_beat_status }}</span></a></li>
                     </ul>
                 </div>
             </div>
