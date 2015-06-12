@@ -206,6 +206,8 @@ var app = app || {};
             this.listenTo(app.Commands, 'remove', this.addAll);
             this.listenTo(app.Commands, 'all', this.render);
 
+            // FIXME: Need to regenerate the order!
+
             app.listener.on('command:App\\Events\\ModelChanged', function (data) {
                 var command = app.Commands.get(parseInt(data.model.id));
 
@@ -215,7 +217,6 @@ var app = app || {};
             });
 
             app.listener.on('command:App\\Events\\ModelCreated', function (data) {
-                console.log(data);
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
 
                     // Make sure the command is for this action (clone, install, activate, purge)

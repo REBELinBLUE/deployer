@@ -56,6 +56,7 @@ class Command extends Model
      * Override the boot method to bind model event listeners.
      *
      * @return void
+     * FIXME: Need to include the server IDs?
      */
     public static function boot()
     {
