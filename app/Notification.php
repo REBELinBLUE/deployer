@@ -6,7 +6,7 @@ use Lang;
 use App\Jobs\Notify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Events\ModelCreated;
 use App\Events\ModelChanged;
 use App\Events\ModelTrashed;
@@ -16,7 +16,7 @@ use App\Events\ModelTrashed;
  */
 class Notification extends Model
 {
-    use SoftDeletes, DispatchesCommands;
+    use SoftDeletes, DispatchesJobs;
 
     /**
      * The attributes that are mass assignable.
@@ -80,7 +80,7 @@ class Notification extends Model
     public function testPayload()
     {
         return [
-            'text' => Lang::get('notifications.test_message')
+            'text' => Lang::get('notifications.test_message'),
         ];
     }
 }

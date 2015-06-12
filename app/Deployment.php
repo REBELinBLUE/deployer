@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Lang;
+use App\Contracts\RuntimeInterface;
+use App\Presenters\DeploymentPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Lang;
 use Robbo\Presenter\PresentableInterface;
-use App\Presenters\DeploymentPresenter;
-use App\Contracts\RuntimeInterface;
 use App\Events\DeploymentStatusChanged;
 
 /**
@@ -18,10 +18,12 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     use SoftDeletes;
 
     const COMPLETED = 0;
-    const PENDING = 1;
+    const PENDING   = 1;
     const DEPLOYING = 2;
-    const FAILED = 3;
-    const LOADING = 'Loading';
+    const FAILED    = 3;
+    const LOADING   = 'Loading';
+
+    public static $currentDeployment = [];
 
     /**
      * The fields which should be tried as Carbon instances.
@@ -36,7 +38,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * @var array
      */
     protected $casts = [
-        'status' => 'integer'
+        'status' => 'integer',
     ];
 
     /**
@@ -110,12 +112,14 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function isCurrent()
     {
-        $latest = self::where('project_id', $this->project_id)
-                            ->where('status', self::COMPLETED)
-                            ->orderBy('id', 'desc')
-                            ->first();
+        if (!isset(self::$currentDeployment[$this->project_id])) {
+            self::$currentDeployment[$this->project_id] = self::where('project_id', $this->project_id)
+                ->where('status', self::COMPLETED)
+                ->orderBy('id', 'desc')
+                ->first();
+        }
 
-        return ($latest->id === $this->id);
+        return (self::$currentDeployment[$this->project_id]->id === $this->id);
     }
 
     /**
@@ -142,7 +146,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         if ($this->commit != self::LOADING) {
             $info = $this->project->accessDetails();
             if (isset($info['domain']) && isset($info['reference'])) {
-                return 'http://'.$info['domain'].'/'.$info['reference'].'/commit/'.$this->commit;
+                return 'http://' . $info['domain'] . '/' . $info['reference'] . '/commit/' . $this->commit;
             }
         }
 
@@ -175,7 +179,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         $info = $this->project->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://'.$info['domain'].'/'.$info['reference'].'/tree/'.$this->branch;
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
         }
 
         return false;
@@ -188,25 +192,25 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function notificationPayload()
     {
-        $colour = 'good';
+        $colour  = 'good';
         $message = Lang::get('notifications.success_message');
 
         if ($this->status === self::FAILED) {
-            $colour = 'danger';
+            $colour  = 'danger';
             $message = Lang::get('notifications.failed_message');
         }
 
         $payload = [
             'attachments' => [
                 [
-                    'fallback' => sprintf($message, '#'.$this->id),
+                    'fallback' => sprintf($message, '#' . $this->id),
                     'text'     => sprintf($message, sprintf('<%s|#%u>', url('deployment', $this->id), $this->id)),
                     'color'    => $colour,
                     'fields'   => [
                         [
                             'title' => Lang::get('notifications.project'),
                             'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
-                            'short' => true
+                            'short' => true,
                         ], [
                             'title' => Lang::get('notifications.commit'),
                             'value' => $this->commitURL() ? sprintf(
@@ -214,19 +218,19 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                                 $this->commitURL(),
                                 $this->shortCommit()
                             ) : $this->shortCommit(),
-                            'short' => true
+                            'short' => true,
                         ], [
                             'title' => Lang::get('notifications.committer'),
                             'value' => $this->committer,
-                            'short' => true
+                            'short' => true,
                         ], [
                             'title' => Lang::get('notifications.branch'),
                             'value' => $this->project->branch,
-                            'short' => true
-                        ]
-                    ]
-                ]
-            ]
+                            'short' => true,
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         return $payload;

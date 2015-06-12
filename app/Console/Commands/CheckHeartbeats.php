@@ -2,16 +2,19 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
 use App\Heartbeat;
 use App\Jobs\Notify;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Checks that any expected heartbeats have checked-in.
  */
 class CheckHeartbeats extends Command
 {
+    use DispatchesJobs;
+
     /**
      * The name and signature of the console command.
      *
@@ -43,8 +46,6 @@ class CheckHeartbeats extends Command
      */
     public function handle()
     {
-        $command = $this;
-
         Heartbeat::chunk(10, function ($heartbeats) use ($command) {
             foreach ($heartbeats as $heartbeat) {
                 $last_heard_from = $heartbeat->last_activity;
@@ -62,7 +63,7 @@ class CheckHeartbeats extends Command
                     $heartbeat->save();
 
                     foreach ($heartbeat->project->notifications as $notification) {
-                        $command->dispatch(new Notify(
+                        $this->dispatch(new Notify(
                             $notification,
                             $heartbeat->notificationPayload()
                         ));
