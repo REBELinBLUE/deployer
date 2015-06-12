@@ -16,6 +16,8 @@
         <![endif]-->
 
         <meta name="token" content="{{ Session::token() }}" />
+        <meta name="socket_url" content="{{ env('SOCKET_URL') }}" />
+
         <script type="text/javascript">var Lang = {};</script>
     </head>
     <body class="skin-green">

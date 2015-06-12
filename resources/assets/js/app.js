@@ -10,9 +10,8 @@ var app = app || {};
     var RUNNING   = 2;
     var FAILED    = 3;
     var CANCELLED = 4;
-
-    // FIXME: Allow this to be specified as some people may not run nginx so the reverse proxy won't be running
-    app.listener = io.connect(window.location.protocol + '//' + window.location.hostname);
+    
+    app.listener = io.connect($('meta[name="socket_url"]').attr('content'));
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
