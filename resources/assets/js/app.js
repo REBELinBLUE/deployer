@@ -7,7 +7,9 @@ var app = app || {};
 (function ($) {
     var PENDING   = 1;
     var RUNNING   = 2;
-    
+
+    app.project_id = app.project_id || null;
+
     app.listener = io.connect($('meta[name="socket_url"]').attr('content'));
 
     // Navbar deployment status
