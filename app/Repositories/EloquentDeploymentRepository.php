@@ -36,6 +36,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
 
         return Deployment::whereRaw($raw_sql)
+            ->with('project')
             ->take(15)
             ->orderBy('started_at', 'DESC')
             ->get();
