@@ -93,7 +93,7 @@ class QueueDeployment extends Job implements SelfHandling
             }
 
             // Check if the command is optional, and if it is check it exists in the optional array
-            if ($command->optional && !in_array($command->id, $this->optional)) {
+            if ($command->optional && !in_array($command->id, $this->optional, true)) {
                 continue;
             }
 
