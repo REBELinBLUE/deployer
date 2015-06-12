@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Project;
 use App\Deployment;
-use Carbon\Carbon;
+use App\Project;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
+use Carbon\Carbon;
 
 /**
  * The deployment repository.
@@ -21,8 +21,9 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     public function getLatest(Project $project)
     {
         return Deployment::where('project_id', $project->id)
-                         ->orderBy('started_at', 'DESC')
-                         ->paginate($project->builds_to_keep);
+            ->with('user', 'project')
+            ->orderBy('started_at', 'DESC')
+            ->paginate($project->builds_to_keep);
     }
 
     /**
@@ -35,9 +36,10 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
 
         return Deployment::whereRaw($raw_sql)
-                         ->take(15)
-                         ->orderBy('started_at', 'DESC')
-                         ->get();
+            ->with('project')
+            ->take(15)
+            ->orderBy('started_at', 'DESC')
+            ->get();
     }
 
     /**
@@ -83,7 +85,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
      */
     public function getLastWeekCount(Project $project)
     {
-        $lastWeek = Carbon::now()->subWeek();
+        $lastWeek  = Carbon::now()->subWeek();
         $yesterday = Carbon::now()->yesterday();
 
         return $this->getBetweenDates($project, $lastWeek, $yesterday);
@@ -100,9 +102,9 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     private function getBetweenDates(Project $project, Carbon $startDate, Carbon $endDate)
     {
         return Deployment::where('project_id', $project->id)
-                         ->where('started_at', '>=', $startDate->format('Y-m-d').' 00:00:00')
-                         ->where('started_at', '<=', $endDate->format('Y-m-d').' 23:59:59')
-                         ->count();
+            ->where('started_at', '>=', $startDate->format('Y-m-d') . ' 00:00:00')
+            ->where('started_at', '<=', $endDate->format('Y-m-d') . ' 23:59:59')
+            ->count();
     }
 
     /**
@@ -116,8 +118,8 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
 
         return Deployment::whereRaw($raw_sql)
-                         ->where('status', $status)
-                         ->orderBy('started_at', 'DESC')
-                         ->get();
+            ->where('status', $status)
+            ->orderBy('started_at', 'DESC')
+            ->get();
     }
 }
