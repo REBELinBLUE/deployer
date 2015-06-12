@@ -5,11 +5,8 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 var app = app || {};
 
 (function ($) {
-    var COMPLETED = 0;
     var PENDING   = 1;
     var RUNNING   = 2;
-    var FAILED    = 3;
-    var CANCELLED = 4;
     
     app.listener = io.connect($('meta[name="socket_url"]').attr('content'));
 
@@ -18,6 +15,28 @@ var app = app || {};
     app.listener.on('deployment:App\\Events\\DeploymentStatusChanged', function (data) {
         updateNavBar(data);
     });
+
+    // Add group created and project created events for the sidebar
+
+    app.listener.on('group:App\\Events\\ModelChanged', function (data) {
+        $('#group_' + data.model.id).html(data.model.name);
+    });
+
+    app.listener.on('project:App\\Events\\ModelChanged', function (data) {
+        $('#project_' + data.model.id).html(data.model.name);
+    });
+
+    app.listener.on('project:App\\Events\\ModelTrashed', function (data) {
+        console.log(data);
+
+        $('#project_' + data.model.id).parent('li').remove();
+
+        if (parseInt(data.model.id) === parseInt(app.project_id)) {
+            window.location.href = '/';
+        }
+    });
+
+
 
     function updateNavBar(data) {
         data.time = moment(data.started.date).format('h:mm:ss A');

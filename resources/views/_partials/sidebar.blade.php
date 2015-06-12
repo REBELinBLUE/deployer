@@ -12,12 +12,12 @@
             <li class="treeview {{ $active_group === $group->id ? 'active' : null }}">
                 <a href="#">
                     <i class="fa fa-book"></i>
-                    <span>{{ $group->name }}</span>
+                    <span id="group_{{ $group->id }}">{{ $group->name }}</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
                     @foreach($group->projects as $project)
-                        <li class="{{ $active_project === $project->id ? 'active' : null }}"><a href="{{ url('projects', $project->id) }}">{{ $project->name }}</a></li>
+                        <li class="{{ $active_project === $project->id ? 'active' : null }}"><a href="{{ url('projects', $project->id) }}" id="project_{{ $project->id }}">{{ $project->name }}</a></li>
                     @endforeach
                 </ul>
             </li>

@@ -105,6 +105,8 @@ var app = app || {};
             this.listenTo(app.Groups, 'all', this.render);
 
             app.listener.on('group:App\\Events\\ModelChanged', function (data) {
+                $('#group_' + data.model.id).html(data.model.name);
+
                 var group = app.Groups.get(parseInt(data.model.id));
 
                 if (group) {
