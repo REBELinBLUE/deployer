@@ -2,7 +2,7 @@
     <div class="box-header">
         <h3 class="box-title">{{ Lang::get('deployments.latest') }}</h3>
     </div>
-    
+
     @if (!count($deployments))
     <div class="box-body">
         <p>{{ Lang::get('deployments.none') }}</p>
@@ -67,5 +67,4 @@
     </div>
 
     @endif
-    
 </div>
