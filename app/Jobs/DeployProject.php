@@ -2,22 +2,22 @@
 
 namespace App\Jobs;
 
-use Config;
-use Queue;
+use App\Command as Stage;
 use App\Deployment;
 use App\DeployStep;
-use App\ServerLog;
-use App\Server;
-use App\Command as Stage;
-use App\Project;
-use App\Jobs\Job;
 use App\Events\DeployFinished;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Events\DeploymentStatusChanged;
+use App\Jobs\Job;
+use App\Project;
+use App\Server;
+use App\ServerLog;
+use Config;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Queue;
 use Symfony\Component\Process\Process;
-use App\Events\DeploymentStatusChanged;
 
 /**
  * Deploys an actual project
@@ -63,7 +63,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
         $project = $this->deployment->project;
 
         $this->deployment->started_at = date('Y-m-d H:i:s');
-        $this->deployment->status = Deployment::DEPLOYING;
+        $this->deployment->status     = Deployment::DEPLOYING;
         $this->deployment->save();
 
         $project->status = Project::DEPLOYING;
@@ -83,10 +83,10 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
             }
 
             $this->deployment->status = Deployment::COMPLETED;
-            $project->status = Project::FINISHED;
+            $project->status          = Project::FINISHED;
         } catch (\Exception $error) {
             $this->deployment->status = Deployment::FAILED;
-            $project->status = Project::FAILED;
+            $project->status          = Project::FAILED;
 
             $this->cancelPendingSteps($this->deployment->steps);
 
@@ -154,8 +154,8 @@ CMD;
 
         $git_info = $process->getOutput();
 
-        $parts = explode("\x09", $git_info);
-        $this->deployment->commit = $parts[0];
+        $parts                       = explode("\x09", $git_info);
+        $this->deployment->commit    = $parts[0];
         $this->deployment->committer = trim($parts[1]);
         $this->deployment->save();
     }
@@ -183,10 +183,10 @@ CMD;
                 continue;
             }
 
-            $releases_dir = $root_dir.'/releases';
+            $releases_dir       = $root_dir.'/releases';
             $latest_release_dir = $releases_dir.'/'.$release_id;
 
-            $remote_key_file = $root_dir.'/id_rsa';
+            $remote_key_file     = $root_dir.'/id_rsa';
             $remote_wrapper_file = $root_dir.'/wrapper.sh';
 
             $commands = [
@@ -231,7 +231,7 @@ CMD;
     private function runStep(DeployStep $step)
     {
         foreach ($step->servers as $log) {
-            $log->status = ServerLog::RUNNING;
+            $log->status     = ServerLog::RUNNING;
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
 
@@ -276,7 +276,7 @@ CMD;
                 $failed = true;
             }
 
-            $log->status = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
+            $log->status      = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
             $log->finished_at = date('Y-m-d H:i:s');
             $log->save();
 
@@ -307,14 +307,14 @@ CMD;
 
         $releases_dir = $root_dir.'/releases';
 
-        $release_id = date('YmdHis', strtotime($this->deployment->started_at));
+        $release_id         = date('YmdHis', strtotime($this->deployment->started_at));
         $latest_release_dir = $releases_dir.'/'.$release_id;
         $release_shared_dir = $root_dir.'/shared';
 
         $commands = false;
 
         if ($step->stage === Stage::DO_CLONE) { // Clone the repository
-            $remote_key_file = $root_dir.'/id_rsa';
+            $remote_key_file     = $root_dir.'/id_rsa';
             $remote_wrapper_file = $root_dir.'/wrapper.sh';
 
             // FIXME: This does not belong here as this function should
@@ -512,7 +512,7 @@ OUT;
     {
         $root_dir = preg_replace('#/$#', '', $server->path);
 
-        $remote_key_file = $root_dir.'/id_rsa';
+        $remote_key_file     = $root_dir.'/id_rsa';
         $remote_wrapper_file = $root_dir.'/wrapper.sh';
 
         // Upload the SSH private key
@@ -559,14 +559,14 @@ OUT;
         foreach ($project->shareFiles as $filecfg) {
             if ($filecfg->file) {
                 $pathinfo = pathinfo($filecfg->file);
-                $isDir = false;
+                $isDir    = false;
 
                 if (substr($filecfg->file, 0, 1) == '/') {
                     $filecfg->file = substr($filecfg->file, 1);
                 }
 
                 if (substr($filecfg->file, -1) == '/') {
-                    $isDir = true;
+                    $isDir         = true;
                     $filecfg->file = substr($filecfg->file, 0, -1);
                 }
 

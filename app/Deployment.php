@@ -3,12 +3,12 @@
 namespace App;
 
 use App\Contracts\RuntimeInterface;
+use App\Events\DeploymentStatusChanged;
 use App\Presenters\DeploymentPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Lang;
 use Robbo\Presenter\PresentableInterface;
-use App\Events\DeploymentStatusChanged;
 
 /**
  * Deployment model.
@@ -146,7 +146,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         if ($this->commit != self::LOADING) {
             $info = $this->project->accessDetails();
             if (isset($info['domain']) && isset($info['reference'])) {
-                return 'http://' . $info['domain'] . '/' . $info['reference'] . '/commit/' . $this->commit;
+                return 'http://'.$info['domain'].'/'.$info['reference'].'/commit/'.$this->commit;
             }
         }
 
@@ -179,7 +179,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         $info = $this->project->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
+            return 'http://'.$info['domain'].'/'.$info['reference'].'/tree/'.$this->branch;
         }
 
         return false;
@@ -203,7 +203,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         $payload = [
             'attachments' => [
                 [
-                    'fallback' => sprintf($message, '#' . $this->id),
+                    'fallback' => sprintf($message, '#'.$this->id),
                     'text'     => sprintf($message, sprintf('<%s|#%u>', url('deployment', $this->id), $this->id)),
                     'color'    => $colour,
                     'fields'   => [

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Resources;
 
-use Response;
-use App\Server;
 use App\Http\Requests;
-use App\Jobs\TestServerConnection;
 use App\Http\Requests\StoreServerRequest;
+use App\Jobs\TestServerConnection;
+use App\Server;
+use Response;
 
 /**
  * Server management controller.

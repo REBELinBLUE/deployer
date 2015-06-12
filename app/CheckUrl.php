@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Lang;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Events\ModelChanged;
 use App\Events\ModelCreated;
 use App\Events\ModelTrashed;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Lang;
 
 /**
  * The application's  url store for health check.
@@ -29,7 +29,6 @@ class CheckUrl extends Model
      * @var array
      */
     protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
-
 
     /**
      * The attributes that should be casted to native types.

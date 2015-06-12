@@ -2,10 +2,10 @@
 
 namespace App\Events;
 
-use App\Project;
 use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
+use App\Project;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Event which fires when the project status has changed.

@@ -102,8 +102,8 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     private function getBetweenDates(Project $project, Carbon $startDate, Carbon $endDate)
     {
         return Deployment::where('project_id', $project->id)
-            ->where('started_at', '>=', $startDate->format('Y-m-d') . ' 00:00:00')
-            ->where('started_at', '<=', $endDate->format('Y-m-d') . ' 23:59:59')
+            ->where('started_at', '>=', $startDate->format('Y-m-d').' 00:00:00')
+            ->where('started_at', '<=', $endDate->format('Y-m-d').' 23:59:59')
             ->count();
     }
 

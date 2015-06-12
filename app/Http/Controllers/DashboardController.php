@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Lang;
-use Response;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
+use Lang;
+use Response;
 
 /**
  * The dashboard controller.
@@ -24,7 +24,7 @@ class DashboardController extends Controller
         ProjectRepositoryInterface $projectRepository
     ) {
         $deployments = $deploymentRepository->getTimeline();
-        $projects = $projectRepository->getAll();
+        $projects    = $projectRepository->getAll();
 
         $deploys_by_date = [];
         foreach ($deployments as $deployment) {

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\ProjectFile;
 use App\Http\Requests\StoreProjectFileRequest;
+use App\ProjectFile;
 
 /**
  * Manage the project global file like some environment files.

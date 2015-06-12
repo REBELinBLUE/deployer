@@ -2,9 +2,9 @@
 
 namespace App\Bootstrap;
 
-use Illuminate\Log\Writer;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Bootstrap\ConfigureLogging as BaseLoggingConfiguration;
+use Illuminate\Log\Writer;
 
 /**
  * Configure the logging, split the CLI log file with the web log file.

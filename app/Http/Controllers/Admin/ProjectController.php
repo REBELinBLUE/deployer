@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Lang;
-use App\Project;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\ProjectRepositoryInterface;
+use App\Http\Requests;
 use App\Http\Requests\StoreProjectRequest;
+use App\Project;
+use App\Repositories\Contracts\ProjectRepositoryInterface;
+use Lang;
 
 /**
  * The controller for managging projects.

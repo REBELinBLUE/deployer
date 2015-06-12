@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Robbo\Presenter\PresentableInterface;
-use App\Presenters\ServerLogPresenter;
 use App\Contracts\RuntimeInterface;
 use App\Events\ServerLogChanged;
+use App\Presenters\ServerLogPresenter;
+use Illuminate\Database\Eloquent\Model;
+use Robbo\Presenter\PresentableInterface;
 
 /**
  * Server log model.
@@ -14,9 +14,9 @@ use App\Events\ServerLogChanged;
 class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 {
     const COMPLETED = 0;
-    const PENDING = 1;
-    const RUNNING = 2;
-    const FAILED = 3;
+    const PENDING   = 1;
+    const RUNNING   = 2;
+    const FAILED    = 3;
     const CANCELLED = 4;
 
     /**

@@ -2,8 +2,8 @@
 
 namespace App\Presenters;
 
-use Lang;
 use App\Command;
+use Lang;
 use Robbo\Presenter\Presenter;
 
 /**

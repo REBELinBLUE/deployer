@@ -2,12 +2,12 @@
 
 namespace App\Listeners\Events;
 
-use Lang;
-use Mail;
 use App\Events\UserWasCreated;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
+use Illuminate\Queue\InteractsWithQueue;
+use Lang;
+use Mail;
 
 /**
  * Sends an email when the user has been created.

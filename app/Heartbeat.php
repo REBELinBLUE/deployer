@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Lang;
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use App\Events\ModelChanged;
-use App\Events\ModelCreated;
-use App\Events\ModelTrashed;
+use Lang;
 
 /**
  * Heartbeat model.
@@ -18,9 +18,9 @@ class Heartbeat extends Model
 {
     use SoftDeletes;
 
-    const OK = 0;
+    const OK       = 0;
     const UNTESTED = 1;
-    const MISSING = 2;
+    const MISSING  = 2;
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -127,8 +127,8 @@ class Heartbeat extends Model
      */
     public function pinged()
     {
-        $this->status = self::OK;
-        $this->missed = 0;
+        $this->status        = self::OK;
+        $this->missed        = 0;
         $this->last_activity = $this->freshTimestamp();
 
         return $this->save();

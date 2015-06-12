@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Lang;
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use App\Jobs\Notify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use App\Events\ModelCreated;
-use App\Events\ModelChanged;
-use App\Events\ModelTrashed;
+use Lang;
 
 /**
  * Notification model.

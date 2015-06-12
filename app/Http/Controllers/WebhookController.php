@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Input;
-use App\Project;
 use App\Deployment;
-use App\Jobs\QueueDeployment;
 use App\Http\Controllers\Controller;
+use App\Jobs\QueueDeployment;
+use App\Project;
+use Input;
 
 /**
  * The deployment webhook controller.
@@ -31,7 +31,7 @@ class WebhookController extends Controller
         if ($project->servers->where('deploy_code', true)->count() > 0) {
             $optional = [];
 
-            $deployment = new Deployment;
+            $deployment         = new Deployment;
             $deployment->reason = Input::get('reason');
             $deployment->branch = $project->branch;
 

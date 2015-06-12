@@ -2,11 +2,11 @@
 
 namespace App;
 
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Events\ModelCreated;
-use App\Events\ModelChanged;
-use App\Events\ModelTrashed;
 
 /**
  * Server model.
@@ -16,9 +16,9 @@ class Server extends Model
     use SoftDeletes;
 
     const SUCCESSFUL = 0;
-    const UNTESTED = 1;
-    const FAILED = 2;
-    const TESTING = 3;
+    const UNTESTED   = 1;
+    const FAILED     = 2;
+    const TESTING    = 3;
 
     /**
      * The attributes excluded from the model's JSON form.

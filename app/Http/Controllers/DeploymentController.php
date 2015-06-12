@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Lang;
-use Input;
-use App\Project;
 use App\Command;
 use App\Deployment;
-use App\ServerLog;
 use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Jobs\QueueDeployment;
+use App\Project;
+use App\Repositories\Contracts\DeploymentRepositoryInterface;
+use App\ServerLog;
+use Input;
+use Lang;
 
 /**
  * The controller for showing the status of deployments.
@@ -61,8 +61,8 @@ class DeploymentController extends Controller
                 $server->server;
 
                 $server->runtime = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
-                $server->output = ((is_null($server->output) || !strlen($server->output)) ? null : '');
-                $server->script = '';
+                $server->output  = ((is_null($server->output) || !strlen($server->output)) ? null : '');
+                $server->script  = '';
 
                 $output[] = $server;
             }
@@ -90,7 +90,7 @@ class DeploymentController extends Controller
      */
     public function deploy(Project $project)
     {
-        $deployment = new Deployment;
+        $deployment         = new Deployment;
         $deployment->reason = Input::get('reason');
 
         if (Input::has('source') && Input::has('source_'.Input::get('source'))) {
@@ -127,7 +127,7 @@ class DeploymentController extends Controller
     public function log(ServerLog $log)
     {
         $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
-        $log->script = '';
+        $log->script  = '';
 
         return $log;
     }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Resources;
 
-use Lang;
-use Input;
-use App\Project;
 use App\Command;
 use App\Http\Requests\StoreCommandRequest;
+use App\Project;
+use Input;
+use Lang;
 
 /**
  * Controller for managing commands.

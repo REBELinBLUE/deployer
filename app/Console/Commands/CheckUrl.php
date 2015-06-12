@@ -6,8 +6,8 @@ use App\CheckUrl as CheckUrlModel;
 use App\Jobs\RequestProjectCheckUrl;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Schedule the url check.

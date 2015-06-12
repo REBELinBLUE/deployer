@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Lang;
-use App\User;
 use App\Events\UserWasCreated;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Requests;
 use App\Http\Requests\StoreUserRequest;
+use App\User;
+use Lang;
 
 /**
  * User management controller.

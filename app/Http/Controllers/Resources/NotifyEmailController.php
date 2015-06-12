@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\NotifyEmail;
 use App\Http\Requests\StoreNotifyEmailRequest;
+use App\NotifyEmail;
 
 /**
  * Controller for managing NotifyEmails.

@@ -2,13 +2,13 @@
 
 namespace App;
 
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use App\Presenters\ProjectPresenter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Robbo\Presenter\PresentableInterface;
-use App\Events\ModelChanged;
-use App\Events\ModelCreated;
-use App\Events\ModelTrashed;
 use Symfony\Component\Process\Process;
 
 /**
@@ -67,13 +67,13 @@ class Project extends ProjectRelation implements PresentableInterface
     ];
 
     /**
-     * The heart beats status count
+     * The heart beats status count.
      * @var array
      */
     protected $heartbeatStatus = [];
 
     /**
-     * The check url's status count
+     * The check url's status count.
      * @var array
      */
     protected $checkurlStatus = [];
@@ -180,7 +180,7 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'];
+            return 'http://'.$info['domain'].'/'.$info['reference'];
         }
 
         return false;
@@ -208,14 +208,14 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
+            return 'http://'.$info['domain'].'/'.$info['reference'].'/tree/'.$this->branch;
         }
 
         return false;
     }
 
     /**
-     * Count the missed heartbeat
+     * Count the missed heartbeat.
      * @return [type] [description]
      */
     public function heartbeatsStatus()
@@ -232,11 +232,12 @@ class Project extends ProjectRelation implements PresentableInterface
             }
             $this->heartbeatStatus = ['missed' => $missed, 'length' => $length];
         }
+
         return $this->heartbeatStatus;
     }
 
     /**
-     * Count the application url check status
+     * Count the application url check status.
      * @return array
      */
     public function applicationCheckUrlStatus()
@@ -252,6 +253,7 @@ class Project extends ProjectRelation implements PresentableInterface
             }
             $this->checkurlStatus = ['missed' => $missed, 'length' => $length];
         }
+
         return $this->checkurlStatus;
     }
 
@@ -284,7 +286,7 @@ class Project extends ProjectRelation implements PresentableInterface
      */
     private function generateSSHKey()
     {
-        $key = tempnam(storage_path() . '/app/', 'sshkey');
+        $key = tempnam(storage_path().'/app/', 'sshkey');
         unlink($key);
 
         $process = new Process(sprintf(
@@ -299,9 +301,9 @@ class Project extends ProjectRelation implements PresentableInterface
         }
 
         $this->attributes['private_key'] = file_get_contents($key);
-        $this->attributes['public_key']  = file_get_contents($key . '.pub');
+        $this->attributes['public_key']  = file_get_contents($key.'.pub');
 
         unlink($key);
-        unlink($key . '.pub');
+        unlink($key.'.pub');
     }
 }

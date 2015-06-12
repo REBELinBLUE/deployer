@@ -36,7 +36,7 @@ class UserWasCreated extends Event
      */
     public function __construct(User $user, $password)
     {
-        $this->user = $user;
+        $this->user     = $user;
         $this->password = $password;
     }
 }

@@ -180,7 +180,7 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Show the application status
+     * Show the application status.
      * @return string
      */
     public function presentAppStatus()
@@ -189,11 +189,12 @@ class ProjectPresenter extends Presenter
         if ($status['length'] === 0) {
             return 'N/A';
         }
-        return ($status['length'] - $status['missed']) . '/' . $status['length'];
+
+        return ($status['length'] - $status['missed']).'/'.$status['length'];
     }
 
     /**
-     * Show the application status css
+     * Show the application status css.
      * @return string
      */
     public function presentAppStatusCss()
@@ -206,11 +207,12 @@ class ProjectPresenter extends Presenter
         } else {
             $css = 'label-success';
         }
+
         return $css;
     }
 
     /**
-     * Show heartbeat status count
+     * Show heartbeat status count.
      * @return string
      */
     public function presentHeartBeatStatus()
@@ -219,11 +221,12 @@ class ProjectPresenter extends Presenter
         if ($status['length'] == 0) {
             return 'N/A';
         }
-        return ($status['length'] - $status['missed']) . '/' . $status['length'];
+
+        return ($status['length'] - $status['missed']).'/'.$status['length'];
     }
 
     /**
-     * The application heartbeat status css
+     * The application heartbeat status css.
      * @return [type] [description]
      */
     public function presentHeartBeatStatusCss()
@@ -236,6 +239,7 @@ class ProjectPresenter extends Presenter
         } else {
             $css = 'label-success';
         }
+
         return $css;
     }
 

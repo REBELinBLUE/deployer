@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use Mail;
-use Lang;
+use App\Deployment;
 use App\Jobs\Job;
 use App\Project;
-use App\Deployment;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Mail\Message;
+use Lang;
+use Mail;
 
 /**
  * Send email notifications for deployment.
@@ -25,7 +25,7 @@ class MailDeployNotification extends Job implements SelfHandling
      */
     public function __construct(Project $project, Deployment $deployment)
     {
-        $this->project = $project;
+        $this->project    = $project;
         $this->deployment = $deployment;
     }
 
@@ -46,8 +46,8 @@ class MailDeployNotification extends Job implements SelfHandling
                 ['status' => $status, 'project' => $this->project->name]
             );
 
-            $deploymentArr = $this->deployment->toArray();
-            $deploymentArr['commitURL'] = $this->deployment->commitURL();
+            $deploymentArr                = $this->deployment->toArray();
+            $deploymentArr['commitURL']   = $this->deployment->commitURL();
             $deploymentArr['shortCommit'] = $this->deployment->shortCommit();
 
             $data = [

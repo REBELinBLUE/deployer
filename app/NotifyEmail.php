@@ -2,11 +2,11 @@
 
 namespace App;
 
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Events\ModelCreated;
-use App\Events\ModelChanged;
-use App\Events\ModelTrashed;
 
 /**
  * Email list for a deployment notification.

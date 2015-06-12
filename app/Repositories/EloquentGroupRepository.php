@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Group;
-use App\Repositories\EloquentRepository;
 use App\Repositories\Contracts\GroupRepositoryInterface;
+use App\Repositories\EloquentRepository;
 
 /**
  * The group repository.

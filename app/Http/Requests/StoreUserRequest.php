@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Input;
 use App\Http\Requests\Request;
+use Input;
 
 /**
  * Request for validating users.

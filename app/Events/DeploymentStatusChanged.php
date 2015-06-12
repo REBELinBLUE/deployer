@@ -4,8 +4,8 @@ namespace App\Events;
 
 use App\Deployment;
 use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Event which fires when the deployment status has changed.
@@ -28,10 +28,10 @@ class DeploymentStatusChanged extends Event implements ShouldBroadcast
     public function __construct(Deployment $deployment)
     {
         $this->deployment_id = $deployment->id;
-        $this->status = $deployment->status;
-        $this->project = $deployment->project->name;
-        $this->branch = $deployment->branch;
-        $this->started = $deployment->started_at;
+        $this->status        = $deployment->status;
+        $this->project       = $deployment->project->name;
+        $this->branch        = $deployment->branch;
+        $this->started       = $deployment->started_at;
     }
 
     /**

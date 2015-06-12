@@ -2,9 +2,9 @@
 
 namespace App;
 
+use App\Presenters\DeployStepPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
-use App\Presenters\DeployStepPresenter;
 
 /**
  * The deployment step model.

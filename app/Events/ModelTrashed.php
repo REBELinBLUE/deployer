@@ -2,10 +2,10 @@
 
 namespace App\Events;
 
-use App\Server;
 use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
+use App\Server;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Event which fires when the server status has changed.
