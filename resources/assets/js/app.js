@@ -17,6 +17,7 @@ var app = app || {};
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
+    // TODO: Update the timeline
     app.listener.on('deployment:App\\Events\\DeploymentStatusChanged', function (data) {
         updateNavBar(data);
     });
@@ -29,7 +30,6 @@ var app = app || {};
 
     app.listener.on('project:App\\Events\\ModelChanged', function (data) {
         $('#sidebar_project_' + data.model.id).html(data.model.name);
-        $('#project_' + data.model.id + ' td:first a').text(data.model.name);
 
         var icon_class = 'question-circle';
         var label_class = 'primary';
@@ -55,10 +55,13 @@ var app = app || {};
             label = Lang.projects.status.pending;
         }
 
-        $('#project_' + data.model.id + ' td:nth-child(2)').text(moment(data.model.last_run).format('Do MMM YYYY h:mm:ss A'));
-        $('#project_' + data.model.id + ' td:nth-child(3) span.label').attr('class', 'label label-' + label_class)
-        $('#project_' + data.model.id + ' td:nth-child(3) span.label i').attr('class', 'fa fa-' + icon_class);
-        $('#project_' + data.model.id + ' td:nth-child(3) span.label span').text(label);
+        var project = $('#project_' + data.model.id);
+
+        $('td:first a', project).text(data.model.name);
+        $('td:nth-child(2)', project).text(moment(data.model.last_run).format('Do MMM YYYY h:mm:ss A'));
+        $('td:nth-child(3) span.label', project).attr('class', 'label label-' + label_class)
+        $('td:nth-child(3) span.label i', project).attr('class', 'fa fa-' + icon_class);
+        $('td:nth-child(3) span.label span', project).text(label);
     });
 
     app.listener.on('project:App\\Events\\ModelTrashed', function (data) {
