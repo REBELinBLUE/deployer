@@ -5,8 +5,11 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 var app = app || {};
 
 (function ($) {
-    var PENDING   = 1;
-    var RUNNING   = 2;
+    var FINISHED     = 0;
+    var PENDING      = 1;
+    var DEPLOYING    = 2;
+    var FAILED       = 3;
+    var NOT_DEPLOYED = 4;
 
     app.project_id = app.project_id || null;
 
@@ -21,17 +24,45 @@ var app = app || {};
     // Add group created and project created events for the sidebar
 
     app.listener.on('group:App\\Events\\ModelChanged', function (data) {
-        $('#group_' + data.model.id).html(data.model.name);
+        $('#sidebar_group_' + data.model.id).html(data.model.name);
     });
 
     app.listener.on('project:App\\Events\\ModelChanged', function (data) {
-        $('#project_' + data.model.id).html(data.model.name);
+        $('#sidebar_project_' + data.model.id).html(data.model.name);
+        $('#project_' + data.model.id + ' td:first a').text(data.model.name);
+
+        var icon_class = 'question-circle';
+        var label_class = 'primary';
+        var label = Lang.projects.status.not_deployed;
+
+        var status = parseInt(data.model.status);
+
+        if (status === FINISHED) {
+            icon_class = 'check';
+            label_class = 'success';
+            label = Lang.projects.status.finished;
+        } else if (status === DEPLOYING) {
+            icon_class = 'spinner fa-pulse';
+            label_class = 'warning';
+            label = Lang.projects.status.deploying;
+        } else if (status === FAILED) {
+            icon_class = 'warning';
+            label_class = 'danger';
+            label = Lang.projects.status.failed;
+        } else if (status === PENDING) {
+            icon_class = 'clock-o';
+            label_class = 'info';
+            label = Lang.projects.status.pending;
+        }
+
+        $('#project_' + data.model.id + ' td:nth-child(2)').text(moment(data.model.last_run).format('Do MMM YYYY h:mm:ss A'));
+        $('#project_' + data.model.id + ' td:nth-child(3) span.label').attr('class', 'label label-' + label_class)
+        $('#project_' + data.model.id + ' td:nth-child(3) span.label i').attr('class', 'fa fa-' + icon_class);
+        $('#project_' + data.model.id + ' td:nth-child(3) span.label span').text(label);
     });
 
     app.listener.on('project:App\\Events\\ModelTrashed', function (data) {
-        console.log(data);
-
-        $('#project_' + data.model.id).parent('li').remove();
+        $('#sidebar_project_' + data.model.id).parent('li').remove();
 
         if (parseInt(data.model.id) === parseInt(app.project_id)) {
             window.location.href = '/';
@@ -53,7 +84,7 @@ var app = app || {};
         if (data.status === PENDING) {
             $('#pending_menu ul.menu').append(html);
         }
-        else if (data.status === RUNNING) {
+        else if (data.status === DEPLOYING) {
             $('#deploying_menu ul.menu').append(html);
         }
 

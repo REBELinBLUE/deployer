@@ -35,7 +35,7 @@
                                     <td><a href="{{ url('projects', ['id' => $group_project->id]) }}" title="View Details">{{ $group_project->name }}</a></td>
                                     <td>{{ $group_project->last_run ? $group_project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
                                     <td>
-                                        <span class="label label-{{ $group_project->css_class }}"><i class="fa fa-{{ $group_project->icon }}"></i> {{ $group_project->readable_status }}</span>
+                                        <span class="label label-{{ $group_project->css_class }}"><i class="fa fa-{{ $group_project->icon }}"></i> <span>{{ $group_project->readable_status }}</span></span>
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right">
@@ -99,6 +99,15 @@
 
 @section('javascript')
     <script type="text/javascript">
+        Lang.projects = {
+            status: {
+                finished: '{{ Lang::get('projects.finished') }}',
+                pending: '{{ Lang::get('projects.pending') }}',
+                deploying: '{{ Lang::get('projects.deploying') }}',
+                failed: '{{ Lang::get('projects.failed') }}',
+                not_deployed: '{{ Lang::get('projects.not_deployed') }}'
+            }
+        };
         var projects = {!! $projects !!};
     </script>
 @stop
