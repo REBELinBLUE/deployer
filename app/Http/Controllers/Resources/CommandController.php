@@ -168,7 +168,6 @@ class CommandController extends ResourceController
     public function status(ServerLog $log, $include_log = false)
     {
         $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
-        $log->script = '';
 
         if (!$include_log) {
             $log->output = ((is_null($log->output) || !strlen($log->output)) ? null : '');

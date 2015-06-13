@@ -231,8 +231,6 @@ CMD;
                     $user = $step->command->user;
                 }
 
-                $log->script = $script;
-
                 $failed = false;
 
                 if (!empty($script)) {
