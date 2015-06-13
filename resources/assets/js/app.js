@@ -31,37 +31,41 @@ var app = app || {};
     app.listener.on('project:App\\Events\\ModelChanged', function (data) {
         $('#sidebar_project_' + data.model.id).html(data.model.name);
 
-        var icon_class = 'question-circle';
-        var label_class = 'primary';
-        var label = Lang.projects.status.not_deployed;
-
-        var status = parseInt(data.model.status);
-
-        if (status === FINISHED) {
-            icon_class = 'check';
-            label_class = 'success';
-            label = Lang.projects.status.finished;
-        } else if (status === DEPLOYING) {
-            icon_class = 'spinner fa-pulse';
-            label_class = 'warning';
-            label = Lang.projects.status.deploying;
-        } else if (status === FAILED) {
-            icon_class = 'warning';
-            label_class = 'danger';
-            label = Lang.projects.status.failed;
-        } else if (status === PENDING) {
-            icon_class = 'clock-o';
-            label_class = 'info';
-            label = Lang.projects.status.pending;
-        }
-
         var project = $('#project_' + data.model.id);
 
-        $('td:first a', project).text(data.model.name);
-        $('td:nth-child(2)', project).text(moment(data.model.last_run).format('Do MMM YYYY h:mm:ss A'));
-        $('td:nth-child(3) span.label', project).attr('class', 'label label-' + label_class)
-        $('td:nth-child(3) span.label i', project).attr('class', 'fa fa-' + icon_class);
-        $('td:nth-child(3) span.label span', project).text(label);
+        if (project.length > 0) {
+
+            var icon_class = 'question-circle';
+            var label_class = 'primary';
+            var label = Lang.projects.status.not_deployed;
+
+            var status = parseInt(data.model.status);
+
+            if (status === FINISHED) {
+                icon_class = 'check';
+                label_class = 'success';
+                label = Lang.projects.status.finished;
+            } else if (status === DEPLOYING) {
+                icon_class = 'spinner fa-pulse';
+                label_class = 'warning';
+                label = Lang.projects.status.deploying;
+            } else if (status === FAILED) {
+                icon_class = 'warning';
+                label_class = 'danger';
+                label = Lang.projects.status.failed;
+            } else if (status === PENDING) {
+                icon_class = 'clock-o';
+                label_class = 'info';
+                label = Lang.projects.status.pending;
+            }
+
+
+            $('td:first a', project).text(data.model.name);
+            $('td:nth-child(2)', project).text(moment(data.model.last_run).format('Do MMM YYYY h:mm:ss A'));
+            $('td:nth-child(3) span.label', project).attr('class', 'label label-' + label_class)
+            $('td:nth-child(3) span.label i', project).attr('class', 'fa fa-' + icon_class);
+            $('td:nth-child(3) span.label span', project).text(label);
+        }
     });
 
     app.listener.on('project:App\\Events\\ModelTrashed', function (data) {
@@ -75,7 +79,7 @@ var app = app || {};
 
 
     function updateNavBar(data) {
-        data.time = moment(data.started.date).format('h:mm:ss A');
+        data.time = moment(data.started).format('h:mm:ss A');
         data.url = '/deployment/' + data.deployment_id;
 
         $('#deployment_info_' + data.deployment_id).remove();
