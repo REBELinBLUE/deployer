@@ -62,7 +62,6 @@ class DeploymentController extends Controller
 
                 $server->runtime = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
                 $server->output  = ((is_null($server->output) || !strlen($server->output)) ? null : '');
-                $server->script  = '';
 
                 $output[] = $server;
             }
@@ -127,7 +126,6 @@ class DeploymentController extends Controller
     public function log(ServerLog $log)
     {
         $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
-        $log->script  = '';
 
         return $log;
     }
