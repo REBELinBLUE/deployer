@@ -42,7 +42,7 @@ class Project extends ProjectRelation implements PresentableInterface
     protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url'];
 
     /**
-     * The fields which should be tried as Carbon instances.
+     * The fields which should be treated as Carbon instances.
      *
      * @var array
      */
@@ -215,7 +215,8 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Count the missed heartbeat.
-     * @return [type] [description]
+     * @return array
+     * fixme: no need for the if statement, just check the status
      */
     public function heartbeatsStatus()
     {

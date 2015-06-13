@@ -29,8 +29,8 @@ class ServerLogChanged extends Event implements ShouldBroadcast
     public function __construct(ServerLog $log)
     {
         $this->status      = $log->status;
-        $this->started_at  = $log->started_at;
-        $this->finished_at = $log->finished_at;
+        $this->started_at  = $log->started_at ? $log->started_at->toDateTimeString() : null;
+        $this->finished_at = $log->finished_at ? $log->finished_at->toDateTimeString() : null;
         $this->log_id      = $log->id;
         $this->output      = ((is_null($log->output) || !strlen($log->output)) ? null : '');
         $this->runtime     = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);

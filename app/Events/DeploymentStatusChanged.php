@@ -31,7 +31,7 @@ class DeploymentStatusChanged extends Event implements ShouldBroadcast
         $this->status        = $deployment->status;
         $this->project       = $deployment->project->name;
         $this->branch        = $deployment->branch;
-        $this->started       = $deployment->started_at;
+        $this->started       = $deployment->started_at->toDateTimeString();
     }
 
     /**

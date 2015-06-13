@@ -82,8 +82,8 @@ var app = app || {};
                         status: data.status,
                         output: data.output,
                         runtime: data.runtime,
-                        started_at: data.started_at ? data.started_at.date : false,
-                        finished_at: data.finished_at ? data.finished_at.date : false
+                        started_at: data.started_at ? data.started_at : false,
+                        finished_at: data.finished_at ? data.finished_at : false
                     });
 
                     // FIXME: If cancelled update all other deployments straight away
