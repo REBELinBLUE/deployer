@@ -14,7 +14,7 @@ $fixers = [
     'encoding',
     'php_closing_tag',
     'blankline_after_open_tag',
-    'concat_without_spaces',
+    'concat_with_spaces',
     'double_arrow_multiline_whitespaces',
     'duplicate_semicolon',
     'empty_return',
