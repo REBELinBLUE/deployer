@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,6 +35,28 @@ class Group extends Model
      * @var array
      */
     protected $appends = ['project_count'];
+
+    /**
+     * Override the boot method to bind model event listeners.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function (Group $model) {
+            event(new ModelCreated($model, 'group'));
+        });
+
+        static::updated(function (Group $model) {
+            event(new ModelChanged($model, 'group'));
+        });
+
+        static::deleted(function (Group $model) {
+            event(new ModelTrashed($model, 'group'));
+        });
+    }
 
     /**
      * Has many relationship.

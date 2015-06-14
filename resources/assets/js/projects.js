@@ -87,8 +87,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.Projects.remove(project);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -161,11 +159,7 @@ var app = app || {};
     });
 
     app.Project = Backbone.Model.extend({
-        urlRoot: '/admin/projects',
-        poller: false,
-        initialize: function() {
-
-        }
+        urlRoot: '/admin/projects'
     });
 
     var Projects = Backbone.Collection.extend({
@@ -187,7 +181,36 @@ var app = app || {};
 
             this.listenTo(app.Projects, 'add', this.addOne);
             this.listenTo(app.Projects, 'reset', this.addAll);
+            this.listenTo(app.Projects, 'remove', this.addAll);
             this.listenTo(app.Projects, 'all', this.render);
+
+            app.listener.on('project:App\\Events\\ModelChanged', function (data) {
+                var project = app.Projects.get(parseInt(data.model.id));
+
+                if (project) {
+                    project.set(data.model);
+                }
+            });
+
+            app.listener.on('project:App\\Events\\ModelCreated', function (data) {
+                app.Projects.add(data.model);
+            });
+
+            app.listener.on('project:App\\Events\\ModelTrashed', function (data) {
+                var project = app.Projects.get(parseInt(data.model.id));
+
+                if (project) {
+                    app.Projects.remove(project);
+                }
+
+                console.log(data);
+
+                $('#project_' + data.model.id).parent('li').remove();
+
+                if (parseInt(data.model.id) === parseInt(app.project_id)) {
+                    window.location.href = '/';
+                }
+            });
         },
         render: function () {
             if (app.Projects.length) {

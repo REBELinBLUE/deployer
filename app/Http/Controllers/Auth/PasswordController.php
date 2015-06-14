@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Lang;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Lang;
 
 /**
  * Password reset controller.

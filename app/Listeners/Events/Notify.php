@@ -2,18 +2,18 @@
 
 namespace App\Listeners\Events;
 
-use App\Jobs\Notify as SlackNotify;
-use App\Jobs\MailDeployNotification;
-use App\Jobs\RequestProjectCheckUrl;
 use App\Events\DeployFinished;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Jobs\MailDeployNotification;
+use App\Jobs\Notify as SlackNotify;
+use App\Jobs\RequestProjectCheckUrl;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Queue\InteractsWithQueue;
 
 /**
  * When a deploy finished, notify the followed user.
  */
-class Notify implements ShouldQueue
+class Notify extends Event implements ShouldQueue
 {
     use InteractsWithQueue, DispatchesJobs;
 
@@ -35,9 +35,10 @@ class Notify implements ShouldQueue
      */
     public function handle(DeployFinished $event)
     {
-        $project = $event->project;
+        $project    = $event->project;
         $deployment = $event->deployment;
 
+        // FIXME: Change this so it is link the other 2 notifications
         foreach ($project->notifications as $notification) {
             $this->dispatch(new SlackNotify($notification, $deployment->notificationPayload()));
         }

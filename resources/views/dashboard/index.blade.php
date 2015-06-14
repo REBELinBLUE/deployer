@@ -35,7 +35,7 @@
                                     <td><a href="{{ url('projects', ['id' => $group_project->id]) }}" title="View Details">{{ $group_project->name }}</a></td>
                                     <td>{{ $group_project->last_run ? $group_project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
                                     <td>
-                                        <span class="label label-{{ $group_project->css_class }}"><i class="fa fa-{{ $group_project->icon }}"></i> {{ $group_project->readable_status }}</span>
+                                        <span class="label label-{{ $group_project->css_class }}"><i class="fa fa-{{ $group_project->icon }}"></i> <span>{{ $group_project->readable_status }}</span></span>
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right">
@@ -61,38 +61,23 @@
                     <h3 class="box-title">{{ Lang::choice('dashboard.latest', 2) }}</h3>
                 </div>
                 <div class="box-body" id="timeline">
-                    @if (!count($latest))
-                        <p>{{ Lang::get('dashboard.no_deployments') }}</p>
-                    @else
-                    <ul class="timeline">
-                        @foreach ($latest as $date => $deployments)
-                            <li class="time-label">
-                                <span class="bg-gray">{{ date('jS M Y', strtotime($date)) }}</span>
-                            </li>
-
-                            @foreach ($deployments as $deployment)
-                            <li>
-                                <i class="fa fa-{{ $deployment->icon }} bg-{{ $deployment->timeline_css_class }}"></i>
-                                <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> {{ $deployment->started_at->format('g:i:s A') }}</span>
-                                    <h3 class="timeline-header"><a href="{{ url('projects', $deployment->project_id) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployment', $deployment->id) }}">{{ Lang::get('dashboard.deployment_num', ['id' => $deployment->id]) }}</a> - {{ $deployment->readable_status }}</h3>
-
-                                    @if (!empty($deployment->reason))
-                                    <div class="timeline-body">
-                                         {{ $deployment->reason }}
-                                    </div>
-                                    @endif
-                                </div>
-                            </li>
-                            @endforeach
-                        @endforeach
-                        <li>
-                            <i class="fa fa-clock-o bg-gray"></i>
-                        </li>
-                    </ul>
-                    @endif
+                    @include('dashboard.timeline')
                 </div>
             </div>
         </div>
     </div>
+@stop
+
+@section('javascript')
+    <script type="text/javascript">
+        Lang.projects = {
+            status: {
+                finished: '{{ Lang::get('projects.finished') }}',
+                pending: '{{ Lang::get('projects.pending') }}',
+                deploying: '{{ Lang::get('projects.deploying') }}',
+                failed: '{{ Lang::get('projects.failed') }}',
+                not_deployed: '{{ Lang::get('projects.not_deployed') }}'
+            }
+        };
+    </script>
 @stop

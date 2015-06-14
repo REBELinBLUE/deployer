@@ -6,8 +6,8 @@ use App\CheckUrl as CheckUrlModel;
 use App\Jobs\RequestProjectCheckUrl;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Schedule the url check.
@@ -50,14 +50,14 @@ class CheckUrl extends Command
         $period = [];
 
         $minute = intval(date('i'));
-        if ($minute == 0) {
+        if ($minute === 0) {
             $period = [60, 30, 10, 5];
         } else {
-            if ($minute % 30 == 0) {
+            if ($minute % 30 === 0) {
                 $period = [30, 10, 5];
-            } elseif ($minute % 10 == 0) {
+            } elseif ($minute % 10 === 0) {
                 $period = [10, 5];
-            } elseif ($minute % 5 == 0) {
+            } elseif ($minute % 5 === 0) {
                 $period = [5];
             }
         }

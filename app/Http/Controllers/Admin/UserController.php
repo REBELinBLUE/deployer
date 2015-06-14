@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Lang;
-use Event;
-use App\User;
 use App\Events\UserWasCreated;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Requests;
 use App\Http\Requests\StoreUserRequest;
+use App\User;
+use Lang;
 
 /**
  * User management controller.
@@ -22,15 +21,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-
-        foreach ($users as $user) {
-            $user->created = $user->created_at->format('jS F Y g:i:s A');
-        }
-
         return view('users.listing', [
             'title' => Lang::get('users.manage'),
-            'users' => $users
+            'users' => User::all()
         ]);
     }
 
@@ -51,7 +44,7 @@ class UserController extends Controller
 
         $user = User::create($fields);
 
-        Event::fire(new UserWasCreated(
+        event(new UserWasCreated(
             $user,
             $request->password
         ));

@@ -51,8 +51,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.Users.remove(user);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -123,7 +121,6 @@ var app = app || {};
 
     app.User = Backbone.Model.extend({
         urlRoot: '/admin/users',
-        poller: false,
         initialize: function() {
 
         }
@@ -145,10 +142,30 @@ var app = app || {};
 
             this.listenTo(app.Users, 'add', this.addOne);
             this.listenTo(app.Users, 'reset', this.addAll);
+            this.listenTo(app.Users, 'remove', this.addAll);
             this.listenTo(app.Users, 'all', this.render);
+
+            app.listener.on('user:App\\Events\\ModelChanged', function (data) {
+                var user = app.Users.get(parseInt(data.model.id));
+
+                if (user) {
+                    user.set(data.model);
+                }
+            });
+
+            app.listener.on('user:App\\Events\\ModelCreated', function (data) {
+                app.Users.add(data.model);
+            });
+
+            app.listener.on('user:App\\Events\\ModelTrashed', function (data) {
+                var user = app.Users.get(parseInt(data.model.id));
+
+                if (user) {
+                    app.Users.remove(user);
+                }
+            });
         },
         addOne: function (user) {
-
             var view = new app.UserView({ 
                 model: user
             });
@@ -157,7 +174,7 @@ var app = app || {};
         },
         addAll: function () {
             this.$list.html('');
-            app.Servers.each(this.addOne, this);
+            app.Users.each(this.addOne, this);
         }
     });
 
@@ -174,6 +191,8 @@ var app = app || {};
         },
         render: function () {
             var data = this.model.toJSON();
+
+            data.created = moment(data.created_at).format('Do MMM YYYY h:mm:ss A');
 
             this.$el.html(this.template(data));
 

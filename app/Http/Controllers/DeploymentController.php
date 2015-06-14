@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Lang;
-use Input;
-use App\Project;
 use App\Command;
 use App\Deployment;
 use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Jobs\QueueDeployment;
+use App\Project;
+use App\Repositories\Contracts\DeploymentRepositoryInterface;
+use App\ServerLog;
+use Input;
+use Lang;
 
 /**
  * The controller for showing the status of deployments.
@@ -60,8 +61,7 @@ class DeploymentController extends Controller
                 $server->server;
 
                 $server->runtime = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
-                $server->output = ((is_null($server->output) || !strlen($server->output)) ? null : '');
-                $server->first = (count($output) === 0); // FIXME: Let backbone.js take care of this
+                $server->output  = ((is_null($server->output) || !strlen($server->output)) ? null : '');
 
                 $output[] = $server;
             }
@@ -89,11 +89,11 @@ class DeploymentController extends Controller
      */
     public function deploy(Project $project)
     {
-        $deployment = new Deployment;
+        $deployment         = new Deployment;
         $deployment->reason = Input::get('reason');
 
-        if (Input::has('source') && Input::has('source_'.Input::get('source'))) {
-            $deployment->branch = Input::get('source_'.Input::get('source'));
+        if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
+            $deployment->branch = Input::get('source_' . Input::get('source'));
         }
 
         if (empty($deployment->branch)) {
@@ -115,5 +115,18 @@ class DeploymentController extends Controller
         return redirect()->route('deployment', [
             'id' => $deployment->id
         ]);
+    }
+
+    /**
+     * Gets the log output of a particular deployment step.
+     *
+     * @param ServerLog $log
+     * @return Response
+     */
+    public function log(ServerLog $log)
+    {
+        $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
+
+        return $log;
     }
 }

@@ -63,7 +63,7 @@ class Kernel extends ConsoleKernel
     {
         foreach ($this->bootstrappers as &$bootstrapper) {
             foreach ($this->customBooters as $sourceBooter => $newBooter) {
-                if ($bootstrapper == $sourceBooter) {
+                if ($bootstrapper === $sourceBooter) {
                     $bootstrapper = $newBooter;
                     unset($this->customBooters[$sourceBooter]);
                 }

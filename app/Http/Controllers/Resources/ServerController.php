@@ -2,28 +2,17 @@
 
 namespace App\Http\Controllers\Resources;
 
-use Response;
-use App\Server;
 use App\Http\Requests;
-use App\Jobs\TestServerConnection;
 use App\Http\Requests\StoreServerRequest;
+use App\Jobs\TestServerConnection;
+use App\Server;
+use Response;
 
 /**
  * Server management controller.
  */
 class ServerController extends ResourceController
 {
-    /**
-     * Returns the server.
-     *
-     * @param Server $server
-     * @return Model
-     */
-    public function show(Server $server)
-    {
-        return $server;
-    }
-
     /**
      * Store a newly created server in storage.
      *
@@ -85,14 +74,16 @@ class ServerController extends ResourceController
      *
      * @param Server $server
      * @return Response
-     * TODO: Shouldn't changing the status to testing automatically add the model to the queue on save?
+     * TODO: Shouldn't changing the status to testing automatically add the TestServerConnect to the queue on save?
      */
     public function test(Server $server)
     {
-        $server->status = Server::TESTING;
-        $server->save();
+        if ($server->status !== Server::TESTING) { // FIXME: Move to a method on the Server
+            $server->status = Server::TESTING;
+            $server->save();
 
-        $this->dispatch(new TestServerConnection($server));
+            $this->dispatch(new TestServerConnection($server));
+        }
 
         return [
             'success' => true

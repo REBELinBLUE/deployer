@@ -46,8 +46,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.Notifications.remove(notification);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -120,8 +118,7 @@ var app = app || {};
 
 
     app.Notification = Backbone.Model.extend({
-        urlRoot: '/notifications',
-        poller: false
+        urlRoot: '/notifications'
     });
 
     var Notifications = Backbone.Collection.extend({
@@ -143,7 +140,31 @@ var app = app || {};
 
             this.listenTo(app.Notifications, 'add', this.addOne);
             this.listenTo(app.Notifications, 'reset', this.addAll);
+            this.listenTo(app.Notifications, 'remove', this.addAll);
             this.listenTo(app.Notifications, 'all', this.render);
+
+
+            app.listener.on('notification:App\\Events\\ModelChanged', function (data) {
+                var notification = app.Notifications.get(parseInt(data.model.id));
+
+                if (server) {
+                    notification.set(data.model);
+                }
+            });
+
+            app.listener.on('notification:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.Notifications.add(data.model);
+                }
+            });
+
+            app.listener.on('notification:App\\Events\\ModelTrashed', function (data) {
+                var notification = app.Notifications.get(parseInt(data.model.id));
+
+                if (notification) {
+                    app.Notifications.remove(notification);
+                }
+            });
         },
         render: function () {
             if (app.Notifications.length) {

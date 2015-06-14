@@ -2,9 +2,12 @@
 
 namespace App;
 
-use Lang;
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Lang;
 
 /**
  * The application's  url store for health check.
@@ -21,6 +24,13 @@ class CheckUrl extends Model
     protected $fillable = ['title', 'url', 'project_id', 'period', 'is_report'];
 
     /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
+
+    /**
      * The attributes that should be casted to native types.
      *
      * @var array
@@ -28,6 +38,28 @@ class CheckUrl extends Model
     protected $casts = [
         'is_report' => 'boolean'
     ];
+
+    /**
+     * Override the boot method to bind model event listeners.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function (CheckUrl $model) {
+            event(new ModelCreated($model, 'link'));
+        });
+
+        static::updated(function (CheckUrl $model) {
+            event(new ModelChanged($model, 'link'));
+        });
+
+        static::deleted(function (CheckUrl $model) {
+            event(new ModelTrashed($model, 'link'));
+        });
+    }
 
     /**
      * Belongs to relationship.

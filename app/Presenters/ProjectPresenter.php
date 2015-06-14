@@ -180,63 +180,70 @@ class ProjectPresenter extends Presenter
     }
 
     /**
-     * Show the application status
+     * Show the application status.
+     *
      * @return string
      */
     public function presentAppStatus()
     {
         $status = $this->applicationCheckUrlStatus();
+
         if ($status['length'] === 0) {
-            return 'N/A';
+            return Lang::get('app.not_applicable');
         }
-        return ($status['length'] - $status['missed']) . '/' . $status['length'];
+
+        return ($status['length'] - $status['missed']) . ' / ' . $status['length'];
     }
 
     /**
-     * Show the application status css
+     * Show the application status css.
+     *
      * @return string
      */
     public function presentAppStatusCss()
     {
         $status = $this->applicationCheckUrlStatus();
+
         if ($status['length'] === 0) {
-            $css = 'label-warning';
+            return 'warning';
         } elseif ($status['missed']) {
-            $css = 'label-danger';
-        } else {
-            $css = 'label-success';
+            return 'danger';
         }
-        return $css;
+
+        return 'success';
     }
 
     /**
-     * Show heartbeat status count
+     * Show heartbeat status count.
+     *
      * @return string
      */
     public function presentHeartBeatStatus()
     {
         $status = $this->heartbeatsStatus();
-        if ($status['length'] == 0) {
-            return 'N/A';
+
+        if ($status['length'] === 0) {
+            return Lang::get('app.not_applicable');
         }
-        return ($status['length'] - $status['missed']) . '/' . $status['length'];
+
+        return ($status['length'] - $status['missed']) . ' / ' . $status['length'];
     }
 
     /**
-     * The application heartbeat status css
-     * @return [type] [description]
+     * The application heartbeat status css.
+     * @return string
      */
     public function presentHeartBeatStatusCss()
     {
         $status = $this->heartbeatsStatus();
+
         if ($status['length'] === 0) {
-            $css = 'label-warning';
+            return 'warning';
         } elseif ($status['missed']) {
-            $css = 'label-danger';
-        } else {
-            $css = 'label-success';
+            return 'danger';
         }
-        return $css;
+
+        return 'success';
     }
 
     /**

@@ -20,7 +20,7 @@ class StoreNotificationRequest extends Request
             'name'       => 'required|max:255',
             'channel'    => 'required|max:255',
             'webhook'    => 'required|url',
-            'project_id' => 'required|integer|exists:projects,id',
+            'project_id' => 'required|integer|exists:projects,id'
         ];
     }
 }

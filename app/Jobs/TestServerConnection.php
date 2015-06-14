@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Server;
 use App\Jobs\Job;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Server;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Symfony\Component\Process\Process;
 
 /**
@@ -40,7 +40,7 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
         $this->server->status = Server::TESTING;
         $this->server->save();
 
-        $key = tempnam(storage_path().'/app/', 'sshkey');
+        $key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($key, $this->server->project->private_key);
 
         try {
@@ -72,16 +72,16 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
      */
     private function sshCommand(Server $server, $private_key, $script)
     {
-        $script = 'set -e'.PHP_EOL.$script;
+        $script = 'set -e' . PHP_EOL . $script;
 
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
                  -o StrictHostKeyChecking=no \
                  -o PasswordAuthentication=no \
-                 -o IdentityFile='.$private_key.' \
-                 -p '.$server->port.' \
-                 '.$server->user.'@'.$server->ip_address.' \'bash -s\' << EOF
-                 '.$script.'
+                 -o IdentityFile=' . $private_key . ' \
+                 -p ' . $server->port . ' \
+                 ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 ' . $script . '
 EOF';
     }
 }

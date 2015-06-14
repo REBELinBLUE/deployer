@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,16 +16,16 @@ class Server extends Model
     use SoftDeletes;
 
     const SUCCESSFUL = 0;
-    const UNTESTED = 1;
-    const FAILED = 2;
-    const TESTING = 3;
+    const UNTESTED   = 1;
+    const FAILED     = 2;
+    const TESTING    = 3;
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['project_id', 'created_at', 'updated_at', 'deleted_at', 'pivot'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
 
     /**
      * The attributes that are mass assignable.
@@ -40,6 +43,29 @@ class Server extends Model
         'status'      => 'integer',
         'deploy_code' => 'boolean'
     ];
+
+    /**
+     * Override the boot method to bind model event listeners.
+     *
+     * @return void
+     * TODO: Shouldn't this method take care of setting up a TestServerConnection if the status has changed to testing?
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function (Server $model) {
+            event(new ModelChanged($model, 'server'));
+        });
+
+        static::created(function (Server $model) {
+            event(new ModelCreated($model, 'server'));
+        });
+
+        static::deleted(function (Server $model) {
+            event(new ModelTrashed($model, 'server'));
+        });
+    }
 
     /**
      * Belongs to relationship.

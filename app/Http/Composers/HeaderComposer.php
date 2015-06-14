@@ -2,8 +2,8 @@
 
 namespace App\Http\Composers;
 
-use Illuminate\Contracts\View\View;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
+use Illuminate\Contracts\View\View;
 
 /**
  * View composer for the header bar.

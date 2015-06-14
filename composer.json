@@ -21,6 +21,7 @@
     },
     "require": {
         "laravel/framework": "5.1.*",
+        "predis/predis": "~1.0",
         "graham-campbell/htmlmin": "~3.0",
         "pda/pheanstalk": "~3.0",
         "creativeorange/gravatar": "~1.0",

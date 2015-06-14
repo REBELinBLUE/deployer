@@ -83,8 +83,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.Commands.remove(command);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -205,7 +203,36 @@ var app = app || {};
 
             this.listenTo(app.Commands, 'add', this.addOne);
             this.listenTo(app.Commands, 'reset', this.addAll);
+            this.listenTo(app.Commands, 'remove', this.addAll);
             this.listenTo(app.Commands, 'all', this.render);
+
+            // FIXME: Need to regenerate the order!
+
+            app.listener.on('command:App\\Events\\ModelChanged', function (data) {
+                var command = app.Commands.get(parseInt(data.model.id));
+
+                if (command) {
+                    command.set(data.model);
+                }
+            });
+
+            app.listener.on('command:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+
+                    // Make sure the command is for this action (clone, install, activate, purge)
+                    if (parseInt(data.model.step) + 1 === parseInt(app.command_action) || parseInt(data.model.step) - 1 === parseInt(app.command_action)) {
+                        app.Commands.add(data.model);
+                    }
+                }
+            });
+
+            app.listener.on('command:App\\Events\\ModelTrashed', function (data) {
+                var command = app.Commands.get(parseInt(data.model.id));
+
+                if (command) {
+                    app.Commands.remove(command);
+                }
+            });
         },
         render: function () {
             var before = app.Commands.find(function(model) { 

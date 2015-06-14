@@ -2,11 +2,14 @@
 
 namespace App;
 
-use Lang;
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Lang;
 
 /**
  * Heartbeat model.
@@ -15,16 +18,16 @@ class Heartbeat extends Model
 {
     use SoftDeletes;
 
-    const OK = 0;
+    const OK       = 0;
     const UNTESTED = 1;
-    const MISSING = 2;
+    const MISSING  = 2;
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['project_id', 'created_at', 'updated_at', 'deleted_at', 'pivot'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
 
     /**
      * The attributes that are mass assignable.
@@ -82,6 +85,19 @@ class Heartbeat extends Model
                 $model->generateHash();
             }
         });
+
+        // FIXME: make a trait which creates these
+        static::created(function (Heartbeat $model) {
+            event(new ModelCreated($model, 'heartbeat'));
+        });
+
+        static::updated(function (Heartbeat $model) {
+            event(new ModelChanged($model, 'heartbeat'));
+        });
+
+        static::deleted(function (Heartbeat $model) {
+            event(new ModelTrashed($model, 'heartbeat'));
+        });
     }
 
     /**
@@ -111,8 +127,8 @@ class Heartbeat extends Model
      */
     public function pinged()
     {
-        $this->status = self::OK;
-        $this->missed = 0;
+        $this->status        = self::OK;
+        $this->missed        = 0;
         $this->last_activity = $this->freshTimestamp();
 
         return $this->save();

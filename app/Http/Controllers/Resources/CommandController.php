@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Resources;
 
-use Lang;
-use Input;
-use App\Project;
 use App\Command;
-use App\ServerLog;
-use App\Http\Requests;
 use App\Http\Requests\StoreCommandRequest;
+use App\Project;
+use Input;
+use Lang;
 
 /**
  * Controller for managing commands.
@@ -47,7 +45,7 @@ class CommandController extends ResourceController
             'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
-            'title'      => Lang::get('commands.'.strtolower($action)),
+            'title'      => Lang::get('commands.' . strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
             'commands'   => $commands
@@ -155,36 +153,5 @@ class CommandController extends ResourceController
         return [
             'success' => true
         ];
-    }
-
-    /**
-     * Gets the status of a particular deployment step.
-     *
-     * @param ServerLog $log
-     * @param bool $include_log
-     * @return Response
-     * TODO: Move this to deployment controller
-     */
-    public function status(ServerLog $log, $include_log = false)
-    {
-        $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
-
-        if (!$include_log) {
-            $log->output = ((is_null($log->output) || !strlen($log->output)) ? null : '');
-        }
-
-        return $log;
-    }
-
-    /**
-     * Gets the log output of a particular deployment step.
-     *
-     * @param ServerLog $log
-     * @return Response
-     * TODO: Move this to deployment controller
-     */
-    public function log(ServerLog $log)
-    {
-        return $this->status($log, true);
     }
 }

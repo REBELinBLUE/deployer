@@ -14,6 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 class CheckHeartbeats extends Command
 {
     use DispatchesJobs;
+
     /**
      * The name and signature of the console command.
      *

@@ -28,5 +28,8 @@
     <script type="text/javascript">
         new app.CommandsTab();
         app.Commands.add({!! $commands->toJson() !!});
+
+        app.project_id = {{ $project->id }};
+        app.command_action = {{ $action }};
     </script>
 @stop

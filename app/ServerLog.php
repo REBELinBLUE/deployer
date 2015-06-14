@@ -2,10 +2,11 @@
 
 namespace App;
 
+use App\Contracts\RuntimeInterface;
+use App\Events\ServerLogChanged;
+use App\Presenters\ServerLogPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
-use App\Presenters\ServerLogPresenter;
-use App\Contracts\RuntimeInterface;
 
 /**
  * Server log model.
@@ -13,9 +14,9 @@ use App\Contracts\RuntimeInterface;
 class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 {
     const COMPLETED = 0;
-    const PENDING = 1;
-    const RUNNING = 2;
-    const FAILED = 3;
+    const PENDING   = 1;
+    const RUNNING   = 2;
+    const FAILED    = 3;
     const CANCELLED = 4;
 
     /**
@@ -40,6 +41,20 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     protected $casts = [
         'status' => 'integer'
     ];
+
+    /**
+     * Override the boot method to bind model event listeners.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function (ServerLog $model) {
+            event(new ServerLogChanged($model));
+        });
+    }
 
     /**
      * Belongs to assocation.

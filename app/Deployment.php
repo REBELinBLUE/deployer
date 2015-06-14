@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Contracts\RuntimeInterface;
+use App\Events\ModelChanged;
 use App\Presenters\DeploymentPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,6 +26,20 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public static $currentDeployment = [];
 
     /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'deleted_at', 'updated_at', 'user'];
+
+    /**
+     * Additional attributes to include in the JSON representation.
+     *
+     * @var array
+     */
+    protected $appends = ['project_name', 'deployer_name', 'commit_url', 'short_commit', 'branch_url'];
+
+    /**
      * The fields which should be tried as Carbon instances.
      *
      * @var array
@@ -39,6 +54,20 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     protected $casts = [
         'status' => 'integer',
     ];
+
+    /**
+     * Override the boot method to bind model event listeners.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saved(function (Deployment $model) {
+            event(new ModelChanged($model, 'deployment'));
+        });
+    }
 
     /**
      * Belongs to relationship.
@@ -77,7 +106,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function isRunning()
     {
-        return ($this->status == self::DEPLOYING);
+        return ($this->status === self::DEPLOYING);
     }
 
     /**
@@ -87,7 +116,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function isSuccessful()
     {
-        return ($this->status == self::COMPLETED);
+        return ($this->status === self::COMPLETED);
     }
 
     /**
@@ -126,9 +155,9 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @return string|false
      */
-    public function commitURL()
+    public function getCommitUrlAttribute()
     {
-        if ($this->commit != self::LOADING) {
+        if ($this->commit !== self::LOADING) {
             $info = $this->project->accessDetails();
             if (isset($info['domain']) && isset($info['reference'])) {
                 return 'http://' . $info['domain'] . '/' . $info['reference'] . '/commit/' . $this->commit;
@@ -143,9 +172,9 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @return string
      */
-    public function shortCommit()
+    public function getShortCommitAttribute()
     {
-        if ($this->commit != self::LOADING) {
+        if ($this->commit !== self::LOADING) {
             return substr($this->commit, 0, 7);
         }
 
@@ -159,7 +188,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * @see \App\Project::accessDetails()
      * TODO: Should this be an attribute?
      */
-    public function branchURL()
+    public function getBranchURLAttribute()
     {
         $info = $this->project->accessDetails();
 
@@ -198,11 +227,11 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                             'short' => true,
                         ], [
                             'title' => Lang::get('notifications.commit'),
-                            'value' => $this->commitURL() ? sprintf(
+                            'value' => $this->commit_url ? sprintf(
                                 '<%s|%s>',
-                                $this->commitURL(),
-                                $this->shortCommit()
-                            ) : $this->shortCommit(),
+                                $this->commit_url,
+                                $this->short_commit
+                            ) : $this->short_commit,
                             'short' => true,
                         ], [
                             'title' => Lang::get('notifications.committer'),
@@ -229,5 +258,29 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function getPresenter()
     {
         return new DeploymentPresenter($this);
+    }
+
+    /**
+     * Define a accessor for the project name.
+     *
+     * @return string
+     */
+    public function getProjectNameAttribute()
+    {
+        return $this->project->name;
+    }
+
+    /**
+     * Define a accessor for the deployer name.
+     *
+     * @return string
+     */
+    public function getDeployerNameAttribute()
+    {
+        if (!empty($this->user_id)) {
+            return $this->user->name;
+        }
+
+        return $this->getPresenter()->committer_name;
     }
 }

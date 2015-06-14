@@ -5,10 +5,10 @@ namespace App\Jobs;
 use App\Jobs\Job;
 use App\Notification;
 use Httpful\Request;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Sends notification to slack.
@@ -30,7 +30,7 @@ class Notify extends Job implements SelfHandling, ShouldQueue
     public function __construct(Notification $notification, array $payload)
     {
         $this->notification = $notification;
-        $this->payload = $payload;
+        $this->payload      = $payload;
     }
 
     /**

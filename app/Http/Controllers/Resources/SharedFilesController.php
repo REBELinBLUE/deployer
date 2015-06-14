@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\SharedFile;
 use App\Http\Requests\StoreSharedFileRequest;
+use App\SharedFile;
 
 /**
  * Controller for managing files.

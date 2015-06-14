@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Events\ModelChanged;
+use App\Events\ModelCreated;
+use App\Events\ModelTrashed;
 use App\Presenters\ProjectPresenter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -27,10 +30,9 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
-        'updated_at', 'servers', 'commands', 'hash', 'status',
-        'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-        'notifications', 'deployments', 'shareFiles', 'projectFiles',
-        'notifyEmails'];
+                         'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
+                         'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
+                         'notifications', 'deployments', 'shareFiles', 'projectFiles'];
 
     /**
      * The attributes that are mass assignable.
@@ -40,7 +42,7 @@ class Project extends ProjectRelation implements PresentableInterface
     protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url'];
 
     /**
-     * The fields which should be tried as Carbon instances.
+     * The fields which should be treated as Carbon instances.
      *
      * @var array
      */
@@ -64,13 +66,13 @@ class Project extends ProjectRelation implements PresentableInterface
     ];
 
     /**
-     * The heart beats status count
+     * The heart beats status count.
      * @var array
      */
     protected $heartbeatStatus = [];
 
     /**
-     * The check url's status count
+     * The check url's status count.
      * @var array
      */
     protected $checkurlStatus = [];
@@ -93,6 +95,18 @@ class Project extends ProjectRelation implements PresentableInterface
             if (!array_key_exists('hash', $model->attributes)) {
                 $model->generateHash();
             }
+        });
+
+        static::created(function (Project $model) {
+            event(new ModelCreated($model, 'project'));
+        });
+
+        static::updated(function (Project $model) {
+            event(new ModelChanged($model, 'project'));
+        });
+
+        static::deleted(function (Project $model) {
+            event(new ModelTrashed($model, 'project'));
         });
     }
 
@@ -200,14 +214,17 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Count the missed heartbeat
-     * @return [type] [description]
+     * Count the missed heartbeat.
+     *
+     * @return array
+     * fixme: no need for the if statement, just check the status
      */
     public function heartbeatsStatus()
     {
         if (empty($this->heartbeatStatus)) {
             $length = count($this->heartbeats);
             $missed = 0;
+
             foreach ($this->heartbeats as $beat) {
                 $last_activity = strtotime($beat->last_activity);
                 $now           = time();
@@ -215,13 +232,16 @@ class Project extends ProjectRelation implements PresentableInterface
                     $missed++;
                 }
             }
+
             $this->heartbeatStatus = ['missed' => $missed, 'length' => $length];
         }
+
         return $this->heartbeatStatus;
     }
 
     /**
-     * Count the application url check status
+     * Count the application url check status.
+     *
      * @return array
      */
     public function applicationCheckUrlStatus()
@@ -235,8 +255,10 @@ class Project extends ProjectRelation implements PresentableInterface
                     $missed++;
                 }
             }
+
             $this->checkurlStatus = ['missed' => $missed, 'length' => $length];
         }
+
         return $this->checkurlStatus;
     }
 

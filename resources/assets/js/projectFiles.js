@@ -80,8 +80,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.ProjectFiles.remove(file);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -154,8 +152,7 @@ var app = app || {};
     });
 
     app.ProjectFile = Backbone.Model.extend({
-        urlRoot: '/project-file',
-        poller: false
+        urlRoot: '/project-file'
     });
 
     var ProjectFiles = Backbone.Collection.extend({
@@ -177,7 +174,30 @@ var app = app || {};
 
             this.listenTo(app.ProjectFiles, 'add', this.addOne);
             this.listenTo(app.ProjectFiles, 'reset', this.addAll);
+            this.listenTo(app.ProjectFiles, 'remove', this.addAll);
             this.listenTo(app.ProjectFiles, 'all', this.render);
+
+            app.listener.on('file:App\\Events\\ModelChanged', function (data) {
+                var file = app.ProjectFiles.get(parseInt(data.model.id));
+
+                if (file) {
+                    file.set(data.model);
+                }
+            });
+
+            app.listener.on('file:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.ProjectFiles.add(data.model);
+                }
+            });
+
+            app.listener.on('file:App\\Events\\ModelTrashed', function (data) {
+                var file = app.ProjectFiles.get(parseInt(data.model.id));
+
+                if (file) {
+                    app.ProjectFiles.remove(file);
+                }
+            });
         },
         render: function () {
             if (app.ProjectFiles.length) {

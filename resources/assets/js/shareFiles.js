@@ -44,8 +44,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.SharedFiles.remove(file);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -114,8 +112,7 @@ var app = app || {};
     });
 
     app.SharedFile = Backbone.Model.extend({
-        urlRoot: '/shared-files',
-        poller: false
+        urlRoot: '/shared-files'
     });
 
     var SharedFiles = Backbone.Collection.extend({
@@ -137,7 +134,30 @@ var app = app || {};
 
             this.listenTo(app.SharedFiles, 'add', this.addOne);
             this.listenTo(app.SharedFiles, 'reset', this.addAll);
+            this.listenTo(app.SharedFiles, 'remove', this.addAll);
             this.listenTo(app.SharedFiles, 'all', this.render);
+
+            app.listener.on('share:App\\Events\\ModelChanged', function (data) {
+                var share = app.SharedFiles.get(parseInt(data.model.id));
+
+                if (share) {
+                    share.set(data.model);
+                }
+            });
+
+            app.listener.on('share:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.SharedFiles.add(data.model);
+                }
+            });
+
+            app.listener.on('share:App\\Events\\ModelTrashed', function (data) {
+                var share = app.SharedFiles.get(parseInt(data.model.id));
+
+                if (share) {
+                    app.SharedFiles.remove(share);
+                }
+            });
         },
         render: function () {
             if (app.SharedFiles.length) {

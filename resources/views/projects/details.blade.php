@@ -44,8 +44,8 @@
                         @if(!empty($project->build_url))
                         <li><a href="#">{{ Lang::get('projects.build_status') }} <span class="pull-right"><img src="{{ $project->build_url }}" /></span></a></li>
                         @endif
-                        <li><a href="#">{{ Lang::get('projects.app_status') }} <span class="pull-right label {{ $project->app_status_css }}">{{ $project->app_status }}</span></a></li>
-                        <li><a href="#">{{ Lang::get('projects.heartbeats_status') }} <span class="pull-right label {{ $project->heart_beat_status_css }}">{{ $project->heart_beat_status }}</span></a></li>
+                        <li><a href="#">{{ Lang::get('projects.app_status') }} <span class="pull-right label label-{{ $project->app_status_css }}">{{ $project->app_status }}</span></a></li>
+                        <li><a href="#">{{ Lang::get('projects.heartbeats_status') }} <span class="pull-right label label-{{ $project->heart_beat_status_css }}">{{ $project->heart_beat_status }}</span></a></li>
                     </ul>
                 </div>
             </div>
@@ -123,12 +123,14 @@
         app.NotifyEmails.add({!! $notifyEmails->toJson() !!});
         app.Heartbeats.add({!! $heartbeats->toJson() !!});
         app.CheckUrls.add({!! $checkUrls->toJson() !!});
+
+        app.project_id = {{ $project->id }};
     </script>
 @stop
 
 @section('right-buttons')
     <div class="pull-right">
         <button type="button" class="btn btn-default" title="{{ Lang::get('projects.view_ssh_key') }}" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> {{ Lang::get('projects.ssh_key') }}</button> <!-- FIXME: The deploy button should filter to only deployable servers -->
-        <button  data-toggle="modal" data-backdrop="static" data-target="#reason" type="button" class="btn btn-danger" title="{{ Lang::get('projects.deploy_project') }}" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></i> {{ Lang::get('projects.deploy') }}</button>
+        <button id="deploy_project" data-toggle="modal" data-backdrop="static" data-target="#reason" type="button" class="btn btn-danger" title="{{ Lang::get('projects.deploy_project') }}" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></i> {{ Lang::get('projects.deploy') }}</button>
     </div>
 @stop

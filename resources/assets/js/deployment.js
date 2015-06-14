@@ -44,82 +44,8 @@ var app = app || {};
         });
     });
 
-    var isChecking = false;
-
     app.ServerLog = Backbone.Model.extend({
-        urlRoot: '/status',
-        poller: false,
-        initialize: function() {
-            this.on('change:status', this.changeStatus, this);
-            
-            this.changeStatus();
-        },
-        changeStatus: function() {
-            // Start polling the model if it is running, or it is the first model in the collection as is pending
-            var poll_for_update = false;
-            if (parseInt(this.get('status')) === PENDING) {
-                if (this.get('first') === true) {
-                    poll_for_update = true;
-                }
-            } else if (parseInt(this.get('status')) === RUNNING) {
-                poll_for_update = true;
-            }
-
-            if (poll_for_update) {
-                isChecking = true;
-
-                var that = this;
-
-                $.ajax({
-                    type: 'GET',
-                    url: this.urlRoot + '/' + this.id
-                }).fail(function (response) {
-                    that.set({
-                        status: FAILED
-                    });
-                }).success(function () {
-                    that.poller = Backbone.Poller.get(that, {
-                        condition: function(model) {
-                            var stillRunning = (parseInt(model.get('status')) === RUNNING);
-
-                            if (parseInt(model.get('status')) === PENDING && model.get('first') === true) {
-                                stillRunning = true;
-                            }
-
-                            if (parseInt(model.get('status')) === COMPLETED) {
-                                var found = _.find(app.Deployment.models, function(next) { 
-                                    return parseInt(next.get('status')) === PENDING;
-                                });
-
-                                if (found) {
-                                    found.set({
-                                        status: RUNNING
-                                    });
-                                }
-
-                                return false;
-                            }
-
-                            isChecking = stillRunning;
-
-                            return stillRunning;
-                        },
-                        delay: 1000
-                    });
-
-                    that.poller.start();
-                });
-            }
-            else if (parseInt(this.get('status')) === FAILED || parseInt(this.get('status')) === CANCELLED) {
-                _.each(app.Deployment.models, function(remaining) {
-                    if (parseInt(remaining.get('status')) === PENDING) {
-                        remaining.set({
-                            status: CANCELLED
-                        });
-                    }
-                });
-            }
-        }
+        urlRoot: '/status'
     });
 
     var Deployment = Backbone.Collection.extend({
@@ -145,7 +71,26 @@ var app = app || {};
 
             this.listenTo(app.Deployment, 'add', this.addOne);
             this.listenTo(app.Deployment, 'reset', this.addAll);
+            this.listenTo(app.Deployment, 'remove', this.addAll);
             this.listenTo(app.Deployment, 'all', this.render);
+
+            app.listener.on('serverlog:App\\Events\\ServerLogChanged', function (data) {
+                var deployment = app.Deployment.get(data.log_id);
+
+                if (deployment) {
+                    deployment.set({
+                        status: data.status,
+                        output: data.output,
+                        runtime: data.runtime,
+                        started_at: data.started_at ? data.started_at : false,
+                        finished_at: data.finished_at ? data.finished_at : false
+                    });
+
+                    // FIXME: If cancelled update all other deployments straight away
+                    // FIXME: If completed fake making the next model "running" so it looks responsive
+                }
+            });
+
         },
         addOne: function (step) {
             var view = new app.LogView({ 

@@ -2,17 +2,17 @@
 
 namespace App\Listeners\Events;
 
-use Lang;
-use Mail;
 use App\Events\UserWasCreated;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
+use Illuminate\Queue\InteractsWithQueue;
+use Lang;
+use Mail;
 
 /**
  * Sends an email when the user has been created.
  */
-class SendSignupEmail implements ShouldQueue
+class SendSignupEmail extends Event implements ShouldQueue
 {
     use InteractsWithQueue;
 
@@ -41,9 +41,14 @@ class SendSignupEmail implements ShouldQueue
             'email'    => $user->email
         ];
 
-        Mail::send('emails.account', $data, function (Message $message) use ($user) {
-            $message->to($user->email, $user->name)
-                    ->subject(Lang::get('emails.creation_subject'));
-        });
+        Mail::queueOn(
+            'low',
+            'emails.account',
+            $data,
+            function (Message $message) use ($user) {
+                $message->to($user->email, $user->name)
+                        ->subject(Lang::get('emails.creation_subject'));
+            }
+        );
     }
 }

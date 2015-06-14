@@ -47,8 +47,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.CheckUrls.remove(file);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -118,8 +116,7 @@ var app = app || {};
     });
 
     app.CheckUrl = Backbone.Model.extend({
-        urlRoot: '/check-url',
-        poller: false
+        urlRoot: '/check-url'
     });
 
     var CheckUrls = Backbone.Collection.extend({
@@ -141,7 +138,30 @@ var app = app || {};
 
             this.listenTo(app.CheckUrls, 'add', this.addOne);
             this.listenTo(app.CheckUrls, 'reset', this.addAll);
+            this.listenTo(app.CheckUrls, 'remove', this.addAll);
             this.listenTo(app.CheckUrls, 'all', this.render);
+
+            app.listener.on('link:App\\Events\\ModelChanged', function (data) {
+                var link = app.CheckUrls.get(parseInt(data.model.id));
+
+                if (link) {
+                    link.set(data.model);
+                }
+            });
+
+            app.listener.on('link:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.CheckUrls.add(data.model);
+                }
+            });
+
+            app.listener.on('link:App\\Events\\ModelTrashed', function (data) {
+                var link = app.CheckUrls.get(parseInt(data.model.id));
+
+                if (link) {
+                    app.CheckUrls.remove(link);
+                }
+            });
         },
         render: function () {
             if (app.CheckUrls.length) {
