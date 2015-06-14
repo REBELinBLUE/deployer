@@ -27,6 +27,12 @@ var app = app || {};
     app.listener.on('deployment:App\\Events\\ModelChanged', function (data) {
         updateNavBar(data);
 
+        var project = $('#project_' + data.model.project_id);
+
+        if (project.length > 0) {
+            updateTimeline();
+        }
+
         var deployment  = $('#deployment_' + data.model.id);
 
         if (deployment.length > 0) {
@@ -42,6 +48,7 @@ var app = app || {};
             var icon_class = 'clock-o';
             var label_class = 'info';
             var label = Lang.deployments.status.pending;
+            var done = false;
 
             data.model.status = parseInt(data.model.status);
             var status = $('td:nth-child(7) span.label', deployment);
@@ -50,6 +57,7 @@ var app = app || {};
                 icon_class = 'check';
                 label_class = 'success';
                 label = Lang.deployments.status.completed;
+                done = true;
             } else if (data.model.status === DEPLOYMENT_DEPLOYING) {
                 icon_class = 'spinner fa-pulse';
                 label_class = 'warning';
@@ -58,6 +66,11 @@ var app = app || {};
                 icon_class = 'warning';
                 label_class = 'danger';
                 label = Lang.deployments.status.failed;
+                done = true;
+            }
+
+            if (done) {
+                $('button#deploy_project:disabled').removeAttr('disabled');
             }
 
             status.attr('class', 'label label-' + label_class)
@@ -117,6 +130,16 @@ var app = app || {};
             window.location.href = '/';
         }
     });
+
+    // FIXME: This is cheating
+    function updateTimeline() {
+        $.ajax({
+            type: 'GET',
+            url: '/timeline'
+        }).success(function (response) {
+            $('#timeline').html(response);
+        });
+    }
 
     function updateNavBar(data) {
         data.model.time = moment(data.model.started_at).format('h:mm:ss A');

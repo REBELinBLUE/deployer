@@ -23,19 +23,7 @@ class DashboardController extends Controller
         DeploymentRepositoryInterface $deploymentRepository,
         ProjectRepositoryInterface $projectRepository
     ) {
-        $deployments = $deploymentRepository->getTimeline();
-        $projects    = $projectRepository->getAll();
-
-        $deploys_by_date = [];
-        foreach ($deployments as $deployment) {
-            $date = $deployment->started_at->format('Y-m-d');
-
-            if (!isset($deploys_by_date[$date])) {
-                $deploys_by_date[$date] = [];
-            }
-
-            $deploys_by_date[$date][] = $deployment;
-        }
+        $projects = $projectRepository->getAll();
 
         $projects_by_group = [];
         foreach ($projects as $project) {
@@ -50,10 +38,46 @@ class DashboardController extends Controller
 
         return view('dashboard.index', [
             'title'     => Lang::get('dashboard.title'),
-            'latest'    => $deploys_by_date,
-            'gprojects' => $projects_by_group,
-            'projects'  => $projects->toJSON()
+            'latest'    => $this->build_timeline_data($deploymentRepository),
+            'projects'  => $projects_by_group
         ]);
+    }
+
+    /**
+     * Returns the timeline
+     * 
+     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @return string
+     */
+    public function timeline(DeploymentRepositoryInterface $deploymentRepository)
+    {
+        return view('dashboard.timeline', [
+            'latest' => $this->build_timeline_data($deploymentRepository)
+        ]);
+    }
+
+    /**
+     * Builds the data for the timline
+     * 
+     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @return array
+     */
+    private function build_timeline_data(DeploymentRepositoryInterface $deploymentRepository)
+    {
+        $deployments = $deploymentRepository->getTimeline();
+
+        $deploys_by_date = [];
+        foreach ($deployments as $deployment) {
+            $date = $deployment->started_at->format('Y-m-d');
+
+            if (!isset($deploys_by_date[$date])) {
+                $deploys_by_date[$date] = [];
+            }
+
+            $deploys_by_date[$date][] = $deployment;
+        }
+
+        return $deploys_by_date;
     }
 
     /**

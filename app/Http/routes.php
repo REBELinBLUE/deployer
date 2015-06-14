@@ -14,6 +14,7 @@
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', 'DashboardController@index');
+    Route::get('/timeline', 'DashboardController@timeline');
 
     Route::get('webhook/{projects}/refresh', 'WebhookController@refresh');
 
