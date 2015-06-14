@@ -223,9 +223,7 @@ class Project extends ProjectRelation implements PresentableInterface
             $missed = 0;
 
             foreach ($this->heartbeats as $beat) {
-                $last_activity = strtotime($beat->last_activity);
-                $now           = time();
-                if (($now - $beat->interval * 60) > $last_activity) {
+                if (!$beat->isHealthy()) {
                     $missed++;
                 }
             }

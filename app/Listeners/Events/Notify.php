@@ -38,15 +38,15 @@ class Notify extends Event implements ShouldQueue
         $project    = $event->project;
         $deployment = $event->deployment;
 
-        // FIXME: Change this so it is link the other 2 notifications
+        // Send slack notifications
         foreach ($project->notifications as $notification) {
             $this->dispatch(new SlackNotify($notification, $deployment->notificationPayload()));
         }
 
-        //Send email notification
+        // Send email notification
         $this->dispatch(new MailDeployNotification($project, $deployment));
 
-        //Trigger to check the project urls
+        // Trigger to check the project urls
         $this->dispatch(new RequestProjectCheckUrl($project->checkUrls));
     }
 }

@@ -135,6 +135,16 @@ class Heartbeat extends Model
     }
 
     /**
+     * Determines whether the heartbeat is currently healthy.
+     *
+     * @return bool
+     */
+    public function isHealthy()
+    {
+        return ($this->status === self::OK);
+    }
+
+    /**
      * Generates a slack payload for the heartbeat failure.
      *
      * @return array
