@@ -8,7 +8,6 @@ use App\Events\ModelTrashed;
 
 /**
  * A trait to broadcast model changes
- * FIXME: This does not appear to work.
  */
 trait BroadcastChanges
 {
