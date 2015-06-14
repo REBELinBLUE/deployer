@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\Events\ModelChanged;
-use App\Events\ModelCreated;
-use App\Events\ModelTrashed;
+use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Server extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BroadcastChanges;
 
     const SUCCESSFUL = 0;
     const UNTESTED   = 1;
@@ -43,28 +41,6 @@ class Server extends Model
         'status'      => 'integer',
         'deploy_code' => 'boolean'
     ];
-
-    /**
-     * Override the boot method to bind model event listeners.
-     *
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::updated(function (Server $model) {
-            event(new ModelChanged($model, 'server'));
-        });
-
-        static::created(function (Server $model) {
-            event(new ModelCreated($model, 'server'));
-        });
-
-        static::deleted(function (Server $model) {
-            event(new ModelTrashed($model, 'server'));
-        });
-    }
 
     /**
      * Belongs to relationship.

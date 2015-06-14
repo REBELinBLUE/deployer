@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\Events\ModelChanged;
-use App\Events\ModelCreated;
-use App\Events\ModelTrashed;
+use App\Traits\BroadcastChanges;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,7 +14,7 @@ use Lang;
  */
 class Heartbeat extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BroadcastChanges;
 
     const OK       = 0;
     const UNTESTED = 1;
@@ -84,19 +82,6 @@ class Heartbeat extends Model
             if (!array_key_exists('hash', $model->attributes)) {
                 $model->generateHash();
             }
-        });
-
-        // FIXME: make a trait which creates these
-        static::created(function (Heartbeat $model) {
-            event(new ModelCreated($model, 'heartbeat'));
-        });
-
-        static::updated(function (Heartbeat $model) {
-            event(new ModelChanged($model, 'heartbeat'));
-        });
-
-        static::deleted(function (Heartbeat $model) {
-            event(new ModelTrashed($model, 'heartbeat'));
         });
     }
 

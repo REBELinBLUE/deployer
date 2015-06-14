@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\Events\ModelChanged;
-use App\Events\ModelCreated;
-use App\Events\ModelTrashed;
+use App\Traits\BroadcastChanges;
 use App\Jobs\Notify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,7 +14,7 @@ use Lang;
  */
 class Notification extends Model
 {
-    use SoftDeletes, DispatchesJobs;
+    use SoftDeletes, DispatchesJobs, BroadcastChanges;
 
     /**
      * The attributes that are mass assignable.
@@ -57,18 +55,6 @@ class Notification extends Model
                 $model,
                 $model->testPayload()
             ));
-        });
-
-        static::updated(function (Notification $model) {
-            event(new ModelChanged($model, 'notification'));
-        });
-
-        static::created(function (Notification $model) {
-            event(new ModelCreated($model, 'notification'));
-        });
-
-        static::deleted(function (Notification $model) {
-            event(new ModelTrashed($model, 'notification'));
         });
     }
 

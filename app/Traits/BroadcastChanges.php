@@ -17,23 +17,20 @@ trait BroadcastChanges
      *
      * @return void
      */
-    public static function boot()
+    public static function bootBroadcastChanges()
     {
-        parent::boot();
-
-        // FIXME: make a trait which creates these
         static::created(function ($model) {
-            $channel = strtolower(get_class($model));
+            $channel = strtolower(class_basename(get_class($model)));
             event(new ModelCreated($model, $channel));
         });
 
         static::updated(function ($model) {
-            $channel = strtolower(get_class($model));
+            $channel = strtolower(class_basename(get_class($model)));
             event(new ModelChanged($model, $channel));
         });
 
         static::deleted(function ($model) {
-            $channel = strtolower(get_class($model));
+            $channel = strtolower(class_basename(get_class($model)));
             event(new ModelTrashed($model, $channel));
         });
     }

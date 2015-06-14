@@ -80,7 +80,7 @@ return [
 
     'key' => env('APP_KEY', 'cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy'),
 
-    'cipher' => MCRYPT_RIJNDAEL_128, // FIXME: See if we can update this to the recommended 'AES-256-CBC'
+    'cipher' => MCRYPT_RIJNDAEL_128,
 
     /*
     |--------------------------------------------------------------------------

@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\Events\ModelChanged;
-use App\Events\ModelCreated;
-use App\Events\ModelTrashed;
+use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Command extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BroadcastChanges;
 
     const BEFORE_CLONE    = 1;
     const DO_CLONE        = 2;
@@ -51,29 +49,6 @@ class Command extends Model
         'step'     => 'integer',
         'optional' => 'boolean'
     ];
-
-    /**
-     * Override the boot method to bind model event listeners.
-     *
-     * @return void
-     * FIXME: Need to include the server IDs?
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::updated(function (Command $model) {
-            event(new ModelChanged($model, 'command'));
-        });
-
-        static::created(function (Command $model) {
-            event(new ModelCreated($model, 'command'));
-        });
-
-        static::deleted(function (Command $model) {
-            event(new ModelTrashed($model, 'command'));
-        });
-    }
 
     /**
      * Belongs to relationship.

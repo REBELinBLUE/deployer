@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\Events\ModelChanged;
-use App\Events\ModelCreated;
-use App\Events\ModelTrashed;
+use App\Traits\BroadcastChanges;
 use App\Presenters\ProjectPresenter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -16,7 +14,7 @@ use Symfony\Component\Process\Process;
  */
 class Project extends ProjectRelation implements PresentableInterface
 {
-    use SoftDeletes;
+    use SoftDeletes, BroadcastChanges;
 
     const FINISHED     = 0;
     const PENDING      = 1;
@@ -95,18 +93,6 @@ class Project extends ProjectRelation implements PresentableInterface
             if (!array_key_exists('hash', $model->attributes)) {
                 $model->generateHash();
             }
-        });
-
-        static::created(function (Project $model) {
-            event(new ModelCreated($model, 'project'));
-        });
-
-        static::updated(function (Project $model) {
-            event(new ModelChanged($model, 'project'));
-        });
-
-        static::deleted(function (Project $model) {
-            event(new ModelTrashed($model, 'project'));
         });
     }
 
@@ -214,7 +200,6 @@ class Project extends ProjectRelation implements PresentableInterface
      * Count the missed heartbeat.
      *
      * @return array
-     * fixme: no need for the if statement, just check the status
      */
     public function heartbeatsStatus()
     {

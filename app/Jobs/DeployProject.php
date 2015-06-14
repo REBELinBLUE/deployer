@@ -114,6 +114,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      * TODO: Change this to use the Gitlab API
+     * FIXME: Handle the failure as it is unclear what went wrong
      */
     private function updateRepoInfo()
     {
@@ -146,7 +147,6 @@ CMD;
         unlink($wrapper);
 
         if (!$process->isSuccessful()) {
-            // FIXME: Handle this situation as it is then unclear what went wrong
             throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
         }
 

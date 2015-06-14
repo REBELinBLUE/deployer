@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\Events\ModelChanged;
-use App\Events\ModelCreated;
-use App\Events\ModelTrashed;
+use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ProjectFile extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BroadcastChanges;
 
     /**
      * The attributes that are mass assignable.
@@ -28,28 +26,6 @@ class ProjectFile extends Model
      * @var array
      */
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
-
-    /**
-     * Override the boot method to bind model event listeners.
-     *
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::updated(function (ProjectFile $model) {
-            event(new ModelChanged($model, 'file'));
-        });
-
-        static::created(function (ProjectFile $model) {
-            event(new ModelCreated($model, 'file'));
-        });
-
-        static::deleted(function (ProjectFile $model) {
-            event(new ModelTrashed($model, 'file'));
-        });
-    }
 
     /**
      * Belongs to relationship.
