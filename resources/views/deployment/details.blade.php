@@ -55,8 +55,8 @@
             <% } %>
         </td>
         <td width="10%">
-         <% if (total_time) { %>
-                <%- total_time %>
+         <% if (runtime !== null) { %>
+                <%- runtime %>
             <% } else { %>
                 {{ Lang::get('app.not_applicable') }}
             <% } %>

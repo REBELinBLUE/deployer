@@ -144,7 +144,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function runtime()
     {
         if (!$this->finished_at) {
-            return false;
+            return null;
         }
 
         return $this->started_at->diffInSeconds($this->finished_at);

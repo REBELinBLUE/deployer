@@ -151,7 +151,6 @@ var app = app || {};
 
             data.formatted_start_time = data.started_at ? moment(data.started_at).format('h:mm:ss A') : false;
             data.formatted_end_time   = data.finished_at ? moment(data.finished_at).format('h:mm:ss A') : false;
-            data.total_time           = data.runtime !== null ? data.runtime : false;
 
             this.$el.html(this.template(data));
 
