@@ -15,8 +15,8 @@ use Config;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Queue;
 use Illuminate\Queue\SerializesModels;
-use Queue;
 use Symfony\Component\Process\Process;
 
 /**
@@ -48,7 +48,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
      * @param DeployProject $command
      * @return void
      */
-    public function queue($queue, $command)
+    public function queue(Queue $queue, $command)
     {
         $queue->pushOn('high', $command);
     }

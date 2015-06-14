@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\Queue;
 
 /**
  * Generic Job class.
@@ -29,7 +30,7 @@ abstract class Job
      * @param Job $command
      * @return void
      */
-    public function queue($queue, $command)
+    public function queue(Queue $queue, $command)
     {
         $queue->pushOn('low', $command);
     }
