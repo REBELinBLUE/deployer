@@ -6,12 +6,10 @@ use App\Command as Stage;
 use App\Deployment;
 use App\DeployStep;
 use App\Events\DeployFinished;
-use App\Events\DeploymentStatusChanged;
 use App\Jobs\Job;
 use App\Project;
 use App\Server;
 use App\ServerLog;
-use Config;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -63,7 +61,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
         $project = $this->deployment->project;
 
         $this->deployment->started_at = date('Y-m-d H:i:s');
-        $this->deployment->status     = Deployment::DEPLOYING;
+        $this->deployment->status = Deployment::DEPLOYING;
         $this->deployment->save();
 
         $project->status = Project::DEPLOYING;
@@ -83,10 +81,10 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
             }
 
             $this->deployment->status = Deployment::COMPLETED;
-            $project->status          = Project::FINISHED;
+            $project->status = Project::FINISHED;
         } catch (\Exception $error) {
             $this->deployment->status = Deployment::FAILED;
-            $project->status          = Project::FAILED;
+            $project->status = Project::FAILED;
 
             $this->cancelPendingSteps($this->deployment->steps);
 
@@ -154,8 +152,8 @@ CMD;
 
         $git_info = $process->getOutput();
 
-        $parts                       = explode("\x09", $git_info);
-        $this->deployment->commit    = $parts[0];
+        $parts = explode("\x09", $git_info);
+        $this->deployment->commit = $parts[0];
         $this->deployment->committer = trim($parts[1]);
         $this->deployment->save();
     }
@@ -183,17 +181,17 @@ CMD;
                 continue;
             }
 
-            $releases_dir       = $root_dir . '/releases';
+            $releases_dir = $root_dir . '/releases';
             $latest_release_dir = $releases_dir . '/' . $release_id;
 
-            $remote_key_file     = $root_dir . '/id_rsa';
+            $remote_key_file = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
             $commands = [
                 sprintf('cd %s', $root_dir),
                 sprintf('[ -f %s ] && rm %s', $remote_key_file, $remote_key_file),
                 sprintf('[ -f %s ] && rm %s', $remote_wrapper_file, $remote_wrapper_file),
-                sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir)
+                sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir),
             ];
 
             $script = implode(PHP_EOL, $commands);
@@ -231,7 +229,7 @@ CMD;
     private function runStep(DeployStep $step)
     {
         foreach ($step->servers as $log) {
-            $log->status     = ServerLog::RUNNING;
+            $log->status = ServerLog::RUNNING;
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
 
@@ -274,7 +272,7 @@ CMD;
                 $failed = true;
             }
 
-            $log->status      = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
+            $log->status = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
             $log->finished_at = date('Y-m-d H:i:s');
             $log->save();
 
@@ -305,14 +303,15 @@ CMD;
 
         $releases_dir = $root_dir . '/releases';
 
-        $release_id         = date('YmdHis', strtotime($this->deployment->started_at));
+        $release_id = date('YmdHis', strtotime($this->deployment->started_at));
         $latest_release_dir = $releases_dir . '/' . $release_id;
         $release_shared_dir = $root_dir . '/shared';
 
         $commands = false;
 
-        if ($step->stage === Stage::DO_CLONE) { // Clone the repository
-            $remote_key_file     = $root_dir . '/id_rsa';
+        if ($step->stage === Stage::DO_CLONE) {
+            // Clone the repository
+            $remote_key_file = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
             // FIXME: This does not belong here as this function should
@@ -336,9 +335,10 @@ CMD;
                 ),
                 sprintf('cd %s', $latest_release_dir),
                 sprintf('git checkout %s', $this->deployment->branch),
-                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
+                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
             ];
-        } elseif ($step->stage === Stage::DO_INSTALL) { // Install composer dependencies
+        } elseif ($step->stage === Stage::DO_INSTALL) {
+            // Install composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
                 sprintf(
@@ -346,10 +346,10 @@ CMD;
                     '--no-dev --prefer-dist --no-ansi --working-dir "%s"',
                     $latest_release_dir,
                     $latest_release_dir
-                )
+                ),
             ];
 
-            // the shared file must be created in the install step
+            // The shared file must be created in the install step
             $shareFileCommands = $this->shareFileCommands(
                 $project,
                 $latest_release_dir,
@@ -358,35 +358,39 @@ CMD;
 
             $commands = array_merge($commands, $shareFileCommands);
 
-            // write project file to release dir before install
+            // Write project file to release dir before install
 
             $projectFiles = $project->projectFiles;
             foreach ($projectFiles as $file) {
                 if ($file->path) {
                     $filepath = $latest_release_dir . '/' . $file->path;
                     $this->sendFileFromString($server, $filepath, $file->content);
+                    $commands[] = sprintf('chmod 0664 %s', $filepath);
                 }
             }
-        } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
+        } elseif ($step->stage === Stage::DO_ACTIVATE) {
+            // Activate latest release
             $commands = [
                 sprintf('cd %s', $root_dir),
                 sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
-                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
+                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir),
             ];
-        } elseif ($step->stage === Stage::DO_PURGE) { // Purge old releases
+        } elseif ($step->stage === Stage::DO_PURGE) {
+            // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
-                sprintf('(ls -t|head -n %u;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep + 1)
+                sprintf('(ls -t|head -n %u;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep + 1),
             ];
-        } else { // Custom step!
+        } else {
+            // Custom step!
             $commands = $step->command->script;
 
             $tokens = [
-                '{{ release }}'         => $release_id,
-                '{{ release_path }}'    => $latest_release_dir,
-                '{{ project_path }}'    => $root_dir,
-                '{{ sha }}'             => $this->deployment->commit,
-                '{{ short_sha }}'       => $this->deployment->short_commit
+                '{{ release }}' => $release_id,
+                '{{ release_path }}' => $latest_release_dir,
+                '{{ project_path }}' => $root_dir,
+                '{{ sha }}' => $this->deployment->commit,
+                '{{ short_sha }}' => $this->deployment->short_commit,
             ];
 
             $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);
@@ -510,7 +514,7 @@ OUT;
     {
         $root_dir = preg_replace('#/$#', '', $server->path);
 
-        $remote_key_file     = $root_dir . '/id_rsa';
+        $remote_key_file = $root_dir . '/id_rsa';
         $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
         // Upload the SSH private key
@@ -557,14 +561,14 @@ OUT;
         foreach ($project->shareFiles as $filecfg) {
             if ($filecfg->file) {
                 $pathinfo = pathinfo($filecfg->file);
-                $isDir    = false;
+                $isDir = false;
 
                 if (substr($filecfg->file, 0, 1) === '/') {
                     $filecfg->file = substr($filecfg->file, 1);
                 }
 
                 if (substr($filecfg->file, -1) === '/') {
-                    $isDir         = true;
+                    $isDir = true;
                     $filecfg->file = substr($filecfg->file, 0, -1);
                 }
 
