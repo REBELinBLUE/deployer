@@ -215,6 +215,7 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Count the missed heartbeat.
+     *
      * @return array
      * fixme: no need for the if statement, just check the status
      */
@@ -223,6 +224,7 @@ class Project extends ProjectRelation implements PresentableInterface
         if (empty($this->heartbeatStatus)) {
             $length = count($this->heartbeats);
             $missed = 0;
+
             foreach ($this->heartbeats as $beat) {
                 $last_activity = strtotime($beat->last_activity);
                 $now           = time();
@@ -230,6 +232,7 @@ class Project extends ProjectRelation implements PresentableInterface
                     $missed++;
                 }
             }
+
             $this->heartbeatStatus = ['missed' => $missed, 'length' => $length];
         }
 
@@ -238,6 +241,7 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Count the application url check status.
+     *
      * @return array
      */
     public function applicationCheckUrlStatus()
@@ -251,6 +255,7 @@ class Project extends ProjectRelation implements PresentableInterface
                     $missed++;
                 }
             }
+
             $this->checkurlStatus = ['missed' => $missed, 'length' => $length];
         }
 
