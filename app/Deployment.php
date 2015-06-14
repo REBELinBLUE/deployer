@@ -186,7 +186,6 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @return string|false
      * @see \App\Project::accessDetails()
-     * TODO: Should this be an attribute?
      */
     public function getBranchURLAttribute()
     {

@@ -53,7 +53,7 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $appends = ['group_name', 'webhook_url'];
+    protected $appends = ['group_name', 'webhook_url', 'repository_path', 'repository_url', 'branch_url'];
 
     /**
      * The attributes that should be casted to native types.
@@ -154,9 +154,8 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @return string|false
      * @see \App\Project::accessDetails()
-     * TODO: Should this be an attribute?
      */
-    public function repositoryPath()
+    public function getRepositoryPathAttribute()
     {
         $info = $this->accessDetails();
 
@@ -172,9 +171,8 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @return string|false
      * @see \App\Project::accessDetails()
-     * TODO: Should this be an attribute?
      */
-    public function repositoryURL()
+    public function getRepositoryUrlAttribute()
     {
         $info = $this->accessDetails();
 
@@ -200,9 +198,8 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @return string|false
      * @see \App\Project::accessDetails()
-     * TODO: Should this be an attribute?
      */
-    public function branchURL()
+    public function getBranchUrlAttribute()
     {
         $info = $this->accessDetails();
 
