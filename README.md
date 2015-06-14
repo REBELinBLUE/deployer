@@ -37,5 +37,6 @@ Once you have started the VM you will need to run the following commands
     $ gulp
     $ php artisan key:generate
     $ php artisan migrate
+    $ sudo service supervisor restart
 
 The VM will set up the cronjob needed for heartbeats and it will setup supervisor to ensure the queue listener is always running
