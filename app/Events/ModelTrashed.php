@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Events\Event;
-use App\Server;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 

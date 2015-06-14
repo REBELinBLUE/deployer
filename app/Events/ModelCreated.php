@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Events\Event;
-use App\Server;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,7 +14,7 @@ class ModelCreated extends Event implements ShouldBroadcast
     use SerializesModels;
 
     public $model;
-    private $channel;
+    protected $channel;
 
     /**
      * Create a new event instance.
