@@ -7,5 +7,4 @@ namespace App\Listeners\Events;
  */
 abstract class Event
 {
-
 }
