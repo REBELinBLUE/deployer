@@ -7,5 +7,4 @@ namespace App\Events;
  */
 class ModelChanged extends ModelCreated
 {
-
 }

@@ -6,7 +6,7 @@ use App\Http\Requests\Request;
 use Illuminate\Validation\Factory;
 
 /**
- * Request for validating projects
+ * Request for validating projects.
  */
 class StoreProjectRequest extends Request
 {

@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Traits\BroadcastChanges;
 use App\Jobs\Notify;
+use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesJobs;

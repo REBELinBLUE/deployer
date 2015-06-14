@@ -8,7 +8,7 @@ use App\Jobs\RequestProjectCheckUrl;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Controller for managing URLs
+ * Controller for managing URLs.
  */
 class CheckUrlController extends ResourceController
 {

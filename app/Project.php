@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Traits\BroadcastChanges;
 use App\Presenters\ProjectPresenter;
+use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Robbo\Presenter\PresentableInterface;

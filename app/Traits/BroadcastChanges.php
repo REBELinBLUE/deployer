@@ -7,7 +7,7 @@ use App\Events\ModelCreated;
 use App\Events\ModelTrashed;
 
 /**
- * A trait to broadcast model changes
+ * A trait to broadcast model changes.
  */
 trait BroadcastChanges
 {
