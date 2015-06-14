@@ -273,7 +273,6 @@ class Project extends ProjectRelation implements PresentableInterface
      * Define an accessor for the webhook URL.
      *
      * @return string
-     * TODO: Shouldn't this be a presenter?
      */
     public function getWebhookUrlAttribute()
     {
