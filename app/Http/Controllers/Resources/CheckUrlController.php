@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Resources;
 
 use App\CheckUrl;
 use App\Http\Requests\StoreCheckUrlRequest;
+use App\Jobs\RequestProjectCheckUrl;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Controller for managing URLs
- * TODO: Change create/update to queue a check of the URL.
  */
 class CheckUrlController extends ResourceController
 {
+    use DispatchesJobs;
+
     /**
      * Store a newly created url in storage.
      *
@@ -19,13 +22,17 @@ class CheckUrlController extends ResourceController
      */
     public function store(StoreCheckUrlRequest $request)
     {
-        return CheckUrl::create($request->only(
+        $url = CheckUrl::create($request->only(
             'title',
             'url',
             'is_report',
             'period',
             'project_id'
         ));
+
+        $this->dispatch(new RequestProjectCheckUrl([$url]));
+
+        return $url;
     }
 
     /**
@@ -43,6 +50,8 @@ class CheckUrlController extends ResourceController
             'is_report',
             'period'
         ));
+
+        $this->dispatch(new RequestProjectCheckUrl([$url]));
 
         return $url;
     }
