@@ -44,6 +44,8 @@ class CheckUrlController extends ResourceController
      */
     public function update(CheckUrl $url, StoreCheckUrlRequest $request)
     {
+        $old_url = $url->url;
+
         $url->update($request->only(
             'title',
             'url',
@@ -51,7 +53,9 @@ class CheckUrlController extends ResourceController
             'period'
         ));
 
-        $this->dispatch(new RequestProjectCheckUrl([$url]));
+        if ($old_url !== $url->url) {
+            $this->dispatch(new RequestProjectCheckUrl([$url]));
+        }
 
         return $url;
     }
