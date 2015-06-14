@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Contracts\RuntimeInterface;
-use App\Events\DeploymentStatusChanged;
+use App\Events\ModelChanged;
 use App\Presenters\DeploymentPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,6 +24,13 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     const LOADING   = 'Loading';
 
     public static $currentDeployment = [];
+
+    /**
+     * Additional attributes to include in the JSON representation.
+     *
+     * @var array
+     */
+    protected $appends = ['project_name'];
 
     /**
      * The fields which should be tried as Carbon instances.
@@ -51,7 +58,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         parent::boot();
 
         static::saved(function (Deployment $model) {
-            event(new DeploymentStatusChanged($model));
+            event(new ModelChanged($model, 'deployment'));
         });
     }
 
@@ -244,5 +251,15 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function getPresenter()
     {
         return new DeploymentPresenter($this);
+    }
+
+    /**
+     * Define a accessor for the project name.
+     *
+     * @return int
+     */
+    public function getProjectNameAttribute()
+    {
+        return $this->project->name;
     }
 }

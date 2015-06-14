@@ -18,8 +18,11 @@ var app = app || {};
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
     // TODO: Update the timeline
-    app.listener.on('deployment:App\\Events\\DeploymentStatusChanged', function (data) {
+    app.listener.on('deployment:App\\Events\\ModelChanged', function (data) {
         updateNavBar(data);
+
+        var deployment  = $('#deployment_' + data.model.id);
+        console.log(deployment);
     });
 
     // Add group created and project created events for the sidebar
@@ -79,19 +82,19 @@ var app = app || {};
 
 
     function updateNavBar(data) {
-        data.time = moment(data.started).format('h:mm:ss A');
-        data.url = '/deployment/' + data.deployment_id;
+        data.model.time = moment(data.model.started_at).format('h:mm:ss A');
+        data.model.url = '/deployment/' + data.model.id;
 
-        $('#deployment_info_' + data.deployment_id).remove();
+        $('#deployment_info_' + data.model.id).remove();
         $('#pending_menu, #deploying_menu').show();
 
         var template = _.template($('#deployment_list_template').html());
-        var html = template(data);
+        var html = template(data.model);
 
-        if (data.status === PENDING) {
+        if (data.model.status === PENDING) {
             $('#pending_menu ul.menu').append(html);
         }
-        else if (data.status === DEPLOYING) {
+        else if (data.model.status === DEPLOYING) {
             $('#deploying_menu ul.menu').append(html);
         }
 
