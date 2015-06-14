@@ -22,6 +22,7 @@ var app = app || {};
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
+    // FIXME: Convert the project and deployments to backbone
     // TODO: Update the timeline
     app.listener.on('deployment:App\\Events\\ModelChanged', function (data) {
         updateNavBar(data);
@@ -64,8 +65,6 @@ var app = app || {};
             $('span', status).text(label);
         }
     });
-
-    // Add group created and project created events for the sidebar
 
     app.listener.on('group:App\\Events\\ModelChanged', function (data) {
         $('#sidebar_group_' + data.model.id).html(data.model.name);
