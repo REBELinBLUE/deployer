@@ -85,10 +85,13 @@ class DeploymentController extends Controller
      *
      * @param Project $project
      * @return Response
-     * TODO: Don't allow this to run if there is already a pending deploy or no servers
      */
     public function deploy(Project $project)
     {
+        if ($project->servers->where('deploy_code', true)->count() === 0) {
+            return redirect()->url('projects', $project->id);
+        }
+
         $deployment         = new Deployment;
         $deployment->reason = Input::get('reason');
 
@@ -121,7 +124,7 @@ class DeploymentController extends Controller
      * Gets the log output of a particular deployment step.
      *
      * @param ServerLog $log
-     * @return Response
+     * @return ServerLog
      */
     public function log(ServerLog $log)
     {

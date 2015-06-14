@@ -17,7 +17,6 @@ class DashboardController extends Controller
      * The main page of the dashboard.
      *
      * @return View
-     * TODO: Use a decorator pattern here
      */
     public function index(
         DeploymentRepositoryInterface $deploymentRepository,
@@ -47,7 +46,7 @@ class DashboardController extends Controller
      * Returns the timeline.
      *
      * @param DeploymentRepositoryInterface $deploymentRepository
-     * @return string
+     * @return View
      */
     public function timeline(DeploymentRepositoryInterface $deploymentRepository)
     {
