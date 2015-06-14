@@ -21,7 +21,7 @@ class ConfigureLogging extends BaseLoggingConfiguration
     protected function configureSingleHandler(Application $app, Writer $log)
     {
         $fileName = php_sapi_name();
-        $log->useFiles($app->storagePath().'/logs/'.$fileName.'.log');
+        $log->useFiles($app->storagePath() . '/logs/' . $fileName . '.log');
     }
 
     /**
@@ -35,7 +35,7 @@ class ConfigureLogging extends BaseLoggingConfiguration
     {
         $fileName = php_sapi_name();
         $log->useDailyFiles(
-            $app->storagePath().'/logs/'.$fileName.'.log',
+            $app->storagePath() . '/logs/' . $fileName . '.log',
             $app->make('config')->get('app.log_max_files', 5)
         );
     }

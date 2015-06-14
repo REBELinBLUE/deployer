@@ -38,31 +38,31 @@ class DashboardController extends Controller
 
         return view('dashboard.index', [
             'title'     => Lang::get('dashboard.title'),
-            'latest'    => $this->build_timeline_data($deploymentRepository),
+            'latest'    => $this->buildTimelineData($deploymentRepository),
             'projects'  => $projects_by_group
         ]);
     }
 
     /**
-     * Returns the timeline
-     * 
+     * Returns the timeline.
+     *
      * @param DeploymentRepositoryInterface $deploymentRepository
      * @return string
      */
     public function timeline(DeploymentRepositoryInterface $deploymentRepository)
     {
         return view('dashboard.timeline', [
-            'latest' => $this->build_timeline_data($deploymentRepository)
+            'latest' => $this->buildTimelineData($deploymentRepository)
         ]);
     }
 
     /**
-     * Builds the data for the timline
-     * 
+     * Builds the data for the timline.
+     *
      * @param DeploymentRepositoryInterface $deploymentRepository
      * @return array
      */
-    private function build_timeline_data(DeploymentRepositoryInterface $deploymentRepository)
+    private function buildTimelineData(DeploymentRepositoryInterface $deploymentRepository)
     {
         $deployments = $deploymentRepository->getTimeline();
 

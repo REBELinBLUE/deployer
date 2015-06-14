@@ -22,7 +22,7 @@ class StoreGroupRequest extends Request
 
         // On edit add the group ID to the rules
         if ($this->get('id')) {
-            $rules['name'] .= ','.$this->get('id');
+            $rules['name'] .= ',' . $this->get('id');
         }
 
         return $rules;

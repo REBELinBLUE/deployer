@@ -45,7 +45,7 @@ class CommandController extends ResourceController
             'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name]
             ],
-            'title'      => Lang::get('commands.'.strtolower($action)),
+            'title'      => Lang::get('commands.' . strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
             'commands'   => $commands

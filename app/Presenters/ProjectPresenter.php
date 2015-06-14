@@ -243,7 +243,7 @@ class ProjectPresenter extends Presenter
             return 'danger';
         }
 
-        return 'success';;
+        return 'success';
     }
 
     /**

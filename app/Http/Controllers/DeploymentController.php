@@ -92,8 +92,8 @@ class DeploymentController extends Controller
         $deployment         = new Deployment;
         $deployment->reason = Input::get('reason');
 
-        if (Input::has('source') && Input::has('source_'.Input::get('source'))) {
-            $deployment->branch = Input::get('source_'.Input::get('source'));
+        if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
+            $deployment->branch = Input::get('source_' . Input::get('source'));
         }
 
         if (empty($deployment->branch)) {

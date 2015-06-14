@@ -39,8 +39,8 @@ trait RuntimePresenter
         $readable = '';
         foreach ($units as $name => $divisor) {
             if ($quot = intval($seconds / $divisor)) {
-                $readable .= $quot.' '.$name;
-                $readable .= (abs($quot) > 1 ? 's' : '').', ';
+                $readable .= $quot . ' ' . $name;
+                $readable .= (abs($quot) > 1 ? 's' : '') . ', ';
                 $seconds -= $quot * $divisor;
             }
         }

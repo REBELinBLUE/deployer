@@ -193,7 +193,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         $info = $this->project->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://'.$info['domain'].'/'.$info['reference'].'/tree/'.$this->branch;
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
         }
 
         return false;
@@ -277,8 +277,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function getDeployerNameAttribute()
     {
-        if (!empty($this->user_id))
-        {
+        if (!empty($this->user_id)) {
             return $this->user->name;
         }
 

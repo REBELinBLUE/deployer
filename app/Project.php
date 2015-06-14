@@ -179,7 +179,7 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://'.$info['domain'].'/'.$info['reference'];
+            return 'http://' . $info['domain'] . '/' . $info['reference'];
         }
 
         return false;
@@ -207,7 +207,7 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://'.$info['domain'].'/'.$info['reference'].'/tree/'.$this->branch;
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
         }
 
         return false;
@@ -291,7 +291,7 @@ class Project extends ProjectRelation implements PresentableInterface
      */
     private function generateSSHKey()
     {
-        $key = tempnam(storage_path().'/app/', 'sshkey');
+        $key = tempnam(storage_path() . '/app/', 'sshkey');
         unlink($key);
 
         $process = new Process(sprintf(
@@ -306,9 +306,9 @@ class Project extends ProjectRelation implements PresentableInterface
         }
 
         $this->attributes['private_key'] = file_get_contents($key);
-        $this->attributes['public_key']  = file_get_contents($key.'.pub');
+        $this->attributes['public_key']  = file_get_contents($key . '.pub');
 
         unlink($key);
-        unlink($key.'.pub');
+        unlink($key . '.pub');
     }
 }
