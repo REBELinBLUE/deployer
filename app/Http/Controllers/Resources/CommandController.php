@@ -31,15 +31,10 @@ class CommandController extends ResourceController
 
         // fixme: use a repository
         $commands = Command::where('project_id', $project->id)
+                           ->with('servers')
                            ->whereIn('step', [$types[$action] - 1, $types[$action] + 1])
                            ->orderBy('order')
                            ->get();
-
-        // fixme: there has to be a better way to do this
-        // this triggers the servers to be loaded so that they exist in the model
-        foreach ($commands as $command) {
-            $command->servers;
-        }
 
         return view('commands.listing', [
             'breadcrumb' => [
