@@ -386,7 +386,7 @@ CMD;
                 '{{ release_path }}'    => $latest_release_dir,
                 '{{ project_path }}'    => $root_dir,
                 '{{ sha }}'             => $this->deployment->commit,
-                '{{ short_sha }}'       => $this->deployment->shortCommit()
+                '{{ short_sha }}'       => $this->deployment->short_commit
             ];
 
             $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);

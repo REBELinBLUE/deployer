@@ -11,6 +11,11 @@ var app = app || {};
     var FAILED       = 3;
     var NOT_DEPLOYED = 4;
 
+    var DEPLOYMENT_COMPLETED = 0;
+    var DEPLOYMENT_PENDING   = 1;
+    var DEPLOYMENT_DEPLOYING = 2;
+    var DEPLOYMENT_FAILED    = 3;
+
     app.project_id = app.project_id || null;
 
     app.listener = io.connect($('meta[name="socket_url"]').attr('content'));
@@ -22,7 +27,42 @@ var app = app || {};
         updateNavBar(data);
 
         var deployment  = $('#deployment_' + data.model.id);
-        console.log(deployment);
+
+        if (deployment.length > 0) {
+
+            $('td:nth-child(4)', deployment).text(data.model.committer);
+
+            if (data.model.commit_url) {
+                $('td:nth-child(5)', deployment).html('<a href="' + data.model.commit_url + '" target="_blank">' + data.model.short_commit + '</a>');
+            } else {
+                $('td:nth-child(5)', deployment).text(data.model.short_commit);
+            }
+
+            var icon_class = 'clock-o';
+            var label_class = 'info';
+            var label = Lang.deployments.status.pending;
+
+            data.model.status = parseInt(data.model.status);
+            var status = $('td:nth-child(7) span.label', deployment);
+
+            if (data.model.status === DEPLOYMENT_COMPLETED) {
+                icon_class = 'check';
+                label_class = 'success';
+                label = Lang.deployments.status.completed;
+            } else if (data.model.status === DEPLOYMENT_DEPLOYING) {
+                icon_class = 'spinner fa-pulse';
+                label_class = 'warning';
+                label = Lang.deployments.status.running;
+            } else if (data.model.status === DEPLOYMENT_FAILED) {
+                icon_class = 'warning';
+                label_class = 'danger';
+                label = Lang.deployments.status.failed;
+            }
+
+            status.attr('class', 'label label-' + label_class)
+            $('i', status).attr('class', 'fa fa-' + icon_class);
+            $('span', status).text(label);
+        }
     });
 
     // Add group created and project created events for the sidebar
@@ -42,32 +82,32 @@ var app = app || {};
             var label_class = 'primary';
             var label = Lang.projects.status.not_deployed;
 
-            var status = parseInt(data.model.status);
+            data.model.status = parseInt(data.model.status);
+            var status = $('td:nth-child(3) span.label', project);
 
-            if (status === FINISHED) {
+            if (data.model.status === FINISHED) {
                 icon_class = 'check';
                 label_class = 'success';
                 label = Lang.projects.status.finished;
-            } else if (status === DEPLOYING) {
+            } else if (data.model.status === DEPLOYING) {
                 icon_class = 'spinner fa-pulse';
                 label_class = 'warning';
                 label = Lang.projects.status.deploying;
-            } else if (status === FAILED) {
+            } else if (data.model.status === FAILED) {
                 icon_class = 'warning';
                 label_class = 'danger';
                 label = Lang.projects.status.failed;
-            } else if (status === PENDING) {
+            } else if (data.model.status === PENDING) {
                 icon_class = 'clock-o';
                 label_class = 'info';
                 label = Lang.projects.status.pending;
             }
 
-
             $('td:first a', project).text(data.model.name);
             $('td:nth-child(2)', project).text(moment(data.model.last_run).format('Do MMM YYYY h:mm:ss A'));
-            $('td:nth-child(3) span.label', project).attr('class', 'label label-' + label_class)
-            $('td:nth-child(3) span.label i', project).attr('class', 'fa fa-' + icon_class);
-            $('td:nth-child(3) span.label span', project).text(label);
+            status.attr('class', 'label label-' + label_class)
+            $('i', status).attr('class', 'fa fa-' + icon_class);
+            $('span', status).text(label);
         }
     });
 
@@ -79,8 +119,6 @@ var app = app || {};
         }
     });
 
-
-
     function updateNavBar(data) {
         data.model.time = moment(data.model.started_at).format('h:mm:ss A');
         data.model.url = '/deployment/' + data.model.id;
@@ -91,10 +129,10 @@ var app = app || {};
         var template = _.template($('#deployment_list_template').html());
         var html = template(data.model);
 
-        if (data.model.status === PENDING) {
+        if (data.model.status === DEPLOYMENT_PENDING) {
             $('#pending_menu ul.menu').append(html);
         }
-        else if (data.model.status === DEPLOYING) {
+        else if (data.model.status === DEPLOYMENT_DEPLOYING) {
             $('#deploying_menu ul.menu').append(html);
         }
 

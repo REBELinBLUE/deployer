@@ -47,8 +47,8 @@ class MailDeployNotification extends Job implements SelfHandling
             );
 
             $deploymentArr                = $this->deployment->toArray();
-            $deploymentArr['commitURL']   = $this->deployment->commitURL();
-            $deploymentArr['shortCommit'] = $this->deployment->shortCommit();
+            $deploymentArr['commitURL']   = $this->deployment->commit_url;
+            $deploymentArr['shortCommit'] = $this->deployment->short_commit;
 
             $data = [
                 'project'    => $this->project->toArray(),
