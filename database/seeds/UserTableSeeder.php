@@ -18,14 +18,12 @@ class UserTableSeeder extends Seeder
             'remember_token' => str_random(10)
         ]);
 
-        // factory(User::class, 10)->create();
-
-        
         for ($i = 1; $i < 10; $i++) {
             User::create([
-                'name'     => $faker->firstName . ' ' . $faker->lastName,
-                'email'    => $faker->safeEmail,
-                'password' => bcrypt($faker->password)
+                'name'           => $faker->firstName . ' ' . $faker->lastName,
+                'email'          => $faker->safeEmail,
+                'password'       => bcrypt($faker->password),
+                'remember_token' => str_random(10)
             ]);
         }
         
