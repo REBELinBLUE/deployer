@@ -74,11 +74,10 @@ class ServerController extends ResourceController
      *
      * @param Server $server
      * @return Response
-     * TODO: Shouldn't changing the status to testing automatically add the TestServerConnect to the queue on save?
      */
     public function test(Server $server)
     {
-        if ($server->status !== Server::TESTING) { // FIXME: Move to a method on the Server
+        if (!$server->isTesting()) {
             $server->status = Server::TESTING;
             $server->save();
 

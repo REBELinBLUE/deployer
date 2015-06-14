@@ -78,6 +78,16 @@ class Server extends Model
     }
 
     /**
+     * Determines whether the server is currently being testing.
+     *
+     * @return bool
+     */
+    public function isTesting()
+    {
+        return ($this->status === self::TESTING);
+    }
+
+    /**
      * Define a mutator for the user, if it has changed or has
      * not previously been set also set the status to untested.
      *
