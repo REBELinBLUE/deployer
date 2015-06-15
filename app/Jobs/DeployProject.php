@@ -131,7 +131,7 @@ export GIT_SSH="{$wrapper}" && \
 git clone --quiet --branch %s --depth 1 %s {$workingdir} && \
 cd {$workingdir} && \
 git checkout %s --quiet && \
-git log --pretty=format:"%%H%%x09%%an%x09%%ae" && \
+git log --pretty=format:"%%H%%x09%%an%%x09%%ae" && \
 rm -rf {$workingdir}
 CMD;
 
