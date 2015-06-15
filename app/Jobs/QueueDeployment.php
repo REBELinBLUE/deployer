@@ -140,7 +140,6 @@ class QueueDeployment extends Job implements SelfHandling
      * @param int $stage
      * @param Command $command
      * @return void
-     * TODO: refactor these 2 functions
      */
     private function createCommandStep($stage, Stage $command)
     {
