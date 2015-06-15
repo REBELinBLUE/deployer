@@ -17,7 +17,7 @@ $fixers = [
     'concat_with_spaces',
     'double_arrow_multiline_whitespaces',
     'duplicate_semicolon',
-    'empty_return',
+    '-empty_return', // FIXME: There are a couple of places where return null is used
     'extra_empty_lines',
     'include',
     'join_function',
