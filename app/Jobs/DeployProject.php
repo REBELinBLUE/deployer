@@ -156,6 +156,8 @@ CMD;
         $this->deployment->commit    = $parts[0];
         $this->deployment->committer = trim($parts[1]);
         $this->deployment->save();
+
+        // FIXME: See if the email address matches a user and if so set the user_id
     }
 
     /**
