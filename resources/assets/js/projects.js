@@ -48,6 +48,7 @@ var app = app || {};
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
+        $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
             title = Lang.edit;
@@ -141,14 +142,21 @@ var app = app || {};
 
                 var errors = response.responseJSON;
 
+
+                $('.has-error', dialog).removeClass('has-error');
+                $('.label-danger', dialog).remove();
+
                 $('form input', dialog).each(function (index, element) {
                     element = $(element);
 
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        element.parent('div').addClass('has-error');
+                        var parent = element.parent('div');
+                        parent.addClass('has-error');
+                        parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
+
                 });
 
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
