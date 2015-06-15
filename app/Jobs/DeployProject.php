@@ -8,6 +8,7 @@ use App\DeployStep;
 use App\Events\DeployFinished;
 use App\Jobs\Job;
 use App\Project;
+use App\User;
 use App\Server;
 use App\ServerLog;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -130,7 +131,7 @@ export GIT_SSH="{$wrapper}" && \
 git clone --quiet --branch %s --depth 1 %s {$workingdir} && \
 cd {$workingdir} && \
 git checkout %s --quiet && \
-git log --pretty=format:"%%H%%x09%%an" && \
+git log --pretty=format:"%%H%%x09%%an%x09%%ae" && \
 rm -rf {$workingdir}
 CMD;
 
@@ -155,9 +156,14 @@ CMD;
         $parts                       = explode("\x09", $git_info);
         $this->deployment->commit    = $parts[0];
         $this->deployment->committer = trim($parts[1]);
-        $this->deployment->save();
 
-        // FIXME: See if the email address matches a user and if so set the user_id
+        $user = User::where('email', trim($parts[2]))->first();
+
+        if ($user) {
+            $this->deployment->user_id = $user->id;
+        }
+
+        $this->deployment->save();
     }
 
     /**
