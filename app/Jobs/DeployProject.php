@@ -8,9 +8,9 @@ use App\DeployStep;
 use App\Events\DeployFinished;
 use App\Jobs\Job;
 use App\Project;
-use App\User;
 use App\Server;
 use App\ServerLog;
+use App\User;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -20,6 +20,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * Deploys an actual project
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * TODO: rewrite this as it is doing way too much and is very messy now.
  */
 class DeployProject extends Job implements SelfHandling, ShouldQueue
