@@ -56,7 +56,7 @@ class StoreProjectRequest extends Request
             'branch'         => 'required|max:255',
             'group_id'       => 'required|integer|exists:groups,id',
             'builds_to_keep' => 'required|integer|min:1|max:20',
-            'template_id'    => 'integer|exists:templates,id',
+            'template_id'    => 'integer|exists:projects,id,is_template,1',
             'url'            => 'url',
             'build_url'      => 'url'
         ];
