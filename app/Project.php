@@ -265,17 +265,6 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Query scope to only show templates
-     * 
-     * @param object $query
-     * @return object
-     */
-    public function scopeTemplates($query)
-    {
-        return $query->where('is_template', '=', true);
-    }
-
-    /**
      * Query scope to not show templates
      * 
      * @param object $query

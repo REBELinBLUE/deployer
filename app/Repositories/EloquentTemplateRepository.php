@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Project;
+use App\Template;
 use App\Repositories\Contracts\TemplateRepositoryInterface;
 
 /**
@@ -13,10 +13,10 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
     /**
      * Class constructor.
      *
-     * @param Project $model
+     * @param Template $model
      * @return EloquentProjectRepository
      */
-    public function __construct(Project $model)
+    public function __construct(Template $model)
     {
         $this->model = $model;
     }

@@ -214,8 +214,6 @@ var app = app || {};
                     app.Projects.remove(project);
                 }
 
-                console.log(data);
-
                 $('#project_' + data.model.id).parent('li').remove();
 
                 if (parseInt(data.model.id) === parseInt(app.project_id)) {

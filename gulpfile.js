@@ -62,6 +62,7 @@ elixir(function(mix) {
     .scripts([
         'app.js',
         'projects.js',
+        'templates.js',
         'servers.js',
         'heartbeats.js',
         'notifications.js',

@@ -25,9 +25,9 @@
 
     <!-- include('dialogs.project') -->
 
-    <script type="text/template" id="project-template">
+    <script type="text/template" id="template-template">
         <td><%- name %></td>
-        <td><%- commands %></td>
+        <td><%- command_count %></td>
         <td>
             <div class="btn-group pull-right">
                 <button class="btn btn-default btn-edit" title="{{ Lang::get('app.edit') }}" data-toggle="modal" data-target="#project"><i class="fa fa-edit"></i></button>
@@ -43,8 +43,8 @@
 
 @section('javascript')
     <script type="text/javascript">
-        new app.ProjectsTab();
-        app.Projects.add({!! $templates !!});
+        new app.TemplatesTab();
+        app.Templates.add({!! $templates !!});
     </script>
 @stop
 
