@@ -13,19 +13,19 @@ use Illuminate\Contracts\Bus\SelfHandling;
 class SetupProject extends Job implements SelfHandling
 {
     private $project;
-    private $template;
+    private $template_id;
 
     /**
      * Create a new command instance.
      *
      * @param Project $project
-     * @param Project $template
+     * @param int $template_id
      * @return SetupProject
      */
-    public function __construct(Project $project, Project $template)
+    public function __construct(Project $project, $template_id)
     {
-        $this->project  = $project;
-        $this->template = $template;
+        $this->project     = $project;
+        $this->template_id = $template_id;
     }
 
     /**
@@ -35,8 +35,9 @@ class SetupProject extends Job implements SelfHandling
      */
     public function handle()
     {
-        // FIXME: Also copy persistent files
-        foreach ($this->template->commands as $command) {
+        $template = Project::findOrFail($this->template_id);
+
+        foreach ($template->commands as $command) {
 
             $data               = $command->toArray();
             $data['project_id'] = $this->project->id;

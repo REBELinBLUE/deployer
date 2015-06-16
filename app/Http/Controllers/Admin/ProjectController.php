@@ -53,11 +53,10 @@ class ProjectController extends Controller
             'build_url'
         ));
 
-        // FIXME: Should this be an event rather than a command?
         if ($request->has('template_id')) {
             $this->dispatch(new SetupProject(
                 $project,
-                Template::find($request->template_id)
+                $request->template_id
             ));
         }
 
