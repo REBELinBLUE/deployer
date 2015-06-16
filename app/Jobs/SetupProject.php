@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
-use App\Commands\Command;
 use App\Command;
+use App\Jobs\Job;
 use App\Project;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * A class to handle cloning the command templates for the project.
  */
-class SetupProject extends Command implements SelfHandling
+class SetupProject extends Job implements SelfHandling
 {
     private $project;
     private $template;
