@@ -30,7 +30,8 @@ class Project extends ProjectRelation implements PresentableInterface
     protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
                          'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
                          'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-                         'notifications', 'deployments', 'shareFiles', 'projectFiles'];
+                         'notifications', 'deployments', 'shareFiles', 'projectFiles',
+                         'is_template'];
 
     /**
      * The attributes that are mass assignable.
@@ -61,6 +62,7 @@ class Project extends ProjectRelation implements PresentableInterface
     protected $casts = [
         'status'         => 'integer',
         'builds_to_keep' => 'integer',
+        'is_template'    => 'boolean'
     ];
 
     /**
@@ -260,6 +262,16 @@ class Project extends ProjectRelation implements PresentableInterface
     public function getWebhookUrlAttribute()
     {
         return route('webhook', $this->hash);
+    }
+
+    public function scopeTemplates($query)
+    {
+        return $query->where('is_template', '=', true);
+    }
+
+    public function scopeNotTemplates($query)
+    {
+        return $query->where('is_template', '=', false);
     }
 
     /**
