@@ -38,7 +38,7 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url'];
+    protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url', 'is_template'];
 
     /**
      * The fields which should be treated as Carbon instances.
@@ -264,11 +264,23 @@ class Project extends ProjectRelation implements PresentableInterface
         return route('webhook', $this->hash);
     }
 
+    /**
+     * Query scope to only show templates
+     * 
+     * @param object $query
+     * @return object
+     */
     public function scopeTemplates($query)
     {
         return $query->where('is_template', '=', true);
     }
 
+    /**
+     * Query scope to not show templates
+     * 
+     * @param object $query
+     * @return object
+     */
     public function scopeNotTemplates($query)
     {
         return $query->where('is_template', '=', false);
