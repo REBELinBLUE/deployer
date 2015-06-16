@@ -54,7 +54,7 @@ class CheckUrl extends Model
      */
     public function notificationPayload()
     {
-        $message = Lang::get('checkurls.message', ['link' => $this->title]);
+        $message = Lang::get('checkUrls.message', ['link' => $this->title]);
 
         $payload = [
             'attachments' => [
