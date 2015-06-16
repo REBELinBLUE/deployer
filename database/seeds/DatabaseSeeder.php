@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call('CommandTableSeeder');
         $this->call('NotificationTableSeeder');
         $this->call('HeartbeatTableSeeder');
+        $this->call('TemplateSeeder');
     }
 }
