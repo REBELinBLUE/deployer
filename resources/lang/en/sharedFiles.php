@@ -2,7 +2,7 @@
 
 return [
 
-    'label'              => 'Persistant Files',
+    'label'              => 'Persistent Files',
     'create'             => 'Add a new file or folder',
     'edit'               => 'Edit the file or folder',
     'none'               => 'You can add files or directories which should persist across all releases',
