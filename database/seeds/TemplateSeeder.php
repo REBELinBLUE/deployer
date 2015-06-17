@@ -3,7 +3,6 @@
 use App\Command;
 use App\Project;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 
 class TemplateSeeder extends Seeder
 {
