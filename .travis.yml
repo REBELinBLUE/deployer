@@ -7,6 +7,12 @@ php:
   - 7.0
   - hhvm
 
+before_script:
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - bower install -f
+  
 install:
   - composer install --no-interaction --prefer-source
   - npm install
