@@ -8,17 +8,28 @@ php:
   - hhvm
 
 before_install:
-  - composer self-update
-  - npm install -g grunt-cli
-  - npm install -g bower
+  - travis_retry composer self-update
+  - travis_retry npm install -g grunt-cli
+  - travis_retry npm install -g bower
   - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-  - bower install -f
+  - travis_retry bower install -f
   
 install:
-  - composer install --no-interaction --prefer-source
-  - npm install
-  - bower install
+  - travis_retry composer install --no-interaction --prefer-source
+  - travis_retry npm install
+  - travis_retry bower install
 
+before_script:
+  - chmod -R 777 storage
+  - touch storage/database.sqlite
+
+script:
+  - php artisan migrate:refresh --no-interaction -vvv --seed
+
+after_script:
+  - ls -laR storage
+  - cat storage/logs/*
+  
 matrix:
   allow_failures:
     - php: 7.0
