@@ -72,6 +72,7 @@ abstract class ProjectRelation extends Model
 
     /**
      * Has many relationship.
+     *
      * @return SharedFile
      */
     public function shareFiles()
@@ -81,6 +82,7 @@ abstract class ProjectRelation extends Model
 
     /**
      * Has many relationship to project file.
+     *
      * @return ProjectFile
      */
     public function projectFiles()
@@ -90,6 +92,7 @@ abstract class ProjectRelation extends Model
 
     /**
      * Has many relationship.
+     *
      * @return SharedFile
      */
     public function notifyEmails()
@@ -99,6 +102,7 @@ abstract class ProjectRelation extends Model
 
     /**
      * Has many urls to check.
+     *
      * @return CheckUrl
      */
     public function checkUrls()
