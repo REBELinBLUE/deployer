@@ -23,14 +23,14 @@
         </div>
     </div>
 
-    <!-- include('dialogs.project') -->
+    @include('dialogs.templates')
 
     <script type="text/template" id="template-template">
         <td><%- name %></td>
         <td><%- command_count %></td>
         <td>
             <div class="btn-group pull-right">
-                <button class="btn btn-default btn-edit" title="{{ Lang::get('app.edit') }}" data-toggle="modal" data-target="#project"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-default btn-edit" title="{{ Lang::get('app.edit') }}" data-toggle="modal" data-target="#template"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>
@@ -50,6 +50,6 @@
 
 @section('right-buttons')
     <div class="pull-right">
-        <button type="button" class="btn btn-default" title="{{ Lang::get('templates.create') }}" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> {{ Lang::get('templates.create') }}</button>
+        <button type="button" class="btn btn-default" title="{{ Lang::get('templates.create') }}" data-toggle="modal" data-target="#template"><span class="fa fa-plus"></span> {{ Lang::get('templates.create') }}</button>
     </div>
 @stop

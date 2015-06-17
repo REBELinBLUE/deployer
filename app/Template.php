@@ -12,7 +12,7 @@ class Template extends Project
      *
      * @var array
      */
-    protected $visible = ['name', 'command_count'];
+    protected $visible = ['id', 'name', 'command_count'];
 
     /**
      * The table associated with the model.
@@ -27,6 +27,25 @@ class Template extends Project
      * @var array
      */
     protected $appends = ['command_count'];
+
+    /**
+     * Override the boot method to bind model event listeners.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // FIXME: Horrible hack
+        // Clear data not needed in templates
+        static::created(function (Template $model) {
+            $model->private_key = '';
+            $model->public_key = '';
+            $model->hash = '';
+            $model->save();
+        });
+    }
 
     /**
      * Query scope to only show templates

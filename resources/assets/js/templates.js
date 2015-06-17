@@ -1,6 +1,85 @@
 var app = app || {};
 
 (function ($) {
+    // FIXME: This seems very wrong
+    $('#template').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        var title = Lang.create;
+
+        $('.btn-danger', modal).hide();
+        $('.callout-danger', modal).hide();
+        $('.has-error', modal).removeClass('has-error');
+        $('.label-danger', modal).remove();
+
+        if (button.hasClass('btn-edit')) {
+            title = Lang.edit;
+            $('.btn-danger', modal).show();
+        } else {
+            $('#template_id').val('');
+            $('#template_name').val('');
+        }
+
+        modal.find('.modal-title span').text(title);
+    });
+
+    // FIXME: This seems very wrong
+    $('#template button.btn-save').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var icon = target.find('i');
+        var dialog = target.parents('.modal');
+
+        icon.addClass('fa-refresh fa-spin').removeClass('fa-save');
+        dialog.find('input').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+        var template_id = $('#template_id').val();
+
+        if (template_id) {
+            var template = app.Templates.get(template_id);
+        } else {
+            var template = new app.Template();
+        }
+
+        template.save({
+            name: $('#template_name').val()
+        }, {
+            wait: true,
+            success: function(model, response, options) {
+                dialog.modal('hide');
+                $('.callout-danger', dialog).hide();
+
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+
+                if (!template_id) {
+                    app.Templates.add(response);
+                }
+            },
+            error: function(model, response, options) {
+                $('.callout-danger', dialog).show();
+
+                var errors = response.responseJSON;
+
+                $('form input', dialog).each(function (index, element) {
+                    element = $(element);
+
+                    var name = element.attr('name');
+
+                    if (typeof errors[name] !== 'undefined') {
+                        var parent = element.parent('div');
+                        parent.addClass('has-error');
+                        parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
+                    }
+                });
+
+                icon.removeClass('fa-refresh fa-spin').addClass('fa-save');
+                $('button.close', dialog).show();
+                dialog.find('input').removeAttr('disabled');
+            }
+        });
+    });
 
     app.Template = Backbone.Model.extend({
         urlRoot: '/admin/templates'
@@ -89,16 +168,8 @@ var app = app || {};
             return this;
         },
         editTemplate: function() {
-            /*
-            $('#project_id').val(this.model.id);
-            $('#project_name').val(this.model.get('name'));
-            $('#project_repository').val(this.model.get('repository'));
-            $('#project_branch').val(this.model.get('branch'));
-            $('#project_group_id').val(this.model.get('group_id'));
-            $('#project_builds_to_keep').val(this.model.get('builds_to_keep'));
-            $('#project_url').val(this.model.get('url'));
-            $('#project_build_url').val(this.model.get('build_url'));
-            */
+            $('#template_id').val(this.model.id);
+            $('#template_name').val(this.model.get('name'));
         }
     });
 })(jQuery);

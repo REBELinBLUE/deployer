@@ -33,4 +33,18 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
                     ->orderBy('name')
                     ->get();
     }
+
+    /**
+     * Overwrite the parent method to add the requires fields
+     * 
+     * @param array $fields
+     * @return Template
+     */
+    public function create(array $fields)
+    {
+        $fields['group_id'] = 1;
+        $fields['is_template'] = true;
+
+        return parent::create($fields);
+    }
 }

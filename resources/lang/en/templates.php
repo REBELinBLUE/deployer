@@ -6,6 +6,7 @@ return [
     'commands' => 'Number of Commands',
     'type'     => 'Deployment type',
     'custom'   => 'Custom',
+    'example'  => 'Laravel 5 Application',
     'name'     => 'Name',
     'create'   => 'Add a new template',
     'edit'     => 'Edit the template',
