@@ -280,9 +280,8 @@ class Project extends ProjectRelation implements PresentableInterface
      * Generates an SSH key and sets the private/public key properties.
      *
      * @return void
-     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
-    private function generateSSHKey()
+    protected function generateSSHKey()
     {
         $key = tempnam(storage_path() . '/app/', 'sshkey');
         unlink($key);
