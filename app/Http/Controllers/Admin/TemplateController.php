@@ -45,6 +45,23 @@ class TemplateController extends Controller
         ]);
     }
 
+    /**
+     * Show the template configuration
+     *
+     * @param int $template_id
+     * @return Response
+     */
+    public function show($template_id)
+    {
+        $template = $this->templateRepository->getById($template_id);
+
+        return view('templates.details', [
+            'title'         => $template->name,
+            'sharedFiles'   => $template->shareFiles,
+            'projectFiles'  => $template->projectFiles,
+            'project'       => $template
+        ]);
+    }
 
     /**
      * Store a newly created template in storage.

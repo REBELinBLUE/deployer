@@ -62,7 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         Route::resource('templates', 'TemplateController', [
-            'only' => ['index', 'store', 'update', 'destroy']
+            'only' => ['index', 'store', 'update', 'destroy', 'show']
         ]);
 
         Route::resource('projects', 'ProjectController', [
