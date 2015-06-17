@@ -27,7 +27,7 @@ abstract class ProjectRelation extends Model
      */
     public function servers()
     {
-        return $this->hasMany('App\Server')->orderBy('name');
+        return $this->hasMany('App\Server')->orderBy('order', 'ASC');
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class ProjectRelation extends Model
      */
     public function commands()
     {
-        return $this->hasMany('App\Command');
+        return $this->hasMany('App\Command')->orderBy('order', 'ASC');
     }
 
     /**

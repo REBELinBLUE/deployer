@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Requests\StoreServerRequest;
 use App\Jobs\TestServerConnection;
 use App\Server;
+use Input;
 use Response;
 
 /**
@@ -21,7 +22,17 @@ class ServerController extends ResourceController
      */
     public function store(StoreServerRequest $request)
     {
-        return Server::create($request->only(
+        // fixme: use a repository
+        $max = Server::where('project_id', $request->project_id)
+                      ->orderBy('order', 'desc')
+                      ->first();
+
+        $order = 0;
+        if (isset($max)) {
+            $order = $max->order + 1;
+        }
+
+        $fields = $request->only(
             'name',
             'user',
             'ip_address',
@@ -29,7 +40,13 @@ class ServerController extends ResourceController
             'path',
             'project_id',
             'deploy_code'
-        ));
+        );
+
+        $fields['order'] = $order;
+
+        $server = Server::create($fields);
+
+        return $server;
     }
 
     /**
@@ -82,6 +99,30 @@ class ServerController extends ResourceController
             $server->save();
 
             $this->dispatch(new TestServerConnection($server));
+        }
+
+        return [
+            'success' => true
+        ];
+    }
+
+    /**
+     * Re-generates the order for the supplied servers.
+     *
+     * @return Response
+     */
+    public function reorder()
+    {
+        $order = 0;
+
+        foreach (Input::get('servers') as $server_id) {
+            $server = Server::findOrFail($server_id);
+
+            $server->order = $order;
+
+            $server->save();
+
+            $order++;
         }
 
         return [

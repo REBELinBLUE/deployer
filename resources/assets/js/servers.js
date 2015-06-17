@@ -6,6 +6,31 @@ var app = app || {};
     var FAILED     = 2;
     var TESTING    = 3;
 
+    $('#server_list table').sortable({
+        containerSelector: 'table',
+        itemPath: '> tbody',
+        itemSelector: 'tr',
+        placeholder: '<tr class="placeholder"/>',
+        delay: 500,
+        onDrop: function (item, container, _super) {
+            _super(item, container);
+
+            var ids = [];
+            $('tbody tr td:first-child', container.el[0]).each(function (idx, element) {
+                ids.push($(element).data('server-id'));
+            });
+
+            $.ajax({ 
+                url: '/servers/reorder',
+                method: 'POST',
+                data: {
+                    servers: ids
+                }
+            });
+        }
+    });
+
+
     // FIXME: This seems very wrong
     $('#server').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
