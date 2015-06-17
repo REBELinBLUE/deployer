@@ -1,6 +1,9 @@
 var app = app || {};
 
 (function ($) {
+    var SUCCESS = 0;
+    var FAILED = 1;
+
     $('#checkurl').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
@@ -9,6 +12,7 @@ var app = app || {};
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
+        $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
             title = Lang.CheckUrls.edit;
@@ -44,8 +48,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.CheckUrls.remove(file);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -103,7 +105,9 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        element.parent('div').addClass('has-error');
+                        var parent = element.parent('div');
+                        parent.addClass('has-error');
+                        parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
                 });
 
@@ -115,8 +119,7 @@ var app = app || {};
     });
 
     app.CheckUrl = Backbone.Model.extend({
-        urlRoot: '/check-url',
-        poller: false
+        urlRoot: '/check-url'
     });
 
     var CheckUrls = Backbone.Collection.extend({
@@ -138,7 +141,30 @@ var app = app || {};
 
             this.listenTo(app.CheckUrls, 'add', this.addOne);
             this.listenTo(app.CheckUrls, 'reset', this.addAll);
+            this.listenTo(app.CheckUrls, 'remove', this.addAll);
             this.listenTo(app.CheckUrls, 'all', this.render);
+
+            app.listener.on('checkurl:App\\Events\\ModelChanged', function (data) {
+                var link = app.CheckUrls.get(parseInt(data.model.id));
+
+                if (link) {
+                    link.set(data.model);
+                }
+            });
+
+            app.listener.on('checkurl:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.CheckUrls.add(data.model);
+                }
+            });
+
+            app.listener.on('checkurl:App\\Events\\ModelTrashed', function (data) {
+                var link = app.CheckUrls.get(parseInt(data.model.id));
+
+                if (link) {
+                    app.CheckUrls.remove(link);
+                }
+            });
         },
         render: function () {
             if (app.CheckUrls.length) {
@@ -176,7 +202,7 @@ var app = app || {};
         render: function () {
             var data = this.model.toJSON();
 
-            if (data.last_status) {
+            if (parseInt(data.last_status) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.CheckUrls.failure;
@@ -185,6 +211,8 @@ var app = app || {};
                 data.icon_css   = 'check';
                 data.status     = Lang.CheckUrls.success;
             }
+
+            data.interval_label = data.period + ' ' + Lang.CheckUrls.length;
 
             // data.report = Lang.CheckUrls.no;
 

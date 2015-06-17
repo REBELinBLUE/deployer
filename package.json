@@ -1,7 +1,11 @@
 {
     "private": true,
+    "dependencies": {
+        "socket.io": "^1.3.5",
+        "ioredis": "^1.4.0"
+    },
     "devDependencies": {
         "gulp": "^3.8.8",
-        "laravel-elixir": "^1.0.0"
+        "laravel-elixir": "^2.3.6"
     }
 }

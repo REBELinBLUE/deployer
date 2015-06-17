@@ -1,4 +1,6 @@
-<?php namespace App\Contracts;
+<?php
+
+namespace App\Contracts;
 
 interface RuntimeInterface
 {

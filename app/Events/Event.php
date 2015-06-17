@@ -1,7 +1,9 @@
-<?php namespace App\Events;
+<?php
+
+namespace App\Events;
 
 /**
- * Generic Event class
+ * Generic Event class.
  */
 abstract class Event
 {

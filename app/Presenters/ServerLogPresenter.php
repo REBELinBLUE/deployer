@@ -1,11 +1,13 @@
-<?php namespace App\Presenters;
+<?php
 
-use Lang;
+namespace App\Presenters;
+
 use App\Deployment;
+use Lang;
 use Robbo\Presenter\Presenter;
 
 /**
- * The view presenter for a server class
+ * The view presenter for a server class.
  */
 class ServerLogPresenter extends Presenter
 {

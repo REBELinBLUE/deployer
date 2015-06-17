@@ -1,16 +1,18 @@
-<?php namespace App\Presenters;
+<?php
 
-use Lang;
+namespace App\Presenters;
+
 use App\Command;
+use Lang;
 use Robbo\Presenter\Presenter;
 
 /**
- * The view presenter for a deploy step class
+ * The view presenter for a deploy step class.
  */
 class DeployStepPresenter extends Presenter
 {
     /**
-     * Gets the deployment stage label from the numeric representation
+     * Gets the deployment stage label from the numeric representation.
      *
      * @return string
      */

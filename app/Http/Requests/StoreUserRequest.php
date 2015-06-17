@@ -1,10 +1,12 @@
-<?php namespace App\Http\Requests;
+<?php
 
-use Input;
+namespace App\Http\Requests;
+
 use App\Http\Requests\Request;
+use Input;
 
 /**
- * Request for validating users
+ * Request for validating users.
  */
 class StoreUserRequest extends Request
 {
@@ -24,7 +26,7 @@ class StoreUserRequest extends Request
         // On edit change the password validator
         if ($this->get('id')) {
             $rules['email'] .= ',' . $this->get('id');
-            
+
             if (Input::get('password') !== '') {
                 $rules['password'] = 'min:6';
             } else {

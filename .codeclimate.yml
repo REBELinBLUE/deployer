@@ -14,3 +14,4 @@ exclude_paths:
     - "resources/assets/css/AdminLTE.css"
     - "resources/lang/en/*.php"
     - "*.blade.php"
+    - "*.js"

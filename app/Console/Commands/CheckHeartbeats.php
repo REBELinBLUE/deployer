@@ -1,22 +1,26 @@
-<?php namespace App\Console\Commands;
+<?php
 
-use Queue;
-use Carbon\Carbon;
+namespace App\Console\Commands;
+
 use App\Heartbeat;
-use App\Commands\Notify;
+use App\Jobs\Notify;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Checks that any expected heartbeats have checked-in
+ * Checks that any expected heartbeats have checked-in.
  */
 class CheckHeartbeats extends Command
 {
+    use DispatchesJobs;
+
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'deployer:heartbeats';
+    protected $signature = 'deployer:heartbeats';
 
     /**
      * The console command description.
@@ -26,11 +30,21 @@ class CheckHeartbeats extends Command
     protected $description = 'Checks that any expected heartbeats have checked-in';
 
     /**
-     * Checks that heartbeats happened as expected
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         Heartbeat::chunk(10, function ($heartbeats) {
             foreach ($heartbeats as $heartbeat) {
@@ -49,7 +63,7 @@ class CheckHeartbeats extends Command
                     $heartbeat->save();
 
                     foreach ($heartbeat->project->notifications as $notification) {
-                        Queue::push(new Notify(
+                        $this->dispatch(new Notify(
                             $notification,
                             $heartbeat->notificationPayload()
                         ));

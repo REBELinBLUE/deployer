@@ -1,14 +1,14 @@
-<?php namespace App\Events;
+<?php
+
+namespace App\Events;
 
 use App\Deployment;
-use App\Project;
-
 use App\Events\Event;
-
+use App\Project;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Deploy finished event
+ * Deploy finished event.
  */
 class DeployFinished extends Event
 {
@@ -24,7 +24,7 @@ class DeployFinished extends Event
      */
     public function __construct(Project $project, Deployment $deployment)
     {
-        $this->project = $project;
+        $this->project    = $project;
         $this->deployment = $deployment;
     }
 }

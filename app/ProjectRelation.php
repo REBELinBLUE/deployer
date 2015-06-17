@@ -1,15 +1,17 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Abstract class to hold the relationships for projects to stop PHPMD complaning
- * This seems like such a hacky way to structure it
+ * This seems like such a hacky way to structure it.
  */
 abstract class ProjectRelation extends Model
 {
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Group
      */
@@ -19,17 +21,17 @@ abstract class ProjectRelation extends Model
     }
 
     /**
-     * Has many relationship
+     * Has many relationship.
      *
      * @return Server
      */
     public function servers()
     {
-        return $this->hasMany('App\Server')->orderBy('name');
+        return $this->hasMany('App\Server')->orderBy('order', 'ASC');
     }
 
     /**
-     * Has many relationship
+     * Has many relationship.
      *
      * @return Heartbeat
      */
@@ -39,7 +41,7 @@ abstract class ProjectRelation extends Model
     }
 
     /**
-     * Has many relationship
+     * Has many relationship.
      *
      * @return Notification
      */
@@ -49,7 +51,7 @@ abstract class ProjectRelation extends Model
     }
 
     /**
-     * Has many relationship
+     * Has many relationship.
      *
      * @return Deployment
      */
@@ -59,17 +61,17 @@ abstract class ProjectRelation extends Model
     }
 
     /**
-     * Has many relationship
+     * Has many relationship.
      *
      * @return Command
      */
     public function commands()
     {
-        return $this->hasMany('App\Command');
+        return $this->hasMany('App\Command')->orderBy('order', 'ASC');
     }
 
     /**
-     * Has many relationship
+     * Has many relationship.
      * @return SharedFile
      */
     public function shareFiles()
@@ -78,7 +80,7 @@ abstract class ProjectRelation extends Model
     }
 
     /**
-     * Has many relationship to project file
+     * Has many relationship to project file.
      * @return ProjectFile
      */
     public function projectFiles()
@@ -87,7 +89,7 @@ abstract class ProjectRelation extends Model
     }
 
     /**
-     * Has many relationship
+     * Has many relationship.
      * @return SharedFile
      */
     public function notifyEmails()
@@ -96,7 +98,7 @@ abstract class ProjectRelation extends Model
     }
 
     /**
-     * Has many urls to check
+     * Has many urls to check.
      * @return CheckUrl
      */
     public function checkUrls()

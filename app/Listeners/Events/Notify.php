@@ -1,20 +1,21 @@
-<?php namespace App\Handlers\Events;
+<?php
 
-use App\Commands\Notify as SlackNotify;
-use App\Commands\MailDeployNotification;
-use App\Commands\RequestProjectCheckUrl;
+namespace App\Listeners\Events;
+
 use App\Events\DeployFinished;
-
+use App\Jobs\MailDeployNotification;
+use App\Jobs\Notify as SlackNotify;
+use App\Jobs\RequestProjectCheckUrl;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
-use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * When a deploy finished, notify the followed user.
  */
-class Notify implements ShouldBeQueued
+class Notify extends Event implements ShouldQueue
 {
-    use InteractsWithQueue, DispatchesCommands;
+    use InteractsWithQueue, DispatchesJobs;
 
     /**
      * Create the event handler.
@@ -34,17 +35,18 @@ class Notify implements ShouldBeQueued
      */
     public function handle(DeployFinished $event)
     {
-        $project = $event->project;
+        $project    = $event->project;
         $deployment = $event->deployment;
 
+        // Send slack notifications
         foreach ($project->notifications as $notification) {
             $this->dispatch(new SlackNotify($notification, $deployment->notificationPayload()));
         }
 
-        //Send email notification
+        // Send email notification
         $this->dispatch(new MailDeployNotification($project, $deployment));
 
-        //Trigger to check the project urls
+        // Trigger to check the project urls
         $this->dispatch(new RequestProjectCheckUrl($project->checkUrls));
     }
 }

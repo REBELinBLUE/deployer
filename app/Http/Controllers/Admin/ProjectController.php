@@ -1,19 +1,21 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php
 
-use Lang;
-use App\Project;
-use App\Http\Requests;
+namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\ProjectRepositoryInterface;
+use App\Http\Requests;
 use App\Http\Requests\StoreProjectRequest;
+use App\Project;
+use App\Repositories\Contracts\ProjectRepositoryInterface;
+use Lang;
 
 /**
- * The controller for managging projects
+ * The controller for managging projects.
  */
 class ProjectController extends Controller
 {
     /**
-     * Shows all projects
+     * Shows all projects.
      *
      * @param ProjectRepositoryInterface $projectRepository
      * @return Response

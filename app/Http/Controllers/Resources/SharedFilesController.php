@@ -1,10 +1,12 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
 
-use App\SharedFile;
+namespace App\Http\Controllers\Resources;
+
 use App\Http\Requests\StoreSharedFileRequest;
+use App\SharedFile;
 
 /**
- * Controller for managing files
+ * Controller for managing files.
  */
 class SharedFilesController extends ResourceController
 {

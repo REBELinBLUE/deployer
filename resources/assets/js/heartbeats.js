@@ -14,6 +14,7 @@ var app = app || {};
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
+        $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
             title = Lang.heartbeats.edit;
@@ -48,8 +49,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.Heartbeats.remove(heartbeat);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -106,7 +105,9 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        element.parent('div').addClass('has-error');
+                        var parent = element.parent('div');
+                        parent.addClass('has-error');
+                        parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
                 });
 
@@ -118,8 +119,7 @@ var app = app || {};
     });
 
     app.Heartbeat = Backbone.Model.extend({
-        urlRoot: '/heartbeats',
-        poller: false
+        urlRoot: '/heartbeats'
     });
 
     var Heartbeats = Backbone.Collection.extend({
@@ -150,7 +150,30 @@ var app = app || {};
 
             this.listenTo(app.Heartbeats, 'add', this.addOne);
             this.listenTo(app.Heartbeats, 'reset', this.addAll);
+            this.listenTo(app.Heartbeats, 'remove', this.addAll);
             this.listenTo(app.Heartbeats, 'all', this.render);
+
+            app.listener.on('heartbeat:App\\Events\\ModelChanged', function (data) {
+                var heartbeat = app.Heartbeats.get(parseInt(data.model.id));
+
+                if (heartbeat) {
+                    heartbeat.set(data.model);
+                }
+            });
+
+            app.listener.on('heartbeat:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.Heartbeats.add(data.model);
+                }
+            });
+
+            app.listener.on('heartbeat:App\\Events\\ModelTrashed', function (data) {
+                var heartbeat = app.Heartbeats.get(parseInt(data.model.id));
+
+                if (heartbeat) {
+                    app.Heartbeats.remove(heartbeat);
+                }
+            });
         },
         render: function () {
             if (app.Heartbeats.length) {

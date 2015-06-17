@@ -43,6 +43,7 @@ var app = app || {};
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
+        $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
             title = Lang.projectFiles.edit;
@@ -80,8 +81,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.ProjectFiles.remove(file);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -142,7 +141,9 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        element.parent('div').addClass('has-error');
+                        var parent = element.parent('div');
+                        parent.addClass('has-error');
+                        parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
                 });
 
@@ -154,8 +155,7 @@ var app = app || {};
     });
 
     app.ProjectFile = Backbone.Model.extend({
-        urlRoot: '/project-file',
-        poller: false
+        urlRoot: '/project-file'
     });
 
     var ProjectFiles = Backbone.Collection.extend({
@@ -177,7 +177,30 @@ var app = app || {};
 
             this.listenTo(app.ProjectFiles, 'add', this.addOne);
             this.listenTo(app.ProjectFiles, 'reset', this.addAll);
+            this.listenTo(app.ProjectFiles, 'remove', this.addAll);
             this.listenTo(app.ProjectFiles, 'all', this.render);
+
+            app.listener.on('projectfile:App\\Events\\ModelChanged', function (data) {
+                var file = app.ProjectFiles.get(parseInt(data.model.id));
+
+                if (file) {
+                    file.set(data.model);
+                }
+            });
+
+            app.listener.on('projectfile:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.ProjectFiles.add(data.model);
+                }
+            });
+
+            app.listener.on('projectfile:App\\Events\\ModelTrashed', function (data) {
+                var file = app.ProjectFiles.get(parseInt(data.model.id));
+
+                if (file) {
+                    app.ProjectFiles.remove(file);
+                }
+            });
         },
         render: function () {
             if (app.ProjectFiles.length) {

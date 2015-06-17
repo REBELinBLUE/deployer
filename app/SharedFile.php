@@ -1,14 +1,17 @@
-<?php namespace App;
+<?php
 
+namespace App;
+
+use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Shared files or directories for a project
+ * Shared files or directories for a project.
  */
 class SharedFile extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BroadcastChanges;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +21,14 @@ class SharedFile extends Model
     protected $fillable = ['name', 'file', 'project_id'];
 
     /**
-     * Belongs to relationship
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * Belongs to relationship.
      *
      * @return Project
      */

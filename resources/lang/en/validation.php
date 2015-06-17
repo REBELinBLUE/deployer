@@ -42,6 +42,7 @@ return [
     "integer"              => "The :attribute must be an integer.",
     "ip"                   => "The :attribute must be a valid IP address.",
     "host"                 => "The :attribute must be a valid host.",
+    "repository"           => "The :attribute must be a valid git repository",
     "max"                  => [
         "numeric" => "The :attribute may not be greater than :max.",
         "file"    => "The :attribute may not be greater than :max kilobytes.",

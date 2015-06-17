@@ -1,11 +1,31 @@
 [program:deployer]
-command=php artisan queue:listen --timeout=0 --tries=1
+command=php artisan queue:work --queue=high,low --sleep=3 --tries=1 --daemon
 directory=/var/www/deployer
-process_name=%(program_name)s_%(process_num)s
+process_name=queue_%(process_num)s
 numprocs=3
 numprocs_start=0
 stdout_logfile=/var/www/deployer/storage/logs/supervisord-%(process_num)s-stdout.log
 stderr_logfile=/var/www/deployer/storage/logs/supervisord-%(process_num)s-stderr.log
+redirect_stderr=true
+autostart=true
+autorestart=true
+
+[program:deployer-socketio]
+command=node socket.js
+directory=/var/www/deployer
+numprocs=1
+autostart=true
+autorestart=true
+environment=NODE_ENV=production
+stderr_logfile=/var/www/deployer/storage/logs/node-stderr.log
+stdout_logfile=/var/www/deployer/storage/logs/node-stdout.log
+
+[program:deployer-broadcast]
+command=php artisan queue:work --sleep=3 --tries=1 --daemon
+directory=/var/www/deployer
+numprocs=1
+stderr_logfile=/var/www/deployer/storage/logs/broadcast-stderr.log
+stdout_logfile=/var/www/deployer/storage/logs/broadcast-stdout.log
 redirect_stderr=true
 autostart=true
 autorestart=true

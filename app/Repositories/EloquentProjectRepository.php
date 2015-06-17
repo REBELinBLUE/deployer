@@ -1,15 +1,17 @@
-<?php namespace App\Repositories;
+<?php
+
+namespace App\Repositories;
 
 use App\Project;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 
 /**
- * The project repository
+ * The project repository.
  */
 class EloquentProjectRepository extends EloquentRepository implements ProjectRepositoryInterface
 {
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param Project $model
      * @return EloquentProjectRepository
@@ -20,7 +22,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
-     * Gets all projects
+     * Gets all projects.
      *
      * @return array
      */

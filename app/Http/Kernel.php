@@ -1,23 +1,24 @@
-<?php namespace App\Http;
+<?php
+
+namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 /**
- * Kernel class
+ * Kernel class.
  */
 class Kernel extends HttpKernel
 {
-
     /**
-     * The custom bootstrappers like Logging or Environment detector
+     * The custom bootstrappers like Logging or Environment detector.
      * @var array
      */
     protected $customBooters = [
-        'Illuminate\Foundation\Bootstrap\ConfigureLogging' => 'App\Bootstrap\ConfigureLogging',
+        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => \App\Bootstrap\ConfigureLogging::class,
     ];
 
     /**
-     * Disable bootstrapper list
+     * Disable bootstrapper list.
      * @var array
      */
     protected $disabledBooters = [
@@ -29,12 +30,12 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
-        'Illuminate\Cookie\Middleware\EncryptCookies',
-        'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
-        'Illuminate\Session\Middleware\StartSession',
-        'Illuminate\View\Middleware\ShareErrorsFromSession',
-        'App\Http\Middleware\VerifyCsrfToken',
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
     ];
 
     /**
@@ -43,8 +44,9 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => 'App\Http\Middleware\Authenticate',
-        'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        //'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     ];
 
     /**
@@ -56,12 +58,13 @@ class Kernel extends HttpKernel
     {
         foreach ($this->bootstrappers as &$bootstrapper) {
             foreach ($this->customBooters as $sourceBooter => $newBooter) {
-                if ($bootstrapper == $sourceBooter) {
+                if ($bootstrapper === $sourceBooter) {
                     $bootstrapper = $newBooter;
                     unset($this->customBooters[$sourceBooter]);
                 }
             }
         }
+
         return array_merge(
             array_diff(
                 $this->bootstrappers,

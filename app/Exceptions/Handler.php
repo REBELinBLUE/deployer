@@ -1,10 +1,12 @@
-<?php namespace App\Exceptions;
+<?php
 
+namespace App\Exceptions;
+
+use Bugsnag\BugsnagLaravel\BugsnagExceptionHandler as ExceptionHandler;
 use Exception;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 /**
- * Exception handler
+ * Exception handler.
  */
 class Handler extends ExceptionHandler
 {
@@ -14,7 +16,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        'Symfony\Component\HttpKernel\Exception\HttpException'
+        \Symfony\Component\HttpKernel\Exception\HttpException::class,
     ];
 
     /**

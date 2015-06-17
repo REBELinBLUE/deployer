@@ -1,17 +1,20 @@
-<?php namespace App;
+<?php
 
-use Lang;
-use Queue;
-use App\Commands\Notify;
+namespace App;
+
+use App\Jobs\Notify;
+use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Lang;
 
 /**
- * Notification model
+ * Notification model.
  */
 class Notification extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, DispatchesJobs, BroadcastChanges;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +24,14 @@ class Notification extends Model
     protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon'];
 
     /**
-     * Belongs to relationship
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -31,7 +41,7 @@ class Notification extends Model
     }
 
     /**
-     * Override the boot method to bind model event listeners
+     * Override the boot method to bind model event listeners.
      *
      * @return void
      */
@@ -41,7 +51,7 @@ class Notification extends Model
 
         // When the notification has been saved queue a test
         static::saved(function (Notification $model) {
-            Queue::push(new Notify(
+            $model->dispatch(new Notify(
                 $model,
                 $model->testPayload()
             ));
@@ -49,14 +59,14 @@ class Notification extends Model
     }
 
     /**
-     * Generates a test payload for Slack
+     * Generates a test payload for Slack.
      *
      * @return array
      */
     public function testPayload()
     {
         return [
-            'text' => Lang::get('notifications.test_message')
+            'text' => Lang::get('notifications.test_message'),
         ];
     }
 }

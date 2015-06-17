@@ -6,6 +6,31 @@ var app = app || {};
     var FAILED     = 2;
     var TESTING    = 3;
 
+    $('#server_list table').sortable({
+        containerSelector: 'table',
+        itemPath: '> tbody',
+        itemSelector: 'tr',
+        placeholder: '<tr class="placeholder"/>',
+        delay: 500,
+        onDrop: function (item, container, _super) {
+            _super(item, container);
+
+            var ids = [];
+            $('tbody tr td:first-child', container.el[0]).each(function (idx, element) {
+                ids.push($(element).data('server-id'));
+            });
+
+            $.ajax({ 
+                url: '/servers/reorder',
+                method: 'POST',
+                data: {
+                    servers: ids
+                }
+            });
+        }
+    });
+
+
     // FIXME: This seems very wrong
     $('#server').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -15,6 +40,7 @@ var app = app || {};
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
+        $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
             title = Lang.servers.edit;
@@ -53,8 +79,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.Servers.remove(server);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -115,7 +139,9 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        element.parent('div').addClass('has-error');
+                        var parent = element.parent('div');
+                        parent.addClass('has-error');
+                        parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
                 });
 
@@ -132,35 +158,7 @@ var app = app || {};
 
 
     app.Server = Backbone.Model.extend({
-        urlRoot: '/servers',
-        poller: false,
-        initialize: function() {
-            this.on('change:status', this.changeStatus, this);
-            
-            this.changeStatus();
-        },
-        changeStatus: function() {
-            if (parseInt(this.get('status')) === TESTING) {
-                var that = this;
-
-                $.ajax({
-                    type: 'GET',
-                    url: this.urlRoot + '/' + this.id + '/test'
-                }).fail(function (response) {
-                    that.set({
-                        status: FAILED
-                    });
-                }).success(function () {
-                    that.poller = Backbone.Poller.get(that, {
-                        condition: function(model) {
-                            return parseInt(model.get('status')) === TESTING;
-                        },
-                        delay: 2500
-                    });
-                    that.poller.start();
-                });
-            }
-        }
+        urlRoot: '/servers'
     });
 
     var Servers = Backbone.Collection.extend({
@@ -191,7 +189,30 @@ var app = app || {};
 
             this.listenTo(app.Servers, 'add', this.addOne);
             this.listenTo(app.Servers, 'reset', this.addAll);
+            this.listenTo(app.Servers, 'remove', this.addAll);
             this.listenTo(app.Servers, 'all', this.render);
+
+            app.listener.on('server:App\\Events\\ModelChanged', function (data) {
+                var server = app.Servers.get(parseInt(data.model.id));
+
+                if (server) {
+                    server.set(data.model);
+                }
+            });
+
+            app.listener.on('server:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.Servers.add(data.model);
+                }
+            });
+
+            app.listener.on('server:App\\Events\\ModelTrashed', function (data) {
+                var server = app.Servers.get(parseInt(data.model.id));
+
+                if (server) {
+                    app.Servers.remove(server);
+                }
+            });
         },
         render: function () {
             if (app.Servers.length) {
@@ -272,6 +293,17 @@ var app = app || {};
             this.model.set({
                 status: TESTING
             });
+
+            var that = this;
+            $.ajax({
+                type: 'GET',
+                url: this.model.urlRoot + '/' + this.model.id + '/test'
+            }).fail(function (response) {
+                that.model.set({
+                    status: FAILED
+                });
+            });
+
         }
     });
 })(jQuery);

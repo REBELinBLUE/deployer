@@ -2,7 +2,7 @@
     <div class="box-header">
         <h3 class="box-title">{{ Lang::get('deployments.latest') }}</h3>
     </div>
-    
+
     @if (!count($deployments))
     <div class="box-body">
         <p>{{ Lang::get('deployments.none') }}</p>
@@ -32,24 +32,18 @@
                             <i class="fa fa-comment-o deploy-reason" data-toggle="tooltip" data-placement="right" title="{{ $deployment->reason }}"></i>
                         @endif
                     </td>
-                    <td>
-                        @if (!empty($deployment->user_id))
-                            {{ $deployment->user->name }}
-                        @else
-                            {{ $deployment->committer_name }}
-                        @endif
-                    </td>
+                    <td>{{ $deployment->deployer_name }}</td>
                     <td>{{ $deployment->committer_name }}</td>
                     <td>
-                        @if ($deployment->commitURL())
-                        <a href="{{ $deployment->commitURL() }}" target="_blank">{{ $deployment->shortCommit() }}</a></td>
+                        @if ($deployment->commit_url)
+                        <a href="{{ $deployment->commit_url }}" target="_blank">{{ $deployment->short_commit }}</a></td>
                         @else
-                        {{ $deployment->short_commit_hash }}
+                        {{ $deployment->short_commit }}
                         @endif
                     </td>
-                    <td><a href="{{ $deployment->branchURL() }}" target="_blank"><span class="label label-default">{{ $deployment->branch }}</span></a></td>
+                    <td><a href="{{ $deployment->branch_url }}" target="_blank"><span class="label label-default">{{ $deployment->branch }}</span></a></td>
                     <td>
-                        <span class="label label-{{ $deployment->css_class }}"><i class="fa fa-{{ $deployment->icon }}"></i> {{ $deployment->readable_status }}</span>
+                        <span class="label label-{{ $deployment->css_class }}"><i class="fa fa-{{ $deployment->icon }}"></i> <span>{{ $deployment->readable_status }}</span></span>
                     </td>
                     <td>
                         <div class="btn-group pull-right">
@@ -67,5 +61,16 @@
     </div>
 
     @endif
-    
 </div>
+
+<script type="text/javascript">
+    Lang.deployments = {
+            status: {
+                completed: '{{ Lang::get('deployments.completed') }}',
+                pending: '{{ Lang::get('deployments.pending') }}',
+                deploying: '{{ Lang::get('deployments.deploying') }}',
+                failed: '{{ Lang::get('deployments.failed') }}',
+                running: '{{ Lang::get('deployments.running') }}'
+            }
+        };
+</script>

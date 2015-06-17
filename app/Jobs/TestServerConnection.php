@@ -1,17 +1,19 @@
-<?php namespace App\Commands;
+<?php
 
+namespace App\Jobs;
+
+use App\Jobs\Job;
 use App\Server;
-use App\Commands\Command;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Symfony\Component\Process\Process;
 
 /**
- * Tests if a server can successfully be SSHed into
+ * Tests if a server can successfully be SSHed into.
  */
-class TestServerConnection extends Command implements SelfHandling, ShouldBeQueued
+class TestServerConnection extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -62,7 +64,7 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
     }
 
     /**
-     * Generates the SSH command for running the script on a server
+     * Generates the SSH command for running the script on a server.
      *
      * @param Server $server
      * @param string $script The script to run
@@ -71,6 +73,7 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
     private function sshCommand(Server $server, $private_key, $script)
     {
         $script = 'set -e' . PHP_EOL . $script;
+
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
                  -o StrictHostKeyChecking=no \
@@ -78,8 +81,7 @@ class TestServerConnection extends Command implements SelfHandling, ShouldBeQueu
                  -o IdentityFile=' . $private_key . ' \
                  -p ' . $server->port . ' \
                  ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
-                 '.$script.'
+                 ' . $script . '
 EOF';
-
     }
 }

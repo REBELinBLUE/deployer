@@ -1,25 +1,27 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php
 
-use Lang;
-use App\Http\Requests;
+namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\GroupRepositoryInterface;
+use App\Http\Requests;
 use App\Http\Requests\StoreGroupRequest;
+use App\Repositories\Contracts\GroupRepositoryInterface;
+use Lang;
 
 /**
- * Group management controller
+ * Group management controller.
  */
 class GroupController extends Controller
 {
     /**
-     * The group repository
+     * The group repository.
      *
      * @var GroupRepositoryInterface
      */
     private $groupRepository;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param GroupRepositoryInterface $groupRepository
      * @return void

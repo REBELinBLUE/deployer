@@ -1,11 +1,13 @@
-<?php namespace App;
+<?php
 
+namespace App;
+
+use App\Presenters\DeployStepPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
-use App\Presenters\DeployStepPresenter;
 
 /**
- * The deployment step model
+ * The deployment step model.
  */
 class DeployStep extends Model implements PresentableInterface
 {
@@ -27,7 +29,7 @@ class DeployStep extends Model implements PresentableInterface
     protected $fillable = ['stage', 'deployment_id', 'command_id'];
 
     /**
-     * Has many relationship
+     * Has many relationship.
      *
      * @return ServerLog
      */
@@ -37,7 +39,7 @@ class DeployStep extends Model implements PresentableInterface
     }
 
     /**
-     * Belong to relationship
+     * Belong to relationship.
      *
      * @return Command
      */
@@ -47,7 +49,7 @@ class DeployStep extends Model implements PresentableInterface
     }
 
     /**
-     * Gets the view presenter
+     * Gets the view presenter.
      *
      * @return DeployStepPresenter
      */

@@ -1,10 +1,12 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
 
-use App\Notification;
+namespace App\Http\Controllers\Resources;
+
 use App\Http\Requests\StoreNotificationRequest;
+use App\Notification;
 
 /**
- * Controller for managing notifications
+ * Controller for managing notifications.
  */
 class NotificationController extends ResourceController
 {

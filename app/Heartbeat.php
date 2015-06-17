@@ -1,17 +1,20 @@
-<?php namespace App;
+<?php
 
-use Lang;
+namespace App;
+
+use App\Traits\BroadcastChanges;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Lang;
 
 /**
- * Heartbeat model
+ * Heartbeat model.
  */
 class Heartbeat extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BroadcastChanges;
 
     const OK       = 0;
     const UNTESTED = 1;
@@ -22,7 +25,7 @@ class Heartbeat extends Model
      *
      * @var array
      */
-    protected $hidden = ['project_id', 'created_at', 'updated_at', 'deleted_at', 'pivot'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
 
     /**
      * The attributes that are mass assignable.
@@ -32,14 +35,14 @@ class Heartbeat extends Model
     protected $fillable = ['name', 'interval', 'project_id'];
 
     /**
-     * The fields which should be tried as Carbon instances
+     * The fields which should be tried as Carbon instances.
      *
      * @var array
      */
     protected $dates = ['last_activity'];
 
     /**
-     * Additional attributes to include in the JSON representation
+     * Additional attributes to include in the JSON representation.
      *
      * @var array
      */
@@ -56,7 +59,7 @@ class Heartbeat extends Model
     ];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -66,7 +69,7 @@ class Heartbeat extends Model
     }
 
     /**
-     * Override the boot method to bind model event listeners
+     * Override the boot method to bind model event listeners.
      *
      * @return void
      */
@@ -83,7 +86,7 @@ class Heartbeat extends Model
     }
 
     /**
-     * Generates a hash for use in the webhook URL
+     * Generates a hash for use in the webhook URL.
      *
      * @return void
      */
@@ -93,7 +96,7 @@ class Heartbeat extends Model
     }
 
     /**
-     * Define a accessor for the callback URL
+     * Define a accessor for the callback URL.
      *
      * @return string
      */
@@ -103,9 +106,9 @@ class Heartbeat extends Model
     }
 
     /**
-     * Updates the last_activity timestamp
+     * Updates the last_activity timestamp.
      *
-     * @return boolean
+     * @return bool
      */
     public function pinged()
     {
@@ -117,13 +120,23 @@ class Heartbeat extends Model
     }
 
     /**
-     * Generates a slack payload for the heartbeat failure
+     * Determines whether the heartbeat is currently healthy.
+     *
+     * @return bool
+     */
+    public function isHealthy()
+    {
+        return ($this->status === self::OK);
+    }
+
+    /**
+     * Generates a slack payload for the heartbeat failure.
      *
      * @return array
      */
     public function notificationPayload()
     {
-        $message = Lang::get('heartbeats.message', [ 'job' => $this->name ]);
+        $message = Lang::get('heartbeats.message', ['job' => $this->name]);
 
         if (is_null($this->last_activity)) {
             $heard_from = Lang::get('app.never');

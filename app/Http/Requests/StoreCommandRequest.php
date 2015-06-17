@@ -1,10 +1,12 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 use App\Command;
 use App\Http\Requests\Request;
 
 /**
- * Request for validating commands
+ * Request for validating commands.
  */
 class StoreCommandRequest extends Request
 {

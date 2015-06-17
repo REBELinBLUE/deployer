@@ -1,14 +1,17 @@
-<?php namespace App;
+<?php
 
+namespace App;
+
+use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * The command model
+ * The command model.
  */
 class Command extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BroadcastChanges;
 
     const BEFORE_CLONE    = 1;
     const DO_CLONE        = 2;
@@ -48,7 +51,7 @@ class Command extends Model
     ];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -58,12 +61,12 @@ class Command extends Model
     }
 
     /**
-     * Belongs to many relationship
+     * Belongs to many relationship.
      *
      * @return Server
      */
     public function servers()
     {
-        return $this->belongsToMany('App\Server');
+        return $this->belongsToMany('App\Server')->orderBy('order', 'ASC');
     }
 }

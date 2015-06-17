@@ -1,14 +1,17 @@
-<?php namespace App;
+<?php
 
+namespace App;
+
+use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Server model
+ * Server model.
  */
 class Server extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BroadcastChanges;
 
     const SUCCESSFUL = 0;
     const UNTESTED   = 1;
@@ -20,14 +23,15 @@ class Server extends Model
      *
      * @var array
      */
-    protected $hidden = ['project_id', 'created_at', 'updated_at', 'deleted_at', 'pivot'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'user', 'ip_address', 'project_id', 'path', 'status', 'deploy_code', 'port'];
+    protected $fillable = ['name', 'user', 'ip_address', 'project_id', 'path',
+                           'status', 'deploy_code', 'port', 'order'];
 
     /**
      * The attributes that should be casted to native types.
@@ -40,7 +44,7 @@ class Server extends Model
     ];
 
     /**
-     * Belongs to relationship
+     * Belongs to relationship.
      *
      * @return Project
      */
@@ -50,8 +54,18 @@ class Server extends Model
     }
 
     /**
+     * Determines whether the server is currently being testing.
+     *
+     * @return bool
+     */
+    public function isTesting()
+    {
+        return ($this->status === self::TESTING);
+    }
+
+    /**
      * Define a mutator for the user, if it has changed or has
-     * not previously been set also set the status to untested
+     * not previously been set also set the status to untested.
      *
      * @param string $value
      * @return void
@@ -67,7 +81,7 @@ class Server extends Model
 
     /**
      * Define a mutator for the IP Address, if it has changed or
-     * has not previously been set also set the status to untested
+     * has not previously been set also set the status to untested.
      *
      * @param string $value
      * @return void
@@ -83,7 +97,7 @@ class Server extends Model
 
     /**
      * Define a mutator for the port, if it has changed or
-     * has not previously been set also set the status to untested
+     * has not previously been set also set the status to untested.
      *
      * @param string $value
      * @return void

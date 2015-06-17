@@ -10,6 +10,7 @@ var app = app || {};
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
         $('.has-error', modal).removeClass('has-error');
+        $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
             title = Lang.sharedFiles.edit;
@@ -44,8 +45,6 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
-
-                app.SharedFiles.remove(file);
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -102,7 +101,9 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        element.parent('div').addClass('has-error');
+                        var parent = element.parent('div');
+                        parent.addClass('has-error');
+                        parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
                 });
 
@@ -114,8 +115,7 @@ var app = app || {};
     });
 
     app.SharedFile = Backbone.Model.extend({
-        urlRoot: '/shared-files',
-        poller: false
+        urlRoot: '/shared-files'
     });
 
     var SharedFiles = Backbone.Collection.extend({
@@ -137,7 +137,30 @@ var app = app || {};
 
             this.listenTo(app.SharedFiles, 'add', this.addOne);
             this.listenTo(app.SharedFiles, 'reset', this.addAll);
+            this.listenTo(app.SharedFiles, 'remove', this.addAll);
             this.listenTo(app.SharedFiles, 'all', this.render);
+
+            app.listener.on('sharedfile:App\\Events\\ModelChanged', function (data) {
+                var share = app.SharedFiles.get(parseInt(data.model.id));
+
+                if (share) {
+                    share.set(data.model);
+                }
+            });
+
+            app.listener.on('sharedfile:App\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    app.SharedFiles.add(data.model);
+                }
+            });
+
+            app.listener.on('sharedfile:App\\Events\\ModelTrashed', function (data) {
+                var share = app.SharedFiles.get(parseInt(data.model.id));
+
+                if (share) {
+                    app.SharedFiles.remove(share);
+                }
+            });
         },
         render: function () {
             if (app.SharedFiles.length) {

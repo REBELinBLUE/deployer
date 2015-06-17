@@ -35,6 +35,11 @@ return [
     'branch'           => 'Branch',
     'warning'          => 'The deployment could not be started, please make sure you have entered all required values.',
     'describe_reason'  => 'Please describe briefly the reason for this deployment',
-    'optional'         => 'Select the optional deploy steps to run'
+    'optional'         => 'Select the optional deploy steps to run',
+    'week'             => ':time week|:time weeks',
+    'day'              => ':time day|:time days',
+    'hour'             => ':time hour|:time hours',
+    'minute'           => ':time minute|:time minutes',
+    'second'           => ':time second|:time seconds'
 
 ];

@@ -4,19 +4,20 @@
         <meta charset="UTF-8" />
         <title>{{ Lang::get('app.name') }}</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+        <link rel="author" href="humans.txt" />
 
         <!-- Style -->
         <link href="{{ elixir('css/vendor.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ elixir('css/app.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+            <script src="{{ elixir('js/ie.js') }}"></script>
         <![endif]-->
 
         <meta name="token" content="{{ Session::token() }}" />
+        <meta name="socket_url" content="{{ env('SOCKET_URL') }}" />
+
         <script type="text/javascript">var Lang = {};</script>
     </head>
     <body class="skin-green">
@@ -50,6 +51,15 @@
 
         <script src="{{ elixir('js/vendor.js') }}"></script>
         <script src="{{ elixir('js/app.js') }}"></script>
+
+        <script type="text/javascript">
+            Lang.nav = {
+                single_pending: '{{ Lang::choice('dashboard.pending', 1) }}',
+                multi_pending: '{{ Lang::choice('dashboard.pending', '%s') }}',
+                single_running: '{{ Lang::choice('dashboard.running', 1) }}',
+                multi_running: '{{ Lang::choice('dashboard.running', '%s') }}'
+            };
+        </script>
 
         @yield('javascript')
     </body>

@@ -1,12 +1,13 @@
-<?php namespace App\Http\Middleware;
+<?php
+
+namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 /**
- * Middleware to prevent access to pages when already authenticated
+ * Middleware to prevent access to pages when already authenticated.
  */
 class RedirectIfAuthenticated
 {
@@ -38,7 +39,7 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next)
     {
         if ($this->auth->check()) {
-            return new RedirectResponse(url('/home'));
+            return redirect('/');
         }
 
         return $next($request);

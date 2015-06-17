@@ -1,20 +1,20 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
 
-use Lang;
-use Input;
-use App\Project;
+namespace App\Http\Controllers\Resources;
+
 use App\Command;
-use App\ServerLog;
-use App\Http\Requests;
 use App\Http\Requests\StoreCommandRequest;
+use App\Project;
+use Input;
+use Lang;
 
 /**
- * Controller for managing commands
+ * Controller for managing commands.
  */
 class CommandController extends ResourceController
 {
     /**
-     * Display a listing of before/after commands for the supplied stage
+     * Display a listing of before/after commands for the supplied stage.
      *
      * @param Project $project
      * @param string $action Either clone, install, activate or purge
@@ -31,15 +31,10 @@ class CommandController extends ResourceController
 
         // fixme: use a repository
         $commands = Command::where('project_id', $project->id)
-                           ->whereIn('step', array($types[$action] - 1, $types[$action] + 1))
+                           ->with('servers')
+                           ->whereIn('step', [$types[$action] - 1, $types[$action] + 1])
                            ->orderBy('order')
                            ->get();
-
-        // fixme: there has to be a better way to do this
-        // this triggers the servers to be loaded so that they exist in the model
-        foreach ($commands as $command) {
-            $command->servers;
-        }
 
         return view('commands.listing', [
             'breadcrumb' => [
@@ -132,7 +127,7 @@ class CommandController extends ResourceController
     }
 
     /**
-     * Re-generates the order for the supplied commands
+     * Re-generates the order for the supplied commands.
      *
      * @return Response
      */
@@ -153,37 +148,5 @@ class CommandController extends ResourceController
         return [
             'success' => true
         ];
-    }
-
-    /**
-     * Gets the status of a particular deployment step
-     *
-     * @param ServerLog $log
-     * @param boolean $include_log
-     * @return Response
-     * TODO: Move this to deployment controller
-     */
-    public function status(ServerLog $log, $include_log = false)
-    {
-        $log->runtime  = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
-        $log->script   = '';
-
-        if (!$include_log) {
-            $log->output = ((is_null($log->output) || !strlen($log->output)) ? null : '');
-        }
-
-        return $log;
-    }
-
-    /**
-     * Gets the log output of a particular deployment step
-     *
-     * @param ServerLog $log
-     * @return Response
-     * TODO: Move this to deployment controller
-     */
-    public function log(ServerLog $log)
-    {
-        return $this->status($log, true);
     }
 }

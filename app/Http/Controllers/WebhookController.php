@@ -1,18 +1,20 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use Input;
-use App\Project;
+namespace App\Http\Controllers;
+
 use App\Deployment;
-use App\Commands\QueueDeployment;
 use App\Http\Controllers\Controller;
+use App\Jobs\QueueDeployment;
+use App\Project;
+use Input;
 
 /**
- * The deployment webhook controller
+ * The deployment webhook controller.
  */
 class WebhookController extends Controller
 {
     /**
-     * Handles incoming requests from Gitlab or PHPCI to trigger deploy
+     * Handles incoming requests from Gitlab or PHPCI to trigger deploy.
      *
      * @param string $hash The webhook hash
      * @return Response
@@ -29,7 +31,7 @@ class WebhookController extends Controller
         if ($project->servers->where('deploy_code', true)->count() > 0) {
             $optional = [];
 
-            $deployment = new Deployment;
+            $deployment         = new Deployment;
             $deployment->reason = Input::get('reason');
             $deployment->branch = $project->branch;
 
@@ -48,7 +50,7 @@ class WebhookController extends Controller
     }
 
     /**
-     * Generates a new webhook URL
+     * Generates a new webhook URL.
      *
      * @param Project $project
      * @return Response

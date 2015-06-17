@@ -14,11 +14,12 @@
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', 'DashboardController@index');
+    Route::get('/timeline', 'DashboardController@timeline');
 
     Route::get('webhook/{projects}/refresh', 'WebhookController@refresh');
 
     Route::get('projects/{projects}', 'DeploymentController@project');
-    
+
     Route::post('projects/{projects}/deploy', [
         'as'   => 'deploy',
         'uses' => 'DeploymentController@deploy'
@@ -30,10 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'DeploymentController@show'
     ]);
 
-    Route::group(['namespace' => 'Resources'], function () {
+    Route::get('log/{log}', 'DeploymentController@log');
 
-        Route::get('status/{log}', 'CommandController@status');
-        Route::get('log/{log}', 'CommandController@log');
+    Route::group(['namespace' => 'Resources'], function () {
 
         Route::post('commands/reorder', 'CommandController@reorder');
 
@@ -42,16 +42,14 @@ Route::group(['middleware' => 'auth'], function () {
             'uses' => 'CommandController@listing'
         ]);
 
+        Route::post('servers/reorder', 'ServerController@reorder');
         Route::get('servers/{servers}/test', 'ServerController@test');
 
         $actions = [
             'only' => ['store', 'update', 'destroy']
         ];
 
-        Route::resource('servers', 'ServerController', [
-            'only' => ['show', 'store', 'update', 'destroy']
-        ]);
-
+        Route::resource('servers', 'ServerController', $actions);
         Route::resource('commands', 'CommandController', $actions);
         Route::resource('heartbeats', 'HeartbeatController', $actions);
         Route::resource('notifications', 'NotificationController', $actions);

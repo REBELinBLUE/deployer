@@ -1,39 +1,28 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use Lang;
-use Response;
+namespace App\Http\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
+use Lang;
+use Response;
 
 /**
- * The dashboard controller
+ * The dashboard controller.
  */
 class DashboardController extends Controller
 {
     /**
-     * The main page of the dashboard
+     * The main page of the dashboard.
      *
      * @return View
-     * TODO: Use a decorator pattern here
      */
     public function index(
         DeploymentRepositoryInterface $deploymentRepository,
         ProjectRepositoryInterface $projectRepository
     ) {
-        $deployments = $deploymentRepository->getTimeline();
         $projects = $projectRepository->getAll();
-
-        $deploys_by_date = [];
-        foreach ($deployments as $deployment) {
-            $date = $deployment->started_at->format('Y-m-d');
-
-            if (!isset($deploys_by_date[$date])) {
-                $deploys_by_date[$date] = [];
-            }
-
-            $deploys_by_date[$date][] = $deployment;
-        }
 
         $projects_by_group = [];
         foreach ($projects as $project) {
@@ -47,14 +36,51 @@ class DashboardController extends Controller
         ksort($projects_by_group);
 
         return view('dashboard.index', [
-            'title'    => Lang::get('dashboard.title'),
-            'latest'   => $deploys_by_date,
-            'projects' => $projects_by_group
+            'title'     => Lang::get('dashboard.title'),
+            'latest'    => $this->buildTimelineData($deploymentRepository),
+            'projects'  => $projects_by_group
         ]);
     }
 
     /**
-     * Generates an XML file for CCTray
+     * Returns the timeline.
+     *
+     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @return View
+     */
+    public function timeline(DeploymentRepositoryInterface $deploymentRepository)
+    {
+        return view('dashboard.timeline', [
+            'latest' => $this->buildTimelineData($deploymentRepository)
+        ]);
+    }
+
+    /**
+     * Builds the data for the timline.
+     *
+     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @return array
+     */
+    private function buildTimelineData(DeploymentRepositoryInterface $deploymentRepository)
+    {
+        $deployments = $deploymentRepository->getTimeline();
+
+        $deploys_by_date = [];
+        foreach ($deployments as $deployment) {
+            $date = $deployment->started_at->format('Y-m-d');
+
+            if (!isset($deploys_by_date[$date])) {
+                $deploys_by_date[$date] = [];
+            }
+
+            $deploys_by_date[$date][] = $deployment;
+        }
+
+        return $deploys_by_date;
+    }
+
+    /**
+     * Generates an XML file for CCTray.
      *
      * @param ProjectRepositoryInterface $projectRepository
      * @return Response

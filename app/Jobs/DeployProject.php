@@ -1,26 +1,29 @@
-<?php namespace App\Commands;
+<?php
 
-use Config;
-use Queue;
+namespace App\Jobs;
+
+use App\Command as Stage;
 use App\Deployment;
 use App\DeployStep;
-use App\ServerLog;
-use App\Server;
-use App\Command as Stage;
-use App\Project;
-use App\Commands\Command;
 use App\Events\DeployFinished;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Jobs\Job;
+use App\Project;
+use App\Server;
+use App\ServerLog;
+use App\User;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Queue;
+use Illuminate\Queue\SerializesModels;
 use Symfony\Component\Process\Process;
 
 /**
  * Deploys an actual project
- * TODO: rewrite this as it is doing way too much and is very messy now
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * TODO: rewrite this as it is doing way too much and is very messy now.
  */
-class DeployProject extends Command implements SelfHandling, ShouldBeQueued
+class DeployProject extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -39,6 +42,18 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
     }
 
     /**
+     * Overwrite the queue method to push to a different queue.
+     *
+     * @param Queue $queue
+     * @param DeployProject $command
+     * @return void
+     */
+    public function queue(Queue $queue, $command)
+    {
+        $queue->pushOn('high', $command);
+    }
+
+    /**
      * Execute the command.
      *
      * @return void
@@ -48,7 +63,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
         $project = $this->deployment->project;
 
         $this->deployment->started_at = date('Y-m-d H:i:s');
-        $this->deployment->status = Deployment::DEPLOYING;
+        $this->deployment->status     = Deployment::DEPLOYING;
         $this->deployment->save();
 
         $project->status = Project::DEPLOYING;
@@ -59,7 +74,7 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 
         try {
             // If the build has been manually triggered update the git information from the remote repository
-            if ($this->deployment->commit == Deployment::LOADING) {
+            if ($this->deployment->commit === Deployment::LOADING) {
                 $this->updateRepoInfo();
             }
 
@@ -68,10 +83,10 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
             }
 
             $this->deployment->status = Deployment::COMPLETED;
-            $project->status = Project::FINISHED;
+            $project->status          = Project::FINISHED;
         } catch (\Exception $error) {
             $this->deployment->status = Deployment::FAILED;
-            $project->status = Project::FAILED;
+            $project->status          = Project::FAILED;
 
             $this->cancelPendingSteps($this->deployment->steps);
 
@@ -97,10 +112,11 @@ class DeployProject extends Command implements SelfHandling, ShouldBeQueued
 
     /**
      * Clones the repository locally to get the latest log entry and updates
-     * the deployment model
+     * the deployment model.
      *
      * @return void
      * TODO: Change this to use the Gitlab API
+     * FIXME: Handle the failure as it is unclear what went wrong
      */
     private function updateRepoInfo()
     {
@@ -116,7 +132,7 @@ export GIT_SSH="{$wrapper}" && \
 git clone --quiet --branch %s --depth 1 %s {$workingdir} && \
 cd {$workingdir} && \
 git checkout %s --quiet && \
-git log --pretty=format:"%%H%%x09%%an" && \
+git log --pretty=format:"%%H%%x09%%an%%x09%%ae" && \
 rm -rf {$workingdir}
 CMD;
 
@@ -133,20 +149,28 @@ CMD;
         unlink($wrapper);
 
         if (!$process->isSuccessful()) {
-            // FIXME: Handle this situation as it is then unclear what went wrong
             throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
         }
 
         $git_info = $process->getOutput();
 
-        $parts = explode("\x09", $git_info);
+        $parts                       = explode("\x09", $git_info);
         $this->deployment->commit    = $parts[0];
         $this->deployment->committer = trim($parts[1]);
+
+        if (!$this->deployment->user_id) {
+            $user = User::where('email', trim($parts[2]))->first();
+
+            if ($user) {
+                $this->deployment->user_id = $user->id;
+            }
+        }
+
         $this->deployment->save();
     }
 
     /**
-     * Removed left over artifacts from a failed deploy on each server
+     * Removed left over artifacts from a failed deploy on each server.
      *
      * @return void
      * TODO: Clean this up as there is some duplication with getScript()
@@ -168,17 +192,17 @@ CMD;
                 continue;
             }
 
-            $releases_dir = $root_dir . '/releases';
+            $releases_dir       = $root_dir . '/releases';
             $latest_release_dir = $releases_dir . '/' . $release_id;
 
-            $remote_key_file = $root_dir . '/id_rsa';
+            $remote_key_file     = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
             $commands = [
                 sprintf('cd %s', $root_dir),
                 sprintf('[ -f %s ] && rm %s', $remote_key_file, $remote_key_file),
                 sprintf('[ -f %s ] && rm %s', $remote_wrapper_file, $remote_wrapper_file),
-                sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir)
+                sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir),
             ];
 
             $script = implode(PHP_EOL, $commands);
@@ -190,7 +214,7 @@ CMD;
     }
 
     /**
-     * Finds all pending steps and marks them as cancelled
+     * Finds all pending steps and marks them as cancelled.
      *
      * @return void
      */
@@ -198,7 +222,7 @@ CMD;
     {
         foreach ($this->deployment->steps as $step) {
             foreach ($step->servers as $log) {
-                if ($log->status == ServerLog::PENDING) {
+                if ($log->status === ServerLog::PENDING) {
                     $log->status = ServerLog::CANCELLED;
                     $log->save();
                 }
@@ -207,16 +231,16 @@ CMD;
     }
 
     /**
-     * Executes the commands for a step
+     * Executes the commands for a step.
      *
      * @param DeployStep $step
-     * @return void
      * @throws \RuntimeException
+     * @return void
      */
     private function runStep(DeployStep $step)
     {
         foreach ($step->servers as $log) {
-            $log->status = ServerLog::RUNNING;
+            $log->status     = ServerLog::RUNNING;
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
 
@@ -229,8 +253,6 @@ CMD;
                     $user = $step->command->user;
                 }
 
-                $log->script = $script;
-
                 $failed = false;
 
                 if (!empty($script)) {
@@ -239,7 +261,7 @@ CMD;
 
                     $output = '';
                     $process->run(function ($type, $output_line) use (&$output, &$log) {
-                        if ($type == Process::ERR) {
+                        if ($type === Process::ERR) {
                             $output .= $this->logError($output_line);
                         } else {
                             $output .= $this->logSuccess($output_line);
@@ -261,7 +283,7 @@ CMD;
                 $failed = true;
             }
 
-            $log->status = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
+            $log->status      = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
             $log->finished_at = date('Y-m-d H:i:s');
             $log->save();
 
@@ -273,7 +295,7 @@ CMD;
     }
 
     /**
-     * Generates the actual bash commands to run on the server
+     * Generates the actual bash commands to run on the server.
      *
      * @param DeployStep $step
      * @param Server     $server
@@ -292,14 +314,15 @@ CMD;
 
         $releases_dir = $root_dir . '/releases';
 
-        $release_id = date('YmdHis', strtotime($this->deployment->started_at));
+        $release_id         = date('YmdHis', strtotime($this->deployment->started_at));
         $latest_release_dir = $releases_dir . '/' . $release_id;
         $release_shared_dir = $root_dir . '/shared';
 
         $commands = false;
 
-        if ($step->stage === Stage::DO_CLONE) { // Clone the repository
-            $remote_key_file = $root_dir . '/id_rsa';
+        if ($step->stage === Stage::DO_CLONE) {
+            // Clone the repository
+            $remote_key_file     = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
             // FIXME: This does not belong here as this function should
@@ -323,9 +346,10 @@ CMD;
                 ),
                 sprintf('cd %s', $latest_release_dir),
                 sprintf('git checkout %s', $this->deployment->branch),
-                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file)
+                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
             ];
-        } elseif ($step->stage === Stage::DO_INSTALL) { // Install composer dependencies
+        } elseif ($step->stage === Stage::DO_INSTALL) {
+            // Install composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
                 sprintf(
@@ -333,10 +357,10 @@ CMD;
                     '--no-dev --prefer-dist --no-ansi --working-dir "%s"',
                     $latest_release_dir,
                     $latest_release_dir
-                )
+                ),
             ];
 
-            // the shared file must be created in the install step
+            // The shared file must be created in the install step
             $shareFileCommands = $this->shareFileCommands(
                 $project,
                 $latest_release_dir,
@@ -345,35 +369,39 @@ CMD;
 
             $commands = array_merge($commands, $shareFileCommands);
 
-            // write project file to release dir before install
-            
+            // Write project file to release dir before install
+
             $projectFiles = $project->projectFiles;
             foreach ($projectFiles as $file) {
                 if ($file->path) {
                     $filepath = $latest_release_dir . '/' . $file->path;
                     $this->sendFileFromString($server, $filepath, $file->content);
+                    $commands[] = sprintf('chmod 0664 %s', $filepath);
                 }
             }
-        } elseif ($step->stage === Stage::DO_ACTIVATE) { // Activate latest release
+        } elseif ($step->stage === Stage::DO_ACTIVATE) {
+            // Activate latest release
             $commands = [
                 sprintf('cd %s', $root_dir),
                 sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
-                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir)
+                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir),
             ];
-        } elseif ($step->stage === Stage::DO_PURGE) { // Purge old releases
+        } elseif ($step->stage === Stage::DO_PURGE) {
+            // Purge old releases
             $commands = [
                 sprintf('cd %s', $releases_dir),
-                sprintf('(ls -t|head -n %u;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep + 1)
+                sprintf('(ls -t|head -n %u;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep + 1),
             ];
-        } else { // Custom step!
+        } else {
+            // Custom step!
             $commands = $step->command->script;
 
             $tokens = [
-                '{{ release }}'         => $release_id,
-                '{{ release_path }}'    => $latest_release_dir,
-                '{{ project_path }}'    => $root_dir,
-                '{{ sha }}'             => $this->deployment->commit,
-                '{{ short_sha }}'       => $this->deployment->shortCommit()
+                '{{ release }}'      => $release_id,
+                '{{ release_path }}' => $latest_release_dir,
+                '{{ project_path }}' => $root_dir,
+                '{{ sha }}'          => $this->deployment->commit,
+                '{{ short_sha }}'    => $this->deployment->short_commit,
             ];
 
             $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);
@@ -387,7 +415,7 @@ CMD;
     }
 
     /**
-     * Generates an error string to log to the DB
+     * Generates an error string to log to the DB.
      *
      * @param string $message
      * @return string
@@ -398,7 +426,7 @@ CMD;
     }
 
     /**
-     * Generates an general output string to log to the DB
+     * Generates an general output string to log to the DB.
      *
      * @param string $message
      * @return string
@@ -409,7 +437,7 @@ CMD;
     }
 
     /**
-     * Generates the SSH command for running the script on a server
+     * Generates the SSH command for running the script on a server.
      *
      * @param Server $server
      * @param string $script The script to run
@@ -423,6 +451,7 @@ CMD;
         }
 
         $script = 'set -e' . PHP_EOL . $script;
+
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
                  -o StrictHostKeyChecking=no \
@@ -430,13 +459,12 @@ CMD;
                  -o IdentityFile=' . $this->private_key . ' \
                  -p ' . $server->port . ' \
                  ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
-                 '.$script.'
+                 ' . $script . '
 EOF';
-
     }
 
     /**
-     * Generates the content of a git bash script
+     * Generates the content of a git bash script.
      *
      * @param string $key_file_path The path to the public key to use
      * @return string
@@ -455,13 +483,13 @@ OUT;
     }
 
     /**
-     * Sends a file to a remote server
+     * Sends a file to a remote server.
      *
      * @param string $local_file
      * @param string $remote_file
      * @param Server $server
-     * @return void
      * @throws RuntimeException
+     * @return void
      */
     private function sendFile($local_file, $remote_file, Server $server)
     {
@@ -488,7 +516,7 @@ OUT;
     }
 
     /**
-     * Prepares a server for code deployment by adding the files which are required
+     * Prepares a server for code deployment by adding the files which are required.
      *
      * @param Server $server
      * @return void
@@ -497,7 +525,7 @@ OUT;
     {
         $root_dir = preg_replace('#/$#', '', $server->path);
 
-        $remote_key_file = $root_dir . '/id_rsa';
+        $remote_key_file     = $root_dir . '/id_rsa';
         $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
         // Upload the SSH private key
@@ -512,7 +540,7 @@ OUT;
     }
 
     /**
-     * Send a string to server
+     * Send a string to server.
      *
      * @param  Server $server   target server
      * @param  string $filename remote filename
@@ -531,7 +559,7 @@ OUT;
     }
 
     /**
-     * create the command for share files
+     * create the command for share files.
      *
      * @param  Project $project     the related project
      * @param  string  $release_dir current release dir
@@ -540,18 +568,18 @@ OUT;
      */
     private function shareFileCommands(Project $project, $release_dir, $shared_dir)
     {
-        $commands = array();
+        $commands = [];
         foreach ($project->shareFiles as $filecfg) {
             if ($filecfg->file) {
                 $pathinfo = pathinfo($filecfg->file);
-                $isDir = false;
+                $isDir    = false;
 
-                if (substr($filecfg->file, 0, 1) == '/') {
+                if (substr($filecfg->file, 0, 1) === '/') {
                     $filecfg->file = substr($filecfg->file, 1);
                 }
 
-                if (substr($filecfg->file, -1) == '/') {
-                    $isDir = true;
+                if (substr($filecfg->file, -1) === '/') {
+                    $isDir         = true;
                     $filecfg->file = substr($filecfg->file, 0, -1);
                 }
 
@@ -587,6 +615,7 @@ OUT;
                 $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
             }
         }
+
         return $commands;
     }
 }

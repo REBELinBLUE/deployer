@@ -1,26 +1,27 @@
-<?php namespace App\Console\Commands;
+<?php
+
+namespace App\Console\Commands;
 
 use App\CheckUrl as CheckUrlModel;
-use App\Commands\RequestProjectCheckUrl;
-
+use App\Jobs\RequestProjectCheckUrl;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Bus\DispatchesCommands;
-use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Schedule the url check
+ * Schedule the url check.
  */
 class CheckUrl extends Command
 {
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'deployer:checkurls';
+    protected $signature = 'deployer:checkurls';
 
     /**
      * The console command description.
@@ -44,19 +45,19 @@ class CheckUrl extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $period = [];
 
         $minute = intval(date('i'));
-        if ($minute == 0) {
+        if ($minute === 0) {
             $period = [60, 30, 10, 5];
         } else {
-            if ($minute % 30 == 0) {
+            if ($minute % 30 === 0) {
                 $period = [30, 10, 5];
-            } elseif ($minute % 10 == 0) {
+            } elseif ($minute % 10 === 0) {
                 $period = [10, 5];
-            } elseif ($minute % 5 == 0) {
+            } elseif ($minute % 5 === 0) {
                 $period = [5];
             }
         }
@@ -69,9 +70,7 @@ class CheckUrl extends Command
 
         CheckUrlModel::whereIn('period', $period)->chunk(10, function ($urls) use ($command) {
 
-            foreach ($urls as $url) {
-                $command->dispatch(new RequestProjectCheckUrl($url));
-            }
+            $command->dispatch(new RequestProjectCheckUrl($urls));
 
         });
     }

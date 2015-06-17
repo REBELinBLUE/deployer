@@ -1,27 +1,19 @@
-<?php namespace App\Http\Controllers\Resources;
+<?php
 
-use Response;
-use App\Server;
+namespace App\Http\Controllers\Resources;
+
 use App\Http\Requests;
-use App\Commands\TestServerConnection;
 use App\Http\Requests\StoreServerRequest;
+use App\Jobs\TestServerConnection;
+use App\Server;
+use Input;
+use Response;
 
 /**
- * Server management controller
+ * Server management controller.
  */
 class ServerController extends ResourceController
 {
-    /**
-     * Returns the server
-     * 
-     * @param Server $server
-     * @return Model
-     */
-    public function show(Server $server)
-    {
-        return $server;
-    }
-
     /**
      * Store a newly created server in storage.
      *
@@ -30,7 +22,17 @@ class ServerController extends ResourceController
      */
     public function store(StoreServerRequest $request)
     {
-        return Server::create($request->only(
+        // fixme: use a repository
+        $max = Server::where('project_id', $request->project_id)
+                      ->orderBy('order', 'desc')
+                      ->first();
+
+        $order = 0;
+        if (isset($max)) {
+            $order = $max->order + 1;
+        }
+
+        $fields = $request->only(
             'name',
             'user',
             'ip_address',
@@ -38,7 +40,13 @@ class ServerController extends ResourceController
             'path',
             'project_id',
             'deploy_code'
-        ));
+        );
+
+        $fields['order'] = $order;
+
+        $server = Server::create($fields);
+
+        return $server;
     }
 
     /**
@@ -79,18 +87,43 @@ class ServerController extends ResourceController
     }
 
     /**
-     * Queues a connection test for the specified server
+     * Queues a connection test for the specified server.
      *
      * @param Server $server
      * @return Response
-     * TODO: Shouldn't changing the status to testing automatically add the model to the queue on save?
      */
     public function test(Server $server)
     {
-        $server->status = Server::TESTING;
-        $server->save();
+        if (!$server->isTesting()) {
+            $server->status = Server::TESTING;
+            $server->save();
 
-        $this->dispatch(new TestServerConnection($server));
+            $this->dispatch(new TestServerConnection($server));
+        }
+
+        return [
+            'success' => true
+        ];
+    }
+
+    /**
+     * Re-generates the order for the supplied servers.
+     *
+     * @return Response
+     */
+    public function reorder()
+    {
+        $order = 0;
+
+        foreach (Input::get('servers') as $server_id) {
+            $server = Server::findOrFail($server_id);
+
+            $server->order = $order;
+
+            $server->save();
+
+            $order++;
+        }
 
         return [
             'success' => true

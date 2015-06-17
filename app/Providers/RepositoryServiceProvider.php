@@ -1,10 +1,12 @@
-<?php namespace App\Providers;
+<?php
+
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
  * The repository service provider, binds interfaces to
- * concrete classes for dependency injection
+ * concrete classes for dependency injection.
  */
 class RepositoryServiceProvider extends ServiceProvider
 {

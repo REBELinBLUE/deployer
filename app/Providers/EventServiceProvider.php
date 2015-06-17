@@ -1,10 +1,12 @@
-<?php namespace App\Providers;
+<?php
+
+namespace App\Providers;
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
- * The event service provider
+ * The event service provider.
  */
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,10 +17,10 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\UserWasCreated' => [
-            'App\Handlers\Events\SendSignupEmail',
+            'App\Listeners\Events\SendSignupEmail',
         ],
         'App\Events\DeployFinished' => [
-            'App\Handlers\Events\Notify'
+            'App\Listeners\Events\Notify'
         ],
     ];
 

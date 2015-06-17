@@ -1,21 +1,24 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use Lang;
-use Input;
-use App\Project;
+namespace App\Http\Controllers;
+
 use App\Command;
 use App\Deployment;
 use App\Http\Controllers\Controller;
+use App\Jobs\QueueDeployment;
+use App\Project;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
-use App\Commands\QueueDeployment;
+use App\ServerLog;
+use Input;
+use Lang;
 
 /**
- * The controller for showing the status of deployments
+ * The controller for showing the status of deployments.
  */
 class DeploymentController extends Controller
 {
     /**
-     * The details of an individual project
+     * The details of an individual project.
      *
      * @param Project $project
      * @param DeploymentRepositoryInterface $deploymentRepository
@@ -45,7 +48,7 @@ class DeploymentController extends Controller
     }
 
     /**
-     * Show the deployment details
+     * Show the deployment details.
      *
      * @param Deployment $deployment
      * @return Response
@@ -57,10 +60,8 @@ class DeploymentController extends Controller
             foreach ($step->servers as $server) {
                 $server->server;
 
-                $server->runtime  = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
-                $server->output   = ((is_null($server->output) || !strlen($server->output)) ? null : '');
-                $server->script   = '';
-                $server->first    = (count($output) === 0); // FIXME: Let backbone.js take care of this
+                $server->runtime = (is_null($server->runtime()) ? null : $server->getPresenter()->readable_runtime);
+                $server->output  = ((is_null($server->output) || !strlen($server->output)) ? null : '');
 
                 $output[] = $server;
             }
@@ -80,15 +81,18 @@ class DeploymentController extends Controller
     }
 
     /**
-     * Adds a deployment for the specified project to the queue
+     * Adds a deployment for the specified project to the queue.
      *
      * @param Project $project
      * @return Response
-     * TODO: Don't allow this to run if there is already a pending deploy or no servers
      */
     public function deploy(Project $project)
     {
-        $deployment = new Deployment;
+        if ($project->servers->where('deploy_code', true)->count() === 0) {
+            return redirect()->url('projects', $project->id);
+        }
+
+        $deployment         = new Deployment;
         $deployment->reason = Input::get('reason');
 
         if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
@@ -114,5 +118,18 @@ class DeploymentController extends Controller
         return redirect()->route('deployment', [
             'id' => $deployment->id
         ]);
+    }
+
+    /**
+     * Gets the log output of a particular deployment step.
+     *
+     * @param ServerLog $log
+     * @return ServerLog
+     */
+    public function log(ServerLog $log)
+    {
+        $log->runtime = (is_null($log->runtime()) ? null : $log->getPresenter()->readable_runtime);
+
+        return $log;
     }
 }

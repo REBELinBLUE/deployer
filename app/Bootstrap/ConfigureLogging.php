@@ -1,11 +1,13 @@
-<?php namespace App\Bootstrap;
+<?php
 
-use Illuminate\Log\Writer;
+namespace App\Bootstrap;
+
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Bootstrap\ConfigureLogging as BaseLoggingConfiguration;
+use Illuminate\Log\Writer;
 
 /**
- * Configure the logging, split the CLI log file with the web log file
+ * Configure the logging, split the CLI log file with the web log file.
  */
 class ConfigureLogging extends BaseLoggingConfiguration
 {

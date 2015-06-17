@@ -1,10 +1,12 @@
-<?php namespace App\Providers;
+<?php
 
-use Illuminate\Routing\Router;
+namespace App\Providers;
+
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
 
 /**
- * The route service provider
+ * The route service provider.
  */
 class RouteServiceProvider extends ServiceProvider
 {
