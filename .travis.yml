@@ -17,3 +17,14 @@ install:
   - composer install --no-interaction --prefer-source
   - npm install
   - bower install
+
+matrix:
+  allow_failures:
+    - php: 7.0
+    - php: hhvm
+  fast_finish: true
+  
+# Customize when the notification emails are sent.
+notifications:
+    on_success: never
+    on_failure: always
