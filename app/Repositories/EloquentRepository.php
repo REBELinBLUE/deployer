@@ -25,6 +25,17 @@ abstract class EloquentRepository
     }
 
     /**
+     * Get's an item from the repository
+     * 
+     * @param int $model_id
+     * @return model
+     */
+    public function getById($model_id)
+    {
+        return $this->model->findOrFail($model_id);
+    }
+
+    /**
      * Creates a new instance of the model.
      *
      * @param array $fields
@@ -44,7 +55,7 @@ abstract class EloquentRepository
      */
     public function updateById(array $fields, $model_id)
     {
-        $model = $this->model->findOrFail($model_id);
+        $model = $this->getById($model_id);
 
         $model->update($fields);
 
