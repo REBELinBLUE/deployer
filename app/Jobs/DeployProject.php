@@ -158,10 +158,12 @@ CMD;
         $this->deployment->commit    = $parts[0];
         $this->deployment->committer = trim($parts[1]);
 
-        $user = User::where('email', trim($parts[2]))->first();
+        if (!$this->deployment->user_id) {
+            $user = User::where('email', trim($parts[2]))->first();
 
-        if ($user) {
-            $this->deployment->user_id = $user->id;
+            if ($user) {
+                $this->deployment->user_id = $user->id;
+            }
         }
 
         $this->deployment->save();
