@@ -7,7 +7,7 @@ php:
   - 7.0
   - hhvm
 
-before_script:
+before_install:
   - composer self-update
   - npm install -g grunt-cli
   - npm install -g bower
