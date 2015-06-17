@@ -22,7 +22,17 @@ class ServerController extends ResourceController
      */
     public function store(StoreServerRequest $request)
     {
-        return Server::create($request->only(
+        // fixme: use a repository
+        $max = Server::where('project_id', $request->project_id)
+                      ->orderBy('order', 'desc')
+                      ->first();
+
+        $order = 0;
+        if (isset($max)) {
+            $order = $max->order + 1;
+        }
+
+        $fields = $request->only(
             'name',
             'user',
             'ip_address',
@@ -30,7 +40,13 @@ class ServerController extends ResourceController
             'path',
             'project_id',
             'deploy_code'
-        ));
+        );
+
+        $fields['order'] = $order;
+
+        $server = Server::create($fields);
+
+        return $server;
     }
 
     /**
