@@ -1,5 +1,6 @@
 <?php
 
+use App\Group;
 use App\Project;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -33,6 +34,11 @@ class CreateProjectsTable extends Migration
             $table->softDeletes();
             $table->foreign('group_id')->references('id')->on('groups');
         });
+
+        // Had to move this from the previous migration due to group having an attribute for project count
+        Group::create([
+            'name' => 'Projects'
+        ]);
     }
 
     /**

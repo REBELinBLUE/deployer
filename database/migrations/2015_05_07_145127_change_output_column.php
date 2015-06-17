@@ -11,7 +11,7 @@ class ChangeOutputColumn extends Migration
      */
     public function up()
     {
-        if ($_ENV['DB_TYPE'] != 'sqlite') {
+        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] != 'sqlite') {
             DB::statement('ALTER TABLE server_logs CHANGE output output longtext');
         }
     }
@@ -23,7 +23,7 @@ class ChangeOutputColumn extends Migration
      */
     public function down()
     {
-        if ($_ENV['DB_TYPE'] != 'sqlite') {
+        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] != 'sqlite') {
             DB::statement('ALTER TABLE server_logs CHANGE output output text');
         }
     }
