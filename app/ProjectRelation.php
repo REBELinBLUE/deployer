@@ -27,7 +27,7 @@ abstract class ProjectRelation extends Model
      */
     public function servers()
     {
-        return $this->hasMany('App\Server')->orderBy('name');
+        return $this->hasMany('App\Server')->orderBy('order', 'ASC');
     }
 
     /**

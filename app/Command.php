@@ -67,6 +67,6 @@ class Command extends Model
      */
     public function servers()
     {
-        return $this->belongsToMany('App\Server');
+        return $this->belongsToMany('App\Server')->orderBy('order', 'ASC');
     }
 }

@@ -30,7 +30,7 @@
 </div>
 
 <script type="text/template" id="server-template">
-    <td><%- name %></td>
+    <td data-server-id="<%- id %>"><%- name %></td>
     <td><%- user %></td>
     <td><%- ip_address %></td>
     <td><%- port %></td>
