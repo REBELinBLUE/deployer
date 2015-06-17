@@ -67,7 +67,7 @@ abstract class ProjectRelation extends Model
      */
     public function commands()
     {
-        return $this->hasMany('App\Command');
+        return $this->hasMany('App\Command')->orderBy('order', 'ASC');
     }
 
     /**
