@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Requests\StoreServerRequest;
 use App\Jobs\TestServerConnection;
 use App\Server;
+use Input;
 use Response;
 
 /**
@@ -82,6 +83,30 @@ class ServerController extends ResourceController
             $server->save();
 
             $this->dispatch(new TestServerConnection($server));
+        }
+
+        return [
+            'success' => true
+        ];
+    }
+
+    /**
+     * Re-generates the order for the supplied servers.
+     *
+     * @return Response
+     */
+    public function reorder()
+    {
+        $order = 0;
+
+        foreach (Input::get('servers') as $server_id) {
+            $server = Server::findOrFail($server_id);
+
+            $server->order = $order;
+
+            $server->save();
+
+            $order++;
         }
 
         return [
