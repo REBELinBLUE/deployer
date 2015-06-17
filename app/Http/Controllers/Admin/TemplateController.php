@@ -7,6 +7,9 @@ use App\Http\Requests;
 use App\Repositories\Contracts\TemplateRepositoryInterface;
 use Lang;
 
+/**
+ * Controller for managing deployment template
+ */
 class TemplateController extends Controller
 {
     /**

@@ -37,8 +37,8 @@ class SetupProject extends Job implements SelfHandling
     {
         $template = Project::findOrFail($this->template_id);
 
-        foreach ($template->commands as $command) {
-
+        foreach ($template->commands as $command)
+        {
             $data               = $command->toArray();
             $data['project_id'] = $this->project->id;
 

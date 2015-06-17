@@ -2,11 +2,14 @@
 
 namespace App;
 
+/**
+ * Model for templates
+ */
 class Template extends Project
 {
     /**
      * Fields to show in the JSON presentation
-     * 
+     *
      * @var array
      */
     protected $visible = ['name', 'command_count'];
@@ -27,7 +30,7 @@ class Template extends Project
 
     /**
      * Query scope to only show templates
-     * 
+     *
      * @param object $query
      * @return object
      */
