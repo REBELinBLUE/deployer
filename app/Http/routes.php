@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
             'uses' => 'CommandController@listing'
         ]);
 
+        Route::post('servers/reorder', 'ServerController@reorder');
         Route::get('servers/{servers}/test', 'ServerController@test');
 
         $actions = [
