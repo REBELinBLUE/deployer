@@ -6,7 +6,17 @@ php:
   - 5.6
   - 7.0
   - hhvm
-
+  
+env:
+  global:
+    - APP_ENV=testing
+    - APP_DEBUG=true
+    - APP_TIMEZONE=Europe/London
+    - APP_KEY=cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy
+    - CACHE_DRIVER=array
+    - SESSION_DRIVER=array
+    - QUEUE_DRIVER=sync
+    
 before_install:
   - travis_retry composer self-update
   - travis_retry npm install -g grunt-cli
@@ -15,7 +25,7 @@ before_install:
   - travis_retry bower install -f
   
 install:
-  - travis_retry composer install --no-interaction --prefer-source
+  - travis_retry composer install --no-interaction --prefer-dist
   - travis_retry npm install
   - travis_retry bower install
 
