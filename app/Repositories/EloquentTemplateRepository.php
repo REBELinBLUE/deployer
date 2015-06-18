@@ -36,7 +36,7 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
 
     /**
      * Overwrite the parent method to add the requires fields
-     * 
+     *
      * @param array $fields
      * @return Template
      */

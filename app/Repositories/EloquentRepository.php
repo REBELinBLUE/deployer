@@ -26,7 +26,7 @@ abstract class EloquentRepository
 
     /**
      * Get's an item from the repository
-     * 
+     *
      * @param int $model_id
      * @return model
      */
