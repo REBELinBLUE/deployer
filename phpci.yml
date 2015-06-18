@@ -42,7 +42,6 @@ test:
             - "design"
             - "naming"
             - "unusedcode"
-            - "codesize"
     php_code_sniffer:
         path: "app/"
         standard: "PSR2"
