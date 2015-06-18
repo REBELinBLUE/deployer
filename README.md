@@ -20,7 +20,7 @@ The code is written to follow PSR-2 standards, this can be tested using PHP_Code
 
 Code mess can be checked with
 
-    $ phpmd app text design,unusedcode,naming
+    $ phpmd app text design,unusedcode,naming,codesize
 
 PHP Docblocks can be checked with
 
