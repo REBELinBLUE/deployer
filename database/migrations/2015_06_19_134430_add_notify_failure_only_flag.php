@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddServerOrdering extends Migration
+class AddNotifyFailureOnlyFlag extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddServerOrdering extends Migration
      */
     public function up()
     {
-        Schema::table('servers', function (Blueprint $table) {
-            $table->unsignedInteger('order')->default(0);
+        Schema::table('notifications', function (Blueprint $table) {
+            $table->boolean('failure_only')->default(false);
         });
     }
 
@@ -24,8 +24,8 @@ class AddServerOrdering extends Migration
      */
     public function down()
     {
-        Schema::table('servers', function (Blueprint $table) {
-            $table->dropColumn('order');
+        Schema::table('notifications', function (Blueprint $table) {
+            $table->dropColumn('failure_only');
         });
     }
 }

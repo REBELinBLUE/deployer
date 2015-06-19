@@ -21,7 +21,7 @@ class Notification extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon'];
+    protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon', 'failure_only'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -29,6 +29,15 @@ class Notification extends Model
      * @var array
      */
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'failure_only' => 'boolean'
+    ];
 
     /**
      * Belongs to relationship.

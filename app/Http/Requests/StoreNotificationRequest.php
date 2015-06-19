@@ -6,6 +6,7 @@ use App\Http\Requests\Request;
 
 /**
  * Request for validating notifications.
+ * @fixme Check channel and webhook are valid
  */
 class StoreNotificationRequest extends Request
 {
