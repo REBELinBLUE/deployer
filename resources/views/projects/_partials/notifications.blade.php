@@ -17,6 +17,7 @@
                 <tr>
                     <th>{{ Lang::get('notifications.name') }}</th>
                     <th>{{ Lang::get('notifications.channel') }}</th>
+                    <th>{{ Lang::get('notifications.notify_failure_only') }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -59,6 +60,13 @@
 <script type="text/template" id="notification-template">
     <td><%- name %></td>
     <td><%- channel %></td>
+    <td>
+        <% if (failure_only) { %>
+            {{ Lang::get('app.yes') }}
+        <% } else { %>
+            {{ Lang::get('app.no') }}
+        <% } %>
+    </td>
     <td>
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('notifications.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#notification"><i class="fa fa-edit"></i></button>
