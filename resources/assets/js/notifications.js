@@ -21,6 +21,7 @@ var app = app || {};
             $('#notification_webhook').val('');
             $('#notification_channel').val('');
             $('#notification_icon').val('');
+            $('#notification_failure_only').prop('checked', true);
         }
 
         modal.find('.modal-title span').text(title);
@@ -75,11 +76,12 @@ var app = app || {};
         }
 
         notification.save({
-            name:       $('#notification_name').val(),
-            webhook:    $('#notification_webhook').val(),
-            channel:    $('#notification_channel').val(),
-            icon:       $('#notification_icon').val(),
-            project_id: $('input[name="project_id"]').val()
+            name:         $('#notification_name').val(),
+            webhook:      $('#notification_webhook').val(),
+            channel:      $('#notification_channel').val(),
+            icon:         $('#notification_icon').val(),
+            project_id:   $('input[name="project_id"]').val(),
+            failure_only: $('#notification_failure_only').is(':checked')
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -217,6 +219,7 @@ var app = app || {};
             $('#notification_webhook').val(this.model.get('webhook'));
             $('#notification_channel').val(this.model.get('channel'));
             $('#notification_icon').val(this.model.get('icon'));
+            $('#notification_failure_only').prop('checked', (this.model.get('failure_only') === true));
         }
     });
 })(jQuery);

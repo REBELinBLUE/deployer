@@ -24,6 +24,7 @@ setup:
         CACHE_DRIVER: "array"
         SESSION_DRIVER: "array"
         QUEUE_DRIVER: "sync"
+        BROADCAST_DRIVER: "log"
 
 test:
     lint:

@@ -31,6 +31,15 @@
                         <label for="notification_webhook">{{ Lang::get('notifications.webhook') }}</label>
                         <input type="text" class="form-control" id="notification_webhook" name="webhook" placeholder="http://slack.com" />
                     </div>
+                    <div class="form-group">
+                        <label>{{ Lang::get('notifications.failure_only') }}</label>
+                        <div class="checkbox">
+                            <label for="notification_failure_only">
+                                <input type="checkbox" value="1" name="failure_only" id="notification_failure_only" /> 
+                                {{ Lang::get('notifications.failure_description') }}
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> {{ Lang::get('app.delete') }}</button>
