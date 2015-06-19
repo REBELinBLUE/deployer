@@ -4,11 +4,12 @@ namespace App;
 
 use App\Presenters\CommandPresenter;
 use Illuminate\Database\Eloquent\Model;
+use Robbo\Presenter\PresentableInterface;
 
 /**
  * Model for templates
  */
-class Template extends Model
+class Template extends Model implements PresentableInterface
 {
     /**
      * Fields to show in the JSON presentation
