@@ -10,7 +10,7 @@
                     <li><a href="#project-files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ Lang::get('projectFiles.label') }}</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane" id="hooks">
+                    <div class="tab-pane active" id="hooks">
                         @include('projects._partials.commands')
                     </div>
                     <div class="tab-pane" id="shared-files">

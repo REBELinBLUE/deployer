@@ -1,7 +1,9 @@
 <?php
 
 return [
+
     'manage'   => 'Manage deployment templates',
+    'label'    => 'Deployment Templates',
     'none'     => 'There are currently no deployment templates setup',
     'commands' => 'Number of Commands',
     'type'     => 'Deployment type',

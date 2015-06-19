@@ -56,6 +56,9 @@ class TemplateController extends Controller
         $template = $this->templateRepository->getById($template_id);
 
         return view('templates.details', [
+            'breadcrumb' => [
+                ['url' => url('admin/templates'), 'label' => Lang::get('templates.label')],
+            ],
             'title'         => $template->name,
             'sharedFiles'   => $template->shareFiles,
             'projectFiles'  => $template->projectFiles,

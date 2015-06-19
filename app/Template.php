@@ -97,4 +97,14 @@ class Template extends Model
     {
         return $this->hasMany('App\ProjectFile', 'project_id');
     }
+
+    /**
+     * Gets the view presenter.
+     *
+     * @return ProjectPresenter
+     */
+    public function getPresenter()
+    {
+        return new CommandPresenter($this);
+    }
 }
