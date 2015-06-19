@@ -23,7 +23,8 @@ class NotificationController extends ResourceController
             'channel',
             'webhook',
             'project_id',
-            'icon'
+            'icon',
+            'failure_only'
         ));
     }
 
@@ -40,7 +41,8 @@ class NotificationController extends ResourceController
             'name',
             'channel',
             'webhook',
-            'icon'
+            'icon',
+            'failure_only'
         ));
 
         return $notification;
