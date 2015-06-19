@@ -36,10 +36,19 @@ class CommandController extends ResourceController
                            ->orderBy('order')
                            ->get();
 
+        $breadcrumb = [
+            ['url' => url('projects', $project->id), 'label' => $project->name],
+        ];
+
+        if ($project->is_template) {
+            $breadcrumb = [
+                ['url' => url('admin/templates'), 'label' => Lang::get('templates.label')],
+                ['url' => url('admin/templates', $project->id), 'label' => $project->name],
+            ];
+        }
+
         return view('commands.listing', [
-            'breadcrumb' => [
-                ['url' => url('projects', $project->id), 'label' => $project->name],
-            ],
+            'breadcrumb' => $breadcrumb,
             'title'      => Lang::get('commands.' . strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
