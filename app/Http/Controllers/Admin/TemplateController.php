@@ -60,7 +60,7 @@ class TemplateController extends Controller
                 ['url' => url('admin/templates'), 'label' => Lang::get('templates.label')],
             ],
             'title'         => $template->name,
-            'sharedFiles'   => $template->shareFiles,
+            'sharedFiles'   => $template->sharedFiles,
             'projectFiles'  => $template->projectFiles,
             'project'       => $template,
             'route'         => 'template.commands',

@@ -75,7 +75,7 @@ abstract class ProjectRelation extends Model
      *
      * @return SharedFile
      */
-    public function shareFiles()
+    public function sharedFiles()
     {
         return $this->hasMany('App\SharedFile');
     }

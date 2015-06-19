@@ -77,7 +77,7 @@ class Template extends Model implements PresentableInterface
      */
     public function getFileCountAttribute()
     {
-        return $this->shareFiles()
+        return $this->sharedFiles()
                     ->count();
     }
 
@@ -107,7 +107,7 @@ class Template extends Model implements PresentableInterface
      *
      * @return SharedFile
      */
-    public function shareFiles()
+    public function sharedFiles()
     {
         return $this->hasMany('App\SharedFile', 'project_id');
     }
