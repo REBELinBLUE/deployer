@@ -12,9 +12,9 @@
                 <thead>
                     <tr>
                         <th>{{ Lang::get('templates.name') }}</th>
-                        <th>{{ Lang::get('templates.commands') }}</th>
-                        <th>{{ Lang::get('templates.persistent') }}</th>
-                        <th>{{ Lang::get('templates.config') }}</th>
+                        <th>{{ Lang::get('commands.label') }}</th>
+                        <th>{{ Lang::get('sharedFiles.label') }}</th>
+                        <th>{{ Lang::get('projectFiles.label') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
