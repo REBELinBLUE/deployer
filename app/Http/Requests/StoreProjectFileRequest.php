@@ -20,7 +20,7 @@ class StoreProjectFileRequest extends Request
             'name'       => 'required|max:255',
             'path'       => 'required',
             'content'    => 'required',
-            'project_id' => 'required|integer|exists:projects,id'
+            'project_id' => 'required|integer|exists:projects,id',
         ];
     }
 }

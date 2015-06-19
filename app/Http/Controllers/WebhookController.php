@@ -45,7 +45,7 @@ class WebhookController extends Controller
         }
 
         return [
-            'success' => $success
+            'success' => $success,
         ];
     }
 
@@ -61,7 +61,7 @@ class WebhookController extends Controller
         $project->save();
 
         return [
-            'url' => route('webhook', $project->hash)
+            'url' => route('webhook', $project->hash),
         ];
     }
 }

@@ -39,7 +39,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
      * @var array
      */
     protected $casts = [
-        'status' => 'integer'
+        'status' => 'integer',
     ];
 
     /**

@@ -43,7 +43,7 @@ class DeploymentController extends Controller
             'sharedFiles'   => $project->shareFiles,
             'projectFiles'  => $project->projectFiles,
             'checkUrls'     => $project->checkUrls,
-            'optional'      => $optional
+            'optional'      => $optional,
         ]);
     }
 
@@ -71,12 +71,12 @@ class DeploymentController extends Controller
 
         return view('deployment.details', [
             'breadcrumb' => [
-                ['url' => url('projects', $project->id), 'label' => $project->name]
+                ['url' => url('projects', $project->id), 'label' => $project->name],
             ],
             'title'      => Lang::get('deployments.details'),
             'project'    => $project,
             'deployment' => $deployment,
-            'output'     => json_encode($output) // PresentableInterface does not correctly json encode the models
+            'output'     => json_encode($output), // PresentableInterface does not correctly json encode the models
         ]);
     }
 
@@ -116,7 +116,7 @@ class DeploymentController extends Controller
         ));
 
         return redirect()->route('deployment', [
-            'id' => $deployment->id
+            'id' => $deployment->id,
         ]);
     }
 

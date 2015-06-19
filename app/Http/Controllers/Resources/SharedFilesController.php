@@ -53,7 +53,7 @@ class SharedFilesController extends ResourceController
         $file->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }

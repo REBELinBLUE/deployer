@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\CheckHeartbeats::class,
-        \App\Console\Commands\CheckUrl::class
+        \App\Console\Commands\CheckUrl::class,
     ];
 
     /**

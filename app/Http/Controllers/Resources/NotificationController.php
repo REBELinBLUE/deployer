@@ -59,7 +59,7 @@ class NotificationController extends ResourceController
         $notification->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }

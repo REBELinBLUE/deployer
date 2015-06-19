@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         return view('users.listing', [
             'title' => Lang::get('users.manage'),
-            'users' => User::all()
+            'users' => User::all(),
         ]);
     }
 
@@ -90,7 +90,7 @@ class UserController extends Controller
         $user->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }

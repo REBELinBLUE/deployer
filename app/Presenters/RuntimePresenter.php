@@ -29,7 +29,7 @@ trait RuntimePresenter
             'day'    => 24 * 3600,
             'hour'   => 3600,
             'minute' => 60,
-            'second' => 1
+            'second' => 1,
         ];
 
         if ($seconds === 0) {

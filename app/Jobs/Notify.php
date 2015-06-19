@@ -41,7 +41,7 @@ class Notify extends Job implements SelfHandling, ShouldQueue
     public function handle()
     {
         $payload = [
-            'channel' => $this->notification->channel
+            'channel' => $this->notification->channel,
         ];
 
         if (!empty($this->notification->icon)) {

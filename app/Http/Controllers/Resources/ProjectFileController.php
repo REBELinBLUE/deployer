@@ -53,7 +53,7 @@ class ProjectFileController extends ResourceController
         $file->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }

@@ -22,13 +22,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('projects/{projects}/deploy', [
         'as'   => 'deploy',
-        'uses' => 'DeploymentController@deploy'
+        'uses' => 'DeploymentController@deploy',
     ]);
 
     // Deployment details
     Route::get('deployment/{deployments}', [
         'as'   => 'deployment',
-        'uses' => 'DeploymentController@show'
+        'uses' => 'DeploymentController@show',
     ]);
 
     Route::get('log/{log}', 'DeploymentController@log');
@@ -39,14 +39,14 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('projects/{projects}/commands/{step}', [
             'as'   => 'commands',
-            'uses' => 'CommandController@listing'
+            'uses' => 'CommandController@listing',
         ]);
 
         Route::post('servers/reorder', 'ServerController@reorder');
         Route::get('servers/{servers}/test', 'ServerController@test');
 
         $actions = [
-            'only' => ['store', 'update', 'destroy']
+            'only' => ['store', 'update', 'destroy'],
         ];
 
         Route::resource('servers', 'ServerController', $actions);
@@ -62,15 +62,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         Route::resource('projects', 'ProjectController', [
-            'only' => ['index', 'store', 'update', 'destroy']
+            'only' => ['index', 'store', 'update', 'destroy'],
         ]);
 
         Route::resource('users', 'UserController', [
-            'only' => ['index', 'store', 'update', 'destroy']
+            'only' => ['index', 'store', 'update', 'destroy'],
         ]);
 
         Route::resource('groups', 'GroupController', [
-            'only' => ['index', 'store', 'update']
+            'only' => ['index', 'store', 'update'],
         ]);
 
     });
@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
 // Webhooks
 Route::post('deploy/{hash}', [
     'as'   => 'webhook',
-    'uses' => 'WebhookController@webhook'
+    'uses' => 'WebhookController@webhook',
 ]);
 
 Route::get('cctray.xml', 'DashboardController@cctray');
@@ -88,11 +88,11 @@ Route::get('cctray.xml', 'DashboardController@cctray');
 Route::group(['namespace' => 'Resources'], function () {
     Route::get('heartbeat/{hash}', [
         'as'   => 'heartbeat',
-        'uses' => 'HeartbeatController@ping'
+        'uses' => 'HeartbeatController@ping',
     ]);
 });
 
 Route::controllers([
     'auth'     => 'Auth\AuthController',
-    'password' => 'Auth\PasswordController'
+    'password' => 'Auth\PasswordController',
 ]);

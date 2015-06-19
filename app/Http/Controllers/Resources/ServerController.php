@@ -82,7 +82,7 @@ class ServerController extends ResourceController
         $server->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 
@@ -102,7 +102,7 @@ class ServerController extends ResourceController
         }
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 
@@ -126,7 +126,7 @@ class ServerController extends ResourceController
         }
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }

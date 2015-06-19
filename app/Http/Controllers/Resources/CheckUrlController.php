@@ -71,7 +71,7 @@ class CheckUrlController extends ResourceController
         $url->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }

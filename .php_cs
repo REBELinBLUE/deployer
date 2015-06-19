@@ -23,7 +23,7 @@ $fixers = [
     'join_function',
     'list_commas',
     'indentation',
-    '-multiline_array_trailing_comma',
+    'multiline_array_trailing_comma',
     'namespace_no_leading_whitespace',
     'no_blank_lines_after_class_opening',
     'no_empty_lines_after_phpdocs',

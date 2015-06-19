@@ -41,7 +41,7 @@ class GroupController extends Controller
     {
         return view('groups.listing', [
             'title'  => Lang::get('groups.manage'),
-            'groups' => $this->groupRepository->getAll()
+            'groups' => $this->groupRepository->getAll(),
         ]);
     }
 
