@@ -15,6 +15,7 @@
                         <th>{{ Lang::get('projects.group') }}</th>
                         <th>{{ Lang::get('projects.repository') }}</th>
                         <th>{{ Lang::get('projects.branch') }}</th>
+                        <th>{{ Lang::get('projects.builds') }}</th>
                         <th>{{ Lang::get('projects.latest') }}</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -33,6 +34,7 @@
         <td><%- group_name %></td>
         <td><%- repository %></td>
         <td><span class="label label-default"><%- branch %></span></td>
+        <td><%- builds_to_keep %></td>
         <td>
             <% if (deploy) { %>
                 <%- deploy %>

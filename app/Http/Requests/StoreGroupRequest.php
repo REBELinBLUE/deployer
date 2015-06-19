@@ -17,7 +17,7 @@ class StoreGroupRequest extends Request
     public function rules()
     {
         $rules = [
-            'name' => 'required|max:255|unique:groups,name'
+            'name' => 'required|max:255|unique:groups,name',
         ];
 
         // On edit add the group ID to the rules

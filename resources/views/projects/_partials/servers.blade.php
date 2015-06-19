@@ -18,6 +18,7 @@
                     <th>{{ Lang::get('servers.connect_as') }}</th>
                     <th>{{ Lang::get('servers.ip_address') }}</th>
                     <th>{{ Lang::get('servers.port') }}</th>
+                    <th>{{ Lang::get('servers.runs_code') }}</th>
                     <th>{{ Lang::get('servers.status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -34,6 +35,13 @@
     <td><%- user %></td>
     <td><%- ip_address %></td>
     <td><%- port %></td>
+    <td>
+        <% if (deploy_code) { %>
+            {{ Lang::get('app.yes') }}
+        <% } else { %>
+            {{ Lang::get('app.no') }}
+        <% } %>
+    </td>
     <td>
          <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <%- status %></span>
     </td>

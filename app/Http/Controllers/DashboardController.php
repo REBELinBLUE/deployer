@@ -38,7 +38,7 @@ class DashboardController extends Controller
         return view('dashboard.index', [
             'title'     => Lang::get('dashboard.title'),
             'latest'    => $this->buildTimelineData($deploymentRepository),
-            'projects'  => $projects_by_group
+            'projects'  => $projects_by_group,
         ]);
     }
 
@@ -51,7 +51,7 @@ class DashboardController extends Controller
     public function timeline(DeploymentRepositoryInterface $deploymentRepository)
     {
         return view('dashboard.timeline', [
-            'latest' => $this->buildTimelineData($deploymentRepository)
+            'latest' => $this->buildTimelineData($deploymentRepository),
         ]);
     }
 
@@ -94,7 +94,7 @@ class DashboardController extends Controller
         }
 
         return Response::view('cctray', [
-            'projects' => $projects
+            'projects' => $projects,
         ])->header('Content-Type', 'application/xml');
     }
 }

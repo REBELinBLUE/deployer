@@ -19,7 +19,7 @@ class StoreNotifyEmailRequest extends Request
         return [
             'name'       => 'required|max:255',
             'email'      => 'required|email',
-            'project_id' => 'required|integer|exists:projects,id'
+            'project_id' => 'required|integer|exists:projects,id',
         ];
     }
 }

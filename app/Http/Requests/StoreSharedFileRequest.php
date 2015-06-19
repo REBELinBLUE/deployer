@@ -19,7 +19,7 @@ class StoreSharedFileRequest extends Request
         return [
             'name'       => 'required|max:255',
             'file'       => 'required',
-            'project_id' => 'required|integer|exists:projects,id'
+            'project_id' => 'required|integer|exists:projects,id',
         ];
     }
 }

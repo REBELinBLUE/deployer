@@ -31,7 +31,7 @@ class Server extends Model
      * @var array
      */
     protected $fillable = ['name', 'user', 'ip_address', 'project_id', 'path',
-                           'status', 'deploy_code', 'port', 'order'];
+                           'status', 'deploy_code', 'port', 'order', ];
 
     /**
      * The attributes that should be casted to native types.
@@ -40,7 +40,7 @@ class Server extends Model
      */
     protected $casts = [
         'status'      => 'integer',
-        'deploy_code' => 'boolean'
+        'deploy_code' => 'boolean',
     ];
 
     /**

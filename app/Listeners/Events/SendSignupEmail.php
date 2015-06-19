@@ -38,7 +38,7 @@ class SendSignupEmail extends Event implements ShouldQueue
 
         $data = [
             'password' => $event->password,
-            'email'    => $user->email
+            'email'    => $user->email,
         ];
 
         Mail::queueOn(

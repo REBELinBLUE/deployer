@@ -58,7 +58,7 @@ class StoreProjectRequest extends Request
             'builds_to_keep' => 'required|integer|min:1|max:20',
             'template_id'    => 'integer|exists:projects,id,is_template,1',
             'url'            => 'url',
-            'build_url'      => 'url'
+            'build_url'      => 'url',
         ];
     }
 }

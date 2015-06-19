@@ -20,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Events\SendSignupEmail',
         ],
         'App\Events\DeployFinished' => [
-            'App\Listeners\Events\Notify'
+            'App\Listeners\Events\Notify',
         ],
     ];
 

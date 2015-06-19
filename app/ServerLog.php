@@ -39,7 +39,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
      * @var array
      */
     protected $casts = [
-        'status' => 'integer'
+        'status' => 'integer',
     ];
 
     /**
@@ -74,7 +74,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     public function runtime()
     {
         if (!$this->finished_at) {
-            return null;
+            return;
         }
 
         return $this->started_at->diffInSeconds($this->finished_at);

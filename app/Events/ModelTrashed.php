@@ -25,7 +25,7 @@ class ModelTrashed extends Event implements ShouldBroadcast
     {
         $this->model = [
             'id'         => $model->id,
-            'project_id' => $model->project_id
+            'project_id' => $model->project_id,
         ];
 
         $this->channel = $channel;

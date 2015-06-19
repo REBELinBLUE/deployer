@@ -53,7 +53,7 @@ class NotifyEmailController extends ResourceController
         $notify_email->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }

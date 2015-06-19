@@ -34,7 +34,7 @@ class CheckUrl extends Model
      * @var array
      */
     protected $casts = [
-        'is_report' => 'boolean'
+        'is_report' => 'boolean',
     ];
 
     /**
@@ -66,11 +66,11 @@ class CheckUrl extends Model
                         [
                             'title' => Lang::get('notifications.project'),
                             'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
-                            'short' => true
-                        ]
-                    ]
-                ]
-            ]
+                            'short' => true,
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         return $payload;

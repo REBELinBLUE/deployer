@@ -47,7 +47,7 @@ class Command extends Model
      */
     protected $casts = [
         'step'     => 'integer',
-        'optional' => 'boolean'
+        'optional' => 'boolean',
     ];
 
     /**

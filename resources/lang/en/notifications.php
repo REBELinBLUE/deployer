@@ -23,6 +23,7 @@ return [
     'commit'              => 'Commit',
     'committer'           => 'Committer',
     'failure_only'        => 'Failure Only',
+    'notify_failure_only' => 'Notify only on Failure',
     'failure_description' => 'Only notify this channel on failure'
 
 ];

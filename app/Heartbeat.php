@@ -55,7 +55,7 @@ class Heartbeat extends Model
      */
     protected $casts = [
         'status'      => 'integer',
-        'deploy_code' => 'boolean'
+        'deploy_code' => 'boolean',
     ];
 
     /**
@@ -154,15 +154,15 @@ class Heartbeat extends Model
                         [
                             'title' => Lang::get('notifications.project'),
                             'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
-                            'short' => true
+                            'short' => true,
                         ], [
                             'title' => Lang::get('heartbeats.last_check_in'),
                             'value' => $heard_from,
-                            'short' => true
-                        ]
-                    ]
-                ]
-            ]
+                            'short' => true,
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         return $payload;

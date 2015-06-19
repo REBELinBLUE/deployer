@@ -31,7 +31,7 @@ class Project extends ProjectRelation implements PresentableInterface
                          'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
                          'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
                          'notifications', 'deployments', 'shareFiles', 'projectFiles',
-                         'is_template'];
+                         'is_template', ];
 
     /**
      * The attributes that are mass assignable.
@@ -39,7 +39,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $fillable = ['name', 'repository', 'branch', 'group_id',
-                           'builds_to_keep', 'url', 'build_url', 'is_template'];
+                           'builds_to_keep', 'url', 'build_url', 'is_template', ];
 
     /**
      * The fields which should be treated as Carbon instances.

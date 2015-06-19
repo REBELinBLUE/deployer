@@ -69,7 +69,7 @@ class HeartbeatController extends ResourceController
         $heartbeat->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }
