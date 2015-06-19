@@ -5,6 +5,8 @@ namespace App\Jobs;
 use App\Command;
 use App\Jobs\Job;
 use App\Project;
+use App\ProjectFile;
+use App\SharedFile;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
@@ -42,6 +44,20 @@ class SetupProject extends Job implements SelfHandling
             $data['project_id'] = $this->project->id;
 
             Command::create($data);
+        }
+
+        foreach ($template->sharedFiles as $file) {
+            $data               = $file->toArray();
+            $data['project_id'] = $this->project->id;
+
+            SharedFile::create($data);
+        }
+
+        foreach ($template->projectFiles as $file) {
+            $data               = $file->toArray();
+            $data['project_id'] = $this->project->id;
+
+            ProjectFile::create($data);
         }
     }
 }
