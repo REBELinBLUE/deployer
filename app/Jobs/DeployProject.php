@@ -569,7 +569,7 @@ OUT;
     private function shareFileCommands(Project $project, $release_dir, $shared_dir)
     {
         $commands = [];
-        foreach ($project->shareFiles as $filecfg) {
+        foreach ($project->sharedFiles as $filecfg) {
             if ($filecfg->file) {
                 $pathinfo = pathinfo($filecfg->file);
                 $isDir    = false;

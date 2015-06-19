@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class DropScriptColumn extends Migration
+class AddIsTemplateColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class DropScriptColumn extends Migration
      */
     public function up()
     {
-        Schema::table('server_logs', function (Blueprint $table) {
-             $table->dropColumn('script');
+        Schema::table('projects', function (Blueprint $table) {
+            $table->boolean('is_template')->default(false);
         });
     }
 
@@ -24,8 +24,8 @@ class DropScriptColumn extends Migration
      */
     public function down()
     {
-        Schema::table('server_logs', function (Blueprint $table) {
-            $table->text('script')->nullable();
+        Schema::table('projects', function (Blueprint $table) {
+            $table->dropColumn('is_template');
         });
     }
 }

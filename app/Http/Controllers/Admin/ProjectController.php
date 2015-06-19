@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\StoreProjectRequest;
+use App\Jobs\SetupProject;
 use App\Project;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
+use App\Repositories\Contracts\TemplateRepositoryInterface;
 use Lang;
 
 /**
@@ -20,13 +22,16 @@ class ProjectController extends Controller
      * @param ProjectRepositoryInterface $projectRepository
      * @return Response
      */
-    public function index(ProjectRepositoryInterface $projectRepository)
-    {
+    public function index(
+        ProjectRepositoryInterface $projectRepository,
+        TemplateRepositoryInterface $templateRepository
+    ) {
         $projects = $projectRepository->getAll();
 
         return view('projects.listing', [
-            'title'    => Lang::get('projects.manage'),
-            'projects' => $projects->toJson(), // Because PresentableInterface toJson() is not working in the view
+            'title'     => Lang::get('projects.manage'),
+            'templates' => $templateRepository->getAll(),
+            'projects'  => $projects->toJson(), // Because PresentableInterface toJson() is not working in the view
         ]);
     }
 
@@ -47,6 +52,13 @@ class ProjectController extends Controller
             'url',
             'build_url'
         ));
+
+        if ($request->has('template_id')) {
+            $this->dispatch(new SetupProject(
+                $project,
+                $request->template_id
+            ));
+        }
 
         return $project;
     }

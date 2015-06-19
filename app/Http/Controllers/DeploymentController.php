@@ -40,10 +40,11 @@ class DeploymentController extends Controller
             'notifications' => $project->notifications,
             'notifyEmails'  => $project->notifyEmails,
             'heartbeats'    => $project->heartbeats,
-            'sharedFiles'   => $project->shareFiles,
+            'sharedFiles'   => $project->sharedFiles,
             'projectFiles'  => $project->projectFiles,
             'checkUrls'     => $project->checkUrls,
             'optional'      => $optional,
+            'route'         => 'commands',
         ]);
     }
 

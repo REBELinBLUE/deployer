@@ -1,8 +1,8 @@
 <?php
 
 use App\Command;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateCommandsTable extends Migration
 {
@@ -22,7 +22,7 @@ class CreateCommandsTable extends Migration
             $table->enum('step', [Command::BEFORE_CLONE, Command::AFTER_CLONE,
                                   Command::BEFORE_INSTALL, Command::AFTER_INSTALL,
                                   Command::BEFORE_ACTIVATE, Command::AFTER_ACTIVATE,
-                                  Command::BEFORE_PURGE, Command::AFTER_PURGE])->default(Command::AFTER_INSTALL);
+                                  Command::BEFORE_PURGE, Command::AFTER_PURGE, ])->default(Command::AFTER_INSTALL);
             $table->unsignedInteger('order')->default('0');
             $table->timestamps();
             $table->softDeletes();

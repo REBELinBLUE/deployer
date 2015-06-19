@@ -21,6 +21,7 @@ class StoreCommandRequest extends Request
             'name'       => 'required|max:255',
             'user'       => 'required|max:255',
             'script'     => 'required',
+            'optional'   => 'boolean',
             'step'       => 'required|integer|min:' . Command::BEFORE_CLONE . '|max:' . Command::AFTER_PURGE,
             'project_id' => 'required|integer|exists:projects,id',
         ];

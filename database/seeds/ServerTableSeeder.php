@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Server;
+use Illuminate\Database\Seeder;
 
 class ServerTableSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class ServerTableSeeder extends Seeder
             'ip_address' => '192.168.33.50',
             'user'       => 'vagrant',
             'path'       => '/var/www',
-            'project_id' => 1
+            'project_id' => 1,
         ]);
 
         Server::create([
@@ -22,7 +22,7 @@ class ServerTableSeeder extends Seeder
             'ip_address' => '192.168.33.60',
             'user'       => 'vagrant',
             'path'       => '/var/www',
-            'project_id' => 1
+            'project_id' => 1,
         ]);
 
         // Server::create([

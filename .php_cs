@@ -3,6 +3,7 @@
 $finder = Symfony\Component\Finder\Finder::create()
     ->files()
     ->in('app')
+    ->in('database')
     ->name('*.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);

@@ -1,8 +1,8 @@
 <?php
 
 use App\Deployment;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateDeploymentsTable extends Migration
 {
@@ -20,7 +20,7 @@ class CreateDeploymentsTable extends Migration
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('user_id')->nullable()->default(null);
             $table->enum('status', [Deployment::PENDING, Deployment::DEPLOYING,
-                                    Deployment::COMPLETED, Deployment::FAILED])->default(Deployment::PENDING);
+                                    Deployment::COMPLETED, Deployment::FAILED, ])->default(Deployment::PENDING);
             $table->timestamps();
             $table->softDeletes();
             $table->dateTime('started_at')->nullable();

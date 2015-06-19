@@ -18,7 +18,7 @@
                     <th>{{ Lang::get('servers.connect_as') }}</th>
                     <th>{{ Lang::get('servers.ip_address') }}</th>
                     <th>{{ Lang::get('servers.port') }}</th>
-                    <th>{{ Lang::get('servers.deploy_code') }}</th>
+                    <th>{{ Lang::get('servers.runs_code') }}</th>
                     <th>{{ Lang::get('servers.status') }}</th>
                     <th>&nbsp;</th>
                 </tr>

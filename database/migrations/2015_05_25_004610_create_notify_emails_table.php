@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 /**
- * create table to store the emails to be notified
+ * create table to store the emails to be notified.
  */
 class CreateNotifyEmailsTable extends Migration
 {
@@ -15,8 +15,7 @@ class CreateNotifyEmailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('notify_emails', function(Blueprint $table)
-        {
+        Schema::create('notify_emails', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->text('email');
