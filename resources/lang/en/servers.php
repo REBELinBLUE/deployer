@@ -19,7 +19,7 @@ return [
     'testing'            => 'Testing',
     'failed'             => 'Failed',
     'untested'           => 'Untested',
-    'deploy_code'        => 'Deploy code',
+    'deploy_code'        => 'Deploy Code',
     'deploy_description' => 'Whether or not the code should be deployed to this server'
 
 ];
