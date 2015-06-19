@@ -4,7 +4,6 @@ namespace App\Presenters;
 
 use App\Project;
 use Lang;
-use Robbo\Presenter\Presenter;
 
 /**
  * The view presenter for a project class.
