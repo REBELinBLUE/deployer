@@ -2,7 +2,7 @@
 
 return [
 
-    'label'              => 'Project Files',
+    'label'              => 'Configuration Files',
     'create'             => 'Add a new file',
     'edit'               => 'Edit the file',
     'none'               => 'Add files which you want to write into the release directory',

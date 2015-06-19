@@ -13,6 +13,8 @@
                     <tr>
                         <th>{{ Lang::get('templates.name') }}</th>
                         <th>{{ Lang::get('templates.commands') }}</th>
+                        <th>{{ Lang::get('templates.persistent') }}</th>
+                        <th>{{ Lang::get('templates.config') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -28,6 +30,8 @@
     <script type="text/template" id="template-template">
         <td><%- name %></td>
         <td><%- command_count %></td>
+        <td><%- file_count %></td>
+        <td><%- config_count %></td>
         <td>
             <div class="btn-group pull-right">
                 <a href="/admin/templates/<%- id %>" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>

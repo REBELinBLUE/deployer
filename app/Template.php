@@ -15,7 +15,7 @@ class Template extends Model
      *
      * @var array
      */
-    protected $visible = ['id', 'name', 'command_count'];
+    protected $visible = ['id', 'name', 'command_count', 'file_count', 'config_count'];
 
     /**
      * The attributes that are mass assignable.
@@ -36,7 +36,7 @@ class Template extends Model
      *
      * @var array
      */
-    protected $appends = ['command_count'];
+    protected $appends = ['command_count', 'file_count', 'config_count'];
 
     /**
      * The attributes that should be casted to native types.
@@ -44,7 +44,7 @@ class Template extends Model
      * @var array
      */
     protected $casts = [
-        'is_template' => 'boolean'
+        'is_template' => 'boolean',
     ];
 
     /**
@@ -66,6 +66,28 @@ class Template extends Model
     public function getCommandCountAttribute()
     {
         return $this->commands()
+                    ->count();
+    }
+
+    /**
+     * Define a accessor for the count of persistent files.
+     *
+     * @return int
+     */
+    public function getFileCountAttribute()
+    {
+        return $this->shareFiles()
+                    ->count();
+    }
+
+    /**
+     * Define a accessor for the count of config files.
+     *
+     * @return int
+     */
+    public function getConfigCountAttribute()
+    {
+        return $this->projectFiles()
                     ->count();
     }
 
