@@ -26,7 +26,7 @@ class CommandController extends ResourceController
             'clone'    => Command::DO_CLONE,
             'install'  => Command::DO_INSTALL,
             'activate' => Command::DO_ACTIVATE,
-            'purge'    => Command::DO_PURGE
+            'purge'    => Command::DO_PURGE,
         ];
 
         // fixme: use a repository
@@ -36,14 +36,23 @@ class CommandController extends ResourceController
                            ->orderBy('order')
                            ->get();
 
+        $breadcrumb = [
+            ['url' => url('projects', $project->id), 'label' => $project->name],
+        ];
+
+        if ($project->is_template) {
+            $breadcrumb = [
+                ['url' => url('admin/templates'), 'label' => Lang::get('templates.label')],
+                ['url' => url('admin/templates', $project->id), 'label' => $project->name],
+            ];
+        }
+
         return view('commands.listing', [
-            'breadcrumb' => [
-                ['url' => url('projects', $project->id), 'label' => $project->name]
-            ],
+            'breadcrumb' => $breadcrumb,
             'title'      => Lang::get('commands.' . strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
-            'commands'   => $commands
+            'commands'   => $commands,
         ]);
     }
 
@@ -122,7 +131,7 @@ class CommandController extends ResourceController
         $command->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 
@@ -146,7 +155,7 @@ class CommandController extends ResourceController
         }
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }

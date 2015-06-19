@@ -46,6 +46,13 @@ class ServerController extends ResourceController
 
         $server = Server::create($fields);
 
+        // Add the server to the existing commands
+        if ($request->has('add_commands') && $request->add_commands === true) {
+            foreach ($server->project->commands as $command) {
+                $command->servers()->attach($server->id);
+            }
+        }
+
         return $server;
     }
 
@@ -82,7 +89,7 @@ class ServerController extends ResourceController
         $server->delete();
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 
@@ -102,7 +109,7 @@ class ServerController extends ResourceController
         }
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 
@@ -126,7 +133,7 @@ class ServerController extends ResourceController
         }
 
         return [
-            'success' => true
+            'success' => true,
         ];
     }
 }

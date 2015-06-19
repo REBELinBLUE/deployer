@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Requests\StoreGroupRequest;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use Lang;
@@ -41,7 +40,7 @@ class GroupController extends Controller
     {
         return view('groups.listing', [
             'title'  => Lang::get('groups.manage'),
-            'groups' => $this->groupRepository->getAll()
+            'groups' => $this->groupRepository->getAll(),
         ]);
     }
 

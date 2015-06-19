@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddServerOrdering extends Migration
 {
@@ -13,7 +13,7 @@ class AddServerOrdering extends Migration
     public function up()
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->unsignedInteger('order')->default('0');
+            $table->unsignedInteger('order')->default(0);
         });
     }
 

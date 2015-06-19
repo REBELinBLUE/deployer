@@ -29,6 +29,8 @@ class EloquentGroupRepository extends EloquentRepository implements GroupReposit
      */
     public function getAll()
     {
-        return $this->model->orderBy('name')->get();
+        return $this->model
+                    ->orderBy('name')
+                    ->get();
     }
 }

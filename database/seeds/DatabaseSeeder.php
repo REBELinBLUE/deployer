@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call('CommandTableSeeder');
         $this->call('NotificationTableSeeder');
         $this->call('HeartbeatTableSeeder');
+        $this->call('TemplateSeeder');
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
+use App\Group;
 use App\Project;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateProjectsTable extends Migration
 {
@@ -27,12 +28,17 @@ class CreateProjectsTable extends Migration
             $table->string('build_url')->nullable();
             $table->enum('status', [Project::FINISHED, Project::PENDING,
                                     Project::DEPLOYING, Project::FAILED,
-                                    Project::NOT_DEPLOYED])->default(Project::NOT_DEPLOYED);
+                                    Project::NOT_DEPLOYED, ])->default(Project::NOT_DEPLOYED);
             $table->dateTime('last_run')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('group_id')->references('id')->on('groups');
         });
+
+        // Had to move this from the previous migration due to group having an attribute for project count
+        Group::create([
+            'name' => 'Projects',
+        ]);
     }
 
     /**

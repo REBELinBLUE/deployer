@@ -19,7 +19,7 @@ use Illuminate\Queue\SerializesModels;
 use Symfony\Component\Process\Process;
 
 /**
- * Deploys an actual project
+ * Deploys an actual project.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * TODO: rewrite this as it is doing way too much and is very messy now.
  */
@@ -569,7 +569,7 @@ OUT;
     private function shareFileCommands(Project $project, $release_dir, $shared_dir)
     {
         $commands = [];
-        foreach ($project->shareFiles as $filecfg) {
+        foreach ($project->sharedFiles as $filecfg) {
             if ($filecfg->file) {
                 $pathinfo = pathinfo($filecfg->file);
                 $isDir    = false;

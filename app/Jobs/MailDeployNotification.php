@@ -52,7 +52,7 @@ class MailDeployNotification extends Job implements SelfHandling
 
             $data = [
                 'project'    => $this->project->toArray(),
-                'deployment' => $deploymentArr
+                'deployment' => $deploymentArr,
             ];
 
             Mail::queueOn(

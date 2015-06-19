@@ -6,6 +6,7 @@ use App\Http\Requests\Request;
 
 /**
  * Request for validating notifications.
+ * @fixme Check channel and webhook are valid
  */
 class StoreNotificationRequest extends Request
 {
@@ -17,10 +18,11 @@ class StoreNotificationRequest extends Request
     public function rules()
     {
         return [
-            'name'       => 'required|max:255',
-            'channel'    => 'required|max:255',
-            'webhook'    => 'required|url',
-            'project_id' => 'required|integer|exists:projects,id'
+            'name'         => 'required|max:255',
+            'channel'      => 'required|max:255',
+            'webhook'      => 'required|url',
+            'failure_only' => 'boolean',
+            'project_id'   => 'required|integer|exists:projects,id',
         ];
     }
 }

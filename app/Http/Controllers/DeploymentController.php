@@ -40,10 +40,11 @@ class DeploymentController extends Controller
             'notifications' => $project->notifications,
             'notifyEmails'  => $project->notifyEmails,
             'heartbeats'    => $project->heartbeats,
-            'sharedFiles'   => $project->shareFiles,
+            'sharedFiles'   => $project->sharedFiles,
             'projectFiles'  => $project->projectFiles,
             'checkUrls'     => $project->checkUrls,
-            'optional'      => $optional
+            'optional'      => $optional,
+            'route'         => 'commands',
         ]);
     }
 
@@ -60,7 +61,7 @@ class DeploymentController extends Controller
             foreach ($step->servers as $server) {
                 $server->server;
 
-                $server->runtime = (is_null($server->runtime()) ? null : $server->getPresenter()->readable_runtime);
+                $server->runtime = (!$server->runtime() ? null : $server->getPresenter()->readable_runtime);
                 $server->output  = ((is_null($server->output) || !strlen($server->output)) ? null : '');
 
                 $output[] = $server;
@@ -71,12 +72,12 @@ class DeploymentController extends Controller
 
         return view('deployment.details', [
             'breadcrumb' => [
-                ['url' => url('projects', $project->id), 'label' => $project->name]
+                ['url' => url('projects', $project->id), 'label' => $project->name],
             ],
             'title'      => Lang::get('deployments.details'),
             'project'    => $project,
             'deployment' => $deployment,
-            'output'     => json_encode($output) // PresentableInterface does not correctly json encode the models
+            'output'     => json_encode($output), // PresentableInterface does not correctly json encode the models
         ]);
     }
 
@@ -116,7 +117,7 @@ class DeploymentController extends Controller
         ));
 
         return redirect()->route('deployment', [
-            'id' => $deployment->id
+            'id' => $deployment->id,
         ]);
     }
 
@@ -128,7 +129,7 @@ class DeploymentController extends Controller
      */
     public function log(ServerLog $log)
     {
-        $log->runtime = (is_null($log->runtime()) ? null : $log->getPresenter()->readable_runtime);
+        $log->runtime = (!$log->runtime() ? null : $log->getPresenter()->readable_runtime);
 
         return $log;
     }

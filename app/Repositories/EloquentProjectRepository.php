@@ -29,6 +29,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     public function getAll()
     {
         return $this->model
+                    ->notTemplates()
                     ->orderBy('name')
                     ->get();
     }

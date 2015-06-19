@@ -1,8 +1,8 @@
 <?php
 
 use App\Heartbeat;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateHeartbeatsTable extends Migration
 {
@@ -21,7 +21,7 @@ class CreateHeartbeatsTable extends Migration
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('missed')->default(0);
             $table->enum('status', [Heartbeat::OK, Heartbeat::UNTESTED,
-                                    Heartbeat::MISSING])->default(Heartbeat::UNTESTED);
+                                    Heartbeat::MISSING, ])->default(Heartbeat::UNTESTED);
             $table->dateTime('last_activity')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();

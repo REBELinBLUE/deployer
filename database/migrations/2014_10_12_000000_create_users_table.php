@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
-
 use App\User;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateUsersTable extends Migration
 {
@@ -27,7 +26,7 @@ class CreateUsersTable extends Migration
         User::create([
             'name'     => 'Admin',
             'email'    => 'admin@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
         ]);
     }
 

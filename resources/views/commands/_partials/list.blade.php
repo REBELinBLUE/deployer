@@ -17,6 +17,7 @@
                     <tr>
                         <th>{{ Lang::get('commands.name') }}</th>
                         <th>{{ Lang::get('commands.run_as') }}</th>
+                        <th>{{ Lang::get('commands.optional') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>

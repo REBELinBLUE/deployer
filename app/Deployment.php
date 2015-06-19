@@ -120,6 +120,16 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
+     * Determines whether the deployment failed.
+     *
+     * @return bool
+     */
+    public function isFailed()
+    {
+        return ($this->status === self::FAILED);
+    }
+
+    /**
      * Determines if the deployment is the latest deployment.
      *
      * @return bool
@@ -144,7 +154,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function runtime()
     {
         if (!$this->finished_at) {
-            return null;
+            return;
         }
 
         return $this->started_at->diffInSeconds($this->finished_at);

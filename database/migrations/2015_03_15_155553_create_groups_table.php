@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
-use App\Group;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateGroupsTable extends Migration
 {
@@ -20,10 +18,6 @@ class CreateGroupsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        Group::create([
-            'name' => 'Projects'
-        ]);
     }
 
     /**

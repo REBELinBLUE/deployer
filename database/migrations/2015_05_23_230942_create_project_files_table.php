@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Create table project_files
+ * Create table project_files.
  */
 class CreateProjectFilesTable extends Migration
 {
@@ -15,8 +15,7 @@ class CreateProjectFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_files', function(Blueprint $table)
-        {
+        Schema::create('project_files', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->text('path');

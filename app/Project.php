@@ -30,14 +30,16 @@ class Project extends ProjectRelation implements PresentableInterface
     protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
                          'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
                          'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-                         'notifications', 'deployments', 'shareFiles', 'projectFiles'];
+                         'notifications', 'deployments', 'shareFiles', 'projectFiles',
+                         'is_template', ];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'repository', 'branch', 'group_id', 'builds_to_keep', 'url', 'build_url'];
+    protected $fillable = ['name', 'repository', 'branch', 'group_id',
+                           'builds_to_keep', 'url', 'build_url', 'is_template', ];
 
     /**
      * The fields which should be treated as Carbon instances.
@@ -61,6 +63,7 @@ class Project extends ProjectRelation implements PresentableInterface
     protected $casts = [
         'status'         => 'integer',
         'builds_to_keep' => 'integer',
+        'is_template'    => 'boolean',
     ];
 
     /**
@@ -263,12 +266,22 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
+     * Query scope to not show templates.
+     *
+     * @param object $query
+     * @return object
+     */
+    public function scopeNotTemplates($query)
+    {
+        return $query->where('is_template', '=', false);
+    }
+
+    /**
      * Generates an SSH key and sets the private/public key properties.
      *
      * @return void
-     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
-    private function generateSSHKey()
+    protected function generateSSHKey()
     {
         $key = tempnam(storage_path() . '/app/', 'sshkey');
         unlink($key);

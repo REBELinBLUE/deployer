@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Notification;
+use Illuminate\Database\Seeder;
 
 class NotificationTableSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class NotificationTableSeeder extends Seeder
             'channel'    => '#testing',
             'icon'       => ':ghost:',
             'webhook'    => 'https://hooks.slack.com/services/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',
-            'project_id' => 1
+            'project_id' => 1,
         ]);
     }
 }
