@@ -27,7 +27,7 @@
                     <td>{{ $project->after_clone }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route('commands', ['id' => $project->id, 'command' => 'clone']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route($route, ['id' => $project->id, 'command' => 'clone']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -37,7 +37,7 @@
                     <td>{{ $project->after_install }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route('commands', ['id' => $project->id, 'command' => 'install']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route($route, ['id' => $project->id, 'command' => 'install']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -47,7 +47,7 @@
                     <td>{{ $project->after_activate }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route('commands', ['id' => $project->id, 'command' => 'activate']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route($route, ['id' => $project->id, 'command' => 'activate']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -57,7 +57,7 @@
                     <td>{{ $project->after_purge }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route('commands', ['id' => $project->id, 'command' => 'purge']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route($route, ['id' => $project->id, 'command' => 'purge']) }}" class="btn btn-default" title="{{ Lang::get('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>

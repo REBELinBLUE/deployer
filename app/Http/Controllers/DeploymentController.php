@@ -44,6 +44,7 @@ class DeploymentController extends Controller
             'projectFiles'  => $project->projectFiles,
             'checkUrls'     => $project->checkUrls,
             'optional'      => $optional,
+            'route'         => 'commands',
         ]);
     }
 

@@ -57,6 +57,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('project-file', 'ProjectFileController', $actions);
         Route::resource('notify-email', 'NotifyEmailController', $actions);
         Route::resource('check-url', 'CheckUrlController', $actions);
+
+        Route::get('admin/templates/{projects}/commands/{step}', [
+            'as'   => 'template.commands',
+            'uses' => 'CommandController@listing',
+        ]);
     });
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {

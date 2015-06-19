@@ -41,7 +41,7 @@ class TemplateController extends Controller
 
         return view('templates.listing', [
             'title'     => Lang::get('templates.manage'),
-            'templates' => $templates->toJson() // Because PresentableInterface toJson() is not working in the view
+            'templates' => $templates->toJson(), // Because PresentableInterface toJson() is not working in the view
         ]);
     }
 
@@ -62,7 +62,8 @@ class TemplateController extends Controller
             'title'         => $template->name,
             'sharedFiles'   => $template->shareFiles,
             'projectFiles'  => $template->projectFiles,
-            'project'       => $template
+            'project'       => $template,
+            'route'         => 'template.commands',
         ]);
     }
 
