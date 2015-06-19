@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Presenters\CommandPresenter;
 use Illuminate\Database\Eloquent\Model;
 
 /**
