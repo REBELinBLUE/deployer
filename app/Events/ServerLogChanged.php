@@ -33,7 +33,7 @@ class ServerLogChanged extends Event implements ShouldBroadcast
         $this->finished_at = $log->finished_at ? $log->finished_at->toDateTimeString() : null;
         $this->log_id      = $log->id;
         $this->output      = ((is_null($log->output) || !strlen($log->output)) ? null : '');
-        $this->runtime     = (is_null($log->runtime()) ? null : $log->getPresenter()->readable_runtime);
+        $this->runtime     = (!$log->runtime() ? null : $log->getPresenter()->readable_runtime);
     }
 
     /**
