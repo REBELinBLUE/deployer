@@ -1,8 +1,8 @@
 <?php
 
 use App\Server;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateServersTable extends Migration
 {
@@ -21,7 +21,7 @@ class CreateServersTable extends Migration
             $table->string('path');
             $table->unsignedInteger('project_id');
             $table->enum('status', [Server::SUCCESSFUL, Server::TESTING,
-                                    Server::FAILED, Server::UNTESTED])->default(Server::UNTESTED);
+                                    Server::FAILED, Server::UNTESTED, ])->default(Server::UNTESTED);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('project_id')->references('id')->on('projects');

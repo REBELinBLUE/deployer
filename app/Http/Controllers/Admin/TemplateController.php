@@ -8,7 +8,7 @@ use App\Repositories\Contracts\TemplateRepositoryInterface;
 use Lang;
 
 /**
- * Controller for managing deployment template
+ * Controller for managing deployment template.
  */
 class TemplateController extends Controller
 {
@@ -46,7 +46,7 @@ class TemplateController extends Controller
     }
 
     /**
-     * Show the template configuration
+     * Show the template configuration.
      *
      * @param int $template_id
      * @return Response

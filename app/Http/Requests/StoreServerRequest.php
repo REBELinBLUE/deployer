@@ -48,7 +48,7 @@ class StoreServerRequest extends Request
             'ip_address'   => 'required|host',
             'path'         => 'required',
             'add_commands' => 'boolean',
-            'project_id'   => 'required|integer|exists:projects,id'
+            'project_id'   => 'required|integer|exists:projects,id',
         ];
     }
 }

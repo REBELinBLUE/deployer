@@ -63,7 +63,7 @@ class Project extends ProjectRelation implements PresentableInterface
     protected $casts = [
         'status'         => 'integer',
         'builds_to_keep' => 'integer',
-        'is_template'    => 'boolean'
+        'is_template'    => 'boolean',
     ];
 
     /**
@@ -266,7 +266,7 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Query scope to not show templates
+     * Query scope to not show templates.
      *
      * @param object $query
      * @return object

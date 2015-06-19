@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
 
 /**
- * Model for templates
+ * Model for templates.
  */
 class Template extends Model implements PresentableInterface
 {
     /**
-     * Fields to show in the JSON presentation
+     * Fields to show in the JSON presentation.
      *
      * @var array
      */
@@ -49,7 +49,7 @@ class Template extends Model implements PresentableInterface
     ];
 
     /**
-     * Query scope to only show templates
+     * Query scope to only show templates.
      *
      * @param object $query
      * @return object

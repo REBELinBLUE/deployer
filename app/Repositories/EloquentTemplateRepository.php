@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Template;
 use App\Repositories\Contracts\TemplateRepositoryInterface;
+use App\Template;
 
 /**
  * The template repository.
@@ -35,14 +35,14 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
     }
 
     /**
-     * Overwrite the parent method to add the requires fields
+     * Overwrite the parent method to add the requires fields.
      *
      * @param array $fields
      * @return Template
      */
     public function create(array $fields)
     {
-        $fields['group_id'] = 1;
+        $fields['group_id']    = 1;
         $fields['is_template'] = true;
 
         return parent::create($fields);
