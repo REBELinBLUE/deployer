@@ -11,7 +11,7 @@ class TemplateSeeder extends Seeder
         $laravel = Project::create([
             'name'        => 'Laravel',
             'is_template' => true,
-            'group_id'    => 1, // FIXME: Horrible hack
+            'group_id'    => 1,
         ]);
 
         Project::create([
