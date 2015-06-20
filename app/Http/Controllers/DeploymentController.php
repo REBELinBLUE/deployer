@@ -42,7 +42,8 @@ class DeploymentController extends Controller
      * @param  DeploymentRepositoryInterface $deploymentRepository
      * @return View
      */
-    public function project($project_id, DeploymentRepositoryInterface $deploymentRepository) {
+    public function project($project_id, DeploymentRepositoryInterface $deploymentRepository)
+    {
         $project = $this->projectRepository->getById($project_id);
 
         $optional = $project->commands->filter(function (Command $command) {
@@ -103,7 +104,7 @@ class DeploymentController extends Controller
     /**
      * Adds a deployment for the specified project to the queue.
      *
-     * @param  int  $project
+     * @param  int      $project
      * @return Response
      */
     public function deploy($project_id)
