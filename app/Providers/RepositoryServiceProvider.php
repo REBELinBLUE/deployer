@@ -56,5 +56,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\UserRepositoryInterface',
             'App\Repositories\EloquentUserRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Contracts\NotificationRepositoryInterface',
+            'App\Repositories\EloquentNotificationRepository'
+        );
     }
 }
