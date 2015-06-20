@@ -27,8 +27,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        parent::boot($router);
-
         $router->pattern('id', '[0-9]+');
         $router->pattern('step', '(clone|install|activate|purge)');
 
@@ -38,11 +36,12 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('heartbeats', 'App\Heartbeat');
         $router->model('projects', 'App\Project');
         $router->model('log', 'App\ServerLog');
-        $router->model('users', 'App\User');
         $router->model('shared-files', 'App\SharedFile');
         $router->model('project-file', 'App\ProjectFile');
         $router->model('notify-email', 'App\NotifyEmail');
         $router->model('check-url', 'App\CheckUrl');
+
+        parent::boot($router);
     }
 
     /**
