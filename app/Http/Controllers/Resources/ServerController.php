@@ -22,7 +22,7 @@ class ServerController extends ResourceController
      */
     public function store(StoreServerRequest $request)
     {
-        // fixme: use a repository
+        // FIXME: use a repository
         $max = Server::where('project_id', $request->project_id)
                       ->orderBy('order', 'desc')
                       ->first();

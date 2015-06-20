@@ -29,7 +29,7 @@ class CommandController extends ResourceController
             'purge'    => Command::DO_PURGE,
         ];
 
-        // fixme: use a repository
+        // FIXME: use a repository
         $commands = Command::where('project_id', $project->id)
                            ->with('servers')
                            ->whereIn('step', [$types[$action] - 1, $types[$action] + 1])
@@ -64,7 +64,7 @@ class CommandController extends ResourceController
      */
     public function store(StoreCommandRequest $request)
     {
-        // fixme: use a repository
+        // FIXME: use a repository
         $max = Command::where('project_id', $request->project_id)
                       ->where('step', $request->step)
                       ->orderBy('order', 'desc')
