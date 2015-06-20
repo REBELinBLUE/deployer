@@ -2,14 +2,18 @@
 
 namespace App\Repositories;
 
+use App\Jobs\SetupProject;
 use App\Project;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * The project repository.
  */
 class EloquentProjectRepository extends EloquentRepository implements ProjectRepositoryInterface
 {
+    use DispatchesJobs;
+
     /**
      * Class constructor.
      *
@@ -32,5 +36,32 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
                     ->notTemplates()
                     ->orderBy('name')
                     ->get();
+    }
+
+    /**
+     * Creates a new instance of project.
+     *
+     * @param  array $fields
+     * @return Model
+     */
+    public function create(array $fields)
+    {
+        $template = false;
+        if (array_key_exists('template_id', $fields)) {
+            $template = $fields['template_id'];
+
+            unset($fields['template_id']);
+        }
+
+        $project = $this->model->create($fields);
+
+        if ($template) {
+            $this->dispatch(new SetupProject(
+                $project,
+                $template
+            ));
+        }
+
+        return $project;
     }
 }

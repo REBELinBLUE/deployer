@@ -34,7 +34,6 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('deployments', 'App\Deployment');
         $router->model('notifications', 'App\Notification');
         $router->model('heartbeats', 'App\Heartbeat');
-        $router->model('projects', 'App\Project');
         $router->model('log', 'App\ServerLog');
         $router->model('shared-files', 'App\SharedFile');
         $router->model('project-file', 'App\ProjectFile');

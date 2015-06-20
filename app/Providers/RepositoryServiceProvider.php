@@ -33,8 +33,18 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            'App\Repositories\Contracts\GroupRepositoryInterface',
+            'App\Repositories\EloquentGroupRepository'
+        );
+
+        $this->app->bind(
             'App\Repositories\Contracts\ProjectRepositoryInterface',
             'App\Repositories\EloquentProjectRepository'
+        );
+
+        $this->app->bind(
+            'App\Repositories\Contracts\ServerRepositoryInterface',
+            'App\Repositories\EloquentServerRepository'
         );
 
         $this->app->bind(
@@ -43,18 +53,8 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            'App\Repositories\Contracts\GroupRepositoryInterface',
-            'App\Repositories\EloquentGroupRepository'
-        );
-
-        $this->app->bind(
             'App\Repositories\Contracts\UserRepositoryInterface',
             'App\Repositories\EloquentUserRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\ServerRepositoryInterface',
-            'App\Repositories\EloquentServerRepository'
         );
     }
 }
