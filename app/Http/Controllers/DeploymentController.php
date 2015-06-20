@@ -6,8 +6,8 @@ use App\Command;
 use App\Deployment;
 use App\Http\Controllers\Controller;
 use App\Jobs\QueueDeployment;
-use App\Project;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
+use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\ServerLog;
 use Input;
 use Lang;
@@ -18,14 +18,33 @@ use Lang;
 class DeploymentController extends Controller
 {
     /**
+     * The project repository.
+     *
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  ProjectRepositoryInterface $projectRepository
+     * @return void
+     */
+    public function __construct(ProjectRepositoryInterface $projectRepository)
+    {
+        $this->projectRepository = $projectRepository;
+    }
+
+    /**
      * The details of an individual project.
      *
-     * @param  Project                       $project
+     * @param  int                           $project_id
      * @param  DeploymentRepositoryInterface $deploymentRepository
      * @return View
      */
-    public function project(Project $project, DeploymentRepositoryInterface $deploymentRepository)
-    {
+    public function project($project_id, DeploymentRepositoryInterface $deploymentRepository) {
+        $project = $this->projectRepository->getById($project_id);
+
         $optional = $project->commands->filter(function (Command $command) {
             return $command->optional;
         });
@@ -84,11 +103,13 @@ class DeploymentController extends Controller
     /**
      * Adds a deployment for the specified project to the queue.
      *
-     * @param  Project  $project
+     * @param  int  $project
      * @return Response
      */
-    public function deploy(Project $project)
+    public function deploy($project_id)
     {
+        $project = $this->projectRepository->getById($project_id);
+
         if ($project->servers->where('deploy_code', true)->count() === 0) {
             return redirect()->url('projects', $project->id);
         }
