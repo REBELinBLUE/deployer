@@ -61,4 +61,19 @@ abstract class EloquentRepository
 
         return $model;
     }
+
+    /**
+     * Delete an instance by it's ID.
+     *
+     * @param  int   $model_id
+     * @return Model
+     */
+    public function deleteById($model_id)
+    {
+        $model = $this->getById($model_id);
+
+        $model->delete();
+
+        return;
+    }
 }

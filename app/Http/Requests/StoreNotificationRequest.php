@@ -23,6 +23,7 @@ class StoreNotificationRequest extends Request
             'channel',
             function ($attribute, $value, $parameters) {
                 $first_character = substr($value, 0, 1);
+
                 return (($first_character === '#' || $first_character === '@') && strlen($value) > 1);
             }
         );

@@ -4,16 +4,32 @@ namespace App\Http\Controllers\Resources;
 
 use App\Http\Requests;
 use App\Http\Requests\StoreServerRequest;
-use App\Jobs\TestServerConnection;
-use App\Server;
+use App\Repositories\Contracts\ServerRepositoryInterface;
 use Input;
-use Response;
 
 /**
  * Server management controller.
  */
 class ServerController extends ResourceController
 {
+    /**
+     * The group repository.
+     *
+     * @var ServerRepositoryInterface
+     */
+    private $serverRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  ServerRepositoryInterface $serverRepository
+     * @return void
+     */
+    public function __construct(ServerRepositoryInterface $serverRepository)
+    {
+        $this->serverRepository = $serverRepository;
+    }
+
     /**
      * Store a newly created server in storage.
      *
@@ -22,17 +38,7 @@ class ServerController extends ResourceController
      */
     public function store(StoreServerRequest $request)
     {
-        // FIXME: use a repository
-        $max = Server::where('project_id', $request->project_id)
-                      ->orderBy('order', 'desc')
-                      ->first();
-
-        $order = 0;
-        if (isset($max)) {
-            $order = $max->order + 1;
-        }
-
-        $fields = $request->only(
+        $server = $this->serverRepository->create($request->only(
             'name',
             'user',
             'ip_address',
@@ -40,11 +46,7 @@ class ServerController extends ResourceController
             'path',
             'project_id',
             'deploy_code'
-        );
-
-        $fields['order'] = $order;
-
-        $server = Server::create($fields);
+        ));
 
         // Add the server to the existing commands
         if ($request->has('add_commands') && $request->add_commands === true) {
@@ -59,13 +61,12 @@ class ServerController extends ResourceController
     /**
      * Update the specified server in storage.
      *
-     * @param  Server             $server
      * @param  StoreServerRequest $request
      * @return Response
      */
-    public function update(Server $server, StoreServerRequest $request)
+    public function update($server_id, StoreServerRequest $request)
     {
-        $server->update($request->only(
+        return $this->serverRepository->updateById($request->only(
             'name',
             'user',
             'ip_address',
@@ -73,20 +74,18 @@ class ServerController extends ResourceController
             'path',
             'project_id',
             'deploy_code'
-        ));
-
-        return $server;
+        ), $server_id);
     }
 
     /**
      * Remove the specified server from storage.
      *
-     * @param  Server   $server
+     * @param  int      $server
      * @return Response
      */
-    public function destroy(Server $server)
+    public function destroy($server_id)
     {
-        $server->delete();
+        $this->serverRepository->deleteById($server_id);
 
         return [
             'success' => true,
@@ -96,17 +95,12 @@ class ServerController extends ResourceController
     /**
      * Queues a connection test for the specified server.
      *
-     * @param  Server   $server
+     * @param  int      $server_id
      * @return Response
      */
-    public function test(Server $server)
+    public function test($server_id)
     {
-        if (!$server->isTesting()) {
-            $server->status = Server::TESTING;
-            $server->save();
-
-            $this->dispatch(new TestServerConnection($server));
-        }
+        $this->serverRepository->queueForTesting($server_id);
 
         return [
             'success' => true,
@@ -123,11 +117,9 @@ class ServerController extends ResourceController
         $order = 0;
 
         foreach (Input::get('servers') as $server_id) {
-            $server = Server::findOrFail($server_id);
-
-            $server->order = $order;
-
-            $server->save();
+            $server = $this->serverRepository->updateById([
+                'order' => $order,
+            ], $server_id);
 
             $order++;
         }
