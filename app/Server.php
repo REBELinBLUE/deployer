@@ -23,7 +23,7 @@ class Server extends Model
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot', 'project'];
 
     /**
      * The attributes that are mass assignable.
@@ -104,7 +104,7 @@ class Server extends Model
      */
     public function setPortAttribute($value)
     {
-        if (!array_key_exists('port', $this->attributes) || $value !== $this->attributes['port']) {
+        if (!array_key_exists('port', $this->attributes) || (int) $value !== (int) $this->attributes['port']) {
             $this->attributes['status'] = self::UNTESTED;
         }
 
