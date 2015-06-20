@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    @include('dialogs.user')
+    @include('admin.dialogs.user')
 
     <script type="text/template" id="user-template">
         <td><%- name %></td>
