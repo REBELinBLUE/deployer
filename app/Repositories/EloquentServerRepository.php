@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Jobs\TestServerConnection;
 use App\Repositories\Contracts\ServerRepositoryInterface;
 use App\Repositories\EloquentRepository;
-use App\Jobs\TestServerConnection;
 use App\Server;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -62,7 +62,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * Updates a server instance by it's ID and queues it for testing
+     * Updates a server instance by it's ID and queues it for testing.
      *
      * @param  array $fields
      * @param  int   $model_id

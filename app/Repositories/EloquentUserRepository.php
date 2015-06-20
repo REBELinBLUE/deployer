@@ -51,14 +51,10 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     {
         $user = $this->getById($model_id);
 
-        if (array_key_exists('password', $fields))
-        {
-            if (empty($fields['password']))
-            {
+        if (array_key_exists('password', $fields)) {
+            if (empty($fields['password'])) {
                 unset($fields['password']);
-            }
-            else
-            {
+            } else {
                 $fields['password'] = bcrypt($fields['password']);
             }
         }

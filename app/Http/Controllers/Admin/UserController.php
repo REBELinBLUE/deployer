@@ -77,7 +77,7 @@ class UserController extends Controller
     /**
      * Remove the specified user from storage.
      *
-     * @param  int     $user_id
+     * @param  int      $user_id
      * @return Response
      */
     public function destroy($user_id)
