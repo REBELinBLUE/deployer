@@ -93,4 +93,19 @@ class TemplateController extends Controller
             'name'
         ), $template_id);
     }
+
+    /**
+     * Remove the specified template from storage.
+     *
+     * @param  int      $template_id
+     * @return Response
+     */
+    public function destroy($template_id)
+    {
+        $this->templateRepository->deleteById($template_id);
+
+        return [
+            'success' => true,
+        ];
+    }
 }
