@@ -27,7 +27,7 @@ abstract class EloquentRepository
     /**
      * Get's an item from the repository.
      *
-     * @param int $model_id
+     * @param  int   $model_id
      * @return model
      */
     public function getById($model_id)
@@ -38,7 +38,7 @@ abstract class EloquentRepository
     /**
      * Creates a new instance of the model.
      *
-     * @param array $fields
+     * @param  array $fields
      * @return Model
      */
     public function create(array $fields)
@@ -49,8 +49,8 @@ abstract class EloquentRepository
     /**
      * Updates an instance by it's ID.
      *
-     * @param array $fields
-     * @param int $model_id
+     * @param  array $fields
+     * @param  int   $model_id
      * @return Model
      */
     public function updateById(array $fields, $model_id)

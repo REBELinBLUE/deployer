@@ -13,7 +13,7 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
     /**
      * Class constructor.
      *
-     * @param Template $model
+     * @param  Template                  $model
      * @return EloquentProjectRepository
      */
     public function __construct(Template $model)
@@ -37,7 +37,7 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
     /**
      * Overwrite the parent method to add the requires fields.
      *
-     * @param array $fields
+     * @param  array    $fields
      * @return Template
      */
     public function create(array $fields)

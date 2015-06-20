@@ -22,7 +22,7 @@ class TemplateController extends Controller
     /**
      * Class constructor.
      *
-     * @param TemplateRepositoryInterface $templateRepository
+     * @param  TemplateRepositoryInterface $templateRepository
      * @return void
      */
     public function __construct(TemplateRepositoryInterface $templateRepository)
@@ -48,7 +48,7 @@ class TemplateController extends Controller
     /**
      * Show the template configuration.
      *
-     * @param int $template_id
+     * @param  int      $template_id
      * @return Response
      */
     public function show($template_id)
@@ -70,7 +70,7 @@ class TemplateController extends Controller
     /**
      * Store a newly created template in storage.
      *
-     * @param StoreTemplateRequest $request
+     * @param  StoreTemplateRequest $request
      * @return Response
      */
     public function store(StoreTemplateRequest $request)
@@ -83,8 +83,8 @@ class TemplateController extends Controller
     /**
      * Update the specified template in storage.
      *
-     * @param int $template_id
-     * @param StoreTemplateRequest $request
+     * @param  int                  $template_id
+     * @param  StoreTemplateRequest $request
      * @return Response
      */
     public function update($template_id, StoreTemplateRequest $request)

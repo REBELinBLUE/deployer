@@ -13,7 +13,7 @@ class HeartbeatController extends ResourceController
     /**
      * Handles the callback URL for the heartbeat.
      *
-     * @param string $hash The webhook hash
+     * @param  string   $hash The webhook hash
      * @return Response
      */
     public function ping($hash)
@@ -29,7 +29,7 @@ class HeartbeatController extends ResourceController
     /**
      * Store a newly created heartbeat in storage.
      *
-     * @param StoreHeartbeatRequest $request
+     * @param  StoreHeartbeatRequest $request
      * @return Response
      */
     public function store(StoreHeartbeatRequest $request)
@@ -44,8 +44,8 @@ class HeartbeatController extends ResourceController
     /**
      * Update the specified heartbeat in storage.
      *
-     * @param Heartbeat $heartbeat
-     * @param StoreHeartbeatRequest $request
+     * @param  Heartbeat             $heartbeat
+     * @param  StoreHeartbeatRequest $request
      * @return Response
      */
     public function update(Heartbeat $heartbeat, StoreHeartbeatRequest $request)
@@ -61,7 +61,7 @@ class HeartbeatController extends ResourceController
     /**
      * Remove the specified heartbeat from storage.
      *
-     * @param Heartbeat $heartbeat
+     * @param  Heartbeat $heartbeat
      * @return Response
      */
     public function destroy(Heartbeat $heartbeat)

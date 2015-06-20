@@ -16,8 +16,8 @@ class CommandController extends ResourceController
     /**
      * Display a listing of before/after commands for the supplied stage.
      *
-     * @param Project $project
-     * @param string $action Either clone, install, activate or purge
+     * @param  Project  $project
+     * @param  string   $action  Either clone, install, activate or purge
      * @return Response
      */
     public function listing(Project $project, $action)
@@ -59,7 +59,7 @@ class CommandController extends ResourceController
     /**
      * Store a newly created command in storage.
      *
-     * @param StoreCommandRequest $request
+     * @param  StoreCommandRequest $request
      * @return Response
      */
     public function store(StoreCommandRequest $request)
@@ -98,8 +98,8 @@ class CommandController extends ResourceController
     /**
      * Update the specified command in storage.
      *
-     * @param Command $command
-     * @param StoreCommandRequest $request
+     * @param  Command             $command
+     * @param  StoreCommandRequest $request
      * @return Response
      */
     public function update(Command $command, StoreCommandRequest $request)
@@ -123,7 +123,7 @@ class CommandController extends ResourceController
     /**
      * Remove the specified command from storage.
      *
-     * @param Command $command
+     * @param  Command  $command
      * @return Response
      */
     public function destroy(Command $command)

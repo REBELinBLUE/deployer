@@ -19,7 +19,7 @@ class ProjectController extends Controller
     /**
      * Shows all projects.
      *
-     * @param ProjectRepositoryInterface $projectRepository
+     * @param  ProjectRepositoryInterface $projectRepository
      * @return Response
      */
     public function index(
@@ -38,7 +38,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created project in storage.
      *
-     * @param StoreProjectRequest $request
+     * @param  StoreProjectRequest $request
      * @return Response
      */
     public function store(StoreProjectRequest $request)
@@ -66,8 +66,8 @@ class ProjectController extends Controller
     /**
      * Update the specified project in storage.
      *
-     * @param Project $project
-     * @param StoreProjectRequest $request
+     * @param  Project             $project
+     * @param  StoreProjectRequest $request
      * @return Response
      */
     public function update(Project $project, StoreProjectRequest $request)
@@ -88,7 +88,7 @@ class ProjectController extends Controller
     /**
      * Remove the specified project from storage.
      *
-     * @param Project $project
+     * @param  Project  $project
      * @return Response
      */
     public function destroy(Project $project)

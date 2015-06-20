@@ -13,7 +13,7 @@ class NotifyEmailController extends ResourceController
     /**
      * Store a newly created notify_email in storage.
      *
-     * @param StoreNotifyEmailRequest $request
+     * @param  StoreNotifyEmailRequest $request
      * @return Response
      */
     public function store(StoreNotifyEmailRequest $request)
@@ -28,8 +28,8 @@ class NotifyEmailController extends ResourceController
     /**
      * Update the specified notify_email in storage.
      *
-     * @param NotifyEmail $notify_email
-     * @param StoreNotifyEmailRequest $request
+     * @param  NotifyEmail             $notify_email
+     * @param  StoreNotifyEmailRequest $request
      * @return Response
      */
     public function update(NotifyEmail $notify_email, StoreNotifyEmailRequest $request)
@@ -45,7 +45,7 @@ class NotifyEmailController extends ResourceController
     /**
      * Remove the specified NotifyEmail from storage.
      *
-     * @param NotifyEmail $notify_email
+     * @param  NotifyEmail $notify_email
      * @return Response
      */
     public function destroy(NotifyEmail $notify_email)

@@ -30,7 +30,7 @@ class UserController extends Controller
     /**
      * Store a newly created user in storage.
      *
-     * @param StoreUserRequest $request
+     * @param  StoreUserRequest $request
      * @return Response
      */
     public function store(StoreUserRequest $request)
@@ -57,8 +57,8 @@ class UserController extends Controller
     /**
      * Update the specified user in storage.
      *
-     * @param User $user
-     * @param StoreUserRequest $request
+     * @param  User             $user
+     * @param  StoreUserRequest $request
      * @return Response
      */
     public function update(User $user, StoreUserRequest $request)
@@ -82,7 +82,7 @@ class UserController extends Controller
     /**
      * Remove the specified user from storage.
      *
-     * @param User $user
+     * @param  User     $user
      * @return Response
      */
     public function destroy(User $user)

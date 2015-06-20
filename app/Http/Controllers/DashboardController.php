@@ -45,7 +45,7 @@ class DashboardController extends Controller
     /**
      * Returns the timeline.
      *
-     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @param  DeploymentRepositoryInterface $deploymentRepository
      * @return View
      */
     public function timeline(DeploymentRepositoryInterface $deploymentRepository)
@@ -58,7 +58,7 @@ class DashboardController extends Controller
     /**
      * Builds the data for the timline.
      *
-     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @param  DeploymentRepositoryInterface $deploymentRepository
      * @return array
      */
     private function buildTimelineData(DeploymentRepositoryInterface $deploymentRepository)
@@ -82,7 +82,7 @@ class DashboardController extends Controller
     /**
      * Generates an XML file for CCTray.
      *
-     * @param ProjectRepositoryInterface $projectRepository
+     * @param  ProjectRepositoryInterface $projectRepository
      * @return Response
      */
     public function cctray(ProjectRepositoryInterface $projectRepository)

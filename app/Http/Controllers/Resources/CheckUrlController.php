@@ -17,7 +17,7 @@ class CheckUrlController extends ResourceController
     /**
      * Store a newly created url in storage.
      *
-     * @param StoreCheckUrlRequest $request
+     * @param  StoreCheckUrlRequest $request
      * @return Response
      */
     public function store(StoreCheckUrlRequest $request)
@@ -38,8 +38,8 @@ class CheckUrlController extends ResourceController
     /**
      * Update the specified file in storage.
      *
-     * @param CheckUrl $url
-     * @param StoreCheckUrlRequest $request
+     * @param  CheckUrl             $url
+     * @param  StoreCheckUrlRequest $request
      * @return Response
      */
     public function update(CheckUrl $url, StoreCheckUrlRequest $request)
@@ -63,7 +63,7 @@ class CheckUrlController extends ResourceController
     /**
      * Remove the specified url from storage.
      *
-     * @param CheckUrl $url
+     * @param  CheckUrl $url
      * @return Response
      */
     public function destroy(CheckUrl $url)

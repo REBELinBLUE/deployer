@@ -30,8 +30,8 @@ class UserWasCreated extends Event
     /**
      * Create a new event instance.
      *
-     * @param User $user
-     * @param string $password
+     * @param  User           $user
+     * @param  string         $password
      * @return UserWasCreated
      */
     public function __construct(User $user, $password)

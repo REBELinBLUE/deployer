@@ -268,7 +268,7 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Query scope to not show templates.
      *
-     * @param object $query
+     * @param  object $query
      * @return object
      */
     public function scopeNotTemplates($query)

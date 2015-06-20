@@ -14,7 +14,7 @@ class EloquentGroupRepository extends EloquentRepository implements GroupReposit
     /**
      * Class constructor.
      *
-     * @param Group $model
+     * @param  Group                   $model
      * @return EloquentGroupRepository
      */
     public function __construct(Group $model)

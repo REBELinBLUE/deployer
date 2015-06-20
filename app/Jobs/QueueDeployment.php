@@ -27,8 +27,8 @@ class QueueDeployment extends Job implements SelfHandling
     /**
      * Create a new command instance.
      *
-     * @param Project $project
-     * @param Deployment $deployment
+     * @param  Project         $project
+     * @param  Deployment      $deployment
      * @return QueueDeployment
      */
     public function __construct(Project $project, Deployment $deployment, array $optional = [])
@@ -137,8 +137,8 @@ class QueueDeployment extends Job implements SelfHandling
     /**
      * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command.
      *
-     * @param int $stage
-     * @param Command $command
+     * @param  int     $stage
+     * @param  Command $command
      * @return void
      */
     private function createCommandStep($stage, Stage $command)
@@ -160,7 +160,7 @@ class QueueDeployment extends Job implements SelfHandling
     /**
      * Create an instance of DeployStep and a ServerLog entry for each server which can have code deployed.
      *
-     * @param int $stage
+     * @param  int  $stage
      * @return void
      */
     private function createDeployStep($stage)

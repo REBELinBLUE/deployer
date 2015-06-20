@@ -13,7 +13,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     /**
      * Class constructor.
      *
-     * @param Project $model
+     * @param  Project                   $model
      * @return EloquentProjectRepository
      */
     public function __construct(Project $model)

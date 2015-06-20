@@ -20,8 +20,8 @@ class DeploymentController extends Controller
     /**
      * The details of an individual project.
      *
-     * @param Project $project
-     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @param  Project                       $project
+     * @param  DeploymentRepositoryInterface $deploymentRepository
      * @return View
      */
     public function project(Project $project, DeploymentRepositoryInterface $deploymentRepository)
@@ -51,7 +51,7 @@ class DeploymentController extends Controller
     /**
      * Show the deployment details.
      *
-     * @param Deployment $deployment
+     * @param  Deployment $deployment
      * @return Response
      */
     public function show(Deployment $deployment)
@@ -84,7 +84,7 @@ class DeploymentController extends Controller
     /**
      * Adds a deployment for the specified project to the queue.
      *
-     * @param Project $project
+     * @param  Project  $project
      * @return Response
      */
     public function deploy(Project $project)
@@ -124,7 +124,7 @@ class DeploymentController extends Controller
     /**
      * Gets the log output of a particular deployment step.
      *
-     * @param ServerLog $log
+     * @param  ServerLog $log
      * @return ServerLog
      */
     public function log(ServerLog $log)

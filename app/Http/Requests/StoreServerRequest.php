@@ -13,7 +13,7 @@ class StoreServerRequest extends Request
     /**
      * Overwrite the parent constructor to define a new validator.
      *
-     * @param Factory $factory
+     * @param  Factory $factory
      * @return void
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */

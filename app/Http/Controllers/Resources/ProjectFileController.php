@@ -28,7 +28,7 @@ class ProjectFileController extends ResourceController
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int      $id
      * @return Response
      */
     public function update(ProjectFile $file, StoreProjectFileRequest $request)
@@ -45,7 +45,7 @@ class ProjectFileController extends ResourceController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int      $id
      * @return Response
      */
     public function destroy(ProjectFile $file)

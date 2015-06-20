@@ -13,7 +13,7 @@ class NavigationComposer
     /**
      * Generates the group listing for the view.
      *
-     * @param \Illuminate\Contracts\View\View $view
+     * @param  \Illuminate\Contracts\View\View $view
      * @return void
      */
     public function compose(View $view)

@@ -13,7 +13,7 @@ class SharedFilesController extends ResourceController
     /**
      * Store a newly created file in storage.
      *
-     * @param StoreSharedFileRequest $request
+     * @param  StoreSharedFileRequest $request
      * @return Response
      */
     public function store(StoreSharedFileRequest $request)
@@ -28,8 +28,8 @@ class SharedFilesController extends ResourceController
     /**
      * Update the specified file in storage.
      *
-     * @param SharedFile $sharedFile
-     * @param StoreSharedFileRequest $request
+     * @param  SharedFile             $sharedFile
+     * @param  StoreSharedFileRequest $request
      * @return Response
      */
     public function update(SharedFile $file, StoreSharedFileRequest $request)
@@ -45,7 +45,7 @@ class SharedFilesController extends ResourceController
     /**
      * Remove the specified file from storage.
      *
-     * @param SharedFile $sharedFile
+     * @param  SharedFile $sharedFile
      * @return Response
      */
     public function destroy(SharedFile $file)

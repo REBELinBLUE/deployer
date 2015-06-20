@@ -16,14 +16,14 @@ class WebhookController extends Controller
     /**
      * Handles incoming requests from Gitlab or PHPCI to trigger deploy.
      *
-     * @param string $hash The webhook hash
+     * @param  string   $hash The webhook hash
      * @return Response
-     * TODO: Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
-     *       http://doc.gitlab.com/ee/web_hooks/web_hooks.html
-     * TODO: Allow optional commands to be specified in the POST data
      */
     public function webhook($hash)
     {
+        // TODO: Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
+        // TODO: Allow optional commands to be specified in the POST data
+
         $project = Project::where('hash', $hash)
                           ->firstOrFail();
 
@@ -52,7 +52,7 @@ class WebhookController extends Controller
     /**
      * Generates a new webhook URL.
      *
-     * @param Project $project
+     * @param  Project  $project
      * @return Response
      */
     public function refresh(Project $project)

@@ -15,7 +15,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     /**
      * Gets the latest deployments for a project.
      *
-     * @param Project $project
+     * @param  Project $project
      * @return array
      */
     public function getLatest(Project $project)
@@ -65,7 +65,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     /**
      * Gets the number of times a project has been deployed today.
      *
-     * @param Project $project
+     * @param  Project $project
      * @return int
      * @see DeploymentRepository::getBetweenDates()
      */
@@ -79,7 +79,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     /**
      * Gets the number of times a project has been deployed in the last week.
      *
-     * @param Project $project
+     * @param  Project $project
      * @return int
      * @see DeploymentRepository::getBetweenDates()
      */
@@ -94,9 +94,9 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     /**
      * Gets the number of times a project has been deployed between the specified dates.
      *
-     * @param Project $project
-     * @param Carbon $startDate
-     * @param Carbon $endDate
+     * @param  Project $project
+     * @param  Carbon  $startDate
+     * @param  Carbon  $endDate
      * @return int
      */
     private function getBetweenDates(Project $project, Carbon $startDate, Carbon $endDate)
@@ -110,7 +110,7 @@ class EloquentDeploymentRepository implements DeploymentRepositoryInterface
     /**
      * Gets deployments with a supplied status.
      *
-     * @param int $status
+     * @param  int   $status
      * @return array
      */
     private function getStatus($status)

@@ -13,7 +13,7 @@ class NotificationController extends ResourceController
     /**
      * Store a newly created notification in storage.
      *
-     * @param StoreNotificationRequest $request
+     * @param  StoreNotificationRequest $request
      * @return Response
      */
     public function store(StoreNotificationRequest $request)
@@ -31,8 +31,8 @@ class NotificationController extends ResourceController
     /**
      * Update the specified notification in storage.
      *
-     * @param Notification $notification
-     * @param StoreNotificationRequest $request
+     * @param  Notification             $notification
+     * @param  StoreNotificationRequest $request
      * @return Response
      */
     public function update(Notification $notification, StoreNotificationRequest $request)
@@ -51,7 +51,7 @@ class NotificationController extends ResourceController
     /**
      * Remove the specified notification from storage.
      *
-     * @param Notification $notification
+     * @param  Notification $notification
      * @return Response
      */
     public function destroy(Notification $notification)

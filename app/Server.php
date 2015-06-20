@@ -67,7 +67,7 @@ class Server extends Model
      * Define a mutator for the user, if it has changed or has
      * not previously been set also set the status to untested.
      *
-     * @param string $value
+     * @param  string $value
      * @return void
      */
     public function setUserAttribute($value)
@@ -83,7 +83,7 @@ class Server extends Model
      * Define a mutator for the IP Address, if it has changed or
      * has not previously been set also set the status to untested.
      *
-     * @param string $value
+     * @param  string $value
      * @return void
      */
     public function setIpAddressAttribute($value)
@@ -99,7 +99,7 @@ class Server extends Model
      * Define a mutator for the port, if it has changed or
      * has not previously been set also set the status to untested.
      *
-     * @param string $value
+     * @param  string $value
      * @return void
      */
     public function setPortAttribute($value)

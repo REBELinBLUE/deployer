@@ -22,7 +22,7 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
     /**
      * Create a new command instance.
      *
-     * @param Server $server
+     * @param  Server               $server
      * @return TestServerConnection
      */
     public function __construct(Server $server)
@@ -66,8 +66,8 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
     /**
      * Generates the SSH command for running the script on a server.
      *
-     * @param Server $server
-     * @param string $script The script to run
+     * @param  Server $server
+     * @param  string $script The script to run
      * @return string
      */
     private function sshCommand(Server $server, $private_key, $script)
