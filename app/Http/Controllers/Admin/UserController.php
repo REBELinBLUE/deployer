@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.listing', [
+        return view('admin.users.listing', [
             'title' => Lang::get('users.manage'),
             'users' => User::all(),
         ]);

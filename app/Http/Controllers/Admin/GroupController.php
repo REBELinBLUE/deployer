@@ -38,7 +38,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        return view('groups.listing', [
+        return view('admin.groups.listing', [
             'title'  => Lang::get('groups.manage'),
             'groups' => $this->groupRepository->getAll(),
         ]);

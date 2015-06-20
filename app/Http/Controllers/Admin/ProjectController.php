@@ -28,7 +28,7 @@ class ProjectController extends Controller
     ) {
         $projects = $projectRepository->getAll();
 
-        return view('projects.listing', [
+        return view('admin.projects.listing', [
             'title'     => Lang::get('projects.manage'),
             'templates' => $templateRepository->getAll(),
             'projects'  => $projects->toJson(), // Because PresentableInterface toJson() is not working in the view

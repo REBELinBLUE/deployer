@@ -39,7 +39,7 @@ class TemplateController extends Controller
     {
         $templates = $this->templateRepository->getAll();
 
-        return view('templates.listing', [
+        return view('admin.templates.listing', [
             'title'     => Lang::get('templates.manage'),
             'templates' => $templates->toJson(), // Because PresentableInterface toJson() is not working in the view
         ]);
@@ -55,7 +55,7 @@ class TemplateController extends Controller
     {
         $template = $this->templateRepository->getById($template_id);
 
-        return view('templates.details', [
+        return view('admin.templates.details', [
             'breadcrumb' => [
                 ['url' => url('admin/templates'), 'label' => Lang::get('templates.label')],
             ],
