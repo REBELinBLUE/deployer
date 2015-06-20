@@ -13,7 +13,7 @@ use Lang;
 class UserController extends Controller
 {
     /**
-     * The group repository.
+     * The user repository.
      *
      * @var UserRepositoryInterface
      */
