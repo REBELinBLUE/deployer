@@ -13,14 +13,14 @@ class SharedFilesController extends ResourceController
     /**
      * The shared file repository.
      *
-     * @var SharedFilelRepositoryInterface
+     * @var SharedFileRepositoryInterface
      */
     private $sharedFileRepository;
 
     /**
      * Class constructor.
      *
-     * @param  SharedFilelRepositoryInterface $sharedFileRepository
+     * @param  SharedFileRepositoryInterface $sharedFileRepository
      * @return void
      */
     public function __construct(SharedFileRepositoryInterface $sharedFileRepository)
