@@ -2,14 +2,32 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\Heartbeat;
 use App\Http\Requests\StoreHeartbeatRequest;
+use App\Repositories\Contracts\HeartbeatRepositoryInterface;
 
 /**
  * Controller for managing notifications.
  */
 class HeartbeatController extends ResourceController
 {
+    /**
+     * The heartbeat repository.
+     *
+     * @var NotificationRepositoryInterface
+     */
+    private $heartbeatRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  NotificationRepositoryInterface $notificationRepository
+     * @return void
+     */
+    public function __construct(HeartbeatRepositoryInterface $heartbeatRepository)
+    {
+        $this->heartbeatRepository = $heartbeatRepository;
+    }
+
     /**
      * Handles the callback URL for the heartbeat.
      *
@@ -18,8 +36,7 @@ class HeartbeatController extends ResourceController
      */
     public function ping($hash)
     {
-        $heartbeat = Heartbeat::where('hash', $hash)
-                              ->firstOrFail();
+        $heartbeat = $this->heartbeatRepository->getByHash($hash);
 
         $heartbeat->pinged();
 
@@ -34,7 +51,7 @@ class HeartbeatController extends ResourceController
      */
     public function store(StoreHeartbeatRequest $request)
     {
-        return Heartbeat::create($request->only(
+        return $this->heartbeatRepository->create($request->only(
             'name',
             'interval',
             'project_id'
@@ -44,29 +61,27 @@ class HeartbeatController extends ResourceController
     /**
      * Update the specified heartbeat in storage.
      *
-     * @param  Heartbeat             $heartbeat
+     * @param  int                   $heartbeat_id
      * @param  StoreHeartbeatRequest $request
      * @return Response
      */
-    public function update(Heartbeat $heartbeat, StoreHeartbeatRequest $request)
+    public function update($heartbeat_id, StoreHeartbeatRequest $request)
     {
-        $heartbeat->update($request->only(
+        return $this->heartbeatRepository->updateById($request->only(
             'name',
             'interval'
-        ));
-
-        return $heartbeat;
+        ), $heartbeat_id);
     }
 
     /**
      * Remove the specified heartbeat from storage.
      *
-     * @param  Heartbeat $heartbeat
+     * @param  int      $heartbeat_id
      * @return Response
      */
-    public function destroy(Heartbeat $heartbeat)
+    public function destroy($heartbeat_id)
     {
-        $heartbeat->delete();
+        $this->heartbeatRepository->deleteById($heartbeat_id);
 
         return [
             'success' => true,
