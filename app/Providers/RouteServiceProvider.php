@@ -36,7 +36,6 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('log', 'App\ServerLog');
         $router->model('shared-files', 'App\SharedFile');
         $router->model('project-file', 'App\ProjectFile');
-        $router->model('notify-email', 'App\NotifyEmail');
         $router->model('check-url', 'App\CheckUrl');
 
         parent::boot($router);

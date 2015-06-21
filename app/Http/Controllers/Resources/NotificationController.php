@@ -11,7 +11,7 @@ use App\Repositories\Contracts\NotificationRepositoryInterface;
 class NotificationController extends ResourceController
 {
     /**
-     * The user repository.
+     * The notification repository.
      *
      * @var NotificationRepositoryInterface
      */

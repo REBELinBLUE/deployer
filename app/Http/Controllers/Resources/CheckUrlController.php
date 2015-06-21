@@ -30,7 +30,7 @@ class CheckUrlController extends ResourceController
             'project_id'
         ));
 
-        $this->dispatch(new RequestProjectCheckUrl([$url]));
+        $this->dispatch(new RequestProjectCheckUrl([$url])); // FIXME: Move this to model events
 
         return $url;
     }
