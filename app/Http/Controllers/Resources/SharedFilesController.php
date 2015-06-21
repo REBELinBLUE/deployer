@@ -3,13 +3,31 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Http\Requests\StoreSharedFileRequest;
-use App\SharedFile;
+use App\Repositories\Contracts\SharedFileRepositoryInterface;
 
 /**
  * Controller for managing files.
  */
 class SharedFilesController extends ResourceController
 {
+    /**
+     * The shared file notification repository.
+     *
+     * @var SharedFilelRepositoryInterface
+     */
+    private $sharedFileRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  SharedFilelRepositoryInterface $sharedFileRepository
+     * @return void
+     */
+    public function __construct(SharedFileRepositoryInterface $sharedFileRepository)
+    {
+        $this->sharedFileRepository = $sharedFileRepository;
+    }
+
     /**
      * Store a newly created file in storage.
      *
@@ -18,7 +36,7 @@ class SharedFilesController extends ResourceController
      */
     public function store(StoreSharedFileRequest $request)
     {
-        return SharedFile::create($request->only(
+        return $this->sharedFileRepository->create($request->only(
             'name',
             'file',
             'project_id'
@@ -28,29 +46,27 @@ class SharedFilesController extends ResourceController
     /**
      * Update the specified file in storage.
      *
-     * @param  SharedFile             $sharedFile
+     * @param  int             $file_id
      * @param  StoreSharedFileRequest $request
      * @return Response
      */
-    public function update(SharedFile $file, StoreSharedFileRequest $request)
+    public function update($file_id, StoreSharedFileRequest $request)
     {
-        $file->update($request->only(
+        return $this->sharedFileRepository->updateById($request->only(
             'name',
             'file'
-        ));
-
-        return $file;
+        ), $file_id);
     }
 
     /**
      * Remove the specified file from storage.
      *
-     * @param  SharedFile $sharedFile
+     * @param  int $file_id
      * @return Response
      */
-    public function destroy(SharedFile $file)
+    public function destroy($file_id)
     {
-        $file->delete();
+        $this->sharedFileRepository->deleteById($file_id);
 
         return [
             'success' => true,

@@ -66,5 +66,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\NotifyEmailRepositoryInterface',
             'App\Repositories\EloquentNotifyEmailRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Contracts\SharedFileRepositoryInterface',
+            'App\Repositories\EloquentSharedFileRepository'
+        );
     }
 }
