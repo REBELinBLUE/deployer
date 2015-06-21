@@ -82,3 +82,7 @@ input[type=text].deployment-source {
 #pending_menu li a h4 {
     margin-left: 0;
 }
+
+.project-status .nav-tabs-custom > .nav-tabs > li {
+    margin-right: 0;
+}
