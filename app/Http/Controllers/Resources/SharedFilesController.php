@@ -46,7 +46,7 @@ class SharedFilesController extends ResourceController
     /**
      * Update the specified file in storage.
      *
-     * @param  int             $file_id
+     * @param  int                    $file_id
      * @param  StoreSharedFileRequest $request
      * @return Response
      */
@@ -61,7 +61,7 @@ class SharedFilesController extends ResourceController
     /**
      * Remove the specified file from storage.
      *
-     * @param  int $file_id
+     * @param  int      $file_id
      * @return Response
      */
     public function destroy($file_id)

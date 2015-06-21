@@ -61,7 +61,7 @@ class NotifyEmailController extends ResourceController
     /**
      * Remove the specified NotifyEmail from storage.
      *
-     * @param  int $email_id
+     * @param  int      $email_id
      * @return Response
      */
     public function destroy($email_id)
