@@ -34,7 +34,6 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('deployments', 'App\Deployment');
         $router->model('heartbeats', 'App\Heartbeat');
         $router->model('log', 'App\ServerLog');
-        $router->model('project-file', 'App\ProjectFile');
         $router->model('check-url', 'App\CheckUrl');
 
         parent::boot($router);

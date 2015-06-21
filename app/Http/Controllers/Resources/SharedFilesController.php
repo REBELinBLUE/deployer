@@ -11,7 +11,7 @@ use App\Repositories\Contracts\SharedFileRepositoryInterface;
 class SharedFilesController extends ResourceController
 {
     /**
-     * The shared file notification repository.
+     * The shared file repository.
      *
      * @var SharedFilelRepositoryInterface
      */

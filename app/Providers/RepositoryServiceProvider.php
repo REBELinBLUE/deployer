@@ -71,5 +71,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\SharedFileRepositoryInterface',
             'App\Repositories\EloquentSharedFileRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Contracts\ProjectFileRepositoryInterface',
+            'App\Repositories\EloquentProjectFileRepository'
+        );
     }
 }
