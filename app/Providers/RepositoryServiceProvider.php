@@ -81,5 +81,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\HeartbeatRepositoryInterface',
             'App\Repositories\EloquentHeartbeatRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Contracts\CheckUrlRepositoryInterface',
+            'App\Repositories\EloquentCheckUrlRepository'
+        );
     }
 }

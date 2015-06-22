@@ -33,7 +33,6 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('commands', 'App\Command');
         $router->model('deployments', 'App\Deployment');
         $router->model('log', 'App\ServerLog');
-        $router->model('check-url', 'App\CheckUrl');
 
         parent::boot($router);
     }
