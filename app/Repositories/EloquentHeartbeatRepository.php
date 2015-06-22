@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Heartbeat;
 use App\Repositories\Contracts\HeartbeatRepositoryInterface;
 use App\Repositories\EloquentRepository;
-use App\Heartbeat;
 
 /**
  * The shared file repository.
@@ -23,13 +23,13 @@ class EloquentHeartbeatRepository extends EloquentRepository implements Heartbea
     }
 
     /**
-     * Gets a heartbeat by it's hash
+     * Gets a heartbeat by it's hash.
      *
-     * @param  string                       $hash
+     * @param  string    $hash
      * @return Heartbeat
      */
     public function getByHash($hash)
     {
-         return $this->model->where('hash', $hash)->firstOrFail();
+        return $this->model->where('hash', $hash)->firstOrFail();
     }
 }

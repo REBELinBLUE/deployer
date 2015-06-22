@@ -30,7 +30,6 @@ class RouteServiceProvider extends ServiceProvider
         $router->pattern('id', '[0-9]+');
         $router->pattern('step', '(clone|install|activate|purge)');
 
-        $router->model('commands', 'App\Command');
         $router->model('deployments', 'App\Deployment');
         $router->model('log', 'App\ServerLog');
 

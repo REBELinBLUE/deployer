@@ -86,5 +86,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\CheckUrlRepositoryInterface',
             'App\Repositories\EloquentCheckUrlRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Contracts\CommandRepositoryInterface',
+            'App\Repositories\EloquentCommandRepository'
+        );
     }
 }

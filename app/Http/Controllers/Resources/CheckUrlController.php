@@ -65,7 +65,7 @@ class CheckUrlController extends ResourceController
     /**
      * Remove the specified URL from storage.
      *
-     * @param  int $url_id
+     * @param  int      $url_id
      * @return Response
      */
     public function destroy($url_id)
