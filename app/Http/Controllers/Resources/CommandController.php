@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Resources;
 
 use App\Command;
 use App\Http\Requests\StoreCommandRequest;
-use App\Project;
 use App\Repositories\Contracts\CommandRepositoryInterface;
+use App\Repositories\Contracts\ProjectRepositoryInterface;
 use Input;
 use Lang;
 
@@ -22,14 +22,24 @@ class CommandController extends ResourceController
     private $commandRepository;
 
     /**
+     * The project repository.
+     *
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
      * Class constructor.
      *
      * @param  CommandRepositoryInterface $commandRepository
      * @return void
      */
-    public function __construct(CommandRepositoryInterface $commandRepository)
-    {
+    public function __construct(
+        CommandRepositoryInterface $commandRepository,
+        ProjectRepositoryInterface $projectRepository
+    ) {
         $this->commandRepository = $commandRepository;
+        $this->projectRepository = $projectRepository;
     }
 
     /**
@@ -48,14 +58,7 @@ class CommandController extends ResourceController
             'purge'    => Command::DO_PURGE,
         ];
 
-        $project = Project::find($project_id);
-
-        // FIXME: use a repository
-        $commands = Command::where('project_id', $project->id)
-                           ->with('servers')
-                           ->whereIn('step', [$types[$action] - 1, $types[$action] + 1])
-                           ->orderBy('order')
-                           ->get();
+        $project = $this->projectRepository->getById($project_id);
 
         $breadcrumb = [
             ['url' => url('projects', $project->id), 'label' => $project->name],
@@ -73,7 +76,7 @@ class CommandController extends ResourceController
             'title'      => Lang::get('commands.' . strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
-            'commands'   => $commands,
+            'commands'   => $this->commandRepository->getForDeployStep($project->id, $types[$action]),
         ]);
     }
 
@@ -85,20 +88,15 @@ class CommandController extends ResourceController
      */
     public function store(StoreCommandRequest $request)
     {
-        $command = $this->commandRepository->create($request->only(
+        return $this->commandRepository->create($request->only(
             'name',
             'user',
             'project_id',
             'script',
             'step',
-            'optional'
+            'optional',
+            'servers'
         ));
-
-        $command->servers()->attach($request->servers);
-
-        $command->servers; // Triggers the loading
-
-        return $command;
     }
 
     /**
@@ -110,18 +108,13 @@ class CommandController extends ResourceController
      */
     public function update($command_id, StoreCommandRequest $request)
     {
-        $command = $this->commandRepository->updateById($request->only(
+        return $this->commandRepository->updateById($request->only(
             'name',
             'user',
             'script',
-            'optional'
+            'optional',
+            'servers'
         ), $command_id);
-
-        $command->servers()->sync($request->servers);
-
-        $command->servers; // Triggers the loading
-
-        return $command;
     }
 
     /**

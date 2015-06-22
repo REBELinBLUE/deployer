@@ -31,10 +31,10 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     public function create(array $fields)
     {
         // Get the current highest server order
-        $max = Command::where('project_id', $fields['project_id'])
-                      ->where('step', $fields['step'])
-                      ->orderBy('order', 'DESC')
-                      ->first();
+        $max = $this->model->where('project_id', $fields['project_id'])
+                           ->where('step', $fields['step'])
+                           ->orderBy('order', 'DESC')
+                           ->first();
 
         $order = 0;
         if (isset($max)) {
@@ -43,6 +43,64 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
 
         $fields['order'] = $order;
 
-        return $this->model->create($fields);
+        $servers = null;
+        if (isset($fields['servers'])) {
+            $servers = $fields['servers'];
+            unset($fields['servers']);
+        }
+
+        $model = $this->model->create($fields);
+
+        if ($servers) {
+            $model->servers()->attach($servers);
+        }
+
+        $model->servers; // Triggers the loading
+
+        return $model;
+    }
+
+    /**
+     * Updates an instance by it's ID.
+     *
+     * @param  array $fields
+     * @param  int   $model_id
+     * @return Model
+     */
+    public function updateById(array $fields, $model_id)
+    {
+        $model = $this->getById($model_id);
+
+        $servers = null;
+        if (isset($fields['servers'])) {
+            $servers = $fields['servers'];
+            unset($fields['servers']);
+        }
+
+        $model->update($fields);
+
+        if ($servers) {
+            $model->servers()->sync($servers);
+        }
+
+        $model->servers; // Triggers the loading
+
+        return $model;
+    }
+
+    /**
+     * Get's the commands in a specific step
+     * 
+     * @param  int $project_id
+     * @param  int $step 
+     * @return Collection
+     */
+    public function getForDeployStep($project_id, $step)
+    {
+        return $this->model->where('project_id', $project_id)
+                           ->with('servers')
+                           ->whereIn('step', [$step - 1, $step + 1])
+                           ->orderBy('order')
+                           ->get();
     }
 }
