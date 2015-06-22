@@ -43,6 +43,7 @@ class AuthController extends Controller
         if (Auth::viaRemember()) {
             redirect()->intended($this->redirectPath());
         }
+
         return view('auth.login');
     }
 
@@ -55,12 +56,15 @@ class AuthController extends Controller
     public function postLogin(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email', 'password' => 'required',
+            'email'    => 'required|email',
+            'password' => 'required',
         ]);
+
         $credentials = $this->getCredentials($request);
         if (Auth::attempt($credentials, true)) {
             return redirect()->intended($this->redirectPath());
         }
+
         return redirect($this->loginPath())
             ->withInput($request->only('email', 'remember'))
             ->withErrors([
