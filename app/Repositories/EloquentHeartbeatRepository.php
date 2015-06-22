@@ -24,8 +24,8 @@ class EloquentHeartbeatRepository extends EloquentRepository implements Heartbea
 
     /**
      * Gets a heartbeat by it's hash
-     * 
-     * @param  string $hash 
+     *
+     * @param  string                       $hash
      * @return Heartbeat
      */
     public function getByHash($hash)
