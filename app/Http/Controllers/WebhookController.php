@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Deployment;
 use App\Http\Controllers\Controller;
+use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
-use App\Jobs\QueueDeployment;
-use App\Project;
 use Input;
 
 /**
@@ -22,14 +20,25 @@ class WebhookController extends Controller
     private $projectRepository;
 
     /**
+     * The deployment repository.
+     *
+     * @var deploymentRepository
+     */
+    private $deploymentRepository;
+
+    /**
      * Class constructor.
      *
-     * @param  ProjectRepositoryInterface    $deploymentRepository
+     * @param  ProjectRepositoryInterface    $projectRepository
+     * @param  DeploymentRepositoryInterface $projectRepository
      * @return void
      */
-    public function __construct(ProjectRepositoryInterface $projectRepository)
-    {
-        $this->projectRepository = $projectRepository;
+    public function __construct(
+        ProjectRepositoryInterface $projectRepository,
+        DeploymentRepositoryInterface $deploymentRepository
+    ) {
+        $this->projectRepository    = $projectRepository;
+        $this->deploymentRepository = $deploymentRepository;
     }
 
     /**
@@ -47,18 +56,15 @@ class WebhookController extends Controller
 
         $success = false;
         if ($project->servers->where('deploy_code', true)->count() > 0) {
-            $optional = [];
 
-            // FIXME: Change to use repostory
-            $deployment         = new Deployment;
-            $deployment->reason = Input::get('reason');
-            $deployment->branch = $project->branch;
+            $data = [
+                'reason'     => Input::get('reason'),
+                'project_id' => $project->id,
+                'branch'     => $project->branch,
+                'optional'   => [],
+            ];
 
-            $this->dispatch(new QueueDeployment(
-                $project,
-                $deployment,
-                $optional
-            ));
+            $deployment = $this->deploymentRepository->create($data);
 
             $success = true;
         }
@@ -71,7 +77,7 @@ class WebhookController extends Controller
     /**
      * Generates a new webhook URL.
      *
-     * @param  Project  $project
+     * @param  int  $project_id
      * @return Response
      */
     public function refresh($project_id)
