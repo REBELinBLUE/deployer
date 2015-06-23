@@ -128,6 +128,7 @@ class DeploymentController extends Controller
             return redirect()->url('projects', $project->id);
         }
 
+        // FIXME: Change to use repo
         $deployment         = new Deployment;
         $deployment->reason = Input::get('reason');
 

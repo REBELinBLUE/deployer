@@ -24,6 +24,7 @@ class WebhookController extends Controller
         // TODO: Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
         // TODO: Allow optional commands to be specified in the POST data
 
+        // FIXME: Change to use repo
         $project = Project::where('hash', $hash)
                           ->firstOrFail();
 
@@ -57,6 +58,7 @@ class WebhookController extends Controller
      */
     public function refresh(Project $project)
     {
+        // FIXME: Change to use repo
         $project->generateHash();
         $project->save();
 
