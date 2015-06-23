@@ -40,7 +40,9 @@ class HeartbeatController extends ResourceController
 
         $heartbeat->pinged();
 
-        return 'OK';
+        return [
+            'success' => true,
+        ];
     }
 
     /**
