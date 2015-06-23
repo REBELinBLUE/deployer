@@ -44,7 +44,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
     /**
      * Binds a repository interface to an eloquent repository
-     * 
+     *
      * @param string $name
      * @return void
      */

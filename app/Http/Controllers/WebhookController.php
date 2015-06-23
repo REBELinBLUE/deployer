@@ -56,7 +56,6 @@ class WebhookController extends Controller
 
         $success = false;
         if ($project->servers->where('deploy_code', true)->count() > 0) {
-
             $data = [
                 'reason'     => Input::get('reason'),
                 'project_id' => $project->id,
