@@ -43,9 +43,9 @@ class RepositoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Binds a repository interface to an eloquent repository
+     * Binds a repository interface to an eloquent repository.
      *
-     * @param string $name
+     * @param  string $name
      * @return void
      */
     public function bindInterface($name)

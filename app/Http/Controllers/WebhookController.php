@@ -73,7 +73,7 @@ class WebhookController extends Controller
     /**
      * Generates a new webhook URL.
      *
-     * @param  int  $project_id
+     * @param  int      $project_id
      * @return Response
      */
     public function refresh($project_id)
