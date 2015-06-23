@@ -25,14 +25,25 @@ class DeploymentController extends Controller
     private $projectRepository;
 
     /**
+     * The deployment repository.
+     *
+     * @var deploymentRepository
+     */
+    private $deploymentRepository;
+
+    /**
      * Class constructor.
      *
-     * @param  ProjectRepositoryInterface $projectRepository
+     * @param  ProjectRepositoryInterface    $deploymentRepository
+     * @param  DeploymentRepositoryInterface $projectRepository
      * @return void
      */
-    public function __construct(ProjectRepositoryInterface $projectRepository)
-    {
-        $this->projectRepository = $projectRepository;
+    public function __construct(
+        ProjectRepositoryInterface $projectRepository,
+        DeploymentRepositoryInterface $deploymentRepository
+    ) {
+        $this->projectRepository    = $projectRepository;
+        $this->deploymentRepository = $deploymentRepository;
     }
 
     /**
@@ -42,7 +53,7 @@ class DeploymentController extends Controller
      * @param  DeploymentRepositoryInterface $deploymentRepository
      * @return View
      */
-    public function project($project_id, DeploymentRepositoryInterface $deploymentRepository)
+    public function project($project_id)
     {
         $project = $this->projectRepository->getById($project_id);
 
@@ -52,9 +63,9 @@ class DeploymentController extends Controller
 
         return view('projects.details', [
             'title'         => $project->name,
-            'deployments'   => $deploymentRepository->getLatest($project),
-            'today'         => $deploymentRepository->getTodayCount($project),
-            'last_week'     => $deploymentRepository->getLastWeekCount($project),
+            'deployments'   => $this->deploymentRepository->getLatest($project_id, $project->builds_to_keep),
+            'today'         => $this->deploymentRepository->getTodayCount($project_id),
+            'last_week'     => $this->deploymentRepository->getLastWeekCount($project_id),
             'project'       => $project,
             'servers'       => $project->servers,
             'notifications' => $project->notifications,
@@ -71,11 +82,13 @@ class DeploymentController extends Controller
     /**
      * Show the deployment details.
      *
-     * @param  Deployment $deployment
+     * @param  int      $deployment
      * @return Response
      */
-    public function show(Deployment $deployment)
+    public function show($deployment_id)
     {
+        $deployment = $this->deploymentRepository->getById($deployment_id);
+
         $output = [];
         foreach ($deployment->steps as $step) {
             foreach ($step->servers as $server) {

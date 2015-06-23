@@ -6,8 +6,9 @@ use App\Project;
 
 interface DeploymentRepositoryInterface
 {
-    public function getLatest(Project $project);
+    public function getById($model_id);
+    public function getLatest($project_id, $paginate = 15);
     public function getTimeline();
-    public function getTodayCount(Project $project);
-    public function getLastWeekCount(Project $project);
+    public function getTodayCount($project_id);
+    public function getLastWeekCount($project_id);
 }

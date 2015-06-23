@@ -89,10 +89,10 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     }
 
     /**
-     * Get's the commands in a specific step
+     * Get's the commands in a specific step.
      *
-     * @param  int $project_id
-     * @param  int $step
+     * @param  int        $project_id
+     * @param  int        $step
      * @return Collection
      */
     public function getForDeployStep($project_id, $step)
