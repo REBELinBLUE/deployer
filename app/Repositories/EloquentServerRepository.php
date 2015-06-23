@@ -47,9 +47,9 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     public function create(array $fields)
     {
         // Get the current highest server order
-        $max = Server::where('project_id', $fields['project_id'])
-                     ->orderBy('order', 'DESC')
-                     ->first();
+        $max = $this->model->where('project_id', $fields['project_id'])
+                           ->orderBy('order', 'DESC')
+                           ->first();
 
         $order = 0;
         if (isset($max)) {
@@ -58,7 +58,22 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
 
         $fields['order'] = $order;
 
-        return $this->model->create($fields);
+        $add_commands = false;
+        if (isset($fields['add_commands'])) {
+            $add_commands = $fields['add_commands'];
+            unset($fields['add_commands']);
+        }
+
+        $server = $this->model->create($fields);
+
+        // Add the server to the existing commands
+        if ($add_commands) {
+            foreach ($server->project->commands as $command) {
+                $command->servers()->attach($server->id);
+            }
+        }
+
+        return $server;
     }
 
     /**

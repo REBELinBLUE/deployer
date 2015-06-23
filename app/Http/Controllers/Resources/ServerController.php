@@ -38,24 +38,16 @@ class ServerController extends ResourceController
      */
     public function store(StoreServerRequest $request)
     {
-        $server = $this->serverRepository->create($request->only(
+        return $this->serverRepository->create($request->only(
             'name',
             'user',
             'ip_address',
             'port',
             'path',
             'project_id',
-            'deploy_code'
+            'deploy_code',
+            'add_commands'
         ));
-
-        // Add the server to the existing commands
-        if ($request->has('add_commands') && $request->add_commands === true) {
-            foreach ($server->project->commands as $command) {
-                $command->servers()->attach($server->id);
-            }
-        }
-
-        return $server;
     }
 
     /**
