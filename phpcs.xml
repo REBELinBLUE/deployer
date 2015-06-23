@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 <ruleset name="Deployer">
     <description>Codestyle ruleset for Deployer</description>
+
     <rule ref="PSR2" />
 
     <file>app</file>

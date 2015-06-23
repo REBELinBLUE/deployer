@@ -16,11 +16,11 @@
 
 The code is written to follow PSR-2 standards, this can be tested using PHP_CodeSniffer
 
-    $ ./vendor/bin/phpcs --standard=PSR2 app
+    $ ./vendor/bin/phpcs --standard=phpcs.xml
 
 Code mess can be checked with
 
-    $ ./vendor/bin/phpmd app text design,unusedcode,naming,codesize
+    $ ./vendor/bin/phpmd app text phpmd.xml
 
 PHP Docblocks can be checked with
 
