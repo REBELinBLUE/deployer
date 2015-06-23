@@ -15,17 +15,17 @@ class NotificationController extends ResourceController
      *
      * @var NotificationRepositoryInterface
      */
-    private $notificationRepository;
+    private $slackRepository;
 
     /**
      * Class constructor.
      *
-     * @param  NotificationRepositoryInterface $notificationRepository
+     * @param  NotificationRepositoryInterface $slackRepository
      * @return void
      */
-    public function __construct(NotificationRepositoryInterface $notificationRepository)
+    public function __construct(NotificationRepositoryInterface $slackRepository)
     {
-        $this->notificationRepository = $notificationRepository;
+        $this->slackRepository = $slackRepository;
     }
 
     /**
@@ -36,7 +36,7 @@ class NotificationController extends ResourceController
      */
     public function store(StoreNotificationRequest $request)
     {
-        return $this->notificationRepository->create($request->only(
+        return $this->slackRepository->create($request->only(
             'name',
             'channel',
             'webhook',
@@ -55,7 +55,7 @@ class NotificationController extends ResourceController
      */
     public function update($notification_id, StoreNotificationRequest $request)
     {
-        return $this->notificationRepository->updateById($request->only(
+        return $this->slackRepository->updateById($request->only(
             'name',
             'channel',
             'webhook',
@@ -72,7 +72,7 @@ class NotificationController extends ResourceController
      */
     public function destroy($notification_id)
     {
-        $this->notificationRepository->deleteById($notification_id);
+        $this->slackRepository->deleteById($notification_id);
 
         return [
             'success' => true,

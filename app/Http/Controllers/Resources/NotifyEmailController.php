@@ -13,19 +13,19 @@ class NotifyEmailController extends ResourceController
     /**
      * The email notification repository.
      *
-     * @var NotificationRepositoryInterface
+     * @var NotificationEmailRepositoryInterface
      */
-    private $notifyEmailRepository;
+    private $emailRepository;
 
     /**
      * Class constructor.
      *
-     * @param  NotifyEmailRepositoryInterface $notifyEmailRepository
+     * @param  NotifyEmailRepositoryInterface $emailRepository
      * @return void
      */
-    public function __construct(NotifyEmailRepositoryInterface $notifyEmailRepository)
+    public function __construct(NotifyEmailRepositoryInterface $emailRepository)
     {
-        $this->notifyEmailRepository = $notifyEmailRepository;
+        $this->emailRepository = $emailRepository;
     }
 
     /**
@@ -36,7 +36,7 @@ class NotifyEmailController extends ResourceController
      */
     public function store(StoreNotifyEmailRequest $request)
     {
-        return $this->notifyEmailRepository->create($request->only(
+        return $this->emailRepository->create($request->only(
             'name',
             'email',
             'project_id'
@@ -52,7 +52,7 @@ class NotifyEmailController extends ResourceController
      */
     public function update($email_id, StoreNotifyEmailRequest $request)
     {
-        return $this->notifyEmailRepository->updateById($request->only(
+        return $this->emailRepository->updateById($request->only(
             'name',
             'email'
         ), $email_id);
@@ -66,7 +66,7 @@ class NotifyEmailController extends ResourceController
      */
     public function destroy($email_id)
     {
-        $this->notifyEmailRepository->deleteById($email_id);
+        $this->emailRepository->deleteById($email_id);
 
         return [
             'success' => true,

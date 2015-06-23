@@ -15,17 +15,17 @@ class ProjectFileController extends ResourceController
      *
      * @var ProjectFileRepositoryInterface
      */
-    private $projectFileRepository;
+    private $fileRepository;
 
     /**
      * Class constructor.
      *
-     * @param  ProjectFileRepositoryInterface $projectFileRepository
+     * @param  ProjectFileRepositoryInterface $fileRepository
      * @return void
      */
-    public function __construct(ProjectFileRepositoryInterface $projectFileRepository)
+    public function __construct(ProjectFileRepositoryInterface $fileRepository)
     {
-        $this->projectFileRepository = $projectFileRepository;
+        $this->fileRepository = $fileRepository;
     }
 
     /**
@@ -35,7 +35,7 @@ class ProjectFileController extends ResourceController
      */
     public function store(StoreProjectFileRequest $request)
     {
-        return $this->projectFileRepository->create($request->only(
+        return $this->fileRepository->create($request->only(
             'name',
             'path',
             'content',
@@ -51,7 +51,7 @@ class ProjectFileController extends ResourceController
      */
     public function update($file_id, StoreProjectFileRequest $request)
     {
-        return $this->projectFileRepository->updateById($request->only(
+        return $this->fileRepository->updateById($request->only(
             'name',
             'path',
             'content'
@@ -66,7 +66,7 @@ class ProjectFileController extends ResourceController
      */
     public function destroy($file_id)
     {
-        $this->projectFileRepository->deleteById($file_id);
+        $this->fileRepository->deleteById($file_id);
 
         return [
             'success' => true,
