@@ -26,6 +26,13 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public static $currentDeployment = [];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['reason', 'branch', 'project_id'];
+
+    /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
@@ -138,9 +145,9 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     {
         if (!isset(self::$currentDeployment[$this->project_id])) {
             self::$currentDeployment[$this->project_id] = self::where('project_id', $this->project_id)
-                ->where('status', self::COMPLETED)
-                ->orderBy('id', 'desc')
-                ->first();
+                                                              ->where('status', self::COMPLETED)
+                                                              ->orderBy('id', 'desc')
+                                                              ->first();
         }
 
         return (self::$currentDeployment[$this->project_id]->id === $this->id);
@@ -232,7 +239,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                     'fields'   => [
                         [
                             'title' => Lang::get('notifications.project'),
-                            'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
+                            'value' => sprintf('<%s|%s>', url('projects', $this->project_id), $this->project->name),
                             'short' => true,
                         ], [
                             'title' => Lang::get('notifications.commit'),

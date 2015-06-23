@@ -20,8 +20,8 @@ class SetupProject extends Job implements SelfHandling
     /**
      * Create a new command instance.
      *
-     * @param Project $project
-     * @param int $template_id
+     * @param  Project      $project
+     * @param  int          $template_id
      * @return SetupProject
      */
     public function __construct(Project $project, $template_id)

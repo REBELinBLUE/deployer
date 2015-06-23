@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    @include('dialogs.group')
+    @include('admin.dialogs.group')
 
     <script type="text/template" id="group-template">
         <td><%- name %></td>

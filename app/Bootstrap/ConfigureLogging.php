@@ -14,8 +14,8 @@ class ConfigureLogging extends BaseLoggingConfiguration
     /**
      * Configure the Monolog handlers for the application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  \Illuminate\Log\Writer  $log
+     * @param  \Illuminate\Contracts\Foundation\Application $app
+     * @param  \Illuminate\Log\Writer                       $log
      * @return void
      */
     protected function configureSingleHandler(Application $app, Writer $log)
@@ -27,8 +27,8 @@ class ConfigureLogging extends BaseLoggingConfiguration
     /**
      * Configure the Monolog handlers for the application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  \Illuminate\Log\Writer  $log
+     * @param  \Illuminate\Contracts\Foundation\Application $app
+     * @param  \Illuminate\Log\Writer                       $log
      * @return void
      */
     protected function configureDailyHandler(Application $app, Writer $log)

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Resources;
 
 use App\Command;
 use App\Http\Requests\StoreCommandRequest;
-use App\Project;
+use App\Repositories\Contracts\CommandRepositoryInterface;
+use App\Repositories\Contracts\ProjectRepositoryInterface;
 use Input;
 use Lang;
 
@@ -14,13 +15,41 @@ use Lang;
 class CommandController extends ResourceController
 {
     /**
+     * The group repository.
+     *
+     * @var CommandRepositoryInterface
+     */
+    private $commandRepository;
+
+    /**
+     * The project repository.
+     *
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  CommandRepositoryInterface $commandRepository
+     * @return void
+     */
+    public function __construct(
+        CommandRepositoryInterface $commandRepository,
+        ProjectRepositoryInterface $projectRepository
+    ) {
+        $this->commandRepository = $commandRepository;
+        $this->projectRepository = $projectRepository;
+    }
+
+    /**
      * Display a listing of before/after commands for the supplied stage.
      *
-     * @param Project $project
-     * @param string $action Either clone, install, activate or purge
+     * @param  int      $project_id
+     * @param  string   $action     Either clone, install, activate or purge
      * @return Response
      */
-    public function listing(Project $project, $action)
+    public function listing($project_id, $action)
     {
         $types = [
             'clone'    => Command::DO_CLONE,
@@ -29,12 +58,7 @@ class CommandController extends ResourceController
             'purge'    => Command::DO_PURGE,
         ];
 
-        // fixme: use a repository
-        $commands = Command::where('project_id', $project->id)
-                           ->with('servers')
-                           ->whereIn('step', [$types[$action] - 1, $types[$action] + 1])
-                           ->orderBy('order')
-                           ->get();
+        $project = $this->projectRepository->getById($project_id);
 
         $breadcrumb = [
             ['url' => url('projects', $project->id), 'label' => $project->name],
@@ -52,83 +76,56 @@ class CommandController extends ResourceController
             'title'      => Lang::get('commands.' . strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
-            'commands'   => $commands,
+            'commands'   => $this->commandRepository->getForDeployStep($project->id, $types[$action]),
         ]);
     }
 
     /**
      * Store a newly created command in storage.
      *
-     * @param StoreCommandRequest $request
+     * @param  StoreCommandRequest $request
      * @return Response
      */
     public function store(StoreCommandRequest $request)
     {
-        // fixme: use a repository
-        $max = Command::where('project_id', $request->project_id)
-                      ->where('step', $request->step)
-                      ->orderBy('order', 'desc')
-                      ->first();
-
-        $order = 0;
-        if (isset($max)) {
-            $order = $max->order + 1;
-        }
-
-        $fields = $request->only(
+        return $this->commandRepository->create($request->only(
             'name',
             'user',
             'project_id',
             'script',
             'step',
-            'optional'
-        );
-
-        $fields['order'] = $order;
-
-        $command = Command::create($fields);
-
-        $command->servers()->attach($request->servers);
-
-        $command->servers; // Triggers the loading
-
-        return $command;
+            'optional',
+            'servers'
+        ));
     }
 
     /**
      * Update the specified command in storage.
      *
-     * @param Command $command
-     * @param StoreCommandRequest $request
+     * @param  int                 $command_id
+     * @param  StoreCommandRequest $request
      * @return Response
      */
-    public function update(Command $command, StoreCommandRequest $request)
+    public function update($command_id, StoreCommandRequest $request)
     {
-        $command->update($request->only(
+        return $this->commandRepository->updateById($request->only(
             'name',
             'user',
             'script',
-            'optional'
-        ));
-
-        $command->save();
-
-        $command->servers()->sync($request->servers);
-
-        $command->servers; // Triggers the loading
-
-        return $command;
+            'optional',
+            'servers'
+        ), $command_id);
     }
 
     /**
      * Remove the specified command from storage.
      *
-     * @param Command $command
+     * @param  int      $command_id
      * @return Response
      */
-    public function destroy(Command $command)
+    public function destroy($command_id)
     {
-        $command->delete();
+        $this->commandRepository->deleteById($command_id);
 
         return [
             'success' => true,
@@ -145,11 +142,9 @@ class CommandController extends ResourceController
         $order = 0;
 
         foreach (Input::get('commands') as $command_id) {
-            $command = Command::findOrFail($command_id);
-
-            $command->order = $order;
-
-            $command->save();
+            $this->commandRepository->updateById([
+                'order' => $order,
+            ], $command_id);
 
             $order++;
         }

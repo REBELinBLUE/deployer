@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Requests\StoreProjectRequest;
-use App\Jobs\SetupProject;
-use App\Project;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\Repositories\Contracts\TemplateRepositoryInterface;
 use Lang;
@@ -17,18 +14,34 @@ use Lang;
 class ProjectController extends Controller
 {
     /**
+     * The project repository.
+     *
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  ProjectRepositoryInterface $projectRepository
+     * @return void
+     */
+    public function __construct(ProjectRepositoryInterface $projectRepository)
+    {
+        $this->projectRepository = $projectRepository;
+    }
+
+    /**
      * Shows all projects.
      *
-     * @param ProjectRepositoryInterface $projectRepository
+     * @param  TemplateRepositoryInterface $templateRepository
      * @return Response
      */
-    public function index(
-        ProjectRepositoryInterface $projectRepository,
-        TemplateRepositoryInterface $templateRepository
-    ) {
-        $projects = $projectRepository->getAll();
+    public function index(TemplateRepositoryInterface $templateRepository)
+    {
+        $projects = $this->projectRepository->getAll();
 
-        return view('projects.listing', [
+        return view('admin.projects.listing', [
             'title'     => Lang::get('projects.manage'),
             'templates' => $templateRepository->getAll(),
             'projects'  => $projects->toJson(), // Because PresentableInterface toJson() is not working in the view
@@ -38,41 +51,33 @@ class ProjectController extends Controller
     /**
      * Store a newly created project in storage.
      *
-     * @param StoreProjectRequest $request
+     * @param  StoreProjectRequest $request
      * @return Response
      */
     public function store(StoreProjectRequest $request)
     {
-        $project = Project::create($request->only(
+        return $this->projectRepository->create($request->only(
             'name',
             'repository',
             'branch',
             'group_id',
             'builds_to_keep',
             'url',
-            'build_url'
+            'build_url',
+            'template_id'
         ));
-
-        if ($request->has('template_id')) {
-            $this->dispatch(new SetupProject(
-                $project,
-                $request->template_id
-            ));
-        }
-
-        return $project;
     }
 
     /**
      * Update the specified project in storage.
      *
-     * @param Project $project
-     * @param StoreProjectRequest $request
+     * @param  int                 $project_id
+     * @param  StoreProjectRequest $request
      * @return Response
      */
-    public function update(Project $project, StoreProjectRequest $request)
+    public function update($project_id, StoreProjectRequest $request)
     {
-        $project->update($request->only(
+        return $this->projectRepository->updateById($request->only(
             'name',
             'repository',
             'branch',
@@ -80,20 +85,18 @@ class ProjectController extends Controller
             'builds_to_keep',
             'url',
             'build_url'
-        ));
-
-        return $project;
+        ), $project_id);
     }
 
     /**
      * Remove the specified project from storage.
      *
-     * @param Project $project
+     * @param  int      $project_id
      * @return Response
      */
-    public function destroy(Project $project)
+    public function destroy($project_id)
     {
-        $project->delete();
+        $this->projectRepository->deleteById($project_id);
 
         return [
             'success' => true,

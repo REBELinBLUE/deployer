@@ -23,7 +23,7 @@ class Server extends Model
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot', 'project'];
 
     /**
      * The attributes that are mass assignable.
@@ -67,7 +67,7 @@ class Server extends Model
      * Define a mutator for the user, if it has changed or has
      * not previously been set also set the status to untested.
      *
-     * @param string $value
+     * @param  string $value
      * @return void
      */
     public function setUserAttribute($value)
@@ -83,7 +83,7 @@ class Server extends Model
      * Define a mutator for the IP Address, if it has changed or
      * has not previously been set also set the status to untested.
      *
-     * @param string $value
+     * @param  string $value
      * @return void
      */
     public function setIpAddressAttribute($value)
@@ -99,12 +99,12 @@ class Server extends Model
      * Define a mutator for the port, if it has changed or
      * has not previously been set also set the status to untested.
      *
-     * @param string $value
+     * @param  string $value
      * @return void
      */
     public function setPortAttribute($value)
     {
-        if (!array_key_exists('port', $this->attributes) || $value !== $this->attributes['port']) {
+        if (!array_key_exists('port', $this->attributes) || (int) $value !== (int) $this->attributes['port']) {
             $this->attributes['status'] = self::UNTESTED;
         }
 

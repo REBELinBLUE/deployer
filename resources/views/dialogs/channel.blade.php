@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <label for="notification_webhook">{{ Lang::get('notifications.webhook') }}</label>
-                        <input type="text" class="form-control" id="notification_webhook" name="webhook" placeholder="http://slack.com" />
+                        <input type="text" class="form-control" id="notification_webhook" name="webhook" placeholder="https://hooks.slack.com/services/" />
                     </div>
                     <div class="form-group">
                         <label>{{ Lang::get('notifications.failure_only') }}</label>

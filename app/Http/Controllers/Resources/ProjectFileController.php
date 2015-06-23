@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Http\Requests\StoreProjectFileRequest;
-use App\ProjectFile;
+use App\Repositories\Contracts\ProjectFileRepositoryInterface;
 
 /**
  * Manage the project global file like some environment files.
@@ -11,13 +11,31 @@ use App\ProjectFile;
 class ProjectFileController extends ResourceController
 {
     /**
+     * The project file repository.
+     *
+     * @var ProjectFileRepositoryInterface
+     */
+    private $projectFileRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  ProjectFileRepositoryInterface $projectFileRepository
+     * @return void
+     */
+    public function __construct(ProjectFileRepositoryInterface $projectFileRepository)
+    {
+        $this->projectFileRepository = $projectFileRepository;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
     public function store(StoreProjectFileRequest $request)
     {
-        return ProjectFile::create($request->only(
+        return $this->projectFileRepository->create($request->only(
             'name',
             'path',
             'content',
@@ -28,29 +46,27 @@ class ProjectFileController extends ResourceController
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int      $file_id
      * @return Response
      */
-    public function update(ProjectFile $file, StoreProjectFileRequest $request)
+    public function update($file_id, StoreProjectFileRequest $request)
     {
-        $file->update($request->only(
+        return $this->projectFileRepository->updateById($request->only(
             'name',
             'path',
             'content'
-        ));
-
-        return $file;
+        ), $file_id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int      $file_id
      * @return Response
      */
-    public function destroy(ProjectFile $file)
+    public function destroy($file_id)
     {
-        $file->delete();
+        $this->projectFileRepository->deleteById($file_id);
 
         return [
             'success' => true,

@@ -51,7 +51,7 @@ class Template extends Model implements PresentableInterface
     /**
      * Query scope to only show templates.
      *
-     * @param object $query
+     * @param  object $query
      * @return object
      */
     public function scopeTemplates($query)

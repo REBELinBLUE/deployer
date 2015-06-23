@@ -30,7 +30,7 @@ class Notify extends Event implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  DeployFinished  $event
+     * @param  DeployFinished $event
      * @return void
      */
     public function handle(DeployFinished $event)

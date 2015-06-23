@@ -22,34 +22,23 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Define your route model bindings, pattern filters, etc.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
      * @return void
      */
     public function boot(Router $router)
     {
-        parent::boot($router);
-
         $router->pattern('id', '[0-9]+');
         $router->pattern('step', '(clone|install|activate|purge)');
 
-        $router->model('commands', 'App\Command');
-        $router->model('deployments', 'App\Deployment');
-        $router->model('notifications', 'App\Notification');
-        $router->model('heartbeats', 'App\Heartbeat');
-        $router->model('projects', 'App\Project');
-        $router->model('servers', 'App\Server');
         $router->model('log', 'App\ServerLog');
-        $router->model('users', 'App\User');
-        $router->model('shared-files', 'App\SharedFile');
-        $router->model('project-file', 'App\ProjectFile');
-        $router->model('notify-email', 'App\NotifyEmail');
-        $router->model('check-url', 'App\CheckUrl');
+
+        parent::boot($router);
     }
 
     /**
      * Define the routes for the application.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
      * @return void
      */
     public function map(Router $router)

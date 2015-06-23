@@ -33,7 +33,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
     /**
      * Create a new command instance.
      *
-     * @param Deployment $deployment
+     * @param  Deployment    $deployment
      * @return DeployProject
      */
     public function __construct(Deployment $deployment)
@@ -44,8 +44,8 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
     /**
      * Overwrite the queue method to push to a different queue.
      *
-     * @param Queue $queue
-     * @param DeployProject $command
+     * @param  Queue         $queue
+     * @param  DeployProject $command
      * @return void
      */
     public function queue(Queue $queue, $command)
@@ -115,11 +115,11 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
      * the deployment model.
      *
      * @return void
-     * TODO: Change this to use the Gitlab API
-     * FIXME: Handle the failure as it is unclear what went wrong
      */
     private function updateRepoInfo()
     {
+        // TODO: Change this to use the Gitlab API
+        // FIXME: Handle the failure as it is unclear what went wrong
         $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
         file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
 
@@ -173,10 +173,10 @@ CMD;
      * Removed left over artifacts from a failed deploy on each server.
      *
      * @return void
-     * TODO: Clean this up as there is some duplication with getScript()
      */
     private function cleanupDeployment()
     {
+        // TODO: Clean this up as there is some duplication with getScript()
         $project = $this->deployment->project;
 
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
@@ -233,7 +233,7 @@ CMD;
     /**
      * Executes the commands for a step.
      *
-     * @param DeployStep $step
+     * @param  DeployStep        $step
      * @throws \RuntimeException
      * @return void
      */
@@ -297,8 +297,8 @@ CMD;
     /**
      * Generates the actual bash commands to run on the server.
      *
-     * @param DeployStep $step
-     * @param Server     $server
+     * @param  DeployStep $step
+     * @param  Server     $server
      * @return string
      */
     private function getScript(DeployStep $step, Server $server)
@@ -417,7 +417,7 @@ CMD;
     /**
      * Generates an error string to log to the DB.
      *
-     * @param string $message
+     * @param  string $message
      * @return string
      */
     private function logError($message)
@@ -428,7 +428,7 @@ CMD;
     /**
      * Generates an general output string to log to the DB.
      *
-     * @param string $message
+     * @param  string $message
      * @return string
      */
     private function logSuccess($message)
@@ -439,9 +439,9 @@ CMD;
     /**
      * Generates the SSH command for running the script on a server.
      *
-     * @param Server $server
-     * @param string $script The script to run
-     * @param string $user
+     * @param  Server $server
+     * @param  string $script The script to run
+     * @param  string $user
      * @return string
      */
     private function sshCommand(Server $server, $script, $user = null)
@@ -466,7 +466,7 @@ EOF';
     /**
      * Generates the content of a git bash script.
      *
-     * @param string $key_file_path The path to the public key to use
+     * @param  string $key_file_path The path to the public key to use
      * @return string
      */
     private function gitWrapperScript($key_file_path)
@@ -485,9 +485,9 @@ OUT;
     /**
      * Sends a file to a remote server.
      *
-     * @param string $local_file
-     * @param string $remote_file
-     * @param Server $server
+     * @param  string           $local_file
+     * @param  string           $remote_file
+     * @param  Server           $server
      * @throws RuntimeException
      * @return void
      */
@@ -518,7 +518,7 @@ OUT;
     /**
      * Prepares a server for code deployment by adding the files which are required.
      *
-     * @param Server $server
+     * @param  Server $server
      * @return void
      */
     private function prepareServer(Server $server)

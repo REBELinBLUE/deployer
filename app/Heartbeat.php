@@ -153,7 +153,7 @@ class Heartbeat extends Model
                     'fields'   => [
                         [
                             'title' => Lang::get('notifications.project'),
-                            'value' => sprintf('<%s|%s>', url('project', $this->project_id), $this->project->name),
+                            'value' => sprintf('<%s|%s>', url('projects', $this->project_id), $this->project->name),
                             'short' => true,
                         ], [
                             'title' => Lang::get('heartbeats.last_check_in'),

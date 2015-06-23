@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    @include('dialogs.project')
+    @include('admin.dialogs.project')
 
     <script type="text/template" id="project-template">
         <td><%- name %></td>

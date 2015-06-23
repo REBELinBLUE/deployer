@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Http\Requests\StoreNotificationRequest;
-use App\Notification;
+use App\Repositories\Contracts\NotificationRepositoryInterface;
 
 /**
  * Controller for managing notifications.
@@ -11,14 +11,32 @@ use App\Notification;
 class NotificationController extends ResourceController
 {
     /**
+     * The notification repository.
+     *
+     * @var NotificationRepositoryInterface
+     */
+    private $notificationRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  NotificationRepositoryInterface $notificationRepository
+     * @return void
+     */
+    public function __construct(NotificationRepositoryInterface $notificationRepository)
+    {
+        $this->notificationRepository = $notificationRepository;
+    }
+
+    /**
      * Store a newly created notification in storage.
      *
-     * @param StoreNotificationRequest $request
+     * @param  StoreNotificationRequest $request
      * @return Response
      */
     public function store(StoreNotificationRequest $request)
     {
-        return Notification::create($request->only(
+        return $this->notificationRepository->create($request->only(
             'name',
             'channel',
             'webhook',
@@ -31,32 +49,30 @@ class NotificationController extends ResourceController
     /**
      * Update the specified notification in storage.
      *
-     * @param Notification $notification
-     * @param StoreNotificationRequest $request
+     * @param  int                      $notification_id
+     * @param  StoreNotificationRequest $request
      * @return Response
      */
-    public function update(Notification $notification, StoreNotificationRequest $request)
+    public function update($notification_id, StoreNotificationRequest $request)
     {
-        $notification->update($request->only(
+        return $this->notificationRepository->updateById($request->only(
             'name',
             'channel',
             'webhook',
             'icon',
             'failure_only'
-        ));
-
-        return $notification;
+        ), $notification_id);
     }
 
     /**
      * Remove the specified notification from storage.
      *
-     * @param Notification $notification
+     * @param  int      $notification_id
      * @return Response
      */
-    public function destroy(Notification $notification)
+    public function destroy($notification_id)
     {
-        $notification->delete();
+        $this->notificationRepository->deleteById($notification_id);
 
         return [
             'success' => true,

@@ -33,7 +33,7 @@ $fixers = [
     'phpdoc_indent',
     'phpdoc_no_access',
     'phpdoc_no_package',
-    '-phpdoc_params', // Put this back when TODOs have been removed
+    'phpdoc_params',
     'phpdoc_scalar',
     'phpdoc_short_description',
     'phpdoc_to_comment',

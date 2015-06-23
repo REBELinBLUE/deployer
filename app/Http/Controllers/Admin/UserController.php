@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\UserWasCreated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Requests\StoreUserRequest;
-use App\User;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use Lang;
 
 /**
@@ -15,79 +13,76 @@ use Lang;
 class UserController extends Controller
 {
     /**
+     * The user repository.
+     *
+     * @var UserRepositoryInterface
+     */
+    private $userRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  UserRepositoryInterface $userRepository
+     * @return void
+     */
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+    /**
      * Display a listing of the users.
      *
      * @return Response
      */
     public function index()
     {
-        return view('users.listing', [
+        return view('admin.users.listing', [
             'title' => Lang::get('users.manage'),
-            'users' => User::all(),
+            'users' => $this->userRepository->getAll(),
         ]);
     }
 
     /**
      * Store a newly created user in storage.
      *
-     * @param StoreUserRequest $request
+     * @param  StoreUserRequest $request
      * @return Response
      */
     public function store(StoreUserRequest $request)
     {
-        $fields = $request->only(
+        return $this->userRepository->create($request->only(
             'name',
-            'email'
-        );
-
-        $fields['password'] = bcrypt($request->password);
-
-        $user = User::create($fields);
-
-        event(new UserWasCreated(
-            $user,
-            $request->password
+            'email',
+            'password'
         ));
-
-        $user->created = $user->created_at->format('jS F Y g:i:s A');
-
-        return $user;
     }
 
     /**
      * Update the specified user in storage.
      *
-     * @param User $user
-     * @param StoreUserRequest $request
+     * @param  int              $user_id
+     * @param  StoreUserRequest $request
      * @return Response
      */
-    public function update(User $user, StoreUserRequest $request)
+    public function update($user_id, StoreUserRequest $request)
     {
-        $fields = $request->only(
+        return $this->userRepository->updateById($request->only(
             'name',
-            'email'
-        );
-
-        if ($request->has('password')) {
-            $fields['password'] = bcrypt($request->password);
-        }
-
-        $user->update($fields);
-
-        $user->created = $user->created_at->format('jS F Y g:i:s A');
-
-        return $user;
+            'email',
+            'password'
+        ), $user_id);
     }
 
     /**
      * Remove the specified user from storage.
      *
-     * @param User $user
+     * @param  int      $user_id
      * @return Response
      */
-    public function destroy(User $user)
+    public function destroy($user_id)
     {
-        $user->delete();
+        $this->userRepository->deleteById($user_id);
 
         return [
             'success' => true,

@@ -20,7 +20,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- FIXME: Refactor this -->
                 <tr>
                     <td>{{ Lang::get('commands.clone') }}</td>
                     <td>{{ $project->before_clone }}</td>

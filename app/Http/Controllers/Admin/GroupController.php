@@ -22,7 +22,7 @@ class GroupController extends Controller
     /**
      * Class constructor.
      *
-     * @param GroupRepositoryInterface $groupRepository
+     * @param  GroupRepositoryInterface $groupRepository
      * @return void
      */
     public function __construct(GroupRepositoryInterface $groupRepository)
@@ -33,12 +33,12 @@ class GroupController extends Controller
     /**
      * Display a listing of the groups.
      *
-     * @param GroupRepositoryInterface $groupRepository
+     * @param  GroupRepositoryInterface $groupRepository
      * @return Response
      */
     public function index()
     {
-        return view('groups.listing', [
+        return view('admin.groups.listing', [
             'title'  => Lang::get('groups.manage'),
             'groups' => $this->groupRepository->getAll(),
         ]);
@@ -47,7 +47,7 @@ class GroupController extends Controller
     /**
      * Store a newly created group in storage.
      *
-     * @param StoreGroupRequest $request
+     * @param  StoreGroupRequest $request
      * @return Response
      */
     public function store(StoreGroupRequest $request)
@@ -60,8 +60,8 @@ class GroupController extends Controller
     /**
      * Update the specified group in storage.
      *
-     * @param int $group_id
-     * @param StoreGroupRequest $request
+     * @param  int               $group_id
+     * @param  StoreGroupRequest $request
      * @return Response
      */
     public function update($group_id, StoreGroupRequest $request)

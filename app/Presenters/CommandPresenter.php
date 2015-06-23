@@ -102,7 +102,7 @@ class CommandPresenter extends Presenter
     /**
      * Gets the readable list of commands.
      *
-     * @param int $stage
+     * @param  int    $stage
      * @return string
      */
     private function commandNames($stage)

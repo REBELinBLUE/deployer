@@ -23,8 +23,8 @@ class Notify extends Job implements SelfHandling, ShouldQueue
     /**
      * Create a new command instance.
      *
-     * @param Notification $notification
-     * @param array $payload
+     * @param  Notification $notification
+     * @param  array        $payload
      * @return Notify
      */
     public function __construct(Notification $notification, array $payload)

@@ -29,7 +29,7 @@ class SendSignupEmail extends Event implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param UserWasCreated $event
+     * @param  UserWasCreated $event
      * @return void
      */
     public function handle(UserWasCreated $event)
