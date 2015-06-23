@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Jobs\RequestProjectCheckUrl;
 use App\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Lang;
 
 /**
@@ -12,7 +14,7 @@ use Lang;
  */
 class CheckUrl extends Model
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, DispatchesJobs;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +38,23 @@ class CheckUrl extends Model
     protected $casts = [
         'is_report' => 'boolean',
     ];
+
+    /**
+     * Override the boot method to bind model event listeners.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // When first creating the model generate a webhook hash
+        static::saved(function (CheckUrl $model) {
+            if ($model->isDirty('url')) {
+                $model->dispatch(new RequestProjectCheckUrl([$model]));
+            }
+        });
+    }
 
     /**
      * Belongs to relationship.

@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Contracts;
 
-interface TemplateRepositoryInterface
+interface UserRepositoryInterface
 {
     public function getAll();
-    public function getById($model_id);
     public function create(array $fields);
     public function updateById(array $fields, $model_id);
+    public function deleteById($model_id);
 }

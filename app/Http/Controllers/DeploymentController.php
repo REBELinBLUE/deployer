@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Command;
-use App\Deployment;
 use App\Http\Controllers\Controller;
-use App\Jobs\QueueDeployment;
-use App\Project;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
+use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\ServerLog;
 use Input;
 use Lang;
@@ -18,23 +16,54 @@ use Lang;
 class DeploymentController extends Controller
 {
     /**
+     * The project repository.
+     *
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
+     * The deployment repository.
+     *
+     * @var deploymentRepository
+     */
+    private $deploymentRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  ProjectRepositoryInterface    $projectRepository
+     * @param  DeploymentRepositoryInterface $projectRepository
+     * @return void
+     */
+    public function __construct(
+        ProjectRepositoryInterface $projectRepository,
+        DeploymentRepositoryInterface $deploymentRepository
+    ) {
+        $this->projectRepository    = $projectRepository;
+        $this->deploymentRepository = $deploymentRepository;
+    }
+
+    /**
      * The details of an individual project.
      *
-     * @param  Project                       $project
+     * @param  int                           $project_id
      * @param  DeploymentRepositoryInterface $deploymentRepository
      * @return View
      */
-    public function project(Project $project, DeploymentRepositoryInterface $deploymentRepository)
+    public function project($project_id)
     {
+        $project = $this->projectRepository->getById($project_id);
+
         $optional = $project->commands->filter(function (Command $command) {
             return $command->optional;
         });
 
         return view('projects.details', [
             'title'         => $project->name,
-            'deployments'   => $deploymentRepository->getLatest($project),
-            'today'         => $deploymentRepository->getTodayCount($project),
-            'last_week'     => $deploymentRepository->getLastWeekCount($project),
+            'deployments'   => $this->deploymentRepository->getLatest($project_id, $project->builds_to_keep),
+            'today'         => $this->deploymentRepository->getTodayCount($project_id),
+            'last_week'     => $this->deploymentRepository->getLastWeekCount($project_id),
             'project'       => $project,
             'servers'       => $project->servers,
             'notifications' => $project->notifications,
@@ -51,11 +80,13 @@ class DeploymentController extends Controller
     /**
      * Show the deployment details.
      *
-     * @param  Deployment $deployment
+     * @param  int      $deployment
      * @return Response
      */
-    public function show(Deployment $deployment)
+    public function show($deployment_id)
     {
+        $deployment = $this->deploymentRepository->getById($deployment_id);
+
         $output = [];
         foreach ($deployment->steps as $step) {
             foreach ($step->servers as $server) {
@@ -84,37 +115,33 @@ class DeploymentController extends Controller
     /**
      * Adds a deployment for the specified project to the queue.
      *
-     * @param  Project  $project
+     * @param  int      $project
      * @return Response
      */
-    public function deploy(Project $project)
+    public function deploy($project_id)
     {
+        $project = $this->projectRepository->getById($project_id);
+
         if ($project->servers->where('deploy_code', true)->count() === 0) {
             return redirect()->url('projects', $project->id);
         }
 
-        $deployment         = new Deployment;
-        $deployment->reason = Input::get('reason');
+        $data = [
+            'reason'     => Input::get('reason'),
+            'project_id' => $project->id,
+            'branch'     => $project->branch,
+            'optional'   => [],
+        ];
 
         if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
-            $deployment->branch = Input::get('source_' . Input::get('source'));
+            $data['branch'] = Input::get('source_' . Input::get('source'));
         }
-
-        if (empty($deployment->branch)) {
-            $deployment->branch = $project->branch;
-        }
-
-        $optional = [];
 
         if (Input::has('optional')) {
-            $optional = Input::get('optional');
+            $data['optional'] = Input::get('optional');
         }
 
-        $this->dispatch(new QueueDeployment(
-            $project,
-            $deployment,
-            $optional
-        ));
+        $deployment = $this->deploymentRepository->create($data);
 
         return redirect()->route('deployment', [
             'id' => $deployment->id,

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Deployment;
 use App\Http\Controllers\Controller;
-use App\Jobs\QueueDeployment;
-use App\Project;
+use App\Repositories\Contracts\DeploymentRepositoryInterface;
+use App\Repositories\Contracts\ProjectRepositoryInterface;
 use Input;
 
 /**
@@ -13,6 +12,35 @@ use Input;
  */
 class WebhookController extends Controller
 {
+    /**
+     * The project repository.
+     *
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
+     * The deployment repository.
+     *
+     * @var deploymentRepository
+     */
+    private $deploymentRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param  ProjectRepositoryInterface    $projectRepository
+     * @param  DeploymentRepositoryInterface $projectRepository
+     * @return void
+     */
+    public function __construct(
+        ProjectRepositoryInterface $projectRepository,
+        DeploymentRepositoryInterface $deploymentRepository
+    ) {
+        $this->projectRepository    = $projectRepository;
+        $this->deploymentRepository = $deploymentRepository;
+    }
+
     /**
      * Handles incoming requests from Gitlab or PHPCI to trigger deploy.
      *
@@ -24,22 +52,19 @@ class WebhookController extends Controller
         // TODO: Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
         // TODO: Allow optional commands to be specified in the POST data
 
-        $project = Project::where('hash', $hash)
-                          ->firstOrFail();
+        $project = $this->projectRepository->getByHash($hash);
 
         $success = false;
         if ($project->servers->where('deploy_code', true)->count() > 0) {
-            $optional = [];
 
-            $deployment         = new Deployment;
-            $deployment->reason = Input::get('reason');
-            $deployment->branch = $project->branch;
+            $data = [
+                'reason'     => Input::get('reason'),
+                'project_id' => $project->id,
+                'branch'     => $project->branch,
+                'optional'   => [],
+            ];
 
-            $this->dispatch(new QueueDeployment(
-                $project,
-                $deployment,
-                $optional
-            ));
+            $this->deploymentRepository->create($data);
 
             $success = true;
         }
@@ -52,11 +77,12 @@ class WebhookController extends Controller
     /**
      * Generates a new webhook URL.
      *
-     * @param  Project  $project
+     * @param  int  $project_id
      * @return Response
      */
-    public function refresh(Project $project)
+    public function refresh($project_id)
     {
+        $project = $this->projectRepository->getById($project_id);
         $project->generateHash();
         $project->save();
 
