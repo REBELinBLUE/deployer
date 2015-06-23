@@ -3,18 +3,14 @@
 namespace App\Repositories;
 
 use App\CheckUrl;
-use App\Jobs\RequestProjectCheckUrl;
 use App\Repositories\Contracts\CheckUrlRepositoryInterface;
 use App\Repositories\EloquentRepository;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * The notification email repository.
  */
 class EloquentCheckUrlRepository extends EloquentRepository implements CheckUrlRepositoryInterface
 {
-    use DispatchesJobs;
-
     /**
      * Class constructor.
      *
@@ -36,7 +32,7 @@ class EloquentCheckUrlRepository extends EloquentRepository implements CheckUrlR
     {
         $url = $this->model->create($fields);
 
-        $this->dispatch(new RequestProjectCheckUrl([$url])); // FIXME: Should this be a model event?
+        //$this->dispatch(new RequestProjectCheckUrl([$url])); // FIXME: Should this be a model event?
 
         return $url;
     }
@@ -57,7 +53,7 @@ class EloquentCheckUrlRepository extends EloquentRepository implements CheckUrlR
         $url->update($fields);
 
         if ($old_url !== $url->url) {
-            $this->dispatch(new RequestProjectCheckUrl([$url]));
+            //$this->dispatch(new RequestProjectCheckUrl([$url]));
         }
 
         return $url;
