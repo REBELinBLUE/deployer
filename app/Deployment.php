@@ -31,6 +31,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * @var array
      */
     protected $fillable = ['reason', 'branch', 'project_id'];
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -144,9 +145,9 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     {
         if (!isset(self::$currentDeployment[$this->project_id])) {
             self::$currentDeployment[$this->project_id] = self::where('project_id', $this->project_id)
-                ->where('status', self::COMPLETED)
-                ->orderBy('id', 'desc')
-                ->first();
+                                                              ->where('status', self::COMPLETED)
+                                                              ->orderBy('id', 'desc')
+                                                              ->first();
         }
 
         return (self::$currentDeployment[$this->project_id]->id === $this->id);
