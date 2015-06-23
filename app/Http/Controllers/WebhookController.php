@@ -49,9 +49,6 @@ class WebhookController extends Controller
      */
     public function webhook($hash)
     {
-        // TODO: Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
-        // TODO: Allow optional commands to be specified in the POST data
-
         $project = $this->projectRepository->getByHash($hash);
 
         $success = false;

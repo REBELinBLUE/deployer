@@ -118,8 +118,6 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
      */
     private function updateRepoInfo()
     {
-        // TODO: Change this to use the Gitlab API
-        // FIXME: Handle the failure as it is unclear what went wrong
         $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
         file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
 
@@ -149,6 +147,7 @@ CMD;
         unlink($wrapper);
 
         if (!$process->isSuccessful()) {
+            // FIXME: Handle the failure as it is unclear what went wrong
             throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
         }
 
