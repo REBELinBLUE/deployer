@@ -30,7 +30,7 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
      */
     public function create(array $fields)
     {
-        // Get the current highest server order
+        // Get the current highest command order
         $max = $this->model->where('project_id', $fields['project_id'])
                            ->where('step', $fields['step'])
                            ->orderBy('order', 'DESC')
@@ -55,7 +55,7 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
             $model->servers()->attach($servers);
         }
 
-        $model->servers; // Triggers the loading
+        $model->servers; // FIXME: Surely we can use append
 
         return $model;
     }
@@ -90,9 +90,9 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
 
     /**
      * Get's the commands in a specific step
-     * 
+     *
      * @param  int $project_id
-     * @param  int $step 
+     * @param  int $step
      * @return Collection
      */
     public function getForDeployStep($project_id, $step)
