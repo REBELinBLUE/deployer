@@ -175,7 +175,6 @@ CMD;
      */
     private function cleanupDeployment()
     {
-        // TODO: Clean this up as there is some duplication with getScript()
         $project = $this->deployment->project;
 
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
@@ -324,9 +323,6 @@ CMD;
             $remote_key_file     = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
-            // FIXME: This does not belong here as this function should
-            // only being returning the commands
-            // not running them!
             $this->prepareServer($server);
 
             $commands = [
@@ -369,7 +365,6 @@ CMD;
             $commands = array_merge($commands, $shareFileCommands);
 
             // Write project file to release dir before install
-
             $projectFiles = $project->projectFiles;
             foreach ($projectFiles as $file) {
                 if ($file->path) {
