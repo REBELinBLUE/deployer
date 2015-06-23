@@ -2,8 +2,6 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Project;
-
 interface DeploymentRepositoryInterface
 {
     public function getById($model_id);

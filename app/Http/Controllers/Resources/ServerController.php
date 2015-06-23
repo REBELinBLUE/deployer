@@ -117,7 +117,7 @@ class ServerController extends ResourceController
         $order = 0;
 
         foreach (Input::get('servers') as $server_id) {
-            $server = $this->serverRepository->updateById([
+            $this->serverRepository->updateById([
                 'order' => $order,
             ], $server_id);
 

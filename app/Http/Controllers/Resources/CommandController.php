@@ -142,7 +142,7 @@ class CommandController extends ResourceController
         $order = 0;
 
         foreach (Input::get('commands') as $command_id) {
-            $server = $this->commandRepository->updateById([
+            $this->commandRepository->updateById([
                 'order' => $order,
             ], $command_id);
 
