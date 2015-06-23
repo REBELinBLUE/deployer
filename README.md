@@ -24,7 +24,7 @@ Code mess can be checked with
 
 PHP Docblocks can be checked with
 
-    $ ./vendor/bin/phpdoccheck --directory="app"
+    $ ./vendor/bin/phpdoccheck --directory=app
 
 The project includes a Vagrantfile for running deployer, it uses laravel/homestead. The VM uses the domain deploy.app and the IP address 192.168.10.10 so you will need to add them to your /etc/hosts file
 
