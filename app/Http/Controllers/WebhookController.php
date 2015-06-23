@@ -64,7 +64,7 @@ class WebhookController extends Controller
                 'optional'   => [],
             ];
 
-            $deployment = $this->deploymentRepository->create($data);
+            $this->deploymentRepository->create($data);
 
             $success = true;
         }
