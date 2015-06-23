@@ -50,7 +50,6 @@ class CheckUrl extends Model
 
         // When first creating the model generate a webhook hash
         static::saved(function (CheckUrl $model) {
-
             if ($model->isDirty('url')) {
                 $model->dispatch(new RequestProjectCheckUrl([$model]));
             }
