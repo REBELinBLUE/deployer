@@ -13,21 +13,14 @@ use Input;
 class ServerController extends ResourceController
 {
     /**
-     * The group repository.
-     *
-     * @var ServerRepositoryInterface
-     */
-    private $serverRepository;
-
-    /**
      * Class constructor.
      *
-     * @param  ServerRepositoryInterface $serverRepository
+     * @param  ServerRepositoryInterface $repository
      * @return void
      */
-    public function __construct(ServerRepositoryInterface $serverRepository)
+    public function __construct(ServerRepositoryInterface $repository)
     {
-        $this->serverRepository = $serverRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -38,7 +31,7 @@ class ServerController extends ResourceController
      */
     public function store(StoreServerRequest $request)
     {
-        return $this->serverRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name',
             'user',
             'ip_address',
@@ -58,7 +51,7 @@ class ServerController extends ResourceController
      */
     public function update($server_id, StoreServerRequest $request)
     {
-        return $this->serverRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name',
             'user',
             'ip_address',
@@ -70,21 +63,6 @@ class ServerController extends ResourceController
     }
 
     /**
-     * Remove the specified server from storage.
-     *
-     * @param  int      $server
-     * @return Response
-     */
-    public function destroy($server_id)
-    {
-        $this->serverRepository->deleteById($server_id);
-
-        return [
-            'success' => true,
-        ];
-    }
-
-    /**
      * Queues a connection test for the specified server.
      *
      * @param  int      $server_id
@@ -92,7 +70,7 @@ class ServerController extends ResourceController
      */
     public function test($server_id)
     {
-        $this->serverRepository->queueForTesting($server_id);
+        $this->repository->queueForTesting($server_id);
 
         return [
             'success' => true,
@@ -109,7 +87,7 @@ class ServerController extends ResourceController
         $order = 0;
 
         foreach (Input::get('servers') as $server_id) {
-            $this->serverRepository->updateById([
+            $this->repository->updateById([
                 'order' => $order,
             ], $server_id);
 

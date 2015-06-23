@@ -15,17 +15,17 @@ class CheckUrlController extends ResourceController
      *
      * @var CheckUrlRepositoryInterface
      */
-    private $checkurlRepository;
+    protected $repository;
 
     /**
      * Class constructor.
      *
-     * @param  CheckUrlRepositoryInterface $checkurlRepository
+     * @param  CheckUrlRepositoryInterface $repository
      * @return void
      */
-    public function __construct(CheckUrlRepositoryInterface $checkurlRepository)
+    public function __construct(CheckUrlRepositoryInterface $repository)
     {
-        $this->checkurlRepository = $checkurlRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -36,7 +36,7 @@ class CheckUrlController extends ResourceController
      */
     public function store(StoreCheckUrlRequest $request)
     {
-        return $this->checkurlRepository->create($request->only(
+        return $this->repository->create($request->only(
             'title',
             'url',
             'is_report',
@@ -54,26 +54,11 @@ class CheckUrlController extends ResourceController
      */
     public function update($url_id, StoreCheckUrlRequest $request)
     {
-        return $this->checkurlRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'title',
             'url',
             'is_report',
             'period'
         ), $url_id);
-    }
-
-    /**
-     * Remove the specified URL from storage.
-     *
-     * @param  int      $url_id
-     * @return Response
-     */
-    public function destroy($url_id)
-    {
-        $this->checkurlRepository->deleteById($url_id);
-
-        return [
-            'success' => true,
-        ];
     }
 }

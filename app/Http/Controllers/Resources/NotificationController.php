@@ -11,21 +11,14 @@ use App\Repositories\Contracts\NotificationRepositoryInterface;
 class NotificationController extends ResourceController
 {
     /**
-     * The notification repository.
-     *
-     * @var NotificationRepositoryInterface
-     */
-    private $slackRepository;
-
-    /**
      * Class constructor.
      *
-     * @param  NotificationRepositoryInterface $slackRepository
+     * @param  NotificationRepositoryInterface $repository
      * @return void
      */
-    public function __construct(NotificationRepositoryInterface $slackRepository)
+    public function __construct(NotificationRepositoryInterface $repository)
     {
-        $this->slackRepository = $slackRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -36,7 +29,7 @@ class NotificationController extends ResourceController
      */
     public function store(StoreNotificationRequest $request)
     {
-        return $this->slackRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name',
             'channel',
             'webhook',
@@ -55,27 +48,12 @@ class NotificationController extends ResourceController
      */
     public function update($notification_id, StoreNotificationRequest $request)
     {
-        return $this->slackRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name',
             'channel',
             'webhook',
             'icon',
             'failure_only'
         ), $notification_id);
-    }
-
-    /**
-     * Remove the specified notification from storage.
-     *
-     * @param  int      $notification_id
-     * @return Response
-     */
-    public function destroy($notification_id)
-    {
-        $this->slackRepository->deleteById($notification_id);
-
-        return [
-            'success' => true,
-        ];
     }
 }

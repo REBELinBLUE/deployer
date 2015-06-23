@@ -11,21 +11,14 @@ use App\Repositories\Contracts\ProjectFileRepositoryInterface;
 class ProjectFileController extends ResourceController
 {
     /**
-     * The project file repository.
-     *
-     * @var ProjectFileRepositoryInterface
-     */
-    private $fileRepository;
-
-    /**
      * Class constructor.
      *
-     * @param  ProjectFileRepositoryInterface $fileRepository
+     * @param  ProjectFileRepositoryInterface $repository
      * @return void
      */
-    public function __construct(ProjectFileRepositoryInterface $fileRepository)
+    public function __construct(ProjectFileRepositoryInterface $repository)
     {
-        $this->fileRepository = $fileRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -35,7 +28,7 @@ class ProjectFileController extends ResourceController
      */
     public function store(StoreProjectFileRequest $request)
     {
-        return $this->fileRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name',
             'path',
             'content',
@@ -51,25 +44,10 @@ class ProjectFileController extends ResourceController
      */
     public function update($file_id, StoreProjectFileRequest $request)
     {
-        return $this->fileRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name',
             'path',
             'content'
         ), $file_id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int      $file_id
-     * @return Response
-     */
-    public function destroy($file_id)
-    {
-        $this->fileRepository->deleteById($file_id);
-
-        return [
-            'success' => true,
-        ];
     }
 }

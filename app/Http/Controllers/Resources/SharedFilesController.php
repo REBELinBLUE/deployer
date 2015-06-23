@@ -11,21 +11,14 @@ use App\Repositories\Contracts\SharedFileRepositoryInterface;
 class SharedFilesController extends ResourceController
 {
     /**
-     * The shared file repository.
-     *
-     * @var SharedFileRepositoryInterface
-     */
-    private $sharedFileRepository;
-
-    /**
      * Class constructor.
      *
-     * @param  SharedFileRepositoryInterface $sharedFileRepository
+     * @param  SharedFileRepositoryInterface $repository
      * @return void
      */
-    public function __construct(SharedFileRepositoryInterface $sharedFileRepository)
+    public function __construct(SharedFileRepositoryInterface $repository)
     {
-        $this->sharedFileRepository = $sharedFileRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -36,7 +29,7 @@ class SharedFilesController extends ResourceController
      */
     public function store(StoreSharedFileRequest $request)
     {
-        return $this->sharedFileRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name',
             'file',
             'project_id'
@@ -52,24 +45,9 @@ class SharedFilesController extends ResourceController
      */
     public function update($file_id, StoreSharedFileRequest $request)
     {
-        return $this->sharedFileRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name',
             'file'
         ), $file_id);
-    }
-
-    /**
-     * Remove the specified file from storage.
-     *
-     * @param  int      $file_id
-     * @return Response
-     */
-    public function destroy($file_id)
-    {
-        $this->sharedFileRepository->deleteById($file_id);
-
-        return [
-            'success' => true,
-        ];
     }
 }

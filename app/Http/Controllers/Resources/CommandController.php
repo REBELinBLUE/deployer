@@ -15,13 +15,6 @@ use Lang;
 class CommandController extends ResourceController
 {
     /**
-     * The group repository.
-     *
-     * @var CommandRepositoryInterface
-     */
-    private $commandRepository;
-
-    /**
      * The project repository.
      *
      * @var ProjectRepositoryInterface
@@ -38,7 +31,7 @@ class CommandController extends ResourceController
         CommandRepositoryInterface $commandRepository,
         ProjectRepositoryInterface $projectRepository
     ) {
-        $this->commandRepository = $commandRepository;
+        $this->repository        = $commandRepository;
         $this->projectRepository = $projectRepository;
     }
 
@@ -76,7 +69,7 @@ class CommandController extends ResourceController
             'title'      => Lang::get('commands.' . strtolower($action)),
             'project'    => $project,
             'action'     => $types[$action],
-            'commands'   => $this->commandRepository->getForDeployStep($project->id, $types[$action]),
+            'commands'   => $this->repository->getForDeployStep($project->id, $types[$action]),
         ]);
     }
 
@@ -88,7 +81,7 @@ class CommandController extends ResourceController
      */
     public function store(StoreCommandRequest $request)
     {
-        return $this->commandRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name',
             'user',
             'project_id',
@@ -108,28 +101,13 @@ class CommandController extends ResourceController
      */
     public function update($command_id, StoreCommandRequest $request)
     {
-        return $this->commandRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name',
             'user',
             'script',
             'optional',
             'servers'
         ), $command_id);
-    }
-
-    /**
-     * Remove the specified command from storage.
-     *
-     * @param  int      $command_id
-     * @return Response
-     */
-    public function destroy($command_id)
-    {
-        $this->commandRepository->deleteById($command_id);
-
-        return [
-            'success' => true,
-        ];
     }
 
     /**
@@ -142,7 +120,7 @@ class CommandController extends ResourceController
         $order = 0;
 
         foreach (Input::get('commands') as $command_id) {
-            $this->commandRepository->updateById([
+            $this->repository->updateById([
                 'order' => $order,
             ], $command_id);
 

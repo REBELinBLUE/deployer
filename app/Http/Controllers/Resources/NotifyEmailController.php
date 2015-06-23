@@ -11,21 +11,14 @@ use App\Repositories\Contracts\NotifyEmailRepositoryInterface;
 class NotifyEmailController extends ResourceController
 {
     /**
-     * The email notification repository.
-     *
-     * @var NotificationEmailRepositoryInterface
-     */
-    private $emailRepository;
-
-    /**
      * Class constructor.
      *
-     * @param  NotifyEmailRepositoryInterface $emailRepository
+     * @param  NotifyEmailRepositoryInterface $repository
      * @return void
      */
-    public function __construct(NotifyEmailRepositoryInterface $emailRepository)
+    public function __construct(NotifyEmailRepositoryInterface $repository)
     {
-        $this->emailRepository = $emailRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -36,7 +29,7 @@ class NotifyEmailController extends ResourceController
      */
     public function store(StoreNotifyEmailRequest $request)
     {
-        return $this->emailRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name',
             'email',
             'project_id'
@@ -52,24 +45,9 @@ class NotifyEmailController extends ResourceController
      */
     public function update($email_id, StoreNotifyEmailRequest $request)
     {
-        return $this->emailRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name',
             'email'
         ), $email_id);
-    }
-
-    /**
-     * Remove the specified NotifyEmail from storage.
-     *
-     * @param  int      $email_id
-     * @return Response
-     */
-    public function destroy($email_id)
-    {
-        $this->emailRepository->deleteById($email_id);
-
-        return [
-            'success' => true,
-        ];
     }
 }
