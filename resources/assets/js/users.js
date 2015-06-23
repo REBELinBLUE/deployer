@@ -12,6 +12,8 @@ var app = app || {};
         $('.existing-only', modal).hide();
         $('.new-only', modal).hide();
         $('.has-error', modal).removeClass('has-error');
+        $('.label-danger', modal).remove();
+
 
         if (button.hasClass('btn-edit')) {
             title = Lang.edit;
