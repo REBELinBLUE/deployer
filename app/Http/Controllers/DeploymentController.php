@@ -34,7 +34,7 @@ class DeploymentController extends Controller
     /**
      * Class constructor.
      *
-     * @param  ProjectRepositoryInterface    $deploymentRepository
+     * @param  ProjectRepositoryInterface    $projectRepository
      * @param  DeploymentRepositoryInterface $projectRepository
      * @return void
      */

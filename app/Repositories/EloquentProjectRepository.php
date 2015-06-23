@@ -64,4 +64,15 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
 
         return $project;
     }
+
+    /**
+     * Gets a project by it's hash.
+     *
+     * @param  string    $hash
+     * @return Heartbeat
+     */
+    public function getByHash($hash)
+    {
+        return $this->model->where('hash', $hash)->firstOrFail();
+    }
 }
