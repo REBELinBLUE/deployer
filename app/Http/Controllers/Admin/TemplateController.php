@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Resources\ResourceController as Controller;
 use App\Http\Requests\StoreTemplateRequest;
 use App\Repositories\Contracts\TemplateRepositoryInterface;
 use Lang;
@@ -13,21 +13,14 @@ use Lang;
 class TemplateController extends Controller
 {
     /**
-     * The template repository.
-     *
-     * @var TemplateRepositoryInterface
-     */
-    private $templateRepository;
-
-    /**
      * Class constructor.
      *
-     * @param  TemplateRepositoryInterface $templateRepository
+     * @param  TemplateRepositoryInterface $repository
      * @return void
      */
-    public function __construct(TemplateRepositoryInterface $templateRepository)
+    public function __construct(TemplateRepositoryInterface $repository)
     {
-        $this->templateRepository = $templateRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -37,7 +30,7 @@ class TemplateController extends Controller
      */
     public function index()
     {
-        $templates = $this->templateRepository->getAll();
+        $templates = $this->repository->getAll();
 
         return view('admin.templates.listing', [
             'title'     => Lang::get('templates.manage'),
@@ -53,7 +46,7 @@ class TemplateController extends Controller
      */
     public function show($template_id)
     {
-        $template = $this->templateRepository->getById($template_id);
+        $template = $this->repository->getById($template_id);
 
         return view('admin.templates.details', [
             'breadcrumb' => [
@@ -75,7 +68,7 @@ class TemplateController extends Controller
      */
     public function store(StoreTemplateRequest $request)
     {
-        return $this->templateRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name'
         ));
     }
@@ -89,23 +82,8 @@ class TemplateController extends Controller
      */
     public function update($template_id, StoreTemplateRequest $request)
     {
-        return $this->templateRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name'
         ), $template_id);
-    }
-
-    /**
-     * Remove the specified template from storage.
-     *
-     * @param  int      $template_id
-     * @return Response
-     */
-    public function destroy($template_id)
-    {
-        $this->templateRepository->deleteById($template_id);
-
-        return [
-            'success' => true,
-        ];
     }
 }

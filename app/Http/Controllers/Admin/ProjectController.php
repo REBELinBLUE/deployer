@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Resources\ResourceController as Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\Repositories\Contracts\TemplateRepositoryInterface;
@@ -14,21 +14,14 @@ use Lang;
 class ProjectController extends Controller
 {
     /**
-     * The project repository.
-     *
-     * @var ProjectRepositoryInterface
-     */
-    private $projectRepository;
-
-    /**
      * Class constructor.
      *
-     * @param  ProjectRepositoryInterface $projectRepository
+     * @param  ProjectRepositoryInterface $repository
      * @return void
      */
-    public function __construct(ProjectRepositoryInterface $projectRepository)
+    public function __construct(ProjectRepositoryInterface $repository)
     {
-        $this->projectRepository = $projectRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -39,7 +32,7 @@ class ProjectController extends Controller
      */
     public function index(TemplateRepositoryInterface $templateRepository)
     {
-        $projects = $this->projectRepository->getAll();
+        $projects = $this->repository->getAll();
 
         return view('admin.projects.listing', [
             'title'     => Lang::get('projects.manage'),
@@ -56,7 +49,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        return $this->projectRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name',
             'repository',
             'branch',
@@ -77,7 +70,7 @@ class ProjectController extends Controller
      */
     public function update($project_id, StoreProjectRequest $request)
     {
-        return $this->projectRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name',
             'repository',
             'branch',
@@ -86,20 +79,5 @@ class ProjectController extends Controller
             'url',
             'build_url'
         ), $project_id);
-    }
-
-    /**
-     * Remove the specified project from storage.
-     *
-     * @param  int      $project_id
-     * @return Response
-     */
-    public function destroy($project_id)
-    {
-        $this->projectRepository->deleteById($project_id);
-
-        return [
-            'success' => true,
-        ];
     }
 }

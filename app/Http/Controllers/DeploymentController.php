@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Command;
-use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\ServerLog;
