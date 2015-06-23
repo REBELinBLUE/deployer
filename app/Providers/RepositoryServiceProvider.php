@@ -27,69 +27,32 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            'App\Repositories\Contracts\DeploymentRepositoryInterface',
-            'App\Repositories\EloquentDeploymentRepository'
-        );
+        $this->bindInterface('CheckUrl');
+        $this->bindInterface('Command');
+        $this->bindInterface('Deployment');
+        $this->bindInterface('Group');
+        $this->bindInterface('Heartbeat');
+        $this->bindInterface('Notification');
+        $this->bindInterface('NotifyEmail');
+        $this->bindInterface('Project');
+        $this->bindInterface('ProjectFile');
+        $this->bindInterface('Server');
+        $this->bindInterface('SharedFile');
+        $this->bindInterface('Template');
+        $this->bindInterface('User');
+    }
 
+    /**
+     * Binds a repository interface to an eloquent repository
+     * 
+     * @param string $name
+     * @return void
+     */
+    public function bindInterface($name)
+    {
         $this->app->bind(
-            'App\Repositories\Contracts\GroupRepositoryInterface',
-            'App\Repositories\EloquentGroupRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\ProjectRepositoryInterface',
-            'App\Repositories\EloquentProjectRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\ServerRepositoryInterface',
-            'App\Repositories\EloquentServerRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\TemplateRepositoryInterface',
-            'App\Repositories\EloquentTemplateRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\UserRepositoryInterface',
-            'App\Repositories\EloquentUserRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\NotificationRepositoryInterface',
-            'App\Repositories\EloquentNotificationRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\NotifyEmailRepositoryInterface',
-            'App\Repositories\EloquentNotifyEmailRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\SharedFileRepositoryInterface',
-            'App\Repositories\EloquentSharedFileRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\ProjectFileRepositoryInterface',
-            'App\Repositories\EloquentProjectFileRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\HeartbeatRepositoryInterface',
-            'App\Repositories\EloquentHeartbeatRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\CheckUrlRepositoryInterface',
-            'App\Repositories\EloquentCheckUrlRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Contracts\CommandRepositoryInterface',
-            'App\Repositories\EloquentCommandRepository'
+            'App\\Repositories\\Contracts\\' . $name . 'RepositoryInterface',
+            'App\\Repositories\\Eloquent' . $name . 'Repository'
         );
     }
 }
