@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Command;
 use App\Deployment;
 use App\Http\Controllers\Controller;
-use App\Jobs\QueueDeployment;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\ServerLog;
@@ -128,29 +127,22 @@ class DeploymentController extends Controller
             return redirect()->url('projects', $project->id);
         }
 
-        // FIXME: Change to use repo
-        $deployment         = new Deployment;
-        $deployment->reason = Input::get('reason');
+        $data = [
+            'reason'     => Input::get('reason'),
+            'project_id' => $project->id,
+            'branch'     => $project->branch,
+            'optional'   => [],
+        ];
 
         if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
-            $deployment->branch = Input::get('source_' . Input::get('source'));
+            $data['branch'] = Input::get('source_' . Input::get('source'));
         }
-
-        if (empty($deployment->branch)) {
-            $deployment->branch = $project->branch;
-        }
-
-        $optional = [];
 
         if (Input::has('optional')) {
-            $optional = Input::get('optional');
+            $data['optional'] = Input::get('optional');
         }
 
-        $this->dispatch(new QueueDeployment(
-            $project,
-            $deployment,
-            $optional
-        ));
+        $deployment = $this->deploymentRepository->create($data);
 
         return redirect()->route('deployment', [
             'id' => $deployment->id,

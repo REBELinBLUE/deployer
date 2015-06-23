@@ -3,15 +3,19 @@
 namespace App\Repositories;
 
 use App\Deployment;
+use App\Jobs\QueueDeployment;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\EloquentRepository;
 use Carbon\Carbon;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * The deployment repository.
  */
 class EloquentDeploymentRepository extends EloquentRepository implements DeploymentRepositoryInterface
 {
+    use DispatchesJobs;
+
     /**
      * Class constructor.
      *
@@ -21,6 +25,31 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     public function __construct(Deployment $model)
     {
         $this->model = $model;
+    }
+
+    /**
+     * Creates a new instance of the server.
+     *
+     * @param  array $fields
+     * @return Model
+     */
+    public function create(array $fields)
+    {
+        $optional = [];
+        if (array_key_exists('optional', $fields)) {
+            $optional = $fields['optional'];
+            unset($fields['optional']);
+        }
+
+        $deployment = $this->model->create($fields);
+
+        $this->dispatch(new QueueDeployment(
+            $deployment->project,
+            $deployment,
+            $optional
+        ));
+
+        return $deployment;
     }
 
     /**

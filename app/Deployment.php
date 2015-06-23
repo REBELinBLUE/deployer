@@ -26,6 +26,12 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public static $currentDeployment = [];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['reason', 'branch', 'project_id'];
+    /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
