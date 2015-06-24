@@ -491,7 +491,9 @@ OUT;
             '-o IdentitiesOnly=yes ' .
             '-o StrictHostKeyChecking=no ' .
             '-o PasswordAuthentication=no ' .
+            '-P %s ' .
             '-i %s %s %s@%s:%s',
+            $server->port,
             $this->private_key,
             $local_file,
             $server->user,
