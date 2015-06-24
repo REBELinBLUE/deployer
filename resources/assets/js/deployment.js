@@ -93,7 +93,7 @@ var app = app || {};
 
             app.listener.on('deployment:App\\Events\\ModelChanged', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
-                    if (data.model.is_repo_failed) {
+                    if (data.model.repo_failure) {
                         $('#repository_error').show();
                     }
                 }

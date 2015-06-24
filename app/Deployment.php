@@ -44,7 +44,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @var array
      */
-    protected $appends = ['project_name', 'deployer_name', 'commit_url', 'short_commit', 'branch_url', 'is_repo_failed'];
+    protected $appends = ['project_name', 'deployer_name', 'commit_url',
+                          'short_commit', 'branch_url', 'repo_failure',];
 
     /**
      * The fields which should be tried as Carbon instances.
@@ -304,8 +305,9 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * Checks whether the repository failed to load.
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
-    public function getIsRepoFailedAttribute()
+    public function getRepoFailureAttribute()
     {
         return ($this->commit === self::LOADING && $this->status === self::FAILED);
     }
