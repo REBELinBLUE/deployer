@@ -65,12 +65,12 @@
 
 <script type="text/javascript">
     Lang.deployments = {
-            status: {
-                completed: '{{ Lang::get('deployments.completed') }}',
-                pending: '{{ Lang::get('deployments.pending') }}',
-                deploying: '{{ Lang::get('deployments.deploying') }}',
-                failed: '{{ Lang::get('deployments.failed') }}',
-                running: '{{ Lang::get('deployments.running') }}'
-            }
-        };
+        status: {
+            completed: '{{ Lang::get('deployments.completed') }}',
+            pending: '{{ Lang::get('deployments.pending') }}',
+            deploying: '{{ Lang::get('deployments.deploying') }}',
+            failed: '{{ Lang::get('deployments.failed') }}',
+            running: '{{ Lang::get('deployments.running') }}'
+        }
+    };
 </script>

@@ -52,10 +52,10 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
         $model = $this->model->create($fields);
 
         if ($servers) {
-            $model->servers()->attach($servers);
+            $model->servers()->sync($servers);
         }
 
-        $model->servers; // FIXME: Surely we can use append
+        $model->servers; // Triggers the loading
 
         return $model;
     }

@@ -147,7 +147,6 @@ CMD;
         unlink($wrapper);
 
         if (!$process->isSuccessful()) {
-            // FIXME: Handle the failure as it is unclear what went wrong
             throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
         }
 

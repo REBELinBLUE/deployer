@@ -76,6 +76,10 @@ input[type=text].deployment-source {
     overflow-y: scroll;
 }
 
+#repository_error {
+    display: none;
+}
+
 #deploying_menu li a p,
 #deploying_menu li a h4,
 #pending_menu li a p,

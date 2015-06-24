@@ -91,6 +91,14 @@ var app = app || {};
                 }
             });
 
+            app.listener.on('deployment:App\\Events\\ModelChanged', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                    if (data.model.repo_failure) {
+                        $('#repository_error').show();
+                    }
+                }
+            });
+
         },
         addOne: function (step) {
             var view = new app.LogView({ 
