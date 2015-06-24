@@ -5,7 +5,7 @@
         <p><strong>{{ Lang::get('deployments.reason') }}</strong>: {{ $deployment->reason }}</p>
     @endif
     <div class="row">
-        <div class="col-xs-12" id="{{ $deployment->repo_failure ? '' : 'repository_error' }}">
+        <div class="col-xs-12" id="{{ $deployment->is_repo_failed ? '' : 'repository_error' }}">
             <div class="callout callout-danger">
                 <h4><i class="icon fa fa-ban"></i> {{ Lang::get('deployments.repo_failure_head') }}</h4>
                 <p>{{ Lang::get('deployments.repo_failure') }}</p>
