@@ -12,6 +12,11 @@ use Robbo\Presenter\PresentableInterface;
 class Template extends Model implements PresentableInterface
 {
     /**
+     * All templates belong in group 1.
+     */
+    const GROUP_ID = 1;
+
+    /**
      * Fields to show in the JSON presentation.
      *
      * @var array

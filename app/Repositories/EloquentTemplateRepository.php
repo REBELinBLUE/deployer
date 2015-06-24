@@ -42,7 +42,7 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
      */
     public function create(array $fields)
     {
-        $fields['group_id']    = 1; // FIXME: Horrible hack
+        $fields['group_id']    = Template::GROUP_ID;
         $fields['is_template'] = true;
 
         return parent::create($fields);

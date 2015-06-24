@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Group;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Repositories\EloquentRepository;
+use App\Template;
 
 /**
  * The group repository.
@@ -30,6 +31,7 @@ class EloquentGroupRepository extends EloquentRepository implements GroupReposit
     public function getAll()
     {
         return $this->model
+                    ->where('id', '<>', Template::GROUP_ID)
                     ->orderBy('name')
                     ->get();
     }
