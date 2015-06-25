@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Resources\ResourceController as Controller;
 use App\Http\Requests\StoreProjectRequest;
+use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\Repositories\Contracts\TemplateRepositoryInterface;
 use Lang;
@@ -28,15 +29,19 @@ class ProjectController extends Controller
      * Shows all projects.
      *
      * @param  TemplateRepositoryInterface $templateRepository
+     * @param  GroupRepositoryInterface $groupRepository
      * @return Response
      */
-    public function index(TemplateRepositoryInterface $templateRepository)
-    {
+    public function index(
+        TemplateRepositoryInterface $templateRepository
+        GroupRepositoryInterface $groupRepository
+    ) {
         $projects = $this->repository->getAll();
 
         return view('admin.projects.listing', [
             'title'     => Lang::get('projects.manage'),
             'templates' => $templateRepository->getAll(),
+            'groups'    => $groupRepository->getAll(),
             'projects'  => $projects->toJson(), // Because PresentableInterface toJson() is not working in the view
         ]);
     }
