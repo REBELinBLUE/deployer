@@ -63,14 +63,12 @@ class WebhookController extends Controller
                                     ->intersect($valid);
             }
 
-            $data = [
+            $this->deploymentRepository->create([
                 'reason'     => Input::get('reason'),
                 'project_id' => $project->id,
                 'branch'     => $project->branch,
                 'optional'   => $optional,
-            ];
-
-            $this->deploymentRepository->create($data);
+            ]);
 
             $success = true;
         }
