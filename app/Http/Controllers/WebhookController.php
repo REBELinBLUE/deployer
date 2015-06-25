@@ -29,7 +29,7 @@ class WebhookController extends Controller
      * Class constructor.
      *
      * @param  ProjectRepositoryInterface    $projectRepository
-     * @param  DeploymentRepositoryInterface $projectRepository
+     * @param  DeploymentRepositoryInterface $deploymentRepository
      * @return void
      */
     public function __construct(
