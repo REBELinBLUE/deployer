@@ -29,7 +29,7 @@ class ProjectController extends Controller
      * Shows all projects.
      *
      * @param  TemplateRepositoryInterface $templateRepository
-     * @param  GroupRepositoryInterface $groupRepository
+     * @param  GroupRepositoryInterface    $groupRepository
      * @return Response
      */
     public function index(

@@ -56,7 +56,6 @@ class WebhookController extends Controller
 
             // Check if the commands input is set, if so explode on comma and filter out any invalid commands
             if (Input::has('commands')) {
-
                 $valid = $project->commands->lists('id');
 
                 $optional = collect(explode(',', Input::get('commands')))
