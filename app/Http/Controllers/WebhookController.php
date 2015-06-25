@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use Input;
+use App\Command;
 
 /**
  * The deployment webhook controller.
@@ -52,11 +53,23 @@ class WebhookController extends Controller
 
         $success = false;
         if ($project->servers->where('deploy_code', true)->count() > 0) {
+            $optional = [];
+
+            // Check if the commands input is set, if so explode on comma and filter out any invalid commands
+            if (Input::has('commands')) {
+
+                $valid = $project->commands->lists('id');
+
+                $optional = collect(explode(',', Input::get('commands')))
+                                    ->unique()
+                                    ->intersect($valid);
+            }
+
             $data = [
                 'reason'     => Input::get('reason'),
                 'project_id' => $project->id,
                 'branch'     => $project->branch,
-                'optional'   => [],
+                'optional'   => $optional,
             ];
 
             $this->deploymentRepository->create($data);
