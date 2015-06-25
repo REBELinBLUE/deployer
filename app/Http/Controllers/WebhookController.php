@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Repositories\Contracts\DeploymentRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use Input;
-use App\Command;
 
 /**
  * The deployment webhook controller.
