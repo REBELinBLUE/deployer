@@ -33,7 +33,7 @@ class ProjectController extends Controller
      * @return Response
      */
     public function index(
-        TemplateRepositoryInterface $templateRepository
+        TemplateRepositoryInterface $templateRepository,
         GroupRepositoryInterface $groupRepository
     ) {
         $projects = $this->repository->getAll();
