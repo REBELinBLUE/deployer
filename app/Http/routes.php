@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('log/{log}', 'DeploymentController@log');
 
+    // Resource management
     Route::group(['namespace' => 'Resources'], function () {
 
         Route::post('commands/reorder', 'CommandController@reorder');
@@ -64,6 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
     });
 
+    // Administration
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         Route::resource('templates', 'TemplateController', [
@@ -83,7 +85,6 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
 
     });
-
 });
 
 // Webhooks
