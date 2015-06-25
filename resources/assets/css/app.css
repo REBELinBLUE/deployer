@@ -90,3 +90,7 @@ input[type=text].deployment-source {
 .project-status .nav-tabs-custom > .nav-tabs > li {
     margin-right: 0;
 }
+
+#show_help {
+    cursor: pointer;
+}

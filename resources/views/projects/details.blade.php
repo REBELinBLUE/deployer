@@ -99,6 +99,7 @@
     @include('dialogs.shared_files')
     @include('dialogs.project_files')
     @include('dialogs.channel')
+    @include('dialogs.webhook')
     @include('dialogs.notify_email')
     @include('dialogs.heartbeat')
     @include('dialogs.check_urls')
