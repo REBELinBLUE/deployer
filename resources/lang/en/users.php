@@ -19,5 +19,7 @@ return [
     'save'              => 'Save',
     'current_name'      => 'Current Name',
     'request_confirm'   => 'Request Confirm',
+    'avatar'            => 'Avatar',
+    'enter_email'       => 'Enter your new email',
 
 ];

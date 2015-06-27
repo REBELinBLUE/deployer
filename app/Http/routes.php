@@ -98,13 +98,15 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ProfileController@update',
     ]);
 
-    Route::get('profile/email/{token}', 'ProfileController@email');
-
     Route::post('profile/email', [
         'as'   => 'profile.request_change_email',
         'uses' => 'ProfileController@requestEmail',
     ]);
 });
+
+// Change the login email
+Route::get('profile/email/{token}', 'ProfileController@email');
+Route::post('profile/update-email', 'ProfileController@changeEmail');
 
 // Webhooks
 Route::post('deploy/{hash}', [

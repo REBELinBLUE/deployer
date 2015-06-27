@@ -5,6 +5,7 @@ use App\Events\EmailChangeRequested;
 use App\Http\Requests\StoreProfileRequest;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Auth;
+use Illuminate\Http\Request;
 use Lang;
 
 /**
@@ -65,6 +66,21 @@ class ProfileController extends Controller
     public function email($token)
     {
         return view('user.change-email', compact('token'));
+    }
+
+    /**
+     * Change the user's email
+     * @return Response
+     */
+    public function changeEmail(Request $request)
+    {
+        $user = $this->repository->findByEmailToken($request->get('token'));
+        if ($request->get('email')) {
+            $user->email       = $request->get('email');
+            $user->email_token = '';
+            $user->save();
+        }
+        return redirect()->to('/');
     }
 
     public function changeAvatar()
