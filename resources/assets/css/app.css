@@ -94,3 +94,6 @@ input[type=text].deployment-source {
 #show_help {
     cursor: pointer;
 }
+.edit-profile .form-control {
+    height: auto;
+}
