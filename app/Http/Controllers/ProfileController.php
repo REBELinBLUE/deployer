@@ -23,6 +23,10 @@ class ProfileController extends Controller
         $this->repository = $repository;
     }
 
+    /**
+     * View user profile
+     * @return Response
+     */
     public function index()
     {
         return view('user.profile', [
@@ -31,6 +35,11 @@ class ProfileController extends Controller
         ]);
     }
 
+    /**
+     * Update user's basic message
+     * @param  StoreProfileRequest $request
+     * @return Response
+     */
     public function update(StoreProfileRequest $request)
     {
         $this->repository->updateById($request->only(
@@ -40,10 +49,22 @@ class ProfileController extends Controller
         return redirect()->to('/');
     }
 
+    /**
+     * Send email to change a new email
+     * @return Response
+     */
     public function requestEmail()
     {
         event(new EmailChangeRequested(Auth::user()));
         return 'success';
+    }
+
+    /**
+     * Show the page to input the new email
+     */
+    public function email($token)
+    {
+        return view('user.change-email', compact('token'));
     }
 
     public function changeAvatar()

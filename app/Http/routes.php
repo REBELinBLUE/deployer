@@ -98,6 +98,8 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ProfileController@update',
     ]);
 
+    Route::get('profile/email/{token}', 'ProfileController@email');
+
     Route::post('profile/email', [
         'as'   => 'profile.request_change_email',
         'uses' => 'ProfileController@requestEmail',

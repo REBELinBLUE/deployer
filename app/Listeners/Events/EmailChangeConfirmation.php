@@ -9,6 +9,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Lang;
 use Mail;
 
+/**
+ * Request email change handler
+ */
 class EmailChangeConfirmation implements ShouldQueue
 {
     use InteractsWithQueue;
@@ -35,7 +38,7 @@ class EmailChangeConfirmation implements ShouldQueue
         $data = [
             'email' => $user->email,
             'name'  => $user->name,
-            'token' => 'uniqid()1321',
+            'token' => $user->requestEmailToken(),
         ];
 
         Mail::queueOn(
