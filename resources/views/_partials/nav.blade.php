@@ -66,6 +66,9 @@
                             </p>
                         </li>
                         <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="{{ url('user/profile') }}" class="btn btn-default btn-flat">{{ Lang::get('users.profile') }}</a>
+                            </div>
                             <div class="pull-right">
                                 <a href="{{ url('auth/logout') }}" class="btn btn-default btn-flat">{{ Lang::get('app.signout') }}</a>
                             </div>
