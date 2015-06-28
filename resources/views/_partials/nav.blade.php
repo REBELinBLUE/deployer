@@ -54,13 +54,13 @@
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ Gravatar::get(Auth::user()->email) }}" class="user-image" />
+                        <img src="{{ avatar(Auth::user()) }}" class="user-image" />
                         <span class="hidden-xs">{{ Auth::user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
 
                         <li class="user-header">
-                            <img src="{{ Gravatar::get(Auth::user()->email) }}" class="img-circle" />
+                            <img src="{{ avatar(Auth::user()) }}" class="img-circle" />
                             <p>
                                 {{ Auth::user()->name }}
                             </p>

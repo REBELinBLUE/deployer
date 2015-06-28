@@ -61,6 +61,10 @@
                 </div>
                 <br>
                 <div class="row">
+                    <div class="col-md-12 avatar-message">
+                        <div class="alert alert-success hide" role="alert">Success to save the avatar</div>
+                        <div class="alert alert-danger hide" role="alert">Oh snap! Failed to save the avatar.</div>
+                    </div>
                     <div class="col-md-12">
                         <button type="botton" class="btn btn-primary btn-flat" id="upload">{{ Lang::get('users.upload') }}</button>
                         <button type="botton" class="btn btn-primary btn-flat" id="save-avatar">{{ Lang::get('users.save') }}</button>

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProfileRequest;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Auth;
 use Illuminate\Http\Request;
+use Image;
 use Lang;
 
 /**
@@ -114,6 +115,25 @@ class ProfileController extends Controller
      */
     public function avatar(Request $request)
     {
-        return $request->all();
+        $path   = $request->get('path', '/upload/picture.jpg');
+        $image  = Image::make(public_path() . $path);
+        $rotate = $request->get('dataRotate');
+        if ($rotate) {
+            $image->rotate($rotate);
+        }
+        $width  = $request->get('dataWidth');
+        $height = $request->get('dataHeight');
+        $left   = $request->get('dataX');
+        $top    = $request->get('dataY');
+        $image->crop($width, $height, $left, $top);
+        $path = '/upload/' . date('Y-m-d') . '/avatar' . uniqid() . '.jpg';
+        $image->save(public_path() . $path);
+        $user         = Auth::user();
+        $user->avatar = $path;
+        $user->save();
+        return array(
+            'image'   => url($path),
+            'message' => 'Saved',
+        );
     }
 }

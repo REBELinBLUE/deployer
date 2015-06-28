@@ -22,7 +22,6 @@ var app = app || {};
             cropperData.dataHeight =Math.round(data.height);
             cropperData.dataWidth =Math.round(data.width);
             cropperData.dataRotate =Math.round(data.rotate);
-            console.log(cropperData);
         },
         built: function(){
             $('#upload-overlay').addClass('hide');
@@ -56,9 +55,14 @@ var app = app || {};
     });
     $('#save-avatar').click(function(){
         $('#upload-overlay').removeClass('hide');
+        $('.avatar-message .alert').addClass('hide');
         $.post('/profile/avatar',cropperData).success(function(resp){
-            console.log(resp);
-            $('#upload-overlay').removeClass('hide');
+            $('#upload-overlay').addClass('hide');
+            if(resp.image){
+                $('.avatar-message .alert.alert-success').removeClass('hide');
+            }else{
+                $('.avatar-message .alert.alert-danger').removeClass('hide');
+            }
         });
     });
 })(jQuery);
