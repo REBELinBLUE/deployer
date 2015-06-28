@@ -21,5 +21,6 @@ return [
     'request_confirm'   => 'Request Confirm',
     'avatar'            => 'Avatar',
     'enter_email'       => 'Enter your new email',
+    'upload'            => 'Upload',
 
 ];

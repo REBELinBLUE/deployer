@@ -83,8 +83,37 @@ class ProfileController extends Controller
         return redirect()->to('/');
     }
 
-    public function changeAvatar()
+    /**
+     * upload file
+     * @return Response
+     */
+    public function upload(Request $request)
     {
-        # code...
+        $this->validate($request, [
+            'file' => 'required|image',
+        ]);
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
+            $file            = $request->file('file');
+            $path            = '/upload/' . date('Y-m-d');
+            $destinationPath = public_path() . $path;
+            $filename        = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $filename);
+            return array(
+                'image'   => url($path . '/' . $filename),
+                'path'    => $path . '/' . $filename,
+                'message' => 'success',
+            );
+        } else {
+            return 'failed';
+        }
+    }
+
+    /**
+     * Set and crop the avatar
+     * @return Response
+     */
+    public function avatar(Request $request)
+    {
+        return $request->all();
     }
 }

@@ -102,6 +102,16 @@ Route::group(['middleware' => 'auth'], function () {
         'as'   => 'profile.request_change_email',
         'uses' => 'ProfileController@requestEmail',
     ]);
+
+    Route::post('profile/upload', [
+        'as'   => 'profile.upload_avatar',
+        'uses' => 'ProfileController@upload',
+    ]);
+
+    Route::post('profile/avatar', [
+        'as'   => 'profile.avatar',
+        'uses' => 'ProfileController@avatar',
+    ]);
 });
 
 // Change the login email

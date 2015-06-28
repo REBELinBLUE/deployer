@@ -48,7 +48,28 @@
             <div class="box-header with-border">
                 <h3 class="box-title">{{ Lang::get('users.avatar') }}</h3>
             </div>
-            <div class="box-body"></div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="avatar">
+                            <img src="{{ url('upload/picture.jpg') }}" class="img-rounded img-responsive">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="avatar-preview preview-md"></div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="botton" class="btn btn-primary btn-flat" id="upload">{{ Lang::get('users.upload') }}</button>
+                        <button type="botton" class="btn btn-primary btn-flat" id="save-avatar">{{ Lang::get('users.save') }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay" id="upload-overlay">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
         </div>
     </div>
 </div>

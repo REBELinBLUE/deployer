@@ -25,7 +25,8 @@ var paths = {
     'socketio_client' : bower_path + '/socket.io-client',
     'ionicons'        : bower_path + '/ionicons',
     'html5shiv'       : bower_path + '/html5shiv',
-    'respond'         : bower_path + '/respond'
+    'respond'         : bower_path + '/respond',
+    'cropper'         : bower_path + '/cropper',
 };
 
 elixir(function(mix) {
@@ -39,7 +40,8 @@ elixir(function(mix) {
     .styles([
         'AdminLTE.css',
         'skin-green.css',
-        'app.css'
+        'app.css',
+        '../../../' + paths.cropper + '/dist/cropper.min.css'
     ], 'public/css/app.css', 'resources/assets/css')
     .scripts([
         paths.html5shiv + '/dist/html5shiv.js',
@@ -57,7 +59,8 @@ elixir(function(mix) {
         paths.ace             + '/mode-sh.js',
         paths.ace             + '/mode-php.js',
         paths.ace             + '/mode-yaml.js',
-        paths.ace             + '/mode-ini.js'
+        paths.ace             + '/mode-ini.js',
+        paths.cropper         + '/dist/cropper.min.js'
     ], 'public/js/vendor.js', bower_path)
     .scripts([
         'app.js',
@@ -74,6 +77,7 @@ elixir(function(mix) {
         'commands.js',
         'users.js',
         'groups.js',
+        'uploader.js',
         'profile.js',
         'AdminLTE.js'
     ], 'public/js/app.js', 'resources/assets/js')
