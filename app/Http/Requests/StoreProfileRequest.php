@@ -5,6 +5,9 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use Input;
 
+/**
+ * Validate the user name and password
+ */
 class StoreProfileRequest extends Request
 {
     /**
