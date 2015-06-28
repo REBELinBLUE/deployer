@@ -35,7 +35,7 @@
             <div class="box-body">
                 <div class="form-group">
                     <button type="button" class="btn btn-danger btn-flat" id="request-change-email">{{ Lang::get('users.request_confirm') }}</button>
-                    <span class="help-block hide">A mail has been sent to you!</span>
+                    <span class="help-block hide">{{ Lang::get('users.email_sent') }}</span>
                 </div>
             </div>
             <div class="overlay hide">
@@ -62,8 +62,8 @@
                 <br>
                 <div class="row">
                     <div class="col-md-12 avatar-message">
-                        <div class="alert alert-success hide" role="alert">Success to save the avatar</div>
-                        <div class="alert alert-danger hide" role="alert">Oh snap! Failed to save the avatar.</div>
+                        <div class="alert alert-success hide" role="alert">{{ Lang::get('users.avatar_success') }}</div>
+                        <div class="alert alert-danger hide" role="alert">{{ Lang::get('users.avatar_failed') }}</div>
                     </div>
                     <div class="col-md-12">
                         <button type="botton" class="btn btn-primary btn-flat" id="upload">{{ Lang::get('users.upload') }}</button>

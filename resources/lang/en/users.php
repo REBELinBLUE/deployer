@@ -22,5 +22,8 @@ return [
     'avatar'            => 'Avatar',
     'enter_email'       => 'Enter your new email',
     'upload'            => 'Upload',
+    'email_sent'        => 'A mail has been sent to you!',
+    'avatar_success'    => 'Success to save the avatar!',
+    'avatar_failed'     => 'Oh snap! Failed to save the avatar.',
 
 ];
