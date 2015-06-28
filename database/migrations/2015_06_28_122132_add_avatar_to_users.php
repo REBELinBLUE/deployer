@@ -4,9 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Add a change email token
+ * Add avatar column
  */
-class AddChgemailTokenToUsersTable extends Migration
+class AddAvatarToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class AddChgemailTokenToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email_token')->nullable()->index();
+            $table->string('avatar')->nullable();
         });
     }
 
@@ -28,7 +28,7 @@ class AddChgemailTokenToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email_token');
+            $table->dropColumn('avatar');
         });
     }
 }
