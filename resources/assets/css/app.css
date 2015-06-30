@@ -94,3 +94,16 @@ input[type=text].deployment-source {
 #show_help {
     cursor: pointer;
 }
+.edit-profile .form-control {
+    height: auto;
+}
+.avatar-preview {
+    background-color: #f7f7f7;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+}
+.preview-md {
+    width: 200px;
+    height: 200px;
+}

@@ -63,4 +63,14 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
 
         return $user;
     }
+
+    /**
+     * Find user by the email token
+     * @param  string $token
+     * @return User
+     */
+    public function findByEmailToken($token)
+    {
+        return $this->model->where('email_token', $token)->first();
+    }
 }
