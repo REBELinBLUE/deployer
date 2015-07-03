@@ -9,7 +9,7 @@
 | It's a breeze. Simply tell Laravel the URIs it should respond to
 | and give it the controller to call when that URI is requested.
 |
-*/
+ */
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -85,7 +85,38 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
 
     });
+
+    // User profile managment
+
+    Route::get('profile/index', [
+        'as'   => 'profile.index',
+        'uses' => 'ProfileController@index',
+    ]);
+
+    Route::post('profile/update', [
+        'as'   => 'profile.update',
+        'uses' => 'ProfileController@update',
+    ]);
+
+    Route::post('profile/email', [
+        'as'   => 'profile.request_change_email',
+        'uses' => 'ProfileController@requestEmail',
+    ]);
+
+    Route::post('profile/upload', [
+        'as'   => 'profile.upload_avatar',
+        'uses' => 'ProfileController@upload',
+    ]);
+
+    Route::post('profile/avatar', [
+        'as'   => 'profile.avatar',
+        'uses' => 'ProfileController@avatar',
+    ]);
 });
+
+// Change the login email
+Route::get('profile/email/{token}', 'ProfileController@email');
+Route::post('profile/update-email', 'ProfileController@changeEmail');
 
 // Webhooks
 Route::post('deploy/{hash}', [

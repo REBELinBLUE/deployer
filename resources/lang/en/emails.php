@@ -9,6 +9,8 @@ return [
     'reset_here'       => 'Click here to reset your password',
     'login_at'         => 'You can log in using the following details at',
     'username'         => 'Username',
-    'password'         => 'Password'
+    'password'         => 'Password',
+    'confirm_email'    => 'Confirm to change your account login id',
+    'request_email'    => ':username, You are going to change the email to login the app',
 
 ];
