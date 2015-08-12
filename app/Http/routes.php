@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'minify']], function () {
 
     Route::get('/', 'DashboardController@index');
     Route::get('/timeline', 'DashboardController@timeline');

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b6a7cb3d0082d23b08e572ef31f79f4f",
+    "hash": "f828582500690e3f84f012e212b6b140",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -871,16 +871,16 @@
         },
         {
             "name": "graham-campbell/htmlmin",
-            "version": "v3.1.0",
+            "version": "v4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-HTMLMin.git",
-                "reference": "5804d4a4c60f6caa4bfd8a00e3030a4832d26f88"
+                "reference": "f6d67c77f2380c9de428b501f75da8233b4bee25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/5804d4a4c60f6caa4bfd8a00e3030a4832d26f88",
-                "reference": "5804d4a4c60f6caa4bfd8a00e3030a4832d26f88",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/f6d67c77f2380c9de428b501f75da8233b4bee25",
+                "reference": "f6d67c77f2380c9de428b501f75da8233b4bee25",
                 "shasum": ""
             },
             "require": {
@@ -894,12 +894,14 @@
                 "php": ">=5.5.9"
             },
             "require-dev": {
-                "graham-campbell/testbench": "~2.1"
+                "graham-campbell/testbench": "~3.0",
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^4.7.6"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -914,7 +916,7 @@
             "authors": [
                 {
                     "name": "Graham Campbell",
-                    "email": "graham@mineuk.com"
+                    "email": "graham@alt-three.com"
                 }
             ],
             "description": "HTMLMin Is A Simple HTML Minifier For Laravel 5",
@@ -930,7 +932,7 @@
                 "laravel",
                 "minifier"
             ],
-            "time": "2015-05-20 22:49:46"
+            "time": "2015-08-03 13:40:32"
         },
         {
             "name": "jakub-onderka/php-console-color",
