@@ -92,7 +92,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * upload file
+     * Upload file
      * @return Response
      */
     public function upload(Request $request)
@@ -119,6 +119,10 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * Reset the user's avatar to gravatar
+     * @return Response
+     */
     public function gravatar()
     {
         $user = Auth::user();
@@ -127,7 +131,7 @@ class ProfileController extends Controller
 
         return array(
             'image'   => avatar($user),
-            'message' => 'Saved',
+            'success' => true
         );
     }
 
@@ -161,7 +165,7 @@ class ProfileController extends Controller
 
         return array(
             'image'   => url($path),
-            'message' => 'Saved',
+            'success' => true
         );
     }
 }
