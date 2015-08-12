@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Events\EmailChangeRequested;
@@ -26,7 +27,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * View user profile
+     * View user profile.
      * @return Response
      */
     public function index()
@@ -38,7 +39,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update user's basic message
+     * Update user's basic message.
      * @param  StoreProfileRequest $request
      * @return Response
      */
@@ -53,7 +54,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Send email to change a new email
+     * Send email to change a new email.
      * @return Response
      */
     public function requestEmail()
@@ -64,17 +65,17 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show the page to input the new email
+     * Show the page to input the new email.
      */
     public function email($token)
     {
         return view('user.change-email', [
-            'token' => $token
+            'token' => $token,
         ]);
     }
 
     /**
-     * Change the user's email
+     * Change the user's email.
      * @return Response
      */
     public function changeEmail(Request $request)
@@ -92,7 +93,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Upload file
+     * Upload file.
      * @return Response
      */
     public function upload(Request $request)
@@ -109,34 +110,34 @@ class ProfileController extends Controller
 
             $file->move($destinationPath, $filename);
 
-            return array(
+            return [
                 'image'   => url($path . '/' . $filename),
                 'path'    => $path . '/' . $filename,
                 'message' => 'success',
-            );
+            ];
         } else {
             return 'failed';
         }
     }
 
     /**
-     * Reset the user's avatar to gravatar
+     * Reset the user's avatar to gravatar.
      * @return Response
      */
     public function gravatar()
     {
-        $user = Auth::user();
+        $user         = Auth::user();
         $user->avatar = null;
         $user->save();
 
-        return array(
+        return [
             'image'   => avatar($user),
-            'success' => true
-        );
+            'success' => true,
+        ];
     }
 
     /**
-     * Set and crop the avatar
+     * Set and crop the avatar.
      * @return Response
      */
     public function avatar(Request $request)
@@ -159,13 +160,13 @@ class ProfileController extends Controller
 
         $image->save(public_path() . $path);
 
-        $user = Auth::user();
+        $user         = Auth::user();
         $user->avatar = $path;
         $user->save();
 
-        return array(
+        return [
             'image'   => url($path),
-            'success' => true
-        );
+            'success' => true,
+        ];
     }
 }

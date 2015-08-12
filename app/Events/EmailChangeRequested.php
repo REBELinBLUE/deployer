@@ -7,7 +7,7 @@ use App\User;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Event for user request to change the login email
+ * Event for user request to change the login email.
  */
 class EmailChangeRequested extends Event
 {

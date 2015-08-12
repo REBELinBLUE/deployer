@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Add avatar column
+ * Add avatar column.
  */
 class AddAvatarToUsers extends Migration
 {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Add a change email token
+ * Add a change email token.
  */
 class AddChgemailTokenToUsersTable extends Migration
 {

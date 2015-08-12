@@ -10,7 +10,7 @@ use Lang;
 use Mail;
 
 /**
- * Request email change handler
+ * Request email change handler.
  */
 class EmailChangeConfirmation implements ShouldQueue
 {
@@ -28,7 +28,7 @@ class EmailChangeConfirmation implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  EmailChangeRequested  $event
+     * @param  EmailChangeRequested $event
      * @return void
      */
     public function handle(EmailChangeRequested $event)

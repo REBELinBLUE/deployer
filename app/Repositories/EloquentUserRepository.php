@@ -65,7 +65,7 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * Find user by the email token
+     * Find user by the email token.
      * @param  string $token
      * @return User
      */

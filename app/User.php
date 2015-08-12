@@ -32,13 +32,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['deleted_at', 'updated_at', 'password', 'remember_token'];
 
     /**
-     * Generate a change email token
+     * Generate a change email token.
      * @return string
      */
     public function requestEmailToken()
     {
         $this->email_token = str_random(40);
         $this->save();
+
         return $this->email_token;
     }
 }
