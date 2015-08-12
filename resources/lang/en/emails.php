@@ -10,7 +10,8 @@ return [
     'login_at'         => 'You can log in using the following details at',
     'username'         => 'Username',
     'password'         => 'Password',
-    'confirm_email'    => 'Confirm to change your account login id',
-    'request_email'    => ':username, You are going to change the email to login the app',
+    'confirm_email'    => 'Your Login Reset Link',
+    'login_reset'      => 'Login Reset',
+    'request_email'    => ':username, please use the following link to change the email address you use to login',
 
 ];
