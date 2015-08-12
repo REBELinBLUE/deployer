@@ -46,8 +46,8 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         //'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'minify' => \GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware::class
+        'guest'  => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'minify' => \GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware::class,
     ];
 
     /**

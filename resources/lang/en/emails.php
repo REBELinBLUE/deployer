@@ -9,6 +9,9 @@ return [
     'reset_here'       => 'Click here to reset your password',
     'login_at'         => 'You can log in using the following details at',
     'username'         => 'Username',
-    'password'         => 'Password'
+    'password'         => 'Password',
+    'confirm_email'    => 'Your Login Reset Link',
+    'login_reset'      => 'Login Reset',
+    'request_email'    => ':username, please use the following link to change the email address you use to login',
 
 ];
