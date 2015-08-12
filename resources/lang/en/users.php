@@ -21,9 +21,10 @@ return [
     'request_confirm'   => 'Request Change',
     'avatar'            => 'Avatar',
     'enter_email'       => 'Enter your new email',
-    'upload'            => 'Upload',
+    'upload'            => 'Upload new image',
+    'reset_gravatar'    => 'Use Gravatar',
     'email_sent'        => 'Please check your email, you have been sent a link to change your email address',
-    'avatar_success'    => 'Success to save the avatar!',
-    'avatar_failed'     => 'Oh snap! Failed to save the avatar.',
+    'avatar_success'    => 'Your avatar has been saved successfully!',
+    'avatar_failed'     => 'Your avatar could not be saved',
 
 ];

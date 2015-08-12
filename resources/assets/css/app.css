@@ -103,7 +103,11 @@ input[type=text].deployment-source {
     width: 100%;
     text-align: center;
 }
-.preview-md {
-    width: 200px;
-    height: 200px;
+.preview-md,
+.current-avatar-preview {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 15px;
+
+  border-radius: 50%;
 }

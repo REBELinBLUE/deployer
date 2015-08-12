@@ -50,24 +50,33 @@
             </div>
             <div class="box-body">
                 <div class="row">
+
+                    <div class="col-md-12 avatar-message">
+                        <div class="alert alert-success hide" role="alert">{{ Lang::get('users.avatar_success') }}</div>
+                        <div class="alert alert-danger hide" role="alert">{{ Lang::get('users.avatar_failed') }}</div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-8">
                         <div class="avatar">
                             <img src="{{ url('upload/picture.jpg') }}" class="img-rounded img-responsive">
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="avatar-preview preview-md"></div>
+                        <img src="{{ avatar(Auth::user()) }}" class="current-avatar-preview" />
+
+                        <div class="avatar-preview preview-md hide"></div>
+
+                        <div id="avatar-save-buttons">
+                            <button type="button" class="btn btn-primary btn-flat hide" id="save-avatar">{{ Lang::get('users.save') }}</button>
+                            <button type="button" class="btn btn-warning btn-flat @if(!$user->avatar) hide @endif" id="use-gravatar">{{ Lang::get('users.reset_gravatar') }}</button>
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-12 avatar-message">
-                        <div class="alert alert-success hide" role="alert">{{ Lang::get('users.avatar_success') }}</div>
-                        <div class="alert alert-danger hide" role="alert">{{ Lang::get('users.avatar_failed') }}</div>
-                    </div>
                     <div class="col-md-12">
-                        <button type="botton" class="btn btn-primary btn-flat" id="upload">{{ Lang::get('users.upload') }}</button>
-                        <button type="botton" class="btn btn-primary btn-flat" id="save-avatar">{{ Lang::get('users.save') }}</button>
+                        <button type="button" class="btn btn-primary btn-flat" id="upload">{{ Lang::get('users.upload') }}</button>
                     </div>
                 </div>
             </div>

@@ -48,6 +48,7 @@ class ProfileController extends Controller
             'name',
             'password'
         ), Auth::user()->id);
+
         return redirect()->to('/');
     }
 
@@ -58,6 +59,7 @@ class ProfileController extends Controller
     public function requestEmail()
     {
         event(new EmailChangeRequested(Auth::user()));
+
         return 'success';
     }
 
@@ -66,7 +68,9 @@ class ProfileController extends Controller
      */
     public function email($token)
     {
-        return view('user.change-email', compact('token'));
+        return view('user.change-email', [
+            'token' => $token
+        ]);
     }
 
     /**
@@ -76,11 +80,14 @@ class ProfileController extends Controller
     public function changeEmail(Request $request)
     {
         $user = $this->repository->findByEmailToken($request->get('token'));
+
         if ($request->get('email')) {
             $user->email       = $request->get('email');
             $user->email_token = '';
+
             $user->save();
         }
+
         return redirect()->to('/');
     }
 
@@ -93,12 +100,15 @@ class ProfileController extends Controller
         $this->validate($request, [
             'file' => 'required|image',
         ]);
+
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
             $file            = $request->file('file');
             $path            = '/upload/' . date('Y-m-d');
             $destinationPath = public_path() . $path;
             $filename        = uniqid() . '.' . $file->getClientOriginalExtension();
+
             $file->move($destinationPath, $filename);
+
             return array(
                 'image'   => url($path . '/' . $filename),
                 'path'    => $path . '/' . $filename,
@@ -107,6 +117,18 @@ class ProfileController extends Controller
         } else {
             return 'failed';
         }
+    }
+
+    public function gravatar()
+    {
+        $user = Auth::user();
+        $user->avatar = null;
+        $user->save();
+
+        return array(
+            'image'   => avatar($user),
+            'message' => 'Saved',
+        );
     }
 
     /**
@@ -118,19 +140,25 @@ class ProfileController extends Controller
         $path   = $request->get('path', '/upload/picture.jpg');
         $image  = Image::make(public_path() . $path);
         $rotate = $request->get('dataRotate');
+
         if ($rotate) {
             $image->rotate($rotate);
         }
+
         $width  = $request->get('dataWidth');
         $height = $request->get('dataHeight');
         $left   = $request->get('dataX');
         $top    = $request->get('dataY');
+
         $image->crop($width, $height, $left, $top);
         $path = '/upload/' . date('Y-m-d') . '/avatar' . uniqid() . '.jpg';
+
         $image->save(public_path() . $path);
-        $user         = Auth::user();
+
+        $user = Auth::user();
         $user->avatar = $path;
         $user->save();
+
         return array(
             'image'   => url($path),
             'message' => 'Saved',

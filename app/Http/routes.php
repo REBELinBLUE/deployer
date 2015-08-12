@@ -88,7 +88,7 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
 
     // User profile managment
 
-    Route::get('profile/index', [
+    Route::get('profile', [
         'as'   => 'profile.index',
         'uses' => 'ProfileController@index',
     ]);
@@ -111,6 +111,11 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
     Route::post('profile/avatar', [
         'as'   => 'profile.avatar',
         'uses' => 'ProfileController@avatar',
+    ]);
+
+    Route::post('profile/gravatar', [
+        'as'   => 'profile.gravatar',
+        'uses' => 'ProfileController@gravatar',
     ]);
 });
 
