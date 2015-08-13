@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreGroupRequest;
-use App\Repositories\Contracts\GroupRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
+use REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use Lang;
 
 /**
@@ -13,34 +13,26 @@ use Lang;
 class GroupController extends Controller
 {
     /**
-     * The group repository.
-     *
-     * @var GroupRepositoryInterface
-     */
-    private $groupRepository;
-
-    /**
      * Class constructor.
      *
-     * @param  GroupRepositoryInterface $groupRepository
+     * @param  GroupRepositoryInterface $repository
      * @return void
      */
-    public function __construct(GroupRepositoryInterface $groupRepository)
+    public function __construct(GroupRepositoryInterface $repository)
     {
-        $this->groupRepository = $groupRepository;
+        $this->repository = $repository;
     }
 
     /**
      * Display a listing of the groups.
      *
-     * @param  GroupRepositoryInterface $groupRepository
      * @return Response
      */
     public function index()
     {
         return view('admin.groups.listing', [
             'title'  => Lang::get('groups.manage'),
-            'groups' => $this->groupRepository->getAll(),
+            'groups' => $this->repository->getAll(),
         ]);
     }
 
@@ -52,7 +44,7 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        return $this->groupRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name'
         ));
     }
@@ -66,7 +58,7 @@ class GroupController extends Controller
      */
     public function update($group_id, StoreGroupRequest $request)
     {
-        return $this->groupRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name'
         ), $group_id);
     }

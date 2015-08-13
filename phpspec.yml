@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: App
-        psr4_prefix: App
+        namespace: REBELinBLUE\Deployer
+        psr4_prefix: REBELinBLUE\Deployer
         src_path: app

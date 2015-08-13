@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -43,16 +43,16 @@ class RepositoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Binds a repository interface to an eloquent repository
-     * 
-     * @param string $name
+     * Binds a repository interface to an eloquent repository.
+     *
+     * @param  string $name
      * @return void
      */
     public function bindInterface($name)
     {
         $this->app->bind(
-            'App\\Repositories\\Contracts\\' . $name . 'RepositoryInterface',
-            'App\\Repositories\\Eloquent' . $name . 'Repository'
+            'REBELinBLUE\Deployer\\Repositories\\Contracts\\' . $name . 'RepositoryInterface',
+            'REBELinBLUE\Deployer\\Repositories\\Eloquent' . $name . 'Repository'
         );
     }
 }

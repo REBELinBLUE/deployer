@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Console\Commands;
+namespace REBELinBLUE\Deployer\Console\Commands;
 
-use App\Heartbeat;
-use App\Jobs\Notify;
+use REBELinBLUE\Deployer\Heartbeat;
+use REBELinBLUE\Deployer\Jobs\Notify;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;

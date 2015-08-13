@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Contracts\RuntimeInterface;
-use App\Events\ServerLogChanged;
-use App\Presenters\ServerLogPresenter;
+use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
+use REBELinBLUE\Deployer\Events\ServerLogChanged;
+use REBELinBLUE\Deployer\Presenters\ServerLogPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
 
@@ -63,7 +63,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
      */
     public function server()
     {
-        return $this->belongsTo('App\Server');
+        return $this->belongsTo('REBELinBLUE\Deployer\Server');
     }
 
     /**

@@ -3,7 +3,7 @@
 /*
  * This file is part of Laravel HTMLMin.
  *
- * (c) Graham Campbell <graham@mineuk.com>
+ * (c) Graham Campbell <graham@alt-three.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,7 +16,7 @@ return [
     | Automatic Blade Optimizations
     |--------------------------------------------------------------------------
     |
-    | This option enables minification of the the blade views as they are
+    | This option enables minification of the blade views as they are
     | compiled. These optimizations have little impact on php processing time
     | as the optimizations are only applied once and are cached. This package
     | will do nothing by default to allow it to be used without minifying
@@ -45,22 +45,5 @@ return [
     */
 
     'force' => false,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Automatic Live Optimizations
-    |--------------------------------------------------------------------------
-    |
-    | This option enables minification of the html responses just before they
-    | are served. These optimizations have greater impact on php processing
-    | time as the optimizations are applied on every request. This package
-    | will do nothing by default to allow it to be used without minifying
-    | pages automatically.
-    |
-    | Default: false
-    |
-    */
-
-    'live' => !env('APP_DEBUG'),
 
 ];

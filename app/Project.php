@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Presenters\ProjectPresenter;
-use App\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Robbo\Presenter\PresentableInterface;
@@ -142,7 +142,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the repository path.
      *
      * @return string|false
-     * @see \App\Project::accessDetails()
+     * @see \REBELinBLUE\Deployer\Project::accessDetails()
      */
     public function getRepositoryPathAttribute()
     {
@@ -159,7 +159,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the HTTP URL to the repository.
      *
      * @return string|false
-     * @see \App\Project::accessDetails()
+     * @see \REBELinBLUE\Deployer\Project::accessDetails()
      */
     public function getRepositoryUrlAttribute()
     {
@@ -186,7 +186,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the HTTP URL to the branch.
      *
      * @return string|false
-     * @see \App\Project::accessDetails()
+     * @see \REBELinBLUE\Deployer\Project::accessDetails()
      */
     public function getBranchUrlAttribute()
     {

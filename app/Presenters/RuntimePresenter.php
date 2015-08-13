@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Presenters;
+namespace REBELinBLUE\Deployer\Presenters;
 
-use App\Contracts\RuntimeInterface;
+use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use Lang;
 
 /**

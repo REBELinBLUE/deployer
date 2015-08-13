@@ -1,6 +1,6 @@
 <?php
 
-use App\Notification;
+use REBELinBLUE\Deployer\Notification;
 use Illuminate\Database\Seeder;
 
 class NotificationTableSeeder extends Seeder

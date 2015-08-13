@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\DeploymentRepositoryInterface;
-use App\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use Lang;
 use Response;
 

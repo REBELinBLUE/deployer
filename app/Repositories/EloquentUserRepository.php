@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Events\UserWasCreated;
-use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Repositories\EloquentRepository;
-use App\User;
+use REBELinBLUE\Deployer\Events\UserWasCreated;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\User;
 
 /**
  * The user repository.
@@ -62,5 +62,15 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
         $user->update($fields);
 
         return $user;
+    }
+
+    /**
+     * Find user by the email token.
+     * @param  string $token
+     * @return User
+     */
+    public function findByEmailToken($token)
+    {
+        return $this->model->where('email_token', $token)->first();
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Exceptions;
+namespace REBELinBLUE\Deployer\Exceptions;
 
-use Bugsnag\BugsnagLaravel\BugsnagExceptionHandler as ExceptionHandler;
 use Exception;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 /**
  * Exception handler.

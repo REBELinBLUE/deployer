@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Presenters;
+namespace REBELinBLUE\Deployer\Presenters;
 
-use App\Project;
+use REBELinBLUE\Deployer\Project;
 use Lang;
 
 /**

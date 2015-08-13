@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Events;
+namespace REBELinBLUE\Deployer\Listeners\Events;
 
 /**
  * Generic Event class.

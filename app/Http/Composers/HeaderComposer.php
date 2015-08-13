@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Composers;
+namespace REBELinBLUE\Deployer\Http\Composers;
 
-use App\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use Illuminate\Contracts\View\View;
 
 /**

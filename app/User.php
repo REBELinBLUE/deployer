@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -30,4 +30,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['deleted_at', 'updated_at', 'password', 'remember_token'];
+
+    /**
+     * Generate a change email token.
+     * @return string
+     */
+    public function requestEmailToken()
+    {
+        $this->email_token = str_random(40);
+        $this->save();
+
+        return $this->email_token;
+    }
 }

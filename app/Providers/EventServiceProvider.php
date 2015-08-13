@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -16,11 +16,14 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\UserWasCreated' => [
-            'App\Listeners\Events\SendSignupEmail',
+        'REBELinBLUE\Deployer\Events\UserWasCreated'       => [
+            'REBELinBLUE\Deployer\Listeners\Events\SendSignupEmail',
         ],
-        'App\Events\DeployFinished' => [
-            'App\Listeners\Events\Notify',
+        'REBELinBLUE\Deployer\Events\DeployFinished'       => [
+            'REBELinBLUE\Deployer\Listeners\Events\Notify',
+        ],
+        'REBELinBLUE\Deployer\Events\EmailChangeRequested' => [
+            'REBELinBLUE\Deployer\Listeners\Events\EmailChangeConfirmation',
         ],
     ];
 

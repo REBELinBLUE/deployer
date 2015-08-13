@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

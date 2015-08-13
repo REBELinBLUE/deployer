@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace REBELinBLUE\Deployer\Http\Requests;
 
-use App\Command;
-use App\Http\Requests\Request;
+use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**
  * Request for validating commands.

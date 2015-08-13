@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +17,7 @@ abstract class ProjectRelation extends Model
      */
     public function group()
     {
-        return $this->belongsTo('App\Group');
+        return $this->belongsTo('REBELinBLUE\Deployer\Group');
     }
 
     /**
@@ -27,7 +27,7 @@ abstract class ProjectRelation extends Model
      */
     public function servers()
     {
-        return $this->hasMany('App\Server')->orderBy('order', 'ASC');
+        return $this->hasMany('REBELinBLUE\Deployer\Server')->orderBy('order', 'ASC');
     }
 
     /**
@@ -37,7 +37,7 @@ abstract class ProjectRelation extends Model
      */
     public function heartbeats()
     {
-        return $this->hasMany('App\Heartbeat')->orderBy('name');
+        return $this->hasMany('REBELinBLUE\Deployer\Heartbeat')->orderBy('name');
     }
 
     /**
@@ -47,7 +47,7 @@ abstract class ProjectRelation extends Model
      */
     public function notifications()
     {
-        return $this->hasMany('App\Notification')->orderBy('name');
+        return $this->hasMany('REBELinBLUE\Deployer\Notification')->orderBy('name');
     }
 
     /**
@@ -57,7 +57,7 @@ abstract class ProjectRelation extends Model
      */
     public function deployments()
     {
-        return $this->hasMany('App\Deployment')->orderBy('started_at', 'DESC');
+        return $this->hasMany('REBELinBLUE\Deployer\Deployment')->orderBy('started_at', 'DESC');
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class ProjectRelation extends Model
      */
     public function commands()
     {
-        return $this->hasMany('App\Command')->orderBy('order', 'ASC');
+        return $this->hasMany('REBELinBLUE\Deployer\Command')->orderBy('order', 'ASC');
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class ProjectRelation extends Model
      */
     public function sharedFiles()
     {
-        return $this->hasMany('App\SharedFile');
+        return $this->hasMany('REBELinBLUE\Deployer\SharedFile');
     }
 
     /**
@@ -87,7 +87,7 @@ abstract class ProjectRelation extends Model
      */
     public function projectFiles()
     {
-        return $this->hasMany('App\ProjectFile');
+        return $this->hasMany('REBELinBLUE\Deployer\ProjectFile');
     }
 
     /**
@@ -97,7 +97,7 @@ abstract class ProjectRelation extends Model
      */
     public function notifyEmails()
     {
-        return $this->hasMany('App\NotifyEmail');
+        return $this->hasMany('REBELinBLUE\Deployer\NotifyEmail');
     }
 
     /**
@@ -107,6 +107,6 @@ abstract class ProjectRelation extends Model
      */
     public function checkUrls()
     {
-        return $this->hasMany('App\CheckUrl');
+        return $this->hasMany('REBELinBLUE\Deployer\CheckUrl');
     }
 }

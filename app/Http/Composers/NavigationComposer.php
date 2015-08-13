@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Composers;
+namespace REBELinBLUE\Deployer\Http\Composers;
 
-use App\Group;
+use REBELinBLUE\Deployer\Group;
+use REBELinBLUE\Deployer\Template;
 use Illuminate\Contracts\View\View;
 
 /**
@@ -26,8 +27,12 @@ class NavigationComposer
             $active_project = $view->project->id;
         }
 
+        $groups = Group::where('id', '<>', Template::GROUP_ID)
+                       ->orderBy('name')
+                       ->get();
+
         $view->with('active_group', $active_group);
         $view->with('active_project', $active_project);
-        $view->with('groups', Group::orderBy('name')->get());
+        $view->with('groups', $groups);
     }
 }

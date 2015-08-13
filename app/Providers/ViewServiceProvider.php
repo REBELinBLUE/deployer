@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -36,7 +36,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     private function composeNavigation()
     {
-        view()->composer('_partials.nav', 'App\Http\Composers\HeaderComposer');
-        view()->composer('_partials.sidebar', 'App\Http\Composers\NavigationComposer');
+        view()->composer('_partials.nav', 'REBELinBLUE\Deployer\Http\Composers\HeaderComposer');
+        view()->composer('_partials.sidebar', 'REBELinBLUE\Deployer\Http\Composers\NavigationComposer');
     }
 }

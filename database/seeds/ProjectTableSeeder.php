@@ -1,6 +1,6 @@
 <?php
 
-use App\Project;
+use REBELinBLUE\Deployer\Project;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -15,7 +15,7 @@ class ProjectTableSeeder extends Seeder
             'hash'        => Str::random(60),
             'repository'  => 'git@git.rebelinblue.com:laravel/deployer.git',
             'url'         => 'http://deploy.app',
-            'group_id'    => 1,
+            'group_id'    => 2,
             'private_key' => '-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAmrMjtajVvmd99T8xwUNrIFbrzSmZ6VCM89hfm4Ut9atv29gG
 l2HFPJY7VtslXDJVL67w5EUMspy82tkAX7F03iaarSsbo6nC16UTfbfNTi44Snm0

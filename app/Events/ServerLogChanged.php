@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Events;
+namespace REBELinBLUE\Deployer\Events;
 
-use App\Events\Event;
-use App\ServerLog;
+use REBELinBLUE\Deployer\Events\Event;
+use REBELinBLUE\Deployer\ServerLog;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 

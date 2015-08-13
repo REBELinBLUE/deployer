@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\DeploymentRepositoryInterface;
-use App\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use Input;
 
 /**
@@ -30,7 +29,7 @@ class WebhookController extends Controller
      * Class constructor.
      *
      * @param  ProjectRepositoryInterface    $projectRepository
-     * @param  DeploymentRepositoryInterface $projectRepository
+     * @param  DeploymentRepositoryInterface $deploymentRepository
      * @return void
      */
     public function __construct(
@@ -49,22 +48,27 @@ class WebhookController extends Controller
      */
     public function webhook($hash)
     {
-        // TODO: Check for input, make sure it is a valid gitlab hook, check repo and branch are correct
-        // TODO: Allow optional commands to be specified in the POST data
-
         $project = $this->projectRepository->getByHash($hash);
 
         $success = false;
         if ($project->servers->where('deploy_code', true)->count() > 0) {
+            $optional = [];
 
-            $data = [
+            // Check if the commands input is set, if so explode on comma and filter out any invalid commands
+            if (Input::has('commands')) {
+                $valid = $project->commands->lists('id');
+
+                $optional = collect(explode(',', Input::get('commands')))
+                                    ->unique()
+                                    ->intersect($valid);
+            }
+
+            $this->deploymentRepository->create([
                 'reason'     => Input::get('reason'),
                 'project_id' => $project->id,
                 'branch'     => $project->branch,
-                'optional'   => [],
-            ];
-
-            $this->deploymentRepository->create($data);
+                'optional'   => $optional,
+            ]);
 
             $success = true;
         }
@@ -77,7 +81,7 @@ class WebhookController extends Controller
     /**
      * Generates a new webhook URL.
      *
-     * @param  int  $project_id
+     * @param  int      $project_id
      * @return Response
      */
     public function refresh($project_id)

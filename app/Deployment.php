@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Contracts\RuntimeInterface;
-use App\Events\ModelChanged;
-use App\Presenters\DeploymentPresenter;
+use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
+use REBELinBLUE\Deployer\Events\ModelChanged;
+use REBELinBLUE\Deployer\Presenters\DeploymentPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Lang;
@@ -44,7 +44,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @var array
      */
-    protected $appends = ['project_name', 'deployer_name', 'commit_url', 'short_commit', 'branch_url'];
+    protected $appends = ['project_name', 'deployer_name', 'commit_url',
+                          'short_commit', 'branch_url', 'repo_failure',];
 
     /**
      * The fields which should be tried as Carbon instances.
@@ -83,7 +84,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function project()
     {
-        return $this->belongsTo('App\Project');
+        return $this->belongsTo('REBELinBLUE\Deployer\Project');
     }
 
     /**
@@ -93,7 +94,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('REBELinBLUE\Deployer\User');
     }
 
     /**
@@ -103,7 +104,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function steps()
     {
-        return $this->hasMany('App\DeployStep');
+        return $this->hasMany('REBELinBLUE\Deployer\DeployStep');
     }
 
     /**
@@ -202,7 +203,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * Gets the HTTP URL to the branch.
      *
      * @return string|false
-     * @see \App\Project::accessDetails()
+     * @see \REBELinBLUE\Deployer\Project::accessDetails()
      */
     public function getBranchURLAttribute()
     {
@@ -298,5 +299,16 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         }
 
         return $this->getPresenter()->committer_name;
+    }
+
+    /**
+     * Checks whether the repository failed to load.
+     *
+     * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
+     */
+    public function getRepoFailureAttribute()
+    {
+        return ($this->commit === self::LOADING && $this->status === self::FAILED);
     }
 }

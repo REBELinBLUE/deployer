@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace REBELinBLUE\Deployer\Events;
 
 /**
  * Event which fires when the server status has changed.

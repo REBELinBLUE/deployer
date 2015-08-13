@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Lang;
 

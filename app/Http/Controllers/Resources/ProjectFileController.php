@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Resources;
+namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use App\Http\Requests\StoreProjectFileRequest;
-use App\Repositories\Contracts\ProjectFileRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreProjectFileRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectFileRepositoryInterface;
 
 /**
  * Manage the project global file like some environment files.
@@ -11,21 +11,14 @@ use App\Repositories\Contracts\ProjectFileRepositoryInterface;
 class ProjectFileController extends ResourceController
 {
     /**
-     * The project file repository.
-     *
-     * @var ProjectFileRepositoryInterface
-     */
-    private $projectFileRepository;
-
-    /**
      * Class constructor.
      *
-     * @param  ProjectFileRepositoryInterface $projectFileRepository
+     * @param  ProjectFileRepositoryInterface $repository
      * @return void
      */
-    public function __construct(ProjectFileRepositoryInterface $projectFileRepository)
+    public function __construct(ProjectFileRepositoryInterface $repository)
     {
-        $this->projectFileRepository = $projectFileRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -35,7 +28,7 @@ class ProjectFileController extends ResourceController
      */
     public function store(StoreProjectFileRequest $request)
     {
-        return $this->projectFileRepository->create($request->only(
+        return $this->repository->create($request->only(
             'name',
             'path',
             'content',
@@ -51,25 +44,10 @@ class ProjectFileController extends ResourceController
      */
     public function update($file_id, StoreProjectFileRequest $request)
     {
-        return $this->projectFileRepository->updateById($request->only(
+        return $this->repository->updateById($request->only(
             'name',
             'path',
             'content'
         ), $file_id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int      $file_id
-     * @return Response
-     */
-    public function destroy($file_id)
-    {
-        $this->projectFileRepository->deleteById($file_id);
-
-        return [
-            'success' => true,
-        ];
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -41,7 +41,7 @@ class Group extends Model
      */
     public function projects()
     {
-        return $this->hasMany('App\Project')
+        return $this->hasMany('REBELinBLUE\Deployer\Project')
                     ->notTemplates()
                     ->orderBy('name');
     }

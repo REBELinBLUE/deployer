@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Presenters\CommandPresenter;
+use REBELinBLUE\Deployer\Presenters\CommandPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
 
@@ -11,6 +11,11 @@ use Robbo\Presenter\PresentableInterface;
  */
 class Template extends Model implements PresentableInterface
 {
+    /**
+     * All templates belong in group 1.
+     */
+    const GROUP_ID = 1;
+
     /**
      * Fields to show in the JSON presentation.
      *
@@ -99,7 +104,7 @@ class Template extends Model implements PresentableInterface
      */
     public function commands()
     {
-        return $this->hasMany('App\Command', 'project_id');
+        return $this->hasMany('REBELinBLUE\Deployer\Command', 'project_id');
     }
 
     /**
@@ -109,7 +114,7 @@ class Template extends Model implements PresentableInterface
      */
     public function sharedFiles()
     {
-        return $this->hasMany('App\SharedFile', 'project_id');
+        return $this->hasMany('REBELinBLUE\Deployer\SharedFile', 'project_id');
     }
 
     /**
@@ -119,7 +124,7 @@ class Template extends Model implements PresentableInterface
      */
     public function projectFiles()
     {
-        return $this->hasMany('App\ProjectFile', 'project_id');
+        return $this->hasMany('REBELinBLUE\Deployer\ProjectFile', 'project_id');
     }
 
     /**

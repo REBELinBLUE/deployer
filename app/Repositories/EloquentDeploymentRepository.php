@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Deployment;
-use App\Jobs\QueueDeployment;
-use App\Repositories\Contracts\DeploymentRepositoryInterface;
-use App\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Jobs\QueueDeployment;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 

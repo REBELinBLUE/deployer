@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Listeners\Events;
+namespace REBELinBLUE\Deployer\Listeners\Events;
 
-use App\Events\DeployFinished;
-use App\Jobs\MailDeployNotification;
-use App\Jobs\Notify as SlackNotify;
-use App\Jobs\RequestProjectCheckUrl;
+use REBELinBLUE\Deployer\Events\DeployFinished;
+use REBELinBLUE\Deployer\Jobs\MailDeployNotification;
+use REBELinBLUE\Deployer\Jobs\Notify as SlackNotify;
+use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;

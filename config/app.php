@@ -11,9 +11,9 @@ return [
     | stack traces will be shown on every error that occurs within your
     | application. If disabled, a simple generic error page is shown.
     |
-    */
+     */
 
-    'debug' => env('APP_DEBUG'),
+    'debug'           => env('APP_DEBUG'),
 
     /*
     |--------------------------------------------------------------------------
@@ -24,9 +24,9 @@ return [
     | the Artisan command line tool. You should set this to the root of
     | your application so that it is used when running Artisan tasks.
     |
-    */
+     */
 
-    'url' => env('APP_URL', 'http://deploy.app'),
+    'url'             => env('APP_URL', 'http://deploy.app'),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,9 +37,9 @@ return [
     | will be used by the PHP date and date-time functions. We have gone
     | ahead and set this to a sensible default for you out of the box.
     |
-    */
+     */
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone'        => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,9 +50,9 @@ return [
     | by the translation service provider. You are free to set this value
     | to any of the locales which will be supported by the application.
     |
-    */
+     */
 
-    'locale' => 'en',
+    'locale'          => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ return [
     | is not available. You may change the value to correspond to any of
     | the language folders that are provided through your application.
     |
-    */
+     */
 
     'fallback_locale' => 'en',
 
@@ -76,11 +76,11 @@ return [
     | to a random, 32 character string, otherwise these encrypted strings
     | will not be safe. Please do this before deploying an application!
     |
-    */
+     */
 
-    'key' => env('APP_KEY', 'cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy'),
+    'key'             => env('APP_KEY', 'cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy'),
 
-    'cipher' => MCRYPT_RIJNDAEL_128,
+    'cipher'          => MCRYPT_RIJNDAEL_128,
 
     /*
     |--------------------------------------------------------------------------
@@ -93,9 +93,9 @@ return [
     |
     | Available Settings: "single", "daily", "syslog", "errorlog"
     |
-    */
+     */
 
-    'log' => 'daily',
+    'log'             => 'daily',
 
     /*
     |--------------------------------------------------------------------------
@@ -106,9 +106,9 @@ return [
     | request to your application. Feel free to add your own services to
     | this array to grant expanded functionality to your applications.
     |
-    */
+     */
 
-    'providers' => [
+    'providers'       => [
 
         /*
          * Laravel Framework Service Providers...
@@ -144,16 +144,16 @@ return [
         GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Robbo\Presenter\PresenterServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
-        
+        Intervention\Image\ImageServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RepositoryServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\ViewServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\AppServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\RepositoryServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\RouteServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
 
     ],
 
@@ -166,9 +166,9 @@ return [
     | is started. However, feel free to register as many as you wish as
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
-    */
+     */
 
-    'aliases' => [
+    'aliases'         => [
 
         'App'       => Illuminate\Support\Facades\App::class,
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,
@@ -204,7 +204,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Gravatar'  => Creativeorange\Gravatar\Facades\Gravatar::class,
-        'Bugsnag'   => Bugsnag\BugsnagLaravel\BugsnagFacade::class,
+        'Image'     => Intervention\Image\Facades\Image::class,
 
     ],
 

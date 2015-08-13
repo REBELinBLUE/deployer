@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label for="project_group_id">{{ Lang::get('projects.group') }}</label>
                         <select id="project_group_id" name="group_id" class="form-control">
-                            @foreach(App\Group::all() as $group)
+                            @foreach($groups as $group)
                                 <option value="{{ $group->id }}">{{ $group->name }}</option>
                             @endforeach
                         </select>

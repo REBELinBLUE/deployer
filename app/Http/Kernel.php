@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http;
+namespace REBELinBLUE\Deployer\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -14,7 +14,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $customBooters = [
-        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => \App\Bootstrap\ConfigureLogging::class,
+        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class
+            => \REBELinBLUE\Deployer\Bootstrap\ConfigureLogging::class,
     ];
 
     /**
@@ -31,11 +32,11 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \App\Http\Middleware\EncryptCookies::class,
+        \REBELinBLUE\Deployer\Http\Middleware\EncryptCookies::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \App\Http\Middleware\VerifyCsrfToken::class,
+        \REBELinBLUE\Deployer\Http\Middleware\VerifyCsrfToken::class,
     ];
 
     /**
@@ -44,9 +45,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth' => \REBELinBLUE\Deployer\Http\Middleware\Authenticate::class,
         //'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest'  => \REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated::class,
+        'minify' => \GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware::class,
     ];
 
     /**

@@ -32,7 +32,7 @@ return [
     'ssh_key'           => 'SSH key',
     'deploy_project'    => 'Deploy the project',
     'deploy'            => 'Deploy',
-    'server_keys'       => 'This key must be added to the server\'s <strong>.ssh/authorized_keys</strong> ' .
+    'server_keys'       => 'This key must be added to the server\'s <strong>~/.ssh/authorized_keys</strong> ' .
                            'for each user you wish to run commands as.',
     'gitlab_keys'       => 'The key must also be added to the <strong>Deploy Keys</strong> ' .
                            'section for the project in Gitlab.',

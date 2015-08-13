@@ -1,7 +1,7 @@
 <?php
 
-use App\Command;
-use App\Project;
+use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Project;
 use Illuminate\Database\Seeder;
 
 class TemplateSeeder extends Seeder

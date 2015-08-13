@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Command;
-use App\Repositories\Contracts\CommandRepositoryInterface;
-use App\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The command repository.
@@ -52,10 +52,10 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
         $model = $this->model->create($fields);
 
         if ($servers) {
-            $model->servers()->attach($servers);
+            $model->servers()->sync($servers);
         }
 
-        $model->servers; // FIXME: Surely we can use append
+        $model->servers; // Triggers the loading
 
         return $model;
     }

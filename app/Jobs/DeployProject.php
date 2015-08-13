@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Jobs;
+namespace REBELinBLUE\Deployer\Jobs;
 
-use App\Command as Stage;
-use App\Deployment;
-use App\DeployStep;
-use App\Events\DeployFinished;
-use App\Jobs\Job;
-use App\Project;
-use App\Server;
-use App\ServerLog;
-use App\User;
+use REBELinBLUE\Deployer\Command as Stage;
+use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\DeployStep;
+use REBELinBLUE\Deployer\Events\DeployFinished;
+use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Server;
+use REBELinBLUE\Deployer\ServerLog;
+use REBELinBLUE\Deployer\User;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -118,8 +118,6 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
      */
     private function updateRepoInfo()
     {
-        // TODO: Change this to use the Gitlab API
-        // FIXME: Handle the failure as it is unclear what went wrong
         $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
         file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
 
@@ -176,7 +174,6 @@ CMD;
      */
     private function cleanupDeployment()
     {
-        // TODO: Clean this up as there is some duplication with getScript()
         $project = $this->deployment->project;
 
         $release_id = date('YmdHis', strtotime($this->deployment->started_at));
@@ -325,9 +322,6 @@ CMD;
             $remote_key_file     = $root_dir . '/id_rsa';
             $remote_wrapper_file = $root_dir . '/wrapper.sh';
 
-            // FIXME: This does not belong here as this function should
-            // only being returning the commands
-            // not running them!
             $this->prepareServer($server);
 
             $commands = [
@@ -370,7 +364,6 @@ CMD;
             $commands = array_merge($commands, $shareFileCommands);
 
             // Write project file to release dir before install
-
             $projectFiles = $project->projectFiles;
             foreach ($projectFiles as $file) {
                 if ($file->path) {
@@ -498,7 +491,9 @@ OUT;
             '-o IdentitiesOnly=yes ' .
             '-o StrictHostKeyChecking=no ' .
             '-o PasswordAuthentication=no ' .
+            '-P %s ' .
             '-i %s %s %s@%s:%s',
+            $server->port,
             $this->private_key,
             $local_file,
             $server->user,

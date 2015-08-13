@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use App\Command;
-use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\DeploymentRepositoryInterface;
-use App\Repositories\Contracts\ProjectRepositoryInterface;
-use App\ServerLog;
+use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\ServerLog;
 use Input;
 use Lang;
 
