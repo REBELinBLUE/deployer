@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Jobs;
+namespace REBELinBLUE\Deployer\Jobs;
 
-use App\Jobs\Job;
+use REBELinBLUE\Deployer\Jobs\Job;
 use Httpful\Request;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;

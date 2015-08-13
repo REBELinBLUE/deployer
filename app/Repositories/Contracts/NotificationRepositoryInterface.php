@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Contracts;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
 interface NotificationRepositoryInterface
 {

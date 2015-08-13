@@ -1,6 +1,6 @@
 <?php
 
-use App\Server;
+use REBELinBLUE\Deployer\Server;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 

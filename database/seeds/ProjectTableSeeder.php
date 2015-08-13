@@ -1,6 +1,6 @@
 <?php
 
-use App\Project;
+use REBELinBLUE\Deployer\Project;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

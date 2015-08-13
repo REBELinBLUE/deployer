@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Events\UserWasCreated;
-use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Repositories\EloquentRepository;
-use App\User;
+use REBELinBLUE\Deployer\Events\UserWasCreated;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\User;
 
 /**
  * The user repository.

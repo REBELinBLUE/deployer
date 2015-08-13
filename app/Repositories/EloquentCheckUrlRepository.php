@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\CheckUrl;
-use App\Repositories\Contracts\CheckUrlRepositoryInterface;
-use App\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\CheckUrl;
+use REBELinBLUE\Deployer\Repositories\Contracts\CheckUrlRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The notification email repository.

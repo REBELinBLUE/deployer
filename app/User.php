@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Notification;
-use App\Repositories\Contracts\NotificationRepositoryInterface;
-use App\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\Notification;
+use REBELinBLUE\Deployer\Repositories\Contracts\NotificationRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The notification repository.

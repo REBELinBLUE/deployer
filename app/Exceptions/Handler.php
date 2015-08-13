@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace REBELinBLUE\Deployer\Exceptions;
 
 use Bugsnag\BugsnagLaravel\BugsnagExceptionHandler as ExceptionHandler;
 use Exception;

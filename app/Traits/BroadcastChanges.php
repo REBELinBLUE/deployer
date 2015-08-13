@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Traits;
+namespace REBELinBLUE\Deployer\Traits;
 
-use App\Events\ModelChanged;
-use App\Events\ModelCreated;
-use App\Events\ModelTrashed;
+use REBELinBLUE\Deployer\Events\ModelChanged;
+use REBELinBLUE\Deployer\Events\ModelCreated;
+use REBELinBLUE\Deployer\Events\ModelTrashed;
 
 /**
  * A trait to broadcast model changes.

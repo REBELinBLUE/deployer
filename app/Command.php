@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -57,7 +57,7 @@ class Command extends Model
      */
     public function project()
     {
-        return $this->belongsTo('App\Project');
+        return $this->belongsTo('REBELinBLUE\Deployer\Project');
     }
 
     /**
@@ -67,6 +67,6 @@ class Command extends Model
      */
     public function servers()
     {
-        return $this->belongsToMany('App\Server')->orderBy('order', 'ASC');
+        return $this->belongsToMany('REBELinBLUE\Deployer\Server')->orderBy('order', 'ASC');
     }
 }

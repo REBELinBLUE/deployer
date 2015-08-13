@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Contracts\RuntimeInterface;
-use App\Events\ModelChanged;
-use App\Presenters\DeploymentPresenter;
+use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
+use REBELinBLUE\Deployer\Events\ModelChanged;
+use REBELinBLUE\Deployer\Presenters\DeploymentPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Lang;
@@ -84,7 +84,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function project()
     {
-        return $this->belongsTo('App\Project');
+        return $this->belongsTo('REBELinBLUE\Deployer\Project');
     }
 
     /**
@@ -94,7 +94,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('REBELinBLUE\Deployer\User');
     }
 
     /**
@@ -104,7 +104,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function steps()
     {
-        return $this->hasMany('App\DeployStep');
+        return $this->hasMany('REBELinBLUE\Deployer\DeployStep');
     }
 
     /**
@@ -203,7 +203,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * Gets the HTTP URL to the branch.
      *
      * @return string|false
-     * @see \App\Project::accessDetails()
+     * @see \REBELinBLUE\Deployer\Project::accessDetails()
      */
     public function getBranchURLAttribute()
     {

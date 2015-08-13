@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Command;
-use App\Repositories\Contracts\CommandRepositoryInterface;
-use App\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The command repository.

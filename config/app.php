@@ -150,11 +150,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RepositoryServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\ViewServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\AppServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\RepositoryServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\RouteServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
 
     ],
 

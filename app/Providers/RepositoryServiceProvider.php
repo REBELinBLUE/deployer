@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -51,8 +51,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public function bindInterface($name)
     {
         $this->app->bind(
-            'App\\Repositories\\Contracts\\' . $name . 'RepositoryInterface',
-            'App\\Repositories\\Eloquent' . $name . 'Repository'
+            'REBELinBLUE\Deployer\\Repositories\\Contracts\\' . $name . 'RepositoryInterface',
+            'REBELinBLUE\Deployer\\Repositories\\Eloquent' . $name . 'Repository'
         );
     }
 }

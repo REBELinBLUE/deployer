@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console;
+namespace REBELinBLUE\Deployer\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $customBooters = [
-        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => \App\Bootstrap\ConfigureLogging::class,
+        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => \REBELinBLUE\Deployer\Bootstrap\ConfigureLogging::class,
     ];
 
     /**
@@ -32,8 +32,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\CheckHeartbeats::class,
-        \App\Console\Commands\CheckUrl::class,
+        \REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats::class,
+        \REBELinBLUE\Deployer\Console\Commands\CheckUrl::class,
     ];
 
     /**

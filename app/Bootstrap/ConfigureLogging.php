@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Bootstrap;
+namespace REBELinBLUE\Deployer\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Bootstrap\ConfigureLogging as BaseLoggingConfiguration;

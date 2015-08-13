@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Resources;
+namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use App\Http\Requests;
-use App\Http\Requests\StoreServerRequest;
-use App\Repositories\Contracts\ServerRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests;
+use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use Input;
 
 /**

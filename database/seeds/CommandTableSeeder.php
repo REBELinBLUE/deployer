@@ -1,6 +1,6 @@
 <?php
 
-use App\Command;
+use REBELinBLUE\Deployer\Command;
 use Illuminate\Database\Seeder;
 
 class CommandTableSeeder extends Seeder

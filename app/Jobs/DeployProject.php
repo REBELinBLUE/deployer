@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Jobs;
+namespace REBELinBLUE\Deployer\Jobs;
 
-use App\Command as Stage;
-use App\Deployment;
-use App\DeployStep;
-use App\Events\DeployFinished;
-use App\Jobs\Job;
-use App\Project;
-use App\Server;
-use App\ServerLog;
-use App\User;
+use REBELinBLUE\Deployer\Command as Stage;
+use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\DeployStep;
+use REBELinBLUE\Deployer\Events\DeployFinished;
+use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Server;
+use REBELinBLUE\Deployer\ServerLog;
+use REBELinBLUE\Deployer\User;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

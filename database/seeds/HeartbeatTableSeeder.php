@@ -1,6 +1,6 @@
 <?php
 
-use App\Heartbeat;
+use REBELinBLUE\Deployer\Heartbeat;
 use Illuminate\Database\Seeder;
 
 class HeartbeatTableSeeder extends Seeder

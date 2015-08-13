@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\ProjectFile;
-use App\Repositories\Contracts\ProjectFileRepositoryInterface;
-use App\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\ProjectFile;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectFileRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The project file repository.

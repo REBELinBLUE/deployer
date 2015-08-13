@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Resources;
+namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use App\Http\Requests\StoreSharedFileRequest;
-use App\Repositories\Contracts\SharedFileRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreSharedFileRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\SharedFileRepositoryInterface;
 
 /**
  * Controller for managing files.
