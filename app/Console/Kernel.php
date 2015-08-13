@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats::class,
         \REBELinBLUE\Deployer\Console\Commands\CheckUrl::class,
+        \REBELinBLUE\Deployer\Console\Commands\ClearOrphanAvatars::class,
     ];
 
     /**
@@ -52,6 +53,12 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('deployer:checkurls')
                  ->everyFiveMinutes()
+                 ->withoutOverlapping();
+
+        $schedule->command('deployer:purge-avatars')
+                 ->weekly()
+                 ->sundays()
+                 ->at('00:30')
                  ->withoutOverlapping();
     }
 
