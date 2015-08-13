@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Events;
 
+use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\User;
-use Illuminate\Queue\SerializesModels;
 
 /**
  * Event for user request to change the login email.

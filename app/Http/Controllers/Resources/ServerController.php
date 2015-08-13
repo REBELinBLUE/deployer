@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Input;
 use REBELinBLUE\Deployer\Http\Requests;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
-use Input;
 
 /**
  * Server management controller.

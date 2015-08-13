@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Presenters;
 
-use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use Lang;
+use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 
 /**
  * View presenter for calculating the runtime in a readable format.

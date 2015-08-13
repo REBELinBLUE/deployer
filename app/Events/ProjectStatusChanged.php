@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Events;
 
-use REBELinBLUE\Deployer\Events\Event;
-use REBELinBLUE\Deployer\Project;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
+use REBELinBLUE\Deployer\Events\Event;
+use REBELinBLUE\Deployer\Project;
 
 /**
  * Event which fires when the project status has changed.

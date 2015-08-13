@@ -2,6 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Auth;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
@@ -9,9 +12,6 @@ use REBELinBLUE\Deployer\Jobs\DeployProject;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\ServerLog;
-use Auth;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Generates the required database entries to queue a deployment.

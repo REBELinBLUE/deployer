@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Events;
 
+use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\Project;
-use Illuminate\Queue\SerializesModels;
 
 /**
  * Deploy finished event.

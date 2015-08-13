@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Presenters;
 
-use REBELinBLUE\Deployer\Project;
 use Lang;
+use REBELinBLUE\Deployer\Project;
 
 /**
  * The view presenter for a project class.

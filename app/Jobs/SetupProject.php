@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Illuminate\Contracts\Bus\SelfHandling;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\ProjectFile;
 use REBELinBLUE\Deployer\SharedFile;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * A class to handle cloning the command templates for the project.

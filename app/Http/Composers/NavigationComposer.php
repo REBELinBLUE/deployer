@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Composers;
 
+use Illuminate\Contracts\View\View;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Template;
-use Illuminate\Contracts\View\View;
 
 /**
  * View composer for the navigation bar.

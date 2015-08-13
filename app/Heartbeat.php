@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer;
 
-use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Lang;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Heartbeat model.

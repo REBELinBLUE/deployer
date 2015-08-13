@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Events;
 
-use REBELinBLUE\Deployer\Events\Event;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
+use REBELinBLUE\Deployer\Events\Event;
 
 /**
  * Event which fires when the server status has changed.

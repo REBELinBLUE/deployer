@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 
-use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Lang;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
 /**
  * Password reset controller.

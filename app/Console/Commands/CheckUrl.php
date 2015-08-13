@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
-use REBELinBLUE\Deployer\CheckUrl as CheckUrlModel;
-use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use REBELinBLUE\Deployer\CheckUrl as CheckUrlModel;
+use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

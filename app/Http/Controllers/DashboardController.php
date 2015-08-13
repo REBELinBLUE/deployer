@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use Lang;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
-use Lang;
 use Response;
 
 /**

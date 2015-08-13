@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Events;
 
+use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\User;
-use Illuminate\Queue\SerializesModels;
 
 /**
  * Event which is fired when a user is created.

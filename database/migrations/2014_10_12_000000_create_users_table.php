@@ -1,8 +1,8 @@
 <?php
 
-use REBELinBLUE\Deployer\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use REBELinBLUE\Deployer\User;
 
 class CreateUsersTable extends Migration
 {

@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer;
 
-use REBELinBLUE\Deployer\Presenters\CommandPresenter;
 use Illuminate\Database\Eloquent\Model;
+use REBELinBLUE\Deployer\Presenters\CommandPresenter;
 use Robbo\Presenter\PresentableInterface;
 
 /**

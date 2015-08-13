@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer;
 
+use Illuminate\Database\Eloquent\Model;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ServerLogChanged;
 use REBELinBLUE\Deployer\Presenters\ServerLogPresenter;
-use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
 
 /**

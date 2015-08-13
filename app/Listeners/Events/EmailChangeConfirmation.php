@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer\Listeners\Events;
 
-use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
 use Lang;
 use Mail;
+use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 
 /**
  * Request email change handler.

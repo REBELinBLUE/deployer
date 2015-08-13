@@ -1,8 +1,8 @@
 <?php
 
-use REBELinBLUE\Deployer\Deployment;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use REBELinBLUE\Deployer\Deployment;
 
 class SetDeploymentBranch extends Migration
 {

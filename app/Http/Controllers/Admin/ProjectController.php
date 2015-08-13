@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
-use Lang;
 
 /**
  * The controller for managging projects.

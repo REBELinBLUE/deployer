@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Input;
+use Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
-use Input;
-use Lang;
 
 /**
  * Controller for managing commands.

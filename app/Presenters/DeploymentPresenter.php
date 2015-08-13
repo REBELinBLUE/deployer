@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Presenters;
 
-use REBELinBLUE\Deployer\Deployment;
 use Lang;
+use REBELinBLUE\Deployer\Deployment;
 use Robbo\Presenter\Presenter;
 
 /**

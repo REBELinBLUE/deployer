@@ -1,8 +1,8 @@
 <?php
 
-use REBELinBLUE\Deployer\Command;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use REBELinBLUE\Deployer\Command;
 
 class CreateCommandsTable extends Migration
 {

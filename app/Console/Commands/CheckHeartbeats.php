@@ -2,11 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
-use REBELinBLUE\Deployer\Heartbeat;
-use REBELinBLUE\Deployer\Jobs\Notify;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use REBELinBLUE\Deployer\Heartbeat;
+use REBELinBLUE\Deployer\Jobs\Notify;
 
 /**
  * Checks that any expected heartbeats have checked-in.

@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer;
 
-use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
-use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\Process\Process;
 

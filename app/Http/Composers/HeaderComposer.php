@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Composers;
 
-use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use Illuminate\Contracts\View\View;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 
 /**
  * View composer for the header bar.

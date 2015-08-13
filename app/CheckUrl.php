@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer;
 
-use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
-use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Lang;
+use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * The application's  url store for health check.

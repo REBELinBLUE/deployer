@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use Input;
+use Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
-use Input;
-use Lang;
 
 /**
  * The controller for showing the status of deployments.

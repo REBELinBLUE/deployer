@@ -5,6 +5,9 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 use DB;
 use Illuminate\Console\Command;
 
+/**
+ * Checks for and cleans up orphaned avatar files.
+ */
 class ClearOrphanAvatars extends Command
 {
     /**
@@ -42,8 +45,8 @@ class ClearOrphanAvatars extends Command
     }
 
     /**
-     * Remove unused avatar files from disk
-     * 
+     * Remove unused avatar files from disk.
+     *
      * @return void
      */
     private function purgeOldAvatars()
@@ -52,7 +55,7 @@ class ClearOrphanAvatars extends Command
         $avatars = glob(public_path() . '/upload/*/*.*');
 
         // Remove the public_path() from the path so that they match values in the DB
-        array_walk($avatars, function(&$avatar) {
+        array_walk($avatars, function (&$avatar) {
             $avatar = str_replace(public_path(), '', $avatar);
         });
 
@@ -69,8 +72,7 @@ class ClearOrphanAvatars extends Command
         $this->info('Found ' . $orphan_avatars->count() . ' orphaned avatars');
 
         // Now loop through the avatars and delete them from storage
-        foreach ($orphan_avatars as $avatar)
-        {
+        foreach ($orphan_avatars as $avatar) {
             $avatarPath = public_path() . $avatar;
 
             // Don't delete recently created files as they could be temp files from the uploader
@@ -81,8 +83,7 @@ class ClearOrphanAvatars extends Command
 
             if (!unlink($avatarPath)) {
                 $this->error('Failed to delete ' . $avatar);
-            }
-            else {
+            } else {
                 $this->info('Deleted ' . $avatar);
             }
         }

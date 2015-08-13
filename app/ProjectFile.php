@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer;
 
-use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Static file for project.
