@@ -2,13 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use REBELinBLUE\Deployer\Deployment;
-use REBELinBLUE\Deployer\Jobs\Job;
-use REBELinBLUE\Deployer\Project;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Mail\Message;
 use Lang;
 use Mail;
+use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Project;
 
 /**
  * Send email notifications for deployment.

@@ -2,13 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Listeners\Events;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Queue\InteractsWithQueue;
 use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Jobs\MailDeployNotification;
 use REBELinBLUE\Deployer\Jobs\Notify as SlackNotify;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Queue\InteractsWithQueue;
 
 /**
  * When a deploy finished, notify the followed user.

@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Seeder;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Project;
-use Illuminate\Database\Seeder;
 
 class TemplateSeeder extends Seeder
 {

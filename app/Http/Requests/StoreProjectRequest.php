@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
-use REBELinBLUE\Deployer\Http\Requests\Request;
 use Illuminate\Validation\Factory;
+use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**
  * Request for validating projects.

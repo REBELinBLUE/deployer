@@ -1,8 +1,8 @@
 <?php
 
-use REBELinBLUE\Deployer\Heartbeat;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use REBELinBLUE\Deployer\Heartbeat;
 
 class CreateHeartbeatsTable extends Migration
 {

@@ -2,13 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use REBELinBLUE\Deployer\Events\EmailChangeRequested;
-use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use Auth;
 use Illuminate\Http\Request;
 use Image;
 use Lang;
+use REBELinBLUE\Deployer\Events\EmailChangeRequested;
+use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 
 /**
  * The use profile controller.

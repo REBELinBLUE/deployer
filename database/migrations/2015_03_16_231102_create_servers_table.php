@@ -1,8 +1,8 @@
 <?php
 
-use REBELinBLUE\Deployer\Server;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use REBELinBLUE\Deployer\Server;
 
 class CreateServersTable extends Migration
 {

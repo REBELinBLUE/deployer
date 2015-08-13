@@ -2,13 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use REBELinBLUE\Deployer\Jobs\Job;
 use Httpful\Request;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use REBELinBLUE\Deployer\Jobs\Job;
 
 /**
  * Request the urls.

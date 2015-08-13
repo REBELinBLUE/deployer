@@ -1,7 +1,7 @@
 <?php
 
-use REBELinBLUE\Deployer\User;
 use Illuminate\Database\Seeder;
+use REBELinBLUE\Deployer\User;
 
 class UserTableSeeder extends Seeder
 {

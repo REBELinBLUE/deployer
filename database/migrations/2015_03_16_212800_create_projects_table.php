@@ -1,9 +1,9 @@
 <?php
 
-use REBELinBLUE\Deployer\Group;
-use REBELinBLUE\Deployer\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use REBELinBLUE\Deployer\Group;
+use REBELinBLUE\Deployer\Project;
 
 class CreateProjectsTable extends Migration
 {

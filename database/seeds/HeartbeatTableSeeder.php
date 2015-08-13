@@ -1,7 +1,7 @@
 <?php
 
-use REBELinBLUE\Deployer\Heartbeat;
 use Illuminate\Database\Seeder;
+use REBELinBLUE\Deployer\Heartbeat;
 
 class HeartbeatTableSeeder extends Seeder
 {

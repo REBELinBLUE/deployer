@@ -1,8 +1,8 @@
 <?php
 
-use REBELinBLUE\Deployer\Project;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use REBELinBLUE\Deployer\Project;
 
 class ProjectTableSeeder extends Seeder
 {

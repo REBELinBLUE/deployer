@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Jobs\SetupProject;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * The project repository.

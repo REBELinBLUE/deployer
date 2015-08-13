@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer;
 
-use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
-use REBELinBLUE\Deployer\Events\ModelChanged;
-use REBELinBLUE\Deployer\Presenters\DeploymentPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Lang;
+use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
+use REBELinBLUE\Deployer\Events\ModelChanged;
+use REBELinBLUE\Deployer\Presenters\DeploymentPresenter;
 use Robbo\Presenter\PresentableInterface;
 
 /**

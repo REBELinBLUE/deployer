@@ -1,8 +1,8 @@
 <?php
 
-use REBELinBLUE\Deployer\ServerLog;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use REBELinBLUE\Deployer\ServerLog;
 
 class CreateServerLogsTable extends Migration
 {

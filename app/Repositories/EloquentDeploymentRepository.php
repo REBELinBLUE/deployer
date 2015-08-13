@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
+use Carbon\Carbon;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
-use Carbon\Carbon;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * The deployment repository.
