@@ -1,7 +1,7 @@
 build_settings:
     clone_depth: 1
     verbose: false
-    ignore: 
+    ignore:
         - "bootstrap"
         - "database"
         - "node_modules"
@@ -42,11 +42,11 @@ test:
             - "design"
             - "naming"
             - "unusedcode"
-    php_code_sniffer:
-        path: "app/"
-        standard: "PSR2"
-        allowed_warnings: 0
-        allowed_errors: 0
+    #php_code_sniffer:
+    #    path: "app/"
+    #    standard: "PSR2"
+    #    allowed_warnings: 0
+    #    allowed_errors: 0
     php_cpd:
     php_loc:
     php_docblock_checker:
