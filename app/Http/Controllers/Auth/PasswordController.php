@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Lang;
+use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
 /**

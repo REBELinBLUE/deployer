@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Lang;
+use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ModelChanged;
 use REBELinBLUE\Deployer\Presenters\DeploymentPresenter;

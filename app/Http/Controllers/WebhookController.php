@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use Input;
+use Illuminate\Support\Facades\Input;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 

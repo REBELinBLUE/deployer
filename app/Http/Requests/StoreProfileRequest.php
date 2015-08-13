@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
-use Input;
+use Illuminate\Support\Facades\Input;
 use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**

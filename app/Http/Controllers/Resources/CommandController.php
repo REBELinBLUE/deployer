@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use Input;
-use Lang;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;

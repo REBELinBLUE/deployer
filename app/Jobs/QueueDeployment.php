@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Auth;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\Auth;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;

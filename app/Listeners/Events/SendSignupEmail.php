@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Listeners\Events;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
-use Lang;
-use Mail;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 
 /**
