@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners\Events;
+namespace REBELinBLUE\Deployer\Listeners\Events;
 
-use App\Events\EmailChangeRequested;
+use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;

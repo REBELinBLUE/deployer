@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $namespace = 'REBELinBLUE\Deployer\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -30,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->pattern('id', '[0-9]+');
         $router->pattern('step', '(clone|install|activate|purge)');
 
-        $router->model('log', 'App\ServerLog');
+        $router->model('log', 'REBELinBLUE\Deployer\ServerLog');
 
         parent::boot($router);
     }

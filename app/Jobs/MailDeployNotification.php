@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Jobs;
+namespace REBELinBLUE\Deployer\Jobs;
 
-use App\Deployment;
-use App\Jobs\Job;
-use App\Project;
+use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Project;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Mail\Message;
 use Lang;

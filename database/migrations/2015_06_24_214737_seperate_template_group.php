@@ -1,6 +1,6 @@
 <?php
 
-use App\Group;
+use REBELinBLUE\Deployer\Group;
 use Illuminate\Database\Migrations\Migration;
 
 class SeperateTemplateGroup extends Migration

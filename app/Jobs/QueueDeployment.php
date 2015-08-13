@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Jobs;
+namespace REBELinBLUE\Deployer\Jobs;
 
-use App\Command as Stage;
-use App\Deployment;
-use App\DeployStep;
-use App\Jobs\DeployProject;
-use App\Jobs\Job;
-use App\Project;
-use App\ServerLog;
+use REBELinBLUE\Deployer\Command as Stage;
+use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\DeployStep;
+use REBELinBLUE\Deployer\Jobs\DeployProject;
+use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\ServerLog;
 use Auth;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;

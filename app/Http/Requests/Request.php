@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace REBELinBLUE\Deployer\Http\Requests;
 
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;

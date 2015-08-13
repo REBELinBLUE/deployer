@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts;
+namespace REBELinBLUE\Deployer\Contracts;
 
 interface RuntimeInterface
 {

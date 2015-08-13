@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Jobs;
+namespace REBELinBLUE\Deployer\Jobs;
 
-use App\Command;
-use App\Jobs\Job;
-use App\Project;
-use App\ProjectFile;
-use App\SharedFile;
+use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\ProjectFile;
+use REBELinBLUE\Deployer\SharedFile;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**

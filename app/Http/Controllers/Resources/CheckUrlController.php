@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Resources;
+namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use App\Http\Requests\StoreCheckUrlRequest;
-use App\Repositories\Contracts\CheckUrlRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreCheckUrlRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\CheckUrlRepositoryInterface;
 
 /**
  * Controller for managing URLs.

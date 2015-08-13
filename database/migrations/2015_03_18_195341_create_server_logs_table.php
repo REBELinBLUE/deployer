@@ -1,6 +1,6 @@
 <?php
 
-use App\ServerLog;
+use REBELinBLUE\Deployer\ServerLog;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 

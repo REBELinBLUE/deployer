@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Presenters;
+namespace REBELinBLUE\Deployer\Presenters;
 
-use App\Deployment;
+use REBELinBLUE\Deployer\Deployment;
 use Lang;
 use Robbo\Presenter\Presenter;
 

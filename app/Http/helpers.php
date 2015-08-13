@@ -3,7 +3,7 @@
 /**
  * Custom helpers.
  */
-use App\User;
+use REBELinBLUE\Deployer\User;
 
 /**
  * Get the user avatar.

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Composers;
+namespace REBELinBLUE\Deployer\Http\Composers;
 
-use App\Group;
-use App\Template;
+use REBELinBLUE\Deployer\Group;
+use REBELinBLUE\Deployer\Template;
 use Illuminate\Contracts\View\View;
 
 /**

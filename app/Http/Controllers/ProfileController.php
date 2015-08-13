@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use App\Events\EmailChangeRequested;
-use App\Http\Requests\StoreProfileRequest;
-use App\Repositories\Contracts\UserRepositoryInterface;
+use REBELinBLUE\Deployer\Events\EmailChangeRequested;
+use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use Auth;
 use Illuminate\Http\Request;
 use Image;

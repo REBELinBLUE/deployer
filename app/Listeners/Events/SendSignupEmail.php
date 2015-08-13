@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners\Events;
+namespace REBELinBLUE\Deployer\Listeners\Events;
 
-use App\Events\UserWasCreated;
+use REBELinBLUE\Deployer\Events\UserWasCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;

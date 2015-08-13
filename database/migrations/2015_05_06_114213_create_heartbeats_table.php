@@ -1,6 +1,6 @@
 <?php
 
-use App\Heartbeat;
+use REBELinBLUE\Deployer\Heartbeat;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 

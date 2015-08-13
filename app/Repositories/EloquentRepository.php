@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
 /**
  * Abstract class for eloquent repositories.

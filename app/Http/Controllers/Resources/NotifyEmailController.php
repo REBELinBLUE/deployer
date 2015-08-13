@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Resources;
+namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use App\Http\Requests\StoreNotifyEmailRequest;
-use App\Repositories\Contracts\NotifyEmailRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreNotifyEmailRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\NotifyEmailRepositoryInterface;
 
 /**
  * Controller for managing NotifyEmails.

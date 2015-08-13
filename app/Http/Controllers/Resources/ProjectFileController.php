@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Resources;
+namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use App\Http\Requests\StoreProjectFileRequest;
-use App\Repositories\Contracts\ProjectFileRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreProjectFileRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectFileRepositoryInterface;
 
 /**
  * Manage the project global file like some environment files.

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Resources;
+namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use App\Http\Requests\StoreNotificationRequest;
-use App\Repositories\Contracts\NotificationRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreNotificationRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\NotificationRepositoryInterface;
 
 /**
  * Controller for managing notifications.

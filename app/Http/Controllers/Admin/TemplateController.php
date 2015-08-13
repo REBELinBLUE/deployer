@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
-use App\Http\Controllers\Resources\ResourceController as Controller;
-use App\Http\Requests\StoreTemplateRequest;
-use App\Repositories\Contracts\TemplateRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
+use REBELinBLUE\Deployer\Http\Requests\StoreTemplateRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 use Lang;
 
 /**

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Resources;
+namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use App\Http\Requests\StoreHeartbeatRequest;
-use App\Repositories\Contracts\HeartbeatRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
 
 /**
  * Controller for managing notifications.

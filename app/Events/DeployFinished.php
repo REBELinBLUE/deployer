@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Events;
+namespace REBELinBLUE\Deployer\Events;
 
-use App\Deployment;
-use App\Events\Event;
-use App\Project;
+use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Events\Event;
+use REBELinBLUE\Deployer\Project;
 use Illuminate\Queue\SerializesModels;
 
 /**

@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Jobs\RequestProjectCheckUrl;
-use App\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -63,7 +63,7 @@ class CheckUrl extends Model
      */
     public function project()
     {
-        return $this->belongsTo('App\Project');
+        return $this->belongsTo('REBELinBLUE\Deployer\Project');
     }
 
     /**

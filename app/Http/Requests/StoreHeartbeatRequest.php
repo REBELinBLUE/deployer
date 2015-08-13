@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace REBELinBLUE\Deployer\Http\Requests;
 
-use App\Http\Requests\Request;
+use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**
  * Request for validating heartbeats.

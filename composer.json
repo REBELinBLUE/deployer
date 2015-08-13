@@ -46,7 +46,7 @@
             "database"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "REBELinBLUE\\Deployer\\": "app/"
         },
         "files": [
            "app/Http/helpers.php"

@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace REBELinBLUE\Deployer;
 
-use App\Presenters\DeployStepPresenter;
+use REBELinBLUE\Deployer\Presenters\DeployStepPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Robbo\Presenter\PresentableInterface;
 
@@ -35,7 +35,7 @@ class DeployStep extends Model implements PresentableInterface
      */
     public function servers()
     {
-        return $this->hasMany('App\ServerLog');
+        return $this->hasMany('REBELinBLUE\Deployer\ServerLog');
     }
 
     /**
@@ -45,7 +45,7 @@ class DeployStep extends Model implements PresentableInterface
      */
     public function command()
     {
-        return $this->belongsTo('App\Command');
+        return $this->belongsTo('REBELinBLUE\Deployer\Command');
     }
 
     /**

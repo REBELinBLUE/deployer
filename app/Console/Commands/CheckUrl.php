@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Console\Commands;
+namespace REBELinBLUE\Deployer\Console\Commands;
 
-use App\CheckUrl as CheckUrlModel;
-use App\Jobs\RequestProjectCheckUrl;
+use REBELinBLUE\Deployer\CheckUrl as CheckUrlModel;
+use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;

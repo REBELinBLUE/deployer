@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Heartbeat;
-use App\Repositories\Contracts\HeartbeatRepositoryInterface;
-use App\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\Heartbeat;
+use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The shared file repository.

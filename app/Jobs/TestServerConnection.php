@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jobs;
+namespace REBELinBLUE\Deployer\Jobs;
 
-use App\Jobs\Job;
-use App\Server;
+use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Server;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

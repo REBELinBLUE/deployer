@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Repositories\Contracts\TemplateRepositoryInterface;
-use App\Template;
+use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use REBELinBLUE\Deployer\Template;
 
 /**
  * The template repository.

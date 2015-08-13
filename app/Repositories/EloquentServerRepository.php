@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Jobs\TestServerConnection;
-use App\Repositories\Contracts\ServerRepositoryInterface;
-use App\Repositories\EloquentRepository;
-use App\Server;
+use REBELinBLUE\Deployer\Jobs\TestServerConnection;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\Server;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**

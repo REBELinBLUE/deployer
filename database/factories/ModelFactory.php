@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(REBELinBLUE\Deployer\User::class, function (Faker $faker) {
     return [
         'name'           => $faker->name,
         'email'          => $faker->email,

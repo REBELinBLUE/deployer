@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Resources;
+namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use App\Http\Controllers\Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
 /**
  * Generic Controller class.

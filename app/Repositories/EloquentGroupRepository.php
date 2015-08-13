@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace REBELinBLUE\Deployer\Repositories;
 
-use App\Group;
-use App\Repositories\Contracts\GroupRepositoryInterface;
-use App\Repositories\EloquentRepository;
-use App\Template;
+use REBELinBLUE\Deployer\Group;
+use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentRepository;
+use REBELinBLUE\Deployer\Template;
 
 /**
  * The group repository.
