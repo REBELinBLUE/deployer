@@ -94,7 +94,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function user()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\User');
+        return $this->belongsTo('REBELinBLUE\Deployer\User')
+                    ->withTrashed();
     }
 
     /**
