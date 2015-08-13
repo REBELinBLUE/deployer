@@ -1,6 +1,11 @@
 var app = app || {};
 
 (function ($) {
+    // Stop the uploader causing errors on pages it shouldn't be used
+    if ($('#upload').length === 0) {
+        return;
+    }
+
     var cropperData = {};
     $('#request-change-email').on('click', function() {
         var box = $(this).parents('.box');
@@ -15,7 +20,7 @@ var app = app || {};
 
     $('.avatar>img').cropper({
         aspectRatio: 1 / 1,
-        preview: ".avatar-preview",
+        preview: '.avatar-preview',
         crop: function(data) {
             cropperData.dataX = Math.round(data.x);
             cropperData.dataY = Math.round(data.y);
