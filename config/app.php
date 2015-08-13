@@ -144,7 +144,6 @@ return [
         GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Robbo\Presenter\PresenterServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
 
         /*
@@ -205,7 +204,6 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Gravatar'  => Creativeorange\Gravatar\Facades\Gravatar::class,
-        'Bugsnag'   => Bugsnag\BugsnagLaravel\BugsnagFacade::class,
         'Image'     => Intervention\Image\Facades\Image::class,
 
     ],
