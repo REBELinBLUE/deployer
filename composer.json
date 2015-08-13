@@ -39,7 +39,8 @@
         "phpspec/phpspec": "~2.1",
         "block8/php-docblock-checker": "^1.0",
         "squizlabs/php_codesniffer": "2.*",
-        "phpmd/phpmd" : "@stable"
+        "phpmd/phpmd" : "@stable",
+        "codeclimate/php-test-reporter": "^0.1.2"
     },
     "autoload": {
         "classmap": [
