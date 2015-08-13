@@ -3,6 +3,10 @@
     overflow: auto;
 }
 
+body {
+    background-color: #ecf0f5;
+}
+
 .login-box-body .form-control-feedback {
     line-height: 34px !important;
 }
