@@ -88,6 +88,7 @@ class CommandController extends ResourceController
             'script',
             'step',
             'optional',
+            'default_on',
             'servers'
         ));
     }
@@ -106,6 +107,7 @@ class CommandController extends ResourceController
             'user',
             'script',
             'optional',
+            'default_on',
             'servers'
         ), $command_id);
     }

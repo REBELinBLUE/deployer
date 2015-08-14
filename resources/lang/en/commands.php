@@ -40,6 +40,7 @@ return [
     'none'                 => 'No commands have been configured',
     'optional'             => 'Optional',
     'example'              => 'e.g.',
-    'optional_description' => 'Ask at deploy time whether or not the include this step'
+    'optional_description' => 'Ask at deploy time whether or not the include this step',
+    'default_description'  => 'Include this step unless explicitly disabled (e.g. checkbox on by default)'
 
 ];

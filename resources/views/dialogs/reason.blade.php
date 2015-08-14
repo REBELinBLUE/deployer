@@ -55,7 +55,7 @@
                             <li>
                                 <div class="checkbox">
                                     <label for="deployment_command_{{ $command->id }}">
-                                        <input type="checkbox" class="deployment-command" name="optional[]" id="deployment_command_{{ $command->id }}" value="{{ $command->id }}" /> {{ $command->name }}
+                                        <input type="checkbox" class="deployment-command" name="optional[]" id="deployment_command_{{ $command->id }}" value="{{ $command->id }}" @if ($command->default_on === true) checked @endif/> {{ $command->name }}
                                     </label>
                                 </div>
                             </li>

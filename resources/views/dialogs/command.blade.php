@@ -59,6 +59,13 @@
                                 {{ Lang::get('commands.optional_description') }}
                             </label>
                         </div>
+
+                        <div class="checkbox hide" id="command_default_on_row">
+                            <label for="command_default_on">
+                                <input type="checkbox" value="1" name="default_on" id="command_default_on" /> 
+                                {{ Lang::get('commands.default_description') }}
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
