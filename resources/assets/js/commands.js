@@ -224,7 +224,7 @@ var app = app || {};
 
             // FIXME: Need to regenerate the order!
 
-            app.listener.on('command:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('command:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var command = app.Commands.get(parseInt(data.model.id));
 
                 if (command) {
@@ -232,7 +232,7 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('command:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('command:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
 
                     // Make sure the command is for this action (clone, install, activate, purge)
@@ -242,7 +242,7 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('command:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('command:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var command = app.Commands.get(parseInt(data.model.id));
 
                 if (command) {

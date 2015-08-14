@@ -143,7 +143,7 @@ var app = app || {};
             this.listenTo(app.SharedFiles, 'remove', this.addAll);
             this.listenTo(app.SharedFiles, 'all', this.render);
 
-            app.listener.on('sharedfile:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('sharedfile:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var share = app.SharedFiles.get(parseInt(data.model.id));
 
                 if (share) {
@@ -151,13 +151,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('sharedfile:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('sharedfile:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.SharedFiles.add(data.model);
                 }
             });
 
-            app.listener.on('sharedfile:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('sharedfile:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var share = app.SharedFiles.get(parseInt(data.model.id));
 
                 if (share) {

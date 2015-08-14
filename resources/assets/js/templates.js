@@ -142,7 +142,7 @@ var app = app || {};
             this.listenTo(app.Templates, 'remove', this.addAll);
             this.listenTo(app.Templates, 'all', this.render);
 
-            app.listener.on('template:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('template:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var template = app.Templates.get(parseInt(data.model.id));
 
                 if (template) {
@@ -150,11 +150,11 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('template:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('template:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 app.Templates.add(data.model);
             });
 
-            app.listener.on('template:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('template:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var template = app.Templates.get(parseInt(data.model.id));
 
                 if (template) {

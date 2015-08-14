@@ -24,7 +24,7 @@ var app = app || {};
     // FIXME: Convert these menus to backbone
     // FIXME: Convert the project and deployments to backbone
     // TODO: Update the timeline
-    app.listener.on('deployment:App\\Events\\ModelChanged', function (data) {
+    app.listener.on('deployment:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
         updateNavBar(data);
 
         var project = $('#project_' + data.model.project_id);
@@ -79,11 +79,11 @@ var app = app || {};
         }
     });
 
-    app.listener.on('group:App\\Events\\ModelChanged', function (data) {
+    app.listener.on('group:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
         $('#sidebar_group_' + data.model.id).html(data.model.name);
     });
 
-    app.listener.on('project:App\\Events\\ModelChanged', function (data) {
+    app.listener.on('project:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
         $('#sidebar_project_' + data.model.id).html(data.model.name);
 
         var project = $('#project_' + data.model.id);
@@ -123,7 +123,7 @@ var app = app || {};
         }
     });
 
-    app.listener.on('project:App\\Events\\ModelTrashed', function (data) {
+    app.listener.on('project:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
         $('#sidebar_project_' + data.model.id).parent('li').remove();
 
         if (parseInt(data.model.id) === parseInt(app.project_id)) {

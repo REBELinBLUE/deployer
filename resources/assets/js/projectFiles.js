@@ -183,7 +183,7 @@ var app = app || {};
             this.listenTo(app.ProjectFiles, 'remove', this.addAll);
             this.listenTo(app.ProjectFiles, 'all', this.render);
 
-            app.listener.on('projectfile:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('projectfile:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var file = app.ProjectFiles.get(parseInt(data.model.id));
 
                 if (file) {
@@ -191,13 +191,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('projectfile:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('projectfile:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.ProjectFiles.add(data.model);
                 }
             });
 
-            app.listener.on('projectfile:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('projectfile:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var file = app.ProjectFiles.get(parseInt(data.model.id));
 
                 if (file) {
