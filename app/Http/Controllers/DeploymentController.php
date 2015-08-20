@@ -60,7 +60,7 @@ class DeploymentController extends Controller
 
         return view('projects.details', [
             'title'         => $project->name,
-            'deployments'   => $this->deploymentRepository->getLatest($project_id, $project->builds_to_keep),
+            'deployments'   => $this->deploymentRepository->getLatest($project_id),
             'today'         => $this->deploymentRepository->getTodayCount($project_id),
             'last_week'     => $this->deploymentRepository->getLastWeekCount($project_id),
             'project'       => $project,
