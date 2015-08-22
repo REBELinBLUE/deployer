@@ -55,7 +55,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * Gets the latest deployments for a project.
      *
-     * @param  int   $project
+     * @param  int   $project_id
      * @param  int   $paginate
      * @return array
      */

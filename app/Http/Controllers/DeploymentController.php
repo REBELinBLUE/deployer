@@ -47,8 +47,7 @@ class DeploymentController extends Controller
      * The details of an individual project.
      *
      * @param  int                           $project_id
-     * @param  DeploymentRepositoryInterface $deploymentRepository
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function project($project_id)
     {
@@ -79,8 +78,8 @@ class DeploymentController extends Controller
     /**
      * Show the deployment details.
      *
-     * @param  int      $deployment
-     * @return Response
+     * @param  int      $deployment_id
+     * @return \Illuminate\View\View
      */
     public function show($deployment_id)
     {
@@ -114,7 +113,7 @@ class DeploymentController extends Controller
     /**
      * Adds a deployment for the specified project to the queue.
      *
-     * @param  int      $project
+     * @param  int      $project_id
      * @return Response
      */
     public function deploy($project_id)

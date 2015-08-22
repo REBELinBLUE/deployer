@@ -31,7 +31,7 @@ class DeployStep extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return ServerLog
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function servers()
     {

@@ -80,7 +80,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
@@ -101,7 +101,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Has many relationship.
      *
-     * @return DeployStep
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function steps()
     {

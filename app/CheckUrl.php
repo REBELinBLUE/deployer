@@ -59,7 +59,7 @@ class CheckUrl extends Model
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {

@@ -138,7 +138,7 @@ class QueueDeployment extends Job implements SelfHandling
      * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command.
      *
      * @param  int     $stage
-     * @param  Command $command
+     * @param  Stage $command
      * @return void
      */
     private function createCommandStep($stage, Stage $command)

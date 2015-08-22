@@ -19,6 +19,7 @@ class ModelCreated extends Event implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
+     * @param string $channel
      * @return void
      */
     public function __construct($model, $channel)

@@ -15,7 +15,6 @@ class HeaderComposer
     /**
      * Class constructor.
      *
-     * @param DeploymentRepositoryInterface $user
      */
     public function __construct(DeploymentRepositoryInterface $deploymentRepository)
     {

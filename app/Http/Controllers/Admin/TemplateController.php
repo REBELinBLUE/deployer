@@ -26,7 +26,7 @@ class TemplateController extends Controller
     /**
      * Shows all templates.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -42,7 +42,7 @@ class TemplateController extends Controller
      * Show the template configuration.
      *
      * @param  int      $template_id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($template_id)
     {
