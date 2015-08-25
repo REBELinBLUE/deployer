@@ -28,9 +28,9 @@
                         <div id="command_script" class="form-control"></div>
                         <h5>{{ Lang::get('commands.options') }}</h5>
                         <ul class="list-unstyled">
-                            <li><code>@{{ project_path }}</code> - {{ Lang::get('commands.project_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www/</span></li>
+                            <li><code>@{{ project_path }}</code> - {{ Lang::get('commands.project_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www</span></li>
                             <li><code>@{{ release }}</code> - {{ Lang::get('commands.release_id') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ date('YmdHis') }}</span></li>
-                            <li><code>@{{ release_path }}</code> - {{ Lang::get('commands.release_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www/releases/{{ date('YmdHis') }}/</span></li>
+                            <li><code>@{{ release_path }}</code> - {{ Lang::get('commands.release_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www/releases/{{ date('YmdHis') }}</span></li>
                             <!--li><code>@{{ sha }}</code> - {{ Lang::get('commands.sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e6f6fd15c50efe53e090308861ec8a8288</span></li>
                             <li><code>@{{ short_sha }}</code> - {{ Lang::get('commands.short_sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e</span></li-->
                         </ul>
@@ -55,14 +55,14 @@
                         <label>{{ Lang::get('commands.optional') }}</label>
                         <div class="checkbox">
                             <label for="command_optional">
-                                <input type="checkbox" value="1" name="optional" id="command_optional" /> 
+                                <input type="checkbox" value="1" name="optional" id="command_optional" />
                                 {{ Lang::get('commands.optional_description') }}
                             </label>
                         </div>
 
                         <div class="checkbox hide" id="command_default_on_row">
                             <label for="command_default_on">
-                                <input type="checkbox" value="1" name="default_on" id="command_default_on" /> 
+                                <input type="checkbox" value="1" name="default_on" id="command_default_on" />
                                 {{ Lang::get('commands.default_description') }}
                             </label>
                         </div>
