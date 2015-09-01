@@ -15,7 +15,7 @@
         }
     ],
     "support": {
-        "email" : "deployer@stephen.rebelinblue.com",
+        "email": "deployer@stephen.rebelinblue.com",
         "issues": "https://github.com/REBELinBLUE/deployer/issues",
         "source": "https://github.com/REBELinBLUE/deployer"
     },
@@ -50,7 +50,7 @@
             "REBELinBLUE\\Deployer\\": "app/"
         },
         "files": [
-           "app/Http/helpers.php"
+            "app/Http/helpers.php"
         ]
     },
     "autoload-dev": {
