@@ -46,8 +46,8 @@ class Command extends Model
      * @var array
      */
     protected $casts = [
-        'step'      => 'integer',
-        'optional'  => 'boolean',
+        'step'       => 'integer',
+        'optional'   => 'boolean',
         'default_on' => 'boolean',
     ];
 

@@ -20,7 +20,7 @@
         "source": "https://github.com/REBELinBLUE/deployer"
     },
     "require": {
-        "laravel/framework": "5.1.*",
+        "laravel/framework": "~5.1.11",
         "predis/predis": "~1.0",
         "graham-campbell/htmlmin": "~4.0",
         "pda/pheanstalk": "~3.0",
