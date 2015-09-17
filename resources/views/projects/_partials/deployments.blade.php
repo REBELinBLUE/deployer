@@ -67,6 +67,7 @@
     Lang.deployments = {
         status: {
             completed: '{{ Lang::get('deployments.completed') }}',
+            errors: '{{ Lang::get('deployments.completed_with_errors') }}',
             pending: '{{ Lang::get('deployments.pending') }}',
             deploying: '{{ Lang::get('deployments.deploying') }}',
             failed: '{{ Lang::get('deployments.failed') }}',

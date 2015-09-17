@@ -21,7 +21,7 @@ class DeploymentPresenter extends Presenter
      */
     public function presentCcTrayStatus()
     {
-        if ($this->status === Deployment::COMPLETED) {
+        if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'Success';
         } elseif ($this->status === Deployment::FAILED) {
             return 'Failure';
@@ -39,6 +39,8 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->status === Deployment::COMPLETED) {
             return Lang::get('deployments.completed');
+        } elseif ($this->status === Deployment::COMPLETED_WITH_ERRORS) {
+            return Lang::get('deployments.completed_with_errors');
         } elseif ($this->status === Deployment::FAILED) {
             return Lang::get('deployments.failed');
         } elseif ($this->status === Deployment::DEPLOYING) {
@@ -57,7 +59,7 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->status === Deployment::COMPLETED) {
             return 'check';
-        } elseif ($this->status === Deployment::FAILED) {
+        } elseif ($this->status === Deployment::FAILED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'warning';
         } elseif ($this->status === Deployment::DEPLOYING) {
             return 'spinner fa-pulse';
@@ -73,7 +75,7 @@ class DeploymentPresenter extends Presenter
      */
     public function presentCssClass()
     {
-        if ($this->status === Deployment::COMPLETED) {
+        if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'success';
         } elseif ($this->status === Deployment::FAILED) {
             return 'danger';
@@ -91,7 +93,7 @@ class DeploymentPresenter extends Presenter
      */
     public function presentTimelineCssClass()
     {
-        if ($this->status === Deployment::COMPLETED) {
+        if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'green';
         } elseif ($this->status === Deployment::FAILED) {
             return 'red';

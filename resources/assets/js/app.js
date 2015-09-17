@@ -15,6 +15,7 @@ var app = app || {};
     var DEPLOYMENT_PENDING   = 1;
     var DEPLOYMENT_DEPLOYING = 2;
     var DEPLOYMENT_FAILED    = 3;
+    var DEPLOYMENT_ERRORS    = 4;
 
     app.project_id = app.project_id || null;
 
@@ -66,6 +67,11 @@ var app = app || {};
                 icon_class = 'warning';
                 label_class = 'danger';
                 label = Lang.deployments.status.failed;
+                done = true;
+            } else if (data.model.status === DEPLOYMENT_ERRORS) {
+                icon_class = 'warning';
+                label_class = 'success';
+                label = Lang.deployments.status.errors;
                 done = true;
             }
 
