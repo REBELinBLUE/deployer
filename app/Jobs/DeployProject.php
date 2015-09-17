@@ -95,8 +95,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
                 // Cleanup the release if it has not been activated
                 if ($step->stage <= Stage::DO_ACTIVATE) {
                     $this->cleanupDeployment();
-                }
-                else {
+                } else {
                     $this->deployment->status = Deployment::COMPLETED_WITH_ERRORS;
                     $project->status = Project::FINISHED;
                 }

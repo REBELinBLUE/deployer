@@ -16,7 +16,6 @@ class AddAdditionalDeploymentStatus extends Migration
      */
     public function up()
     {
-
         if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
             DB::statement("ALTER TABLE deployments CHANGE status status ENUM('"
                 . Deployment::PENDING . "', '"
@@ -25,9 +24,6 @@ class AddAdditionalDeploymentStatus extends Migration
                 . Deployment::FAILED . "', '"
                 . Deployment::COMPLETED_WITH_ERRORS . "') DEFAULT '" . Deployment::PENDING . "'");
         }
-
-
-
     }
 
     /**
