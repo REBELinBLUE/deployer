@@ -28,7 +28,7 @@ class ProfileController extends Controller
 
     /**
      * View user profile.
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -41,7 +41,7 @@ class ProfileController extends Controller
     /**
      * Update user's basic message.
      * @param  StoreProfileRequest $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StoreProfileRequest $request)
     {
@@ -55,7 +55,7 @@ class ProfileController extends Controller
 
     /**
      * Send email to change a new email.
-     * @return Response
+     * @return string
      */
     public function requestEmail()
     {
@@ -76,7 +76,7 @@ class ProfileController extends Controller
 
     /**
      * Change the user's email.
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function changeEmail(Request $request)
     {

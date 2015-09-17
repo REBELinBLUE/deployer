@@ -37,7 +37,7 @@ class AuthController extends Controller
     /**
      * Show the application login form.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function getLogin()
     {
@@ -52,7 +52,7 @@ class AuthController extends Controller
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postLogin(Request $request)
     {

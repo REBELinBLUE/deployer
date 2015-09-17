@@ -79,8 +79,6 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     /**
      * Updates a server instance by it's ID and queues it for testing.
      *
-     * @param  array $fields
-     * @param  int   $model_id
      * @return Model
      */
     public function queueForTesting($server_id)

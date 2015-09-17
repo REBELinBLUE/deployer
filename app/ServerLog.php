@@ -59,7 +59,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Belongs to assocation.
      *
-     * @return Server
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function server()
     {

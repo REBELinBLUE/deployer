@@ -26,7 +26,7 @@ class GroupController extends Controller
     /**
      * Display a listing of the groups.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {

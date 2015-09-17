@@ -40,7 +40,7 @@ class CommandController extends ResourceController
      *
      * @param  int      $project_id
      * @param  string   $action     Either clone, install, activate or purge
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function listing($project_id, $action)
     {

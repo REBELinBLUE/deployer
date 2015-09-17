@@ -68,6 +68,7 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
      *
      * @param  Server $server
      * @param  string $script The script to run
+     * @param string $private_key
      * @return string
      */
     private function sshCommand(Server $server, $private_key, $script)

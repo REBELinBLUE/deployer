@@ -26,7 +26,7 @@ class UserController extends Controller
     /**
      * Display a listing of the users.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {

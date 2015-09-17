@@ -13,7 +13,6 @@ trait RuntimePresenter
     /**
      * Converts a number of seconds into a more human readable format.
      *
-     * @param  int    $seconds The number of seconds
      * @return string
      */
     public function presentReadableRuntime()

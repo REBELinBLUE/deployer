@@ -30,7 +30,7 @@ class ProjectController extends Controller
      *
      * @param  TemplateRepositoryInterface $templateRepository
      * @param  GroupRepositoryInterface    $groupRepository
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index(
         TemplateRepositoryInterface $templateRepository,

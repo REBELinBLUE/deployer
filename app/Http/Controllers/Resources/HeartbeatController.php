@@ -13,7 +13,7 @@ class HeartbeatController extends ResourceController
     /**
      * Class constructor.
      *
-     * @param  NotificationRepositoryInterface $repository
+     * @param  HeartbeatRepositoryInterface $repository
      * @return void
      */
     public function __construct(HeartbeatRepositoryInterface $repository)

@@ -43,7 +43,7 @@ class CheckUrl extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return boolean|null
      */
     public function handle()
     {
