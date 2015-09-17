@@ -101,11 +101,11 @@ var app = app || {};
 
         },
         addOne: function (step) {
-            var view = new app.LogView({ 
+            var view = new app.LogView({
                 model: step
             });
 
-            var found = _.find(this.$containers, function(element) { 
+            var found = _.find(this.$containers, function(element) {
                 return parseInt(element.step) === parseInt(step.get('deploy_step_id'));
             });
 
@@ -120,7 +120,7 @@ var app = app || {};
             app.Commands.each(this.addOne, this);
         }
     });
-    
+
     app.LogView = Backbone.View.extend({
         tagName:  'tr',
         events: {

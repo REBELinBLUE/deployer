@@ -17,11 +17,12 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
 {
     use SoftDeletes;
 
-    const COMPLETED = 0;
-    const PENDING   = 1;
-    const DEPLOYING = 2;
-    const FAILED    = 3;
-    const LOADING   = 'Loading';
+    const COMPLETED             = 0;
+    const PENDING               = 1;
+    const DEPLOYING             = 2;
+    const FAILED                = 3;
+    const COMPLETED_WITH_ERRORS = 4;
+    const LOADING               = 'Loading';
 
     public static $currentDeployment = [];
 
