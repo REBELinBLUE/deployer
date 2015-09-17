@@ -38,7 +38,7 @@ class Command extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'user', 'script', 'project_id', 'step', 'order', 'optional'];
+    protected $fillable = ['name', 'user', 'script', 'project_id', 'step', 'order', 'optional', 'default_on'];
 
     /**
      * The attributes that should be casted to native types.
@@ -46,8 +46,9 @@ class Command extends Model
      * @var array
      */
     protected $casts = [
-        'step'     => 'integer',
-        'optional' => 'boolean',
+        'step'       => 'integer',
+        'optional'   => 'boolean',
+        'default_on' => 'boolean',
     ];
 
     /**

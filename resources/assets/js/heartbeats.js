@@ -156,7 +156,7 @@ var app = app || {};
             this.listenTo(app.Heartbeats, 'remove', this.addAll);
             this.listenTo(app.Heartbeats, 'all', this.render);
 
-            app.listener.on('heartbeat:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('heartbeat:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var heartbeat = app.Heartbeats.get(parseInt(data.model.id));
 
                 if (heartbeat) {
@@ -164,13 +164,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('heartbeat:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('heartbeat:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.Heartbeats.add(data.model);
                 }
             });
 
-            app.listener.on('heartbeat:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('heartbeat:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var heartbeat = app.Heartbeats.get(parseInt(data.model.id));
 
                 if (heartbeat) {

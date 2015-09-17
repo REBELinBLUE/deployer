@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Lang;
+use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ModelChanged;
 use REBELinBLUE\Deployer\Presenters\DeploymentPresenter;
@@ -17,11 +17,12 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
 {
     use SoftDeletes;
 
-    const COMPLETED = 0;
-    const PENDING   = 1;
-    const DEPLOYING = 2;
-    const FAILED    = 3;
-    const LOADING   = 'Loading';
+    const COMPLETED             = 0;
+    const PENDING               = 1;
+    const DEPLOYING             = 2;
+    const FAILED                = 3;
+    const COMPLETED_WITH_ERRORS = 4;
+    const LOADING               = 'Loading';
 
     public static $currentDeployment = [];
 
@@ -94,7 +95,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function user()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\User');
+        return $this->belongsTo('REBELinBLUE\Deployer\User')
+                    ->withTrashed();
     }
 
     /**

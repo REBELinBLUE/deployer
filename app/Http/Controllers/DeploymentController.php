@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use Input;
-use Lang;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
@@ -60,7 +60,7 @@ class DeploymentController extends Controller
 
         return view('projects.details', [
             'title'         => $project->name,
-            'deployments'   => $this->deploymentRepository->getLatest($project_id, $project->builds_to_keep),
+            'deployments'   => $this->deploymentRepository->getLatest($project_id),
             'today'         => $this->deploymentRepository->getTodayCount($project_id),
             'last_week'     => $this->deploymentRepository->getLastWeekCount($project_id),
             'project'       => $project,

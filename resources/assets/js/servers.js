@@ -198,7 +198,7 @@ var app = app || {};
             this.listenTo(app.Servers, 'remove', this.addAll);
             this.listenTo(app.Servers, 'all', this.render);
 
-            app.listener.on('server:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var server = app.Servers.get(parseInt(data.model.id));
 
                 if (server) {
@@ -206,13 +206,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('server:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.Servers.add(data.model);
                 }
             });
 
-            app.listener.on('server:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var server = app.Servers.get(parseInt(data.model.id));
 
                 if (server) {

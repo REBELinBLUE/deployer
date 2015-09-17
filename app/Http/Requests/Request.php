@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
-use Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Generic Request class.

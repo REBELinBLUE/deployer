@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use Input;
-use Lang;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
@@ -88,6 +88,7 @@ class CommandController extends ResourceController
             'script',
             'step',
             'optional',
+            'default_on',
             'servers'
         ));
     }
@@ -106,6 +107,7 @@ class CommandController extends ResourceController
             'user',
             'script',
             'optional',
+            'default_on',
             'servers'
         ), $command_id);
     }

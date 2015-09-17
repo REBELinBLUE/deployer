@@ -152,7 +152,7 @@ var app = app || {};
             this.listenTo(app.Users, 'remove', this.addAll);
             this.listenTo(app.Users, 'all', this.render);
 
-            app.listener.on('user:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('user:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var user = app.Users.get(parseInt(data.model.id));
 
                 if (user) {
@@ -160,11 +160,11 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('user:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('user:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 app.Users.add(data.model);
             });
 
-            app.listener.on('user:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('user:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var user = app.Users.get(parseInt(data.model.id));
 
                 if (user) {

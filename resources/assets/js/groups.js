@@ -110,7 +110,7 @@ var app = app || {};
             this.listenTo(app.Groups, 'remove', this.addAll);
             this.listenTo(app.Groups, 'all', this.render);
 
-            app.listener.on('group:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('group:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 $('#group_' + data.model.id).html(data.model.name);
 
                 var group = app.Groups.get(parseInt(data.model.id));
@@ -120,11 +120,11 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('group:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('group:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 app.Groups.add(data.model);
             });
 
-            app.listener.on('group:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('group:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var group = app.Groups.get(parseInt(data.model.id));
 
                 if (group) {

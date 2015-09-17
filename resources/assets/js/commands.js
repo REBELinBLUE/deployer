@@ -56,6 +56,8 @@ var app = app || {};
             editor.gotoLine(1);
             $('#command_user').val('');
             $('#command_optional').val('');
+            $('#command_default_on').val('');
+            $('#command_default_on_row').addClass('hide');
 
             $('.command-server').prop('checked', true);
         }
@@ -93,6 +95,13 @@ var app = app || {};
         });
     });
 
+    $('#command_optional').on('change', function (event) {
+        $('#command_default_on_row').addClass('hide');
+        if ($(this).is(':checked') === true) {
+            $('#command_default_on_row').removeClass('hide');
+        }
+    });
+
     // FIXME: This seems very wrong
     $('#command button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
@@ -124,7 +133,8 @@ var app = app || {};
             step:       $('#command_step').val(),
             project_id: $('input[name="project_id"]').val(),
             servers:    server_ids,
-            optional:   $('#command_optional').is(':checked')
+            optional:   $('#command_optional').is(':checked'),
+            default_on: $('#command_default_on').is(':checked')
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -214,7 +224,7 @@ var app = app || {};
 
             // FIXME: Need to regenerate the order!
 
-            app.listener.on('command:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('command:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var command = app.Commands.get(parseInt(data.model.id));
 
                 if (command) {
@@ -222,7 +232,7 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('command:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('command:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
 
                     // Make sure the command is for this action (clone, install, activate, purge)
@@ -232,7 +242,7 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('command:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('command:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var command = app.Commands.get(parseInt(data.model.id));
 
                 if (command) {
@@ -309,6 +319,12 @@ var app = app || {};
             $('#command_script').text(this.model.get('script'));
             $('#command_user').val(this.model.get('user'));
             $('#command_optional').prop('checked', (this.model.get('optional') === true));
+            $('#command_default_on').prop('checked', (this.model.get('default_on') === true));
+
+            $('#command_default_on_row').addClass('hide');
+            if (this.model.get('optional') === true) {
+                $('#command_default_on_row').removeClass('hide');
+            }
 
             $('.command-server').prop('checked', false);
             $(this.model.get('servers')).each(function (index, server) {

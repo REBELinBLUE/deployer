@@ -45,7 +45,8 @@ class DeployStep extends Model implements PresentableInterface
      */
     public function command()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\Command');
+        return $this->belongsTo('REBELinBLUE\Deployer\Command')
+                    ->withTrashed();
     }
 
     /**

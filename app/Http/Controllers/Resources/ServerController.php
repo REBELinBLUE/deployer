@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use Input;
+use Illuminate\Support\Facades\Input;
 use REBELinBLUE\Deployer\Http\Requests;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;

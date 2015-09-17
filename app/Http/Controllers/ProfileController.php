@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use Auth;
 use Illuminate\Http\Request;
-use Image;
-use Lang;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
+use Intervention\Image\Facades\Image;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;

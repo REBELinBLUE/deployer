@@ -4,8 +4,8 @@ namespace REBELinBLUE\Deployer\Jobs;
 
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Mail\Message;
-use Lang;
-use Mail;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;

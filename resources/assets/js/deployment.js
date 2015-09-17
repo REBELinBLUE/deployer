@@ -74,7 +74,7 @@ var app = app || {};
             this.listenTo(app.Deployment, 'remove', this.addAll);
             this.listenTo(app.Deployment, 'all', this.render);
 
-            app.listener.on('serverlog:App\\Events\\ServerLogChanged', function (data) {
+            app.listener.on('serverlog:REBELinBLUE\\Deployer\\Events\\ServerLogChanged', function (data) {
                 var deployment = app.Deployment.get(data.log_id);
 
                 if (deployment) {
@@ -91,7 +91,7 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('deployment:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('deployment:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     if (data.model.repo_failure) {
                         $('#repository_error').show();
@@ -101,11 +101,11 @@ var app = app || {};
 
         },
         addOne: function (step) {
-            var view = new app.LogView({ 
+            var view = new app.LogView({
                 model: step
             });
 
-            var found = _.find(this.$containers, function(element) { 
+            var found = _.find(this.$containers, function(element) {
                 return parseInt(element.step) === parseInt(step.get('deploy_step_id'));
             });
 
@@ -120,7 +120,7 @@ var app = app || {};
             app.Commands.each(this.addOne, this);
         }
     });
-    
+
     app.LogView = Backbone.View.extend({
         tagName:  'tr',
         events: {

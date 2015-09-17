@@ -147,7 +147,7 @@ var app = app || {};
             this.listenTo(app.CheckUrls, 'remove', this.addAll);
             this.listenTo(app.CheckUrls, 'all', this.render);
 
-            app.listener.on('checkurl:App\\Events\\ModelChanged', function (data) {
+            app.listener.on('checkurl:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var link = app.CheckUrls.get(parseInt(data.model.id));
 
                 if (link) {
@@ -155,13 +155,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('checkurl:App\\Events\\ModelCreated', function (data) {
+            app.listener.on('checkurl:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.CheckUrls.add(data.model);
                 }
             });
 
-            app.listener.on('checkurl:App\\Events\\ModelTrashed', function (data) {
+            app.listener.on('checkurl:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var link = app.CheckUrls.get(parseInt(data.model.id));
 
                 if (link) {
