@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Server;
 use Symfony\Component\Process\Process;
+use DB;
 
 /**
  * Tests if a server can successfully be SSHed into.
@@ -37,6 +38,7 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        DB::reconnect();
         $this->server->status = Server::TESTING;
         $this->server->save();
 

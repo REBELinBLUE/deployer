@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
+use DB;
 
 /**
  * Request email change handler.
@@ -33,6 +34,7 @@ class EmailChangeConfirmation implements ShouldQueue
      */
     public function handle(EmailChangeRequested $event)
     {
+        DB::reconnect();
         $user = $event->user;
 
         $data = [

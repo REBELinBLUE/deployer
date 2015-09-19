@@ -17,6 +17,7 @@ use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
 use Symfony\Component\Process\Process;
+use DB;
 
 /**
  * Deploys an actual project.
@@ -60,6 +61,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        DB::reconnect();
         $project = $this->deployment->project;
 
         $this->deployment->started_at = date('Y-m-d H:i:s');
