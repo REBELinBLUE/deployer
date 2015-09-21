@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 /**
- * Add auth policy provider
+ * Add auth policy provider.
  */
 class AuthServiceProvider extends ServiceProvider
 {
