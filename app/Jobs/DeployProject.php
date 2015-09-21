@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
@@ -17,7 +18,6 @@ use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
 use Symfony\Component\Process\Process;
-use DB;
 
 /**
  * Deploys an actual project.
@@ -71,7 +71,6 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
         $project->status = Project::DEPLOYING;
         $project->save();
 
-
         $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
 
@@ -86,10 +85,10 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
             }
 
             $this->deployment->status = Deployment::COMPLETED;
-            $project->status = Project::FINISHED;
+            $project->status          = Project::FINISHED;
         } catch (\Exception $error) {
             $this->deployment->status = Deployment::FAILED;
-            $project->status = Project::FAILED;
+            $project->status          = Project::FAILED;
 
             $this->cancelPendingSteps($this->deployment->steps);
 
@@ -99,7 +98,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
                     $this->cleanupDeployment();
                 } else {
                     $this->deployment->status = Deployment::COMPLETED_WITH_ERRORS;
-                    $project->status = Project::FINISHED;
+                    $project->status          = Project::FINISHED;
                 }
             }
         }

@@ -5,10 +5,10 @@ namespace REBELinBLUE\Deployer\Listeners\Events;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
-use DB;
 
 /**
  * Request email change handler.
