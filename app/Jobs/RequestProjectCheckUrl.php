@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Jobs\Job;
+use DB;
 
 /**
  * Request the urls.
@@ -36,6 +37,7 @@ class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        DB::reconnect();
         foreach ($this->links as $link) {
             $response = Request::get($link->url)->send();
 

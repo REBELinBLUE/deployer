@@ -9,6 +9,7 @@ use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Jobs\MailDeployNotification;
 use REBELinBLUE\Deployer\Jobs\Notify as SlackNotify;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
+use DB;
 
 /**
  * When a deploy finished, notify the followed user.
@@ -35,6 +36,7 @@ class Notify extends Event implements ShouldQueue
      */
     public function handle(DeployFinished $event)
     {
+        DB::reconnect();
         $project    = $event->project;
         $deployment = $event->deployment;
 
