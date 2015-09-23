@@ -338,8 +338,9 @@ CMD;
                 sprintf('cd %s', $releases_dir),
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
                 sprintf(
-                    'git clone --branch %s --depth 1 --recursive %s %s',
+                    'git clone --branch %s%s --recursive %s %s',
                     $this->deployment->branch,
+                    $project->full_clone ? '' : ' --depth 1',
                     $project->repository,
                     $latest_release_dir
                 ),
