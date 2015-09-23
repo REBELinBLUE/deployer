@@ -362,7 +362,6 @@ CMD;
 
                 // TODO Handle the situation where git is < 2.1.3
                 // TODO Handle what happens if the previous checkout is a shallow clone
-
             } else {
                 $commands[] = sprintf(
                     'git clone --branch %s --depth 1 --recursive %s %s',
@@ -377,7 +376,6 @@ CMD;
                 sprintf('git checkout %s', $this->deployment->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
             ]);
-
         } elseif ($step->stage === Stage::DO_INSTALL) {
             // Install composer dependencies
             $commands = [
