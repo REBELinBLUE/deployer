@@ -337,17 +337,48 @@ CMD;
                 sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
                 sprintf('cd %s', $releases_dir),
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
-                sprintf(
-                    'git clone --branch %s%s --recursive %s %s',
+            ];
+
+            // Full clone, so now we need to do some work!
+            if ($project->full_clone) {
+                // Check if latest exists, if not it is easy, just do a clone
+                $commands[] = sprintf(
+                    '[ ! -h %s/latest ] && git clone --branch %s --recursive %s %s',
+                    $root_dir,
                     $this->deployment->branch,
-                    $project->full_clone ? '' : ' --depth 1',
                     $project->repository,
                     $latest_release_dir
-                ),
+                );
+
+                // If it does exist use it as a reference point for the clone
+                $commands[] = sprintf(
+                    '[ -h %s/latest ] && git clone --branch %s --recursive --reference `readlink %s/latest` --dissociate %s %s',
+                    $root_dir,
+                    $this->deployment->branch,
+                    $root_dir,
+                    $project->repository,
+                    $latest_release_dir
+                );
+
+                // TODO Handle the situation where git is < 2.1.3
+                // TODO Handle what happens if the previous checkout is a shallow clone
+
+            }
+            else {
+                $commands[] = sprintf(
+                    'git clone --branch %s --depth 1 --recursive %s %s',
+                    $this->deployment->branch,
+                    $project->repository,
+                    $latest_release_dir
+                );
+            }
+
+            $commands = array_merge($commands, [
                 sprintf('cd %s', $latest_release_dir),
                 sprintf('git checkout %s', $this->deployment->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
-            ];
+            ]);
+
         } elseif ($step->stage === Stage::DO_INSTALL) {
             // Install composer dependencies
             $commands = [
