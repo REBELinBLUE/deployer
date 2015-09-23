@@ -448,7 +448,13 @@ CMD;
             $user = $server->user;
         }
 
+        // Turn on quit on non-zero exit
         $script = 'set -e' . PHP_EOL . $script;
+
+        if (env('APP_DEBUG')) {
+            // Turn on verbose output so we can see all commands when in debug mode
+            $script = 'set -v' . PHP_EOL . $script;
+        }
 
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
