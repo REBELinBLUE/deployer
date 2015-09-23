@@ -41,6 +41,27 @@
                         <input type="text" class="form-control" name="repository" id="project_repository"  placeholder="git@git.example.com:repositories/project.git" />
                     </div>
                     <div class="form-group">
+                        <label for="project_clone">{{ Lang::get('projects.clone_depth') }}</label>
+                        <ul class="list-unstyled">
+                            <li>
+                                <div class="radio">
+                                    <label for="project_shallow_clone">
+                                        <input type="radio" name="full_clone" id="project_shallow_clone" value="partial" /> {{ Lang::get('projects.shallow_clone') }}
+                                        <div class="text-muted">{{ Lang::get('projects.shallow_clone_desc') }}</div>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio">
+                                    <label for="project_full_clone">
+                                        <input type="radio" name="full_clone" id="project_full_clone" value="full" /> {{ Lang::get('projects.full_clone') }}
+                                        <div class="text-muted">{{ Lang::get('projects.full_clone_desc') }}</div>
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
                         <label for="project_branch">{{ Lang::get('projects.branch') }}</label>
                         <input type="text" class="form-control" name="branch" id="project_branch"  placeholder="master" />
                     </div>

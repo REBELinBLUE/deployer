@@ -41,13 +41,14 @@ return [
     'deploying'          => 'Deploying',
     'failed'             => 'Failed',
     'not_deployed'       => 'Not Deployed',
+    'clone_depth'        => 'Clone Depth',
     'full_clone'         => 'Full Clone',
     'shallow_clone'      => 'Shallow Clone',
     'full_clone_desc'    => 'Clones the entire history of the repository, this is useful on development systems '.
-                            'where you might need access to historical commits. The initial deploy will be '.
+                            'where you might need access to historical data. The initial deploy will be '.
                             'slower than a shallow clone. If you do not have at least git 2.3 all deploys will '.
-                            'slow',
-    'shallow_clone_desc' => 'Clones the repository with the history truncated to only the latest revisions. This '.
+                            'be slow',
+    'shallow_clone_desc' => 'Clones the repository with the history truncated to only the latest revision. This '.
                             'is useful for live environments where you will not need older code, build servers and '.
                             'systems where resources such as disk space are at a premium. Each deploy will be faster '.
                             'than using a full clone'
