@@ -449,11 +449,11 @@ CMD;
         }
 
         // Turn on quit on non-zero exit
-        $script = 'set -e' . PHP_EOL . $script;
+        $bash_options = 'set -e' . PHP_EOL;
 
         if (env('APP_DEBUG')) {
             // Turn on verbose output so we can see all commands when in debug mode
-            $script = 'set -v' . PHP_EOL . $script;
+            $bash_options .= 'set -v' . PHP_EOL;
         }
 
         return 'ssh -o CheckHostIP=no \
@@ -463,7 +463,7 @@ CMD;
                  -o IdentityFile=' . $this->private_key . ' \
                  -p ' . $server->port . ' \
                  ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
-                 ' . $script . '
+                 ' . $bash_options . $script . '
 EOF';
     }
 
