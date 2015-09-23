@@ -457,13 +457,15 @@ CMD;
             $bash_options .= 'set -v' . PHP_EOL;
         }
 
+        // The double quotes around EOF are important because if there are any backticks in the script
+        // they need to be expanded on the remote server, not locally
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
                  -o StrictHostKeyChecking=no \
                  -o PasswordAuthentication=no \
                  -o IdentityFile=' . $this->private_key . ' \
                  -p ' . $server->port . ' \
-                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << "EOF"
                  ' . $bash_options . $script . '
 EOF';
     }
