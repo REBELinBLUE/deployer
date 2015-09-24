@@ -74,7 +74,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     public function runtime()
     {
         if (!$this->finished_at) {
-            return;
+            return false;
         }
 
         return $this->started_at->diffInSeconds($this->finished_at);
