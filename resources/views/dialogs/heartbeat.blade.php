@@ -24,7 +24,7 @@
                         <ul class="list-unstyled">
                             @foreach ([10, 30, 60, 120, 720, 1440, 10080] as $time)
                             <li>
-                                <div class="checkbox">
+                                <div class="radio">
                                     <label for="heartbeat_interval_{{ $time }}">
                                         <input type="radio" class="heartbeat-interval" name="interval" id="heartbeat_interval_{{ $time }}" value="{{ $time }}" /> {{ Lang::get('heartbeats.interval_' . $time) }}
                                     </label>

@@ -18,14 +18,14 @@
                         <label for="deployment_source">{{ Lang::get('deployments.source') }}</label>
                         <ul class="list-unstyled">
                             <li>
-                                <div class="checkbox">
+                                <div class="radio">
                                     <label for="deployment_source_default">
                                         <input type="radio" class="deployment-source" name="source" id="deployment_source_default" value="{{ $project->branch }}" checked /> {{ Lang::get('deployments.default', [ 'branch' => $project->branch ]) }}
                                     </label>
                                 </div>
                             </li>
                             <li>
-                                <div class="checkbox">
+                                <div class="radio">
                                     <label for="deployment_source_branch">
                                         <input type="radio" class="deployment-source" name="source" id="deployment_source_branch" value="branch" /> {{ Lang::get('deployments.branch') }}
                                         <input type="text" class="form-control deployment-source" name="source_branch" id="deployment_branch" placeholder="master" />
@@ -33,7 +33,7 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="checkbox">
+                                <div class="radio">
                                     <label for="deployment_source_tag">
                                         <input type="radio" class="deployment-source" name="source" id="deployment_source_tag" value="tag" /> {{ Lang::get('deployments.tag') }}
                                         <input type="text" class="form-control deployment-source" name="source_tag" id="deployment_tag" placeholder="1.0.0" />

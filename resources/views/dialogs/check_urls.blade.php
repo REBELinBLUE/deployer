@@ -27,7 +27,7 @@
                         <ul class="list-unstyled">
                             @foreach ([5, 10, 30, 60] as $time)
                             <li>
-                                <div class="checkbox">
+                                <div class="radio">
                                     <label for="period_{{ $time }}">
                                         <input type="radio" class="checkurl-period" name="period" id="period_{{ $time }}" value="{{ $time }}" /> {{ $time }} {{ Lang::get('checkUrls.length') }}
                                     </label>
