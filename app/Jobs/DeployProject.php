@@ -361,7 +361,8 @@ CMD;
                 );
 
                 // TODO Handle the situation where git is < 2.1.3
-                // TODO Handle what happens if the previous checkout is a shallow clone
+                // TODO Handle what happens if the previous clone is a shallow clone
+                // TODO Do a full clone if either of these fail
             } else {
                 $commands[] = sprintf(
                     'git clone --branch %s --depth 1 --recursive %s %s',
