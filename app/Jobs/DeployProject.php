@@ -394,6 +394,7 @@ CMD;
                     // download it and then set an alias
                     'if ! hash composer 2>/dev/null; then
                         alias composer="composer.phar"
+
                         if ! hash composer.phar  2>/dev/null; then
                             if [ ! -f %s/composer.phar ]; then
                                 curl -sS https://getcomposer.org/installer | php
