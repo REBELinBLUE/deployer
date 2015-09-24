@@ -156,4 +156,26 @@ class ProjectPresenter extends CommandPresenter
 
         return 'success';
     }
+
+    /**
+     * Gets an icon which represents the repository type.
+     * 
+     * @return string
+     */
+    public function presentTypeIcon()
+    {
+        $details = $this->accessDetails();
+
+        if (isset($details['domain'])) {
+            if (preg_match('/github\.com/', $details['domain'])) {
+                return 'fa-github';
+            } elseif (preg_match('/bitbucket/', $details['domain'])) {
+                return 'fa-bitbucket';
+            } elseif (preg_match('/amazonaws\.com/', $details['domain'])) {
+                return 'fa-amazon';
+            }
+        }
+
+        return 'fa-git-square';
+    }
 }

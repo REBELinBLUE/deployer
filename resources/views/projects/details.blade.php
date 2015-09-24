@@ -9,7 +9,7 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="{{ $project->repository_url }}" target="_blank">{{ Lang::get('projects.repository') }} <span class="pull-right" title="{{ $project->repository }}"><i class="fa fa-git-square"></i> {{ $project->repository_path }}</span></a></li>
+                        <li><a href="{{ $project->repository_url }}" target="_blank">{{ Lang::get('projects.repository') }} <span class="pull-right" title="{{ $project->repository }}"><i class="fa {{ $project->type_icon }}"></i> {{ $project->repository_path }}</span></a></li>
                         <li><a href="{{ $project->branch_url }}" target="_blank">{{ Lang::get('projects.branch') }} <span class="pull-right label label-default">{{ $project->branch }}</span></a></li>
                         @if(!empty($project->url))
                         <li><a href="{{ $project->url }}" target="_blank">{{ Lang::get('projects.url') }} <span class="pull-right text-blue">{{ $project->url }}</span></a></li>
