@@ -76,7 +76,7 @@ class ClearStalledDeployment extends Command
      */
     public function cleanupDeployments()
     {
-        // Mark any depending steps as cancelled 
+        // Mark any pending steps as cancelled 
         ServerLog::where('status', '=', ServerLog::PENDING)
                  ->update(['status' => ServerLog::CANCELLED]);
 
@@ -84,7 +84,7 @@ class ClearStalledDeployment extends Command
         ServerLog::where('status', '=', ServerLog::RUNNING)
                  ->update(['status' => ServerLog::FAILED]);
 
-        // Mark any running steps as failed
+        // Mark any running deployments as failed
         Deployment::where('status', '=', Deployment::DEPLOYING)
                   ->update(['status' => Deployment::FAILED]);
 
