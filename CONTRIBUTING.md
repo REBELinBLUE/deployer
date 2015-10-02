@@ -24,9 +24,16 @@ PHP Docblocks can be checked with
 
 You should make use of the [.editorconfig](/.editorconfig) file found within the root of the repository. It'll make sure that your editor is setup with the same file settings.
 
+## Requirements
+
+Along with the standard requirements, development also requires the following
+
+- gulp
+- bower
+
 ## Development environment 
 
-The project includes a Vagrantfile for running deployer, it uses laravel/homestead. The VM uses the domain deploy.app and the IP address 192.168.10.10 so you will need to add them to your /etc/hosts file
+The project includes a [Vagrantfile](/Vagrantfile) for running deployer, it uses laravel/homestead. The VM uses the domain `deploy.app` and the IP address `192.168.10.10` so you will need to add them to your `/etc/hosts` file
 
 Once you have started the VM you will need to run the following commands
 
