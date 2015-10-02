@@ -23,6 +23,8 @@ return [
     'never'          => 'Never',
     'none'           => 'None',
     'yes'            => 'Yes',
-    'no'             => 'No'
+    'no'             => 'No',
+    'not_down'       => 'You must switch to maintenance mode before running this command, this will ensure that no new deployments are started',
+    'switch_down'    => 'Switch to maintenance mode now? The app will switch back to live mode once cleanup is finished',
 
 ];

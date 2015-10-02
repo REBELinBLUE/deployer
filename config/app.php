@@ -145,6 +145,8 @@ return [
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Robbo\Presenter\PresenterServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        GrahamCampbell\Security\SecurityServiceProvider::class,
+        GrahamCampbell\Binput\BinputServiceProvider::class,
 
         /*
          * Application Service Providers...
