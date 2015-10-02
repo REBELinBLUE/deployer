@@ -28,8 +28,8 @@ You should make use of the [.editorconfig](/.editorconfig) file found within the
 
 Along with the standard requirements, development also requires the following
 
-- gulp
-- bower
+- Gulp
+- Bower
 
 ## Development Environment 
 

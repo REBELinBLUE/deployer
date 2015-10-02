@@ -23,6 +23,6 @@ The `master` branch of this repository is a development branch and **should not*
 
 - PHP 5.5.9+ or newer
 - [Composer](https://getcomposer.org)
-- beanstalkd
-- redis
+- Beanstalkd
+- Redis
 - Node.js
