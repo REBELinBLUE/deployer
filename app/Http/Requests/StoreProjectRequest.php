@@ -72,6 +72,7 @@ class StoreProjectRequest extends Request
             'template_id'    => 'integer|exists:projects,id,is_template,1',
             'url'            => 'url',
             'build_url'      => 'url',
+            'full_clone'     => 'boolean',
         ];
     }
 }

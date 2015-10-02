@@ -62,7 +62,8 @@ class ProjectController extends Controller
             'builds_to_keep',
             'url',
             'build_url',
-            'template_id'
+            'template_id',
+            'full_clone'
         ));
     }
 
@@ -82,7 +83,8 @@ class ProjectController extends Controller
             'group_id',
             'builds_to_keep',
             'url',
-            'build_url'
+            'build_url',
+            'full_clone'
         ), $project_id);
     }
 }

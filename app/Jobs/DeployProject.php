@@ -337,16 +337,46 @@ CMD;
                 sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
                 sprintf('cd %s', $releases_dir),
                 sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
-                sprintf(
+            ];
+
+            // Full clone, so now we need to do some work!
+            if ($project->full_clone) {
+                // Check if latest exists, if not it is easy, just do a clone
+                $commands[] = sprintf(
+                    '[ ! -h %s/latest ] && git clone --branch %s --recursive %s %s',
+                    $root_dir,
+                    $this->deployment->branch,
+                    $project->repository,
+                    $latest_release_dir
+                );
+
+                // If it does exist use it as a reference point for the clone
+                $commands[] = sprintf(
+                    '[ -h %s/latest ] && git clone --branch %s --recursive --reference `readlink %s/latest` --dissociate %s %s',
+                    $root_dir,
+                    $this->deployment->branch,
+                    $root_dir,
+                    $project->repository,
+                    $latest_release_dir
+                );
+
+                // TODO Handle the situation where git is < 2.1.3
+                // TODO Handle what happens if the previous clone is a shallow clone
+                // TODO Do a full clone if either of these fail
+            } else {
+                $commands[] = sprintf(
                     'git clone --branch %s --depth 1 --recursive %s %s',
                     $this->deployment->branch,
                     $project->repository,
                     $latest_release_dir
-                ),
+                );
+            }
+
+            $commands = array_merge($commands, [
                 sprintf('cd %s', $latest_release_dir),
                 sprintf('git checkout %s', $this->deployment->branch),
                 sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
-            ];
+            ]);
         } elseif ($step->stage === Stage::DO_INSTALL) {
             // Install composer dependencies
             $commands = [
@@ -449,21 +479,23 @@ CMD;
         }
 
         // Turn on quit on non-zero exit
-        $script = 'set -e' . PHP_EOL . $script;
+        $bash_options = 'set -e' . PHP_EOL;
 
         if (env('APP_DEBUG')) {
             // Turn on verbose output so we can see all commands when in debug mode
-            $script = 'set -v' . PHP_EOL . $script;
+            $bash_options .= 'set -v' . PHP_EOL;
         }
 
+        // The double quotes around EOF are important because if there are any backticks in the script
+        // they need to be expanded on the remote server, not locally
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
                  -o StrictHostKeyChecking=no \
                  -o PasswordAuthentication=no \
                  -o IdentityFile=' . $this->private_key . ' \
                  -p ' . $server->port . ' \
-                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
-                 ' . $script . '
+                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << "EOF"
+                 ' . $bash_options . $script . '
 EOF';
     }
 

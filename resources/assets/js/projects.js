@@ -64,6 +64,7 @@ var app = app || {};
             $('#project_builds_to_keep').val(10);
             $('#project_url').val('');
             $('#project_build_url').val('');
+            $('#project_shallow_clone').prop('checked', true);
         }
 
         modal.find('.modal-title span').text(title);
@@ -125,7 +126,8 @@ var app = app || {};
             builds_to_keep: $('#project_builds_to_keep').val(),
             url: $('#project_url').val(),
             build_url: $('#project_build_url').val(),
-            template_id: $('#project_template_id') ? $('#project_template_id').val() : null
+            template_id: $('#project_template_id') ? $('#project_template_id').val() : null,
+            full_clone: $('#project_full_clone').is(':checked')
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -272,6 +274,8 @@ var app = app || {};
             $('#project_builds_to_keep').val(this.model.get('builds_to_keep'));
             $('#project_url').val(this.model.get('url'));
             $('#project_build_url').val(this.model.get('build_url'));
+            $('#project_shallow_clone').prop('checked', this.model.get('full_clone') === false);
+            $('#project_full_clone').prop('checked', this.model.get('full_clone') === true);
         }
     });
 
