@@ -5,3 +5,4 @@ node_modules/
 _ide_helper.php
 sftp-config.json
 .php_cs.cache
+phpunit.xml
