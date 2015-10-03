@@ -13,6 +13,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * A console command for prompting for install details.
+ * TODO: Refactor the validator to reduce duplication, maybe move the askWithValidation to a generic class
  */
 class InstallApp extends Command
 {
@@ -54,9 +55,11 @@ class InstallApp extends Command
         // TODO: Add options so they can be passed in via the command line?
 
         // This should not actually be needed as composer install should do it
-        if (!file_exists(base_path('.env'))) {
-            copy(base_path('.env.example'), base_path('.env'));
-        }
+        // Removed for now as this causes problems with APP_KEY because key:generate and migrate
+        //  will see it as empty because .env has already be loaded by this stage
+        // if (!file_exists(base_path('.env'))) {
+        //     copy(base_path('.env.example'), base_path('.env'));
+        // }
 
         $this->line('');
         $this->info('***********************');
@@ -74,7 +77,7 @@ class InstallApp extends Command
         $config = [
             'db'    => $this->getDatabaseInformation(),
             'app'   => $this->getInstallInformation(),
-            'email' => $this->getEmailInformation(),
+            'mail'  => $this->getEmailInformation(),
         ];
 
         $this->writeEnvFile($config);
@@ -128,6 +131,15 @@ class InstallApp extends Command
                 $key = strtoupper($key);
 
                 $config = preg_replace('/DB_' . $key . '=(.*)[\n]/', '', $config);
+            }
+        }
+
+        // Remove keys not needed by SMTP
+        if ($input['mail']['type'] !== 'smtp') {
+            foreach (['host', 'port', 'username', 'password'] as $key) {
+                $key = strtoupper($key);
+
+                $config = preg_replace('/MAIL_' . $key . '=(.*)[\n]/', '', $config);
             }
         }
 
@@ -293,14 +305,51 @@ class InstallApp extends Command
 
         $email = [];
 
-        // MAIL_DRIVER=smtp
-        // MAIL_HOST=mailtrap.io
-        // MAIL_PORT=2525
-        // MAIL_USERNAME=null
-        // MAIL_PASSWORD=null
-        // MAIL_FROM_ADDRESS=null
-        // MAIL_FROM_NAME=null
+        $type = $this->choice('Type', ['smtp', 'sendmail', 'mail'], 0);
 
+        if ($type === 'smtp') {
+            $host = $this->ask('Host', 'localhost');
+
+            $port = $this->askAndValidate('Port', [], function ($answer) {
+                $validator = Validator::make(['port' => $answer], [
+                    'port' => 'integer',
+                ]);
+
+                if (!$validator->passes()) {
+                    throw new \RuntimeException($validator->errors()->first('port'));
+                };
+
+                return $answer;
+            }, 25);
+
+            $user = $this->ask('Username');
+            $pass = $this->secret('Password');
+
+            $email['host']     = $host;
+            $email['port']     = $port;
+            $email['username'] = $user;
+            $email['password'] = $pass;
+        }
+
+        $from_name = $this->ask('From name', 'Deployer');
+
+        $from_address = $this->askAndValidate('From address', [], function ($answer) {
+            $validator = Validator::make(['from_address' => $answer], [
+                'from_address' => 'email',
+            ]);
+
+            if (!$validator->passes()) {
+                throw new \RuntimeException($validator->errors()->first('from_address'));
+            };
+
+            return $answer;
+        }, 'admin@example.com');
+
+        $email['from_name'] = $from_name;
+        $email['from_address'] = $from_address;
+        $email['type'] = $type;
+
+        // TODO: Attempt to connect?
 
         return $email;
     }
@@ -379,7 +428,7 @@ class InstallApp extends Command
             $errors = true;
         }
 
-        // FIXME: GD or imagemagick
+        // FIXME: allow gd or imagemagick
         // TODO: See if there are any others, maybe clean this list up?
         $required_extensions = ['PDO', 'curl', 'memcached', 'gd',
                                 'mcrypt', 'json', 'tokenizer',
@@ -421,6 +470,14 @@ class InstallApp extends Command
                 $this->error('Program not found in path: ' . $command);
                 $errors = true;
             }
+        }
+
+        // Horrible work around for now
+        if (!file_exists(base_path('.env'))) {
+            copy(base_path('.env.example'), base_path('.env'));
+
+            $this->error('.env was missing, it has not been generated');
+            $errors = true;
         }
 
         // Files and directories which need to be writable
