@@ -53,7 +53,6 @@ class InstallApp extends Command
 
         // TODO: Add options so they can be passed in via the command line?
 
-        // FIXME: Handle error!
         // This should not actually be needed as composer install should do it
         if (!file_exists(base_path('.env'))) {
             copy(base_path('.env.example'), base_path('.env'));
@@ -109,9 +108,6 @@ class InstallApp extends Command
         $path   = base_path('.env');
         $config = file_get_contents($path);
 
-        // FIXME: Don't use getenv here as it causes a problem if the .env didn't exist, it may not match,
-        //  for instance it created a timezone of UTCEurope/London
-
         // Move the socket value to the correct key
         if (isset($input['app']['socket'])) {
             $input['socket']['url'] = $input['app']['socket'];
@@ -122,21 +118,20 @@ class InstallApp extends Command
             foreach ($data as $key => $value) {
                 $env = strtoupper($section . '_' . $key);
 
-                $config = str_replace($env . '=' . getenv($env), $env . '=' . $value, $config);
+                $config = preg_replace('/' . $env . '=(.*)/', $env . '=' . $value, $config);
             }
         }
 
+        // Remove keys not needed for sqlite
         if ($input['db']['type'] === 'sqlite') {
             foreach (['host', 'database', 'username', 'password'] as $key) {
                 $key = strtoupper($key);
 
-                $config = str_replace('DB_' . $key . '=' . getenv('DB_' . $key) . PHP_EOL, '', $config);
+                $config = preg_replace('/DB_' . $key . '=(.*)[\n]/', '', $config);
             }
         }
 
-        file_put_contents($path, $config);
-
-        // FIXME: Check the write happened, then make sure rthe file is no longer writeable
+        return file_put_contents($path, $config);
     }
 
     /**
