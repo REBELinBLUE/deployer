@@ -100,7 +100,7 @@ class InstallApp extends Command
         $path   = base_path('.env');
         $config = file_get_contents($path);
 
-        // FIXME: Don't use getenv here as it causes a problem if the .env didn't exist, it may not match, 
+        // FIXME: Don't use getenv here as it causes a problem if the .env didn't exist, it may not match,
         //  for instance it created a timezone of UTCEurope/London
 
         foreach ($input as $section => $data) {
