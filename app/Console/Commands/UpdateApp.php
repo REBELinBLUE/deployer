@@ -57,7 +57,7 @@ class UpdateApp extends InstallApp
 
     /**
      * Checks for new configuration values in .env.example and copy them to .env.
-     * 
+     *
      * @return void
      */
     protected function updateConfiguration()
@@ -95,7 +95,7 @@ class UpdateApp extends InstallApp
 
     /**
      * Restarts the queues.
-     * 
+     *
      * @return void
      */
     protected function restartQueue()
@@ -109,7 +109,7 @@ class UpdateApp extends InstallApp
 
     /**
      * Checks if there are any running or pending deployments.
-     * 
+     *
      * @return boolean
      */
     protected function hasRunningDeployments()
@@ -138,7 +138,7 @@ class UpdateApp extends InstallApp
      */
     protected function composerOutdated()
     {
-        if (filemtime(base_path('vendor/autoload.php')) + 600 < time()) {
+        if (filemtime(base_path('vendor/autoload.php')) < strtotime('-10 minutes')) {
             $this->block([
                 'Update not complete!',
                 PHP_EOL,
@@ -153,7 +153,7 @@ class UpdateApp extends InstallApp
 
     /**
      * Ensures that Deployer has actually been installed.
-     * 
+     *
      * @return bool
      */
     private function verifyInstalled()
