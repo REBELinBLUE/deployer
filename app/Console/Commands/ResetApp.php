@@ -46,14 +46,34 @@ class ResetApp extends InstallApp
 
         $this->resetDB();
         $this->migrate();
-        $this->optimize();
+        $this->clearCaches();
+        $this->restartQueue();
     }
 
+    /**
+     * Resets the database.
+     * 
+     * @return void
+     */
     protected function resetDB()
     {
         $this->info('Resetting the database');
         $this->line('');
         $this->call('migrate:reset', ['--force' => true]);
+        $this->line('');
+    }
+
+    /**
+     * Restarts the queues.
+     * 
+     * @return void
+     */
+    protected function restartQueue()
+    {
+        $this->info('Restarting the queue');
+        $this->line('');
+        $this->call('queue:flush');
+        $this->call('queue:restart');
         $this->line('');
     }
 
