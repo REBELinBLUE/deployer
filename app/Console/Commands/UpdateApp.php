@@ -65,7 +65,7 @@ class UpdateApp extends InstallApp
         $data = [];
 
         // Read the current config values into an array for the writeEnvFile method
-        foreach(file(base_path('.env')) as $line) {
+        foreach (file(base_path('.env')) as $line) {
             $line = trim($line);
 
             if (empty($line)) {
