@@ -18,7 +18,7 @@ class ResetApp extends Command
      *
      * @var string
      */
-    protected $description = 'Used during developer to clear the database and logs';
+    protected $description = 'Used during development to clear the database and logs';
 
     /**
      * Create a new command instance.
