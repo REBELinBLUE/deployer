@@ -92,6 +92,12 @@ class InstallApp extends Command
         // TODO: Update admin user instead of using defaults?
     }
 
+    /**
+     * Writes the configuration data to the config file.
+     * 
+     * @param  array $input The config data to write
+     * @return bool
+     */
     private function writeEnvFile(array $input)
     {
         $this->info('Writing configuration file');
@@ -102,6 +108,12 @@ class InstallApp extends Command
 
         // FIXME: Don't use getenv here as it causes a problem if the .env didn't exist, it may not match,
         //  for instance it created a timezone of UTCEurope/London
+
+        // Move the socket value to the correct key
+        if (isset($input['app']['socket'])) {
+            $input['socket']['url'] = $input['app']['socket'];
+            unset($input['app']['socket']);
+        }
 
         foreach ($input as $section => $data) {
             foreach ($data as $key => $value) {
@@ -124,6 +136,11 @@ class InstallApp extends Command
         // FIXME: Check the write happened, then make sure rthe file is no longer writeable
     }
 
+    /**
+     * Calls the artisan key:generate to set the APP_KEY.
+     * 
+     * @return void
+     */
     private function generateKey()
     {
         $this->info('Generating application key');
@@ -131,6 +148,12 @@ class InstallApp extends Command
         $this->call('key:generate');
     }
 
+    /**
+     * Calls the artisan migrate to set up the database
+     * in development mode it also seeds the DB.
+     * 
+     * @return void
+     */
     private function migrate()
     {
         $this->info('Running database migrations');
@@ -144,6 +167,11 @@ class InstallApp extends Command
         }
     }
 
+    /**
+     * Clears all Laravel caches.
+     * 
+     * @return void
+     */
     protected function clearCaches()
     {
         $this->call('clear-compiled');
@@ -153,6 +181,11 @@ class InstallApp extends Command
         $this->call('view:clear');
     }
 
+    /**
+     * Runs the artisan optimize commands.
+     * 
+     * @return void
+     */
     private function optimize()
     {
         $this->clearCaches();
@@ -164,6 +197,11 @@ class InstallApp extends Command
         }
     }
 
+    /**
+     * Prompts the user for the database connection details.
+     * 
+     * @return array
+     */
     private function getDatabaseInformation()
     {
         $this->header('Database details');
@@ -173,7 +211,7 @@ class InstallApp extends Command
         while (!$connectionVerified) {
             $db = [];
 
-            // FIXME: If only one driver is available just use that!
+            // Should we just skip this step if only one driver is available?
             $type = $this->choice('Type', $this->getDatabaseDrivers(), 0);
 
             $db['type'] = $type;
@@ -196,75 +234,72 @@ class InstallApp extends Command
         return $db;
     }
 
+    /**
+     * Prompts the user for the basic setup information.
+     * 
+     * @return array
+     */
     private function getInstallInformation()
     {
         $this->header('Installation details');
-        $regions = [
-            'UTC'        => DateTimeZone::UTC,
-            'Africa'     => DateTimeZone::AFRICA,
-            'America'    => DateTimeZone::AMERICA,
-            'Antarctica' => DateTimeZone::ANTARCTICA,
-            'Asia'       => DateTimeZone::ASIA,
-            'Atlantic'   => DateTimeZone::ATLANTIC,
-            'Australia'  => DateTimeZone::AUSTRALIA,
-            'Europe'     => DateTimeZone::EUROPE,
-            'Indian'     => DateTimeZone::INDIAN,
-            'Pacific'    => DateTimeZone::PACIFIC,
-        ];
 
-        $install = [];
+        $regions = $this->getTimezoneRegions();
 
         $url    = $this->ask('Your Deployer URL ("http://deployer.app" for example)'); // FIXME: Validation
         $region = $this->choice('Your timezone region', array_keys($regions), 0);
 
-        $install['url']      = $url;
-        $install['timezone'] = $region;
-
         if ($region !== 'UTC') {
-            $locations = [];
+            $locations = $this->getTimezoneLocations($regions[$region]);
 
-            foreach (DateTimeZone::listIdentifiers($regions[$region]) as $timezone) {
-                $locations[] = substr($timezone, strlen($region) + 1);
-            }
-
-            $location = $this->choice('Your timezone location', $locations, 0);
-
-            $install['timezone'] .= '/' . $location;
+            $region .= '/' . $this->choice('Your timezone location', $locations, 0);
         }
 
         $socket = $this->ask('Your socket URL [' . $url . ']', $url); // FIXME: Validation
 
-        return $install;
+        // Add APP_LOCALE when we add translations
+
+        return [
+            'url'      => $url,
+            'timezone' => $region,
+            'socket'   => $socket,
+        ];
     }
 
+    /**
+     * Prompts the user for the details for the email setup.
+     * 
+     * @return array
+     */
     private function getEmailInformation()
     {
         $this->header('Email details');
 
         $email = [];
-        /*
-        
-MAIL_DRIVER=smtp
-MAIL_HOST=mailtrap.io
-MAIL_PORT=2525
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_FROM_ADDRESS=null
-MAIL_FROM_NAME=null
 
-         */
+        // MAIL_DRIVER=smtp
+        // MAIL_HOST=mailtrap.io
+        // MAIL_PORT=2525
+        // MAIL_USERNAME=null
+        // MAIL_PASSWORD=null
+        // MAIL_FROM_ADDRESS=null
+        // MAIL_FROM_NAME=null
+
 
         return $email;
     }
 
+    /**
+     * Verifies that the database connection details are correct.
+     * 
+     * @param  array $db The connection details
+     * @return bool
+     */
     private function verifyDatabaseDetails(array $db)
     {
         if ($db['type'] === 'sqlite') {
-            // FIXME: See if we can get the value from the config
             return touch(storage_path() . '/database.sqlite');
         }
 
-        // FIXME: See if there is a cleaner way to do this in laravel
         try {
             $pdo = new PDO(
                 $db['type'] . ':host=' . $db['host'] . ';dbname=' . $db['name'],
@@ -291,6 +326,11 @@ MAIL_FROM_NAME=null
         return false;
     }
 
+    /**
+     * Ensures that Deployer has not been installed yet.
+     * 
+     * @return bool
+     */
     private function verifyNotInstalled()
     {
         // FIXME: Check for valid DB connection, and migrations have run?
@@ -307,6 +347,11 @@ MAIL_FROM_NAME=null
         return true;
     }
 
+    /**
+     * Checks the system meets all the requirements needed to run Deployer.
+     * 
+     * @return bool
+     */
     private function checkRequirements()
     {
         $errors = false;
@@ -332,7 +377,7 @@ MAIL_FROM_NAME=null
         }
 
         if (!count($this->getDatabaseDrivers())) {
-            $this->error('At least 1 database driver is required');
+            $this->error('At least 1 PDO database driver is required. Either sqlite, mysql, pgsql or sqlsrv, check your php.ini file');
             $errors = true;
         }
 
@@ -350,7 +395,6 @@ MAIL_FROM_NAME=null
         $required_commands = ['ssh', 'ssh-keygen', 'git'];
 
         foreach ($required_commands as $command) {
-
             $process = new Process('which ' . $command);
 
             $process->setTimeout(null);
@@ -363,7 +407,7 @@ MAIL_FROM_NAME=null
         }
 
         // Files and directories which need to be writable
-        $writable = ['.env', 'storage', 'storage/logs', 'storage/app', 
+        $writable = ['.env', 'storage', 'storage/logs', 'storage/app', 'storage/framework',
                      'storage/framework/cache', 'storage/framework/sessions',
                      'storage/framework/views', 'bootstrap/cache',
                     ];
@@ -388,6 +432,11 @@ MAIL_FROM_NAME=null
         return true;
     }
 
+    /**
+     * Gets an array of available PDO drivers which are supported by Laravel.
+     * 
+     * @return array
+     */
     private function getDatabaseDrivers()
     {
         // FIXME: Laravel has collection filtering to make this cleaner
@@ -404,6 +453,52 @@ MAIL_FROM_NAME=null
         return $drivers;
     }
 
+    /**
+     * Gets a list of timezone regions.
+     * 
+     * @return array
+     */
+    private function getTimezoneRegions()
+    {
+        return [
+            'UTC'        => DateTimeZone::UTC,
+            'Africa'     => DateTimeZone::AFRICA,
+            'America'    => DateTimeZone::AMERICA,
+            'Antarctica' => DateTimeZone::ANTARCTICA,
+            'Asia'       => DateTimeZone::ASIA,
+            'Atlantic'   => DateTimeZone::ATLANTIC,
+            'Australia'  => DateTimeZone::AUSTRALIA,
+            'Europe'     => DateTimeZone::EUROPE,
+            'Indian'     => DateTimeZone::INDIAN,
+            'Pacific'    => DateTimeZone::PACIFIC,
+        ];
+    }
+
+    /**
+     * Gets a list of available locations in the supplied region.
+     * 
+     * @param  int   $region The region constant
+     * @return array
+     * @see DateTimeZone
+     */
+    private function getTimezoneLocations($region)
+    {
+        $locations = [];
+
+        foreach (DateTimeZone::listIdentifiers($region) as $timezone) {
+            $locations[] = substr($timezone, strlen($region) + 1);
+        }
+
+        return $locations;
+    }
+
+    /**
+     * A wrapper around symfony's formatter helper to output a block.
+     * 
+     * @param  string|array $messages Messages to output
+     * @param  string       $type     The type of message to output
+     * @return void
+     */
     protected function block($messages, $type = 'error')
     {
         if (!is_array($messages)) {
@@ -422,6 +517,12 @@ MAIL_FROM_NAME=null
         $this->line($formatter->formatBlock($output, $type));
     }
 
+    /**
+     * Outputs a header block.
+     * 
+     * @param  string $header The text to output
+     * @return void
+     */
     protected function header($header)
     {
         $this->block($header, 'question');
