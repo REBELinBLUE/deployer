@@ -15,7 +15,7 @@ var app = app || {};
                 ids.push($(element).data('command-id'));
             });
 
-            $.ajax({ 
+            $.ajax({
                 url: '/commands/reorder',
                 method: 'POST',
                 data: {
@@ -55,8 +55,8 @@ var app = app || {};
             editor.setValue('');
             editor.gotoLine(1);
             $('#command_user').val('');
-            $('#command_optional').val('');
-            $('#command_default_on').val('');
+            $('#command_optional').prop('checked', false);
+            $('#command_default_on').prop('checked', false);
             $('#command_default_on_row').addClass('hide');
 
             $('.command-server').prop('checked', true);
@@ -198,7 +198,7 @@ var app = app || {};
             if (!this.length) {
                 return 1;
             }
-            
+
             return this.last().get('order') + 1;
         }
     });
@@ -251,7 +251,7 @@ var app = app || {};
             });
         },
         render: function () {
-            var before = app.Commands.find(function(model) { 
+            var before = app.Commands.find(function(model) {
                 return !model.isAfter();
             });
 
@@ -263,7 +263,7 @@ var app = app || {};
                 $('#commands-before .command-list').hide();
             }
 
-            var after = app.Commands.find(function(model) { 
+            var after = app.Commands.find(function(model) {
                 return model.isAfter();
             });
 
@@ -276,7 +276,7 @@ var app = app || {};
             }
         },
         addOne: function (command) {
-            var view = new app.CommandView({ 
+            var view = new app.CommandView({
                 model: command
             });
 
