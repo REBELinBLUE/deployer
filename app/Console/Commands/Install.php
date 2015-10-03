@@ -4,12 +4,12 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use DateTime;
 use DateTimeZone;
-use PDO;
 use Illuminate\Console\Command;
+use PDO;
 use Symfony\Component\Console\Helper\FormatterHelper;
 
 /**
- * A console command for prompting for install details
+ * A console command for prompting for install details.
  */
 class Install extends Command
 {
@@ -48,6 +48,8 @@ class Install extends Command
             return;
         }
 
+        // TODO: Add options so they can be passed in via the command line?
+
         // FIXME: Handle error!
         // This should not actually be needed as composer install should do it
         if (!file_exists(base_path('.env'))) {
@@ -60,15 +62,17 @@ class Install extends Command
         $this->info('***********************');
         $this->line('');
 
-        // TODO: Check requirements
-        
+        if (!$this->checkRequirements()) {
+            return;
+        }
+
         $this->line('Please answer the following questions:');
         $this->line('');
 
         $config = [
             'db'    => $this->getDatabaseInformation(),
             'app'   => $this->getInstallInformation(),
-            'email' => $this->getEmailInformation()
+            'email' => $this->getEmailInformation(),
         ];
 
         $this->writeEnvFile($config);
@@ -87,10 +91,34 @@ class Install extends Command
         // TODO: Update admin user instead of using defaults?
     }
 
-    private function writeEnvFile($config)
+    private function writeEnvFile(array $input)
     {
         $this->info('Writing configuration file');
         $this->line('');
+
+        $path   = base_path('.env');
+        $config = file_get_contents($path);
+
+        // FIXME: Don't use getenv here as it causes a problem if the .env didn't exist, it may not match, 
+        //  for instance it created a timezone of UTCEurope/London
+
+        foreach ($input as $section => $data) {
+            foreach ($data as $key => $value) {
+                $env = strtoupper($section . '_' . $key);
+
+                $config = str_replace($env . '=' . getenv($env), $env . '=' . $value, $config);
+            }
+        }
+
+        if ($input['db']['type'] === 'sqlite') {
+            foreach (['host', 'database', 'username', 'password'] as $key) {
+                $key = strtoupper($key);
+
+                $config = str_replace('DB_' . $key . '=' . getenv('DB_' . $key) . PHP_EOL, '', $config);
+            }
+        }
+
+        file_put_contents($path, $config);
     }
 
     private function generateKey()
@@ -104,8 +132,8 @@ class Install extends Command
     {
         $this->info('Running database migrations');
         $this->line('');
-        //$this->call('migrate', ['--force' => true]);
-        //
+        $this->call('migrate', ['--force' => true]);
+
         if (getenv('APP_ENV') === 'local' && getenv('APP_DEBUG') === true) {
             $this->info('Seeding database');
             $this->line('');
@@ -120,10 +148,10 @@ class Install extends Command
         $connectionVerified = false;
 
         while (!$connectionVerified) {
-            $db = array();
+            $db = [];
 
-            // FIXME: Check for installed drivers!
-            $type = $this->choice('Type [mysql]', ['mysql', 'sqlite', 'pgsql'], 0);
+            // FIXME: If only one driver is available just use that!
+            $type = $this->choice('Type', $this->getDatabaseDrivers(), 0);
 
             $db['type'] = $type;
 
@@ -133,8 +161,8 @@ class Install extends Command
                 $user = $this->ask('Username', 'deployer');
                 $pass = $this->secret('Password');
 
-                $db['host'] = $host;
-                $db['name'] = $name;
+                $db['host']     = $host;
+                $db['name']     = $name;
                 $db['username'] = $user;
                 $db['password'] = $pass;
             }
@@ -161,16 +189,15 @@ class Install extends Command
             'Pacific'    => DateTimeZone::PACIFIC,
         ];
 
-        $install = array();
+        $install = [];
 
-        $url = $this->ask('Your Deployer URL ("http://deployer.app" for example)'); // FIXME: Validation
+        $url    = $this->ask('Your Deployer URL ("http://deployer.app" for example)'); // FIXME: Validation
         $region = $this->choice('Your timezone region', array_keys($regions), 0);
 
-        $install['url'] = $url;
+        $install['url']      = $url;
         $install['timezone'] = $region;
 
         if ($region !== 'UTC') {
-
             $locations = [];
 
             foreach (DateTimeZone::listIdentifiers($regions[$region]) as $timezone) {
@@ -191,7 +218,7 @@ class Install extends Command
     {
         $this->header('Email details');
 
-        $email = array();
+        $email = [];
 
         return $email;
     }
@@ -199,8 +226,8 @@ class Install extends Command
     private function verifyDatabaseDetails(array $db)
     {
         if ($db['type'] === 'sqlite') {
-            // FIXME: Touch the DB and check it exists
-            return true;
+            // FIXME: See if we can get the value from the config
+            return touch(storage_path() . '/database.sqlite');
         }
 
         // FIXME: See if there is a cleaner way to do this in laravel
@@ -219,12 +246,11 @@ class Install extends Command
             unset($pdo);
 
             return true;
-
         } catch (\Exception $error) {
             $this->block([
                 'Deployer could not connect to the database with the details provided. Please try again.',
                 PHP_EOL,
-                $error->getMessage()
+                $error->getMessage(),
             ]);
         }
 
@@ -247,13 +273,79 @@ class Install extends Command
         return true;
     }
 
+    private function checkRequirements()
+    {
+        $errors = false;
+
+        // Check PHP version:
+        if (!version_compare(PHP_VERSION, '5.5.9', '>=')) {
+            $this->error('PHP 5.5.9 or higher is required');
+            $errors = true;
+        }
+
+        // FIXME: GD or imagemagick
+        // TODO: See if there are any others, maybe clean this list up?
+        $required_extensions = ['PDO', 'curl', 'memcached', 'gd',
+                                'mcrypt', 'json', 'tokenizer',
+                                'openssl', 'mbstring',
+                               ];
+
+        foreach ($required_extensions as $extension) {
+            if (!extension_loaded($extension)) {
+                $this->error('Extension required: ' . $extension);
+                $errors = true;
+            }
+        }
+
+        if (!count($this->getAvailableDrivers())) {
+            $this->error('At least 1 database driver is required');
+            $errors = true;
+        }
+
+        // Functions needed by symfony process
+        $required_functions = ['proc_open'];
+
+        foreach ($requiredFunctions as $function) {
+            if (!function_exists($function)) {
+                $this->error('Function required: ' . $function . '. Is it disabled in php.ini?');
+                $errors = true;
+            }
+        }
+
+        if ($errors) {
+            $this->line('');
+            $this->block('Deployer cannot be installed, as not all requirements are met. Please review the errors above before continuing.');
+            $this->line('');
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private function getDatabaseDrivers()
+    {
+        // FIXME: Laravel has collection filtering to make this cleaner
+        $available = PDO::getAvailableDrivers();
+
+        $drivers = [];
+
+        foreach (['mysql', 'sqlite', 'pgsql', 'sqlsrv'] as $driver) {
+            if (in_array($driver, $available, true)) {
+                $drivers[] = $driver;
+            }
+        }
+
+        return $driver;
+    }
+
     private function block($messages, $type = 'error')
     {
         if (!is_array($messages)) {
             $messages = (array) $messages;
         }
 
-        $output = array('');
+        $output = [''];
 
         foreach ($messages as $message) {
             $output[] = trim($message);
@@ -263,7 +355,6 @@ class Install extends Command
 
         $formatter = new FormatterHelper();
         $this->line($formatter->formatBlock($output, $type));
-
     }
 
     private function header($header)
@@ -271,16 +362,3 @@ class Install extends Command
         $this->block($header, 'question');
     }
 }
-
-
-
-    // protected function writeEnv($key, $value)
-    // {
-    //     static $path = null;
-    //     if ($path === null || ($path !== null && file_exists($path))) {
-    //         $path = base_path('.env');
-    //         file_put_contents($path, str_replace(
-    //             getenv(strtoupper($key)), $value, file_get_contents($path)
-    //         ));
-    //     }
-    // }
