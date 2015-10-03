@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 use Illuminate\Console\Command;
 
 /**
- * Clears out any temp SSH keys and wrapper scripts which have been left on disk
+ * Clears out any temp SSH keys and wrapper scripts which have been left on disk.
  */
 class ClearOldKeys extends Command
 {
@@ -41,7 +41,7 @@ class ClearOldKeys extends Command
     public function handle()
     {
         // Clear out old SSH key files
-        $files = glob(storage_path() . '/app/*ssh*'); // sshkey and gitssh
+        $files   = glob(storage_path() . '/app/*ssh*'); // sshkey and gitssh
         $folders = glob(storage_path() . '/app/*clone*'); // cloned copies of code
 
         $this->info('Found ' . count($files) . ' files and ' . count($folders) . ' folders to purge');

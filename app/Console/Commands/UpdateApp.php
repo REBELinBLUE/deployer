@@ -74,11 +74,11 @@ class UpdateApp extends InstallApp
 
             $parts = explode('=', $line);
 
-            $env = strtolower($parts[0]);
+            $env   = strtolower($parts[0]);
             $value = trim($parts[1]);
 
             $section = substr($env, 0, strpos($env, '_'));
-            $key = substr($env, strpos($env, '_') + 1);
+            $key     = substr($env, strpos($env, '_') + 1);
 
             $config[$section][$key] = $value;
         }
@@ -110,7 +110,7 @@ class UpdateApp extends InstallApp
     /**
      * Checks if there are any running or pending deployments.
      *
-     * @return boolean
+     * @return bool
      */
     protected function hasRunningDeployments()
     {
@@ -132,9 +132,9 @@ class UpdateApp extends InstallApp
 
     /**
      * Check if the composer autoload.php has been updated in the last 10 minutes,
-     * if not we assume composer install has not be run recently
+     * if not we assume composer install has not be run recently.
      *
-     * @return boolean
+     * @return bool
      */
     protected function composerOutdated()
     {
