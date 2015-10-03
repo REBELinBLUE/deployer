@@ -122,7 +122,7 @@ var app = app || {};
             }
 
             $('td:first a', project).text(data.model.name);
-            $('td:nth-child(2)', project).text(moment(data.model.last_run).format('Do MMM YYYY h:mm:ss A'));
+            $('td:nth-child(2)', project).text(moment(data.model.last_run).format('Do MMMM YYYY h:mm:ss A'));
             status.attr('class', 'label label-' + label_class)
             $('i', status).attr('class', 'fa fa-' + icon_class);
             $('span', status).text(label);

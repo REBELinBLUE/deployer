@@ -199,7 +199,7 @@ var app = app || {};
         render: function () {
             var data = this.model.toJSON();
 
-            data.created = moment(data.created_at).format('Do MMM YYYY h:mm:ss A');
+            data.created = moment(data.created_at).format('Do MMMM YYYY h:mm:ss A');
 
             this.$el.html(this.template(data));
 

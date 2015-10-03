@@ -231,7 +231,7 @@ var app = app || {};
             }
         },
         addOne: function (project) {
-            var view = new app.ProjectView({ 
+            var view = new app.ProjectView({
                 model: project
             });
 
@@ -257,7 +257,7 @@ var app = app || {};
         render: function () {
             var data = this.model.toJSON();
 
-            data.deploy = data.last_run ? moment(data.last_run).format('Do MMM YYYY h:mm:ss A') : false;
+            data.deploy = data.last_run ? moment(data.last_run).format('Do MMMM YYYY h:mm:ss A') : false;
 
             this.$el.html(this.template(data));
 
