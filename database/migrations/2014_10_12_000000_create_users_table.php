@@ -24,9 +24,10 @@ class CreateUsersTable extends Migration
         });
 
         User::create([
-            'name'     => 'Admin',
-            'email'    => 'admin@example.com',
-            'password' => bcrypt('password'),
+            'name'           => 'Admin',
+            'email'          => 'admin@example.com',
+            'password'       => bcrypt('password'),
+            'remember_token' => str_random(10),
         ]);
     }
 

@@ -1,3 +1,5 @@
+# Deployer
+
 **Current Build Status**
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat)](https://styleci.io/repos/33559148)
@@ -13,32 +15,14 @@
 [![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg)](https://github.com/REBELinBLUE/deployer/releases)
 [![License](https://img.shields.io/github/license/rebelinblue/deployer.svg)](https://github.com/REBELinBLUE/deployer/blob/master/LICENSE.md)
 
-**Development**
+## Usage in production
 
-The code is written to follow PSR-2 standards, this can be tested using PHP_CodeSniffer
+The `master` branch of this repository is a development branch and **should not** be used in production. Instead, please check out the latest tag release.
 
-    $ ./vendor/bin/phpcs --standard=phpcs.xml
+## Requirements
 
-Code mess can be checked with
-
-    $ ./vendor/bin/phpmd app text phpmd.xml
-
-PHP Docblocks can be checked with
-
-    $ ./vendor/bin/phpdoccheck --directory=app
-
-The project includes a Vagrantfile for running deployer, it uses laravel/homestead. The VM uses the domain deploy.app and the IP address 192.168.10.10 so you will need to add them to your /etc/hosts file
-
-Once you have started the VM you will need to run the following commands
-
-    $ vagrant ssh
-    $ cd /var/www/deployer
-    $ composer install
-    $ npm install
-    $ bower install
-    $ gulp
-    $ php artisan key:generate
-    $ php artisan migrate
-    $ sudo service supervisor restart
-
-The VM will set up the cronjob needed for heartbeats and it will setup supervisor to ensure the queue listener is always running
+- PHP 5.5.9+ or newer
+- [Composer](https://getcomposer.org)
+- Beanstalkd
+- Redis
+- Node.js

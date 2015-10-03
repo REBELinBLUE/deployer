@@ -2,6 +2,7 @@ vendor/
 node_modules/
 .vagrant/
 .env
-_ide_helper.php
-sftp-config.json
+.env.prev
 .php_cs.cache
+phpunit.xml
+composer.phar

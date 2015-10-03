@@ -91,7 +91,7 @@ class DeploymentController extends Controller
             foreach ($step->servers as $server) {
                 $server->server;
 
-                $server->runtime = (!$server->runtime() ? null : $server->getPresenter()->readable_runtime);
+                $server->runtime = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
                 $server->output  = ((is_null($server->output) || !strlen($server->output)) ? null : '');
 
                 $output[] = $server;
@@ -155,7 +155,7 @@ class DeploymentController extends Controller
      */
     public function log(ServerLog $log)
     {
-        $log->runtime = (!$log->runtime() ? null : $log->getPresenter()->readable_runtime);
+        $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
 
         return $log;
     }

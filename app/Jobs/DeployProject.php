@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
@@ -60,6 +61,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        DB::reconnect();
         $project = $this->deployment->project;
 
         $this->deployment->started_at = date('Y-m-d H:i:s');
@@ -68,7 +70,6 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
 
         $project->status = Project::DEPLOYING;
         $project->save();
-
 
         $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
@@ -84,10 +85,10 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
             }
 
             $this->deployment->status = Deployment::COMPLETED;
-            $project->status = Project::FINISHED;
+            $project->status          = Project::FINISHED;
         } catch (\Exception $error) {
             $this->deployment->status = Deployment::FAILED;
-            $project->status = Project::FAILED;
+            $project->status          = Project::FAILED;
 
             $this->cancelPendingSteps($this->deployment->steps);
 
@@ -97,7 +98,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
                     $this->cleanupDeployment();
                 } else {
                     $this->deployment->status = Deployment::COMPLETED_WITH_ERRORS;
-                    $project->status = Project::FINISHED;
+                    $project->status          = Project::FINISHED;
                 }
             }
         }
@@ -447,7 +448,13 @@ CMD;
             $user = $server->user;
         }
 
+        // Turn on quit on non-zero exit
         $script = 'set -e' . PHP_EOL . $script;
+
+        if (env('APP_DEBUG')) {
+            // Turn on verbose output so we can see all commands when in debug mode
+            $script = 'set -v' . PHP_EOL . $script;
+        }
 
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \

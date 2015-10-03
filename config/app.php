@@ -13,7 +13,7 @@ return [
     |
      */
 
-    'debug'           => env('APP_DEBUG'),
+    'debug'           => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
      */
 
-    'locale'          => 'en',
+    'locale'          => env('APP_LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +95,7 @@ return [
     |
      */
 
-    'log'             => 'daily',
+    'log'             => env('LOGGING_MODE', 'daily'),
 
     /*
     |--------------------------------------------------------------------------
@@ -145,6 +145,8 @@ return [
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Robbo\Presenter\PresenterServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        GrahamCampbell\Security\SecurityServiceProvider::class,
+        GrahamCampbell\Binput\BinputServiceProvider::class,
 
         /*
          * Application Service Providers...

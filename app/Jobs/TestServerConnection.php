@@ -6,6 +6,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Server;
 use Symfony\Component\Process\Process;
@@ -37,6 +38,7 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        DB::reconnect();
         $this->server->status = Server::TESTING;
         $this->server->save();
 

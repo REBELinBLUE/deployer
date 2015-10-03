@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Listeners\Events;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Jobs\MailDeployNotification;
 use REBELinBLUE\Deployer\Jobs\Notify as SlackNotify;
@@ -35,6 +36,7 @@ class Notify extends Event implements ShouldQueue
      */
     public function handle(DeployFinished $event)
     {
+        DB::reconnect();
         $project    = $event->project;
         $deployment = $event->deployment;
 

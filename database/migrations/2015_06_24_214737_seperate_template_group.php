@@ -12,7 +12,18 @@ class SeperateTemplateGroup extends Migration
      */
     public function up()
     {
-        $group = Group::findOrFail(1);
+        $group = Group::find(1);
+
+        // Had to move this from the previous migration due to
+        // an issue caused by adding the Broadcast events later on
+        // with an attribute which depends on a column added later
+        // But the migration still needs to work for people who were
+        // an older version
+        if (!$group) {
+            $group = Group::create([
+                'name' => 'Projects',
+            ]);
+        }
 
         $new_group = Group::create([
             'name' => $group->name,

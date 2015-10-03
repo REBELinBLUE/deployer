@@ -12,8 +12,8 @@ class UserTableSeeder extends Seeder
         $faker = Faker\Factory::create('en_GB');
 
         User::create([
-            'name'           => 'Stephen Ball',
-            'email'          => 'stephen@rebelinblue.com',
+            'name'           => 'Admin',
+            'email'          => 'admin@example.com',
             'password'       => bcrypt('password'),
             'remember_token' => str_random(10),
         ]);

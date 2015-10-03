@@ -52,8 +52,6 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo cp /var/www/deployer/crontab.example /etc/cron.d/deployer"
     config.vm.provision "shell", inline: "sudo cp /var/www/deployer/nginx.conf.example /etc/nginx/sites-available/deployer.conf"
     config.vm.provision "shell", inline: "sudo ln -fs /etc/nginx/sites-available/deployer.conf /etc/nginx/sites-enabled/deployer.conf"
-    config.vm.provision "shell", inline: "echo \"\nenv[APP_ENV] = 'local'\" >> /etc/php5/fpm/php-fpm.conf"
-    config.vm.provision "shell", inline: "echo \"\n#Set Homestead environment variable\nexport APP_ENV=local\" >> /home/vagrant/.profile"
     config.vm.provision "shell", inline: "sudo service redis-server restart"
     config.vm.provision "shell", inline: "sudo service beanstalkd restart"
     config.vm.provision "shell", inline: "sudo service supervisor restart"
