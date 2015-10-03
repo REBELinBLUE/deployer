@@ -65,8 +65,6 @@ class InstallApp extends Command
             return;
         }
 
-        // FIXME: Check .env and storage/ is writeable
-
         $this->line('Please answer the following questions:');
         $this->line('');
 
@@ -79,6 +77,7 @@ class InstallApp extends Command
         $this->writeEnvFile($config);
         $this->generateKey();
         $this->migrate();
+        $this->optimize();
 
         $this->line('');
         $this->comment('Success! Deployer is now installed');
@@ -120,6 +119,8 @@ class InstallApp extends Command
         }
 
         file_put_contents($path, $config);
+
+        // FIXME: Check the write happened, then make sure rthe file is no longer writeable
     }
 
     private function generateKey()
@@ -139,6 +140,26 @@ class InstallApp extends Command
             $this->info('Seeding database');
             $this->line('');
             $this->call('db:seed', ['--force' => true]);
+        }
+    }
+
+    protected function clearCaches()
+    {
+        $this->call('clear-compiled');
+        $this->call('cache:clear');
+        $this->call('route:clear');
+        $this->call('config:clear');
+        $this->call('view:clear');
+    }
+
+    private function optimize()
+    {
+        $this->clearCaches();
+
+        if (getenv('APP_ENV') !== 'local') {
+            $this->call('optimize', ['--force' => true]);
+            $this->call('config:cache');
+            $this->call('route:cache');
         }
     }
 
