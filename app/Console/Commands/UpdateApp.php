@@ -53,8 +53,23 @@ class UpdateApp extends InstallApp
 
         $this->migrate();
         $this->optimize();
+        $this->restartQueue();
 
         $this->call('up');
+    }
+
+    /**
+     * Restarts the queues.
+     * 
+     * @return void
+     */
+    protected function restartQueue()
+    {
+        $this->info('Restarting the queue');
+        $this->line('');
+        $this->call('queue:flush');
+        $this->call('queue:restart');
+        $this->line('');
     }
 
     /**

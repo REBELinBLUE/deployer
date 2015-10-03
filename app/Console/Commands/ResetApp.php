@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 /**
  * A console command for clearing all data and setting up again.
  */
-class ResetApp extends InstallApp
+class ResetApp extends ResetApp
 {
     /**
      * The name and signature of the console command.
@@ -60,20 +60,6 @@ class ResetApp extends InstallApp
         $this->info('Resetting the database');
         $this->line('');
         $this->call('migrate:reset', ['--force' => true]);
-        $this->line('');
-    }
-
-    /**
-     * Restarts the queues.
-     * 
-     * @return void
-     */
-    protected function restartQueue()
-    {
-        $this->info('Restarting the queue');
-        $this->line('');
-        $this->call('queue:flush');
-        $this->call('queue:restart');
         $this->line('');
     }
 
