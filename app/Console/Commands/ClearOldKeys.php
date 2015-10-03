@@ -63,7 +63,7 @@ class ClearOldKeys extends Command
                     $this->error('Failed to delete folder ' . $file);
                     $success = false;
                 }
-            } else if (!unlink($path)) {
+            } elseif (!unlink($path)) {
                 $this->error('Failed to delete file ' . $file);
                 $success = false;
             }
