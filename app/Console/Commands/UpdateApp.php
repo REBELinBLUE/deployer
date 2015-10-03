@@ -40,22 +40,53 @@ class UpdateApp extends InstallApp
      */
     public function handle()
     {
-        if (!$this->verifyInstalled()) {
+        if (!$this->verifyInstalled() || $this->hasRunningDeployments()) {
             return;
         }
 
-        // Check for no running deployments
+
+        // Check if the composer autoload.php has been updated in the last 10 minutes
+        if (filemtime(base_path('vendor/autoload.php')) + 600 < time()) {
+            $this->block([
+                'Update not complete!',
+                PHP_EOL,
+                'Please run "composer install" before you continue.',
+            ]);
+
+            return;
+        }
 
         $this->call('down');
 
-        // Check for differences in config?
-        // Make sure composer install has been run?
+        $this->updateConfiguration();
 
         $this->migrate();
         $this->optimize();
         $this->restartQueue();
 
         $this->call('up');
+    }
+
+    /**
+     * Checks if there are any running or pending deployments.
+     * 
+     * @return boolean
+     */
+    protected function hasRunningDeployments()
+    {
+        //$this->error('There are still running deployments, please wait for them to finish before updating');
+
+        return false;
+    }
+
+    /**
+     * Checks for new configuration values in .env.example and copy them to .env.
+     * 
+     * @return void
+     */
+    protected function updateConfiguration()
+    {
+
     }
 
     /**
