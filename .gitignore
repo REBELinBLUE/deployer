@@ -1,8 +1,8 @@
-vendor/
-node_modules/
-.vagrant/
 .env
 .env.prev
 .php_cs.cache
-phpunit.xml
+.vagrant
 composer.phar
+node_modules
+phpunit.xml
+vendor

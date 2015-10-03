@@ -236,7 +236,7 @@ var app = app || {};
 
             data.formatted_date = '';
             if (data.has_run) {
-                data.formatted_date = moment(data.last_activity).format('Do MMM YYYY h:mm:ss A');
+                data.formatted_date = moment(data.last_activity).format('Do MMMM YYYY h:mm:ss A');
             }
 
             this.$el.html(this.template(data));

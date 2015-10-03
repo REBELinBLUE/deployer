@@ -44,6 +44,7 @@ class ResetApp extends UpdateApp
             return;
         }
 
+        $this->updateConfiguration();
         $this->resetDB();
         $this->migrate(true);
         $this->clearCaches();
@@ -52,7 +53,7 @@ class ResetApp extends UpdateApp
 
     /**
      * Resets the database.
-     * 
+     *
      * @return void
      */
     protected function resetDB()
@@ -65,7 +66,7 @@ class ResetApp extends UpdateApp
 
     /**
      * Ensures that the command is running locally and in debugging mode.
-     * 
+     *
      * @return bool
      */
     private function verifyNotProduction()

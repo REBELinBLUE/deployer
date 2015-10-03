@@ -78,8 +78,9 @@ return [
     |
      */
 
-    'key'             => env('APP_KEY', 'cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy'),
+    'key'             => env('APP_KEY', 'SomeRandomString'),
 
+    // FIXME: See if we can figure out a way to set this to 'AES-256-CBC' for new installs only
     'cipher'          => MCRYPT_RIJNDAEL_128,
 
     /*

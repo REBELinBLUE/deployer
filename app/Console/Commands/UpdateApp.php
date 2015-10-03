@@ -57,7 +57,7 @@ class UpdateApp extends InstallApp
 
     /**
      * Checks for new configuration values in .env.example and copy them to .env.
-     * 
+     *
      * @return void
      */
     protected function updateConfiguration()
@@ -74,11 +74,11 @@ class UpdateApp extends InstallApp
 
             $parts = explode('=', $line);
 
-            $env = strtolower($parts[0]);
+            $env   = strtolower($parts[0]);
             $value = trim($parts[1]);
 
             $section = substr($env, 0, strpos($env, '_'));
-            $key = substr($env, strpos($env, '_') + 1);
+            $key     = substr($env, strpos($env, '_') + 1);
 
             $config[$section][$key] = $value;
         }
@@ -95,7 +95,7 @@ class UpdateApp extends InstallApp
 
     /**
      * Restarts the queues.
-     * 
+     *
      * @return void
      */
     protected function restartQueue()
@@ -109,8 +109,8 @@ class UpdateApp extends InstallApp
 
     /**
      * Checks if there are any running or pending deployments.
-     * 
-     * @return boolean
+     *
+     * @return bool
      */
     protected function hasRunningDeployments()
     {
@@ -132,13 +132,13 @@ class UpdateApp extends InstallApp
 
     /**
      * Check if the composer autoload.php has been updated in the last 10 minutes,
-     * if not we assume composer install has not be run recently
+     * if not we assume composer install has not be run recently.
      *
-     * @return boolean
+     * @return bool
      */
     protected function composerOutdated()
     {
-        if (filemtime(base_path('vendor/autoload.php')) + 600 < time()) {
+        if (filemtime(base_path('vendor/autoload.php')) < strtotime('-10 minutes')) {
             $this->block([
                 'Update not complete!',
                 PHP_EOL,
@@ -153,7 +153,7 @@ class UpdateApp extends InstallApp
 
     /**
      * Ensures that Deployer has actually been installed.
-     * 
+     *
      * @return bool
      */
     private function verifyInstalled()
