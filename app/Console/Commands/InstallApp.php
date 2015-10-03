@@ -164,16 +164,18 @@ class InstallApp extends Command
      * 
      * @return void
      */
-    private function migrate()
+    protected function migrate()
     {
         $this->info('Running database migrations');
         $this->line('');
         $this->call('migrate', ['--force' => true]);
+        $this->line('');
 
-        if (getenv('APP_ENV') === 'local' && getenv('APP_DEBUG') === true) {
+        if ($this->getLaravel()->environment() === 'local') {
             $this->info('Seeding database');
             $this->line('');
             $this->call('db:seed', ['--force' => true]);
+            $this->line('');
         }
     }
 
@@ -196,11 +198,11 @@ class InstallApp extends Command
      * 
      * @return void
      */
-    private function optimize()
+    protected function optimize()
     {
         $this->clearCaches();
 
-        if (getenv('APP_ENV') !== 'local') {
+        if ($this->getLaravel()->environment() !== 'local') {
             $this->call('optimize', ['--force' => true]);
             $this->call('config:cache');
             $this->call('route:cache');
