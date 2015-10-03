@@ -10,7 +10,7 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 /**
  * A console command for prompting for install details.
  */
-class Install extends Command
+class InstallApp extends Command
 {
     /**
      * The name and signature of the console command.
@@ -64,6 +64,8 @@ class Install extends Command
         if (!$this->checkRequirements()) {
             return;
         }
+
+        // FIXME: Check .env and storage/ is writeable
 
         $this->line('Please answer the following questions:');
         $this->line('');
@@ -208,7 +210,7 @@ class Install extends Command
             $install['timezone'] .= '/' . $location;
         }
 
-        $socket = $this->ask('Your socket URL [' . $url . ']', $url);
+        $socket = $this->ask('Your socket URL [' . $url . ']', $url); // FIXME: Validation
 
         return $install;
     }
@@ -218,6 +220,17 @@ class Install extends Command
         $this->header('Email details');
 
         $email = [];
+        /*
+        
+MAIL_DRIVER=smtp
+MAIL_HOST=mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME=null
+
+         */
 
         return $email;
     }
@@ -338,7 +351,7 @@ class Install extends Command
         return $driver;
     }
 
-    private function block($messages, $type = 'error')
+    protected function block($messages, $type = 'error')
     {
         if (!is_array($messages)) {
             $messages = (array) $messages;
@@ -356,7 +369,7 @@ class Install extends Command
         $this->line($formatter->formatBlock($output, $type));
     }
 
-    private function header($header)
+    protected function header($header)
     {
         $this->block($header, 'question');
     }
