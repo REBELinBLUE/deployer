@@ -268,7 +268,7 @@ class InstallApp extends Command
             return preg_replace('#/$#', '', $answer);
         };
 
-        $url    = $this->askAndValidate('Application URL ("http://deployer.app" for example)', [], $callback);
+        $url    = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $callback);
         $region = $this->choice('Timezone region', array_keys($regions), 0);
 
         if ($region !== 'UTC') {
@@ -343,7 +343,7 @@ class InstallApp extends Command
             };
 
             return $answer;
-        }, 'admin@example.com');
+        }, 'deployer@deploy.app');
 
         $email['from_name'] = $from_name;
         $email['from_address'] = $from_address;
@@ -399,7 +399,7 @@ class InstallApp extends Command
      */
     private function verifyNotInstalled()
     {
-        // FIXME: Check for valid DB connection, and migrations have run?
+        // TODO: Check for valid DB connection, and migrations have run?
         if (getenv('APP_KEY') !== false && getenv('APP_KEY') !== 'SomeRandomString') {
             $this->block([
                 'You have already installed Deployer!',
@@ -428,7 +428,7 @@ class InstallApp extends Command
             $errors = true;
         }
 
-        // FIXME: allow gd or imagemagick
+        // TODO: allow gd or imagemagick
         // TODO: See if there are any others, maybe clean this list up?
         $required_extensions = ['PDO', 'curl', 'memcached', 'gd',
                                 'mcrypt', 'json', 'tokenizer',
@@ -513,18 +513,10 @@ class InstallApp extends Command
      */
     private function getDatabaseDrivers()
     {
-        // FIXME: Laravel has collection filtering to make this cleaner
-        $available = PDO::getAvailableDrivers();
+        $available = collect(PDO::getAvailableDrivers());
 
-        $drivers = [];
-
-        foreach (['mysql', 'sqlite', 'pgsql', 'sqlsrv'] as $driver) {
-            if (in_array($driver, $available, true)) {
-                $drivers[] = $driver;
-            }
-        }
-
-        return $drivers;
+        return $available->intersect(['mysql', 'sqlite', 'pgsql', 'sqlsrv'])
+                         ->all();
     }
 
     /**
@@ -597,7 +589,11 @@ class InstallApp extends Command
     public function askAndValidate($question, array $choices, $validator, $default = null)
     {
         $question = new Question($question, $default);
-        $question->setAutocompleterValues($choices);
+
+        if (count($choices)) {
+            $question->setAutocompleterValues($choices);
+        }
+
         $question->setValidator($validator);
 
         return $this->output->askQuestion($question);
@@ -612,11 +608,13 @@ class InstallApp extends Command
      */
     protected function block($messages, $type = 'error')
     {
+        $output = [];
+
         if (!is_array($messages)) {
             $messages = (array) $messages;
         }
 
-        $output = [''];
+        $output[] = '';
 
         foreach ($messages as $message) {
             $output[] = trim($message);
