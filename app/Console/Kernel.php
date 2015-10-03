@@ -37,6 +37,7 @@ class Kernel extends ConsoleKernel
         \REBELinBLUE\Deployer\Console\Commands\CheckUrl::class,
         \REBELinBLUE\Deployer\Console\Commands\ClearOrphanAvatars::class,
         \REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment::class,
+        \REBELinBLUE\Deployer\Console\Commands\Install::class,
     ];
 
     /**
