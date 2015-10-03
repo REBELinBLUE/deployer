@@ -476,7 +476,7 @@ class InstallApp extends Command
         if (!file_exists(base_path('.env'))) {
             copy(base_path('.env.example'), base_path('.env'));
 
-            $this->error('.env was missing, it has not been generated');
+            $this->error('.env was missing, it has now been generated');
             $errors = true;
         }
 
