@@ -40,6 +40,15 @@ class UpdateApp extends InstallApp
         if (!$this->verifyInstalled()) {
             return;
         }
+
+        // Check for no running deployments
+        // Take offline
+        // Check for differences in config?
+        // Make sure composer install has been run?
+        // Migrate
+        // Clear cache
+        // Optimize
+        // Take live
     }
 
     private function verifyInstalled()
