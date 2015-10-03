@@ -42,22 +42,33 @@ class ClearOldKeys extends Command
     {
         // Clear out old SSH key files
         $files = glob(storage_path() . '/app/*ssh*'); // sshkey and gitssh
+        $folders = glob(storage_path() . '/app/*clone*'); // cloned copies of code
 
-        $this->info('Found ' . count($files) . ' files to purge');
+        $this->info('Found ' . count($files) . ' files and ' . count($folders) . ' folders to purge');
 
         // Now loop through the temp files and delete them from storage
-        foreach ($files as $filePath) {
-            $file = basename($filePath);
+        foreach (array_merge($files, $folders) as $path) {
+            $file = basename($path);
 
             // Don't delete recently created files as a precaution, 12 hours is more than enough
-            if (filemtime($filePath) > strtotime('-12 hours')) {
+            if (filemtime($path) > strtotime('-12 hours')) {
                 $this->info('Skipping ' . $file);
                 continue;
             }
 
-            if (!unlink($filePath)) {
-                $this->error('Failed to delete ' . $file);
-            } else {
+            $success = true;
+
+            if (is_dir($path)) {
+                if (!rmdir($path)) {
+                    $this->error('Failed to delete folder ' . $file);
+                    $success = false;
+                }
+            } else if (!unlink($path)) {
+                $this->error('Failed to delete file ' . $file);
+                $success = false;
+            }
+
+            if ($success) {
                 $this->info('Deleted ' . $file);
             }
         }
