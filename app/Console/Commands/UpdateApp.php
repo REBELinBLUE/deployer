@@ -86,7 +86,7 @@ class UpdateApp extends InstallApp
      */
     protected function updateConfiguration()
     {
-
+        // Copy .env.example to .env and rewrite the existing config values to it
     }
 
     /**
