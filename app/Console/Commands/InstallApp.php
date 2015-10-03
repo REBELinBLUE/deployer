@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use DateTimeZone;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use PDO;
 use Symfony\Component\Console\Helper\FormatterHelper;
@@ -211,12 +212,12 @@ class InstallApp extends Command
         $connectionVerified = false;
 
         while (!$connectionVerified) {
-            $db = [];
+            $database = [];
 
             // Should we just skip this step if only one driver is available?
             $type = $this->choice('Type', $this->getDatabaseDrivers(), 0);
 
-            $db['type'] = $type;
+            $database['type'] = $type;
 
             if ($type !== 'sqlite') {
                 $host = $this->ask('Host', 'localhost');
@@ -224,16 +225,16 @@ class InstallApp extends Command
                 $user = $this->ask('Username', 'deployer');
                 $pass = $this->secret('Password');
 
-                $db['host']     = $host;
-                $db['name']     = $name;
-                $db['username'] = $user;
-                $db['password'] = $pass;
+                $database['host']     = $host;
+                $database['name']     = $name;
+                $database['username'] = $user;
+                $database['password'] = $pass;
             }
 
-            $connectionVerified = $this->verifyDatabaseDetails($db);
+            $connectionVerified = $this->verifyDatabaseDetails($database);
         }
 
-        return $db;
+        return $database;
     }
 
     /**
@@ -246,6 +247,7 @@ class InstallApp extends Command
         $this->header('Installation details');
 
         $regions = $this->getTimezoneRegions();
+        $locales = $this->getLocales();
 
         $callback = function ($answer) {
             $validator = Validator::make(['url' => $answer], [
@@ -256,26 +258,33 @@ class InstallApp extends Command
                 throw new \RuntimeException($validator->errors()->first('url'));
             };
 
-            return $answer;
+            return preg_replace('#/$#', '', $answer);
         };
 
-        $url    = $this->askAndValidate('Your Deployer URL ("http://deployer.app" for example)', [], $callback);
-        $region = $this->choice('Your timezone region', array_keys($regions), 0);
+        $url    = $this->askAndValidate('Application URL ("http://deployer.app" for example)', [], $callback);
+        $region = $this->choice('Timezone region', array_keys($regions), 0);
 
         if ($region !== 'UTC') {
             $locations = $this->getTimezoneLocations($regions[$region]);
 
-            $region .= '/' . $this->choice('Your timezone location', $locations, 0);
+            $region .= '/' . $this->choice('Timezone location', $locations, 0);
         }
 
-        $socket = $this->askAndValidate('Your socket URL', [], $callback, $url);
+        $socket = $this->askAndValidate('Socket URL', [], $callback, $url);
 
-        // Add APP_LOCALE when we add translations
+        // If there is only 1 locale just use that
+        if (count($locales) === 1) {
+            $locale = $locales[0];
+        }
+        else {
+            $locale = $this->choice('Language', $locales, array_search(Config::get('app.fallback_locale'), $locales));
+        }
 
         return [
             'url'      => $url,
             'timezone' => $region,
             'socket'   => $socket,
+            'locale'   => $locale,
         ];
     }
 
@@ -500,10 +509,29 @@ class InstallApp extends Command
         $locations = [];
 
         foreach (DateTimeZone::listIdentifiers($region) as $timezone) {
-            $locations[] = substr($timezone, strlen($region) + 1);
+            $locations[] = substr($timezone, strpos($timezone, '/') + 1);
         }
 
         return $locations;
+    }
+
+    /**
+     * Gets a list of the available locales.
+     * 
+     * @return array
+     */
+    private function getLocales()
+    {
+        $locales = [];
+
+        // Get the locales from the files on disk
+        foreach (glob(base_path('resources/lang/') . '*') as $path) {
+            if (is_dir($path)) {
+                $locales[] = basename($path);
+            }
+        }
+
+        return $locales;
     }
 
     /**
