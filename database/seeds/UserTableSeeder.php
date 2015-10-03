@@ -12,10 +12,10 @@ class UserTableSeeder extends Seeder
         $faker = Faker\Factory::create('en_GB');
 
         User::create([
-            'name'           => 'Stephen Ball',
-            'email'          => 'stephen@rebelinblue.com',
+            'name'           => 'Admin',
+            'email'          => 'admin@example.com',
             'password'       => bcrypt('password'),
-            'remember_token' => str_random(10),
+            'remember_token' => str_random(10)
         ]);
 
         for ($i = 1; $i < 10; $i++) {
