@@ -13,7 +13,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * A console command for prompting for install details.
- * TODO: Refactor the validator to reduce duplication, maybe move the askWithValidation to a generic class
+ * TODO: Refactor the validator to reduce duplication, maybe move the askWithValidation to a generic class.
  */
 class InstallApp extends Command
 {
@@ -82,7 +82,7 @@ class InstallApp extends Command
 
         $this->writeEnvFile($config);
         $this->generateKey();
-        $this->migrate();
+        $this->migrate(($this->getLaravel()->environment() === 'local'));
         $this->optimize();
 
         $this->line('');
@@ -161,17 +161,18 @@ class InstallApp extends Command
     /**
      * Calls the artisan migrate to set up the database
      * in development mode it also seeds the DB.
-     * 
+     *
+     * @param  bool $seed Whether or not to seed the database
      * @return void
      */
-    protected function migrate()
+    protected function migrate($seed = false)
     {
         $this->info('Running database migrations');
         $this->line('');
         $this->call('migrate', ['--force' => true]);
         $this->line('');
 
-        if ($this->getLaravel()->environment() === 'local') {
+        if ($seed) {
             $this->info('Seeding database');
             $this->line('');
             $this->call('db:seed', ['--force' => true]);
@@ -285,7 +286,7 @@ class InstallApp extends Command
         if (count($locales) === 1) {
             $locale = $locales[0];
         } else {
-            $locale = $this->choice('Language', $locales, array_search(Config::get('app.fallback_locale'), $locales));
+            $locale = $this->choice('Language', $locales, array_search(Config::get('app.fallback_locale'), $locales, true));
         }
 
         return [
@@ -347,9 +348,9 @@ class InstallApp extends Command
             return $answer;
         }, 'deployer@deploy.app');
 
-        $email['from_name'] = $from_name;
+        $email['from_name']    = $from_name;
         $email['from_address'] = $from_address;
-        $email['type'] = $type;
+        $email['type']         = $type;
 
         // TODO: Attempt to connect?
 

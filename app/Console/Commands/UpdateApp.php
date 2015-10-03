@@ -45,13 +45,16 @@ class UpdateApp extends InstallApp
         }
 
         // Check for no running deployments
-        // Take offline
+
+        $this->call('down');
+
         // Check for differences in config?
         // Make sure composer install has been run?
-        // Migrate
-        // Clear cache
-        // Optimize
-        // Take live
+
+        $this->migrate();
+        $this->optimize();
+
+        $this->call('up');
     }
 
     /**

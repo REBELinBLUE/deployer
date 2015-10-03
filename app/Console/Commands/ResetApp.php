@@ -45,7 +45,7 @@ class ResetApp extends InstallApp
         }
 
         $this->resetDB();
-        $this->migrate();
+        $this->migrate(true);
         $this->clearCaches();
         $this->restartQueue();
     }
@@ -80,7 +80,7 @@ class ResetApp extends InstallApp
     /**
      * Ensures that the command is running locally and in debugging mode.
      * 
-     * @return boolean
+     * @return bool
      */
     private function verifyNotProduction()
     {
@@ -88,7 +88,7 @@ class ResetApp extends InstallApp
             $this->block([
                 'Deployer is not in development mode!',
                 PHP_EOL,
-                'This command does not run in production as its purpose is to wipe your database'
+                'This command does not run in production as its purpose is to wipe your database',
             ]);
 
             return false;
