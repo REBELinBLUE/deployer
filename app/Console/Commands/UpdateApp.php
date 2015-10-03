@@ -62,7 +62,35 @@ class UpdateApp extends InstallApp
      */
     protected function updateConfiguration()
     {
-        // Copy .env.example to .env and rewrite the existing config values to it
+        $data = [];
+
+        // Read the current config values into an array for the writeEnvFile method
+        foreach(file(base_path('.env')) as $line) {
+            $line = trim($line);
+
+            if (empty($line)) {
+                continue;
+            }
+
+            $parts = explode('=', $line);
+
+            $env = strtolower($parts[0]);
+            $value = trim($parts[1]);
+
+            $section = substr($env, 0, strpos($env, '_'));
+            $key = substr($env, strpos($env, '_') + 1);
+
+            $config[$section][$key] = $value;
+        }
+
+        // Backup the .env file, just in case it failed because we don't want to lose APP_KEY
+        copy(base_path('.env'), base_path('.env.prev'));
+
+        // Copy the example file so that new values are copied
+        copy(base_path('.env.example'), base_path('.env'));
+
+        // Write the file to disk
+        $this->writeEnvFile($config);
     }
 
     /**
