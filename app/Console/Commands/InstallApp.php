@@ -6,6 +6,7 @@ use DateTimeZone;
 use Illuminate\Console\Command;
 use PDO;
 use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Process\Process;
 
 /**
  * A console command for prompting for install details.
@@ -345,8 +346,36 @@ MAIL_FROM_NAME=null
             }
         }
 
+        // Programs needed in $PATH
+        $required_commands = ['ssh', 'ssh-keygen', 'git'];
 
-        // FIXME: Check .env and storage/ is writeable and bootstrap/cache
+        foreach ($required_commands as $command) {
+
+            $process = new Process('which ' . $command);
+
+            $process->setTimeout(null);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                $this->error('Program not found in path: ' . $command);
+                $errors = true;
+            }
+        }
+
+        // Files and directories which need to be writable
+        $writable = ['.env', 'storage', 'storage/logs', 'storage/app', 
+                     'storage/framework/cache', 'storage/framework/sessions',
+                     'storage/framework/views', 'bootstrap/cache',
+                    ];
+
+        foreach ($writable as $path) {
+            if (!is_writeable(base_path($path))) {
+                $this->error($path . ' is not writeable');
+                $errors = true;
+            }
+        }
+
+        // FIXE: Check Memcache and redis are running?
 
         if ($errors) {
             $this->line('');
