@@ -309,7 +309,7 @@ MAIL_FROM_NAME=null
             }
         }
 
-        if (!count($this->getAvailableDrivers())) {
+        if (!count($this->getDatabaseDrivers())) {
             $this->error('At least 1 database driver is required');
             $errors = true;
         }
@@ -317,12 +317,15 @@ MAIL_FROM_NAME=null
         // Functions needed by symfony process
         $required_functions = ['proc_open'];
 
-        foreach ($requiredFunctions as $function) {
+        foreach ($required_functions as $function) {
             if (!function_exists($function)) {
                 $this->error('Function required: ' . $function . '. Is it disabled in php.ini?');
                 $errors = true;
             }
         }
+
+
+        // FIXME: Check .env and storage/ is writeable and bootstrap/cache
 
         if ($errors) {
             $this->line('');
@@ -348,7 +351,7 @@ MAIL_FROM_NAME=null
             }
         }
 
-        return $driver;
+        return $drivers;
     }
 
     protected function block($messages, $type = 'error')
