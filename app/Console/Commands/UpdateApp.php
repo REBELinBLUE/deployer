@@ -54,6 +54,11 @@ class UpdateApp extends InstallApp
         // Take live
     }
 
+    /**
+     * Ensures that Deployer has actually been installed.
+     * 
+     * @return bool
+     */
     private function verifyInstalled()
     {
         if (getenv('APP_KEY') === false || getenv('APP_KEY') === 'SomeRandomString') {
