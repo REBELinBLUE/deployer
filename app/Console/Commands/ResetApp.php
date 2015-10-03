@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 /**
  * A console command for clearing all data and setting up again.
  */
-class ResetApp extends ResetApp
+class ResetApp extends UpdateApp
 {
     /**
      * The name and signature of the console command.
