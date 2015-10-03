@@ -31,7 +31,7 @@ test:
         directory: "app/"
     php_unit:
         config:
-            - "phpunit.xml"
+            - "phpunit.xml.dist"
         directory:
             - "tests/"
         coverage: "/var/www/PHPCI/public/coverage/deployer/"
