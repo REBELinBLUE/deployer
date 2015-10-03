@@ -103,7 +103,7 @@ class InstallApp extends Command
      * @param  array $input The config data to write
      * @return bool
      */
-    private function writeEnvFile(array $input)
+    protected function writeEnvFile(array $input)
     {
         $this->info('Writing configuration file');
         $this->line('');
@@ -135,7 +135,7 @@ class InstallApp extends Command
         }
 
         // Remove keys not needed by SMTP
-        if ($input['mail']['type'] !== 'smtp') {
+        if ($input['mail']['driver'] !== 'smtp') {
             foreach (['host', 'port', 'username', 'password'] as $key) {
                 $key = strtoupper($key);
 
@@ -308,9 +308,9 @@ class InstallApp extends Command
 
         $email = [];
 
-        $type = $this->choice('Type', ['smtp', 'sendmail', 'mail'], 0);
+        $driver = $this->choice('Type', ['smtp', 'sendmail', 'mail'], 0);
 
-        if ($type === 'smtp') {
+        if ($driver === 'smtp') {
             $host = $this->ask('Host', 'localhost');
 
             $port = $this->askAndValidate('Port', [], function ($answer) {
@@ -350,7 +350,7 @@ class InstallApp extends Command
 
         $email['from_name']    = $from_name;
         $email['from_address'] = $from_address;
-        $email['type']         = $type;
+        $email['driver']       = $driver;
 
         // TODO: Attempt to connect?
 
