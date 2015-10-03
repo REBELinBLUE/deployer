@@ -270,8 +270,7 @@ class InstallApp extends Command
         // If there is only 1 locale just use that
         if (count($locales) === 1) {
             $locale = $locales[0];
-        }
-        else {
+        } else {
             $locale = $this->choice('Language', $locales, array_search(Config::get('app.fallback_locale'), $locales));
         }
 
@@ -309,20 +308,20 @@ class InstallApp extends Command
     /**
      * Verifies that the database connection details are correct.
      * 
-     * @param  array $db The connection details
+     * @param  array $database The connection details
      * @return bool
      */
-    private function verifyDatabaseDetails(array $db)
+    private function verifyDatabaseDetails(array $database)
     {
-        if ($db['type'] === 'sqlite') {
+        if ($database['type'] === 'sqlite') {
             return touch(storage_path() . '/database.sqlite');
         }
 
         try {
-            $pdo = new PDO(
-                $db['type'] . ':host=' . $db['host'] . ';dbname=' . $db['name'],
-                $db['username'],
-                $db['password'],
+            $connection = new PDO(
+                $database['type'] . ':host=' . $database['host'] . ';dbname=' . $database['name'],
+                $database['username'],
+                $database['password'],
                 [
                     PDO::ATTR_PERSISTENT => false,
                     PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION,
@@ -330,7 +329,7 @@ class InstallApp extends Command
                 ]
             );
 
-            unset($pdo);
+            unset($connection);
 
             return true;
         } catch (\Exception $error) {
