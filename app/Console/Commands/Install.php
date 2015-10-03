@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
-use DateTime;
 use DateTimeZone;
 use Illuminate\Console\Command;
 use PDO;
