@@ -4,8 +4,10 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use DateTimeZone;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Validator;
 use PDO;
 use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
 
 /**
@@ -245,7 +247,19 @@ class InstallApp extends Command
 
         $regions = $this->getTimezoneRegions();
 
-        $url    = $this->ask('Your Deployer URL ("http://deployer.app" for example)'); // FIXME: Validation
+        $callback = function ($answer) {
+            $validator = Validator::make(['url' => $answer], [
+                'url' => 'url',
+            ]);
+
+            if (!$validator->passes()) {
+                throw new \RuntimeException($validator->errors()->first('url'));
+            };
+
+            return $answer;
+        };
+
+        $url    = $this->askAndValidate('Your Deployer URL ("http://deployer.app" for example)', [], $callback);
         $region = $this->choice('Your timezone region', array_keys($regions), 0);
 
         if ($region !== 'UTC') {
@@ -254,7 +268,7 @@ class InstallApp extends Command
             $region .= '/' . $this->choice('Your timezone location', $locations, 0);
         }
 
-        $socket = $this->ask('Your socket URL [' . $url . ']', $url); // FIXME: Validation
+        $socket = $this->askAndValidate('Your socket URL', [], $callback, $url);
 
         // Add APP_LOCALE when we add translations
 
@@ -490,6 +504,24 @@ class InstallApp extends Command
         }
 
         return $locations;
+    }
+
+    /**
+     * Asks a question and validates the response.
+     * 
+     * @param  string   $question  The question
+     * @param  array    $choices   Autocomplete options
+     * @param  function $validator The callback function
+     * @param  mixed    $default   The default value
+     * @return string
+     */
+    public function askAndValidate($question, array $choices, $validator, $default = null)
+    {
+        $question = new Question($question, $default);
+        $question->setAutocompleterValues($choices);
+        $question->setValidator($validator);
+
+        return $this->output->askQuestion($question);
     }
 
     /**
