@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
+use REBELinBLUE\Deployer\Deployment;
 
 /**
  * A console command for updating the installation.
@@ -40,43 +41,18 @@ class UpdateApp extends InstallApp
      */
     public function handle()
     {
-        if (!$this->verifyInstalled() || $this->hasRunningDeployments()) {
-            return;
-        }
-
-
-        // Check if the composer autoload.php has been updated in the last 10 minutes
-        if (filemtime(base_path('vendor/autoload.php')) + 600 < time()) {
-            $this->block([
-                'Update not complete!',
-                PHP_EOL,
-                'Please run "composer install" before you continue.',
-            ]);
-
+        if (!$this->verifyInstalled() || $this->hasRunningDeployments() || $this->composerOutdated()) {
             return;
         }
 
         $this->call('down');
 
         $this->updateConfiguration();
-
         $this->migrate();
         $this->optimize();
         $this->restartQueue();
 
         $this->call('up');
-    }
-
-    /**
-     * Checks if there are any running or pending deployments.
-     * 
-     * @return boolean
-     */
-    protected function hasRunningDeployments()
-    {
-        //$this->error('There are still running deployments, please wait for them to finish before updating');
-
-        return false;
     }
 
     /**
@@ -101,6 +77,50 @@ class UpdateApp extends InstallApp
         $this->call('queue:flush');
         $this->call('queue:restart');
         $this->line('');
+    }
+
+    /**
+     * Checks if there are any running or pending deployments.
+     * 
+     * @return boolean
+     */
+    protected function hasRunningDeployments()
+    {
+        $deploys = Deployment::whereIn('status', [Deployment::DEPLOYING, Deployment::PENDING])
+                             ->count();
+
+        if ($deploys > 0) {
+            $this->block([
+                'Deployments in progress',
+                PHP_EOL,
+                'There are still running deployments, please wait for them to finish before updating.',
+            ]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the composer autoload.php has been updated in the last 10 minutes,
+     * if not we assume composer install has not be run recently
+     *
+     * @return boolean
+     */
+    protected function composerOutdated()
+    {
+        if (filemtime(base_path('vendor/autoload.php')) + 600 < time()) {
+            $this->block([
+                'Update not complete!',
+                PHP_EOL,
+                'Please run "composer install" before you continue.',
+            ]);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
