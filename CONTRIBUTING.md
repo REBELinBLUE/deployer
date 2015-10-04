@@ -55,7 +55,7 @@ Once you have started the VM you will need to run the following commands
     $ cd /var/www/deployer
     $ composer install
     $ editor .env (change APP_ENV to local and APP_DEBUG to true)
-    $ php artisan app:install
+    $ php artisan app:install (use the values from .env if you use MySQL)
     $ npm install
     $ bower install
     $ gulp
