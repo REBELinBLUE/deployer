@@ -24,9 +24,10 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 * Deploys applications to multiple servers accessible via SSH
 * Clones your projects git repository
 * Installs composer dependencies
-* Runs arbitrary commands
+* Runs arbitrary bash commands
 * Gracefully handles failure in any of these steps
 * Keeps a number of previous deployments
+* Monitors that cronjobs are running
 
 ## What it doesn't do
 
