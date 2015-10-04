@@ -10,27 +10,19 @@ Always provide the English translation - making sure that the indentation and al
 
 The code is written to follow PSR-2 standards, this can be tested using PHP_CodeSniffer
 
-    ```
     $ ./vendor/bin/phpcs --standard=phpcs.xml
-    ```
 
 Problems can be fixed with
 
-    ```shell
     $ php-cs-fixer fix
-    ```
 
 Codemess can be checked with
 
-    ```shell
     $ ./vendor/bin/phpmd app text phpmd.xml
-    ```
 
 PHPDoc blocks can be checked with
 
-    ```shell
     $ ./vendor/bin/phpdoccheck --directory=app
-    ```
 
 ### CI servers
 
@@ -54,14 +46,11 @@ The project includes a [Vagrantfile](/Vagrantfile) for running deployer, it uses
 
 You will need to install the required box and start vagrant
 
-    ```shell
     $ vagrant box add laravel/homestead
     $ vagrant up
-    ```
 
 Once you have started the VM you will need to run the following commands
 
-    ```shell
     $ vagrant ssh
     $ cd /var/www/deployer
     $ composer install
@@ -71,12 +60,9 @@ Once you have started the VM you will need to run the following commands
     $ bower install
     $ gulp
     $ sudo service supervisor restart
-    ```
 
 You can reset your database by running
 
-    ```shell
     $ php artisan app:reset
-    ```
 
 The VM will set up the cronjob needed for heartbeats and it will setup supervisor to ensure the queue listener is always running
