@@ -446,7 +446,7 @@ class InstallApp extends Command
 
         // TODO: allow gd or imagemagick
         // TODO: See if there are any others, maybe clean this list up?
-        $required_extensions = ['PDO', 'curl', 'memcached', 'gd',
+        $required_extensions = ['PDO', 'curl', 'gd',
                                 'mcrypt', 'json', 'tokenizer',
                                 'openssl', 'mbstring',
                                ];
@@ -507,7 +507,7 @@ class InstallApp extends Command
             }
         }
 
-        // FIXE: Check Memcache and redis are running?
+        // FIXE: Redis and beanstalk are running and node is installed?
 
         if ($errors) {
             $this->line('');
