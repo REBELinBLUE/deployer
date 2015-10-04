@@ -41,7 +41,7 @@ The `master` branch of this repository is a development branch and **should not*
 ## Requirements
 
 - [PHP](http://www.php.net) 5.5.9+ or newer
-- A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) are recommended, but an [SQLite](https://www.sqlite.org) DB can be used
+- A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) are recommended but an [SQLite](https://www.sqlite.org) DB can be used
 - [Composer](https://getcomposer.org)
 - [Redis](http://redis.io)
 - [Node.js](https://nodejs.org/)
@@ -56,7 +56,9 @@ The `master` branch of this repository is a development branch and **should not*
 
 1. Clone the repository
 
+    ```shell
     $ git clone https://github.com/REBELinBLUE/deployer.git
+    ```
 
 2. Checkout the latest release
 
