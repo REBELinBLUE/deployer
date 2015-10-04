@@ -1,5 +1,9 @@
 # Deployer
 
+Deployer is a PHP Application deployment system powered by [Laravel 5.1](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
+
+Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](LICENSE.md), [screenshots](SCREENSHOTS.md), and [contribution guidelines](CONTRIBUTING.md).
+
 **Current Build Status**
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat)](https://styleci.io/repos/33559148)
