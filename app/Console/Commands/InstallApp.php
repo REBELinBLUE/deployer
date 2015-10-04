@@ -105,7 +105,7 @@ class InstallApp extends Command
 
     /**
      * Writes the configuration data to the config file.
-     * 
+     *
      * @param  array $input The config data to write
      * @return bool
      */
@@ -154,7 +154,7 @@ class InstallApp extends Command
 
     /**
      * Calls the artisan key:generate to set the APP_KEY.
-     * 
+     *
      * @return void
      */
     private function generateKey()
@@ -188,7 +188,7 @@ class InstallApp extends Command
 
     /**
      * Clears all Laravel caches.
-     * 
+     *
      * @return void
      */
     protected function clearCaches()
@@ -202,7 +202,7 @@ class InstallApp extends Command
 
     /**
      * Runs the artisan optimize commands.
-     * 
+     *
      * @return void
      */
     protected function optimize()
@@ -218,7 +218,7 @@ class InstallApp extends Command
 
     /**
      * Prompts the user for the database connection details.
-     * 
+     *
      * @return array
      */
     private function getDatabaseInformation()
@@ -255,7 +255,7 @@ class InstallApp extends Command
 
     /**
      * Prompts the user for the basic setup information.
-     * 
+     *
      * @return array
      */
     private function getInstallInformation()
@@ -305,7 +305,7 @@ class InstallApp extends Command
 
     /**
      * Prompts the user for the details for the email setup.
-     * 
+     *
      * @return array
      */
     private function getEmailInformation()
@@ -365,7 +365,7 @@ class InstallApp extends Command
 
     /**
      * Verifies that the database connection details are correct.
-     * 
+     *
      * @param  array $database The connection details
      * @return bool
      */
@@ -403,7 +403,7 @@ class InstallApp extends Command
 
     /**
      * Ensures that Deployer has not been installed yet.
-     * 
+     *
      * @return bool
      */
     private function verifyNotInstalled()
@@ -424,7 +424,7 @@ class InstallApp extends Command
 
     /**
      * Checks the system meets all the requirements needed to run Deployer.
-     * 
+     *
      * @return bool
      */
     private function checkRequirements()
@@ -482,8 +482,8 @@ class InstallApp extends Command
         }
 
         // This should not actually be needed as composer install should create it
-        // We can't automatically create the file at the beginning as this causes problems 
-        // with APP_KEY because key:generate and migrate will see it as empty because .env has 
+        // We can't automatically create the file at the beginning as this causes problems
+        // with APP_KEY because key:generate and migrate will see it as empty because .env has
         // already been loaded by this stage
         if (!file_exists(base_path('.env'))) {
             $this->error('.env is missing, please run "cp .env.example .env"');
@@ -518,7 +518,7 @@ class InstallApp extends Command
 
     /**
      * Gets an array of available PDO drivers which are supported by Laravel.
-     * 
+     *
      * @return array
      */
     private function getDatabaseDrivers()
@@ -531,7 +531,7 @@ class InstallApp extends Command
 
     /**
      * Gets a list of timezone regions.
-     * 
+     *
      * @return array
      */
     private function getTimezoneRegions()
@@ -552,7 +552,7 @@ class InstallApp extends Command
 
     /**
      * Gets a list of available locations in the supplied region.
-     * 
+     *
      * @param  int   $region The region constant
      * @return array
      * @see DateTimeZone
@@ -570,7 +570,7 @@ class InstallApp extends Command
 
     /**
      * Gets a list of the available locales.
-     * 
+     *
      * @return array
      */
     private function getLocales()
@@ -587,7 +587,7 @@ class InstallApp extends Command
 
     /**
      * Asks a question and validates the response.
-     * 
+     *
      * @param  string   $question  The question
      * @param  array    $choices   Autocomplete options
      * @param  function $validator The callback function
@@ -609,7 +609,7 @@ class InstallApp extends Command
 
     /**
      * A wrapper around symfony's formatter helper to output a block.
-     * 
+     *
      * @param  string|array $messages Messages to output
      * @param  string       $type     The type of message to output
      * @return void
@@ -636,7 +636,7 @@ class InstallApp extends Command
 
     /**
      * Outputs a header block.
-     * 
+     *
      * @param  string $header The text to output
      * @return void
      */

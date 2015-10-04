@@ -36,6 +36,3 @@ return [
     'with_sidebar'      => ':colour with light sidebar'
 
 ];
-
-
-
