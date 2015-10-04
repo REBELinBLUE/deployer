@@ -12,11 +12,11 @@ The code is written to follow [PSR-2](https://github.com/php-fig/fig-standards/b
 
     $ ./vendor/bin/phpcs --standard=phpcs.xml
 
-Problems can be fixed with
+Style problems can be fixed with
 
     $ php-cs-fixer fix
 
-Codemess can be checked with
+Mess can be checked with
 
     $ ./vendor/bin/phpmd app text phpmd.xml
 
@@ -24,9 +24,9 @@ PHPDoc blocks can be checked with
 
     $ ./vendor/bin/phpdoccheck --directory=app
 
-### CI servers
+### Automated testing
 
-Coding standards are checked using [StyleCI](http://styleci.io); codemess, PHPDoc blocks and PHP syntax are checked using [PHPCI](https://www.phptesting.org)
+Coding standards are checked using [StyleCI](http://styleci.io); mess, duplication, PHPDoc blocks and PHP syntax are checked using [PHPCI](https://www.phptesting.org)
 
 ## .editorconfig
 
