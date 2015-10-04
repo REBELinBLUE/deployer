@@ -13,7 +13,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * A console command for prompting for install details.
- * TODO: Refactor the validator to reduce duplication, maybe move the askWithValidation to a generic class.
+ * TODO: Refactor the validator to reduce duplication, maybe move the askWithValidation to an external library
  */
 class InstallApp extends Command
 {
@@ -86,9 +86,21 @@ class InstallApp extends Command
         $this->optimize();
 
         $this->line('');
-        $this->comment('Success! Deployer is now installed');
+        $this->info('Success! Deployer is now installed');
         $this->line('');
-        $this->comment('Visit ' . $config['app']['url'] . ' and login with the following details to get started');
+        $this->header('Next steps');
+        $this->line('');
+        $this->line('Example configuration files can be found in the "examples" directory');
+        $this->line('');
+        $this->comment('1. Set up your web server, see either "nginx.conf" or "apache.conf"');
+        $this->line('');
+        $this->comment('2. Setup the cronjobs, see "crontab"');
+        $this->line('');
+        $this->comment('3. Setup the socket server and queue runner, see "supervisor.conf" for an example of how to do this with supervisor');
+        $this->line('');
+        $this->comment('4. (Optional) Setup logrotate, see "logrotate.conf"');
+        $this->line('');
+        $this->comment('5. Visit ' . $config['app']['url'] . ' and login with the following details to get started');
         $this->line('');
         $this->comment('   Username: admin@example.com');
         $this->comment('   Password: password');
@@ -475,11 +487,9 @@ class InstallApp extends Command
             }
         }
 
-        // Horrible work around for now
+        // We can't automatically create this at the beginning, see comment in handle()
         if (!file_exists(base_path('.env'))) {
-            copy(base_path('.env.example'), base_path('.env'));
-
-            $this->error('.env was missing, it has now been generated');
+            $this->error('.env is missing, please run "cp .env.example .env"');
             $errors = true;
         }
 
