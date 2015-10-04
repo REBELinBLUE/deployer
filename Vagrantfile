@@ -43,11 +43,7 @@ Vagrant.configure("2") do |config|
         s.args = [File.read(File.expand_path("~/.ssh/id_rsa"))]
     end
 
-    config.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
-
-    # Update composer and php-cs-fixer
-    config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
-    config.vm.provision "shell", inline: "[ -f /usr/local/bin/php-cs-fixer ] && sudo /usr/local/bin/php-cs-fixer self-update", run: "always"
+    config.vm.provision "file", source: "~/.gitconfig", destination: "~/.gitconfig"
 
     # Copy deployer supervisor and cron config
     config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/supervisor.conf /etc/supervisor/conf.d/deployer.conf"
@@ -67,4 +63,8 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo chown -R vagrant:vagrant /var/www/beanstalk"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"DROP DATABASE IF EXISTS deployer\";"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci\";"
+
+    # Update composer and php-cs-fixer
+    config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
+    config.vm.provision "shell", inline: "sudo /usr/local/bin/php-cs-fixer self-update", run: "always"
 end
