@@ -20,7 +20,7 @@
 
         <script type="text/javascript">var Lang = {};</script>
     </head>
-    <body class="skin-green">
+    <body class="skin-{{ $theme }}">
         <div class="wrapper">
 
             @include('_partials.nav')
@@ -30,7 +30,7 @@
             <div class="content-wrapper">
                 <section class="content-header">
                     @yield('right-buttons')
-                    
+
                     <h1>{{ $title }}</h1>
 
                     @if(isset($breadcrumb))
