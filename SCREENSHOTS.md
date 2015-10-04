@@ -1,31 +1,31 @@
 # Screenshots
 
 ## Dashboard
-[![Dashboard](http://deployer.rebelinblue.com/images/screenshots/dashboard.png)](http://deployer.rebelinblue.com)
+[![Dashboard](http://www.rebelinblue.com/deployer/dashboard.png)](http://deployer.rebelinblue.com)
 
 ## Project Details
-[![Project Details](http://deployer.rebelinblue.com/images/screenshots/project.png)](http://deployer.rebelinblue.com)
+[![Project Details](http://www.rebelinblue.com/deployer/project.png)](http://deployer.rebelinblue.com)
 
 ## Servers
-[![Servers](http://deployer.rebelinblue.com/images/screenshots/servers.png)](http://deployer.rebelinblue.com)
+[![Servers](http://www.rebelinblue.com/deployer/servers.png)](http://deployer.rebelinblue.com)
 
 ## Server Management
-[![Server Management](http://deployer.rebelinblue.com/images/screenshots/edit-server.png)](http://deployer.rebelinblue.com)
+[![Server Management](http://www.rebelinblue.com/deployer/edit-server.png)](http://deployer.rebelinblue.com)
 
 ## Commands
-[![Commands](http://deployer.rebelinblue.com/images/screenshots/commands.png)](http://deployer.rebelinblue.com)
+[![Commands](http://www.rebelinblue.com/deployer/commands.png)](http://deployer.rebelinblue.com)
 
 ## Command Hooks
-[![Command Hooks](http://deployer.rebelinblue.com/images/screenshots/commands-list.png)](http://deployer.rebelinblue.com)
+[![Command Hooks](http://www.rebelinblue.com/deployer/commands-list.png)](http://deployer.rebelinblue.com)
 
 ## Command Management
-[![Command Management](http://deployer.rebelinblue.com/images/screenshots/edit-command.png)](http://deployer.rebelinblue.com)
+[![Command Management](http://www.rebelinblue.com/deployer/edit-command.png)](http://deployer.rebelinblue.com)
 
 ## Notifications
-[![Notifications](http://deployer.rebelinblue.com/images/screenshots/notifications.png)](http://deployer.rebelinblue.com)
+[![Notifications](http://www.rebelinblue.com/deployer/notifications.png)](http://deployer.rebelinblue.com)
 
 ## Deployment
-[![Deployment](http://deployer.rebelinblue.com/images/screenshots/deployment.png)](http://deployer.rebelinblue.com)
+[![Deployment](http://www.rebelinblue.com/deployer/deployment.png)](http://deployer.rebelinblue.com)
 
 ## Console Output
-[![Console Output](http://deployer.rebelinblue.com/images/screenshots/output.png)](http://deployer.rebelinblue.com)
+[![Console Output](http://www.rebelinblue.com/deployer/output.png)](http://deployer.rebelinblue.com)
