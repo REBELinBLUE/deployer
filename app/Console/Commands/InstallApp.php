@@ -55,13 +55,6 @@ class InstallApp extends Command
 
         // TODO: Add options so they can be passed in via the command line?
 
-        // This should not actually be needed as composer install should do it
-        // Removed for now as this causes problems with APP_KEY because key:generate and migrate
-        //  will see it as empty because .env has already be loaded by this stage
-        // if (!file_exists(base_path('.env'))) {
-        //     copy(base_path('.env.example'), base_path('.env'));
-        // }
-
         $this->line('');
         $this->info('***********************');
         $this->info('  Welcome to Deployer  ');
@@ -488,7 +481,10 @@ class InstallApp extends Command
             }
         }
 
-        // We can't automatically create this at the beginning, see comment in handle()
+        // This should not actually be needed as composer install should create it
+        // We can't automatically create the file at the beginning as this causes problems 
+        // with APP_KEY because key:generate and migrate will see it as empty because .env has 
+        // already been loaded by this stage
         if (!file_exists(base_path('.env'))) {
             $this->error('.env is missing, please run "cp .env.example .env"');
             $errors = true;
