@@ -10,7 +10,7 @@ Always provide the English translation - making sure that the indentation and al
 
 The code is written to follow PSR-2 standards, this can be tested using PHP_CodeSniffer
 
-    ```shell
+    ```
     $ ./vendor/bin/phpcs --standard=phpcs.xml
     ```
 
