@@ -49,8 +49,8 @@ The `master` branch of this repository is a development branch and **should not*
 
 ### Optional extras
 
-- A [caching server](http://laravel.com/docs/5.1/cache), unless you expect a lot of traffic the default `file` cache is probably enough
 - [Supervisor](http://supervisord.org) to keep the queue listener and Node.js socket server running
+- A [caching server](http://laravel.com/docs/5.1/cache), unless you expect a lot of traffic the default `file` cache is probably enough
 
 ## Installation
 
