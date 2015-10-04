@@ -68,7 +68,7 @@ The `master` branch of this repository is a development branch and **should not*
     $ git checkout 0.0.17
     ```
 
-3. Install dependences
+3. Install dependencies
 
     ```shell
     $ composer install -o --no-dev
@@ -83,7 +83,7 @@ The `master` branch of this repository is a development branch and **should not*
 
 ### Updating
 
-1. Get the latest colde
+1. Get the latest code
 
     ```shell
     $ git fetch --all
