@@ -41,6 +41,7 @@ return [
     "in"                   => "The selected :attribute is invalid.",
     "integer"              => "The :attribute must be an integer.",
     "ip"                   => "The :attribute must be a valid IP address.",
+    "json"                 => "The :attribute must be a valid JSON string.",
     "host"                 => "The :attribute must be a valid host.",
     "repository"           => "The :attribute must be a valid git repository",
     "max"                  => [

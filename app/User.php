@@ -10,12 +10,15 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use REBELinBLUE\Deployer\Presenters\UserPresenter;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use Robbo\Presenter\PresentableInterface;
 
 /**
  * User model.
  */
-class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract,
+                                    CanResetPasswordContract, PresentableInterface
 {
     use Authenticatable, CanResetPassword, Authorizable, SoftDeletes, BroadcastChanges;
 
@@ -35,6 +38,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     /**
      * Generate a change email token.
+     *
      * @return string
      */
     public function requestEmailToken()
@@ -43,5 +47,30 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->save();
 
         return $this->email_token;
+    }
+
+    /**
+     * Gets the view presenter.
+     *
+     * @return UserPresenter
+     */
+    public function getPresenter()
+    {
+        return new UserPresenter($this);
+    }
+
+    /**
+     * A hack to allow avatar_url to be called on the result of Auth::user().
+     *
+     * @param  string $key The variable to get
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        if ($key === 'avatar_url') {
+            return $this->getPresenter()->avatar_url;
+        }
+
+        return parent::__get($key);
     }
 }

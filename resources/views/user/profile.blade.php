@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <img src="{{ avatar(Auth::user()) }}" class="current-avatar-preview" />
+                        <img src="{{ Auth::user()->avatar_url }}" class="current-avatar-preview" />
 
                         <div class="avatar-preview preview-md hide"></div>
 

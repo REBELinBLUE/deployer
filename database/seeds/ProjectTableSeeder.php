@@ -13,7 +13,7 @@ class ProjectTableSeeder extends Seeder
         Project::create([
             'name'        => 'Deployer',
             'hash'        => Str::random(60),
-            'repository'  => 'git@git.rebelinblue.com:laravel/deployer.git',
+            'repository'  => 'https://github.com/REBELinBLUE/deployer.git',
             'url'         => 'http://deploy.app',
             'group_id'    => 2,
             'private_key' => '-----BEGIN RSA PRIVATE KEY-----

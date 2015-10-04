@@ -80,7 +80,7 @@ return [
 
     'key'             => env('APP_KEY', 'SomeRandomString'),
 
-    // FIXME: See if we can figure out a way to set this to 'AES-256-CBC' for new installs only
+    // TODO: See if we can figure out a way to set this to 'AES-256-CBC' for new installs only
     'cipher'          => MCRYPT_RIJNDAEL_128,
 
     /*
@@ -141,13 +141,13 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\Debugbar\ServiceProvider::class,
         GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Robbo\Presenter\PresenterServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         GrahamCampbell\Security\SecurityServiceProvider::class,
         GrahamCampbell\Binput\BinputServiceProvider::class,
+        Clockwork\Support\Laravel\ClockworkServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -207,7 +207,6 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Gravatar'  => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Image'     => Intervention\Image\Facades\Image::class,
 

@@ -1,5 +1,9 @@
 # Deployer
 
+Deployer is a PHP Application deployment system powered by [Laravel 5.1](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
+
+Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](LICENSE.md), [screenshots](SCREENSHOTS.md), and [contribution guidelines](CONTRIBUTING.md).
+
 **Current Build Status**
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat)](https://styleci.io/repos/33559148)
@@ -15,14 +19,85 @@
 [![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg)](https://github.com/REBELinBLUE/deployer/releases)
 [![License](https://img.shields.io/github/license/rebelinblue/deployer.svg)](https://github.com/REBELinBLUE/deployer/blob/master/LICENSE.md)
 
+## What it does
+
+* Deploys applications to multiple servers accessible via SSH
+* Clones your projects git repository
+* Installs composer dependencies
+* Runs arbitrary bash commands
+* Gracefully handles failure in any of these steps
+* Keeps a number of previous deployments
+* Monitors that cronjobs are running
+* Allows deployments to be triggered via a webhook
+
+## What it doesn't do
+
+* Provision VMs
+* Install system packages
+* Configure the web server, database or other services
+
 ## Usage in production
 
-The `master` branch of this repository is a development branch and **should not** be used in production. Instead, please check out the latest tag release.
+The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. Therefore, it is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](CONTRIBUTING.md).
 
 ## Requirements
 
-- PHP 5.5.9+ or newer
+- [PHP](http://www.php.net) 5.5.9+ or newer
+- A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) are recommended but an [SQLite](https://www.sqlite.org) DB can be used
 - [Composer](https://getcomposer.org)
-- Beanstalkd
-- Redis
-- Node.js
+- [Redis](http://redis.io)
+- [Node.js](https://nodejs.org/)
+- A suitable [queue](http://laravel.com/docs/5.1/queues) for Laravel, [Beanstalkd](http://kr.github.io/beanstalkd/) is recommended but Redis can also be used
+
+### Optional extras
+
+- [Supervisor](http://supervisord.org) to keep the queue listener and Node.js socket server running
+- A [caching server](http://laravel.com/docs/5.1/cache), unless you expect a lot of traffic the default `file` cache is probably enough
+
+## Installation
+
+1. Clone the repository
+
+    ```shell
+    $ git clone https://github.com/REBELinBLUE/deployer.git
+    ```
+
+2. Checkout the latest release
+
+    ```shell
+    $ git checkout 0.0.17
+    ```
+
+3. Install dependencies
+
+    ```shell
+    $ composer install -o --no-dev
+    $ npm install --production
+    ```
+
+4. Run the installer and follow the instructions
+
+    ```shell
+    $ php artisan app:install
+    ```
+
+### Updating
+
+1. Get the latest code
+
+    ```shell
+    $ git fetch --all
+    $ git checkout 0.0.17
+     ```
+
+2. Update the dependencies
+
+    ```shell
+    $ composer install -o --no-dev
+    ```
+
+3. Run the updater
+
+    ```shell
+    $ php artisan app:update
+    ```

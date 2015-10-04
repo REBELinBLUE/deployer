@@ -39,18 +39,16 @@ Vagrant.configure("2") do |config|
     # Copy The SSH Private Keys To The Box
     config.vm.provision "shell" do |s|
         s.privileged = false
-        s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
-        s.args = [File.read(File.expand_path("~/.ssh/id_rsa")), "id_rsa"]
+        s.inline = "echo \"$1\" > /home/vagrant/.ssh/id_rsa && chmod 600 /home/vagrant/.ssh/id_rsa"
+        s.args = [File.read(File.expand_path("~/.ssh/id_rsa"))]
     end
 
-    # Update composer
-    config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
+    config.vm.provision "file", source: "~/.gitconfig", destination: "~/.gitconfig"
 
     # Copy deployer supervisor and cron config
-    config.vm.provision "shell", inline: "cp -n /var/www/deployer/.env.example /var/www/deployer/.env"
-    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/supervisor.conf.example /etc/supervisor/conf.d/deployer.conf"
-    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/crontab.example /etc/cron.d/deployer"
-    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/nginx.conf.example /etc/nginx/sites-available/deployer.conf"
+    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/supervisor.conf /etc/supervisor/conf.d/deployer.conf"
+    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/crontab /etc/cron.d/deployer"
+    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/nginx.conf /etc/nginx/sites-available/deployer.conf"
     config.vm.provision "shell", inline: "sudo ln -fs /etc/nginx/sites-available/deployer.conf /etc/nginx/sites-enabled/deployer.conf"
     config.vm.provision "shell", inline: "sudo service redis-server restart"
     config.vm.provision "shell", inline: "sudo service beanstalkd restart"
@@ -61,11 +59,12 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "curl -s http://get.sensiolabs.org/php-cs-fixer.phar -o php-cs-fixer"
     config.vm.provision "shell", inline: "sudo chmod a+x php-cs-fixer"
     config.vm.provision "shell", inline: "sudo mv php-cs-fixer /usr/local/bin/php-cs-fixer"
-    config.vm.provision "shell", inline: "curl -s http://get.sensiolabs.org/sami.phar -o sami"
-    config.vm.provision "shell", inline: "sudo chmod a+x sami"
-    config.vm.provision "shell", inline: "sudo mv sami /usr/local/bin/sami"
     config.vm.provision "shell", inline: "sudo composer create-project ptrofimov/beanstalk_console -q -n -s dev /var/www/beanstalk"
     config.vm.provision "shell", inline: "sudo chown -R vagrant:vagrant /var/www/beanstalk"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"DROP DATABASE IF EXISTS deployer\";"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci\";"
+
+    # Update composer and php-cs-fixer
+    config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
+    config.vm.provision "shell", inline: "sudo /usr/local/bin/php-cs-fixer self-update", run: "always"
 end

@@ -51,16 +51,14 @@
                     </ul>
                 </li>
 
-
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ avatar(Auth::user()) }}" class="user-image" />
+                        <img src="{{ Auth::user()->avatar_url }}" class="user-image" />
                         <span class="hidden-xs">{{ Auth::user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
-
                         <li class="user-header">
-                            <img src="{{ avatar(Auth::user()) }}" class="img-circle" />
+                            <img src="{{ Auth::user()->avatar_url }}" class="img-circle" />
                             <p>
                                 {{ Auth::user()->name }}
                             </p>

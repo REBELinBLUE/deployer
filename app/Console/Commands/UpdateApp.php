@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
-use Illuminate\Console\Command;
 use REBELinBLUE\Deployer\Deployment;
 
 /**

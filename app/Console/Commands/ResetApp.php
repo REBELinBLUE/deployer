@@ -2,8 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
-use Illuminate\Console\Command;
-
 /**
  * A console command for clearing all data and setting up again.
  */

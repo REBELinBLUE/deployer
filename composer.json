@@ -26,12 +26,12 @@
         "pda/pheanstalk": "~3.0",
         "creativeorange/gravatar": "~1.0",
         "filp/whoops": "~1.0",
-        "barryvdh/laravel-debugbar": "~2.0",
         "nategood/httpful": "~0.2.19",
         "robclancy/presenter": "1.3.*",
         "doctrine/dbal": "~2.5",
         "intervention/image": "^2.2",
-        "graham-campbell/binput": "~3.2"
+        "graham-campbell/binput": "~3.2",
+        "itsgoingd/clockwork": "~1.9"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.5",
@@ -48,10 +48,7 @@
         ],
         "psr-4": {
             "REBELinBLUE\\Deployer\\": "app/"
-        },
-        "files": [
-            "app/Http/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "classmap": [
