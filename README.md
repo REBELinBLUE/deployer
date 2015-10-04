@@ -45,7 +45,7 @@ The `master` branch of this repository is a development branch and **should not*
 - [Composer](https://getcomposer.org)
 - [Redis](http://redis.io)
 - [Node.js](https://nodejs.org/)
-- A suitable [queue driver](http://laravel.com/docs/5.1/queues) for Laravel, [Beanstalkd](http://kr.github.io/beanstalkd/) is recommended but Redis can be used
+- A suitable [queue](http://laravel.com/docs/5.1/queues) for Laravel, [Beanstalkd](http://kr.github.io/beanstalkd/) is recommended but Redis can also be used
 
 ### Optional extras
 
