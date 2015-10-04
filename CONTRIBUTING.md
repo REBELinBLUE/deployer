@@ -40,11 +40,15 @@ Once you have started the VM you will need to run the following commands
     $ vagrant ssh
     $ cd /var/www/deployer
     $ composer install
+    $ editor .env (change APP_ENV to local and APP_DEBUG to true)
+    $ php artisan app:install
     $ npm install
     $ bower install
     $ gulp
-    $ php artisan key:generate
-    $ php artisan migrate
     $ sudo service supervisor restart
+
+You can reset your database running
+
+    $ php artisan app:reset
 
 The VM will set up the cronjob needed for heartbeats and it will setup supervisor to ensure the queue listener is always running

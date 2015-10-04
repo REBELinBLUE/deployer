@@ -19,9 +19,24 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 [![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg)](https://github.com/REBELinBLUE/deployer/releases)
 [![License](https://img.shields.io/github/license/rebelinblue/deployer.svg)](https://github.com/REBELinBLUE/deployer/blob/master/LICENSE.md)
 
+## What it does
+
+* Deploys applications to multiple servers accessible via SSH
+* Clones your projects git repository
+* Installs composer dependencies
+* Runs arbitrary commands
+* Gracefully handles failure in any of these steps
+* Keeps a number of previous deployments
+
+## What it doesn't do
+
+* Provision VMs
+* Install system packages
+* Configure the web server, database or other services
+
 ## Usage in production
 
-The `master` branch of this repository is a development branch and **should not** be used in production. Instead, please check out the latest tag release.
+The `master` branch of this repository is a development branch and **should not** be used in production. Instead, please check out the latest tag [release](https://github.com/REBELinBLUE/deployer/releases). For information on contributing see [contribution guidelines](CONTRIBUTING.md).
 
 ## Requirements
 
@@ -30,3 +45,37 @@ The `master` branch of this repository is a development branch and **should not*
 - Beanstalkd
 - Redis
 - Node.js
+
+## Installation
+
+1. Clone the repository
+
+    $ git clone https://github.com/REBELinBLUE/deployer.git
+
+2. Checkout the latest release
+
+    $ git checkout 0.0.17
+
+3. Install dependences
+
+    $ composer install -o --no-dev
+    $ npm install --production
+
+4. Run the installer and follow the instructions
+
+    $ php artisan app:install
+
+## Updating
+
+1. Get the latest colde
+
+    $ git fetch --all
+    $ git checkout 0.0.17
+
+2. Update the dependencies
+
+    $ composer install -o --no-dev
+
+3. Run the updater
+
+    $ php artisan app:update
