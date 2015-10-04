@@ -10,15 +10,31 @@ Always provide the English translation - making sure that the indentation and al
 
 The code is written to follow PSR-2 standards, this can be tested using PHP_CodeSniffer
 
+    ```shell
     $ ./vendor/bin/phpcs --standard=phpcs.xml
+    ```
 
-Code mess can be checked with
+Problems can be fixed with
 
+    ```shell
+    $ php-cs-fixer fix
+    ```
+
+Codemess can be checked with
+
+    ```shell
     $ ./vendor/bin/phpmd app text phpmd.xml
+    ```
 
-PHP Docblocks can be checked with
+PHPDoc blocks can be checked with
 
+    ```shell
     $ ./vendor/bin/phpdoccheck --directory=app
+    ```
+
+### CI servers
+
+Coding standards are checked using [StyleCI](http://styleci.io); codemess, PHPDoc blocks and PHP syntax are checked using [PHPCI](https://www.phptesting.org)
 
 ## .editorconfig
 
@@ -31,7 +47,7 @@ Along with the standard requirements, development also requires the following
 - Gulp
 - Bower
 
-## Development Environment 
+## Development environment 
 
 The project includes a [Vagrantfile](/Vagrantfile) for running deployer, it uses [laravel/homestead](https://github.com/laravel/homestead). The VM uses the domain `deploy.app` and the IP address `192.168.10.10` so you will need to add them to your `/etc/hosts` file
 

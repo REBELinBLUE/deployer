@@ -44,10 +44,11 @@ The `master` branch of this repository is a development branch and **should not*
 - [Composer](https://getcomposer.org)
 - [Redis](http://redis.io)
 - [Node.js](https://nodejs.org/)
+- A suitable [queue driver](http://laravel.com/docs/5.1/queues) for Laravel, [Beanstalkd](http://kr.github.io/beanstalkd/) is recommended but Redis can be used
 
-### Additionl Requirements
+### Optional extras
 
-- A suitable [queue driver](http://laravel.com/docs/5.1/queues) for Laravel, [Beanstalkd](http://kr.github.io/beanstalkd/) is recommended
+- A [caching server](http://laravel.com/docs/5.1/cache), unless you expect a lot of traffic the default `file` cache is probably enough
 
 ## Installation
 
@@ -76,7 +77,7 @@ The `master` branch of this repository is a development branch and **should not*
     $ php artisan app:install
     ```
 
-## Updating
+### Updating
 
 1. Get the latest colde
 
