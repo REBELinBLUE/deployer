@@ -50,32 +50,46 @@ The `master` branch of this repository is a development branch and **should not*
 
 1. Clone the repository
 
-    $ git clone https://github.com/REBELinBLUE/deployer.git
+```shell
+$ git clone https://github.com/REBELinBLUE/deployer.git
+```
 
 2. Checkout the latest release
 
-    $ git checkout 0.0.17
+```shell
+$ git checkout 0.0.17
+```
 
 3. Install dependences
 
-    $ composer install -o --no-dev
-    $ npm install --production
+```shell
+$ composer install -o --no-dev
+$ npm install --production
+```
 
 4. Run the installer and follow the instructions
 
-    $ php artisan app:install
+```shell
+$ php artisan app:install
+```
 
 ## Updating
 
 1. Get the latest colde
 
-    $ git fetch --all
-    $ git checkout 0.0.17
+```shell
+$ git fetch --all
+$ git checkout 0.0.17
+ ```
 
 2. Update the dependencies
 
-    $ composer install -o --no-dev
+```shell
+$ composer install -o --no-dev
+```
 
 3. Run the updater
 
-    $ php artisan app:update
+```shell
+$ php artisan app:update
+```
