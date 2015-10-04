@@ -66,3 +66,5 @@ You can reset your database by running
     $ php artisan app:reset
 
 The VM will set up the cronjob needed for heartbeats and it will setup supervisor to ensure the queue listener is always running
+
+Please note, this VM does not include a `.gitconfig` file, please remember to set it up BEFORE you commit any code.
