@@ -1,3 +1,4 @@
+
 <?php
 
 return [
@@ -13,6 +14,8 @@ return [
     'enter_email'           => 'Please enter your email to reset your password',
     'eeter_password'        => 'Please enter your new password below',
     'send_link'             => 'Send Password Reset Link',
-    'reset'                 => 'Reset Password'
+    'reset'                 => 'Reset Password',
+    'throttle'              => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed'                => 'These credentials do not match our records.'
 
 ];
