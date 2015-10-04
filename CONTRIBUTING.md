@@ -67,4 +67,4 @@ You can reset your database by running
 
 The VM will set up the cronjob needed for heartbeats and it will setup supervisor to ensure the queue listener is always running
 
-Please note, this VM does not include a `.gitconfig` file, please remember to set it up BEFORE you commit any code.
+Please note, this VM will copy `~/.ssh/id_rsa` and '~/.gitconfig' from your host on first boot.
