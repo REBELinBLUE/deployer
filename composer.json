@@ -48,10 +48,7 @@
         ],
         "psr-4": {
             "REBELinBLUE\\Deployer\\": "app/"
-        },
-        "files": [
-            "app/Http/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "classmap": [
