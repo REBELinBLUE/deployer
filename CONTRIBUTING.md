@@ -8,7 +8,7 @@ Always provide the English translation - making sure that the indentation and al
 
 ## Coding Standards
 
-The code is written to follow PSR-2 standards, this can be tested using PHP_CodeSniffer
+The code is written to follow [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) standards, this can be tested using PHP_CodeSniffer
 
     $ ./vendor/bin/phpcs --standard=phpcs.xml
 
@@ -40,7 +40,7 @@ Along with the standard requirements, development also requires the following
 - [Bower](http://bower.io)
 - [Vagrant](https://www.vagrantup.com/), optional but it makes development
 
-## Development environment 
+## Development environment
 
 The project includes a [Vagrantfile](/Vagrantfile) for running deployer, it uses [laravel/homestead](https://github.com/laravel/homestead). The VM uses the domain `deploy.app` and the IP address `192.168.10.10` so you will need to add them to your `/etc/hosts` file
 
