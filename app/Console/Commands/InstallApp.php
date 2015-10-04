@@ -581,8 +581,8 @@ class InstallApp extends Command
     {
         // Get the locales from the files on disk
         $locales = File::directories(base_path('resources/lang/'));
-    
-        array_walk($locales, function(&$value, $key) {
+
+        array_walk($locales, function (&$value, $key) {
             $value = basename($value);
         });
 
