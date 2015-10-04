@@ -98,6 +98,11 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
         'uses' => 'ProfileController@update',
     ]);
 
+    Route::post('profile/settings', [
+        'as'   => 'profile.settings',
+        'uses' => 'ProfileController@settings',
+    ]);
+
     Route::post('profile/email', [
         'as'   => 'profile.request_change_email',
         'uses' => 'ProfileController@requestEmail',

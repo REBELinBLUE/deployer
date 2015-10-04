@@ -41,7 +41,7 @@ elixir(function(mix) {
     })
     .styles([
         'AdminLTE.css',
-        'skin-green.css',
+        '_all-skins.css',
         'app.css',
         '../../../' + paths.cropper + '/dist/cropper.min.css'
     ], 'public/css/app.css', 'resources/assets/css')

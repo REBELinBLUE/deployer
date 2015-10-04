@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Lang;
 use Intervention\Image\Facades\Image;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
+use REBELinBLUE\Deployer\Http\Requests\StoreSettingsRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 
 /**
@@ -39,7 +40,8 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update user's basic message.
+     * Update user's basic profile.
+     *
      * @param  StoreProfileRequest $request
      * @return Response
      */
@@ -48,6 +50,21 @@ class ProfileController extends Controller
         $this->repository->updateById($request->only(
             'name',
             'password'
+        ), Auth::user()->id);
+
+        return redirect()->to('/');
+    }
+
+    /**
+     * Update user's settings.
+     *
+     * @param  StoreSettingsRequest $request
+     * @return Response
+     */
+    public function settings(StoreSettingsRequest $request)
+    {
+        $this->repository->updateById($request->only(
+            'skin'
         ), Auth::user()->id);
 
         return redirect()->to('/');
