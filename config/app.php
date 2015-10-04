@@ -80,7 +80,7 @@ return [
 
     'key'             => env('APP_KEY', 'SomeRandomString'),
 
-    // FIXME: See if we can figure out a way to set this to 'AES-256-CBC' for new installs only
+    // TODO: See if we can figure out a way to set this to 'AES-256-CBC' for new installs only
     'cipher'          => MCRYPT_RIJNDAEL_128,
 
     /*
