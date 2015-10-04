@@ -17,7 +17,6 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 [![PHP Dependency Status](https://www.versioneye.com/user/projects/5531329410e7141211000f29/badge.svg)](https://www.versioneye.com/user/projects/5531329410e7141211000f29)
 [![Node Dependency Status](https://www.versioneye.com/user/projects/5531329610e714f9e500109c/badge.svg)](https://www.versioneye.com/user/projects/5531329610e714f9e500109c)
 [![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg)](https://github.com/REBELinBLUE/deployer/releases)
-[![License](https://img.shields.io/github/license/rebelinblue/deployer.svg)](https://github.com/REBELinBLUE/deployer/blob/master/LICENSE.md)
 
 ## What it does
 
