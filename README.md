@@ -40,11 +40,14 @@ The `master` branch of this repository is a development branch and **should not*
 
 ## Requirements
 
-- PHP 5.5.9+ or newer
+- [PHP](http://www.php.net) 5.5.9+ or newer
 - [Composer](https://getcomposer.org)
-- Beanstalkd
-- Redis
-- Node.js
+- [Redis](http://redis.io)
+- [Node.js](https://nodejs.org/)
+
+### Additionl Requirements
+
+- A suitable [queue driver](http://laravel.com/docs/5.1/queues) for Laravel, [Beanstalkd](http://kr.github.io/beanstalkd/) is recommended
 
 ## Installation
 
