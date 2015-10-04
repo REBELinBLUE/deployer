@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use DateTimeZone;
+use Illuminate\Support\Facades\File;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
@@ -578,14 +579,12 @@ class InstallApp extends Command
      */
     private function getLocales()
     {
-        $locales = [];
-
         // Get the locales from the files on disk
-        foreach (glob(base_path('resources/lang/') . '*') as $path) {
-            if (is_dir($path)) {
-                $locales[] = basename($path);
-            }
-        }
+        $locales = File::directories(base_path('resources/lang/'));
+    
+        array_walk($locales, function(&$value, $key) {
+            $value = basename($value);
+        });
 
         return $locales;
     }
