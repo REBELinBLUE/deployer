@@ -28,6 +28,7 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 * Gracefully handles failure in any of these steps
 * Keeps a number of previous deployments
 * Monitors that cronjobs are running
+* Allows deployments to be triggered via a webhook
 
 ## What it doesn't do
 
