@@ -36,7 +36,7 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 
 ## Usage in production
 
-The `master` branch of this repository is a development branch and **should not** be used in production. Instead, please check out the latest tag [release](https://github.com/REBELinBLUE/deployer/releases). For information on contributing see [contribution guidelines](CONTRIBUTING.md).
+The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. Therefore, it is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](CONTRIBUTING.md).
 
 ## Requirements
 
