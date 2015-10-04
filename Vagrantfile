@@ -47,10 +47,11 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
 
     # Copy deployer supervisor and cron config
+    # FIXME: Add log rotate
     config.vm.provision "shell", inline: "cp -n /var/www/deployer/.env.example /var/www/deployer/.env"
-    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/supervisor.conf.example /etc/supervisor/conf.d/deployer.conf"
-    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/crontab.example /etc/cron.d/deployer"
-    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/nginx.conf.example /etc/nginx/sites-available/deployer.conf"
+    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/supervisor.conf /etc/supervisor/conf.d/deployer.conf"
+    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/crontab /etc/cron.d/deployer"
+    config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/nginx.conf /etc/nginx/sites-available/deployer.conf"
     config.vm.provision "shell", inline: "sudo ln -fs /etc/nginx/sites-available/deployer.conf /etc/nginx/sites-enabled/deployer.conf"
     config.vm.provision "shell", inline: "sudo service redis-server restart"
     config.vm.provision "shell", inline: "sudo service beanstalkd restart"
