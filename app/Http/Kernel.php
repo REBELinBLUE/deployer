@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \REBELinBLUE\Deployer\Http\Middleware\VerifyCsrfToken::class,
+        \Clockwork\Support\Laravel\ClockworkMiddleware::class,
     ];
 
     /**
