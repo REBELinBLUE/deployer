@@ -3,9 +3,9 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use DateTimeZone;
-use Illuminate\Support\Facades\File;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use PDO;
 use Symfony\Component\Console\Helper\FormatterHelper;
@@ -14,7 +14,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * A console command for prompting for install details.
- * TODO: Refactor the validator to reduce duplication, maybe move the askWithValidation to an external library
+ * TODO: Refactor the validator to reduce duplication, maybe move the askWithValidation to an external library.
  */
 class InstallApp extends Command
 {
