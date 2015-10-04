@@ -38,12 +38,12 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 
 ## Usage in production
 
-The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. Therefore, it is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](CONTRIBUTING.md).
+The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. It is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](CONTRIBUTING.md).
 
 ## Requirements
 
 - [PHP](http://www.php.net) 5.5.9+ or newer
-- A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) are recommended but an [SQLite](https://www.sqlite.org) DB can be used
+- A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) are recommended but [SQLite](https://www.sqlite.org) can be used
 - [Composer](https://getcomposer.org)
 - [Redis](http://redis.io)
 - [Node.js](https://nodejs.org/)
