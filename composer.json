@@ -31,15 +31,18 @@
         "doctrine/dbal": "~2.5",
         "intervention/image": "^2.2",
         "graham-campbell/binput": "~3.2",
-        "itsgoingd/clockwork": "~1.9"
+        "itsgoingd/clockwork": "~1.9",
+        "fabpot/php-cs-fixer": "^1.10"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.5",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~4.5",
         "block8/php-docblock-checker": "^1.0",
-        "squizlabs/php_codesniffer": "2.*",
-        "phpmd/phpmd" : "@stable",
+        "squizlabs/php_codesniffer": "~2.3",
+        "phpmd/phpmd" : "~2.0",
+        "phploc/phploc": "~2.0",
+        "sebastian/phpcpd": "2.0.2",
         "codeclimate/php-test-reporter": "^0.1.2"
     },
     "autoload": {

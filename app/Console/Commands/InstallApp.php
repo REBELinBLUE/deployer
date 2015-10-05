@@ -493,7 +493,7 @@ class InstallApp extends Command
         // Files and directories which need to be writable
         $writable = ['.env', 'storage', 'storage/logs', 'storage/app', 'storage/framework',
                      'storage/framework/cache', 'storage/framework/sessions',
-                     'storage/framework/views', 'bootstrap/cache',
+                     'storage/framework/views', 'bootstrap/cache', 'public/upload',
                     ];
 
         foreach ($writable as $path) {

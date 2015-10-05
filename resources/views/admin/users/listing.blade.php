@@ -40,7 +40,7 @@
 
 @section('javascript')
     <script type="text/javascript">
-        var users = {!! $users->toJson() !!};
+        var users = {!! $users !!};
 
         new app.UsersTab();
         app.Users.add(users);
