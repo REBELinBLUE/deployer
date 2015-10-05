@@ -523,7 +523,7 @@ class InstallApp extends Command
         }
 
         // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git'];
+        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp'];
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);
