@@ -17,7 +17,6 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 [![PHP Dependency Status](https://www.versioneye.com/user/projects/5531329410e7141211000f29/badge.svg)](https://www.versioneye.com/user/projects/5531329410e7141211000f29)
 [![Node Dependency Status](https://www.versioneye.com/user/projects/5531329610e714f9e500109c/badge.svg)](https://www.versioneye.com/user/projects/5531329610e714f9e500109c)
 [![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg)](https://github.com/REBELinBLUE/deployer/releases)
-[![License](https://img.shields.io/github/license/rebelinblue/deployer.svg)](https://github.com/REBELinBLUE/deployer/blob/master/LICENSE.md)
 
 ## What it does
 
@@ -38,12 +37,12 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 
 ## Usage in production
 
-The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. Therefore, it is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](CONTRIBUTING.md).
+The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. It is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](CONTRIBUTING.md).
 
 ## Requirements
 
 - [PHP](http://www.php.net) 5.5.9+ or newer
-- A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) are recommended but an [SQLite](https://www.sqlite.org) DB can be used
+- A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) are recommended but [SQLite](https://www.sqlite.org) can be used
 - [Composer](https://getcomposer.org)
 - [Redis](http://redis.io)
 - [Node.js](https://nodejs.org/)
@@ -65,7 +64,7 @@ The `master` branch of this repository is a development branch and **should not*
 2. Checkout the latest release
 
     ```shell
-    $ git checkout 0.0.17
+    $ git checkout 0.0.18
     ```
 
 3. Install dependencies
@@ -81,13 +80,19 @@ The `master` branch of this repository is a development branch and **should not*
     $ php artisan app:install
     ```
 
+5. (Optional) Make any additional configuration changes
+
+    ```shell
+    $ editor .env
+    ```
+
 ### Updating
 
 1. Get the latest code
 
     ```shell
     $ git fetch --all
-    $ git checkout 0.0.17
+    $ git checkout 0.0.18
      ```
 
 2. Update the dependencies
@@ -101,3 +106,7 @@ The `master` branch of this repository is a development branch and **should not*
     ```shell
     $ php artisan app:update
     ```
+
+## License
+
+Deployer is licensed under [The MIT License (MIT)](LICENSE.md).

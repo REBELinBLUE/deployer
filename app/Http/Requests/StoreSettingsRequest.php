@@ -5,9 +5,9 @@ namespace REBELinBLUE\Deployer\Http\Requests;
 use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**
- * Request for validating groups.
+ * Validate the user settings.
  */
-class StoreTemplateRequest extends Request
+class StoreSettingsRequest extends Request
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,7 +17,7 @@ class StoreTemplateRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
+            'skin' => 'required'
         ];
     }
 }

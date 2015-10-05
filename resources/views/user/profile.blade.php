@@ -8,7 +8,7 @@
                 <h3 class="box-title">{{ Lang::get('users.basic') }}</h3>
             </div>
             <div class="box-body">
-                <form action="{{ route('profile.update') }}" method="POST">
+                <form action="{{ route('profile.update') }}" method="post">
                     {!! csrf_field() !!}
                     <div class="form-group">
                         <label for="name">{{ Lang::get('users.name') }}</label>
@@ -28,6 +28,32 @@
                 </form>
             </div>
         </div>
+
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ Lang::get('users.settings') }}</h3>
+            </div>
+            <div class="box-body">
+                <form action="{{ route('profile.settings') }}" method="post">
+                    {!! csrf_field() !!}
+                    <div class="form-group">
+                        <label for="skin">{{ Lang::get('users.theme') }}</label>
+                        <select name="skin" id="skin" class="form-control">
+
+                            @foreach (['yellow', 'red', 'green', 'purple', 'blue'] as $colour)
+                                <option value="{{ $colour }}" @if ($colour === $theme) selected @endif>{{ Lang::get('users.' . $colour )}}</option>
+                                <option value="{{ $colour }}-light" @if ($colour . '-light' === $theme) selected @endif>{{ Lang::get('users.with_sidebar', ['colour' => Lang::get('users.' . $colour)])}}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-flat">{{ Lang::get('users.save') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="box box-danger">
             <div class="box-header with-border">
                 <h3 class="box-title">{{ Lang::get('users.change_email') }}</h3>

@@ -6,6 +6,11 @@ var app = app || {};
         return;
     }
 
+    $('#skin').on('change', function() {
+        $('body').removeClass();
+        $("body").addClass('skin-' + $(this).find(':selected').val());
+    });
+
     var cropperData = {};
     $('#request-change-email').on('click', function() {
         var box = $(this).parents('.box');

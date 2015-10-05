@@ -16,6 +16,11 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        view()->composer(
+            ['layout', 'user.profile'],
+            'REBELinBLUE\Deployer\Http\Composers\ThemeComposer'
+        );
+
         $this->composeNavigation();
     }
 

@@ -15,6 +15,8 @@ return [
     'update_profile'    => 'Update Profile',
     'basic'             => 'Basic',
     'change_password'   => 'Change Password',
+    'settings'          => 'Settings',
+    'theme'             => 'Theme',
     'change_email'      => 'Email Address',
     'save'              => 'Save',
     'current_name'      => 'Current Name',
@@ -26,5 +28,11 @@ return [
     'email_sent'        => 'Please check your email, you have been sent a link to change your email address',
     'avatar_success'    => 'Your avatar has been saved successfully!',
     'avatar_failed'     => 'Your avatar could not be saved',
+    'yellow'            => 'Yellow',
+    'red'               => 'Red',
+    'green'             => 'Green',
+    'purple'            => 'Purple',
+    'blue'              => 'Blue',
+    'with_sidebar'      => ':colour with light sidebar'
 
 ];

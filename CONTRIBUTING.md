@@ -30,7 +30,7 @@ Coding standards are checked using [StyleCI](http://styleci.io); mess, duplicati
 
 ## .editorconfig
 
-You should make use of the [.editorconfig](/.editorconfig) file found within the root of the repository. It'll make sure that your editor is setup with the same file settings.
+You should make use of the [.editorconfig](/.editorconfig) file found within the root of the repository. It'll make sure that your editor is setup with the same file settings. See [http://editorconfig.org](http://editorconfig.org) for more details.
 
 ## Requirements
 
@@ -38,11 +38,13 @@ Along with the standard requirements, development also requires the following
 
 - [Gulp](http://gulpjs.com)
 - [Bower](http://bower.io)
-- [Vagrant](https://www.vagrantup.com/), optional but it makes development
+- [Vagrant](https://www.vagrantup.com/), optional but it makes development easier
 
 ## Development environment
 
-The project includes a [Vagrantfile](/Vagrantfile) for running deployer, it uses [laravel/homestead](https://github.com/laravel/homestead). The VM uses the domain `deploy.app` and the IP address `192.168.10.10` so you will need to add them to your `/etc/hosts` file
+The project includes a [Vagrantfile](/Vagrantfile) for running deployer, it uses [laravel/homestead](https://github.com/laravel/homestead). The VM uses the domain `deploy.app` and the IP address `192.168.10.10` so you will need to add the following line your `/etc/hosts` file
+
+    192.168.10.1 deploy.app
 
 You will need to install the required box and start vagrant
 
@@ -54,8 +56,8 @@ Once you have started the VM you will need to run the following commands
     $ vagrant ssh
     $ cd /var/www/deployer
     $ composer install
-    $ editor .env (change APP_ENV to local and APP_DEBUG to true)
-    $ php artisan app:install (use the values from .env if you use MySQL)
+    $ editor .env                       # Change APP_ENV to local and APP_DEBUG to true
+    $ php artisan app:install           # Use the values from .env if you want to use MySQL
     $ npm install
     $ bower install
     $ gulp
