@@ -30,7 +30,7 @@ Coding standards are checked using [StyleCI](http://styleci.io); mess, duplicati
 
 ## .editorconfig
 
-You should make use of the [.editorconfig](/.editorconfig) file found within the root of the repository. It'll make sure that your editor is setup with the same file settings.
+You should make use of the [.editorconfig](/.editorconfig) file found within the root of the repository. It'll make sure that your editor is setup with the same file settings. See [http://editorconfig.org](http://editorconfig.org) for more details.
 
 ## Requirements
 
