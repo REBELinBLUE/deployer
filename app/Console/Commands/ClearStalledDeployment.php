@@ -71,6 +71,7 @@ class ClearStalledDeployment extends Command
     /**
      * Cleans up any stalled deployments in the database.
      *
+     * @tpdp Maybe readd pending to the queue if possible?
      * @return void
      */
     public function cleanupDeployments()
@@ -83,16 +84,12 @@ class ClearStalledDeployment extends Command
         ServerLog::where('status', '=', ServerLog::RUNNING)
                  ->update(['status' => ServerLog::FAILED]);
 
-        // Mark any running deployments as failed
-        Deployment::where('status', '=', Deployment::DEPLOYING)
+        // Mark any running/pending deployments as failed
+        Deployment::whereIn('status', [Deployment::DEPLOYING, Deployment::PENDING])
                   ->update(['status' => Deployment::FAILED]);
 
-        // TODO: Maybe readd to the queue if possible?
-        Deployment::where('status', '=', Deployment::PENDING)
-                  ->update(['status' => Deployment::FAILED]);
-
-        // Mark any deploying projects as failed
-        Project::where('status', '=', Project::DEPLOYING)
+        // Mark any deploying/pending projects as failed
+        Project::whereIn('status', [Project::DEPLOYING, Project::PENDING])
                ->update(['status' => Project::FAILED]);
     }
 }
