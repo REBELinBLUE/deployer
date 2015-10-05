@@ -56,8 +56,8 @@ Once you have started the VM you will need to run the following commands
     $ vagrant ssh
     $ cd /var/www/deployer
     $ composer install
-    $ editor .env # Change APP_ENV to local and APP_DEBUG to true
-    $ php artisan app:install # Use the values from .env if you want to use MySQL
+    $ editor .env               # Change APP_ENV to local and APP_DEBUG to true
+    $ php artisan app:install   # Use the values from .env if you want to use MySQL
     $ npm install
     $ bower install
     $ gulp
