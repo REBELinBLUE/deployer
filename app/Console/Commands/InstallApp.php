@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use PDO;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
@@ -33,13 +34,22 @@ class InstallApp extends Command
     protected $description = 'Installs the application and configures the settings';
 
     /**
+     * The user repository.
+     *
+     * @var UserRepositoryInterface
+     */
+    private $repository;
+
+    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $repository = null)
     {
         parent::__construct();
+
+        $this->repository = $repository;
     }
 
     /**
@@ -79,11 +89,15 @@ class InstallApp extends Command
             'mail'  => $this->getEmailInformation(),
         ];
 
+        $admin = $this->getAdminInformation();
+
         $this->writeEnvFile($config);
 
         $this->generateKey();
         $this->migrate(($this->getLaravel()->environment() === 'local'));
         $this->optimize();
+
+        $this->repository->updateById($admin, 1);
 
         $this->line('');
         $this->info('Success! Deployer is now installed');
@@ -100,13 +114,8 @@ class InstallApp extends Command
         $this->line('');
         $this->comment('4. (Optional) Setup logrotate, see "logrotate.conf"');
         $this->line('');
-        $this->comment('5. Visit ' . $config['app']['url'] . ' and login with the following details to get started');
+        $this->comment('5. Visit ' . $config['app']['url'] . ' and login with the details you provided to get started');
         $this->line('');
-        $this->comment('   Username: admin@example.com');
-        $this->comment('   Password: password');
-        $this->line('');
-
-        // TODO: Update admin user instead of using defaults?
     }
 
     /**
@@ -374,6 +383,38 @@ class InstallApp extends Command
         // TODO: Attempt to connect?
 
         return $email;
+    }
+
+    /**
+     * Prompts for the admin user details.
+     *
+     * @return array
+     */
+    private function getAdminInformation()
+    {
+        $this->header('Admin details');
+
+        $name = $this->ask('Name', 'Admin');
+
+        $email_address = $this->askAndValidate('Email address', [], function ($answer) {
+            $validator = Validator::make(['email_address' => $answer], [
+                'email_address' => 'email',
+            ]);
+
+            if (!$validator->passes()) {
+                throw new \RuntimeException($validator->errors()->first('email_address'));
+            };
+
+            return $answer;
+        });
+
+        $password = $this->secret('Password'); // TODO: Should validate it is at least 6 characters
+
+        return [
+            'name'      => $name,
+            'email'     => $email_address,
+            'password'  => $password,
+        ];
     }
 
     /**
