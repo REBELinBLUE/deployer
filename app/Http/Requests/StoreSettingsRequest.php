@@ -17,7 +17,7 @@ class StoreSettingsRequest extends Request
     public function rules()
     {
         return [
-            'skin' => 'required'
+            'skin' => 'required',
         ];
     }
 }
