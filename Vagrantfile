@@ -66,5 +66,4 @@ Vagrant.configure("2") do |config|
 
     # Update composer and php-cs-fixer
     config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
-    config.vm.provision "shell", inline: "sudo /usr/local/bin/php-cs-fixer self-update", run: "always"
 end

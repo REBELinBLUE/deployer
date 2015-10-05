@@ -14,7 +14,7 @@ The code is written to follow [PSR-2](https://github.com/php-fig/fig-standards/b
 
 Style problems can be fixed with
 
-    $ php-cs-fixer fix
+    $ ./vendor/bin/php-cs-fixer fix
 
 Mess can be checked with
 
