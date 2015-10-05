@@ -26,8 +26,7 @@ class ClearStalledDeployment extends Command
      *
      * @var string
      */
-    protected $description = 'Cancels any stalled deployments so new deployments can be run, for example if the ' .
-                             'server running Deployer happened to crash during a deployment';
+    protected $description = 'Cancels any stalled deployments so new deployments can be run';
 
     /**
      * Create a new command instance.
