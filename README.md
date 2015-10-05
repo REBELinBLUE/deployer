@@ -80,7 +80,7 @@ The `master` branch of this repository is a development branch and **should not*
     $ php artisan app:install
     ```
 
-5. (Optional) Nake any additional configuration changes
+5. (Optional) Make any additional configuration changes
 
     ```shell
     $ editor .env
