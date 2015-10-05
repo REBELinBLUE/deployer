@@ -38,11 +38,13 @@ Along with the standard requirements, development also requires the following
 
 - [Gulp](http://gulpjs.com)
 - [Bower](http://bower.io)
-- [Vagrant](https://www.vagrantup.com/), optional but it makes development
+- [Vagrant](https://www.vagrantup.com/), optional but it makes development easier
 
 ## Development environment
 
-The project includes a [Vagrantfile](/Vagrantfile) for running deployer, it uses [laravel/homestead](https://github.com/laravel/homestead). The VM uses the domain `deploy.app` and the IP address `192.168.10.10` so you will need to add them to your `/etc/hosts` file
+The project includes a [Vagrantfile](/Vagrantfile) for running deployer, it uses [laravel/homestead](https://github.com/laravel/homestead). The VM uses the domain `deploy.app` and the IP address `192.168.10.10` so you will need to add the following line your `/etc/hosts` file
+
+    192.168.10.1 deploy.app
 
 You will need to install the required box and start vagrant
 
