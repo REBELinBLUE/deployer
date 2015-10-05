@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Checks for and cleans up orphaned avatar files.
+ * @todo : change to use File facade
  */
 class ClearOrphanAvatars extends Command
 {

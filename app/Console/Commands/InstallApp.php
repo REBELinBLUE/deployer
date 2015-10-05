@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use PDO;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
@@ -33,13 +34,22 @@ class InstallApp extends Command
     protected $description = 'Installs the application and configures the settings';
 
     /**
+     * The user repository.
+     *
+     * @var UserRepositoryInterface
+     */
+    private $repository;
+
+    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $repository = null)
     {
         parent::__construct();
+
+        $this->repository = $repository;
     }
 
     /**
@@ -54,6 +64,11 @@ class InstallApp extends Command
         }
 
         // TODO: Add options so they can be passed in via the command line?
+
+        if (!file_exists(base_path('.env'))) {
+            copy(base_path('.env.example'), base_path('.env'));
+            Config::set('app.key', 'SomeRandomString');
+        }
 
         $this->line('');
         $this->info('***********************');
@@ -74,10 +89,15 @@ class InstallApp extends Command
             'mail'  => $this->getEmailInformation(),
         ];
 
+        $admin = $this->getAdminInformation();
+
         $this->writeEnvFile($config);
+
         $this->generateKey();
         $this->migrate(($this->getLaravel()->environment() === 'local'));
         $this->optimize();
+
+        $this->repository->updateById($admin, 1);
 
         $this->line('');
         $this->info('Success! Deployer is now installed');
@@ -94,13 +114,8 @@ class InstallApp extends Command
         $this->line('');
         $this->comment('4. (Optional) Setup logrotate, see "logrotate.conf"');
         $this->line('');
-        $this->comment('5. Visit ' . $config['app']['url'] . ' and login with the following details to get started');
+        $this->comment('5. Visit ' . $config['app']['url'] . ' and login with the details you provided to get started');
         $this->line('');
-        $this->comment('   Username: admin@example.com');
-        $this->comment('   Password: password');
-        $this->line('');
-
-        // TODO: Update admin user instead of using defaults?
     }
 
     /**
@@ -115,7 +130,7 @@ class InstallApp extends Command
         $this->line('');
 
         $path   = base_path('.env');
-        $config = file_get_contents($path);
+        $config = File::get($path);
 
         // Move the socket value to the correct key
         if (isset($input['app']['socket'])) {
@@ -149,7 +164,7 @@ class InstallApp extends Command
             }
         }
 
-        return file_put_contents($path, $config);
+        return File::put($path, $config);
     }
 
     /**
@@ -235,6 +250,8 @@ class InstallApp extends Command
 
             $database['type'] = $type;
 
+            Config::set('database.default', $type);
+
             if ($type !== 'sqlite') {
                 $host = $this->ask('Host', 'localhost');
                 $name = $this->ask('Name', 'deployer');
@@ -242,9 +259,14 @@ class InstallApp extends Command
                 $pass = $this->secret('Password');
 
                 $database['host']     = $host;
-                $database['name']     = $name;
+                $database['database'] = $name;
                 $database['username'] = $user;
                 $database['password'] = $pass;
+
+                Config::set('database.connections.' . $type . '.host', $host);
+                Config::set('database.connections.' . $type . '.database', $name);
+                Config::set('database.connections.' . $type . '.username', $user);
+                Config::set('database.connections.' . $type . '.password', $pass);
             }
 
             $connectionVerified = $this->verifyDatabaseDetails($database);
@@ -364,6 +386,38 @@ class InstallApp extends Command
     }
 
     /**
+     * Prompts for the admin user details.
+     *
+     * @return array
+     */
+    private function getAdminInformation()
+    {
+        $this->header('Admin details');
+
+        $name = $this->ask('Name', 'Admin');
+
+        $email_address = $this->askAndValidate('Email address', [], function ($answer) {
+            $validator = Validator::make(['email_address' => $answer], [
+                'email_address' => 'email',
+            ]);
+
+            if (!$validator->passes()) {
+                throw new \RuntimeException($validator->errors()->first('email_address'));
+            };
+
+            return $answer;
+        });
+
+        $password = $this->secret('Password'); // TODO: Should validate it is at least 6 characters
+
+        return [
+            'name'      => $name,
+            'email'     => $email_address,
+            'password'  => $password,
+        ];
+    }
+
+    /**
      * Verifies that the database connection details are correct.
      *
      * @param  array $database The connection details
@@ -377,7 +431,7 @@ class InstallApp extends Command
 
         try {
             $connection = new PDO(
-                $database['type'] . ':host=' . $database['host'] . ';dbname=' . $database['name'],
+                $database['type'] . ':host=' . $database['host'] . ';dbname=' . $database['database'],
                 $database['username'],
                 $database['password'],
                 [
@@ -479,15 +533,6 @@ class InstallApp extends Command
                 $this->error('Program not found in path: ' . $command);
                 $errors = true;
             }
-        }
-
-        // This should not actually be needed as composer install should create it
-        // We can't automatically create the file at the beginning as this causes problems
-        // with APP_KEY because key:generate and migrate will see it as empty because .env has
-        // already been loaded by this stage
-        if (!file_exists(base_path('.env'))) {
-            $this->error('.env is missing, please run "cp .env.example .env"');
-            $errors = true;
         }
 
         // Files and directories which need to be writable
