@@ -80,6 +80,12 @@ The `master` branch of this repository is a development branch and **should not*
     $ php artisan app:install
     ```
 
+5. (Optional) Nake any additional configuration changes
+
+    ```shell
+    $ editor .env
+    ```
+
 ### Updating
 
 1. Get the latest code
@@ -100,3 +106,7 @@ The `master` branch of this repository is a development branch and **should not*
     ```shell
     $ php artisan app:update
     ```
+
+## License
+
+Deployer is licensed under [The MIT License (MIT)](LICENSE.md).
