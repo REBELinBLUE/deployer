@@ -55,6 +55,11 @@ class InstallApp extends Command
 
         // TODO: Add options so they can be passed in via the command line?
 
+        if (!file_exists(base_path('.env'))) {
+            copy(base_path('.env.example'), base_path('.env'));
+            Config::set('app.key', 'SomeRandomString');
+        }
+
         $this->line('');
         $this->info('***********************');
         $this->info('  Welcome to Deployer  ');
@@ -75,6 +80,7 @@ class InstallApp extends Command
         ];
 
         $this->writeEnvFile($config);
+
         $this->generateKey();
         $this->migrate(($this->getLaravel()->environment() === 'local'));
         $this->optimize();
@@ -115,7 +121,7 @@ class InstallApp extends Command
         $this->line('');
 
         $path   = base_path('.env');
-        $config = file_get_contents($path);
+        $config = File::get($path);
 
         // Move the socket value to the correct key
         if (isset($input['app']['socket'])) {
@@ -149,7 +155,7 @@ class InstallApp extends Command
             }
         }
 
-        return file_put_contents($path, $config);
+        return File::put($path, $config);
     }
 
     /**
@@ -235,6 +241,8 @@ class InstallApp extends Command
 
             $database['type'] = $type;
 
+            Config::set('database.default', $type);
+
             if ($type !== 'sqlite') {
                 $host = $this->ask('Host', 'localhost');
                 $name = $this->ask('Name', 'deployer');
@@ -242,9 +250,14 @@ class InstallApp extends Command
                 $pass = $this->secret('Password');
 
                 $database['host']     = $host;
-                $database['name']     = $name;
+                $database['database'] = $name;
                 $database['username'] = $user;
                 $database['password'] = $pass;
+
+                Config::set('database.connections.' . $type . '.host', $host);
+                Config::set('database.connections.' . $type . '.database', $name);
+                Config::set('database.connections.' . $type . '.username', $user);
+                Config::set('database.connections.' . $type . '.password', $pass);
             }
 
             $connectionVerified = $this->verifyDatabaseDetails($database);
@@ -377,7 +390,7 @@ class InstallApp extends Command
 
         try {
             $connection = new PDO(
-                $database['type'] . ':host=' . $database['host'] . ';dbname=' . $database['name'],
+                $database['type'] . ':host=' . $database['host'] . ';dbname=' . $database['database'],
                 $database['username'],
                 $database['password'],
                 [
@@ -479,15 +492,6 @@ class InstallApp extends Command
                 $this->error('Program not found in path: ' . $command);
                 $errors = true;
             }
-        }
-
-        // This should not actually be needed as composer install should create it
-        // We can't automatically create the file at the beginning as this causes problems
-        // with APP_KEY because key:generate and migrate will see it as empty because .env has
-        // already been loaded by this stage
-        if (!file_exists(base_path('.env'))) {
-            $this->error('.env is missing, please run "cp .env.example .env"');
-            $errors = true;
         }
 
         // Files and directories which need to be writable
