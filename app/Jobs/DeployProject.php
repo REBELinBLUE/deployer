@@ -22,6 +22,8 @@ use REBELinBLUE\Deployer\User;
 /**
  * Deploys an actual project.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * TODO: if failed to restart php-fpm
+ * TODO: if the connection to the server failed or succeeded we should update the server status
  */
 class DeployProject extends Job implements ShouldQueue
 {
