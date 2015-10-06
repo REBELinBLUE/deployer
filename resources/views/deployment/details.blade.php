@@ -43,25 +43,25 @@
     @include('dialogs.log')
 
     <script type="text/template" id="log-template">
-        <td width="30%"><%- server.name %></td>
+        <td width="35%"><%- server.name %></td>
         <td width="10%">
              <span class="label label-<%- status_css %>"><i class="fa fa-<%- icon_css %>"></i> <span><%- status %></span></span>
         </td>
-        <td width="20%">
+        <td width="15%">
             <% if (formatted_start_time) { %>
                 <%- formatted_start_time %>
             <% } else { %>
                 {{ Lang::get('app.not_applicable') }}
             <% } %>
         </td>
-        <td width="20%">
+        <td width="15%">
             <% if (formatted_end_time) { %>
                 <%- formatted_end_time %>
             <% } else { %>
                 {{ Lang::get('app.not_applicable') }}
             <% } %>
         </td>
-        <td width="10%">
+        <td width="15%">
          <% if (runtime !== null) { %>
                 <%- runtime %>
             <% } else { %>
