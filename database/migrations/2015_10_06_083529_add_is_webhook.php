@@ -29,7 +29,7 @@ class AddIsWebhook extends Migration
     public function down()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->dropColumn('deployments');
+            $table->dropColumn('is_webhook');
         });
     }
 }
