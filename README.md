@@ -21,7 +21,7 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 ## What it does
 
 * Deploys applications to multiple servers accessible via SSH
-* Clones your projects git repository
+* Clones your project's git repository
 * Installs composer dependencies
 * Runs arbitrary bash commands
 * Gracefully handles failure in any of these steps
@@ -34,6 +34,7 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 * Provision VMs
 * Install system packages
 * Configure the web server, database or other services
+* [Run a test suite](http://phptesting.org)
 
 ## Usage in production
 
