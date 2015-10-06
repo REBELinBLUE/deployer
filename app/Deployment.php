@@ -31,7 +31,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @var array
      */
-    protected $fillable = ['reason', 'branch', 'project_id'];
+    protected $fillable = ['reason', 'branch', 'project_id', 'source', 'build_url'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -299,6 +299,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     {
         if (!empty($this->user_id)) {
             return $this->user->name;
+        } else if (!empty($this->source)) {
+            return $this->source;
         }
 
         return $this->getPresenter()->committer_name;

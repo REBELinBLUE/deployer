@@ -161,7 +161,7 @@ CMD;
         $this->deployment->commit    = $parts[0];
         $this->deployment->committer = trim($parts[1]);
 
-        if (!$this->deployment->user_id) {
+        if (!$this->deployment->user_id && !$this->deployment->source) {
             $user = User::where('email', trim($parts[2]))->first();
 
             if ($user) {

@@ -32,11 +32,17 @@
                             <i class="fa fa-comment-o deploy-reason" data-toggle="tooltip" data-placement="right" title="{{ $deployment->reason }}"></i>
                         @endif
                     </td>
-                    <td>{{ $deployment->deployer_name }}</td>
+                    <td>
+                        @if ($deployment->build_url)
+                            <a href="{{ $deployment->build_url }}" target="_blank">{{ $deployment->deployer_name }}</a>
+                        @else
+                            {{ $deployment->deployer_name }}
+                        @endif
+                    </td>
                     <td>{{ $deployment->committer_name }}</td>
                     <td>
                         @if ($deployment->commit_url)
-                        <a href="{{ $deployment->commit_url }}" target="_blank">{{ $deployment->short_commit }}</a></td>
+                        <a href="{{ $deployment->commit_url }}" target="_blank">{{ $deployment->short_commit }}</a>
                         @else
                         {{ $deployment->short_commit }}
                         @endif
