@@ -3,6 +3,11 @@
 cd {{ project_path }}
 ls
 
+# Test for a php-fpm process
+if [ ! -z "$(ps -ef | grep -v grep | grep php-fpm)" ]; then
+    sudo /usr/sbin/service php5-fpm restart
+fi
+
 # Ensure it can be written to
 touch {{ test_file }}
 echo "testing" >> {{ test_file }}

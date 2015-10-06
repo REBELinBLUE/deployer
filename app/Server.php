@@ -33,6 +33,7 @@ class Server extends Model
     const UNTESTED   = 1;
     const FAILED     = 2;
     const TESTING    = 3;
+    const FAILED_FPM = 4;
 
     /**
      * The attributes excluded from the model's JSON form.

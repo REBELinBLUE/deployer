@@ -10,6 +10,14 @@
         <p>{{ Lang::get('servers.none') }}</p>
     </div>
 
+    <div class="col-xs-12" id="fpm_error">
+        <div class="callout callout-danger">
+            <h4><i class="icon fa fa-ban"></i> {{ Lang::get('servers.fpm_failure_head') }}</h4>
+            <p>{!! Lang::get('servers.fpm_failure') !!}</p>
+            <code><span id="server_user">deploy</span> ALL=NOPASSWD: /usr/sbin/service php5-fpm restart</code>
+        </div>
+    </div>
+
     <div class="box-body table-responsive" id="server_list">
         <table class="table table-striped">
             <thead>
