@@ -54,6 +54,12 @@ class TestServerConnection extends Job implements ShouldQueue
 
             if (!$process->isSuccessful()) {
                 $this->server->status = Server::FAILED;
+
+                // TODO: See if there are other strings which are needed
+                if (preg_match('/(tty present|askpass)/', $process->getErrorOutput())) {
+                    $this->server->status = Server::FAILED_FPM;
+                }
+
             } else {
                 $this->server->status = Server::SUCCESSFUL;
             }
