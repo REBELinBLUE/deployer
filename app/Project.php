@@ -136,7 +136,9 @@ class Project extends ProjectRelation implements PresentableInterface
         } elseif (preg_match('#^https?#', $this->repository)) {
             $data = parse_url($this->repository);
 
+            $info['user']      = isset($data['user']) ? $data['user'] : '';
             $info['domain']    = $data['host'];
+            $info['port']      = isset($data['port']) ? $data['port'] : '';
             $info['reference'] = substr($data['path'], 1, -4);
         }
 
