@@ -13,7 +13,7 @@
             <thead>
                 <tr>
                     <th>{{ Lang::get('app.date') }}</th>
-                    <th>{{ Lang::get('deployments.started') }}</th>
+                    <th>{{ Lang::get('deployments.started_by') }}</th>
                     <th>{{ Lang::get('deployments.deployer') }}</th>
                     <th>{{ Lang::get('deployments.committer') }}</th>
                     <th>{{ Lang::get('deployments.commit') }}</th>
