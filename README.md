@@ -34,7 +34,7 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 * Provision VMs
 * Install system packages
 * Configure the web server, database or other services
-* [Run a test suite](http://phptesting.org)
+* [Run a test suite or check code quality](http://phptesting.org)
 
 ## Usage in production
 
