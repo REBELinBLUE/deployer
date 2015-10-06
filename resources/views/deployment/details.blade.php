@@ -43,8 +43,8 @@
     @include('dialogs.log')
 
     <script type="text/template" id="log-template">
-        <td width="35%"><%- server.name %></td>
-        <td width="10%">
+        <td width="30%"><%- server.name %></td>
+        <td width="15%">
              <span class="label label-<%- status_css %>"><i class="fa fa-<%- icon_css %>"></i> <span><%- status %></span></span>
         </td>
         <td width="15%">
