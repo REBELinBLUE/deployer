@@ -27,7 +27,7 @@
                 <tr id="deployment_{{ $deployment->id }}">
                     <td>{{ $deployment->started_at->format('jS F Y g:i:s A') }}</td>
                     <td>
-                        {{ !empty($deployment->user_id) ? Lang::get('deployments.manually') : Lang::get('deployments.webhook') }}
+                        {{ $deployment->is_webhook ? Lang::get('deployments.webhook') : Lang::get('deployments.manually') }}
                         @if (!empty($deployment->reason))
                             <i class="fa fa-comment-o deploy-reason" data-toggle="tooltip" data-placement="right" title="{{ $deployment->reason }}"></i>
                         @endif

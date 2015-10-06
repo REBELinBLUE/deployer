@@ -124,6 +124,8 @@ class QueueDeployment extends Job implements SelfHandling
 
         if (Auth::check()) {
             $this->deployment->user_id = Auth::user()->id;
+        } else {
+            $this->deployment->is_webhook = true;
         }
 
         $this->deployment->committer = Deployment::LOADING;

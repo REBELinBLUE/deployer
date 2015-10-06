@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
+
+class AddIsWebhook extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('deployments', function (Blueprint $table) {
+            $table->boolean('is_webhook')->default(false);
+        });
+
+        $affected = DB::table('deployments')->whereRaw('user_id IS NULL')
+                                            ->update(['is_webhook' => true]);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('projects', function (Blueprint $table) {
+            $table->dropColumn('deployments');
+        });
+    }
+}

@@ -61,7 +61,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * @var array
      */
     protected $casts = [
-        'status' => 'integer',
+        'status'     => 'integer',
+        'is_webhook' => 'boolean',
     ];
 
     /**
