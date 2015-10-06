@@ -3,6 +3,7 @@
     <description>Codestyle ruleset for Deployer</description>
 
     <rule ref="PSR2" />
+    <rule ref="PHPCompatibility" />
 
     <file>app</file>
 
