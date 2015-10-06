@@ -6,11 +6,13 @@
                 <h4 class="modal-title"><i class="fa fa-question-circle"></i> {{ Lang::get('commands.webhook_help') }}</h4>
             </div>
             <div class="modal-body">
-                
+
                 <p>{{ Lang::get('commands.webhook_example') }}</p>
                 <h5><strong>{{ Lang::get('commands.webhook_fields') }}</strong></h5>
                 <ul>
                     <li><em>reason</em> - {{ Lang::get('commands.webhook_reason') }}</li>
+                    <li><em>source</em> - {{ Lang::get('commands.webhook_source') }}</li>
+                    <li><em>url</em> - {{ Lang::get('commands.webhook_url') }}</li>
                     @if(count($optional))
                         <li><em>commands</em> - {{ Lang::get('commands.webhook_commands') }}</li>
                     @endif

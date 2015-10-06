@@ -1,19 +1,6 @@
 var elixir = require('laravel-elixir');
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Less
- | file for our application, as well as publishing vendor resources.
- |
- */
-
-process.env.DISABLE_NOTIFIER = true;
-
-var bower_path = './vendor/bower_components';
+var bower_path = 'vendor/bower_components';
 
 var paths = {
     'ace'             : bower_path + '/ace-min-noconflict',
@@ -39,11 +26,14 @@ elixir(function(mix) {
             paths.ionicons    + '/scss'
         ]
     })
+    .styles([,
+        'public/css/vendor.css',
+        paths.cropper + '/dist/cropper.min.css'
+    ], 'public/css/vendor.css', './')
     .styles([
         'AdminLTE.css',
         '_all-skins.css',
-        'app.css',
-        '../../../' + paths.cropper + '/dist/cropper.min.css'
+        'app.css'
     ], 'public/css/app.css', 'resources/assets/css')
     .scripts([
         paths.html5shiv + '/dist/html5shiv.js',

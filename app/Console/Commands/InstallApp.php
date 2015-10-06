@@ -65,8 +65,10 @@ class InstallApp extends Command
 
         // TODO: Add options so they can be passed in via the command line?
 
-        if (!file_exists(base_path('.env'))) {
-            copy(base_path('.env.example'), base_path('.env'));
+        $config = base_path('.env');
+
+        if (!file_exists($config)) {
+            copy(base_path('.env.example'), $config);
             Config::set('app.key', 'SomeRandomString');
         }
 
@@ -130,7 +132,7 @@ class InstallApp extends Command
         $this->line('');
 
         $path   = base_path('.env');
-        $config = File::get($path);
+        $config = file_get_contents($path);
 
         // Move the socket value to the correct key
         if (isset($input['app']['socket'])) {
@@ -164,7 +166,7 @@ class InstallApp extends Command
             }
         }
 
-        return File::put($path, $config);
+        return file_put_contents($path, $config);
     }
 
     /**
@@ -521,7 +523,7 @@ class InstallApp extends Command
         }
 
         // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git'];
+        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp'];
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);

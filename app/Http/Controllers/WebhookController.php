@@ -63,11 +63,14 @@ class WebhookController extends Controller
                                     ->intersect($valid);
             }
 
+            // TODO: Validate URL and only accept it if source is set?
             $this->deploymentRepository->create([
                 'reason'     => Input::get('reason'),
                 'project_id' => $project->id,
                 'branch'     => $project->branch,
                 'optional'   => $optional,
+                'source'     => Input::get('source'),
+                'build_url'  => Input::get('url'),
             ]);
 
             $success = true;

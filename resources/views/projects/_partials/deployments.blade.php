@@ -27,16 +27,22 @@
                 <tr id="deployment_{{ $deployment->id }}">
                     <td>{{ $deployment->started_at->format('jS F Y g:i:s A') }}</td>
                     <td>
-                        {{ !empty($deployment->user_id) ? Lang::get('deployments.manually') : Lang::get('deployments.webhook') }}
+                        {{ $deployment->is_webhook ? Lang::get('deployments.webhook') : Lang::get('deployments.manually') }}
                         @if (!empty($deployment->reason))
                             <i class="fa fa-comment-o deploy-reason" data-toggle="tooltip" data-placement="right" title="{{ $deployment->reason }}"></i>
                         @endif
                     </td>
-                    <td>{{ $deployment->deployer_name }}</td>
+                    <td>
+                        @if ($deployment->build_url)
+                            <a href="{{ $deployment->build_url }}" target="_blank">{{ $deployment->deployer_name }}</a>
+                        @else
+                            {{ $deployment->deployer_name }}
+                        @endif
+                    </td>
                     <td>{{ $deployment->committer_name }}</td>
                     <td>
                         @if ($deployment->commit_url)
-                        <a href="{{ $deployment->commit_url }}" target="_blank">{{ $deployment->short_commit }}</a></td>
+                        <a href="{{ $deployment->commit_url }}" target="_blank">{{ $deployment->short_commit }}</a>
                         @else
                         {{ $deployment->short_commit }}
                         @endif
