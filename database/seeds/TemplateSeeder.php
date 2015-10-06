@@ -24,7 +24,7 @@ class TemplateSeeder extends Seeder
             'name'        => 'Down',
             'script'      => 'php artisan down',
             'project_id'  => $laravel->id,
-            'user'        => 'vagrant',
+            'user'        => 'deploy',
             'step'        => Command::BEFORE_ACTIVATE,
         ]);
 
@@ -32,7 +32,7 @@ class TemplateSeeder extends Seeder
             'name'        => 'Run Migrations',
             'script'      => 'php artisan migrate --force',
             'project_id'  => $laravel->id,
-            'user'        => 'vagrant',
+            'user'        => 'deploy',
             'step'        => Command::BEFORE_ACTIVATE,
         ]);
 
@@ -40,7 +40,7 @@ class TemplateSeeder extends Seeder
             'name'        => 'Up',
             'script'      => 'php artisan up',
             'project_id'  => $laravel->id,
-            'user'        => 'vagrant',
+            'user'        => 'deploy',
             'step'        => Command::BEFORE_ACTIVATE,
         ]);
     }

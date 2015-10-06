@@ -13,7 +13,7 @@ class CommandTableSeeder extends Seeder
             'name'       => 'Welcome',
             'script'     => 'echo "Before Clone {{ release }}"',
             'project_id' => 1,
-            'user'       => 'vagrant',
+            'user'       => 'deploy',
             'step'       => Command::BEFORE_CLONE,
         ])->servers()->attach([1, 2]);
 
@@ -21,7 +21,7 @@ class CommandTableSeeder extends Seeder
             'name'       => 'Goodbye',
             'script'     => 'echo "After Purge {{ release }}"',
             'project_id' => 1,
-            'user'       => 'vagrant',
+            'user'       => 'deploy',
             'step'       => Command::AFTER_PURGE,
         ])->servers()->attach([1, 2]);
     }
