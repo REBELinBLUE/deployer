@@ -100,6 +100,7 @@ The `master` branch of this repository is a development branch and **should not*
 
     ```shell
     $ composer install -o --no-dev
+    $ npm install --production
     ```
 
 3. Run the updater
