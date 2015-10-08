@@ -128,11 +128,18 @@ class Project extends ProjectRelation implements PresentableInterface
     {
         $info = [];
 
-        if (preg_match('#^(.+)@(.+):([0-9]*)\/?(.+)\.git#', $this->repository, $matches)) {
+        if (preg_match('#^(.+)@(.+):([0-9]*)\/?(.+)\.git$#', $this->repository, $matches)) {
             $info['user']      = $matches[1];
             $info['domain']    = $matches[2];
             $info['port']      = $matches[3];
             $info['reference'] = $matches[4];
+        } elseif (preg_match('#^https?#', $this->repository)) {
+            $data = parse_url($this->repository);
+
+            $info['user']      = isset($data['user']) ? $data['user'] : '';
+            $info['domain']    = $data['host'];
+            $info['port']      = isset($data['port']) ? $data['port'] : '';
+            $info['reference'] = substr($data['path'], 1, -4);
         }
 
         return $info;

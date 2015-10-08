@@ -56,7 +56,7 @@ class MailDeployNotification extends Job implements SelfHandling
             ];
 
             Mail::queueOn(
-                'low',
+                'deployer-low',
                 'emails.deployed',
                 $data,
                 function (Message $message) use ($emails, $subject) {

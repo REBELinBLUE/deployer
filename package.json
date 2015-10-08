@@ -1,8 +1,9 @@
 {
     "private": true,
     "dependencies": {
-        "socket.io": "^1.3.6",
-        "ioredis": "^1.4.0"
+        "dotenv": "^1.2.0",
+        "ioredis": "^1.4.0",
+        "socket.io": "^1.3.6"
     },
     "devDependencies": {
         "gulp": "^3.8.8",

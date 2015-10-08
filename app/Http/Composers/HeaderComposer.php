@@ -39,7 +39,5 @@ class HeaderComposer
 
         $view->with('deploying', $deploying);
         $view->with('deploying_count', count($deploying));
-
-        $view->with('theme', 'green');
     }
 }

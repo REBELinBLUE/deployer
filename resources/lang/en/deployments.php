@@ -5,7 +5,7 @@ return [
     'label'                 => 'Deployments',
     'latest'                => 'Latest Deployments',
     'none'                  => 'There have not been any deployments yet.',
-    'started'               => 'Started',
+    'started_by'            => 'Started by',
     'deployer'              => 'Deployer',
     'committer'             => 'Committer',
     'commit'                => 'Commit',

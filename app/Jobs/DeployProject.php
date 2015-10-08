@@ -51,7 +51,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
      */
     public function queue(Queue $queue, $command)
     {
-        $queue->pushOn('high', $command);
+        $queue->pushOn('deployer-high', $command);
     }
 
     /**

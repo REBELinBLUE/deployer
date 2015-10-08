@@ -1,11 +1,17 @@
 var app = require('http').createServer(handler);
 var io = require('socket.io')(app);
 
+require('dotenv').load();
+
+var debug = (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === true);
+
 var Redis = require('ioredis');
 var redis = new Redis();
 
 app.listen(6001, function() {
-    console.log('Server is running!');
+    if (debug) {
+        console.log('Server is running!');
+    }
 });
 
 function handler(req, res) {
@@ -14,17 +20,23 @@ function handler(req, res) {
 }
 
 io.on('connection', function(socket) {
-   // console.log('connection');
+    if (debug) {
+        console.log('connection');
+    }
 });
 
 redis.psubscribe('*', function(err, count) {
-   // console.log('psubscribe');
+    if (debug) {
+        console.log('psubscribe');
+    }
 });
 
 redis.on('pmessage', function(subscribed, channel, message) {
     message = JSON.parse(message);
 
-    console.log('Message received from event ' + message.event + ' to channel ' + channel);
+    if (debug) {
+        console.log('Message received from event ' + message.event + ' to channel ' + channel);
+    }
 
     io.emit(channel + ':' + message.event, message.data);
 });

@@ -43,9 +43,7 @@
         "phploc/phploc": "~2.0",
         "sebastian/phpcpd": "2.0.2",
         "codeclimate/php-test-reporter": "^0.1.2",
-        "fabpot/php-cs-fixer": "^1.10",
-        "wimg/php-compatibility": "dev-master",
-        "simplyadmire/composer-plugins" : "@dev"
+        "fabpot/php-cs-fixer": "^1.10"
     },
     "autoload": {
         "classmap": [

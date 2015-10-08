@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c5da1c67a6ca21220181f5b446855068",
-    "content-hash": "7bb809c7919166662c3431b8bfc66aae",
+    "hash": "2fbb8aee3506f47184679a1334a0cb16",
+    "content-hash": "ee1ae81e5f921b9d4623a775ea76641b",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -723,20 +723,20 @@
         },
         {
             "name": "graham-campbell/binput",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Binput.git",
-                "reference": "fa3c6306a903932b0e82738ab2788e73fdf9f9c7"
+                "reference": "d0053d670ed0e71868ce8784f2fffa96f8007bf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Binput/zipball/fa3c6306a903932b0e82738ab2788e73fdf9f9c7",
-                "reference": "fa3c6306a903932b0e82738ab2788e73fdf9f9c7",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Binput/zipball/d0053d670ed0e71868ce8784f2fffa96f8007bf7",
+                "reference": "d0053d670ed0e71868ce8784f2fffa96f8007bf7",
                 "shasum": ""
             },
             "require": {
-                "graham-campbell/security": "~3.2",
+                "graham-campbell/security": "~3.3",
                 "illuminate/contracts": "5.0.*|5.1.*",
                 "illuminate/http": "5.0.*|5.1.*",
                 "illuminate/support": "5.0.*|5.1.*",
@@ -745,7 +745,7 @@
             "require-dev": {
                 "graham-campbell/testbench": "~3.0",
                 "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "^4.7.6"
+                "phpunit/phpunit": "~4.8|~5.0"
             },
             "type": "library",
             "extra": {
@@ -782,20 +782,20 @@
                 "laravel",
                 "security"
             ],
-            "time": "2015-06-26 17:33:45"
+            "time": "2015-10-06 16:43:02"
         },
         {
             "name": "graham-campbell/htmlmin",
-            "version": "v4.0.1",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-HTMLMin.git",
-                "reference": "f6d67c77f2380c9de428b501f75da8233b4bee25"
+                "reference": "870fdc0ecd36969a6752024d3642c0a3fcb4bcec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/f6d67c77f2380c9de428b501f75da8233b4bee25",
-                "reference": "f6d67c77f2380c9de428b501f75da8233b4bee25",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/870fdc0ecd36969a6752024d3642c0a3fcb4bcec",
+                "reference": "870fdc0ecd36969a6752024d3642c0a3fcb4bcec",
                 "shasum": ""
             },
             "require": {
@@ -811,12 +811,12 @@
             "require-dev": {
                 "graham-campbell/testbench": "~3.0",
                 "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "^4.7.6"
+                "phpunit/phpunit": "~4.8|~5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -847,20 +847,20 @@
                 "laravel",
                 "minifier"
             ],
-            "time": "2015-08-03 13:40:32"
+            "time": "2015-10-06 16:52:44"
         },
         {
             "name": "graham-campbell/security",
-            "version": "v3.2.0",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Security.git",
-                "reference": "e3c0409218ced4bb4dc88a4d85fb58b670679141"
+                "reference": "3211aec137362c61dbd28ae8b01920c6d3da82fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Security/zipball/e3c0409218ced4bb4dc88a4d85fb58b670679141",
-                "reference": "e3c0409218ced4bb4dc88a4d85fb58b670679141",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Security/zipball/3211aec137362c61dbd28ae8b01920c6d3da82fd",
+                "reference": "3211aec137362c61dbd28ae8b01920c6d3da82fd",
                 "shasum": ""
             },
             "require": {
@@ -870,12 +870,12 @@
             },
             "require-dev": {
                 "graham-campbell/testbench": "~3.0",
-                "phpunit/phpunit": "^4.7.6"
+                "phpunit/phpunit": "~4.8|~5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -904,7 +904,7 @@
                 "laravel",
                 "security"
             ],
-            "time": "2015-06-26 17:29:42"
+            "time": "2015-10-06 16:55:49"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -3588,16 +3588,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.2.3",
+            "version": "2.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "ef1ca6835468857944d5c3b48fa503d5554cff2f"
+                "reference": "eabf68b476ac7d0f73793aada060f1c1a9bf8979"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ef1ca6835468857944d5c3b48fa503d5554cff2f",
-                "reference": "ef1ca6835468857944d5c3b48fa503d5554cff2f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/eabf68b476ac7d0f73793aada060f1c1a9bf8979",
+                "reference": "eabf68b476ac7d0f73793aada060f1c1a9bf8979",
                 "shasum": ""
             },
             "require": {
@@ -3646,7 +3646,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-09-14 06:51:16"
+            "time": "2015-10-06 15:47:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -3828,16 +3828,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.10",
+            "version": "4.8.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "463163747474815c5ccd4ae12b5b355ec12158e8"
+                "reference": "bdd199472410fd7e32751f9c814c7e06f2c21bd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/463163747474815c5ccd4ae12b5b355ec12158e8",
-                "reference": "463163747474815c5ccd4ae12b5b355ec12158e8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bdd199472410fd7e32751f9c814c7e06f2c21bd5",
+                "reference": "bdd199472410fd7e32751f9c814c7e06f2c21bd5",
                 "shasum": ""
             },
             "require": {
@@ -3896,7 +3896,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-01 09:14:30"
+            "time": "2015-10-07 10:39:46"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -4529,69 +4529,17 @@
             "time": "2015-06-21 13:59:46"
         },
         {
-            "name": "simplyadmire/composer-plugins",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SimplyAdmire/ComposerPlugins.git",
-                "reference": "9e0c76952a71caa1d953ee5779b7d4c4c298d142"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SimplyAdmire/ComposerPlugins/zipball/9e0c76952a71caa1d953ee5779b7d4c4c298d142",
-                "reference": "9e0c76952a71caa1d953ee5779b7d4c4c298d142",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "1.0.0",
-                "squizlabs/php_codesniffer": "*"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": [
-                    "SimplyAdmire\\ComposerPlugins\\PhpCodesnifferStandardInstallerPlugin"
-                ]
-            },
-            "autoload": {
-                "psr-0": {
-                    "SimplyAdmire\\ComposerPlugins": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Rens Admiraal",
-                    "email": "rens@simplyadmire.com",
-                    "role": "lead"
-                }
-            ],
-            "description": "Composer plugin for installing PHP_CodeSniffer standards",
-            "keywords": [
-                "PHP_CodeSniffer",
-                "TYPO3 CMS",
-                "TYPO3 Flow",
-                "TYPO3 Neos",
-                "phpcs",
-                "standards",
-                "typo3"
-            ],
-            "time": "2015-06-21 20:23:06"
-        },
-        {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.3.2",
+            "version": "2.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "e96d8579fbed0c95ecf2a0501ec4f307a4aa6404"
+                "reference": "11a2545c44a5915f883e2e5ec12e14ed345e3ab2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/e96d8579fbed0c95ecf2a0501ec4f307a4aa6404",
-                "reference": "e96d8579fbed0c95ecf2a0501ec4f307a4aa6404",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/11a2545c44a5915f883e2e5ec12e14ed345e3ab2",
+                "reference": "11a2545c44a5915f883e2e5ec12e14ed345e3ab2",
                 "shasum": ""
             },
             "require": {
@@ -4652,7 +4600,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2015-04-28 23:28:20"
+            "time": "2015-09-09 00:18:50"
         },
         {
             "name": "symfony/config",
@@ -4950,56 +4898,11 @@
             "description": "The classes contained within this repository extend the standard DOM to use exceptions at all occasions of errors instead of PHP warnings or notices. They also add various custom methods and shortcuts for convenience and to simplify the usage of DOM.",
             "homepage": "https://github.com/theseer/fDOMDocument",
             "time": "2015-05-27 22:58:02"
-        },
-        {
-            "name": "wimg/php-compatibility",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wimg/PHPCompatibility.git",
-                "reference": "1d09c344b80e3e3b3023d38790990749c1cf65c7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wimg/PHPCompatibility/zipball/1d09c344b80e3e3b3023d38790990749c1cf65c7",
-                "reference": "1d09c344b80e3e3b3023d38790990749c1cf65c7",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "php": ">=5.1.2",
-                "squizlabs/php_codesniffer": ">=1.5.1,<=2.3.2"
-            },
-            "require-dev": {
-                "satooshi/php-coveralls": "dev-master"
-            },
-            "type": "phpcodesniffer-standard",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL"
-            ],
-            "authors": [
-                {
-                    "name": "Wim Godden",
-                    "role": "lead"
-                }
-            ],
-            "description": "This is a set of sniffs for PHP_CodeSniffer that checks for PHP version compatibility.",
-            "homepage": "http://techblog.wimgodden.be/tag/codesniffer/",
-            "keywords": [
-                "compatibility",
-                "phpcs",
-                "standards"
-            ],
-            "time": "2015-10-04 17:24:59"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "wimg/php-compatibility": 20,
-        "simplyadmire/composer-plugins": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
