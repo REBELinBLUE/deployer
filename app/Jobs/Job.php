@@ -32,6 +32,6 @@ abstract class Job
      */
     public function queue(Queue $queue, $command)
     {
-        $queue->pushOn('low', $command);
+        $queue->pushOn('deployer-low', $command);
     }
 }

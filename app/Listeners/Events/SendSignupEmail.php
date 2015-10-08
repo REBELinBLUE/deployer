@@ -42,7 +42,7 @@ class SendSignupEmail extends Event implements ShouldQueue
         ];
 
         Mail::queueOn(
-            'low',
+            'deployer-low',
             'emails.account',
             $data,
             function (Message $message) use ($user) {

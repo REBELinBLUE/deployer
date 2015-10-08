@@ -44,7 +44,7 @@ class EmailChangeConfirmation implements ShouldQueue
         ];
 
         Mail::queueOn(
-            'low',
+            'deployer-low',
             'emails.change_email',
             $data,
             function (Message $message) use ($user) {

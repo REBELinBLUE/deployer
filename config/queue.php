@@ -45,7 +45,7 @@ return [
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host'   => env('QUEUE_HOST', 'localhost'),
-            'queue'  => 'default',
+            'queue'  => 'deployer-default',
             'ttr'    => 60,
         ],
 
