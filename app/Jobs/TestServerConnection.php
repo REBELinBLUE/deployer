@@ -39,7 +39,6 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
     public function handle()
     {
         DB::reconnect();
-
         $this->server->status = Server::TESTING;
         $this->server->save();
 
