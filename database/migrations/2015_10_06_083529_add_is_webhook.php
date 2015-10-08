@@ -17,8 +17,8 @@ class AddIsWebhook extends Migration
             $table->boolean('is_webhook')->default(false);
         });
 
-        $affected = DB::table('deployments')->whereRaw('user_id IS NULL')
-                                            ->update(['is_webhook' => true]);
+        DB::table('deployments')->whereRaw('user_id IS NULL')
+                                ->update(['is_webhook' => true]);
     }
 
     /**
