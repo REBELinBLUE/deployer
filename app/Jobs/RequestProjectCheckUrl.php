@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -38,13 +39,25 @@ class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
     public function handle()
     {
         DB::reconnect();
-        foreach ($this->links as $link) {
-            $response = Request::get($link->url)->send();
 
-            $link->last_status = $response->hasErrors();
+        foreach ($this->links as $link) {
+            $has_error = false;
+
+            try {
+                $response = Request::get($link->url)->send();
+
+                $link->last_status = $response->hasErrors();
+                $link->save();
+
+                $has_error = $response->hasErrors();
+            } catch (ConnectionErrorException $error) {
+                $has_error = true;
+            }
+
+            $link->last_status = $has_error;
             $link->save();
 
-            if ($response->hasErrors()) {
+            if ($has_error) {
                 foreach ($link->project->notifications as $notification) {
                     $this->dispatch(new Notify(
                         $notification,
