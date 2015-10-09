@@ -63,6 +63,8 @@ class InstallApp extends Command
             return;
         }
 
+        $this->clearCaches();
+
         // TODO: Add options so they can be passed in via the command line?
 
         $config = base_path('.env');
