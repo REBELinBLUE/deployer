@@ -8,7 +8,7 @@ var debug = (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === true)
 var Redis = require('ioredis');
 var redis = new Redis();
 
-app.listen(6001, function() {
+app.listen(parseInt(process.env.SOCKET_PORT), function() {
     if (debug) {
         console.log('Server is running!');
     }
