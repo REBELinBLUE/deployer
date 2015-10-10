@@ -5,6 +5,12 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 var app = app || {};
 
 (function ($) {
+
+    // Don't need to try and connect to the web socket when not logged in
+    if (window.location.href.match(/auth|password/) != null) {
+        return;
+    }
+
     var FINISHED     = 0;
     var PENDING      = 1;
     var DEPLOYING    = 2;
@@ -20,6 +26,27 @@ var app = app || {};
     app.project_id = app.project_id || null;
 
     app.listener = io.connect($('meta[name="socket_url"]').attr('content'));
+
+    app.connection_error = false;
+
+    app.listener.on('connect_error', function(error) {
+        if (!app.connection_error) {
+            $('#socket_offline').show();
+        }
+
+        app.connection_error = true;
+    });
+
+    app.listener.on('connect', function() {
+        $('#socket_offline').hide();
+        app.connection_error = false;
+    });
+
+    app.listener.on('reconnect', function() {
+        $('#socket_offline').hide();
+        app.connection_error = false;
+    });
+
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone
