@@ -33,6 +33,11 @@
 
                     <h1>{{ $title }}</h1>
 
+                    <div class="alert alert-danger" id="socket_offline">
+                        <h4><i class="icon fa fa-ban"></i> {{ Lang::get('app.socket_error') }}</h4>
+                        {!! Lang::get('app.socket_error_info') !!}
+                    </div>
+
                     @if(isset($breadcrumb))
                     <ol class="breadcrumb">
                         @foreach($breadcrumb as $entry)

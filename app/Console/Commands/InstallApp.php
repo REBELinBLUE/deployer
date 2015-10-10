@@ -99,9 +99,10 @@ class InstallApp extends Command
 
         $this->generateKey();
         $this->migrate(($this->getLaravel()->environment() === 'local'));
-        $this->optimize();
 
         $this->repository->updateById($admin, 1);
+
+        $this->optimize();
 
         $this->line('');
         $this->info('Success! Deployer is now installed');
