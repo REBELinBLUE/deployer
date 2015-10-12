@@ -4,6 +4,8 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ModelChanged;
@@ -315,5 +317,19 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function getRepoFailureAttribute()
     {
         return ($this->commit === self::LOADING && $this->status === self::FAILED);
+    }
+
+    /**
+     * A little hack to reconnect to the database if we're in console mode and trying to find a deployment.
+     * Should fix the error sending STMT_PREPARE problem that causes deployments to sit "pending" forever.
+     * @return mixed
+     */
+    public function findOrFail()
+    {
+        if (App::runningInConsole()) {
+            DB::reconnect();
+        }
+
+        return parent::__call('findOrFail', func_get_args());
     }
 }
