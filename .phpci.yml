@@ -61,7 +61,7 @@ complete:
     env:
         CODECLIMATE_REPO_TOKEN: "f5222770741fef12c55315f61a267c8a615908e511241618ce171129e8217e63"
     shell:
-        - "php /var/www/PHPCI/vendor/bin/phpunit --coverage-clover %BUILD_PATH%/storage/coverage/clover.xml -c %BUILD_PATH%/phpunit.xml %BUILD_PATH%/tests"
-        - "php /var/www/PHPCI/vendor/bin/test-reporter --coverage-report=%BUILD_PATH%/storage/coverage/clover.xml"
+        - "php /var/www/PHPCI/latest/vendor/bin/phpunit --coverage-clover %BUILD_PATH%/storage/coverage/clover.xml -c %BUILD_PATH%/phpunit.xml %BUILD_PATH%/tests"
+        - "php /var/www/PHPCI/latest/vendor/bin/test-reporter --coverage-report=%BUILD_PATH%/storage/coverage/clover.xml"
 
 success:
