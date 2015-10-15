@@ -18,7 +18,7 @@ return [
     'create'            => 'Add a new project',
     'edit'              => 'Edit a project',
     'url'               => 'URL',
-    'details'           => 'Project details',
+    'details'           => 'Project Details',
     'deployments'       => 'Deployments',
     'today'             => 'Today',
     'last_week'         => 'Last Week',
