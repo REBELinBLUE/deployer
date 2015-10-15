@@ -31,7 +31,7 @@
                 <section class="content-header">
                     @yield('right-buttons')
 
-                    <h1>{{ $title }}</h1>
+                    <h1>{{ $title }} @if(isset($subtitle)) <small>{{ $subtitle }}</small>@endif</h1>
 
                     <div class="alert alert-danger" id="socket_offline">
                         <h4><i class="icon fa fa-ban"></i> {{ Lang::get('app.socket_error') }}</h4>

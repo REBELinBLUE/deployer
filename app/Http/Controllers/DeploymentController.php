@@ -104,7 +104,8 @@ class DeploymentController extends Controller
             'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name],
             ],
-            'title'      => Lang::get('deployments.details'),
+            'title'      => Lang::get('deployments.details', ['number' => $deployment->id]),
+            'subtitle'   => $project->name,
             'project'    => $project,
             'deployment' => $deployment,
             'output'     => json_encode($output), // PresentableInterface does not correctly json encode the models

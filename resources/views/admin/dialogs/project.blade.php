@@ -38,7 +38,7 @@
                     @endif
                     <div class="form-group">
                         <label for="project_repository">{{ Lang::get('projects.repository') }}</label>
-                        <input type="text" class="form-control" name="repository" id="project_repository"  placeholder="git@git.example.com:repositories/project.git" />
+                        <input type="text" class="form-control" name="repository" id="project_repository" placeholder="git@git.example.com:repositories/project.git" />
                     </div>
                     <div class="form-group">
                         <label for="project_branch">{{ Lang::get('projects.branch') }}</label>

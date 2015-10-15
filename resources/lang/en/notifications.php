@@ -3,7 +3,7 @@
 return [
 
     'label'               => 'Notifications',
-    'slack'               => 'Slack notifications',
+    'slack'               => 'Slack Notifications',
     'create'              => 'Add a new slack notification',
     'edit'                => 'Edit the slack notification',
     'none'                => 'The project does not currently have any slack notifications setup',
