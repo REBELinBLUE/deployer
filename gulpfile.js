@@ -18,6 +18,11 @@ var paths = {
     'cropper'         : bower_path + '/cropper',
 };
 
+// To stop the google font imports from breaking
+elixir.config.css.minifyCss.pluginOptions = {
+    processImport: false
+};
+
 elixir(function(mix) {
     mix.sass('vendor.scss', 'public/css/vendor.css', {
         includePaths: [
@@ -26,7 +31,7 @@ elixir(function(mix) {
             paths.ionicons    + '/scss'
         ]
     })
-    .styles([,
+    .styles([
         'public/css/vendor.css',
         paths.cropper + '/dist/cropper.min.css'
     ], 'public/css/vendor.css', './')
