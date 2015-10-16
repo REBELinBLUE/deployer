@@ -1,4 +1,6 @@
 * text=auto
-*.css linguist-vendored
+_all-skins.css linguist-vendored
+AdminLTE* linguist-vendored
+vendor.scss linguest-vendored
 *.less linguist-vendored
 *.blade.php linguist-language=HTML
