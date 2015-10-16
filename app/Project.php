@@ -158,6 +158,28 @@ class Project extends Model implements PresentableInterface
     }
 
     /**
+     * Determines whether the servers assigned to this project have all been tested and are deployable.
+     *
+     * @return bool
+     */
+    public function canDeploy()
+    {
+        // Check if there are any servers
+        if (!count($this->servers)) {
+            return false;
+        }
+
+        // Go through each server as test if it is online
+        foreach ($this->servers as $server) {
+            if (!$server->isOnline()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Generates a hash for use in the webhook URL.
      */
     public function generateHash()

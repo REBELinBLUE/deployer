@@ -76,11 +76,21 @@ class Server extends Model
     /**
      * Determines whether the server is currently being testing.
      *
-     * @return bool
+     * @return boolean
      */
     public function isTesting()
     {
         return ($this->status === self::TESTING);
+    }
+
+    /**
+     * Indicates whether the last connection was successful.
+     *
+     * @return boolean
+     */
+    public function isOnline()
+    {
+        return ($this->status === self::SUCCESSFUL);
     }
 
     /**
