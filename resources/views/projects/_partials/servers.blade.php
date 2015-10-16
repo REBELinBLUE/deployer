@@ -14,7 +14,7 @@
         <div class="callout callout-danger">
             <h4><i class="icon fa fa-ban"></i> {{ Lang::get('servers.fpm_failure_head') }}</h4>
             <p>{!! Lang::get('servers.fpm_failure') !!}</p>
-            <code><span id="server_user">deploy</span> ALL=NOPASSWD: /usr/sbin/service php5-fpm restart</code>
+            <code><span id="server_user_name">deploy</span> ALL=NOPASSWD: /usr/sbin/service php5-fpm restart</code>
         </div>
     </div>
 
