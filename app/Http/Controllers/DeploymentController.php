@@ -104,7 +104,7 @@ class DeploymentController extends Controller
             'breadcrumb' => [
                 ['url' => url('projects', $project->id), 'label' => $project->name],
             ],
-            'title'      => Lang::get('deployments.details', ['number' => $deployment->id]),
+            'title'      => Lang::get('deployments.deployment_number', ['id' => $deployment->id]),
             'subtitle'   => $project->name,
             'project'    => $project,
             'deployment' => $deployment,
