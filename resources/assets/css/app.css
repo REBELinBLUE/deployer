@@ -1,4 +1,33 @@
-#log pre { 
+
+#toast-container > .toast {
+    background-image: none !important;
+}
+
+#toast-container > .toast:before {
+    position: fixed;
+    font-family: FontAwesome;
+    font-size: 24px;
+    line-height: 18px;
+    float: left;
+    color: #FFF;
+    padding-right: 0.5em;
+    margin: auto 0.5em auto -1.5em;
+}
+#toast-container > .toast-warning:before {
+    content: "\f071";
+}
+#toast-container > .toast-error:before {
+    content: "\f071";
+}
+/*#toast-container > .toast-info:before {
+    content: "\f005";
+}*/
+#toast-container > .toast-success:before {
+    content: "\f00c";
+}
+
+
+#log pre {
     max-height: 300px;
     overflow: auto;
 }
@@ -69,7 +98,7 @@ input[type=text].deployment-source {
 }
 
 #command_script,
-#project-file-content { 
+#project-file-content {
     height: 250px;
 }
 
@@ -95,7 +124,7 @@ input[type=text].deployment-source {
     margin-right: 0;
 }
 
-#socket_offline { 
+#socket_offline {
     margin-top: 15px;
     display: none;
 }

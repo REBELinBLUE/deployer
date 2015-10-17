@@ -4,6 +4,15 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 
 var app = app || {};
 
+toastr.options.closeButton = true;
+//toastr.options.progressBar = true;
+toastr.options.closeMethod = 'fadeOut';
+toastr.options.closeDuration = 300;
+toastr.options.closeEasing = 'swing';
+toastr.options.positionClass = 'toast-bottom-right';
+toastr.options.timeOut = 30000; // How long the toast will display without user interaction
+toastr.options.extendedTimeOut = 60000;
+
 (function ($) {
 
     // Don't need to try and connect to the web socket when not logged in
@@ -109,6 +118,15 @@ var app = app || {};
             status.attr('class', 'label label-' + label_class)
             $('i', status).attr('class', 'fa fa-' + icon_class);
             $('span', status).text(label);
+        } else if ($('#timeline').length === 0) { // Don't show on dashboard
+            // FIXME: Also don't show if viewing the deployment, or the project the deployment is for
+            if (data.model.status === DEPLOYMENT_COMPLETED) {
+                toastr.success('Deployment #' + data.model.id + ' - Completed', data.model.project_name);
+            } else if (data.model.status === DEPLOYMENT_FAILED) {
+                toastr.error('Deployment #' + data.model.id + ' - Failed', data.model.project_name);
+            } else if (data.model.status === DEPLOYMENT_ERRORS) {
+                toastr.warning('Deployment #' + data.model.id + ' - Finished with errors', data.model.project_name);
+            }
         }
     });
 
