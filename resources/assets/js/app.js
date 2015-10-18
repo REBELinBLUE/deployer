@@ -4,6 +4,16 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 
 var app = app || {};
 
+toastr.options.closeButton = true;
+toastr.options.progressBar = true;
+toastr.options.preventDuplicates = true;
+toastr.options.closeMethod = 'fadeOut';
+toastr.options.closeDuration = 300;
+toastr.options.closeEasing = 'swing';
+toastr.options.positionClass = 'toast-bottom-right';
+toastr.options.timeOut = 5000;
+toastr.options.extendedTimeOut = 7000;
+
 (function ($) {
 
     // Don't need to try and connect to the web socket when not logged in
@@ -55,9 +65,9 @@ var app = app || {};
     app.listener.on('deployment:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
         updateNavBar(data);
 
-        var project = $('#project_' + data.model.project_id);
+        //var project = $('#project_' + data.model.project_id);
 
-        if (project.length > 0) {
+        if ($('#timeline').length > 0) {
             updateTimeline();
         }
 
@@ -109,6 +119,15 @@ var app = app || {};
             status.attr('class', 'label label-' + label_class)
             $('i', status).attr('class', 'fa fa-' + icon_class);
             $('span', status).text(label);
+        } else if ($('#timeline').length === 0) { // Don't show on dashboard
+            // FIXME: Also don't show if viewing the deployment, or the project the deployment is for
+            if (data.model.status === DEPLOYMENT_COMPLETED) {
+                toastr.success(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.completed, data.model.project_name);
+            } else if (data.model.status === DEPLOYMENT_FAILED) {
+                toastr.error(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.failed, data.model.project_name);
+            } else if (data.model.status === DEPLOYMENT_ERRORS) {
+                toastr.warning(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.completed_with_errors, data.model.project_name);
+            }
         }
     });
 
@@ -194,7 +213,7 @@ var app = app || {};
         var pending = $('#pending_menu ul.menu li').length;
         var deploying = $('#deploying_menu ul.menu li').length;
 
-        var pending_label = Lang.nav.multi_pending.replace('%s', pending);
+        var pending_label = Lang.nav.multi_pending.replace(':count', pending);
         if (pending === 0) {
             $('#pending_menu').hide();
         }
@@ -202,7 +221,7 @@ var app = app || {};
             pending_label = Lang.nav.single_pending;
         }
 
-        var deploying_label = Lang.nav.multi_running.replace('%s', deploying);
+        var deploying_label = Lang.nav.multi_running.replace(':count', deploying);
         if (deploying === 0) {
             $('#deploying_menu').hide();
         }
