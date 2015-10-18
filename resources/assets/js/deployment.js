@@ -145,6 +145,7 @@ var app = app || {};
             });
 
             app.listener.on('deployment:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+                // FIXME: Change this so it only shows on the correct deployment!
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     if (data.model.repo_failure) {
                         $('#repository_error').show();
