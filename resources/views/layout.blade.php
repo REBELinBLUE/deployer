@@ -60,9 +60,16 @@
         <script type="text/javascript">
             Lang.nav = {
                 single_pending: '{{ Lang::choice('dashboard.pending', 1) }}',
-                multi_pending: '{{ Lang::choice('dashboard.pending', '%s') }}',
+                multi_pending: '{{ Lang::choice('dashboard.pending', ':count') }}',
                 single_running: '{{ Lang::choice('dashboard.running', 1) }}',
-                multi_running: '{{ Lang::choice('dashboard.running', '%s') }}'
+                multi_running: '{{ Lang::choice('dashboard.running', ':count') }}'
+            };
+
+            Lang.toast = {
+                title: '{{ Lang::get('dashboard.deployment_number') }}',
+                completed: '{{ Lang::get('deployments.completed') }}',
+                completed_with_errors: '{{ Lang::get('deployments.completed_with_errors') }}',
+                failed: '{{ Lang::get('deployments.failed') }}'
             };
         </script>
 

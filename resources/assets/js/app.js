@@ -5,13 +5,14 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 var app = app || {};
 
 toastr.options.closeButton = true;
-//toastr.options.progressBar = true;
+toastr.options.progressBar = true;
+toastr.options.preventDuplicates = true;
 toastr.options.closeMethod = 'fadeOut';
 toastr.options.closeDuration = 300;
 toastr.options.closeEasing = 'swing';
 toastr.options.positionClass = 'toast-bottom-right';
-toastr.options.timeOut = 30000; // How long the toast will display without user interaction
-toastr.options.extendedTimeOut = 60000;
+toastr.options.timeOut = 5000;
+toastr.options.extendedTimeOut = 7000;
 
 (function ($) {
 
@@ -64,9 +65,9 @@ toastr.options.extendedTimeOut = 60000;
     app.listener.on('deployment:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
         updateNavBar(data);
 
-        var project = $('#project_' + data.model.project_id);
+        //var project = $('#project_' + data.model.project_id);
 
-        if (project.length > 0) {
+        if ($('#timeline').length > 0) {
             updateTimeline();
         }
 
@@ -121,11 +122,11 @@ toastr.options.extendedTimeOut = 60000;
         } else if ($('#timeline').length === 0) { // Don't show on dashboard
             // FIXME: Also don't show if viewing the deployment, or the project the deployment is for
             if (data.model.status === DEPLOYMENT_COMPLETED) {
-                toastr.success('Deployment #' + data.model.id + ' - Completed', data.model.project_name);
+                toastr.success(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.completed, data.model.project_name);
             } else if (data.model.status === DEPLOYMENT_FAILED) {
-                toastr.error('Deployment #' + data.model.id + ' - Failed', data.model.project_name);
+                toastr.error(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.failed, data.model.project_name);
             } else if (data.model.status === DEPLOYMENT_ERRORS) {
-                toastr.warning('Deployment #' + data.model.id + ' - Finished with errors', data.model.project_name);
+                toastr.warning(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.completed_with_errors, data.model.project_name);
             }
         }
     });
@@ -212,7 +213,7 @@ toastr.options.extendedTimeOut = 60000;
         var pending = $('#pending_menu ul.menu li').length;
         var deploying = $('#deploying_menu ul.menu li').length;
 
-        var pending_label = Lang.nav.multi_pending.replace('%s', pending);
+        var pending_label = Lang.nav.multi_pending.replace(':count', pending);
         if (pending === 0) {
             $('#pending_menu').hide();
         }
@@ -220,7 +221,7 @@ toastr.options.extendedTimeOut = 60000;
             pending_label = Lang.nav.single_pending;
         }
 
-        var deploying_label = Lang.nav.multi_running.replace('%s', deploying);
+        var deploying_label = Lang.nav.multi_running.replace(':count', deploying);
         if (deploying === 0) {
             $('#deploying_menu').hide();
         }

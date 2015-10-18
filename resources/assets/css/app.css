@@ -26,6 +26,10 @@
     content: "\f00c";
 }
 
+#toast-container > .toast-warning {
+    background-color: #51a351 !important;
+}
+
 
 #log pre {
     max-height: 300px;
