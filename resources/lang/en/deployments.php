@@ -20,7 +20,7 @@ return [
     'finished'              => 'Finished',
     'duration'              => 'Duration',
     'output'                => 'View the output',
-    'details'               => 'Deployment #:number',
+    'deployment_number'     => 'Deployment #:id',
     'pending'               => 'Pending',
     'deploying'             => 'Deploying',
     'completed'             => 'Completed',

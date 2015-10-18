@@ -16,6 +16,7 @@ var paths = {
     'html5shiv'       : bower_path + '/html5shiv',
     'respond'         : bower_path + '/respond',
     'cropper'         : bower_path + '/cropper',
+    'toastr'          : bower_path + '/toastr',
 };
 
 // To stop the google font imports from breaking
@@ -33,7 +34,8 @@ elixir(function(mix) {
     })
     .styles([
         'public/css/vendor.css',
-        paths.cropper + '/dist/cropper.min.css'
+        paths.toastr + '/toastr.css',
+        paths.cropper + '/dist/cropper.min.css',
     ], 'public/css/vendor.css', './')
     .styles([
         'AdminLTE.css',
@@ -52,6 +54,7 @@ elixir(function(mix) {
         paths.bootstrap       + '/javascripts/bootstrap.js',
         paths.backbone        + '/backbone.js',
         paths.socketio_client + '/socket.io.js',
+        paths.toastr          + '/toastr.js',
         paths.ace             + '/ace.js',
         paths.ace             + '/mode-sh.js',
         paths.ace             + '/mode-php.js',
