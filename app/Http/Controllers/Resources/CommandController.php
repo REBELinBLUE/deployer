@@ -67,6 +67,7 @@ class CommandController extends ResourceController
         return view('commands.listing', [
             'breadcrumb' => $breadcrumb,
             'title'      => Lang::get('commands.' . strtolower($action)),
+            'subtitle'   => $project->name,
             'project'    => $project,
             'action'     => $types[$action],
             'commands'   => $this->repository->getForDeployStep($project->id, $types[$action]),
