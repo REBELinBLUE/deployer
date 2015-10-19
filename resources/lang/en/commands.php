@@ -25,6 +25,7 @@ return [
     'options'              => 'You can use the following tokens in your script',
     'release_id'           => 'The release ID',
     'release_path'         => 'The full release path',
+    'branch'               => 'The branch being deployed',
     'project_path'         => 'The project path',
     'after'                => 'After',
     'configure'            => 'Configure',
