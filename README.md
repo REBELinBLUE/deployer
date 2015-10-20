@@ -112,3 +112,7 @@ The `master` branch of this repository is a development branch and **should not*
 ## License
 
 Deployer is licensed under [The MIT License (MIT)](LICENSE.md).
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/REBELinBLUE/deployer/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
