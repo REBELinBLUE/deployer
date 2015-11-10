@@ -318,18 +318,4 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     {
         return ($this->commit === self::LOADING && $this->status === self::FAILED);
     }
-
-    /**
-     * A little hack to reconnect to the database if we're in console mode and trying to find a deployment.
-     * Should fix the error sending STMT_PREPARE problem that causes deployments to sit "pending" forever.
-     * @return mixed
-     */
-    public function findOrFail()
-    {
-        if (App::runningInConsole()) {
-            DB::reconnect();
-        }
-
-        return parent::__call('findOrFail', func_get_args());
-    }
 }
