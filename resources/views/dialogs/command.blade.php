@@ -26,15 +26,22 @@
                     <div class="form-group">
                         <label for="command_script">{{ Lang::get('commands.bash') }}</label>
                         <div id="command_script" class="form-control"></div>
-                        <h5>{{ Lang::get('commands.options') }}</h5>
-                        <ul class="list-unstyled">
-                            <li><code>@{{ project_path }}</code> - {{ Lang::get('commands.project_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www</span></li>
-                            <li><code>@{{ release }}</code> - {{ Lang::get('commands.release_id') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ date('YmdHis') }}</span></li>
-                            <li><code>@{{ release_path }}</code> - {{ Lang::get('commands.release_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www/releases/{{ date('YmdHis') }}</span></li>
-                            <li><code>@{{ branch }}</code> - {{ Lang::get('commands.branch') }}, {{ Lang::get('commands.example') }} <span class="label label-default">master</span></li>
-                            <!--li><code>@{{ sha }}</code> - {{ Lang::get('commands.sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e6f6fd15c50efe53e090308861ec8a8288</span></li>
-                            <li><code>@{{ short_sha }}</code> - {{ Lang::get('commands.short_sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e</span></li-->
-                        </ul>
+                        <h5><a data-toggle="collapse" data-parent="#accordion" href="#tokens">{{ Lang::get('commands.options') }}</a></h5>
+
+                        <div class="panel-collapse collapse" id="tokens">
+                            <ul class="list-unstyled">
+                                <li><code>@{{ project_path }}</code> - {{ Lang::get('commands.project_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www</span></li>
+                                <li><code>@{{ release }}</code> - {{ Lang::get('commands.release_id') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ date('YmdHis') }}</span></li>
+                                <li><code>@{{ release_path }}</code> - {{ Lang::get('commands.release_path') }}, {{ Lang::get('commands.example') }} <span class="label label-default">/var/www/releases/{{ date('YmdHis') }}</span></li>
+                                <li><code>@{{ branch }}</code> - {{ Lang::get('commands.branch') }}, {{ Lang::get('commands.example') }} <span class="label label-default">master</span></li>
+                                <li><code>@{{ sha }}</code> - {{ Lang::get('commands.sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e6f6fd15c50efe53e090308861ec8a8288</span></li>
+                                <li><code>@{{ short_sha }}</code> - {{ Lang::get('commands.short_sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e</span></li>
+                                <li><code>@{{ deployer_email }}</code> - {{ Lang::get('commands.deployer_email') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ Auth::user()->email }}</span></li>
+                                <li><code>@{{ deployer_name }}</code> - {{ Lang::get('commands.deployer_email') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ Auth::user()->name }}</span></li>
+                                <li><code>@{{ committer_email }}</code> - {{ Lang::get('commands.committer_name') }}, {{ Lang::get('commands.example') }} <span class="label label-default">joe.bloggs@example.com</span></li>
+                                <li><code>@{{ committer_name }}</code> - {{ Lang::get('commands.committer_email') }}, {{ Lang::get('commands.example') }} <span class="label label-default">Joe Bloggs</span></li>
+                            </ul>
+                        </div>
                     </div>
                     @if (count($project->servers))
                     <div class="form-group">

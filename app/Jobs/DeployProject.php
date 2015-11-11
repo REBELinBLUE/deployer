@@ -395,13 +395,28 @@ CMD;
             $commands = $step->command->script;
 
             $tokens = [
-                '{{ release }}'      => $release_id,
-                '{{ release_path }}' => $latest_release_dir,
-                '{{ project_path }}' => $root_dir,
-                '{{ branch }}'       => $this->deployment->branch,
-                '{{ sha }}'          => $this->deployment->commit,
-                '{{ short_sha }}'    => $this->deployment->short_commit,
+                '{{ release }}'         => $release_id,
+                '{{ release_path }}'    => $latest_release_dir,
+                '{{ project_path }}'    => $root_dir,
+                '{{ branch }}'          => $this->deployment->branch,
+                '{{ sha }}'             => $this->deployment->commit,
+                '{{ short_sha }}'       => $this->deployment->short_commit,
+                '{{ deployer_email }}'  => 'deployer email',
+                '{{ deployer_name }}'   => 'deployer name',
+                '{{ committer_email }}' => 'committer email',
+                '{{ committer_name }}'  => 'committer name',
             ];
+
+/*        $this->deployment->committer = trim($parts[1]);
+
+        if (!$this->deployment->user_id && !$this->deployment->source) {
+            $user = User::where('email', trim($parts[2]))->first();
+
+            if ($user) {
+                $this->deployment->user_id = $user->id;
+            }
+        }
+        */
 
             $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);
         }
