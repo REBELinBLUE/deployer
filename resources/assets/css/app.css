@@ -152,3 +152,25 @@ input[type=text].deployment-source {
     margin-bottom: 15px;
     border-radius: 50%;
 }
+
+dl.dl-horizontal#hook_fields dt {
+    width: 80px;
+    text-align: left;
+    margin-bottom: 2px;
+}
+
+dl.dl-horizontal#hook_fields dd {
+    margin-left: 90px;
+    margin-bottom: 2px;
+}
+
+dl.dl-horizontal#hook_command_ids dt {
+    width: 30px;
+    text-align: right;
+    margin-bottom: 2px;
+}
+
+dl.dl-horizontal#hook_command_ids dd {
+    margin-left: 40px;
+    margin-bottom: 2px;
+}

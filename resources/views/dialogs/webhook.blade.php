@@ -9,27 +9,35 @@
 
                 <p>{{ Lang::get('commands.webhook_example') }}</p>
                 <h5><strong>{{ Lang::get('commands.webhook_fields') }}</strong></h5>
-                <ul>
-                    <li><em>reason</em> - {{ Lang::get('commands.webhook_reason') }}</li>
-                    <li><em>source</em> - {{ Lang::get('commands.webhook_source') }}</li>
-                    <li><em>url</em> - {{ Lang::get('commands.webhook_url') }}</li>
+                <dl class="dl-horizontal" id="hook_fields">
+                    <dt><em>branch</em></dt>
+                    <dd>{{ Lang::get('commands.webhook_branch') }}</dd>
+                    <dt><em>update_only</em></dt>
+                    <dd>{{ Lang::get('commands.webhook_update') }}</dd>
+                    <dt><em>reason</em></dt>
+                    <dd>{{ Lang::get('commands.webhook_reason') }}</dd>
+                    <dt><em>source</em></dt>
+                    <dd>{{ Lang::get('commands.webhook_source') }}</dd>
+                    <dt><em>url</em></dt>
+                    <dd>{{ Lang::get('commands.webhook_url') }}</dd>
                     @if(count($optional))
-                        <li><em>commands</em> - {{ Lang::get('commands.webhook_commands') }}</li>
+                        <dt><em>commands</em></dt>
+                        <dd>{{ Lang::get('commands.webhook_commands') }}</dd>
                     @endif
-                </ul>
+                </dl>
 
                 @if (count($optional))
                     <h5><strong>{{ Lang::get('commands.webhook_optional') }}</strong></h5>
-                    <ul>
+                    <dl class="dl-horizontal" id="hook_command_ids">
                         @foreach($optional as $command)
-                        <li><em>{{ $command->id }}</em> - {{ $command->name }}</li>
+                        <dt><em>{{ $command->id }}</em></dt>
+                        <dd>{{ $command->name }}</dd>
                         @endforeach
-                    </ul>
+                    </dl>
                 @endif
 
-
                 <h5><strong>{{ Lang::get('commands.webhook_curl') }}</strong></h5>
-                <pre>curl -X POST {{ $project->webhook_url }} -d 'reason={{ urlencode(Lang::get('commands.reason_example')) }}'</pre>
+                <pre>curl -X POST {{ $project->webhook_url }} -d 'reason={{ urlencode(Lang::get('commands.reason_example')) }}&amp;branch=master&amp;update_only=true'</pre>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ Lang::get('app.close') }}</button>
