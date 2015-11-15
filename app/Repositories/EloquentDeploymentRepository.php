@@ -43,6 +43,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
         $deployment = $this->model->create($fields);
 
+        // FIXME: Catch an erorr here and rollback model if it fails
         $this->dispatch(new QueueDeployment(
             $deployment->project,
             $deployment,
@@ -55,7 +56,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * Gets the latest deployments for a project.
      *
-     * @param  int   $project
+     * @param  int   $project_id
      * @param  int   $paginate
      * @return array
      */
@@ -63,8 +64,24 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     {
         return $this->model->where('project_id', $project_id)
                            ->with('user', 'project')
+                           ->whereNotNull('started_at')
                            ->orderBy('started_at', 'DESC')
                            ->paginate($paginate);
+    }
+
+    /**
+     * Get the latest successful deployment for a project.
+     * 
+     * @param  int   $project_id
+     * @return array
+     */
+    public function getLatestSuccessful($project_id)
+    {
+        return $this->model->where('project_id', $project_id)
+                           ->where('status', Deployment::COMPLETED)
+                           ->whereNotNull('started_at')
+                           ->orderBy('started_at', 'DESC')
+                           ->first();
     }
 
     /**
@@ -77,6 +94,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
 
         return $this->model->whereRaw($raw_sql)
+                           ->whereNotNull('started_at')
                            ->with('project')
                            ->take(15)
                            ->orderBy('started_at', 'DESC')
@@ -160,6 +178,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
         return $this->model->whereRaw($raw_sql)
                            ->where('status', $status)
+                           ->whereNotNull('started_at')
                            ->orderBy('started_at', 'DESC')
                            ->get();
     }

@@ -52,28 +52,43 @@ class WebhookController extends Controller
 
         $success = false;
         if ($project->servers->where('deploy_code', true)->count() > 0) {
-            $optional = [];
+            // Get the branch if it is the rquest, otherwise deploy the default branch
+            $branch = Input::has('branch') ? Input::get('branch') : $project->branch;
 
-            // Check if the commands input is set, if so explode on comma and filter out any invalid commands
-            if (Input::has('commands')) {
-                $valid = $project->commands->lists('id');
+            $do_deploy = true;
+            if (Input::has('update_only') && Input::get('update_only') === 'true') {
+                // Get the latest deployment and check the branch matches
+                $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
 
-                $optional = collect(explode(',', Input::get('commands')))
-                                    ->unique()
-                                    ->intersect($valid);
+                if (!$deployment || $deployment->branch !== $branch) {
+                    $do_deploy = false;
+                }
             }
 
-            // TODO: Validate URL and only accept it if source is set?
-            $this->deploymentRepository->create([
-                'reason'     => Input::get('reason'),
-                'project_id' => $project->id,
-                'branch'     => $project->branch,
-                'optional'   => $optional,
-                'source'     => Input::get('source'),
-                'build_url'  => Input::get('url'),
-            ]);
+            if ($do_deploy) {
+                $optional = [];
 
-            $success = true;
+                // Check if the commands input is set, if so explode on comma and filter out any invalid commands
+                if (Input::has('commands')) {
+                    $valid = $project->commands->lists('id');
+
+                    $optional = collect(explode(',', Input::get('commands')))
+                                        ->unique()
+                                        ->intersect($valid);
+                }
+
+                // TODO: Validate URL and only accept it if source is set?
+                $this->deploymentRepository->create([
+                    'reason'     => Input::get('reason'),
+                    'project_id' => $project->id,
+                    'branch'     => $branch,
+                    'optional'   => $optional,
+                    'source'     => Input::get('source'),
+                    'build_url'  => Input::get('url'),
+                ]);
+
+                $success = true;
+            }
         }
 
         return [

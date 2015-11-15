@@ -75,13 +75,20 @@ The `master` branch of this repository is a development branch and **should not*
     $ npm install --production
     ```
 
-4. Run the installer and follow the instructions
+4. Make sure the storage and upload directories are writable
+
+    ```shell
+    $ chmod -R 777 storage
+    $ chmod -R 777 public/upload
+    ```
+
+5. Run the installer and follow the instructions
 
     ```shell
     $ php artisan app:install
     ```
 
-5. (Optional) Make any additional configuration changes
+6. (Optional) Make any additional configuration changes
 
     ```shell
     $ editor .env
