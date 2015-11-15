@@ -94,6 +94,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
 
         return $this->model->whereRaw($raw_sql)
+                           ->whereNotNull('started_at')
                            ->with('project')
                            ->take(15)
                            ->orderBy('started_at', 'DESC')
