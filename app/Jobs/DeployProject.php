@@ -314,6 +314,7 @@ CMD;
             return '';
         }
 
+        $mirror_dir   = $root_dir . '/mirror.git';
         $releases_dir = $root_dir . '/releases';
 
         $release_id         = date('YmdHis', strtotime($this->deployment->started_at));
@@ -333,12 +334,16 @@ CMD;
                 sprintf('cd %s', $root_dir),
                 sprintf('chmod 0600 %s', $remote_key_file),
                 sprintf('chmod +x %s', $remote_wrapper_file),
+                sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
+                sprintf('[ ! -d %s ] && git clone --mirror %s "%s"', $mirror_dir, $project->repository, $mirror_dir),
                 sprintf('[ ! -d %s ] && mkdir %s', $releases_dir, $releases_dir),
                 sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
+                sprintf('cd %s', $mirror_dir),
+                sprintf('git fetch --all --prune'),
                 sprintf('cd %s', $releases_dir),
-                sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
                 sprintf(
-                    'git clone --branch %s --depth 1 --recursive %s %s',
+                    'git clone --reference=%s --branch %s --depth 1 --recursive %s %s',
+                    $mirror_dir,
                     $this->deployment->branch,
                     $project->repository,
                     $latest_release_dir
