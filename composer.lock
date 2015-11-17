@@ -723,34 +723,34 @@
         },
         {
             "name": "graham-campbell/binput",
-            "version": "v3.2.1",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Binput.git",
-                "reference": "d0053d670ed0e71868ce8784f2fffa96f8007bf7"
+                "reference": "a2610fb332a9e2440262b6df5056a518fe0a57f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Binput/zipball/d0053d670ed0e71868ce8784f2fffa96f8007bf7",
-                "reference": "d0053d670ed0e71868ce8784f2fffa96f8007bf7",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Binput/zipball/a2610fb332a9e2440262b6df5056a518fe0a57f3",
+                "reference": "a2610fb332a9e2440262b6df5056a518fe0a57f3",
                 "shasum": ""
             },
             "require": {
-                "graham-campbell/security": "~3.3",
-                "illuminate/contracts": "5.0.*|5.1.*",
-                "illuminate/http": "5.0.*|5.1.*",
-                "illuminate/support": "5.0.*|5.1.*",
+                "graham-campbell/security": "^3.5",
+                "illuminate/contracts": "5.1.*|5.2.*",
+                "illuminate/http": "5.1.*|5.2.*",
+                "illuminate/support": "5.1.*|5.2.*",
                 "php": ">=5.5.9"
             },
             "require-dev": {
-                "graham-campbell/testbench": "~3.0",
+                "graham-campbell/testbench": "^3.1",
                 "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "~4.8|~5.0"
+                "phpunit/phpunit": "^4.8|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -782,41 +782,41 @@
                 "laravel",
                 "security"
             ],
-            "time": "2015-10-06 16:43:02"
+            "time": "2015-11-14 11:49:49"
         },
         {
             "name": "graham-campbell/htmlmin",
-            "version": "v4.1.0",
+            "version": "v4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-HTMLMin.git",
-                "reference": "870fdc0ecd36969a6752024d3642c0a3fcb4bcec"
+                "reference": "293a16bd9e7cd5df19283d3a748426261e704a89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/870fdc0ecd36969a6752024d3642c0a3fcb4bcec",
-                "reference": "870fdc0ecd36969a6752024d3642c0a3fcb4bcec",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/293a16bd9e7cd5df19283d3a748426261e704a89",
+                "reference": "293a16bd9e7cd5df19283d3a748426261e704a89",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "5.0.*|5.1.*",
-                "illuminate/filesystem": "5.0.*|5.1.*",
-                "illuminate/http": "5.0.*|5.1.*",
-                "illuminate/routing": "5.0.*|5.1.*",
-                "illuminate/support": "5.0.*|5.1.*",
-                "illuminate/view": "5.0.*|5.1.*",
-                "mrclay/minify": "~2.2",
+                "illuminate/contracts": "5.1.*|5.2.*",
+                "illuminate/filesystem": "5.1.*|5.2.*",
+                "illuminate/http": "5.1.*|5.2.*",
+                "illuminate/routing": "5.1.*|5.2.*",
+                "illuminate/support": "5.1.*|5.2.*",
+                "illuminate/view": "5.1.*|5.2.*",
+                "mrclay/minify": "^2.2",
                 "php": ">=5.5.9"
             },
             "require-dev": {
-                "graham-campbell/testbench": "~3.0",
+                "graham-campbell/testbench": "^3.1",
                 "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "~4.8|~5.0"
+                "phpunit/phpunit": "^4.8|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -847,35 +847,35 @@
                 "laravel",
                 "minifier"
             ],
-            "time": "2015-10-06 16:52:44"
+            "time": "2015-11-14 11:55:24"
         },
         {
             "name": "graham-campbell/security",
-            "version": "v3.4.0",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Security.git",
-                "reference": "086150e2c98f9bca17f9f882e56fe495b11bfcc0"
+                "reference": "bb4e8ec9cfc27403232df7fc2714217f976d875f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Security/zipball/086150e2c98f9bca17f9f882e56fe495b11bfcc0",
-                "reference": "086150e2c98f9bca17f9f882e56fe495b11bfcc0",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Security/zipball/bb4e8ec9cfc27403232df7fc2714217f976d875f",
+                "reference": "bb4e8ec9cfc27403232df7fc2714217f976d875f",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "5.0.*|5.1.*",
-                "illuminate/support": "5.0.*|5.1.*",
+                "illuminate/contracts": "5.1.*|5.2.*",
+                "illuminate/support": "5.1.*|5.2.*",
                 "php": ">=5.5.9"
             },
             "require-dev": {
-                "graham-campbell/testbench": "~3.0",
-                "phpunit/phpunit": "~4.8|~5.0"
+                "graham-campbell/testbench": "^3.1",
+                "phpunit/phpunit": "^4.8|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "3.5-dev"
                 }
             },
             "autoload": {
@@ -904,7 +904,7 @@
                 "laravel",
                 "security"
             ],
-            "time": "2015-11-05 21:07:59"
+            "time": "2015-11-14 11:44:07"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1974,16 +1974,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.6.0",
+            "version": "v0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "cab3aa3750d451c6e8d002433af583d88fd64862"
+                "reference": "0f04df0b23663799a8941fae13cd8e6299bde3ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/cab3aa3750d451c6e8d002433af583d88fd64862",
-                "reference": "cab3aa3750d451c6e8d002433af583d88fd64862",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/0f04df0b23663799a8941fae13cd8e6299bde3ed",
+                "reference": "0f04df0b23663799a8941fae13cd8e6299bde3ed",
                 "shasum": ""
             },
             "require": {
@@ -2042,7 +2042,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2015-11-08 22:24:35"
+            "time": "2015-11-12 16:18:56"
         },
         {
             "name": "robclancy/presenter",
