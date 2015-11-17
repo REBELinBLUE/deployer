@@ -314,4 +314,37 @@ class Project extends ProjectRelation implements PresentableInterface
         unlink($key);
         unlink($key . '.pub');
     }
+
+    /**
+     * Gets the list of all tags for the project
+     *
+     * @return Collection
+     */
+    public function tags()
+    {
+        // FIXME: There has to be a way to do this without converting to an array and then back to a collection
+        $tags = $this->refs()
+                     ->where('is_tag', true)
+                     ->lists('name')
+                     ->toArray();
+
+        usort($tags, 'version_compare');
+
+        return collect($tags);
+
+    }
+
+    /**
+     * Gets the list of all branches for the project which are not the default
+     *
+     * @return Collection
+     */
+    public function branches()
+    {
+        return $this->refs()
+                    ->where('is_tag', false)
+                    ->where('name', '<>', $this->branch)
+                    ->orderBy('name')
+                    ->lists('name');
+    }
 }
