@@ -4,7 +4,7 @@ var app = app || {};
     $('.deployment-source:radio').on('change', function (event) {
         var target = $(event.currentTarget);
 
-        $('input[type=text].deployment-source').hide();
+        $('select.deployment-source').hide();
         if (target.val() === 'branch') {
             $('#deployment_branch').show();
         } else if (target.val() === 'tag') {

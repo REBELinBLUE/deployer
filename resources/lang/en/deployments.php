@@ -34,7 +34,7 @@ return [
     'cancelled'             => 'Cancelled',
     'reason'                => 'Reason for deployment',
     'source'                => 'Source',
-    'default'               => 'Default branch (:branch)',
+    'default'               => 'The default branch (:branch)',
     'different_branch'      => 'A different branch',
     'tag'                   => 'A tag',
     'branch'                => 'Branch',
