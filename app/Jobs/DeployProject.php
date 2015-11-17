@@ -133,8 +133,8 @@ class DeployProject extends Job implements ShouldQueue
         $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
         file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
 
-        $workingdir = tempnam(storage_path() . '/app/', 'clone');
-        unlink($workingdir);
+        $workingDir = tempnam(storage_path() . '/app/', 'clone');
+        unlink($workingDir);
 
         $script = <<< CMD
 #!/bin/sh
@@ -142,11 +142,11 @@ export GIT_SSH="{$wrapper}"
 [ ! -d {$mirrorDir} ] && git clone --quiet --mirror %s {$mirrorDir}
 cd {$mirrorDir}
 git fetch --quiet --all --prune
-git clone --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingdir}
-cd {$workingdir}
+git clone --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingDir}
+cd {$workingDir}
 git checkout %s --quiet
 git log --pretty=format:"%%H%%x09%%an%%x09%%ae"
-rm -rf {$workingdir}
+rm -rf {$workingDir}
 CMD;
 
         $script = sprintf(
