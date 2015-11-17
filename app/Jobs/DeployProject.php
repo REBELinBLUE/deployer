@@ -588,30 +588,6 @@ OUT;
     }
 
     /**
-     * Prepares a server for code deployment by adding the files which are required.
-     *
-     * @param  Server $server
-     * @return void
-     */
-    private function prepareServer(Server $server)
-    {
-        $root_dir = preg_replace('#/$#', '', $server->path);
-
-        $remote_key_file     = $root_dir . '/id_rsa';
-        $remote_wrapper_file = $root_dir . '/wrapper.sh';
-
-        // Upload the SSH private key
-        $this->sendFile($this->private_key, $remote_key_file, $server);
-
-        // Upload the wrapper file
-        $this->sendFileFromString(
-            $server,
-            $remote_wrapper_file,
-            $this->gitWrapperScript($remote_key_file)
-        );
-    }
-
-    /**
      * Send a string to server.
      *
      * @param  Server $server   target server
