@@ -316,7 +316,7 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Gets the list of all tags for the project
+     * Gets the list of all tags for the project.
      *
      * @return Collection
      */
@@ -331,11 +331,10 @@ class Project extends ProjectRelation implements PresentableInterface
         usort($tags, 'version_compare');
 
         return collect($tags);
-
     }
 
     /**
-     * Gets the list of all branches for the project which are not the default
+     * Gets the list of all branches for the project which are not the default.
      *
      * @return Collection
      */
