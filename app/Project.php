@@ -349,11 +349,13 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Generate a friendly path for the mirror of the repository.
+     * Use the repository rather than the project ID, so if a single
+     * repo is used in multiple projects it is not duplicated
      *
      * @return string
      */
     public function mirrorPath()
     {
-        return storage_path('/app/') . preg_replace('/[^_\-.\-a-zA-Z0-9\s]/u', '_', $this->repository);
+        return storage_path('app') . '/' . preg_replace('/[^_\-.\-a-zA-Z0-9\s]/u', '_', $this->repository);
     }
 }

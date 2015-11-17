@@ -14,7 +14,7 @@ use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Jobs\Job;
-use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
+use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
@@ -130,8 +130,8 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function updateRepoInfo()
     {
-        // Use the repository rather than the project ID, so if a single
-        // repo is used in multiple projects it is not duplicated
+        $this->dispatch(new UpdateGitMirror($this->deployment->project));
+
         $mirrorDir = $this->deployment->project->mirrorPath();
 
         $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
@@ -143,9 +143,6 @@ class DeployProject extends Job implements ShouldQueue
         $cmd = <<< CMD
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
-( [ ! -d {$mirrorDir} ] && git clone --quiet --mirror %s {$mirrorDir} ) && \
-cd {$mirrorDir} &&
-git fetch --quiet --all --prune
 git clone --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingDir} && \
 cd {$workingDir} && \
 git checkout %s --quiet && \
@@ -155,7 +152,6 @@ CMD;
 
         $process = new Process(sprintf(
             $cmd,
-            $this->deployment->project->repository,
             $this->deployment->branch,
             $this->deployment->project->repository,
             $this->deployment->branch
@@ -187,8 +183,6 @@ CMD;
         }
 
         $this->deployment->save();
-
-        $this->dispatch(new UpdateGitReferences($this->deployment->project));
     }
 
     /**
