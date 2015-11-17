@@ -136,36 +136,31 @@ class DeployProject extends Job implements ShouldQueue
         $workingDir = tempnam(storage_path() . '/app/', 'clone');
         unlink($workingDir);
 
-        $script = <<< CMD
-#!/bin/sh
-export GIT_SSH="{$wrapper}"
-[ ! -d {$mirrorDir} ] && git clone --quiet --mirror %s {$mirrorDir}
-cd {$mirrorDir}
+        $cmd = <<< CMD
+chmod +x "{$wrapper}" && \
+export GIT_SSH="{$wrapper}" && \
+( [ ! -d {$mirrorDir} ] && git clone --quiet --mirror %s {$mirrorDir} ) && \
+cd {$mirrorDir} &&
 git fetch --quiet --all --prune
-git clone --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingDir}
-cd {$workingDir}
-git checkout %s --quiet
-git log --pretty=format:"%%H%%x09%%an%%x09%%ae"
+git clone --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingDir} && \
+cd {$workingDir} && \
+git checkout %s --quiet && \
+git log --pretty=format:"%%H%%x09%%an%%x09%%ae" && \
 rm -rf {$workingDir}
 CMD;
 
-        $script = sprintf(
-            $script,
+        $process = new Process(sprintf(
+            $cmd,
             $this->deployment->project->repository,
             $this->deployment->branch,
             $this->deployment->project->repository,
             $this->deployment->branch
-        );
+        ));
 
-        $mirror = tempnam(storage_path() . '/app/', 'mirror');
-        file_put_contents($mirror, $script);
-
-        $process = new Process("chmod +x {$mirror} && {$mirror}");
         $process->setTimeout(null);
         $process->run();
 
         unlink($wrapper);
-        unlink($mirror);
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
