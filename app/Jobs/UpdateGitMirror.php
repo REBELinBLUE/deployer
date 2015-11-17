@@ -2,13 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use REBELinBLUE\Deployer\Jobs\Job;
-use REBELinBLUE\Deployer\Project;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
+use REBELinBLUE\Deployer\Project;
 use Symfony\Component\Process\Process;
 
 class UpdateGitMirror extends Job implements SelfHandling
