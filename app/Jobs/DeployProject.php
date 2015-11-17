@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
@@ -13,8 +14,8 @@ use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Ref;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
@@ -27,7 +28,7 @@ use Symfony\Component\Process\Process;
  */
 class DeployProject extends Job implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
+    use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
     private $deployment;
     private $private_key;
@@ -129,11 +130,9 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function updateRepoInfo()
     {
-        // Use the repository rather than the project ID, so if a single repo is used in multiple projects
-        // it is not duplicated
-        // FIXME: Move this to another class as there is a lot more we should do here
-        $safe      = preg_replace('/[^_\-.\-a-zA-Z0-9\s]/u', '_', $this->deployment->project->repository);
-        $mirrorDir = storage_path() . '/app/' . $safe;
+        // Use the repository rather than the project ID, so if a single
+        // repo is used in multiple projects it is not duplicated
+        $mirrorDir = $this->deployment->project->mirrorPath();
 
         $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
         file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
@@ -189,38 +188,7 @@ CMD;
 
         $this->deployment->save();
 
-
-        // FIXME: This should be a Console job
-        $project = $this->deployment->project;
-
-        $project->refs()->delete();
-
-        foreach (['tag', 'branch'] as $ref) {
-
-            $process = new Process("cd {$mirrorDir} && git {$ref} --list --no-column");
-
-            $process->setTimeout(null);
-            $process->run();
-
-            if ($process->isSuccessful()) {
-                foreach (explode(PHP_EOL, $process->getOutput()) as $reference) {
-                    $reference = trim($reference);
-                    if (empty($reference)) {
-                        continue;
-                    }
-
-                    if (substr($reference, 0, 1) === '*') {
-                        $reference = trim(substr($reference, 1));
-                    }
-
-                    Ref::create([
-                        'name'       => $reference,
-                        'project_id' => $this->deployment->project_id,
-                        'is_tag'     => ($ref === 'tag')
-                    ]);
-                }
-            }
-        }
+        $this->dispatch(new UpdateGitReferences($this->deployment->project));
     }
 
     /**

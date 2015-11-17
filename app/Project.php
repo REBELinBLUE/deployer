@@ -346,4 +346,14 @@ class Project extends ProjectRelation implements PresentableInterface
                     ->orderBy('name')
                     ->lists('name');
     }
+
+    /**
+     * Generate a friendly path for the mirror of the repository.
+     *
+     * @return string
+     */
+    public function mirrorPath()
+    {
+        return storage_path('/app/') . preg_replace('/[^_\-.\-a-zA-Z0-9\s]/u', '_', $this->repository);
+    }
 }
