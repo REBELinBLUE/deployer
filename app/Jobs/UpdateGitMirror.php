@@ -7,11 +7,13 @@ use REBELinBLUE\Deployer\Project;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Symfony\Component\Process\Process;
 
 class UpdateGitMirror extends Job implements SelfHandling
 {
-    use DispatchesJobs;
+    use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
     private $project;
 
@@ -36,18 +38,19 @@ class UpdateGitMirror extends Job implements SelfHandling
         // repo is used in multiple projects it is not duplicated
         $mirrorDir = $this->project->mirrorPath();
 
-        $private_key = tempnam(storage_path() . '/app/', 'sshkey');
+        $private_key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($private_key, $this->project->private_key);
 
-        $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
+        $wrapper = tempnam(storage_path('app/'), 'gitssh');
         file_put_contents($wrapper, $this->gitWrapperScript($private_key));
 
         $cmd = <<< CMD
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
-( [ ! -d {$mirrorDir} ] && git clone --quiet --mirror %s {$mirrorDir} ) && \
+( [ ! -d {$mirrorDir} ] && git clone --mirror %s {$mirrorDir} ) && \
 cd {$mirrorDir} &&
-git fetch --quiet --all --prune
+git fetch --all --prune
+exit 0 # FIXME: Not sure why I need this, otherwise it fails
 CMD;
 
         $process = new Process(sprintf($cmd, $this->project->repository));
@@ -58,7 +61,7 @@ CMD;
         unlink($private_key);
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
+            throw new \RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());
         }
 
         $this->dispatch(new UpdateGitReferences($this->project));

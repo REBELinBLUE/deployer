@@ -25,6 +25,7 @@ use Symfony\Component\Process\Process;
  * Deploys an actual project.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * TODO: rewrite this as it is doing way too much and is very messy now.
+ * TODO: Move gitWrapperScript somewhere else as it is duplicated in UpdateGitReferences
  */
 class DeployProject extends Job implements ShouldQueue
 {
@@ -33,6 +34,8 @@ class DeployProject extends Job implements ShouldQueue
     private $deployment;
     private $private_key;
     private $cache_key;
+    private $release_archive;
+    private $release_id;
 
     /**
      * Create a new command instance.
@@ -74,8 +77,12 @@ class DeployProject extends Job implements ShouldQueue
         $project->status = Project::DEPLOYING;
         $project->save();
 
+        $this->release_id = date('YmdHis', strtotime($this->deployment->started_at));
+
         $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
+
+        $this->release_archive = storage_path('app/') . $this->deployment->project_id . '_' . $this->release_id . '.tar.gz';
 
         try {
             // If the build has been manually triggered update the git information from the remote repository
@@ -120,6 +127,7 @@ class DeployProject extends Job implements ShouldQueue
         event(new DeployFinished($project, $this->deployment));
 
         unlink($this->private_key);
+        unlink($this->release_archive);
     }
 
     /**
@@ -140,6 +148,8 @@ class DeployProject extends Job implements ShouldQueue
         $workingDir = tempnam(storage_path() . '/app/', 'clone');
         unlink($workingDir);
 
+        $tarFile = $this->release_archive;
+
         $cmd = <<< CMD
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
@@ -147,6 +157,7 @@ git clone --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingDir
 cd {$workingDir} && \
 git checkout %s --quiet && \
 git log --pretty=format:"%%H%%x09%%an%%x09%%ae" && \
+tar --gzip --create --exclude=".git" --file={$tarFile} .
 rm -rf {$workingDir}
 CMD;
 
@@ -194,8 +205,6 @@ CMD;
     {
         $project = $this->deployment->project;
 
-        $release_id = date('YmdHis', strtotime($this->deployment->started_at));
-
         foreach ($project->servers as $server) {
             if (!$server->deploy_code) {
                 continue;
@@ -208,15 +217,17 @@ CMD;
             }
 
             $releases_dir       = $root_dir . '/releases';
-            $latest_release_dir = $releases_dir . '/' . $release_id;
+            $latest_release_dir = $releases_dir . '/' . $this->release_id;
 
-            $remote_key_file     = $root_dir . '/id_rsa';
-            $remote_wrapper_file = $root_dir . '/wrapper.sh';
+            // $remote_key_file     = $root_dir . '/id_rsa';
+            // $remote_wrapper_file = $root_dir . '/wrapper.sh';
+            //
+            // FIXME: Delete tar file if it exists
 
             $commands = [
                 sprintf('cd %s', $root_dir),
-                sprintf('[ -f %s ] && rm %s', $remote_key_file, $remote_key_file),
-                sprintf('[ -f %s ] && rm %s', $remote_wrapper_file, $remote_wrapper_file),
+                //sprintf('[ -f %s ] && rm %s', $remote_key_file, $remote_key_file),
+                //sprintf('[ -f %s ] && rm %s', $remote_wrapper_file, $remote_wrapper_file),
                 sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir),
             ];
 
@@ -354,36 +365,27 @@ CMD;
 
         $releases_dir = $root_dir . '/releases';
 
-        $release_id         = date('YmdHis', strtotime($this->deployment->started_at));
-        $latest_release_dir = $releases_dir . '/' . $release_id;
+        $latest_release_dir = $releases_dir . '/' . $this->release_id;
         $release_shared_dir = $root_dir . '/shared';
+        $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
 
         $commands = false;
 
         if ($step->stage === Stage::DO_CLONE) {
-            // Clone the repository
-            $remote_key_file     = $root_dir . '/id_rsa';
-            $remote_wrapper_file = $root_dir . '/wrapper.sh';
-
-            $this->prepareServer($server);
+            $this->sendFile($this->release_archive, $remote_archive, $server);
 
             $commands = [
                 sprintf('cd %s', $root_dir),
-                sprintf('chmod 0600 %s', $remote_key_file),
-                sprintf('chmod +x %s', $remote_wrapper_file),
                 sprintf('[ ! -d %s ] && mkdir %s', $releases_dir, $releases_dir),
                 sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
-                sprintf('cd %s', $releases_dir),
-                sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
+                sprintf('mkdir %s', $latest_release_dir),
+                sprintf('cd %s', $latest_release_dir),
                 sprintf(
-                    'git clone --branch %s --depth 1 --recursive %s %s',
-                    $this->deployment->branch,
-                    $project->repository,
+                    'tar --gunzip --verbose --extract --file=%s --directory=%s',
+                    $remote_archive,
                     $latest_release_dir
                 ),
-                sprintf('cd %s', $latest_release_dir),
-                sprintf('git checkout %s', $this->deployment->branch),
-                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
+                sprintf('rm %s', $remote_archive),
             ];
         } elseif ($step->stage === Stage::DO_INSTALL) {
             // Install composer dependencies
