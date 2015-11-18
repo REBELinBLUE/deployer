@@ -11,6 +11,9 @@ use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
 use REBELinBLUE\Deployer\Project;
 use Symfony\Component\Process\Process;
 
+/**
+ * Updates the git mirror for a project
+ */
 class UpdateGitMirror extends Job implements SelfHandling
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
