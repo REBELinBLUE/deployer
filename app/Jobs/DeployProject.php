@@ -27,6 +27,7 @@ use Symfony\Component\Process\Process;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * TODO: rewrite this as it is doing way too much and is very messy now.
  * TODO: Move gitWrapperScript somewhere else as it is duplicated in UpdateGitReferences
+ * TODO: Expand all parameters
  */
 class DeployProject extends Job implements ShouldQueue
 {
@@ -151,15 +152,14 @@ class DeployProject extends Job implements ShouldQueue
 
         $tarFile = $this->release_archive;
 
+        // FIXME: Move the archive to a seperate command
         $cmd = <<< CMD
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
 git clone --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingDir} && \
 cd {$workingDir} && \
 git checkout %s --quiet && \
-git log --pretty=format:"%%H%%x09%%an%%x09%%ae" && \
-tar --gzip --create --exclude=".git" --file={$tarFile} .
-rm -rf {$workingDir}
+git log --pretty=format:"%%H%%x09%%an%%x09%%ae"
 CMD;
 
         $process = new Process(sprintf(
@@ -195,6 +195,19 @@ CMD;
         }
 
         $this->deployment->save();
+
+        $cmd = <<< CMD
+(git archive --format=tar HEAD | gzip > {$tarFile}) &&
+rm -rf {$workingDir}
+CMD;
+
+        $process = new Process($cmd);
+        $process->setTimeout(null);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
+        }
     }
 
     /**
@@ -267,8 +280,9 @@ CMD;
 
             try {
                 $server = $log->server;
+
                 // FIME: Have a getFiles method here for transferring files
-                $script = $this->getScript($step, $server);
+                $script = $this->getScript($step, $server, $log);
 
                 $user = $server->user;
                 if (isset($step->command)) {
@@ -348,7 +362,7 @@ CMD;
      * @param  Server     $server
      * @return string
      */
-    private function getScript(DeployStep $step, Server $server)
+    private function getScript(DeployStep $step, Server $server, $log = null)
     {
         $project = $this->deployment->project;
 
@@ -368,7 +382,8 @@ CMD;
         $commands = false;
 
         if ($step->stage === Stage::DO_CLONE) {
-            $this->sendFile($this->release_archive, $remote_archive, $server);
+
+            $this->sendFile($this->release_archive, $remote_archive, $server, $log);
 
             $commands = [
                 sprintf('cd %s', $root_dir),
@@ -376,8 +391,9 @@ CMD;
                 sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
                 sprintf('mkdir %s', $latest_release_dir),
                 sprintf('cd %s', $latest_release_dir),
+                sprintf('echo -e "\nExtracting...\n"'),
                 sprintf(
-                    'tar --gunzip --verbose --extract --file=%s --directory=%s',
+                    'tar --warning=no-timestamp --gunzip --verbose --extract --file=%s --directory=%s',
                     $remote_archive,
                     $latest_release_dir
                 ),
@@ -556,15 +572,16 @@ OUT;
      * @throws RuntimeException
      * @return void
      */
-    private function sendFile($local_file, $remote_file, Server $server)
+    private function sendFile($local_file, $remote_file, Server $server, $log = null)
     {
         $copy = sprintf(
-            'scp -o CheckHostIP=no ' .
+            'rsync --verbose --compress --progress --out-format="Receiving %%n" -e "ssh -p %s ' .
+            '-o CheckHostIP=no ' .
             '-o IdentitiesOnly=yes ' .
             '-o StrictHostKeyChecking=no ' .
             '-o PasswordAuthentication=no ' .
-            '-P %s ' .
-            '-i %s %s %s@%s:%s',
+            '-i %s" ' .
+            '%s %s@%s:%s',
             $server->port,
             $this->private_key,
             $local_file,
@@ -573,13 +590,34 @@ OUT;
             $remote_file
         );
 
+
         $process = new Process($copy);
         $process->setTimeout(null);
-        $process->run();
+        ///$process->run();
+
+        $output = '';
+        $process->run(function ($type, $output_line) use (&$output, &$log) {
+            if ($type === Process::ERR) {
+                $output .= $this->logError($output_line);
+            } else {
+                $tokens = array('received' => 'sent', 'bytes  sent' => 'received');
+
+                $output_line = str_replace('received', 'xxx', $output_line);
+                $output_line = str_replace('sent', 'received', $output_line);
+                $output_line = str_replace('xxx', 'sent', $output_line);
+
+                $output .= $this->logSuccess($output_line);
+            }
+
+            $log->output = $output;
+            $log->save();
+        });
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not send file - ' . $process->getErrorOutput());
+            throw new \RuntimeException($process->getErrorOutput());
         }
+
+        //return $process->getOutput();
     }
 
     /**
