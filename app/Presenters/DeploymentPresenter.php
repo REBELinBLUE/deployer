@@ -112,6 +112,10 @@ class DeploymentPresenter extends Presenter
     public function presentCommitterName()
     {
         if ($this->committer === Deployment::LOADING) {
+            if ($this->status === Deployment::FAILED) {
+                return Lang::get('deployments.unknown');
+            }
+
             return Lang::get('deployments.loading');
         }
 
@@ -125,10 +129,14 @@ class DeploymentPresenter extends Presenter
      */
     public function presentShortCommitHash()
     {
-        if ($this->committer === Deployment::LOADING) {
+        if ($this->short_commit === Deployment::LOADING) {
+            if ($this->status === Deployment::FAILED) {
+                return Lang::get('deployments.unknown');
+            }
+
             return Lang::get('deployments.loading');
         }
 
-        return $this->object->shortCommit();
+        return $this->short_commit;
     }
 }
