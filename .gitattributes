@@ -74,6 +74,7 @@ vendor.scss linguest-vendored
 tests/ export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
+.gitkeep export-ignore
 .editorconfig export-ignore
 .phpci.yml export-ignore
 .styleci.yml export-ignore
