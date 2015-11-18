@@ -356,6 +356,6 @@ class Project extends ProjectRelation implements PresentableInterface
      */
     public function mirrorPath()
     {
-        return storage_path('app/' . preg_replace('/[^_\-.\-a-zA-Z0-9\s]/u', '_', $this->repository));
+        return storage_path('app/mirrors/' . preg_replace('/[^_\-.\-a-zA-Z0-9\s]/u', '_', $this->repository));
     }
 }
