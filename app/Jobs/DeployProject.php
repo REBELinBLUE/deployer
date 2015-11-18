@@ -590,20 +590,20 @@ OUT;
     /**
      * Send a string to server.
      *
-     * @param  Server $server   target server
-     * @param  string $filename remote filename
-     * @param  string $content  the file content
+     * @param  Server $server      target server
+     * @param  string $remote_path remote filename
+     * @param  string $content     the file content
      * @return void
      */
-    private function sendFileFromString(Server $server, $filepath, $content)
+    private function sendFileFromString(Server $server, $remote_path, $content)
     {
-        $wrapper = tempnam(storage_path() . '/app/', 'tmpfile');
-        file_put_contents($wrapper, $content);
+        $tmp_file = tempnam(storage_path('app/'), 'tmpfile');
+        file_put_contents($tmp_file, $content);
 
         // Upload the wrapper file
-        $this->sendFile($wrapper, $filepath, $server);
+        $this->sendFile($tmp_file, $remote_path, $server);
 
-        unlink($wrapper);
+        unlink($tmp_file);
     }
 
     /**
