@@ -47,7 +47,6 @@ artisan text
 ## These files are binary and should be left untouched
 #
 
-# (binary is a macro for -text -diff)
 *.png binary
 *.jpg binary
 *.jpeg binary
@@ -58,19 +57,11 @@ artisan text
 *.woff binary
 
 #
-## Github config
+## Remove development files from git archive
 #
 
-# Remove vendor files from github's language statistics
-_all-skins.css linguist-vendored
-AdminLTE* linguist-vendored
-vendor.scss linguest-vendored
-*.less linguist-vendored
-
-# Consider blade files as HTML
-*.blade.php linguist-language=HTML
-
-# Remove development files from git archive
+# TODO: See if we can find a way to remove .bowerrc, bower.json, gulpfile.js,
+#       examples/ and resources/assets from tags/release
 tests/ export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
@@ -86,3 +77,16 @@ phpunit.xml.dist export-ignore
 Vagrantfile export-ignore
 CONTRIBUTING.md export-ignore
 SCREENSHOTS.md export-ignore
+
+#
+## Github config
+#
+
+# Remove vendor files from github's language statistics
+_all-skins.css linguist-vendored
+AdminLTE* linguist-vendored
+vendor.scss linguest-vendored
+*.less linguist-vendored
+
+# Consider blade files as HTML
+*.blade.php linguist-language=HTML
