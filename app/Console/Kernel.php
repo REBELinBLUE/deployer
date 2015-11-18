@@ -37,8 +37,10 @@ class Kernel extends ConsoleKernel
         \REBELinBLUE\Deployer\Console\Commands\CheckUrl::class,
         \REBELinBLUE\Deployer\Console\Commands\CreateUser::class,
         \REBELinBLUE\Deployer\Console\Commands\ClearOrphanAvatars::class,
+        \REBELinBLUE\Deployer\Console\Commands\ClearOrphanMirrors::class,
         \REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment::class,
         \REBELinBLUE\Deployer\Console\Commands\ClearOldKeys::class,
+        \REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors::class,
         \REBELinBLUE\Deployer\Console\Commands\InstallApp::class,
         \REBELinBLUE\Deployer\Console\Commands\UpdateApp::class,
         \REBELinBLUE\Deployer\Console\Commands\ResetApp::class,
@@ -57,6 +59,10 @@ class Kernel extends ConsoleKernel
                  ->everyFiveMinutes()
                  ->withoutOverlapping();
 
+        $schedule->command('deployer:update-mirrors')
+                 ->everyFiveMinutes()
+                 ->withoutOverlapping();
+
         $schedule->command('deployer:checkurls')
                  ->everyFiveMinutes()
                  ->withoutOverlapping();
@@ -65,6 +71,10 @@ class Kernel extends ConsoleKernel
                  ->weekly()
                  ->sundays()
                  ->at('00:30')
+                 ->withoutOverlapping();
+
+        $schedule->command('deployer:purge-mirrors')
+                 ->daily()
                  ->withoutOverlapping();
 
         $schedule->command('deployer:purge-temp')
