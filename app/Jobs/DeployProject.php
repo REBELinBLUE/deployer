@@ -220,15 +220,9 @@ CMD;
             $releases_dir       = $root_dir . '/releases';
             $latest_release_dir = $releases_dir . '/' . $this->release_id;
 
-            // $remote_key_file     = $root_dir . '/id_rsa';
-            // $remote_wrapper_file = $root_dir . '/wrapper.sh';
-            //
-            // FIXME: Delete tar file if it exists
-
             $commands = [
                 sprintf('cd %s', $root_dir),
-                //sprintf('[ -f %s ] && rm %s', $remote_key_file, $remote_key_file),
-                //sprintf('[ -f %s ] && rm %s', $remote_wrapper_file, $remote_wrapper_file),
+                sprintf('[ -f %s ] && rm %s', $this->remote_archive, $this->remote_archive),
                 sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir),
             ];
 
