@@ -73,7 +73,7 @@ class DeploymentController extends Controller
             'checkUrls'     => $project->checkUrls,
             'variables'     => $project->variables,
             'optional'      => $optional,
-            'tags'          => $project->tags(),
+            'tags'          => $project->tags()->reverse(),
             'branches'      => $project->branches(),
             'route'         => 'commands',
         ]);
