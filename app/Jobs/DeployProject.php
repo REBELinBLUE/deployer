@@ -198,7 +198,7 @@ CMD;
     }
 
     /**
-     * Removed left over artifacts from a failed deploy on each server.
+     * Remove left over artifacts from a failed deploy on each server.
      *
      * @return void
      */
@@ -267,6 +267,7 @@ CMD;
 
             try {
                 $server = $log->server;
+                // FIME: Have a getFiles method here for transferring files
                 $script = $this->getScript($step, $server);
 
                 $user = $server->user;
