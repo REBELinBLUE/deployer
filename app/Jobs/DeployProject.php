@@ -129,7 +129,10 @@ class DeployProject extends Job implements ShouldQueue
         event(new DeployFinished($project, $this->deployment));
 
         unlink($this->private_key);
-        unlink($this->release_archive);
+
+        if (file_exists($this->release_archive)) {
+            unlink($this->release_archive);
+        }
     }
 
     /**
@@ -152,7 +155,6 @@ class DeployProject extends Job implements ShouldQueue
 
         $tarFile = $this->release_archive;
 
-        // FIXME: Move the archive to a seperate command
         $cmd = <<< CMD
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
@@ -197,7 +199,10 @@ CMD;
         $this->deployment->save();
 
         $cmd = <<< CMD
-(git archive --format=tar HEAD | gzip > {$tarFile}) &&
+export GIT_DIR="{$workingDir}/.git" && \
+export GIT_WORK_TREE="{$workingDir}" && \
+cd {$workingDir} && \
+(git archive --format=tar HEAD | gzip > {$tarFile}) && \
 rm -rf {$workingDir}
 CMD;
 
@@ -232,10 +237,11 @@ CMD;
 
             $releases_dir       = $root_dir . '/releases';
             $latest_release_dir = $releases_dir . '/' . $this->release_id;
+            $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
 
             $commands = [
                 sprintf('cd %s', $root_dir),
-                sprintf('[ -f %s ] && rm %s', $this->remote_archive, $this->remote_archive),
+                sprintf('[ -f %s ] && rm %s', $remote_archive, $remote_archive),
                 sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir),
             ];
 
