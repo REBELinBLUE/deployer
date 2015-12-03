@@ -56,7 +56,7 @@ class WebhookController extends Controller
             $branch = Input::has('branch') ? Input::get('branch') : $project->branch;
 
             $do_deploy = true;
-            if (Input::has('update_only') && Input::get('update_only') === 'true') {
+            if (Input::has('update_only') && Input::get('update_only') !== false) {
                 // Get the latest deployment and check the branch matches
                 $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
 
