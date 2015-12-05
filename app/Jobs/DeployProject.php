@@ -158,7 +158,7 @@ class DeployProject extends Job implements ShouldQueue
         $cmd = <<< CMD
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
-git clone --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingDir} && \
+git clone --recursive --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingDir} && \
 cd {$workingDir} && \
 git checkout %s --quiet && \
 git log --pretty=format:"%%H%%x09%%an%%x09%%ae"
