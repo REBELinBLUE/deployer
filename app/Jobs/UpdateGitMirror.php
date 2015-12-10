@@ -67,6 +67,9 @@ CMD;
             throw new \RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());
         }
 
+        $this->project->last_mirrored = date('Y-m-d H:i:s');
+        $this->project->save();
+
         $this->dispatch(new UpdateGitReferences($this->project));
     }
 

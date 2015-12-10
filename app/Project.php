@@ -31,7 +31,7 @@ class Project extends ProjectRelation implements PresentableInterface
                          'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
                          'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
                          'notifications', 'deployments', 'shareFiles', 'projectFiles',
-                         'is_template', ];
+                         'is_template', 'last_mirrored', ];
 
     /**
      * The attributes that are mass assignable.
@@ -46,7 +46,7 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $dates = ['last_run'];
+    protected $dates = ['last_run', 'last_mirrored'];
 
     /**
      * Additional attributes to include in the JSON representation.
