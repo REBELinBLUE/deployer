@@ -317,6 +317,18 @@ class InstallApp extends Command
 
         $socket = $this->askAndValidate('Socket URL', [], $callback, $url);
 
+        // If the URL doesn't have : in twice (the first is in the protocol, the second for the port)
+        if (substr_count($socket, ':') === 1) {
+            // Check if running on nginx, and if not then add it
+            $process = new Process('which nginx');
+            $process->setTimeout(null);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                $socket .= ':6001';
+            }
+        }
+
         // If there is only 1 locale just use that
         if (count($locales) === 1) {
             $locale = $locales[0];
