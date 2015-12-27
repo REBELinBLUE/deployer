@@ -1,5 +1,7 @@
 # Deployer
 
+[![Join the chat at https://gitter.im/REBELinBLUE/deployer](https://badges.gitter.im/REBELinBLUE/deployer.svg)](https://gitter.im/REBELinBLUE/deployer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Deployer is a PHP Application deployment system powered by [Laravel 5.1](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
 
 Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](LICENSE.md), [screenshots](SCREENSHOTS.md), and [contribution guidelines](CONTRIBUTING.md).
