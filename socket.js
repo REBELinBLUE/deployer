@@ -24,10 +24,22 @@ function handler(req, res) {
 io.use(function(socket, next) {
     var decoded;
 
+    if (debug) {
+        console.log('Token - ' + socket.handshake.query.jwt);
+    }
+
     try {
+
         decoded = jwt.verify(socket.handshake.query.jwt, process.env.JWT_SECRET);
+
+        if (debug) {
+            console.log(decoded);
+        }
     } catch (err) {
-        console.error(err);
+        if (debug) {
+            console.error(err);
+        }
+
         next(new Error('Invalid token!'));
     }
 
