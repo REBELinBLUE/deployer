@@ -122,8 +122,6 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
         'as'   => 'profile.gravatar',
         'uses' => 'ProfileController@gravatar',
     ]);
-
-    Route::get('/jwt', 'Auth\JwtController@index');
 });
 
 // Change the login email - FIXME: Shouldn't this be in the auth section?
