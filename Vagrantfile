@@ -5,6 +5,7 @@ Vagrant.configure("2") do |config|
     config.vm.box = "laravel/homestead"
     config.vm.hostname = "deployer"
     config.vm.box_check_update = true
+    config.vm.box_version = "0.3.3"
 
     # Configure SSH
     config.ssh.forward_agent = true

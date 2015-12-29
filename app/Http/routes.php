@@ -124,7 +124,7 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
     ]);
 });
 
-// Change the login email
+// Change the login email - FIXME: Shouldn't this be in the auth section?
 Route::get('profile/email/{token}', 'ProfileController@email');
 Route::post('profile/update-email', 'ProfileController@changeEmail');
 

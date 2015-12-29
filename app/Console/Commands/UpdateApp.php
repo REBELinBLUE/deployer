@@ -82,6 +82,11 @@ class UpdateApp extends InstallApp
             $config[$section][$key] = $value;
         }
 
+        // JWT secret needs to be generated if it is not already set
+        if (!isset($config['jwt']) || $config['jwt']['secret'] === 'changeme') {
+            $config['jwt']['secret'] = $this->generateJWTKey();
+        }
+
         // Backup the .env file, just in case it failed because we don't want to lose APP_KEY
         copy(base_path('.env'), base_path('.env.prev'));
 

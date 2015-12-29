@@ -6,8 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\CheckUrl as CheckUrlModel;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Schedule the url check.
@@ -15,6 +13,8 @@ use Symfony\Component\Console\Input\InputOption;
 class CheckUrl extends Command
 {
     use DispatchesJobs;
+
+    const URLS_TO_CHECK = 10;
 
     /**
      * The name and signature of the console command.
@@ -68,7 +68,7 @@ class CheckUrl extends Command
 
         $command = $this;
 
-        CheckUrlModel::whereIn('period', $period)->chunk(10, function ($urls) use ($command) {
+        CheckUrlModel::whereIn('period', $period)->chunk(self::URLS_TO_CHECK, function ($urls) use ($command) {
 
             $command->dispatch(new RequestProjectCheckUrl($urls));
 

@@ -35,7 +35,9 @@ toastr.options.extendedTimeOut = 7000;
 
     app.project_id = app.project_id || null;
 
-    app.listener = io.connect($('meta[name="socket_url"]').attr('content'));
+    app.listener = io.connect($('meta[name="socket_url"]').attr('content'), {
+        query: 'jwt=' + $('meta[name="jwt"]').attr('content')
+    });
 
     app.connection_error = false;
 
@@ -56,7 +58,6 @@ toastr.options.extendedTimeOut = 7000;
         $('#socket_offline').hide();
         app.connection_error = false;
     });
-
 
     // Navbar deployment status
     // FIXME: Convert these menus to backbone

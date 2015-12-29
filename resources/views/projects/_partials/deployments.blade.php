@@ -42,9 +42,9 @@
                     <td>{{ $deployment->committer_name }}</td>
                     <td>
                         @if ($deployment->commit_url)
-                        <a href="{{ $deployment->commit_url }}" target="_blank">{{ $deployment->short_commit }}</a>
+                        <a href="{{ $deployment->commit_url }}" target="_blank">{{ $deployment->short_commit_hash }}</a>
                         @else
-                        {{ $deployment->short_commit }}
+                        {{ $deployment->short_commit_hash }}
                         @endif
                     </td>
                     <td><a href="{{ $deployment->branch_url }}" target="_blank"><span class="label label-default">{{ $deployment->branch }}</span></a></td>

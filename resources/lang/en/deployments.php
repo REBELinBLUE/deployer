@@ -13,6 +13,7 @@ return [
     'webhook'               => 'Webhook',
     'reactivate'            => 'Re-activate',
     'loading'               => 'Loading',
+    'unknown'               => 'Unknown',
     'process'               => 'Process Output',
     'server'                => 'Server',
     'status'                => 'Status',

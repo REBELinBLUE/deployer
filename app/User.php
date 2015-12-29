@@ -17,8 +17,11 @@ use Robbo\Presenter\PresentableInterface;
 /**
  * User model.
  */
-class User extends Model implements AuthenticatableContract, AuthorizableContract,
-                                    CanResetPasswordContract, PresentableInterface
+class User extends Model implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract,
+    PresentableInterface
 {
     use Authenticatable, CanResetPassword, Authorizable, SoftDeletes, BroadcastChanges;
 

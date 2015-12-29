@@ -31,7 +31,8 @@
         "doctrine/dbal": "~2.5",
         "intervention/image": "^2.2",
         "graham-campbell/binput": "~3.2",
-        "itsgoingd/clockwork": "~1.9"
+        "itsgoingd/clockwork": "~1.9",
+        "tymon/jwt-auth": "~0.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.5",

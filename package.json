@@ -2,11 +2,12 @@
     "private": true,
     "dependencies": {
         "dotenv": "^1.2.0",
-        "ioredis": "^1.4.0",
-        "socket.io": "^1.3.6"
+        "ioredis": "^1.11.0",
+        "socket.io": "^1.3.7",
+        "jsonwebtoken": "^5.5.0"
     },
     "devDependencies": {
         "gulp": "^3.8.8",
-        "laravel-elixir": "^3.3.4"
+        "laravel-elixir": "^4.0.4"
     }
 }
