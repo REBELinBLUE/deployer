@@ -14,7 +14,6 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
 
-
 /**
  * A console command for prompting for install details.
  * TODO: Refactor the validator to reduce duplication, maybe move the askWithValidation to an external library.
