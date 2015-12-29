@@ -7,11 +7,13 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use PDO;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
+
 
 /**
  * A console command for prompting for install details.
@@ -94,6 +96,8 @@ class InstallApp extends Command
         ];
 
         $admin = $this->getAdminInformation();
+
+        $config['jwt']['secret'] = $this->generateJWTKey();
 
         $this->writeEnvFile($config);
 
@@ -184,6 +188,20 @@ class InstallApp extends Command
         $this->info('Generating application key');
         $this->line('');
         $this->call('key:generate');
+    }
+
+    /**
+     * Generates a key for JWT
+     *
+     * @return string
+     */
+    protected function generateJWTKey()
+    {
+        $this->info('Generating JWT key');
+        $this->line('');
+        //$this->call('jwt:generate'); This does not update .ENV so do it manually for now
+
+        return Str::random(32);
     }
 
     /**
