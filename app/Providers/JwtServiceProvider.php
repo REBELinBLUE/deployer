@@ -25,6 +25,7 @@ class JwtServiceProvider extends ServiceProvider
         parent::boot($events);
 
         // On login, generate a JWT and store in the session
+        // FIXME: Regenerate if it expires?
         $events->listen('auth.login', function ($user, $remember) {
             $tokenId    = base64_encode(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
             $issuedAt   = Carbon::now()->timestamp;
