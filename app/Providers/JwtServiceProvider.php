@@ -18,7 +18,7 @@ class JwtServiceProvider extends ServiceProvider
      *
      * @param  \Illuminate\Contracts\Events\Dispatcher $events
      * @return void
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function boot(DispatcherContract $events)
     {
