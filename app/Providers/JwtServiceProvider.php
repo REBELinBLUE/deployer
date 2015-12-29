@@ -29,18 +29,18 @@ class JwtServiceProvider extends ServiceProvider
         $events->listen('auth.login', function ($user, $remember) {
             $tokenId    = base64_encode(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
             $issuedAt   = Carbon::now()->timestamp;
-            $notBefore  = $issuedAt;                 // Adding 10 seconds
-            $expire     = $notBefore + 6 * 60 * 60;  // Adding 6 hours
+            $notBefore  = $issuedAt;
+            $expire     = $notBefore + 6 * 60 * 60; // Adding 6 hours
 
             // Create the token
             $config = [
-                'iat'  => $issuedAt,        // Issued at: time when the token was generated
-                'jti'  => $tokenId,         // JSON Token Id: an unique identifier for the token
-                'iss'  => env('APP_URL'),   // Issuer
-                'nbf'  => $notBefore,       // Not before
-                'exp'  => $expire,          // Expire
-                'data' => [                 // Data related to the signed user
-                    'userId' => $user->id   // userid from the users table
+                'iat'  => $issuedAt,      // Issued at: time when the token was generated
+                'jti'  => $tokenId,       // JSON Token ID: an unique identifier for the token
+                'iss'  => env('APP_URL'), // Issuer
+                'nbf'  => $notBefore,     // Not before
+                'exp'  => $expire,        // Expire
+                'data' => [               // Data related to the signed user
+                    'userId' => $user->id // User ID from the users table
                 ],
             ];
 
