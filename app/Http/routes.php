@@ -122,9 +122,11 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
         'as'   => 'profile.gravatar',
         'uses' => 'ProfileController@gravatar',
     ]);
+
+    Route::get('/jwt', 'Auth\JwtController@index');
 });
 
-// Change the login email
+// Change the login email - FIXME: Shouldn't this be in the auth section?
 Route::get('profile/email/{token}', 'ProfileController@email');
 Route::post('profile/update-email', 'ProfileController@changeEmail');
 

@@ -1,5 +1,6 @@
 var app = require('http').createServer(handler);
-var io = require('socket.io')(app);
+var io  = require('socket.io')(app);
+var jwt = require('jsonwebtoken');
 
 require('dotenv').load();
 
@@ -18,6 +19,27 @@ function handler(req, res) {
     res.writeHead(200);
     res.end('');
 }
+
+// Middleware to check the JWT
+io.use(function(socket, next) {
+    var decoded;
+
+    try {
+        decoded = jwt.verify(socket.handshake.query.jwt, process.env.JWT_SECRET);
+    } catch (err) {
+        console.error(err);
+        next(new Error('Invalid token!'));
+    }
+
+    if (decoded) {
+        // everything went fine - save userId as property of given connection instance
+        socket.userId = decoded.data.userId;
+        next();
+    } else {
+        // invalid token - terminate the connection
+        next(new Error('Invalid token!'));
+    }
+});
 
 io.on('connection', function(socket) {
     if (debug) {
