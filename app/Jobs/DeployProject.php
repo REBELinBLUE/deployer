@@ -463,7 +463,7 @@ CMD;
                  -o PasswordAuthentication=no \
                  -o IdentityFile=' . $this->private_key . ' \
                  -p ' . $server->port . ' \
-                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << \'EOF\'
                  ' . $script . '
 EOF';
     }
