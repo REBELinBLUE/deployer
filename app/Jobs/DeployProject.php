@@ -459,7 +459,15 @@ CMD;
             $commands = implode(PHP_EOL, $commands);
         }
 
-        return $commands;
+        $variables = '';
+        foreach($project->variables as $variable) {
+            $key = $variable->name;
+            $value = $variable->value;
+
+            $variables .= "export {$key}={$value}" . PHP_EOL;
+        }
+
+        return $variables . $commands;
     }
 
     /**

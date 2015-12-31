@@ -73,6 +73,16 @@ abstract class ProjectRelation extends Model
     /**
      * Has many relationship.
      *
+     * @return Variable
+     */
+    public function variables()
+    {
+        return $this->hasMany('REBELinBLUE\Deployer\Variable');
+    }
+
+    /**
+     * Has many relationship.
+     *
      * @return SharedFile
      */
     public function sharedFiles()
