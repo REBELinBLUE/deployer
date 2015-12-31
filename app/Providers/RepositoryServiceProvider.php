@@ -40,6 +40,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->bindInterface('SharedFile');
         $this->bindInterface('Template');
         $this->bindInterface('User');
+        $this->bindInterface('Variable');
     }
 
     /**

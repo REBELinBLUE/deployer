@@ -43,9 +43,9 @@ var app = app || {};
         }
 
         variable.save({
-            name: $('#variable_name').val(),
-            value: $('#variable_value').val(),
-            name: $('#variable_name').val()
+            name:       $('#variable_name').val(),
+            value:      $('#variable_value').val(),
+            project_id: $('input[name="project_id"]').val(),
         }, {
             wait: true,
             success: function(model, response, options) {
