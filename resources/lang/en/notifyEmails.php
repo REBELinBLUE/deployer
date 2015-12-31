@@ -2,7 +2,7 @@
 
 return [
 
-    'label'           => 'Notify Emails',
+    'label'           => 'Email Notifications',
     'create'          => 'Add a new email',
     'edit'            => 'Edit a email',
     'none'            => 'The project does not currently have any email notifications setup',
