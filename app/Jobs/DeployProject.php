@@ -460,7 +460,7 @@ CMD;
         }
 
         $variables = '';
-        foreach($project->variables as $variable) {
+        foreach ($project->variables as $variable) {
             $key = $variable->name;
             $value = $variable->value;
 
