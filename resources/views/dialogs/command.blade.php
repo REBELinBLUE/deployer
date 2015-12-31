@@ -1,4 +1,4 @@
-<div class="modal fade" id="command" data-resource="commands" data-action="{{ $action }}">
+<div class="modal fade" id="command">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
