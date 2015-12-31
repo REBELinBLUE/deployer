@@ -157,12 +157,14 @@ CMD;
 
         $git_info = $process->getOutput();
 
-        $parts                       = explode("\x09", $git_info);
-        $this->deployment->commit    = $parts[0];
-        $this->deployment->committer = trim($parts[1]);
+        $parts = explode("\x09", $git_info);
+
+        $this->deployment->commit          = $parts[0];
+        $this->deployment->committer       = trim($parts[1]);
+        $this->deployment->committer_email = trim($parts[2]);
 
         if (!$this->deployment->user_id && !$this->deployment->source) {
-            $user = User::where('email', trim($parts[2]))->first();
+            $user = User::where('email', $this->deployment->committer_email)->first();
 
             if ($user) {
                 $this->deployment->user_id = $user->id;
@@ -394,6 +396,17 @@ CMD;
             // Custom step!
             $commands = $step->command->script;
 
+            // FIXME: This should be on the deployment model
+            // Set the deployer tags
+            $deployer_email = '';
+            $deployer_name = 'webhook';
+            if ($this->deployment->user) {
+                $deployer_name = $this->deployment->user->name;
+                $deployer_email = $this->deployment->user->email;
+            } elseif ($this->deployment->is_webhook && !empty($this->deployment->source)) {
+                $deployer_name = $this->deployment->source;
+            }
+
             $tokens = [
                 '{{ release }}'         => $release_id,
                 '{{ release_path }}'    => $latest_release_dir,
@@ -401,22 +414,11 @@ CMD;
                 '{{ branch }}'          => $this->deployment->branch,
                 '{{ sha }}'             => $this->deployment->commit,
                 '{{ short_sha }}'       => $this->deployment->short_commit,
-                '{{ deployer_email }}'  => 'deployer email',
-                '{{ deployer_name }}'   => 'deployer name',
-                '{{ committer_email }}' => 'committer email',
-                '{{ committer_name }}'  => 'committer name',
+                '{{ deployer_email }}'  => $deployer_email,
+                '{{ deployer_name }}'   => $deployer_name,
+                '{{ committer_email }}' => $this->deployment->committer_email,
+                '{{ committer_name }}'  => $this->deployment->committer,
             ];
-
-/*        $this->deployment->committer = trim($parts[1]);
-
-        if (!$this->deployment->user_id && !$this->deployment->source) {
-            $user = User::where('email', trim($parts[2]))->first();
-
-            if ($user) {
-                $this->deployment->user_id = $user->id;
-            }
-        }
-        */
 
             $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);
         }
