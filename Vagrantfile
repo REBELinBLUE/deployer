@@ -57,10 +57,10 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo service nginx restart"
     config.vm.provision "shell", inline: "sudo service cron restart"
     config.vm.provision "shell", inline: "sudo service php5-fpm restart"
-    config.vm.provision "shell", inline: "sudo composer create-project ptrofimov/beanstalk_console -q -n -s dev /var/www/beanstalk"
+    config.vm.provision "shell", inline: "[ ! -d /var/www/beanstalk ] && sudo composer create-project ptrofimov/beanstalk_console -q -n -s dev /var/www/beanstalk"
     config.vm.provision "shell", inline: "sudo chown -R vagrant:vagrant /var/www/beanstalk"
-    config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"DROP DATABASE IF EXISTS deployer\";"
-    config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e \"CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci\";"
+    config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e 'DROP DATABASE IF EXISTS deployer'"
+    config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e 'CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci'"
 
     # Update composer and php-cs-fixer
     config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
