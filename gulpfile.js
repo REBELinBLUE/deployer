@@ -68,6 +68,7 @@ elixir(function(mix) {
         'shareFiles.js',
         'projectFiles.js',
         'checkUrls.js',
+        'variables.js',
         'deployment.js',
         'commands.js',
         'users.js',
