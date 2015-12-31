@@ -34,8 +34,8 @@ return [
     'deploy'            => 'Deploy',
     'server_keys'       => 'This key must be added to the server\'s <strong>~/.ssh/authorized_keys</strong> ' .
                            'for each user you wish to run commands as.',
-    'gitlab_keys'       => 'The key must also be added to the <strong>Deploy Keys</strong> ' .
-                           'section for the project in Gitlab.',
+    'gitlab_keys'       => 'The key will also need to be added to the <strong>Deploy Keys</strong> ' .
+                           'for you repository unless you are using a public/unautheticated URL.',
     'finished'          => 'Finished',
     'pending'           => 'Pending',
     'deploying'         => 'Deploying',
