@@ -4,7 +4,7 @@ Deployer is a PHP Application deployment system powered by [Laravel 5.1](http://
 
 Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](LICENSE.md), [screenshots](SCREENSHOTS.md), and [contribution guidelines](CONTRIBUTING.md).
 
-[![Gitter](https://img.shields.io/gitter/room/REBELinBLUE/deployer.svg)](https://gitter.im/REBELinBLUE/deployer)
+[![Gitter](https://img.shields.io/badge/chat-on%20gitter-green.svg)](https://gitter.im/REBELinBLUE/deployer)
 
 **Current Build Status**
 
