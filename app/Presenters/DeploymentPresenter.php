@@ -42,7 +42,7 @@ class DeploymentPresenter extends Presenter
         } elseif ($this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return Lang::get('deployments.completed_with_errors');
         } elseif ($this->status === Deployment::ABORTED) {
-            return Lang::get('deployments.cancelled');
+            return Lang::get('deployments.aborted');
         } elseif ($this->status === Deployment::FAILED) {
             return Lang::get('deployments.failed');
         } elseif ($this->status === Deployment::DEPLOYING) {

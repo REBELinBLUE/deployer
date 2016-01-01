@@ -83,6 +83,7 @@
             running: '{{ Lang::get('deployments.running') }}',
             failed: '{{ Lang::get('servers.failed') }}',
             cancelled: '{{ Lang::get('deployments.cancelled') }}',
+            aborted: '{{ Lang::get('deployments.aborted') }}',
             completed: '{{ Lang::get('deployments.completed') }}'
         };
     </script>

@@ -27,7 +27,7 @@ return [
     'deploying'             => 'Deploying',
     'completed'             => 'Completed',
     'completed_with_errors' => 'Completed with errors',
-    'cancelled'             => 'Aborted',
+    'aborted'               => 'Aborted',
     'failed'                => 'Failed',
     'running'               => 'Running',
     'cancelled'             => 'Cancelled',
