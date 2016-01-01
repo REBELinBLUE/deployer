@@ -93,6 +93,10 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
             $this->deployment->status = Deployment::FAILED;
             $project->status          = Project::FAILED;
 
+            if ($error->getMessage() === 'Cancelled') {
+                $this->deployment->status = Deployment::CANCELLED;
+            }
+
             $this->cancelPendingSteps($this->deployment->steps);
 
             if (isset($step)) {
@@ -261,6 +265,7 @@ CMD;
                 }
 
                 $failed = false;
+                $cancelled = false;
 
                 if (!empty($script)) {
                     $process = new Process($this->sshCommand($server, $script, $user));
@@ -303,7 +308,8 @@ CMD;
 
                 $log->status = ServerLog::CANCELLED;
 
-                $failed = true;
+                $cancelled = true;
+                $failed = false;
             }
 
             $log->finished_at = date('Y-m-d H:i:s');
@@ -311,7 +317,12 @@ CMD;
 
             // Throw an exception to prevent any more tasks running
             if ($failed) {
-                throw new \RuntimeException('Failed!');
+                throw new \RuntimeException('Failed');
+            }
+
+            // FIXME: This is a messy way to do it
+            if ($cancelled) {
+                throw new \RuntimeException('Cancelled');
             }
         }
     }
