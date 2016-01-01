@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
@@ -30,6 +31,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
 
     private $deployment;
     private $private_key;
+    private $cache_key;
 
     /**
      * Create a new command instance.
@@ -40,6 +42,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
     public function __construct(Deployment $deployment)
     {
         $this->deployment = $deployment;
+        $this->cache_key  = 'deployer:cancel-deploy:' . $deployment->id;
     }
 
     /**
@@ -264,7 +267,7 @@ CMD;
                     $process->setTimeout(null);
 
                     $output = '';
-                    $process->run(function ($type, $output_line) use (&$output, &$log) {
+                    $process->run(function ($type, $output_line) use (&$output, &$log, $process) {
                         if ($type === Process::ERR) {
                             $output .= $this->logError($output_line);
                         } else {
@@ -273,6 +276,11 @@ CMD;
 
                         $log->output = $output;
                         $log->save();
+
+                        // If there is a cache key, kill the process but leave the key
+                        if (Cache::has($this->cache_key)) {
+                            $process->stop(0, SIGINT);
+                        }
                     });
 
                     if (!$process->isSuccessful()) {
@@ -287,7 +295,17 @@ CMD;
                 $failed = true;
             }
 
-            $log->status      = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
+            $log->status = ($failed ? ServerLog::FAILED : ServerLog::COMPLETED);
+
+            // Check if there is a cache key and if so fail
+            if (Cache::has($this->cache_key)) {
+                Cache::forget($this->cache_key);
+
+                $log->status = ServerLog::CANCELLED;
+
+                $failed = true;
+            }
+
             $log->finished_at = date('Y-m-d H:i:s');
             $log->save();
 
