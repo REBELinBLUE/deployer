@@ -272,7 +272,7 @@ CMD;
                     $process->setTimeout(null);
 
                     $output = '';
-                    $process->run(function ($type, $output_line) use (&$output, &$log, $process) {
+                    $process->run(function ($type, $output_line) use (&$output, &$log, $process, $step) {
                         if ($type === Process::ERR) {
                             $output .= $this->logError($output_line);
                         } else {
@@ -283,7 +283,7 @@ CMD;
                         $log->save();
 
                         // If there is a cache key, kill the process but leave the key
-                        if (Cache::has($this->cache_key)) {
+                        if ($step->stage <= Stage::DO_ACTIVATE && Cache::has($this->cache_key)) {
                             $process->stop(0, SIGINT);
                         }
                     });
@@ -295,8 +295,7 @@ CMD;
                     $log->output = $output;
                 }
             } catch (\Exception $e) {
-                $msg = '[' . $server->ip_address . ']:' . $e->getMessage();
-                $log->output .= $this->logError($msg);
+                $log->output .= $this->logError('[' . $server->ip_address . ']: ' . $e->getMessage());
                 $failed = true;
             }
 
@@ -306,10 +305,13 @@ CMD;
             if (Cache::has($this->cache_key)) {
                 Cache::forget($this->cache_key);
 
-                $log->status = ServerLog::CANCELLED;
+                // Only allow aborting if the release has not yet been activated
+                if ($step->stage <= Stage::DO_ACTIVATE) {
+                    $log->status = ServerLog::CANCELLED;
 
-                $cancelled = true;
-                $failed = false;
+                    $cancelled = true;
+                    $failed = false;
+                }
             }
 
             $log->finished_at = date('Y-m-d H:i:s');
