@@ -12,6 +12,7 @@ return [
     'manually'              => 'Manually',
     'webhook'               => 'Webhook',
     'reactivate'            => 'Re-activate',
+    'cancel'                => 'Cancel',
     'loading'               => 'Loading',
     'unknown'               => 'Unknown',
     'process'               => 'Process Output',
