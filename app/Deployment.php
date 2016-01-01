@@ -24,7 +24,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     const DEPLOYING             = 2;
     const FAILED                = 3;
     const COMPLETED_WITH_ERRORS = 4;
-    const CANCELLED             = 5;
+    const ABORTED               = 5;
     const LOADING               = 'Loading';
 
     public static $currentDeployment = [];

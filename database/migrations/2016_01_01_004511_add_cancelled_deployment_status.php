@@ -19,7 +19,7 @@ class AddCancelledDeploymentStatus extends Migration
                 . Deployment::COMPLETED . "', '"
                 . Deployment::FAILED . "', '"
                 . Deployment::COMPLETED_WITH_ERRORS . "', '"
-                . Deployment::CANCELLED . "') DEFAULT '" . Deployment::PENDING . "'");
+                . Deployment::ABORTED . "') DEFAULT '" . Deployment::PENDING . "'");
         }
     }
 

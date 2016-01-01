@@ -94,7 +94,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
             $project->status          = Project::FAILED;
 
             if ($error->getMessage() === 'Cancelled') {
-                $this->deployment->status = Deployment::CANCELLED;
+                $this->deployment->status = Deployment::ABORTED;
             }
 
             $this->cancelPendingSteps($this->deployment->steps);
