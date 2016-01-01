@@ -123,6 +123,16 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
+     * Determines whether the deployment is pending.
+     *
+     * @return bool
+     */
+    public function isPending()
+    {
+        return ($this->status === self::PENDING);
+    }
+
+    /**
      * Determines whether the deployment is successful.
      *
      * @return bool
