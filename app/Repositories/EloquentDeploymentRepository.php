@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\Cache;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
@@ -53,6 +54,26 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
         return $deployment;
     }
 
+
+    /**
+     * Sets a deployment to abort
+     *
+     * @param  int   $model_id
+     * @return void
+     */
+    public function abort($model_id)
+    {
+        $deployment = $this->getById($model_id);
+
+        if (true) {//!$deployment->isAborting()) {
+            $deployment->status = Deployment::ABORTING;
+            $deployment->save();
+
+            // Cache for up to an hour
+            Cache::put('deployer:cancel-deploy:' . $deployment->id, time(), 3600);
+        }
+    }
+
     /**
      * Gets the latest deployments for a project.
      *
@@ -71,7 +92,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
     /**
      * Get the latest successful deployment for a project.
-     * 
+     *
      * @param  int   $project_id
      * @return array
      */
