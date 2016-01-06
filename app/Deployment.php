@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
@@ -24,7 +25,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     const DEPLOYING             = 2;
     const FAILED                = 3;
     const COMPLETED_WITH_ERRORS = 4;
-    const ABORTED               = 5;
+    const ABORTING              = 5;
+    const ABORTED               = 6;
     const LOADING               = 'Loading';
 
     public static $currentDeployment = [];
@@ -182,6 +184,22 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         }
 
         return $this->started_at->diffInSeconds($this->finished_at);
+    }
+
+    /**
+     * Define a mutator for the user, if it has changed or has
+     * not previously been set also set the status to untested.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setStatusAttribute($value)
+    {
+        if ($value === self::ABORTING && $this->attributes['status'] !== self::ABORTING) {
+            Cache::put('deployer:cancel-deploy:' . $this->id, time(), 3600); // Cache for up to an hour
+        }
+
+        $this->attributes['user'] = $value;
     }
 
     /**
