@@ -8,6 +8,7 @@ use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
+use REBELinBLUE\Deployer\Deployment;
 
 /**
  * The controller for showing the status of deployments.
@@ -142,6 +143,17 @@ class DeploymentController extends Controller
         }
 
         $deployment = $this->deploymentRepository->create($data);
+
+        return redirect()->route('deployment', [
+            'id' => $deployment->id,
+        ]);
+    }
+
+    public function abort($deployment_id)
+    {
+        $deployment = $this->deploymentRepository->updateById([
+            'status' => Deployment::ABORTING
+        ], $deployment_id);
 
         return redirect()->route('deployment', [
             'id' => $deployment->id,

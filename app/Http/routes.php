@@ -31,6 +31,12 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
         'uses' => 'DeploymentController@show',
     ]);
 
+    // Abort deployment
+    Route::get('deployment/{deployments}/abort', [
+        'as'   => 'abort',
+        'uses' => 'DeploymentController@abort',
+    ]);
+
     Route::get('log/{log}', 'DeploymentController@log');
 
     // Resource management
