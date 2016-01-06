@@ -151,12 +151,10 @@ class DeploymentController extends Controller
 
     public function abort($deployment_id)
     {
-        $deployment = $this->deploymentRepository->updateById([
-            'status' => Deployment::ABORTING
-        ], $deployment_id);
+        $this->deploymentRepository->abort($deployment_id);
 
         return redirect()->route('deployment', [
-            'id' => $deployment->id,
+            'id' => $deployment_id,
         ]);
     }
 

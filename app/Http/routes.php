@@ -25,16 +25,16 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
         'uses' => 'DeploymentController@deploy',
     ]);
 
-    // Deployment details
-    Route::get('deployment/{deployments}', [
-        'as'   => 'deployment',
-        'uses' => 'DeploymentController@show',
-    ]);
-
     // Abort deployment
     Route::get('deployment/{deployments}/abort', [
         'as'   => 'abort',
         'uses' => 'DeploymentController@abort',
+    ]);
+
+    // Deployment details
+    Route::get('deployment/{deployments}', [
+        'as'   => 'deployment',
+        'uses' => 'DeploymentController@show',
     ]);
 
     Route::get('log/{log}', 'DeploymentController@log');
