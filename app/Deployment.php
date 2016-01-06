@@ -199,7 +199,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
             Cache::put('deployer:cancel-deploy:' . $this->id, time(), 3600); // Cache for up to an hour
         }
 
-        $this->attributes['user'] = $value;
+        $this->attributes['status'] = $value;
     }
 
     /**
