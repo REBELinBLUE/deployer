@@ -190,7 +190,7 @@ class InstallApp extends Command
     }
 
     /**
-     * Generates a key for JWT
+     * Generates a key for JWT.
      *
      * @return string
      */

@@ -264,7 +264,7 @@ CMD;
                     $user = $step->command->user;
                 }
 
-                $failed = false;
+                $failed    = false;
                 $cancelled = false;
 
                 if (!empty($script)) {
@@ -309,7 +309,7 @@ CMD;
                     $log->status = ServerLog::CANCELLED;
 
                     $cancelled = true;
-                    $failed = false;
+                    $failed    = false;
                 }
             }
 
@@ -429,9 +429,9 @@ CMD;
             // FIXME: This should be on the deployment model
             // Set the deployer tags
             $deployer_email = '';
-            $deployer_name = 'webhook';
+            $deployer_name  = 'webhook';
             if ($this->deployment->user) {
-                $deployer_name = $this->deployment->user->name;
+                $deployer_name  = $this->deployment->user->name;
                 $deployer_email = $this->deployment->user->email;
             } elseif ($this->deployment->is_webhook && !empty($this->deployment->source)) {
                 $deployer_name = $this->deployment->source;

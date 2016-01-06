@@ -5,10 +5,10 @@ namespace REBELinBLUE\Deployer\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
-use REBELinBLUE\Deployer\Deployment;
 
 /**
  * The controller for showing the status of deployments.

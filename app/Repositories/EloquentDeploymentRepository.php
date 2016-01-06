@@ -54,21 +54,22 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
         return $deployment;
     }
 
-
     /**
-     * Sets a deployment to abort
+     * Sets a deployment to abort.
      *
-     * @param  int   $model_id
+     * @param  int  $model_id
      * @return void
      */
     public function abort($model_id)
     {
         $deployment = $this->getById($model_id);
 
-        if (true) {//!$deployment->isAborting()) {
+        if (true) {
+            //!$deployment->isAborting()) {
             $deployment->status = Deployment::ABORTING;
             $deployment->save();
 
+            // Move to a job AbortDeployment
             // Cache for up to an hour
             Cache::put('deployer:cancel-deploy:' . $deployment->id, time(), 3600);
         }
