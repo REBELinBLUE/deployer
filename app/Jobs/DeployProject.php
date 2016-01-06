@@ -301,9 +301,8 @@ CMD;
 
             $log->status = ($failed ? ServerLog::FAILED : ServerLog::COMPLETED);
 
-            // Check if there is a cache key and if so fail
-            if (Cache::has($this->cache_key)) {
-                Cache::forget($this->cache_key);
+            // Check if there is a cache key and if so abort
+            if (Cache::pull($this->cache_key) !== null) {
 
                 // Only allow aborting if the release has not yet been activated
                 if ($step->stage <= Stage::DO_ACTIVATE) {
