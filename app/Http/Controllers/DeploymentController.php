@@ -149,6 +149,12 @@ class DeploymentController extends Controller
         ]);
     }
 
+    /**
+     * Abort a deployment.
+     *
+     * @param  int      $deployment_id
+     * @return Response
+     */
     public function abort($deployment_id)
     {
         $this->deploymentRepository->abort($deployment_id);
