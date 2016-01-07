@@ -4,8 +4,8 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Facades\Cache;
 use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
@@ -44,7 +44,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
         $deployment = $this->model->create($fields);
 
-        // FIXME: Catch an erorr here and rollback model if it fails
+        // FIXME: Catch an error here and rollback model if it fails
         $this->dispatch(new QueueDeployment(
             $deployment->project,
             $deployment,
@@ -64,14 +64,11 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     {
         $deployment = $this->getById($model_id);
 
-        if (true) {
-            //!$deployment->isAborting()) {
+        if (!$deployment->isAborting()) {
             $deployment->status = Deployment::ABORTING;
             $deployment->save();
 
-            // Move to a job AbortDeployment
-            // Cache for up to an hour
-            Cache::put('deployer:cancel-deploy:' . $deployment->id, time(), 3600);
+            $this->dispatch(new AbortDeployment($deployment));
         }
     }
 
