@@ -155,6 +155,26 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
+     * Determines whether the deployment is waiting to be aborted.
+     *
+     * @return bool
+     */
+    public function isAborting()
+    {
+        return ($this->status === self::ABORTING);
+    }
+
+    /**
+     * Determines whether the deployment is aborted.
+     *
+     * @return bool
+     */
+    public function isAborted()
+    {
+        return ($this->status === self::ABORTED);
+    }
+
+    /**
      * Determines if the deployment is the latest deployment.
      *
      * @return bool
