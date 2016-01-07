@@ -42,7 +42,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
     public function __construct(Deployment $deployment)
     {
         $this->deployment = $deployment;
-        $this->cache_key  = 'deployer:cancel-deploy:' . $deployment->id;
+        $this->cache_key  = AbortDeployment::CACHE_KEY_PREFIX . $deployment->id;
     }
 
     /**
