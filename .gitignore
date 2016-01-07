@@ -1,8 +1,16 @@
+# Configuration
 .env
 .env.prev
+
+# Dev files
 .php_cs.cache
 .vagrant
-composer.phar
-node_modules
 phpunit.xml
+
+# Composer files
+composer.phar
+auth.json
+
+# Dependencies
+node_modules
 vendor
