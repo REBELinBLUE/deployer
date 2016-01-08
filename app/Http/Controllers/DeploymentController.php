@@ -72,6 +72,7 @@ class DeploymentController extends Controller
             'sharedFiles'   => $project->sharedFiles,
             'projectFiles'  => $project->projectFiles,
             'checkUrls'     => $project->checkUrls,
+            'variables'     => $project->variables,
             'optional'      => $optional,
             'route'         => 'commands',
         ]);

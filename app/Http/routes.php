@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
         ];
 
         Route::resource('servers', 'ServerController', $actions);
+        Route::resource('variables', 'VariableController', $actions);
         Route::resource('commands', 'CommandController', $actions);
         Route::resource('heartbeats', 'HeartbeatController', $actions);
         Route::resource('notifications', 'NotificationController', $actions);

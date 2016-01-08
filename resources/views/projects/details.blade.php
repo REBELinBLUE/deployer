@@ -72,6 +72,7 @@
                     </div>
                     <div class="tab-pane" id="hooks">
                         @include('projects._partials.commands')
+                        @include('projects._partials.variables')
                     </div>
                     <div class="tab-pane" id="files">
                         @include('projects._partials.shared_files')
@@ -94,6 +95,7 @@
     @include('dialogs.project_files')
     @include('dialogs.channel')
     @include('dialogs.webhook')
+    @include('dialogs.variable')
     @include('dialogs.notify_email')
     @include('dialogs.heartbeat')
     @include('dialogs.check_urls')
@@ -109,6 +111,7 @@
         new app.NotificationsTab();
         new app.NotifyEmailsTab();
         new app.HeartbeatsTab();
+        new app.VariablesTab();
         new app.CheckUrlsTab();
 
         app.Servers.add({!! $servers->toJson() !!});
@@ -118,6 +121,7 @@
         app.NotifyEmails.add({!! $notifyEmails->toJson() !!});
         app.Heartbeats.add({!! $heartbeats->toJson() !!});
         app.CheckUrls.add({!! $checkUrls->toJson() !!});
+        app.Variables.add({!! $variables->toJson() !!});
 
         app.project_id = {{ $project->id }};
     </script>
