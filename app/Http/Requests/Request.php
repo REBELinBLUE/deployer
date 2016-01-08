@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Generic Request class.
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class Request extends FormRequest
 {
