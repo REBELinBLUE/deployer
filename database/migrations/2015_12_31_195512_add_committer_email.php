@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 
 class AddCommitterEmail extends Migration
@@ -18,7 +18,7 @@ class AddCommitterEmail extends Migration
         });
 
         DB::table('deployments')->update([
-            'committer_email' => 'none@example.com'
+            'committer_email' => 'none@example.com',
         ]);
     }
 

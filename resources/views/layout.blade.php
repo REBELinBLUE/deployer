@@ -70,6 +70,7 @@
                 title: '{{ Lang::get('dashboard.deployment_number') }}',
                 completed: '{{ Lang::get('deployments.completed') }}',
                 completed_with_errors: '{{ Lang::get('deployments.completed_with_errors') }}',
+                cancelled: '{{ Lang::get('deployments.cancelled') }}',
                 failed: '{{ Lang::get('deployments.failed') }}'
             };
         </script>

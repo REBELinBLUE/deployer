@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Repositories;
 use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
@@ -43,7 +44,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
         $deployment = $this->model->create($fields);
 
-        // FIXME: Catch an erorr here and rollback model if it fails
+        // FIXME: Catch an error here and rollback model if it fails
         $this->dispatch(new QueueDeployment(
             $deployment->project,
             $deployment,
@@ -51,6 +52,24 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
         ));
 
         return $deployment;
+    }
+
+    /**
+     * Sets a deployment to abort.
+     *
+     * @param  int  $model_id
+     * @return void
+     */
+    public function abort($model_id)
+    {
+        $deployment = $this->getById($model_id);
+
+        if (!$deployment->isAborting()) {
+            $deployment->status = Deployment::ABORTING;
+            $deployment->save();
+
+            $this->dispatch(new AbortDeployment($deployment));
+        }
     }
 
     /**
@@ -71,7 +90,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
     /**
      * Get the latest successful deployment for a project.
-     * 
+     *
      * @param  int   $project_id
      * @return array
      */
