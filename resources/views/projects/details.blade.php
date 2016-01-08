@@ -59,11 +59,9 @@
                     <li class="active"><a href="#deployments" data-toggle="tab"><span class="fa fa-hdd-o"></span> {{ Lang::get('deployments.label') }}</a></li>
                     <li><a href="#servers" data-toggle="tab"><span class="fa fa-tasks"></span> {{ Lang::get('servers.label') }}</a></li>
                     <li><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ Lang::get('commands.label') }}</a></li>
-                    <li><a href="#shared-files" data-toggle="tab"><span class="fa fa-folder"></span> {{ Lang::get('sharedFiles.label') }}</a></li>
-                    <li><a href="#project-files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ Lang::get('projectFiles.label') }}</a></li>
+                    <li><a href="#files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ Lang::get('sharedFiles.tab_label') }}</a></li>
                     <li><a href="#notifications" data-toggle="tab"><span class="fa fa-bullhorn"></span> {{ Lang::get('notifications.label') }}</a></li>
-                    <li><a href="#heartbeats" data-toggle="tab"><span class="fa fa-heartbeat"></span> {{ Lang::get('heartbeats.label') }}</a></li>
-                    <li><a href="#check-urls" data-toggle="tab"><span class="fa fa-link"></span> {{ Lang::get('checkUrls.label') }}</a></li>
+                    <li><a href="#health" data-toggle="tab"><span class="fa fa-heartbeat"></span> {{ Lang::get('heartbeats.tab_label') }}</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="deployments">
@@ -75,19 +73,15 @@
                     <div class="tab-pane" id="hooks">
                         @include('projects._partials.commands')
                     </div>
-                    <div class="tab-pane" id="shared-files">
+                    <div class="tab-pane" id="files">
                         @include('projects._partials.shared_files')
-                    </div>
-                    <div class="tab-pane" id="project-files">
                         @include('projects._partials.project_files')
                     </div>
                     <div class="tab-pane" id="notifications">
                         @include('projects._partials.notifications')
                     </div>
-                    <div class="tab-pane" id="heartbeats">
+                    <div class="tab-pane" id="health">
                         @include('projects._partials.heartbeats')
-                    </div>
-                    <div class="tab-pane" id="check-urls">
                         @include('projects._partials.check_urls')
                     </div>
                 </div>

@@ -82,7 +82,7 @@ class TestServerConnection extends Job implements SelfHandling, ShouldQueue
                  -o PasswordAuthentication=no \
                  -o IdentityFile=' . $private_key . ' \
                  -p ' . $server->port . ' \
-                 ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << \'EOF\'
                  ' . $script . '
 EOF';
     }

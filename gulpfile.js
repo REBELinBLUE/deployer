@@ -19,11 +19,6 @@ var paths = {
     'toastr'          : bower_path + '/toastr',
 };
 
-// To stop the google font imports from breaking
-elixir.config.css.minifyCss.pluginOptions = {
-    processImport: false
-};
-
 elixir(function(mix) {
     mix.sass('vendor.scss', 'public/css/vendor.css', {
         includePaths: [

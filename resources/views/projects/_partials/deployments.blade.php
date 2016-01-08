@@ -56,6 +56,9 @@
                             @if($deployment->isSuccessful() && !$deployment->isCurrent())
                             <button type="button" class="btn btn-default btn-redeploy" title="{{ Lang::get('deployments.reactivate') }}"><i class="fa fa-cloud-upload"></i></button>
                             @endif
+                            @if($deployment->isPending() || $deployment->isRunning())
+                            <a href="{{ route('abort', ['id' => $deployment->id])  }}" class="btn btn-default btn-cancel" title="{{ Lang::get('deployments.cancel') }}"><i class="fa fa-ban"></i></a>
+                            @endif
                             <a href="{{ route('deployment', ['id' => $deployment->id]) }}" type="button" class="btn btn-default" title="{{ Lang::get('app.details') }}"><i class="fa fa-info-circle"></i></a>
                         </div>
                     </td>
@@ -74,6 +77,7 @@
         status: {
             completed: '{{ Lang::get('deployments.completed') }}',
             errors: '{{ Lang::get('deployments.completed_with_errors') }}',
+            cancelled: '{{ Lang::get('deployments.cancelled') }}',
             pending: '{{ Lang::get('deployments.pending') }}',
             deploying: '{{ Lang::get('deployments.deploying') }}',
             failed: '{{ Lang::get('deployments.failed') }}',

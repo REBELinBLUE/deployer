@@ -1,4 +1,4 @@
-<div class="modal fade" id="server" data-resource="servers">
+<div class="modal fade" id="server">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

@@ -24,6 +24,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     const DEPLOYING             = 2;
     const FAILED                = 3;
     const COMPLETED_WITH_ERRORS = 4;
+    const ABORTING              = 5;
+    const ABORTED               = 6;
     const LOADING               = 'Loading';
 
     public static $currentDeployment = [];
@@ -123,6 +125,16 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
+     * Determines whether the deployment is pending.
+     *
+     * @return bool
+     */
+    public function isPending()
+    {
+        return ($this->status === self::PENDING);
+    }
+
+    /**
      * Determines whether the deployment is successful.
      *
      * @return bool
@@ -140,6 +152,26 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function isFailed()
     {
         return ($this->status === self::FAILED);
+    }
+
+    /**
+     * Determines whether the deployment is waiting to be aborted.
+     *
+     * @return bool
+     */
+    public function isAborting()
+    {
+        return ($this->status === self::ABORTING);
+    }
+
+    /**
+     * Determines whether the deployment is aborted.
+     *
+     * @return bool
+     */
+    public function isAborted()
+    {
+        return ($this->status === self::ABORTED);
     }
 
     /**

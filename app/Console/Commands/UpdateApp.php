@@ -44,14 +44,27 @@ class UpdateApp extends InstallApp
             return;
         }
 
-        $this->call('down');
+        if (!App::isDownForMaintenance()) {
+            $this->error(Lang::get('app.not_down'));
+
+            if (!$this->confirm(Lang::get('app.switch_down'))) {
+                return;
+            }
+
+            $bring_back_up = true;
+
+            $this->call('down');
+        }
 
         $this->updateConfiguration();
         $this->migrate();
         $this->optimize();
         $this->restartQueue();
 
-        $this->call('up');
+        // If we prompted the user to bring the app down, bring it back up
+        if ($bring_back_up) {
+            $this->call('up');
+        }
     }
 
     /**

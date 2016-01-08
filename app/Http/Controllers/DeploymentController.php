@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
@@ -145,6 +146,21 @@ class DeploymentController extends Controller
 
         return redirect()->route('deployment', [
             'id' => $deployment->id,
+        ]);
+    }
+
+    /**
+     * Abort a deployment.
+     *
+     * @param  int      $deployment_id
+     * @return Response
+     */
+    public function abort($deployment_id)
+    {
+        $this->deploymentRepository->abort($deployment_id);
+
+        return redirect()->route('deployment', [
+            'id' => $deployment_id,
         ]);
     }
 

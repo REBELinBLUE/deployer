@@ -174,3 +174,7 @@ dl.dl-horizontal#hook_command_ids dd {
     margin-left: 40px;
     margin-bottom: 2px;
 }
+
+#command div#tokens ul li {
+    margin: 2px auto;
+}

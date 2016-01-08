@@ -32,6 +32,7 @@ toastr.options.extendedTimeOut = 7000;
     var DEPLOYMENT_DEPLOYING = 2;
     var DEPLOYMENT_FAILED    = 3;
     var DEPLOYMENT_ERRORS    = 4;
+    var DEPLOYMENT_CANCELLED = 5;
 
     app.project_id = app.project_id || null;
 
@@ -111,6 +112,11 @@ toastr.options.extendedTimeOut = 7000;
                 label_class = 'success';
                 label = Lang.deployments.status.errors;
                 done = true;
+            } else if (data.model.status === DEPLOYMENT_CANCELLED) {
+                icon_class = 'warning';
+                label_class = 'danger';
+                label = Lang.deployments.status.cancelled;
+                done = true;
             }
 
             if (done) {
@@ -128,7 +134,7 @@ toastr.options.extendedTimeOut = 7000;
                 toastr.error(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.failed, data.model.project_name);
             } else if (data.model.status === DEPLOYMENT_ERRORS) {
                 toastr.warning(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.completed_with_errors, data.model.project_name);
-            }
+            } // FIXME: Add cancelled
         }
     });
 

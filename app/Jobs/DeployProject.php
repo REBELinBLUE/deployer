@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
@@ -30,6 +31,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
 
     private $deployment;
     private $private_key;
+    private $cache_key;
 
     /**
      * Create a new command instance.
@@ -40,6 +42,7 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
     public function __construct(Deployment $deployment)
     {
         $this->deployment = $deployment;
+        $this->cache_key  = AbortDeployment::CACHE_KEY_PREFIX . $deployment->id;
     }
 
     /**
@@ -89,6 +92,10 @@ class DeployProject extends Job implements SelfHandling, ShouldQueue
         } catch (\Exception $error) {
             $this->deployment->status = Deployment::FAILED;
             $project->status          = Project::FAILED;
+
+            if ($error->getMessage() === 'Cancelled') {
+                $this->deployment->status = Deployment::ABORTED;
+            }
 
             $this->cancelPendingSteps($this->deployment->steps);
 
@@ -157,12 +164,14 @@ CMD;
 
         $git_info = $process->getOutput();
 
-        $parts                       = explode("\x09", $git_info);
-        $this->deployment->commit    = $parts[0];
-        $this->deployment->committer = trim($parts[1]);
+        $parts = explode("\x09", $git_info);
+
+        $this->deployment->commit          = $parts[0];
+        $this->deployment->committer       = trim($parts[1]);
+        $this->deployment->committer_email = trim($parts[2]);
 
         if (!$this->deployment->user_id && !$this->deployment->source) {
-            $user = User::where('email', trim($parts[2]))->first();
+            $user = User::where('email', $this->deployment->committer_email)->first();
 
             if ($user) {
                 $this->deployment->user_id = $user->id;
@@ -255,14 +264,15 @@ CMD;
                     $user = $step->command->user;
                 }
 
-                $failed = false;
+                $failed    = false;
+                $cancelled = false;
 
                 if (!empty($script)) {
                     $process = new Process($this->sshCommand($server, $script, $user));
                     $process->setTimeout(null);
 
                     $output = '';
-                    $process->run(function ($type, $output_line) use (&$output, &$log) {
+                    $process->run(function ($type, $output_line) use (&$output, &$log, $process, $step) {
                         if ($type === Process::ERR) {
                             $output .= $this->logError($output_line);
                         } else {
@@ -271,6 +281,13 @@ CMD;
 
                         $log->output = $output;
                         $log->save();
+
+                        // If there is a cache key, kill the process but leave the key
+                        if ($step->stage <= Stage::DO_ACTIVATE && Cache::has($this->cache_key)) {
+                            $process->stop(0, SIGINT);
+
+                            $output .= $this->logError('SIGINT');
+                        }
                     });
 
                     if (!$process->isSuccessful()) {
@@ -280,18 +297,35 @@ CMD;
                     $log->output = $output;
                 }
             } catch (\Exception $e) {
-                $msg = '[' . $server->ip_address . ']:' . $e->getMessage();
-                $log->output .= $this->logError($msg);
+                $log->output .= $this->logError('[' . $server->ip_address . ']: ' . $e->getMessage());
                 $failed = true;
             }
 
-            $log->status      = $failed ? ServerLog::FAILED : ServerLog::COMPLETED;
+            $log->status = ($failed ? ServerLog::FAILED : ServerLog::COMPLETED);
+
+            // Check if there is a cache key and if so abort
+            if (Cache::pull($this->cache_key) !== null) {
+
+                // Only allow aborting if the release has not yet been activated
+                if ($step->stage <= Stage::DO_ACTIVATE) {
+                    $log->status = ServerLog::CANCELLED;
+
+                    $cancelled = true;
+                    $failed    = false;
+                }
+            }
+
             $log->finished_at = date('Y-m-d H:i:s');
             $log->save();
 
             // Throw an exception to prevent any more tasks running
             if ($failed) {
-                throw new \RuntimeException('Failed!');
+                throw new \RuntimeException('Failed');
+            }
+
+            // FIXME: This is a messy way to do it
+            if ($cancelled) {
+                throw new \RuntimeException('Cancelled');
             }
         }
     }
@@ -394,13 +428,28 @@ CMD;
             // Custom step!
             $commands = $step->command->script;
 
+            // FIXME: This should be on the deployment model
+            // Set the deployer tags
+            $deployer_email = '';
+            $deployer_name  = 'webhook';
+            if ($this->deployment->user) {
+                $deployer_name  = $this->deployment->user->name;
+                $deployer_email = $this->deployment->user->email;
+            } elseif ($this->deployment->is_webhook && !empty($this->deployment->source)) {
+                $deployer_name = $this->deployment->source;
+            }
+
             $tokens = [
-                '{{ release }}'      => $release_id,
-                '{{ release_path }}' => $latest_release_dir,
-                '{{ project_path }}' => $root_dir,
-                '{{ branch }}'       => $this->deployment->branch,
-                '{{ sha }}'          => $this->deployment->commit,
-                '{{ short_sha }}'    => $this->deployment->short_commit,
+                '{{ release }}'         => $release_id,
+                '{{ release_path }}'    => $latest_release_dir,
+                '{{ project_path }}'    => $root_dir,
+                '{{ branch }}'          => $this->deployment->branch,
+                '{{ sha }}'             => $this->deployment->commit,
+                '{{ short_sha }}'       => $this->deployment->short_commit,
+                '{{ deployer_email }}'  => $deployer_email,
+                '{{ deployer_name }}'   => $deployer_name,
+                '{{ committer_email }}' => $this->deployment->committer_email,
+                '{{ committer_name }}'  => $this->deployment->committer,
             ];
 
             $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);
@@ -463,7 +512,7 @@ CMD;
                  -o PasswordAuthentication=no \
                  -o IdentityFile=' . $this->private_key . ' \
                  -p ' . $server->port . ' \
-                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << EOF
+                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << \'EOF\'
                  ' . $script . '
 EOF';
     }
