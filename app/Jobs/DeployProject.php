@@ -285,6 +285,8 @@ CMD;
                         // If there is a cache key, kill the process but leave the key
                         if ($step->stage <= Stage::DO_ACTIVATE && Cache::has($this->cache_key)) {
                             $process->stop(0, SIGINT);
+
+                            $output .= $this->logError('SIGINT');
                         }
                     });
 
