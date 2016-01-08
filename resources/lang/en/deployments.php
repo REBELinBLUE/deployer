@@ -28,6 +28,7 @@ return [
     'completed'             => 'Completed',
     'completed_with_errors' => 'Completed with errors',
     'aborted'               => 'Aborted',
+    'aborting'              => 'Aborting',
     'failed'                => 'Failed',
     'running'               => 'Running',
     'cancelled'             => 'Cancelled',

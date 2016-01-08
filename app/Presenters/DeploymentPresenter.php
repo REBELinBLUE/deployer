@@ -41,6 +41,8 @@ class DeploymentPresenter extends Presenter
             return Lang::get('deployments.completed');
         } elseif ($this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return Lang::get('deployments.completed_with_errors');
+        } elseif ($this->status === Deployment::ABORTING) {
+            return Lang::get('deployments.aborting');
         } elseif ($this->status === Deployment::ABORTED) {
             return Lang::get('deployments.aborted');
         } elseif ($this->status === Deployment::FAILED) {
@@ -61,7 +63,7 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->status === Deployment::COMPLETED) {
             return 'check';
-        } elseif ($this->status === Deployment::FAILED || $this->status === Deployment::COMPLETED_WITH_ERRORS || $this->status === Deployment::ABORTED) {
+        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::COMPLETED_WITH_ERRORS, Deployment::ABORTING, Deployment::ABORTED])) {
             return 'warning';
         } elseif ($this->status === Deployment::DEPLOYING) {
             return 'spinner fa-pulse';
@@ -79,7 +81,7 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'success';
-        } elseif ($this->status === Deployment::FAILED || $this->status === Deployment::ABORTED) {
+        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::ABORTING, Deployment::ABORTED])) {
             return 'danger';
         } elseif ($this->status === Deployment::DEPLOYING) {
             return 'warning';
@@ -97,7 +99,7 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'green';
-        } elseif ($this->status === Deployment::FAILED || $this->status === Deployment::ABORTED) {
+        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::ABORTING, Deployment::ABORTED])) {
             return 'red';
         } elseif ($this->status === Deployment::DEPLOYING) {
             return 'yellow';
