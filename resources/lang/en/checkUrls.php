@@ -2,7 +2,7 @@
 
 return [
 
-    'label'              => 'URL tests',
+    'label'              => 'URL Tests',
     'create'             => 'Add a new URL',
     'edit'               => 'Edit the URL',
     'none'               => 'You can add URLs which should be requested periodically and after a deployment has finished.',
