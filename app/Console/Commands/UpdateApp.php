@@ -2,6 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Deployment;
 
 /**
