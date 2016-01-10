@@ -2,19 +2,22 @@
 
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Routes File
 |--------------------------------------------------------------------------
 |
-| Here is where you can register all of the routes for an application.
+| Here is where you will register all of the routes in an application.
 | It's a breeze. Simply tell Laravel the URIs it should respond to
 | and give it the controller to call when that URI is requested.
 |
- */
+*/
 
-Route::group(['middleware' => ['auth', 'minify']], function () {
+Route::group(['middleware' => ['web', 'auth']], function() {
+    Route::get('/', [
+        'as'   => 'dashboard',
+        'uses' => 'DashboardController@index'
+    ]);
 
-    Route::get('/', 'DashboardController@index');
-    Route::get('/timeline', 'DashboardController@timeline');
+    Route::get('timeline', 'DashboardController@timeline');
 
     Route::get('webhook/{projects}/refresh', 'WebhookController@refresh');
 
@@ -38,6 +41,45 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
     ]);
 
     Route::get('log/{log}', 'DeploymentController@log');
+
+    // User profile managment
+    Route::get('profile', [
+        'as'   => 'profile.index',
+        'uses' => 'ProfileController@index',
+    ]);
+
+    Route::post('profile/update', [
+        'as'   => 'profile.update',
+        'uses' => 'ProfileController@update',
+    ]);
+
+    Route::post('profile/settings', [
+        'as'   => 'profile.settings',
+        'uses' => 'ProfileController@settings',
+    ]);
+
+    Route::post('profile/email', [
+        'as'   => 'profile.request_change_email',
+        'uses' => 'ProfileController@requestEmail',
+    ]);
+
+    Route::post('profile/upload', [
+        'as'   => 'profile.upload_avatar',
+        'uses' => 'ProfileController@upload',
+    ]);
+
+    Route::post('profile/avatar', [
+        'as'   => 'profile.avatar',
+        'uses' => 'ProfileController@avatar',
+    ]);
+
+    Route::post('profile/gravatar', [
+        'as'   => 'profile.gravatar',
+        'uses' => 'ProfileController@gravatar',
+    ]);
+
+    Route::get('profile/email/{token}', 'ProfileController@email');
+    Route::post('profile/update-email', 'ProfileController@changeEmail');
 
     // Resource management
     Route::group(['namespace' => 'Resources'], function () {
@@ -74,7 +116,6 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
 
     // Administration
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-
         Route::resource('templates', 'TemplateController', [
             'only' => ['index', 'store', 'update', 'destroy', 'show'],
         ]);
@@ -90,67 +131,30 @@ Route::group(['middleware' => ['auth', 'minify']], function () {
         Route::resource('groups', 'GroupController', [
             'only' => ['index', 'store', 'update'],
         ]);
-
     });
-
-    // User profile managment
-
-    Route::get('profile', [
-        'as'   => 'profile.index',
-        'uses' => 'ProfileController@index',
-    ]);
-
-    Route::post('profile/update', [
-        'as'   => 'profile.update',
-        'uses' => 'ProfileController@update',
-    ]);
-
-    Route::post('profile/settings', [
-        'as'   => 'profile.settings',
-        'uses' => 'ProfileController@settings',
-    ]);
-
-    Route::post('profile/email', [
-        'as'   => 'profile.request_change_email',
-        'uses' => 'ProfileController@requestEmail',
-    ]);
-
-    Route::post('profile/upload', [
-        'as'   => 'profile.upload_avatar',
-        'uses' => 'ProfileController@upload',
-    ]);
-
-    Route::post('profile/avatar', [
-        'as'   => 'profile.avatar',
-        'uses' => 'ProfileController@avatar',
-    ]);
-
-    Route::post('profile/gravatar', [
-        'as'   => 'profile.gravatar',
-        'uses' => 'ProfileController@gravatar',
-    ]);
 });
 
-// Change the login email - FIXME: Shouldn't this be in the auth section?
-Route::get('profile/email/{token}', 'ProfileController@email');
-Route::post('profile/update-email', 'ProfileController@changeEmail');
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
 
-// Webhooks
-Route::post('deploy/{hash}', [
-    'as'   => 'webhook',
-    'uses' => 'WebhookController@webhook',
-]);
+    Route::controllers([
+        'password' => 'Auth\PasswordController',
+    ]);
+});
 
 Route::get('cctray.xml', 'DashboardController@cctray');
 
-Route::group(['namespace' => 'Resources'], function () {
-    Route::get('heartbeat/{hash}', [
-        'as'   => 'heartbeat',
-        'uses' => 'HeartbeatController@ping',
+Route::group(['middleware' => 'api'], function () {
+    Route::group(['namespace' => 'Resources'], function () {
+        Route::get('heartbeat/{hash}', [
+            'as'   => 'heartbeat',
+            'uses' => 'HeartbeatController@ping',
+        ]);
+    });
+
+    // Webhooks
+    Route::post('deploy/{hash}', [
+        'as'   => 'webhook',
+        'uses' => 'WebhookController@webhook',
     ]);
 });
-
-Route::controllers([
-    'auth'     => 'Auth\AuthController',
-    'password' => 'Auth\PasswordController',
-]);

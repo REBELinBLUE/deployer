@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
@@ -12,7 +11,7 @@ use REBELinBLUE\Deployer\SharedFile;
 /**
  * A class to handle cloning the command templates for the project.
  */
-class SetupProject extends Job implements SelfHandling
+class SetupProject extends Job
 {
     private $project;
     private $template_id;

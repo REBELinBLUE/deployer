@@ -68,7 +68,7 @@
                                 <a href="{{ route('profile.index') }}" class="btn btn-default btn-flat">{{ Lang::get('users.profile') }}</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ url('auth/logout') }}" class="btn btn-default btn-flat">{{ Lang::get('app.signout') }}</a>
+                                <a href="{{ url('logout') }}" class="btn btn-default btn-flat">{{ Lang::get('app.signout') }}</a>
                             </div>
                         </li>
                     </ul>

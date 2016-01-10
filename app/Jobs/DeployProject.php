@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
@@ -25,7 +24,7 @@ use Symfony\Component\Process\Process;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * TODO: rewrite this as it is doing way too much and is very messy now.
  */
-class DeployProject extends Job implements SelfHandling, ShouldQueue
+class DeployProject extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -461,7 +460,7 @@ CMD;
 
         $variables = '';
         foreach ($project->variables as $variable) {
-            $key = $variable->name;
+            $key   = $variable->name;
             $value = $variable->value;
 
             $variables .= "export {$key}={$value}" . PHP_EOL;
@@ -506,7 +505,7 @@ CMD;
             $user = $server->user;
         }
 
-        if (env('APP_DEBUG')) {
+        if (config('app.debug')) {
             // Turn on verbose output so we can see all commands when in debug mode
             $script = 'set -v' . PHP_EOL . $script;
         }

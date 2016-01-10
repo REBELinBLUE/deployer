@@ -12,7 +12,7 @@ class VariableTableSeeder extends Seeder
         Variable::create([
             'project_id'     => 1,
             'name'           => 'COMPOSER_PROCESS_TIMEOUT',
-            'value'          => '3000'
+            'value'          => '3000',
         ]);
     }
 }

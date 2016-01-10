@@ -18,7 +18,7 @@ class ThemeComposer
      */
     public function compose(View $view)
     {
-        $theme = env('APP_THEME', 'green');
+        $theme = config('deployer.theme');
 
         if (Auth::user()) {
             if (!empty(Auth::user()->skin)) {

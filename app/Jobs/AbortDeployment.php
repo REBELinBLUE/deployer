@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Support\Facades\Cache;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\Job;
@@ -10,7 +9,7 @@ use REBELinBLUE\Deployer\Jobs\Job;
 /**
  * A class to handle caching the abort request.
  */
-class AbortDeployment extends Job implements SelfHandling
+class AbortDeployment extends Job
 {
     private $deployment;
 

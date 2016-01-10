@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Auth;
 use REBELinBLUE\Deployer\Command as Stage;
@@ -16,7 +15,7 @@ use REBELinBLUE\Deployer\ServerLog;
 /**
  * Generates the required database entries to queue a deployment.
  */
-class QueueDeployment extends Job implements SelfHandling
+class QueueDeployment extends Job
 {
     use DispatchesJobs;
 

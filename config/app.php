@@ -4,6 +4,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Environment
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services your application utilizes. Set this in your ".env" file.
+    |
+    */
+
+    'env' => env('APP_ENV', 'production'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Debug Mode
     |--------------------------------------------------------------------------
     |
@@ -11,9 +24,9 @@ return [
     | stack traces will be shown on every error that occurs within your
     | application. If disabled, a simple generic error page is shown.
     |
-     */
+    */
 
-    'debug'           => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -24,9 +37,9 @@ return [
     | the Artisan command line tool. You should set this to the root of
     | your application so that it is used when running Artisan tasks.
     |
-     */
+    */
 
-    'url'             => env('APP_URL', 'http://deploy.app'),
+    'url' => env('APP_URL', 'http://deploy.app'),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,9 +50,9 @@ return [
     | will be used by the PHP date and date-time functions. We have gone
     | ahead and set this to a sensible default for you out of the box.
     |
-     */
+    */
 
-    'timezone'        => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,9 +63,9 @@ return [
     | by the translation service provider. You are free to set this value
     | to any of the locales which will be supported by the application.
     |
-     */
+    */
 
-    'locale'          => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,10 +91,10 @@ return [
     |
      */
 
-    'key'             => env('APP_KEY', 'SomeRandomString'),
+    'key' => env('APP_KEY', 'SomeRandomString'),
 
     // TODO: See if we can figure out a way to set this to 'AES-256-CBC' for new installs only
-    'cipher'          => MCRYPT_RIJNDAEL_128,
+    'cipher' => MCRYPT_RIJNDAEL_128,
 
     /*
     |--------------------------------------------------------------------------
@@ -94,9 +107,9 @@ return [
     |
     | Available Settings: "single", "daily", "syslog", "errorlog"
     |
-     */
+    */
 
-    'log'             => env('LOGGING_MODE', 'daily'),
+    'log' => env('APP_LOG', 'single'),
 
     /*
     |--------------------------------------------------------------------------
@@ -107,20 +120,18 @@ return [
     | request to your application. Feel free to add your own services to
     | this array to grant expanded functionality to your applications.
     |
-     */
+    */
 
-    'providers'       => [
+    'providers' => [
 
         /*
          * Laravel Framework Service Providers...
          */
-        Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Routing\ControllerServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
@@ -174,13 +185,12 @@ return [
     |
      */
 
-    'aliases'         => [
+    'aliases' => [
 
         'App'        => Illuminate\Support\Facades\App::class,
         'Artisan'    => Illuminate\Support\Facades\Artisan::class,
         'Auth'       => Illuminate\Support\Facades\Auth::class,
         'Blade'      => Illuminate\Support\Facades\Blade::class,
-        'Bus'        => Illuminate\Support\Facades\Bus::class,
         'Cache'      => Illuminate\Support\Facades\Cache::class,
         'Config'     => Illuminate\Support\Facades\Config::class,
         'Cookie'     => Illuminate\Support\Facades\Cookie::class,
@@ -192,7 +202,6 @@ return [
         'Gate'       => Illuminate\Support\Facades\Gate::class,
         'Hash'       => Illuminate\Support\Facades\Hash::class,
         'Input'      => Illuminate\Support\Facades\Input::class,
-        'Inspiring'  => Illuminate\Foundation\Inspiring::class,
         'Lang'       => Illuminate\Support\Facades\Lang::class,
         'Log'        => Illuminate\Support\Facades\Log::class,
         'Mail'       => Illuminate\Support\Facades\Mail::class,

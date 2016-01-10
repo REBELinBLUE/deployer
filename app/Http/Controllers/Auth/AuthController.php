@@ -4,25 +4,17 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\User;
 
 /**
  * Authentication controller.
+ * fixme: clean this up, not sure most of this is needed as the traits do the work!
  */
 class AuthController extends Controller
 {
     use AuthenticatesUsers, ThrottlesLogins;
-
-    /**
-     * Where to redirect to once the user has been authenticated.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/';
 
     /**
      * Create a new authentication controller instance.
@@ -31,7 +23,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', ['except' => 'logout']);
     }
 
     /**
@@ -41,8 +33,8 @@ class AuthController extends Controller
      */
     public function getLogin()
     {
-        if (Auth::viaRemember()) {
-            redirect()->intended($this->redirectPath());
+        if (Auth::guard($this->getGuard())->viaRemember()) {
+            return redirect()->intended(route('dashboard'));
         }
 
         return view('auth.login');
@@ -61,12 +53,20 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $credentials = $this->getCredentials($request);
-        if (Auth::attempt($credentials, true)) {
-            return redirect()->intended($this->redirectPath());
+        if ($this->hasTooManyLoginAttempts($request)) {
+            return $this->sendLockoutResponse($request);
         }
 
-        return redirect($this->loginPath())
+        $credentials = $this->getCredentials($request);
+        if (Auth::guard($this->getGuard())->attempt($credentials, true)) {
+            $this->clearLoginAttempts($request);
+
+            return redirect()->intended(route('dashboard'));
+        }
+
+        $this->incrementLoginAttempts($request);
+
+        return redirect()->back()
             ->withInput($request->only('email', 'remember'))
             ->withErrors([
                 'email' => $this->getFailedLoginMessage(),
