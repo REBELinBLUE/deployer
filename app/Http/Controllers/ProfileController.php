@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Intervention\Image\Facades\Image;
+use PragmaRX\Google2FA\Vendor\Laravel\Facade as Google2FA;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
 use REBELinBLUE\Deployer\Http\Requests\StoreSettingsRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
-use PragmaRX\Google2FA\Vendor\Laravel\Facade as Google2FA;
 
 /**
  * The use profile controller.
@@ -35,7 +35,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $img = Google2FA::getQRCodeGoogleUrl('Deployer', $user->name, $user->google2fa_secret);
+        $img  = Google2FA::getQRCodeGoogleUrl('Deployer', $user->name, $user->google2fa_secret);
 
         return view('user.profile', [
             'google_2fa_url' => $img,
@@ -148,7 +148,7 @@ class ProfileController extends Controller
      */
     public function gravatar()
     {
-        $user = Auth::user();
+        $user         = Auth::user();
         $user->avatar = null;
         $user->save();
 
@@ -182,7 +182,7 @@ class ProfileController extends Controller
 
         $image->save(public_path() . $path);
 
-        $user = Auth::user();
+        $user         = Auth::user();
         $user->avatar = $path;
         $user->save();
 
@@ -199,7 +199,7 @@ class ProfileController extends Controller
             $secret = Google2FA::generateSecretKey();
         }
 
-        $user = Auth::user();
+        $user                   = Auth::user();
         $user->google2fa_secret = $secret;
         $user->save();
 

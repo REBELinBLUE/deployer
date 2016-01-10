@@ -14,7 +14,7 @@
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/', [
         'as'   => 'dashboard',
-        'uses' => 'DashboardController@index'
+        'uses' => 'DashboardController@index',
     ]);
 
     Route::get('timeline', 'DashboardController@timeline');
@@ -137,14 +137,14 @@ Route::group(['middleware' => ['web', 'auth']], function () {
             'only' => ['index', 'store', 'update'],
         ]);
     });
+
+    Route::get('logout', [
+        'as'         => 'logout',
+        'uses'       => 'Auth\AuthController@logout',
+    ]);
 });
 
-Route::group(['middleware' => 'web', 'namespace' => 'Auth'], function () {
-
-    Route::controllers([
-        'password' => 'PasswordController',
-    ]);
-
+Route::group(['middleware' => ['web', 'guest'], 'namespace' => 'Auth'], function () {
     Route::get('login', [
         'middleware' => 'guest',
         'as'         => 'login',
@@ -157,7 +157,7 @@ Route::group(['middleware' => 'web', 'namespace' => 'Auth'], function () {
     ]);
 
     Route::get('login/2fa', [
-        'as'   => 'two-factor',
+        'as'   => 'auth.twofactor',
         'uses' => 'AuthController@getTwoFactorAuthentication',
     ]);
 
@@ -166,11 +166,9 @@ Route::group(['middleware' => 'web', 'namespace' => 'Auth'], function () {
         'uses'       => 'AuthController@postTwoFactorAuthentication',
     ]);
 
-    Route::get('logout', [
-        'middleware' => 'auth',
-        'as'         => 'logout',
-        'uses'       => 'AuthController@logout',
-    ]);
+    Route::get('password/reset/{token?}', 'PasswordController@showResetForm');
+    Route::post('password/email', 'PasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'PasswordController@reset');
 });
 
 Route::get('cctray.xml', 'DashboardController@cctray');
