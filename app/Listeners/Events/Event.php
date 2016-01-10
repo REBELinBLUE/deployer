@@ -7,4 +7,5 @@ namespace REBELinBLUE\Deployer\Listeners\Events;
  */
 abstract class Event
 {
+    //
 }
