@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['web', 'auth']], function() {
+Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/', [
         'as'   => 'dashboard',
         'uses' => 'DashboardController@index'
