@@ -10,6 +10,7 @@ use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
 use REBELinBLUE\Deployer\Http\Requests\StoreSettingsRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
+use PragmaRX\Google2FA\Vendor\Laravel\Facade as Google2FA;
 
 /**
  * The use profile controller.
@@ -33,9 +34,13 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $img = Google2FA::getQRCodeGoogleUrl('Deployer', $user->name, $user->google2fa_secret);
+
         return view('user.profile', [
-            'user'  => Auth::user(),
-            'title' => Lang::get('users.update_profile'),
+            'google_2fa_url' => $img,
+            'user'           => $user,
+            'title'          => Lang::get('users.update_profile'),
         ]);
     }
 
@@ -143,7 +148,7 @@ class ProfileController extends Controller
      */
     public function gravatar()
     {
-        $user         = Auth::user();
+        $user = Auth::user();
         $user->avatar = null;
         $user->save();
 
@@ -177,7 +182,7 @@ class ProfileController extends Controller
 
         $image->save(public_path() . $path);
 
-        $user         = Auth::user();
+        $user = Auth::user();
         $user->avatar = $path;
         $user->save();
 
@@ -185,5 +190,19 @@ class ProfileController extends Controller
             'image'   => url($path),
             'success' => true,
         ];
+    }
+
+    public function twoFactor(Request $request)
+    {
+        $secret = null;
+        if ($request->get('two_factor')) {
+            $secret = Google2FA::generateSecretKey();
+        }
+
+        $user = Auth::user();
+        $user->google2fa_secret = $secret;
+        $user->save();
+
+        return redirect()->route('profile.index');
     }
 }
