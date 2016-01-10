@@ -9,7 +9,7 @@
             </div>
             <div class="box-body">
                 <form action="{{ route('profile.update') }}" method="post">
-                    {!! csrf_field() !!}
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <div class="form-group">
                         <label for="name">{{ Lang::get('users.name') }}</label>
                         <input type="text" name="name" value="{{ $user->name }}" placeholder="{{ Lang::get('users.name') }}" class="form-control" />
@@ -35,7 +35,7 @@
             </div>
             <div class="box-body">
                 <form action="{{ route('profile.settings') }}" method="post">
-                    {!! csrf_field() !!}
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <div class="form-group">
                         <label for="skin">{{ Lang::get('users.theme') }}</label>
                         <select name="skin" id="skin" class="form-control">
@@ -115,9 +115,9 @@
             </div>
             <div class="box-body">
                 <form action="{{ route('profile.twofactor') }}" method="post">
-                    {!! csrf_field() !!}
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-                    @if ($user->hasTwoFactorAuthentication())
+                    @if ($user->hasTwoFactorAuthentication)
                         <div class="pull-right">
                             <img src="{{ $google_2fa_url }}" class="img-responsive" />
                         </div>
@@ -125,7 +125,7 @@
 
                     <div class="checkbox">
                         <label for="two-factor-auth">
-                            <input type="checkbox" id="two-factor-auth" name="two_factor" value="on"  @if ($user->hasTwoFactorAuthentication()) checked @endif />
+                            <input type="checkbox" id="two-factor-auth" name="two_factor" value="on"  @if ($user->hasTwoFactorAuthentication) checked @endif />
                             {{ Lang::get('users.enable_2fa') }}
                         </label>
 

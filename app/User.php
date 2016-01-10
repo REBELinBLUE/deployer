@@ -82,7 +82,7 @@ class User extends Model implements
      *
      * @return bool
      */
-    public function hasTwoFactorAuthentication()
+    public function getHasTwoFactorAuthenticationAttribute()
     {
         return !empty($this->google2fa_secret);
     }

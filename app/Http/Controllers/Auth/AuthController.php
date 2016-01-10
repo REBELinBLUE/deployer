@@ -60,7 +60,7 @@ class AuthController extends Controller
         if ($auth->validate($credentials)) {
             $auth->once($credentials);
 
-            if ($auth->user()->hasTwoFactorAuthentication()) {
+            if ($auth->user()->hasTwoFactorAuthentication) {
                 Session::put('2fa_user_id', $auth->user()->id);
 
                 $this->clearLoginAttempts($request);
