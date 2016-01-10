@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
 use PragmaRX\Google2FA\Vendor\Laravel\Facade as Google2FA;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
@@ -109,10 +110,10 @@ class AuthController extends Controller
             $auth->logout();
 
             return redirect()->route('login')
-                             ->withError('invalid token');
+                             ->withError(Lang::get('auth.invalid_code'));
         }
 
         return redirect()->route('login')
-                         ->withError('invalid token');
+                         ->withError(Lang::get('auth.invalid_code'));
     }
 }
