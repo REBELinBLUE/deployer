@@ -2,7 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\ServiceProvider;
+use REBELinBLUE\Deployer\Http\Composers\HeaderComposer;
+use REBELinBLUE\Deployer\Http\Composers\NavigationComposer;
+use REBELinBLUE\Deployer\Http\Composers\ThemeComposer;
 
 /**
  * The view service provider.
@@ -12,16 +16,14 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      *
+     * @param  \Illuminate\Contracts\View\Factory $factory
      * @return void
      */
-    public function boot()
+    public function boot(Factory $factory)
     {
-        view()->composer(
-            ['layout', 'user.profile'],
-            'REBELinBLUE\Deployer\Http\Composers\ThemeComposer'
-        );
-
-        $this->composeNavigation();
+        $factory->composer(['layout', 'user.profile'], ThemeComposer::class);
+        $factory->composer('_partials.nav', HeaderComposer::class);
+        $factory->composer('_partials.sidebar', NavigationComposer::class);
     }
 
     /**
@@ -32,16 +34,5 @@ class ViewServiceProvider extends ServiceProvider
     public function register()
     {
         //
-    }
-
-    /**
-     * Registers view composers.
-     *
-     * @return void
-     */
-    private function composeNavigation()
-    {
-        view()->composer('_partials.nav', 'REBELinBLUE\Deployer\Http\Composers\HeaderComposer');
-        view()->composer('_partials.sidebar', 'REBELinBLUE\Deployer\Http\Composers\NavigationComposer');
     }
 }
