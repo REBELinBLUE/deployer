@@ -33,7 +33,8 @@
         "intervention/image": "^2.2",
         "graham-campbell/binput": "~3.2",
         "itsgoingd/clockwork": "~1.9",
-        "tymon/jwt-auth": "~0.5"
+        "tymon/jwt-auth": "~0.5",
+        "pragmarx/google2fa": "^0.7.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.5",

@@ -222,6 +222,7 @@ return [
         'Image'      => Intervention\Image\Facades\Image::class,
         'JWTAuth'    => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Google2FA'  => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
 
     ],
 
