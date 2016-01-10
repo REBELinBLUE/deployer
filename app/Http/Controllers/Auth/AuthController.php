@@ -5,8 +5,12 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\User;
+use PragmaRX\Google2FA\Vendor\Laravel\Facade as Google2FA;
 
 /**
  * Authentication controller.
@@ -15,16 +19,6 @@ use REBELinBLUE\Deployer\User;
 class AuthController extends Controller
 {
     use AuthenticatesUsers, ThrottlesLogins;
-
-    /**
-     * Create a new authentication controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest', ['except' => 'logout']);
-    }
 
     /**
      * Show the application login form.
@@ -57,19 +51,59 @@ class AuthController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        $credentials = $this->getCredentials($request);
-        if (Auth::guard($this->getGuard())->attempt($credentials, true)) {
-            $this->clearLoginAttempts($request);
+        $auth = Auth::guard($this->getGuard());
 
-            return redirect()->intended(route('dashboard'));
+        $credentials = $this->getCredentials($request);
+
+        if ($auth->validate($credentials)) {
+            $auth->once($credentials);
+
+            if (Auth::user()->hasTwoFactorAuthentication()) {
+                Session::put('2fa_user_id', Auth::user()->id);
+
+                $this->clearLoginAttempts($request);
+
+                return redirect()->intended(route('two-factor'));
+            }
+
+            $auth->attempt($credentials, true);
+
+            return $this->handleUserWasAuthenticated($request, true);
         }
 
         $this->incrementLoginAttempts($request);
 
-        return redirect()->back()
-            ->withInput($request->only('email', 'remember'))
-            ->withErrors([
-                'email' => $this->getFailedLoginMessage(),
-            ]);
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    public function getTwoFactorAuthentication()
+    {
+        return view('auth.twofactor');
+    }
+
+    public function postTwoFactorAuthentication(Request $request)
+    {
+        $user_id = Session::pull('2fa_user_id');
+
+        if ($user_id) {
+            $code = Input::get('2fa_code');
+
+            $auth = Auth::guard($this->getGuard());
+            $auth->loginUsingId($user_id);
+
+            $valid = Google2FA::verifyKey(Auth::user()->google2fa_secret, $code);
+
+            if ($valid) {
+                return $this->handleUserWasAuthenticated($request, true);
+            }
+
+            $auth->logout();
+
+            return redirect()->to('/')
+                             ->withError('invalid token');
+        }
+
+        return redirect()->to('/')
+                         ->withError('invalid token');
     }
 }

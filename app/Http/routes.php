@@ -78,6 +78,11 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'uses' => 'ProfileController@gravatar',
     ]);
 
+    Route::post('profile/twofactor', [
+        'as'   => 'profile.twofactor',
+        'uses' => 'ProfileController@twoFactor',
+    ]);
+
     Route::get('profile/email/{token}', 'ProfileController@email');
     Route::post('profile/update-email', 'ProfileController@changeEmail');
 
@@ -134,11 +139,37 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     });
 });
 
-Route::group(['middleware' => 'web'], function () {
-    Route::auth();
+Route::group(['middleware' => 'web', 'namespace' => 'Auth'], function () {
 
     Route::controllers([
-        'password' => 'Auth\PasswordController',
+        'password' => 'PasswordController',
+    ]);
+
+    Route::get('login', [
+        'middleware' => 'guest',
+        'as'         => 'login',
+        'uses'       => 'AuthController@getLogin',
+    ]);
+
+    Route::post('login', [
+        'middleware' => ['guest', 'throttle:10,10'],
+        'uses'       => 'AuthController@postLogin',
+    ]);
+
+    Route::get('login/2fa', [
+        'as'   => 'two-factor',
+        'uses' => 'AuthController@getTwoFactorAuthentication',
+    ]);
+
+    Route::post('login/2fa', [
+        'middleware' => 'throttle:10,10',
+        'uses'       => 'AuthController@postTwoFactorAuthentication',
+    ]);
+
+    Route::get('logout', [
+        'middleware' => 'auth',
+        'as'         => 'logout',
+        'uses'       => 'AuthController@logout',
     ]);
 });
 

@@ -76,4 +76,14 @@ class User extends Model implements
 
         return parent::__get($key);
     }
+
+    /**
+     * Determines whether the user has Google 2FA enabled.
+     *
+     * @return bool
+     */
+    public function hasTwoFactorAuthentication()
+    {
+        return !empty($this->google2fa_secret);
+    }
 }
