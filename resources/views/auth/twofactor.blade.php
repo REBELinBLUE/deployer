@@ -5,9 +5,10 @@
         <div class="login-logo">
             <b>{{ Lang::get('app.name') }}</b>
         </div>
+
         <div class="login-box-body">
             <p class="login-box-msg">Please enter your authentication code.</p>
-            <form action="{{ route('two-factor') }}" method="post">
+            <form action="{{ route('auth.twofactor') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Authentication Code" name="2fa_code" required />
