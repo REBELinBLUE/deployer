@@ -117,7 +117,7 @@
                 <form action="{{ route('profile.twofactor') }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-                    @if ($user->hasTwoFactorAuthentication)
+                    @if ($user->has_two_factor_authentication)
                         <div class="pull-right">
                             <img src="{{ $google_2fa_url }}" class="img-responsive" />
                         </div>
@@ -125,7 +125,7 @@
 
                     <div class="checkbox">
                         <label for="two-factor-auth">
-                            <input type="checkbox" id="two-factor-auth" name="two_factor" value="on"  @if ($user->hasTwoFactorAuthentication) checked @endif />
+                            <input type="checkbox" id="two-factor-auth" name="two_factor" value="on"  @if ($user->has_two_factor_authentication) checked @endif />
                             {{ Lang::get('users.enable_2fa') }}
                         </label>
 
