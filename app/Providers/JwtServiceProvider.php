@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Login as LoginEvent;
+use Illuminate\Auth\Events\Logout as LogoutEvent;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Session;
@@ -26,7 +28,7 @@ class JwtServiceProvider extends ServiceProvider
 
         // On login, generate a JWT and store in the session
         // FIXME: Regenerate if it expires?
-        $events->listen(Illuminate\Auth\Events\Login::class, function ($user, $remember) {
+        $events->listen(LoginEvent::class, function ($user, $remember) {
             $tokenId    = base64_encode(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
             $issuedAt   = Carbon::now()->timestamp;
             $notBefore  = $issuedAt;
@@ -48,7 +50,7 @@ class JwtServiceProvider extends ServiceProvider
         });
 
         // On logout, removed the JWT from the session
-        $events->listen(Illuminate\Auth\Events\Logout::class, function ($user) {
+        $events->listen(LogoutEvent::class, function ($user) {
             Session::forget('jwt');
         });
     }
