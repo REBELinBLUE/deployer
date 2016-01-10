@@ -14,12 +14,16 @@ use REBELinBLUE\Deployer\User;
 
 /**
  * Authentication controller.
- * fixme: clean this up, not sure most of this is needed as the traits do the work!
  */
 class AuthController extends Controller
 {
     use AuthenticatesUsers, ThrottlesLogins;
 
+    /**
+     * Where to redirect to once the login has been successful.
+     *
+     * @var string
+     */
     protected $redirectTo = '/';
 
     /**
@@ -60,7 +64,7 @@ class AuthController extends Controller
         if ($auth->validate($credentials)) {
             $auth->once($credentials);
 
-            if ($auth->user()->hasTwoFactorAuthentication) {
+            if ($auth->user()->has_two_factor_authentication) {
                 Session::put('2fa_user_id', $auth->user()->id);
 
                 $this->clearLoginAttempts($request);
