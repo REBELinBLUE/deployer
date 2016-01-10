@@ -9,6 +9,7 @@
                         <th>{{ Lang::get('users.name') }}</th>
                         <th>{{ Lang::get('users.email') }}</th>
                         <th>{{ Lang::get('app.created') }}</th>
+                        <th>{{ Lang::get('users.has_2fa') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -25,6 +26,13 @@
         <td><%- name %></td>
         <td><%- email %></td>
         <td><%- created %></td>
+        <td>
+            <% if (has_two_factor_authentication) { %>
+                {{ Lang::get('app.yes') }}
+            <% } else { %>
+                {{ Lang::get('app.no') }}
+            <% } %>
+        </td>
         <td>
             <div class="btn-group pull-right">
                 <button class="btn btn-default btn-edit" title="{{ Lang::get('app.edit') }}" data-toggle="modal" data-target="#user" data-user-id="<%- id %>"><i class="fa fa-edit"></i></button>
