@@ -160,6 +160,7 @@ return [
         GrahamCampbell\Binput\BinputServiceProvider::class,
         Clockwork\Support\Laravel\ClockworkServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
 
         /*
          * Application Service Providers...
