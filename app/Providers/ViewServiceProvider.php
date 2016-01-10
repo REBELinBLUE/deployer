@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\ServiceProvider;
+use REBELinBLUE\Deployer\Http\Composers\ActiveUserComposer;
 use REBELinBLUE\Deployer\Http\Composers\HeaderComposer;
 use REBELinBLUE\Deployer\Http\Composers\NavigationComposer;
 use REBELinBLUE\Deployer\Http\Composers\ThemeComposer;
@@ -21,9 +22,10 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(Factory $factory)
     {
-        $factory->composer(['layout', 'user.profile'], ThemeComposer::class);
+        $factory->composer(['_partials.nav', 'dialogs.command', 'user.profile'], ActiveUserComposer::class);
         $factory->composer('_partials.nav', HeaderComposer::class);
         $factory->composer('_partials.sidebar', NavigationComposer::class);
+        $factory->composer(['layout', 'user.profile'], ThemeComposer::class);
     }
 
     /**

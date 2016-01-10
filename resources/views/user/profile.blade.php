@@ -12,7 +12,7 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <div class="form-group">
                         <label for="name">{{ Lang::get('users.name') }}</label>
-                        <input type="text" name="name" value="{{ $user->name }}" placeholder="{{ Lang::get('users.name') }}" class="form-control" />
+                        <input type="text" name="name" value="{{ $logged_in_user->name }}" placeholder="{{ Lang::get('users.name') }}" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label for="password">{{ Lang::get('users.password') }}</label>
@@ -87,13 +87,13 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <img src="{{ Auth::user()->avatar_url }}" class="current-avatar-preview" />
+                        <img src="{{ $logged_in_user->avatar_url }}" class="current-avatar-preview" />
 
                         <div class="avatar-preview preview-md hide"></div>
 
                         <div id="avatar-save-buttons">
                             <button type="button" class="btn btn-primary btn-flat hide" id="save-avatar">{{ Lang::get('users.save') }}</button>
-                            <button type="button" class="btn btn-warning btn-flat @if(!$user->avatar) hide @endif" id="use-gravatar">{{ Lang::get('users.reset_gravatar') }}</button>
+                            <button type="button" class="btn btn-warning btn-flat @if(!$logged_in_user->avatar) hide @endif" id="use-gravatar">{{ Lang::get('users.reset_gravatar') }}</button>
                         </div>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                 <form action="{{ route('profile.twofactor') }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-                    @if ($user->has_two_factor_authentication)
+                    @if ($logged_in_user->has_two_factor_authentication)
                         <div class="pull-right">
                             <img src="{{ $google_2fa_url }}" class="img-responsive" />
                         </div>
@@ -125,7 +125,7 @@
 
                     <div class="checkbox">
                         <label for="two-factor-auth">
-                            <input type="checkbox" id="two-factor-auth" name="two_factor" value="on"  @if ($user->has_two_factor_authentication) checked @endif />
+                            <input type="checkbox" id="two-factor-auth" name="two_factor" value="on"  @if ($logged_in_user->has_two_factor_authentication) checked @endif />
                             {{ Lang::get('users.enable_2fa') }}
                         </label>
 

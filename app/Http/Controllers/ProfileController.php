@@ -39,7 +39,6 @@ class ProfileController extends Controller
 
         return view('user.profile', [
             'google_2fa_url' => $img,
-            'user'           => $user,
             'title'          => Lang::get('users.update_profile'),
         ]);
     }

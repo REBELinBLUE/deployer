@@ -19,10 +19,11 @@ class ThemeComposer
     public function compose(View $view)
     {
         $theme = config('deployer.theme');
+        $user = Auth::user();
 
-        if (Auth::user()) {
-            if (!empty(Auth::user()->skin)) {
-                $theme = Auth::user()->skin;
+        if ($user) {
+            if (!empty($user->skin)) {
+                $theme = $user->skin;
             }
         }
 
