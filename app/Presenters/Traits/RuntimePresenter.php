@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Presenters;
+namespace REBELinBLUE\Deployer\Presenters\Traits;
 
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
