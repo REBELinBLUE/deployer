@@ -44,6 +44,6 @@ class UpdateServiceProvider extends ServiceProvider
                            ->expectsJson()
                            ->send();
 
-        dd($response->body->tag_name);
+        //dd($response->body->tag_name);
     }
 }

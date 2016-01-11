@@ -53,6 +53,15 @@
                     @yield('content')
                 </section>
             </div>
+
+            <footer class="main-footer">
+                <div class="pull-right">
+                    <b>Version</b> {{ APP_VERSION }}
+                </div>
+                &nbsp;
+                <!--<strong>Copyright © 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.-->
+            </footer>
+
         </div>
 
         <script src="{{ elixir('js/vendor.js') }}"></script>
