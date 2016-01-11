@@ -35,11 +35,18 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $img  = Google2FA::getQRCodeGoogleUrl('Deployer', $user->name, $user->google2fa_secret);
+
+        $code = Google2FA::generateSecretKey();
+        if ($user->has_two_factor_authentication || old('google_code')) {
+            $code = old('google_code', $user->google2fa_secret);
+        }
+
+        $img = Google2FA::getQRCodeGoogleUrl('Deployer', $user->email, $code);
 
         return view('user.profile', [
-            'google_2fa_url' => $img,
-            'title'          => Lang::get('users.update_profile'),
+            'google_2fa_url'  => $img,
+            'google_2fa_code' => $code,
+            'title'           => Lang::get('users.update_profile'),
         ]);
     }
 
@@ -191,17 +198,30 @@ class ProfileController extends Controller
         ];
     }
 
+    /**
+     * Activates two factor authentication
+     * @param  Request $request
+     * @return Response
+     */
     public function twoFactor(Request $request)
     {
         $secret = null;
         if ($request->get('two_factor')) {
-            $secret = Google2FA::generateSecretKey();
+            $secret = $request->get('google_code');
+
+            if (!Google2FA::verifyKey($secret, $request->get('2fa_code'))) {
+                $secret = null;
+
+                return redirect()->back()
+                                 ->withInput($request->only('google_code', 'two_factor'))
+                                 ->withError(Lang::get('auth.invalid_code'));
+            }
         }
 
         $user                   = Auth::user();
         $user->google2fa_secret = $secret;
         $user->save();
 
-        return redirect()->route('profile.index');
+        return redirect()->to('/');
     }
 }

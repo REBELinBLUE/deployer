@@ -178,3 +178,7 @@ dl.dl-horizontal#hook_command_ids dd {
 #command div#tokens ul li {
     margin: 2px auto;
 }
+
+input#verify-google-code {
+    width: 35%;
+}

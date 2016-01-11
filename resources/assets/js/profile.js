@@ -11,7 +11,17 @@ var app = app || {};
         $("body").addClass('skin-' + $(this).find(':selected').val());
     });
 
-    var cropperData = {};
+    $('#two-factor-auth').on('change', function () {
+
+        var container = $('.auth-code');
+
+        if ($(this).is(':checked')) {
+            container.removeClass('hide');
+        } else {
+            container.addClass('hide');
+        }
+    });
+
     $('#request-change-email').on('click', function() {
         var box = $(this).parents('.box');
         box.children('.overlay').removeClass('hide');
@@ -23,6 +33,7 @@ var app = app || {};
         });
     });
 
+    var cropperData = {};
     $('.avatar>img').cropper({
         aspectRatio: 1 / 1,
         preview: '.avatar-preview',
@@ -72,7 +83,7 @@ var app = app || {};
         }
     });
 
-    $('#save-avatar').click(function(){
+    $('#save-avatar').on('click', function(){
         $('#upload-overlay').removeClass('hide');
         $('.avatar-message .alert').addClass('hide');
         $.post('/profile/avatar', cropperData).success(function(resp) {
@@ -86,7 +97,7 @@ var app = app || {};
         });
     });
 
-    $('#use-gravatar').click(function () {
+    $('#use-gravatar').on('click', function () {
 
         $('#upload-overlay').removeClass('hide');
         $('.avatar-message .alert').addClass('hide');
