@@ -30,7 +30,7 @@ elixir(function(mix) {
     .styles([
         'public/css/vendor.css',
         paths.toastr + '/toastr.css',
-        paths.cropper + '/dist/cropper.min.css',
+        paths.cropper + '/dist/cropper.css',
     ], 'public/css/vendor.css', './')
     .styles([
         'AdminLTE.css',
@@ -39,7 +39,7 @@ elixir(function(mix) {
     ], 'public/css/app.css', 'resources/assets/css')
     .scripts([
         paths.html5shiv + '/dist/html5shiv.js',
-        paths.respond   + '/dest/respond.min.js'
+        paths.respond   + '/dest/respond.js'
     ], 'public/js/ie.js', bower_path)
     .scripts([
         paths.jquery          + '/dist/jquery.js',
@@ -55,7 +55,7 @@ elixir(function(mix) {
         paths.ace             + '/mode-php.js',
         paths.ace             + '/mode-yaml.js',
         paths.ace             + '/mode-ini.js',
-        paths.cropper         + '/dist/cropper.min.js'
+        paths.cropper         + '/dist/cropper.js'
     ], 'public/js/vendor.js', bower_path)
     .scripts([
         'app.js',

@@ -53,14 +53,14 @@
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ Auth::user()->avatar_url }}" class="user-image" />
-                        <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                        <img src="{{ $logged_in_user->avatar_url }}" class="user-image" />
+                        <span class="hidden-xs">{{ $logged_in_user->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="user-header">
-                            <img src="{{ Auth::user()->avatar_url }}" class="img-circle" />
+                            <img src="{{ $logged_in_user->avatar_url }}" class="img-circle" />
                             <p>
-                                {{ Auth::user()->name }}
+                                {{ $logged_in_user->name }}
                             </p>
                         </li>
                         <li class="user-footer">
@@ -68,7 +68,7 @@
                                 <a href="{{ route('profile.index') }}" class="btn btn-default btn-flat">{{ Lang::get('users.profile') }}</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ url('auth/logout') }}" class="btn btn-default btn-flat">{{ Lang::get('app.signout') }}</a>
+                                <a href="{{ url('logout') }}" class="btn btn-default btn-flat">{{ Lang::get('app.signout') }}</a>
                             </div>
                         </li>
                     </ul>

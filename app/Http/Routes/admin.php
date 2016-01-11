@@ -1,0 +1,26 @@
+<?php
+
+// Administration
+Route::group([
+    'middleware' => ['web', 'auth'],
+    'prefix'     => 'admin',
+    'namespace'  => 'Admin',
+], function () {
+
+    Route::resource('templates', 'TemplateController', [
+        'only' => ['index', 'store', 'update', 'destroy', 'show'],
+    ]);
+
+    Route::resource('projects', 'ProjectController', [
+        'only' => ['index', 'store', 'update', 'destroy'],
+    ]);
+
+    Route::resource('users', 'UserController', [
+        'only' => ['index', 'store', 'update', 'destroy'],
+    ]);
+
+    Route::resource('groups', 'GroupController', [
+        'only' => ['index', 'store', 'update'],
+    ]);
+
+});

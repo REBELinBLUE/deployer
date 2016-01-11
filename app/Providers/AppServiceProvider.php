@@ -16,15 +16,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Define a constant for the application version
+        if (!defined('APP_VERSION')) {
+            define('APP_VERSION', trim(file_get_contents(app_path('../VERSION'))));
+        }
     }
 
     /**
      * Register any application services.
-     *
-     * This service provider is a great spot to register your various container
-     * bindings with the application. As you can see, we are registering our
-     * "Registrar" implementation here. You can add your own bindings too!
      *
      * @return void
      */

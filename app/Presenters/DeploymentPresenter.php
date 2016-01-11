@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Presenters;
 
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Presenters\Traits\RuntimePresenter;
 use Robbo\Presenter\Presenter;
 
 /**
@@ -63,7 +64,7 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->status === Deployment::COMPLETED) {
             return 'check';
-        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::COMPLETED_WITH_ERRORS, Deployment::ABORTING, Deployment::ABORTED])) {
+        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::COMPLETED_WITH_ERRORS, Deployment::ABORTING, Deployment::ABORTED], true)) {
             return 'warning';
         } elseif ($this->status === Deployment::DEPLOYING) {
             return 'spinner fa-pulse';
@@ -81,7 +82,7 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'success';
-        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::ABORTING, Deployment::ABORTED])) {
+        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::ABORTING, Deployment::ABORTED], true)) {
             return 'danger';
         } elseif ($this->status === Deployment::DEPLOYING) {
             return 'warning';
@@ -99,7 +100,7 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'green';
-        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::ABORTING, Deployment::ABORTED])) {
+        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::ABORTING, Deployment::ABORTED], true)) {
             return 'red';
         } elseif ($this->status === Deployment::DEPLOYING) {
             return 'yellow';

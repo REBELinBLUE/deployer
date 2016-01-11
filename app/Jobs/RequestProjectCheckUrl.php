@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Jobs;
 
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,7 +14,7 @@ use REBELinBLUE\Deployer\Jobs\Job;
 /**
  * Request the urls.
  */
-class RequestProjectCheckUrl extends Job implements SelfHandling, ShouldQueue
+class RequestProjectCheckUrl extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 

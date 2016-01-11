@@ -499,7 +499,7 @@ class InstallApp extends Command
     private function verifyNotInstalled()
     {
         // TODO: Check for valid DB connection, and migrations have run?
-        if (getenv('APP_KEY') !== false && getenv('APP_KEY') !== 'SomeRandomString') {
+        if (config('app.key') !== false && config('app.key') !== 'SomeRandomString') {
             $this->block([
                 'You have already installed Deployer!',
                 PHP_EOL,

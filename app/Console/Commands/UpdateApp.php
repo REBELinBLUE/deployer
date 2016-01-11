@@ -177,7 +177,7 @@ class UpdateApp extends InstallApp
      */
     private function verifyInstalled()
     {
-        if (getenv('APP_KEY') === false || getenv('APP_KEY') === 'SomeRandomString') {
+        if (config('app.key') === false || config('app.key') === 'SomeRandomString') {
             $this->block([
                 'Deployer has not been installed',
                 PHP_EOL,

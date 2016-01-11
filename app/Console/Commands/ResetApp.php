@@ -69,7 +69,7 @@ class ResetApp extends UpdateApp
      */
     private function verifyNotProduction()
     {
-        if ($this->getLaravel()->environment() !== 'local') {
+        if (config('app.env') !== 'local') {
             $this->block([
                 'Deployer is not in development mode!',
                 PHP_EOL,

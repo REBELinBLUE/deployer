@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use Httpful\Request;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -13,7 +12,7 @@ use REBELinBLUE\Deployer\Notification;
 /**
  * Sends notification to slack.
  */
-class Notify extends Job implements SelfHandling, ShouldQueue
+class Notify extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

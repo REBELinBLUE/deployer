@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -14,7 +13,7 @@ use Symfony\Component\Process\Process;
 /**
  * Tests if a server can successfully be SSHed into.
  */
-class TestServerConnection extends Job implements SelfHandling, ShouldQueue
+class TestServerConnection extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

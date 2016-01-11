@@ -36,8 +36,8 @@
                                 <li><code>@{{ branch }}</code> - {{ Lang::get('commands.branch') }}, {{ Lang::get('commands.example') }} <span class="label label-default">master</span></li>
                                 <li><code>@{{ sha }}</code> - {{ Lang::get('commands.sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e6f6fd15c50efe53e090308861ec8a8288</span></li>
                                 <li><code>@{{ short_sha }}</code> - {{ Lang::get('commands.short_sha') }}, {{ Lang::get('commands.example') }} <span class="label label-default">1def37e</span></li>
-                                <li><code>@{{ deployer_email }}</code> - {{ Lang::get('commands.deployer_email') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ Auth::user()->email }}</span></li>
-                                <li><code>@{{ deployer_name }}</code> - {{ Lang::get('commands.deployer_email') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ Auth::user()->name }}</span></li>
+                                <li><code>@{{ deployer_email }}</code> - {{ Lang::get('commands.deployer_email') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ $logged_in_user->email }}</span></li>
+                                <li><code>@{{ deployer_name }}</code> - {{ Lang::get('commands.deployer_email') }}, {{ Lang::get('commands.example') }} <span class="label label-default">{{ $logged_in_user->name }}</span></li>
                                 <li><code>@{{ committer_email }}</code> - {{ Lang::get('commands.committer_name') }}, {{ Lang::get('commands.example') }} <span class="label label-default">joe.bloggs@example.com</span></li>
                                 <li><code>@{{ committer_name }}</code> - {{ Lang::get('commands.committer_email') }}, {{ Lang::get('commands.example') }} <span class="label label-default">Joe Bloggs</span></li>
                             </ul>

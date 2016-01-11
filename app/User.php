@@ -37,7 +37,14 @@ class User extends Model implements
      *
      * @var array
      */
-    protected $hidden = ['deleted_at', 'updated_at', 'password', 'remember_token'];
+    protected $hidden = ['deleted_at', 'updated_at', 'password', 'remember_token', 'google2fa_secret'];
+
+    /**
+     * Additional attributes to include in the JSON representation.
+     *
+     * @var array
+     */
+    protected $appends = ['has_two_factor_authentication'];
 
     /**
      * Generate a change email token.
@@ -75,5 +82,15 @@ class User extends Model implements
         }
 
         return parent::__get($key);
+    }
+
+    /**
+     * Determines whether the user has Google 2FA enabled.
+     *
+     * @return bool
+     */
+    public function getHasTwoFactorAuthenticationAttribute()
+    {
+        return !empty($this->google2fa_secret);
     }
 }

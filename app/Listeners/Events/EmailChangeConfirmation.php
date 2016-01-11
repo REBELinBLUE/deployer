@@ -34,7 +34,6 @@ class EmailChangeConfirmation implements ShouldQueue
      */
     public function handle(EmailChangeRequested $event)
     {
-        DB::reconnect();
         $user = $event->user;
 
         $data = [

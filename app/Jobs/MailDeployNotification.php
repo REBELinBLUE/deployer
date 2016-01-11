@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
@@ -13,7 +12,7 @@ use REBELinBLUE\Deployer\Project;
 /**
  * Send email notifications for deployment.
  */
-class MailDeployNotification extends Job implements SelfHandling
+class MailDeployNotification extends Job
 {
     private $project;
     private $deployment;

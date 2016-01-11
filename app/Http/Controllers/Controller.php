@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 /**
  * Generic Controller class.
  */
-abstract class Controller extends BaseController
+class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

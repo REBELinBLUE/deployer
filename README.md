@@ -1,6 +1,6 @@
 # Deployer
 
-Deployer is a PHP Application deployment system powered by [Laravel 5.1](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
+Deployer is a PHP Application deployment system powered by [Laravel 5.2](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
 
 Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](LICENSE.md), [screenshots](SCREENSHOTS.md), and [contribution guidelines](CONTRIBUTING.md).
 
@@ -67,7 +67,7 @@ The `master` branch of this repository is a development branch and **should not*
 2. Checkout the latest release
 
     ```shell
-    $ git checkout 0.0.23
+    $ git checkout 0.0.24
     ```
 
 3. Install dependencies
@@ -102,7 +102,7 @@ The `master` branch of this repository is a development branch and **should not*
 
     ```shell
     $ git fetch --all
-    $ git checkout 0.0.23
+    $ git checkout 0.0.24
      ```
 
 2. Update the dependencies

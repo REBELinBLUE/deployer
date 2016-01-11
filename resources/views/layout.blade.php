@@ -16,7 +16,7 @@
         <![endif]-->
 
         <meta name="token" content="{{ Session::token() }}" />
-        <meta name="socket_url" content="{{ env('SOCKET_URL') }}" />
+        <meta name="socket_url" content="{{ config('deployer.socket_url') }}" />
         <meta name="jwt" content="{{ Session::get('jwt') }}" />
 
         <script type="text/javascript">var Lang = {};</script>

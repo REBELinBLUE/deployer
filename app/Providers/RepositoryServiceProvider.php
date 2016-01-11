@@ -52,8 +52,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public function bindInterface($name)
     {
         $this->app->bind(
-            'REBELinBLUE\Deployer\\Repositories\\Contracts\\' . $name . 'RepositoryInterface',
-            'REBELinBLUE\Deployer\\Repositories\\Eloquent' . $name . 'Repository'
+            'REBELinBLUE\\Deployer\\Repositories\\Contracts\\' . $name . 'RepositoryInterface',
+            'REBELinBLUE\\Deployer\\Repositories\\Eloquent' . $name . 'Repository'
         );
     }
 }

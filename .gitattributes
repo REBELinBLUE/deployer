@@ -16,6 +16,7 @@
 *.json text
 *.svg text
 artisan text
+VERSION text
 
 # server config
 .htaccess text

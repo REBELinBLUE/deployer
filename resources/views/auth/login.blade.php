@@ -5,19 +5,27 @@
         <div class="login-logo">
             <b>{{ Lang::get('app.name') }}</b>
         </div>
-        @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <strong>{{ Lang::get('auth.oops') }}</strong> {{ Lang::get('auth.problems') }}<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
         @endif
+
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>{{ Lang::get('auth.oops') }}</strong> {{ Lang::get('auth.problems') }}<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="login-box-body">
             <p class="login-box-msg">{{ Lang::get('auth.please_sign_in') }}</p>
-            <form action="{{ url('/auth/login') }}" method="post">
+            <form action="{{ url('login') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div class="form-group has-feedback">
                     <input type="email" class="form-control" placeholder="{{ Lang::get('auth.email') }}" name="email" value="{{ old('email') }}" required />
