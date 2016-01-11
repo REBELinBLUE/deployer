@@ -25,6 +25,12 @@ class EventServiceProvider extends ServiceProvider
         'REBELinBLUE\Deployer\Events\EmailChangeRequested' => [
             'REBELinBLUE\Deployer\Listeners\Events\EmailChangeConfirmation',
         ],
+        'Illuminate\Auth\Events\Login' => [
+            'REBELinBLUE\Deployer\Listeners\Events\CreateJwt',
+        ],
+        'Illuminate\Auth\Events\Logout' => [
+            'REBELinBLUE\Deployer\Listeners\Events\ClearJwt',
+        ],
     ];
 
     /**

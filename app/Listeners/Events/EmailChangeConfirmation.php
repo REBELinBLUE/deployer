@@ -13,7 +13,7 @@ use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 /**
  * Request email change handler.
  */
-class EmailChangeConfirmation implements ShouldQueue
+class EmailChangeConfirmation extends Event implements ShouldQueue
 {
     use InteractsWithQueue;
     /**
