@@ -199,14 +199,14 @@ class ProfileController extends Controller
     }
 
     /**
-     * Activates two factor authentication
-     * @param  Request $request
+     * Activates two factor authentication.
+     * @param  Request  $request
      * @return Response
      */
     public function twoFactor(Request $request)
     {
         $secret = null;
-        if ($request->get('two_factor')) {
+        if ($request->has('two_factor')) {
             $secret = $request->get('google_code');
 
             if (!Google2FA::verifyKey($secret, $request->get('2fa_code'))) {
