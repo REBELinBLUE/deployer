@@ -48,7 +48,7 @@ class EmailChangeConfirmation extends Event implements ShouldQueue
             $data,
             function (Message $message) use ($user) {
                 $message->to($user->email, $user->name)
-                ->subject(Lang::get('emails.confirm_email'));
+                        ->subject(Lang::get('emails.confirm_email'));
             }
         );
     }
