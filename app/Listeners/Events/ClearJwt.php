@@ -25,6 +25,7 @@ class ClearJwt extends Event
      *
      * @param  Logout $event
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function handle(Logout $event)
     {
