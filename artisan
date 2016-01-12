@@ -1,14 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-// Overload the clear-compiled command so that we don't
-// have issues when removing Service Providers
-if (isset($argv[1]) && $argv[1] == 'clear-compiled') {
-    foreach (glob(__DIR__ . '/bootstrap/cache/*.*') as $file) {
-        @unlink($file);
-    }
-}
-
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -21,9 +13,9 @@ if (isset($argv[1]) && $argv[1] == 'clear-compiled') {
 |
 */
 
-require __DIR__ . '/bootstrap/autoload.php';
+require __DIR__.'/bootstrap/autoload.php';
 
-$app = require_once __DIR__ . '/bootstrap/app.php';
+$app = require_once __DIR__.'/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------

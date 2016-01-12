@@ -10,9 +10,8 @@
             <p class="login-box-msg">{{ Lang::get('auth.please_enter_code') }}</p>
             <form action="{{ route('auth.twofactor') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                <div class="form-group has-feedback">
-                    <input type="text" class="form-control" maxlength="6" placeholder="{{ Lang::get('auth.authentication_code') }}" name="2fa_code" required />
-                    <span class="fa fa-user-secret form-control-feedback"></span>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="{{ Lang::get('auth.authentication_code') }}" name="2fa_code" required />
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
