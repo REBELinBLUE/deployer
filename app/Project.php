@@ -39,7 +39,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $fillable = ['name', 'repository', 'branch', 'group_id',
-                           'builds_to_keep', 'url', 'build_url', 'is_template', ];
+                           'builds_to_keep', 'url', 'build_url', 'is_template', 'allow_other_branch', ];
 
     /**
      * The fields which should be treated as Carbon instances.
@@ -61,9 +61,10 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $casts = [
-        'status'         => 'integer',
-        'builds_to_keep' => 'integer',
-        'is_template'    => 'boolean',
+        'status'             => 'integer',
+        'builds_to_keep'     => 'integer',
+        'is_template'        => 'boolean',
+        'allow_other_branch' => 'boolean',
     ];
 
     /**
