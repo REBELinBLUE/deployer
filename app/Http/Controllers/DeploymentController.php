@@ -135,8 +135,11 @@ class DeploymentController extends Controller
             'optional'   => [],
         ];
 
-        if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
-            $data['branch'] = Input::get('source_' . Input::get('source'));
+        // If allow other branches is set, check for post data
+        if ($project->allow_other_branch) {
+            if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
+                $data['branch'] = Input::get('source_' . Input::get('source'));
+            }
         }
 
         if (Input::has('optional')) {

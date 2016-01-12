@@ -40,6 +40,8 @@ return [
     'pending'           => 'Pending',
     'deploying'         => 'Deploying',
     'failed'            => 'Failed',
-    'not_deployed'      => 'Not Deployed'
+    'not_deployed'      => 'Not Deployed',
+    'options'           => 'Options',
+    'change_branch'     => 'Allow other branches to be deployed?'
 
 ];

@@ -38,14 +38,14 @@
                         <label>{{ Lang::get('servers.options') }}</label>
                         <div class="checkbox">
                             <label for="server_deploy_code">
-                                <input type="checkbox" value="1" name="deploy_code" id="server_deploy_code" /> 
+                                <input type="checkbox" value="1" name="deploy_code" id="server_deploy_code" />
                                 {{ Lang::get('servers.deploy_code') }}
                             </label>
                         </div>
                         @if ($project->commands->count() > 0)
                         <div class="checkbox" id="add-server-command">
                             <label for="server_commands">
-                                <input type="checkbox" value="1" name="commands" id="server_commands" checked /> 
+                                <input type="checkbox" value="1" name="commands" id="server_commands" checked />
                                 {{ Lang::get('servers.add_command') }}
                             </label>
                         </div>

@@ -57,6 +57,15 @@
                         <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('projects.ci_image') }}"></i>
                         <input type="text" class="form-control" name="build_url" id="project_build_url" placeholder="http://ci.example.com/status.png?project=1" />
                     </div>
+                    <div class="form-group">
+                        <label>{{ Lang::get('projects.options') }}</label>
+                        <div class="checkbox">
+                            <label for="project_allow_other_branch">
+                                <input type="checkbox" value="1" name="allow_other_branch" id="project_allow_other_branch" />
+                                {{ Lang::get('projects.change_branch') }}
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> {{ Lang::get('app.delete') }}</button>
