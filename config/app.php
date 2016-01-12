@@ -168,7 +168,6 @@ return [
         REBELinBLUE\Deployer\Providers\AppServiceProvider::class,
         REBELinBLUE\Deployer\Providers\AuthServiceProvider::class,
         REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
-        REBELinBLUE\Deployer\Providers\JwtServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RepositoryServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RouteServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,

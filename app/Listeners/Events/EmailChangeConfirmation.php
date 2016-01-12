@@ -13,7 +13,7 @@ use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 /**
  * Request email change handler.
  */
-class EmailChangeConfirmation implements ShouldQueue
+class EmailChangeConfirmation extends Event implements ShouldQueue
 {
     use InteractsWithQueue;
     /**
@@ -48,7 +48,7 @@ class EmailChangeConfirmation implements ShouldQueue
             $data,
             function (Message $message) use ($user) {
                 $message->to($user->email, $user->name)
-                ->subject(Lang::get('emails.confirm_email'));
+                        ->subject(Lang::get('emails.confirm_email'));
             }
         );
     }

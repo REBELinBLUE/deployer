@@ -114,25 +114,43 @@
                 <h3 class="box-title">{{ Lang::get('users.2fa') }}</h3>
             </div>
             <div class="box-body">
+
+                @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
+
                 <form action="{{ route('profile.twofactor') }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-                    @if ($logged_in_user->has_two_factor_authentication)
-                        <div class="pull-right">
-                            <img src="{{ $google_2fa_url }}" class="img-responsive" />
-                        </div>
-                    @endif
+                    <div class="pull-right auth-code @if (!$logged_in_user->has_two_factor_authentication and !old('google_code')) hide @endif ">
+                        <img src="{{ $google_2fa_url }}" id="two-factor-img" class="img-responsive" />
+                    </div>
 
                     <div class="checkbox">
                         <label for="two-factor-auth">
-                            <input type="checkbox" id="two-factor-auth" name="two_factor" value="on"  @if ($logged_in_user->has_two_factor_authentication) checked @endif />
-                            {{ Lang::get('users.enable_2fa') }}
+                            <input type="checkbox" id="two-factor-auth" name="two_factor" value="on" @if ($logged_in_user->has_two_factor_authentication or old('google_code')) checked @endif />
+                            <strong>{{ Lang::get('users.enable_2fa') }}</strong>
                         </label>
 
                         <span class="help-block">
                             {!! Lang::get('users.2fa_help') !!}
                         </span>
                     </div>
+
+                    @if (!$logged_in_user->has_two_factor_authentication)
+                    <div class="form-group auth-code @if (!old('google_code')) hide @endif">
+
+                        <label for="verify-google-code" style="clear:both">{{ Lang::get('users.verify_code') }}</label>
+                        <input type="text" name="2fa_code" placeholder="{{ Lang::get('auth.authentication_code') }}" maxlength="6" class="form-control" id="verify-google-code" />
+                        <input type="hidden" name="google_code" value="{{ $google_2fa_code }}" />
+
+                        <span class="help-block">
+                            {{ Lang::get('users.verify_help') }}
+                        </span>
+                    </div>
+                    @endif
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-flat">{{ Lang::get('users.save') }}</button>

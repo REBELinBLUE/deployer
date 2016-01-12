@@ -37,7 +37,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        return parent::report($exception);
+        parent::report($exception);
     }
 
     /**
@@ -53,8 +53,9 @@ class Handler extends ExceptionHandler
             return $this->renderHttpException($exception);
         }
 
-        if (config('app.debug')) {
-            return $this->renderExceptionWithWhoops($exception);
+        // Only show whoops pages is debugging is enabled and it is installed, i.e. on dev
+        if (config('app.debug') && class_exists('\Whoops\Run', true)) {
+            return $this->renderExceptionWithWhoops($request, $exception);
         }
 
         return parent::render($request, $exception);
@@ -63,17 +64,18 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception using Whoops.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Exception                $exception
      * @return \Illuminate\Http\Response
      */
-    protected function renderExceptionWithWhoops(Exception $exception)
+    protected function renderExceptionWithWhoops($request, Exception $exception)
     {
-        $json = new \Whoops\Handler\JsonResponseHandler;
-        $json->onlyForAjaxRequests(true);
-
         $whoops = new \Whoops\Run;
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
-        $whoops->pushHandler($json);
+
+        if ($request->ajax()) {
+            $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
+        }
 
         return new \Illuminate\Http\Response(
             $whoops->handleException($exception),

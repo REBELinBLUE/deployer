@@ -16,14 +16,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'REBELinBLUE\Deployer\Events\UserWasCreated'       => [
+        'REBELinBLUE\Deployer\Events\UserWasCreated' => [
             'REBELinBLUE\Deployer\Listeners\Events\SendSignupEmail',
         ],
-        'REBELinBLUE\Deployer\Events\DeployFinished'       => [
+        'REBELinBLUE\Deployer\Events\DeployFinished' => [
             'REBELinBLUE\Deployer\Listeners\Events\Notify',
         ],
         'REBELinBLUE\Deployer\Events\EmailChangeRequested' => [
             'REBELinBLUE\Deployer\Listeners\Events\EmailChangeConfirmation',
+        ],
+        'Illuminate\Auth\Events\Login' => [
+            'REBELinBLUE\Deployer\Listeners\Events\CreateJwt',
+        ],
+        'Illuminate\Auth\Events\Logout' => [
+            'REBELinBLUE\Deployer\Listeners\Events\ClearJwt',
         ],
     ];
 
