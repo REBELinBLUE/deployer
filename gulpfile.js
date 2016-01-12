@@ -50,12 +50,12 @@ elixir(function(mix) {
         paths.backbone        + '/backbone.js',
         paths.socketio_client + '/socket.io.js',
         paths.toastr          + '/toastr.js',
+        paths.cropper         + '/dist/cropper.js',
         paths.ace             + '/ace.js',
         paths.ace             + '/mode-sh.js',
         paths.ace             + '/mode-php.js',
         paths.ace             + '/mode-yaml.js',
-        paths.ace             + '/mode-ini.js',
-        paths.cropper         + '/dist/cropper.js'
+        paths.ace             + '/mode-ini.js'
     ], 'public/js/vendor.js', bower_path)
     .scripts([
         'app.js',

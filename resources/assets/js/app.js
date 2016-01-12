@@ -17,7 +17,7 @@ toastr.options.extendedTimeOut = 7000;
 (function ($) {
 
     // Don't need to try and connect to the web socket when not logged in
-    if (window.location.href.match(/auth|password/) != null) {
+    if (window.location.href.match(/login|password/) != null) {
         return;
     }
 
