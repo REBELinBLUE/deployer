@@ -53,10 +53,20 @@ class WebhookController extends Controller
         $success = false;
         if ($project->servers->where('deploy_code', true)->count() > 0) {
             // Get the branch if it is the rquest, otherwise deploy the default branch
-            $branch = Input::has('branch') ? Input::get('branch') : $project->branch;
+            $branch = $project->branch;
 
             $do_deploy = true;
-            if (Input::has('update_only') && Input::get('update_only') !== false) {
+
+            // If allow other branches is set, check for post data
+            if (Input::has('branch')) {
+                $branch = Input::get('branch');
+
+                if (!$project->allow_other_branch && $branch !== $project->branch) {
+                    $do_deploy = false;
+                }
+            }
+
+            if ($do_deploy && Input::has('update_only') && Input::get('update_only') !== false) {
                 // Get the latest deployment and check the branch matches
                 $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
 
