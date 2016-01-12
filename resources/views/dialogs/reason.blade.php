@@ -14,6 +14,7 @@
                         <i class="icon fa fa-warning"></i> {{ Lang::get('deployments.warning') }}
                     </div>
 
+                    @if ($project->allow_other_branch)
                     <div class="form-group">
                         <label for="deployment_source">{{ Lang::get('deployments.source') }}</label>
                         <ul class="list-unstyled">
@@ -43,6 +44,7 @@
                         </ul>
                     </div>
                     <hr />
+                    @endif
                     <div class="form-group">
                         <label for="deployment_reason">{{ Lang::get('deployments.describe_reason') }}</label>
                         <textarea rows="10" id="deployment_reason" class="form-control" name="reason" placeholder="For example, Allows users to reset their password"></textarea>
