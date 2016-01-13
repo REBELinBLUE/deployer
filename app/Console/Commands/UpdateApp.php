@@ -46,6 +46,8 @@ class UpdateApp extends InstallApp
             return;
         }
 
+        $bring_back_up = false
+
         if (!App::isDownForMaintenance()) {
             $this->error(Lang::get('app.not_down'));
 
