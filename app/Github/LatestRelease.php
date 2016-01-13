@@ -38,10 +38,17 @@ class LatestRelease
 
             $response = $request->send();
 
-            // FIXME: handle errors, maybe throw an exception?
+            if ($response->hasErrors()) {
+                return false;
+            }
+
             return $response->body;
         });
 
-        return $release->tag_name;
+        if (is_object($release)) {
+            return $release->tag_name;
+        }
+
+        return false;
     }
 }
