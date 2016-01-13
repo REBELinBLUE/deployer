@@ -29,9 +29,8 @@
 - Remove references to gitlab in the SSH key dialog [\#131](https://github.com/REBELinBLUE/deployer/issues/131)
 - Tokens for deployer and committer users [\#123](https://github.com/REBELinBLUE/deployer/issues/123)
 - Update command should prompt for confirmation before taking the site offline [\#113](https://github.com/REBELinBLUE/deployer/issues/113)
-- Ability to supply ENV variables [\#108](https://github.com/REBELinBLUE/deployer/issues/108)
 - Cancel deployment [\#142](https://github.com/REBELinBLUE/deployer/pull/142) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Env variables [\#141](https://github.com/REBELinBLUE/deployer/pull/141) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Ability to supply ENV variables [\#141](https://github.com/REBELinBLUE/deployer/pull/141) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 **Fixed bugs:**
 
@@ -42,9 +41,7 @@
 
 **Closed issues:**
 
-- Provide composer auth details [\#132](https://github.com/REBELinBLUE/deployer/issues/132)
 - websocket not updates the screen [\#125](https://github.com/REBELinBLUE/deployer/issues/125)
-- Add the option for a full clone [\#101](https://github.com/REBELinBLUE/deployer/issues/101)
 
 ## [0.0.22](https://github.com/REBELinBLUE/deployer/tree/0.0.22) (2015-11-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.21...0.0.22)
