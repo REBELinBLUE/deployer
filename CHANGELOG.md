@@ -6,7 +6,7 @@
 
 **Implemented enhancements:**
 
-- Add option to deploy only master branch [\#146](https://github.com/REBELinBLUE/deployer/issues/146)
+- Add option to deploy only default branch [\#146](https://github.com/REBELinBLUE/deployer/issues/146)
 
 ## [0.0.26](https://github.com/REBELinBLUE/deployer/tree/0.0.26) (2016-01-12)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.25...0.0.26)
@@ -159,7 +159,7 @@
 
 **Implemented enhancements:**
 
-- Update the application status view simply like below [\#53](https://github.com/REBELinBLUE/deployer/pull/53) ([iflamed](https://github.com/iflamed))
+- Add a health check block to project details [\#53](https://github.com/REBELinBLUE/deployer/pull/53) ([iflamed](https://github.com/iflamed))
 
 **Fixed bugs:**
 
