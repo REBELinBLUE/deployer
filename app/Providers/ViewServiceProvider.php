@@ -27,7 +27,7 @@ class ViewServiceProvider extends ServiceProvider
         $factory->composer('_partials.nav', HeaderComposer::class);
         $factory->composer('_partials.sidebar', NavigationComposer::class);
         $factory->composer(['layout', 'user.profile'], ThemeComposer::class);
-        $factory->composer('_partials.footer', VersionComposer::class);
+        $factory->composer('_partials.update', VersionComposer::class);
     }
 
     /**

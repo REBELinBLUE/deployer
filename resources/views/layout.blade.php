@@ -34,6 +34,8 @@
 
                     <h1>{{ $title }} @if(isset($subtitle)) <small>{{ $subtitle }}</small>@endif</h1>
 
+                    @include('_partials.update')
+
                     <div class="alert alert-danger" id="socket_offline">
                         <h4><i class="icon fa fa-ban"></i> {{ Lang::get('app.socket_error') }}</h4>
                         {!! Lang::get('app.socket_error_info') !!}
@@ -54,7 +56,6 @@
                 </section>
             </div>
 
-            @include('_partials.footer')
 
         </div>
 
