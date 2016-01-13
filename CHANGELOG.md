@@ -118,7 +118,6 @@
 - Failed after activate new release is confusing [\#95](https://github.com/REBELinBLUE/deployer/issues/95)
 - Make composer install command as optional [\#94](https://github.com/REBELinBLUE/deployer/issues/94)
 - create a cronjob to delete orphaned user avatars [\#80](https://github.com/REBELinBLUE/deployer/issues/80)
-- Use StyleCI for code standards [\#75](https://github.com/REBELinBLUE/deployer/issues/75)
 - Allow for choosing default state of optional commands [\#69](https://github.com/REBELinBLUE/deployer/issues/69)
 - Allow optional commands to be specified in webhooks [\#65](https://github.com/REBELinBLUE/deployer/issues/65)
 - User profile [\#10](https://github.com/REBELinBLUE/deployer/issues/10)
@@ -139,6 +138,7 @@
 
 **Closed issues:**
 
+- Use StyleCI for code standards [\#75](https://github.com/REBELinBLUE/deployer/issues/75)
 - Repositories [\#48](https://github.com/REBELinBLUE/deployer/issues/48)
 
 **Merged pull requests:**
@@ -146,7 +146,6 @@
 - Fix PSR2 [\#83](https://github.com/REBELinBLUE/deployer/pull/83) ([jbrooksuk](https://github.com/jbrooksuk))
 - Changing App namespace to REBELinBLUE\Deployer [\#81](https://github.com/REBELinBLUE/deployer/pull/81) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Repositories [\#62](https://github.com/REBELinBLUE/deployer/pull/62) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- \[WIP\] Restful API [\#59](https://github.com/REBELinBLUE/deployer/pull/59) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.15](https://github.com/REBELinBLUE/deployer/tree/0.0.15) (2015-06-19)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.14...0.0.15)
