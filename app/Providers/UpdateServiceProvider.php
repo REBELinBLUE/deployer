@@ -39,11 +39,17 @@ class UpdateServiceProvider extends ServiceProvider
      */
     public function getLatestRelease()
     {
-        $response = Request::get($this->github_url)
-                           ->addAcceptHeader('application/vnd.github.v3+json')
-                           ->expectsJson()
-                           ->send();
+        $request = Request::get($this->github_url)
+                          ->expectsJson()
+                          ->withAccept('application/vnd.github.v3+json');
 
-        //dd($response->body->tag_name);
+        if (config('deployer.github_oauth_token')) {
+            $request->withAuthorization('token ' . config('deployer.github_oauth_token'));
+        }
+
+        $response = $request->send();
+
+        // FIXME: Obviously move this to a class, set it up to cache, handle errors etc
+        define('LATEST_VERSION', $response->body->tag_name);
     }
 }
