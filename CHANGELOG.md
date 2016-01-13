@@ -27,11 +27,14 @@
 **Implemented enhancements:**
 
 - Provide composer auth details [\#132](https://github.com/REBELinBLUE/deployer/issues/132)
+- Remove references to gitlab in the SSH key dialog [\#131](https://github.com/REBELinBLUE/deployer/issues/131)
 - Tokens for deployer and committer users [\#123](https://github.com/REBELinBLUE/deployer/issues/123)
+- Cancel deployment [\#117](https://github.com/REBELinBLUE/deployer/issues/117)
 - Update command should prompt for confirmation before taking the site offline [\#113](https://github.com/REBELinBLUE/deployer/issues/113)
 - Ability to supply ENV variables [\#108](https://github.com/REBELinBLUE/deployer/issues/108)
 - Add the option for a full clone [\#101](https://github.com/REBELinBLUE/deployer/issues/101)
 - Rollback deploys [\#8](https://github.com/REBELinBLUE/deployer/issues/8)
+- Cancel deployment [\#142](https://github.com/REBELinBLUE/deployer/pull/142) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Env variables [\#141](https://github.com/REBELinBLUE/deployer/pull/141) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 **Fixed bugs:**
@@ -43,38 +46,28 @@
 
 **Closed issues:**
 
-- How to run socket? [\#136](https://github.com/REBELinBLUE/deployer/issues/136)
-- Failed to connect to a remote server [\#134](https://github.com/REBELinBLUE/deployer/issues/134)
-- Remove references to gitlab in the SSH key dialog [\#131](https://github.com/REBELinBLUE/deployer/issues/131)
 - websocket not updates the screen [\#125](https://github.com/REBELinBLUE/deployer/issues/125)
-- Problems with BitBucket [\#124](https://github.com/REBELinBLUE/deployer/issues/124)
-- Cancel deployment [\#117](https://github.com/REBELinBLUE/deployer/issues/117)
 - Rename deployer [\#106](https://github.com/REBELinBLUE/deployer/issues/106)
-
-**Merged pull requests:**
-
-- Cancel deployment [\#142](https://github.com/REBELinBLUE/deployer/pull/142) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.22](https://github.com/REBELinBLUE/deployer/tree/0.0.22) (2015-11-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.21...0.0.22)
 
 **Implemented enhancements:**
 
+- Updating webhook to receive branch and update\_only [\#127](https://github.com/REBELinBLUE/deployer/issues/127)
 - Access branch name in the commands [\#119](https://github.com/REBELinBLUE/deployer/issues/119)
 - Experimenting with adding toast alerts [\#118](https://github.com/REBELinBLUE/deployer/pull/118) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 **Fixed bugs:**
 
 - Server error [\#128](https://github.com/REBELinBLUE/deployer/issues/128)
+- Error 500 after redirect from / to /auth/login [\#126](https://github.com/REBELinBLUE/deployer/issues/126)
 - Production CSS is broken [\#111](https://github.com/REBELinBLUE/deployer/issues/111)
 - Fix database timeout issue with worker daemon. [\#116](https://github.com/REBELinBLUE/deployer/pull/116) ([dancryer](https://github.com/dancryer))
 
 **Closed issues:**
 
-- Updating webhook to receive branch and update\_only [\#127](https://github.com/REBELinBLUE/deployer/issues/127)
-- Error 500 after redirect from / to /auth/login [\#126](https://github.com/REBELinBLUE/deployer/issues/126)
 - socketio not working when changing from apache2 to ngnix. [\#120](https://github.com/REBELinBLUE/deployer/issues/120)
-- repo info error [\#105](https://github.com/REBELinBLUE/deployer/issues/105)
 
 ## [0.0.21](https://github.com/REBELinBLUE/deployer/tree/0.0.21) (2015-10-10)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.20...0.0.21)
@@ -115,9 +108,6 @@
 - 'is\_template' column not found in the where clause. [\#100](https://github.com/REBELinBLUE/deployer/issues/100)
 - Got a exception when the queue is running as daemon [\#98](https://github.com/REBELinBLUE/deployer/issues/98)
 - support for aws codecommit. [\#96](https://github.com/REBELinBLUE/deployer/issues/96)
-
-**Merged pull requests:**
-
 - Reconnect the database when queue is running as a daemon [\#99](https://github.com/REBELinBLUE/deployer/pull/99) ([iflamed](https://github.com/iflamed))
 
 ## [0.0.16](https://github.com/REBELinBLUE/deployer/tree/0.0.16) (2015-09-17)
@@ -126,9 +116,14 @@
 **Implemented enhancements:**
 
 - Failed after activate new release is confusing [\#95](https://github.com/REBELinBLUE/deployer/issues/95)
+- Make composer install command as optional [\#94](https://github.com/REBELinBLUE/deployer/issues/94)
+- create a cronjob to delete orphaned user avatars [\#80](https://github.com/REBELinBLUE/deployer/issues/80)
+- Use StyleCI for code standards [\#75](https://github.com/REBELinBLUE/deployer/issues/75)
 - Allow for choosing default state of optional commands [\#69](https://github.com/REBELinBLUE/deployer/issues/69)
 - Allow optional commands to be specified in webhooks [\#65](https://github.com/REBELinBLUE/deployer/issues/65)
 - User profile [\#10](https://github.com/REBELinBLUE/deployer/issues/10)
+- Finish with errors status [\#97](https://github.com/REBELinBLUE/deployer/pull/97) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Profile [\#79](https://github.com/REBELinBLUE/deployer/pull/79) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Default to remember the user login [\#64](https://github.com/REBELinBLUE/deployer/pull/64) ([iflamed](https://github.com/iflamed))
 
 **Fixed bugs:**
@@ -140,23 +135,16 @@
 - Error if GD is missing [\#85](https://github.com/REBELinBLUE/deployer/issues/85)
 - Deleting a user causes the project listing to die [\#71](https://github.com/REBELinBLUE/deployer/issues/71)
 - SendFile in DeployProject not using custom port [\#67](https://github.com/REBELinBLUE/deployer/issues/67)
+- Fix the navtab overflow [\#63](https://github.com/REBELinBLUE/deployer/pull/63) ([iflamed](https://github.com/iflamed))
 
 **Closed issues:**
 
-- Make composer install command as optional [\#94](https://github.com/REBELinBLUE/deployer/issues/94)
-- Test ticket from Code Climate [\#84](https://github.com/REBELinBLUE/deployer/issues/84)
-- Run through StyleCI [\#82](https://github.com/REBELinBLUE/deployer/issues/82)
-- create a cronjob to delete orphaned user avatars [\#80](https://github.com/REBELinBLUE/deployer/issues/80)
-- Use StyleCI for code standards [\#75](https://github.com/REBELinBLUE/deployer/issues/75)
 - Repositories [\#48](https://github.com/REBELinBLUE/deployer/issues/48)
 
 **Merged pull requests:**
 
-- Finish with errors status [\#97](https://github.com/REBELinBLUE/deployer/pull/97) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Fix PSR2 [\#83](https://github.com/REBELinBLUE/deployer/pull/83) ([jbrooksuk](https://github.com/jbrooksuk))
 - Changing App namespace to REBELinBLUE\Deployer [\#81](https://github.com/REBELinBLUE/deployer/pull/81) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Profile [\#79](https://github.com/REBELinBLUE/deployer/pull/79) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Fix the navtab overflow [\#63](https://github.com/REBELinBLUE/deployer/pull/63) ([iflamed](https://github.com/iflamed))
 - Repositories [\#62](https://github.com/REBELinBLUE/deployer/pull/62) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - \[WIP\] Restful API [\#59](https://github.com/REBELinBLUE/deployer/pull/59) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
@@ -167,17 +155,17 @@
 
 - Ordering servers [\#4](https://github.com/REBELinBLUE/deployer/issues/4)
 - Added the ability to notify a channel only on failure [\#61](https://github.com/REBELinBLUE/deployer/pull/61) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Ordering servers [\#60](https://github.com/REBELinBLUE/deployer/pull/60) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Deployment templates [\#58](https://github.com/REBELinBLUE/deployer/pull/58) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Event broadcasting [\#56](https://github.com/REBELinBLUE/deployer/pull/56) ([REBELinBLUE](https://github.com/REBELinBLUE))
+
+**Fixed bugs:**
+
+- Set access right to 664 for the project global file [\#57](https://github.com/REBELinBLUE/deployer/pull/57) ([iflamed](https://github.com/iflamed))
 
 **Closed issues:**
 
 - Change to use event broadcasting [\#25](https://github.com/REBELinBLUE/deployer/issues/25)
-
-**Merged pull requests:**
-
-- Ordering servers [\#60](https://github.com/REBELinBLUE/deployer/pull/60) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Deployment templates [\#58](https://github.com/REBELinBLUE/deployer/pull/58) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Set access right to 664 for the project global file [\#57](https://github.com/REBELinBLUE/deployer/pull/57) ([iflamed](https://github.com/iflamed))
-- Event broadcasting [\#56](https://github.com/REBELinBLUE/deployer/pull/56) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.14](https://github.com/REBELinBLUE/deployer/tree/0.0.14) (2015-06-12)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.13...0.0.14)
@@ -190,11 +178,11 @@
 
 - Check link dialog has the wrong image [\#51](https://github.com/REBELinBLUE/deployer/issues/51)
 - Remove Queue::push use and fix active\_url rule failed. [\#54](https://github.com/REBELinBLUE/deployer/pull/54) ([iflamed](https://github.com/iflamed))
+- Fix \#51 issue [\#52](https://github.com/REBELinBLUE/deployer/pull/52) ([iflamed](https://github.com/iflamed))
 
 **Merged pull requests:**
 
 - Reduce the sql statement in the deployments page [\#55](https://github.com/REBELinBLUE/deployer/pull/55) ([iflamed](https://github.com/iflamed))
-- Fix \#51 issue [\#52](https://github.com/REBELinBLUE/deployer/pull/52) ([iflamed](https://github.com/iflamed))
 - Laravel 5.1 [\#50](https://github.com/REBELinBLUE/deployer/pull/50) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.13](https://github.com/REBELinBLUE/deployer/tree/0.0.13) (2015-05-31)
@@ -202,25 +190,17 @@
 
 **Implemented enhancements:**
 
+- Add CCTray support [\#42](https://github.com/REBELinBLUE/deployer/issues/42)
 - Application health check [\#11](https://github.com/REBELinBLUE/deployer/issues/11)
 - Email notifications [\#7](https://github.com/REBELinBLUE/deployer/issues/7)
-- CC tray [\#43](https://github.com/REBELinBLUE/deployer/pull/43) ([REBELinBLUE](https://github.com/REBELinBLUE))
-
-**Closed issues:**
-
-- Add CCTray support [\#42](https://github.com/REBELinBLUE/deployer/issues/42)
-
-**Merged pull requests:**
-
-- Revert "Revert "Issue \#11 fixed"" [\#46](https://github.com/REBELinBLUE/deployer/pull/46) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Revert "Issue \#11 fixed" [\#45](https://github.com/REBELinBLUE/deployer/pull/45) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Issue \#11 fixed [\#44](https://github.com/REBELinBLUE/deployer/pull/44) ([iflamed](https://github.com/iflamed))
+- CC tray [\#43](https://github.com/REBELinBLUE/deployer/pull/43) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Issue \#7 fixed [\#37](https://github.com/REBELinBLUE/deployer/pull/37) ([iflamed](https://github.com/iflamed))
 
 ## [0.0.12](https://github.com/REBELinBLUE/deployer/tree/0.0.12) (2015-05-25)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.11...0.0.12)
 
-**Closed issues:**
+**Implemented enhancements:**
 
 - Split the log file for cli and php-fpm [\#39](https://github.com/REBELinBLUE/deployer/issues/39)
 
@@ -235,15 +215,12 @@
 
 - Support write environment file such like .env, .local.env [\#29](https://github.com/REBELinBLUE/deployer/issues/29)
 - Add the ability to view the script [\#24](https://github.com/REBELinBLUE/deployer/issues/24)
+- Issue \#29 fixed [\#35](https://github.com/REBELinBLUE/deployer/pull/35) ([iflamed](https://github.com/iflamed))
 
 **Fixed bugs:**
 
 - TestServerConnection is still using SSH [\#36](https://github.com/REBELinBLUE/deployer/issues/36)
 - Slack notification icon [\#6](https://github.com/REBELinBLUE/deployer/issues/6)
-
-**Merged pull requests:**
-
-- Issue \#29 fixed [\#35](https://github.com/REBELinBLUE/deployer/pull/35) ([iflamed](https://github.com/iflamed))
 - Issue \#6 fixed [\#34](https://github.com/REBELinBLUE/deployer/pull/34) ([iflamed](https://github.com/iflamed))
 
 ## [0.0.10](https://github.com/REBELinBLUE/deployer/tree/0.0.10) (2015-05-23)
@@ -253,32 +230,25 @@
 
 - Releases share some folders or files [\#28](https://github.com/REBELinBLUE/deployer/issues/28)
 - Server changes [\#17](https://github.com/REBELinBLUE/deployer/issues/17)
+- Issue\#28 fixed. [\#33](https://github.com/REBELinBLUE/deployer/pull/33) ([iflamed](https://github.com/iflamed))
 
 **Fixed bugs:**
 
 - Always running after a deploy, when ssh to server failed! [\#31](https://github.com/REBELinBLUE/deployer/issues/31)
-
-**Closed issues:**
-
-- Some command may need be run only in one server [\#30](https://github.com/REBELinBLUE/deployer/issues/30)
 - Clean up failed deployment [\#27](https://github.com/REBELinBLUE/deployer/issues/27)
-
-**Merged pull requests:**
-
-- Issue\#28 fixed. [\#33](https://github.com/REBELinBLUE/deployer/pull/33) ([iflamed](https://github.com/iflamed))
 - Fix the \#31 issue for ssh connction failed when deploy [\#32](https://github.com/REBELinBLUE/deployer/pull/32) ([iflamed](https://github.com/iflamed))
 
 ## [0.0.9](https://github.com/REBELinBLUE/deployer/tree/0.0.9) (2015-05-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.8...0.0.9)
 
-**Closed issues:**
+**Implemented enhancements:**
+
+- Deployment changes [\#18](https://github.com/REBELinBLUE/deployer/issues/18)
+- Ace editor [\#26](https://github.com/REBELinBLUE/deployer/pull/26) ([REBELinBLUE](https://github.com/REBELinBLUE))
+
+**Fixed bugs:**
 
 - 2015\_05\_13\_121650\_set\_deployment\_branch is not setting the branch [\#23](https://github.com/REBELinBLUE/deployer/issues/23)
-- Deployment changes [\#18](https://github.com/REBELinBLUE/deployer/issues/18)
-
-**Merged pull requests:**
-
-- Ace editor [\#26](https://github.com/REBELinBLUE/deployer/pull/26) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.8](https://github.com/REBELinBLUE/deployer/tree/0.0.8) (2015-05-13)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.7...0.0.8)
@@ -287,7 +257,7 @@
 
 - Allowing deploying specific tags and branches [\#20](https://github.com/REBELinBLUE/deployer/pull/20) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
-**Closed issues:**
+**Fixed bugs:**
 
 - Problem when SSH details are incorrect [\#22](https://github.com/REBELinBLUE/deployer/issues/22)
 
@@ -307,12 +277,12 @@
 
 **Implemented enhancements:**
 
+- Deployment templates [\#9](https://github.com/REBELinBLUE/deployer/issues/9)
 - Allows the port of the server to be modified [\#19](https://github.com/REBELinBLUE/deployer/pull/19) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 **Closed issues:**
 
 - Test ticket from Code Climate [\#13](https://github.com/REBELinBLUE/deployer/issues/13)
-- Deployment templates [\#9](https://github.com/REBELinBLUE/deployer/issues/9)
 
 **Merged pull requests:**
 
@@ -321,13 +291,13 @@
 ## [0.0.4](https://github.com/REBELinBLUE/deployer/tree/0.0.4) (2015-04-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.3...0.0.4)
 
+**Implemented enhancements:**
+
+- Optional steps [\#5](https://github.com/REBELinBLUE/deployer/pull/5) ([REBELinBLUE](https://github.com/REBELinBLUE))
+
 **Fixed bugs:**
 
 - Sorting projects [\#3](https://github.com/REBELinBLUE/deployer/issues/3)
-
-**Merged pull requests:**
-
-- Optional steps [\#5](https://github.com/REBELinBLUE/deployer/pull/5) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.3](https://github.com/REBELinBLUE/deployer/tree/0.0.3) (2015-04-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.2...0.0.3)
