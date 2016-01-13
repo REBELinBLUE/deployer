@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ba35776aba2f5a3d683270c174a1e52c",
-    "content-hash": "5fdbbaf5825ac644608b34a906cc5b88",
+    "hash": "e10ed71cee46f60ad97aa6251d1c9289",
+    "content-hash": "b296ce437afc24e99999d6de3960e23d",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1200,16 +1200,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.2.7",
+            "version": "v5.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "26cd65eaa4bcc0fb0be381cfb7cfdcda06a3c2b4"
+                "reference": "867914788c2ec942967c3608ed54626228a5f916"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/26cd65eaa4bcc0fb0be381cfb7cfdcda06a3c2b4",
-                "reference": "26cd65eaa4bcc0fb0be381cfb7cfdcda06a3c2b4",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/867914788c2ec942967c3608ed54626228a5f916",
+                "reference": "867914788c2ec942967c3608ed54626228a5f916",
                 "shasum": ""
             },
             "require": {
@@ -1324,7 +1324,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-01-07 13:54:34"
+            "time": "2016-01-12 22:45:00"
         },
         {
             "name": "league/flysystem",
@@ -3227,6 +3227,51 @@
                 "tymon"
             ],
             "time": "2015-11-24 20:02:19"
+        },
+        {
+            "name": "version/version",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-mod/version.git",
+                "reference": "68328f56e54a1c8f7ba935a40b601c8012d81dc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-mod/version/zipball/68328f56e54a1c8f7ba935a40b601c8012d81dc2",
+                "reference": "68328f56e54a1c8f7ba935a40b601c8012d81dc2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Version": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hassan Amouhzi",
+                    "email": "hassan@amouhzi.com",
+                    "homepage": "http://anezi.net"
+                }
+            ],
+            "description": "A library for creating, editing, and comparing semantic versioning numbers.",
+            "homepage": "http://github.com/php-mod/version",
+            "keywords": [
+                "semantic",
+                "version"
+            ],
+            "time": "2015-06-06 05:44:35"
         },
         {
             "name": "vlucas/phpdotenv",

@@ -33,7 +33,8 @@
         "graham-campbell/binput": "~3.2",
         "itsgoingd/clockwork": "~1.9",
         "tymon/jwt-auth": "~0.5",
-        "pragmarx/google2fa": "^0.7.1"
+        "pragmarx/google2fa": "^0.7.1",
+        "version/version": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.5",
@@ -66,17 +67,13 @@
     "scripts": {
         "post-install-cmd": [
             "php artisan clear-compiled",
-            "php artisan optimize --force",
-            "php artisan config:cache",
-            "php artisan route:cache"
+            "php artisan optimize"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"
         ],
         "post-update-cmd": [
-            "php artisan optimize --force",
-            "php artisan config:cache",
-            "php artisan route:cache"
+            "php artisan optimize"
         ]
     },
     "config": {

@@ -1,7 +1,12 @@
-<footer class="main-footer">
+<footer class="main-footer @if($is_outdated) bg-red @endif">
     <div class="pull-right">
-        <strong>Version</strong> {{ $current_version }}
+        <strong>{{ Lang::get('app.version') }}</strong> {{ $current_version }}
     </div>
+
     &nbsp;
-    <!--<strong>Copyright © 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.-->
+
+    @if($is_outdated)
+        <span><strong>{!! Lang::get('app.outdated', ['version' => $latest_version, 'link' => 'https://github.com/REBELinBLUE/deployer/releases/latest' ]) !!}</strong></span>
+    @endif
+
 </footer>

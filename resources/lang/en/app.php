@@ -29,5 +29,7 @@ return [
                            'for reporting the status on running deployments. Please reload, if the issue continues please contact the system administrator',
     'not_down'          => 'You must switch to maintenance mode before running this command, this will ensure that no new deployments are started',
     'switch_down'       => 'Switch to maintenance mode now? The app will switch back to live mode once cleanup is finished',
+    'version'           => 'Version',
+    'outdated'          => 'You are running an out of date release, there is an update (<a href=":link">:version</a>) available!',
 
 ];
