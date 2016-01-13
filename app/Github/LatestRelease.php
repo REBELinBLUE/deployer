@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Cache;
  */
 class LatestRelease
 {
+    const CACHE_TIME_IN_HOURS = 12;
+
     /**
      * @var string
      **/
@@ -22,7 +24,9 @@ class LatestRelease
      */
     public function latest()
     {
-        $release = Cache::remember('latest_version', 3600, function () {
+        $cache_for = self::CACHE_TIME_IN_HOURS * 60;
+
+        $release = Cache::remember('latest_version', $cache_for, function () {
 
             $request = Request::get($this->github_url)
                               ->expectsJson()
