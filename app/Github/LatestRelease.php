@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Github;
 
 use Httpful\Request;
-
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 
 /**
@@ -21,7 +20,7 @@ class LatestRelease
     private $cache;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param CacheRepository $cache
      **/
