@@ -186,7 +186,6 @@
 
 **Implemented enhancements:**
 
-- Add CCTray support [\#42](https://github.com/REBELinBLUE/deployer/issues/42)
 - Application health check [\#44](https://github.com/REBELinBLUE/deployer/pull/44) ([iflamed](https://github.com/iflamed))
 - CC tray [\#43](https://github.com/REBELinBLUE/deployer/pull/43) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Email notifications [\#37](https://github.com/REBELinBLUE/deployer/pull/37) ([iflamed](https://github.com/iflamed))
