@@ -47,7 +47,6 @@
 **Closed issues:**
 
 - websocket not updates the screen [\#125](https://github.com/REBELinBLUE/deployer/issues/125)
-- Rename deployer [\#106](https://github.com/REBELinBLUE/deployer/issues/106)
 
 ## [0.0.22](https://github.com/REBELinBLUE/deployer/tree/0.0.22) (2015-11-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.21...0.0.22)
@@ -139,7 +138,6 @@
 **Closed issues:**
 
 - Use StyleCI for code standards [\#75](https://github.com/REBELinBLUE/deployer/issues/75)
-- Repositories [\#48](https://github.com/REBELinBLUE/deployer/issues/48)
 
 **Merged pull requests:**
 
@@ -177,7 +175,7 @@
 
 - Check link dialog has the wrong image [\#51](https://github.com/REBELinBLUE/deployer/issues/51)
 - Remove Queue::push use and fix active\_url rule failed. [\#54](https://github.com/REBELinBLUE/deployer/pull/54) ([iflamed](https://github.com/iflamed))
-- Fix \#51 issue [\#52](https://github.com/REBELinBLUE/deployer/pull/52) ([iflamed](https://github.com/iflamed))
+- Check link dialog has the wrong image [\#52](https://github.com/REBELinBLUE/deployer/pull/52) ([iflamed](https://github.com/iflamed))
 
 **Merged pull requests:**
 
@@ -190,11 +188,10 @@
 **Implemented enhancements:**
 
 - Add CCTray support [\#42](https://github.com/REBELinBLUE/deployer/issues/42)
-- Application health check [\#11](https://github.com/REBELinBLUE/deployer/issues/11)
 - Email notifications [\#7](https://github.com/REBELinBLUE/deployer/issues/7)
-- Issue \#11 fixed [\#44](https://github.com/REBELinBLUE/deployer/pull/44) ([iflamed](https://github.com/iflamed))
+- Application health check [\#44](https://github.com/REBELinBLUE/deployer/pull/44) ([iflamed](https://github.com/iflamed))
 - CC tray [\#43](https://github.com/REBELinBLUE/deployer/pull/43) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Issue \#7 fixed [\#37](https://github.com/REBELinBLUE/deployer/pull/37) ([iflamed](https://github.com/iflamed))
+- Email notifications [\#37](https://github.com/REBELinBLUE/deployer/pull/37) ([iflamed](https://github.com/iflamed))
 
 ## [0.0.12](https://github.com/REBELinBLUE/deployer/tree/0.0.12) (2015-05-25)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.11...0.0.12)
@@ -212,15 +209,13 @@
 
 **Implemented enhancements:**
 
-- Support write environment file such like .env, .local.env [\#29](https://github.com/REBELinBLUE/deployer/issues/29)
 - Add the ability to view the script [\#24](https://github.com/REBELinBLUE/deployer/issues/24)
-- Issue \#29 fixed [\#35](https://github.com/REBELinBLUE/deployer/pull/35) ([iflamed](https://github.com/iflamed))
+- Support write environment file such like .env, .local.env [\#35](https://github.com/REBELinBLUE/deployer/pull/35) ([iflamed](https://github.com/iflamed))
 
 **Fixed bugs:**
 
 - TestServerConnection is still using SSH [\#36](https://github.com/REBELinBLUE/deployer/issues/36)
-- Slack notification icon [\#6](https://github.com/REBELinBLUE/deployer/issues/6)
-- Issue \#6 fixed [\#34](https://github.com/REBELinBLUE/deployer/pull/34) ([iflamed](https://github.com/iflamed))
+- Slack notification icon [\#34](https://github.com/REBELinBLUE/deployer/pull/34) ([iflamed](https://github.com/iflamed))
 
 ## [0.0.10](https://github.com/REBELinBLUE/deployer/tree/0.0.10) (2015-05-23)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.9...0.0.10)
