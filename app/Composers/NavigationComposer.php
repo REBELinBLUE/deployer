@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Http\Composers;
+namespace REBELinBLUE\Deployer\Composers;
 
 use Illuminate\Contracts\View\View;
 use REBELinBLUE\Deployer\Group;
