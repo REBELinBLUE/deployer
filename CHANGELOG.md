@@ -7,7 +7,7 @@
 **Implemented enhancements:**
 
 - Add option to deploy only default branch [\#146](https://github.com/REBELinBLUE/deployer/issues/146)
-- Added an "Update available" prompt [\#148](https://github.com/REBELinBLUE/deployer/pull/148) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Add an "Update available" prompt [\#148](https://github.com/REBELinBLUE/deployer/pull/148) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.26](https://github.com/REBELinBLUE/deployer/tree/0.0.26) (2016-01-12)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.25...0.0.26)
@@ -28,7 +28,7 @@
 **Implemented enhancements:**
 
 - Remove references to gitlab in the SSH key dialog [\#131](https://github.com/REBELinBLUE/deployer/issues/131)
-- Tokens for deployer and committer users [\#123](https://github.com/REBELinBLUE/deployer/issues/123)
+- Add tokens for deployer and committer users [\#123](https://github.com/REBELinBLUE/deployer/issues/123)
 - Update command should prompt for confirmation before taking the site offline [\#113](https://github.com/REBELinBLUE/deployer/issues/113)
 - Cancel deployment [\#142](https://github.com/REBELinBLUE/deployer/pull/142) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Ability to supply ENV variables [\#141](https://github.com/REBELinBLUE/deployer/pull/141) ([REBELinBLUE](https://github.com/REBELinBLUE))
@@ -40,10 +40,6 @@
 - How to make a Symfony application deploy [\#133](https://github.com/REBELinBLUE/deployer/issues/133)
 - Fatal error when deploy starts [\#91](https://github.com/REBELinBLUE/deployer/issues/91)
 
-**Closed issues:**
-
-- websocket not updates the screen [\#125](https://github.com/REBELinBLUE/deployer/issues/125)
-
 ## [0.0.22](https://github.com/REBELinBLUE/deployer/tree/0.0.22) (2015-11-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.21...0.0.22)
 
@@ -51,18 +47,17 @@
 
 - Updating webhook to receive branch and update\_only [\#127](https://github.com/REBELinBLUE/deployer/issues/127)
 - Access branch name in the commands [\#119](https://github.com/REBELinBLUE/deployer/issues/119)
-- Experimenting with adding toast alerts [\#118](https://github.com/REBELinBLUE/deployer/pull/118) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Added toast alerts [\#118](https://github.com/REBELinBLUE/deployer/pull/118) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 **Fixed bugs:**
 
-- Server error [\#128](https://github.com/REBELinBLUE/deployer/issues/128)
 - Error 500 after redirect from / to /auth/login [\#126](https://github.com/REBELinBLUE/deployer/issues/126)
 - Production CSS is broken [\#111](https://github.com/REBELinBLUE/deployer/issues/111)
 - Fix database timeout issue with worker daemon. [\#116](https://github.com/REBELinBLUE/deployer/pull/116) ([dancryer](https://github.com/dancryer))
 
 **Closed issues:**
 
-- socketio not working when changing from apache2 to ngnix. [\#120](https://github.com/REBELinBLUE/deployer/issues/120)
+- Socket.io not working when changing from apache2 to ngnix. [\#120](https://github.com/REBELinBLUE/deployer/issues/120)
 
 ## [0.0.21](https://github.com/REBELinBLUE/deployer/tree/0.0.21) (2015-10-10)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.20...0.0.21)
@@ -102,7 +97,7 @@
 
 - 'is\_template' column not found in the where clause. [\#100](https://github.com/REBELinBLUE/deployer/issues/100)
 - Got a exception when the queue is running as daemon [\#98](https://github.com/REBELinBLUE/deployer/issues/98)
-- support for aws codecommit. [\#96](https://github.com/REBELinBLUE/deployer/issues/96)
+- Support for AWS codecommit. [\#96](https://github.com/REBELinBLUE/deployer/issues/96)
 - Reconnect the database when queue is running as a daemon [\#99](https://github.com/REBELinBLUE/deployer/pull/99) ([iflamed](https://github.com/iflamed))
 
 ## [0.0.16](https://github.com/REBELinBLUE/deployer/tree/0.0.16) (2015-09-17)
@@ -112,7 +107,7 @@
 
 - Failed after activate new release is confusing [\#95](https://github.com/REBELinBLUE/deployer/issues/95)
 - Make composer install command as optional [\#94](https://github.com/REBELinBLUE/deployer/issues/94)
-- create a cronjob to delete orphaned user avatars [\#80](https://github.com/REBELinBLUE/deployer/issues/80)
+- Add a cronjob to delete orphaned user avatars [\#80](https://github.com/REBELinBLUE/deployer/issues/80)
 - Allow for choosing default state of optional commands [\#69](https://github.com/REBELinBLUE/deployer/issues/69)
 - Allow optional commands to be specified in webhooks [\#65](https://github.com/REBELinBLUE/deployer/issues/65)
 - User profile [\#10](https://github.com/REBELinBLUE/deployer/issues/10)
@@ -139,7 +134,6 @@
 
 - Fix PSR2 [\#83](https://github.com/REBELinBLUE/deployer/pull/83) ([jbrooksuk](https://github.com/jbrooksuk))
 - Changing App namespace to REBELinBLUE\Deployer [\#81](https://github.com/REBELinBLUE/deployer/pull/81) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Repositories [\#62](https://github.com/REBELinBLUE/deployer/pull/62) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.15](https://github.com/REBELinBLUE/deployer/tree/0.0.15) (2015-06-19)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.14...0.0.15)
@@ -219,8 +213,8 @@
 
 **Implemented enhancements:**
 
-- Deployment changes [\#18](https://github.com/REBELinBLUE/deployer/issues/18)
-- Ace editor [\#26](https://github.com/REBELinBLUE/deployer/pull/26) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Allow different branches and tags to be deployed [\#18](https://github.com/REBELinBLUE/deployer/issues/18)
+- Add ace editor for syntax highlighting in script editor [\#26](https://github.com/REBELinBLUE/deployer/pull/26) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 **Fixed bugs:**
 
@@ -255,10 +249,6 @@
 
 - Deployment templates [\#9](https://github.com/REBELinBLUE/deployer/issues/9)
 - Allows the port of the server to be modified [\#19](https://github.com/REBELinBLUE/deployer/pull/19) ([REBELinBLUE](https://github.com/REBELinBLUE))
-
-**Merged pull requests:**
-
-- View presenter [\#15](https://github.com/REBELinBLUE/deployer/pull/15) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.4](https://github.com/REBELinBLUE/deployer/tree/0.0.4) (2015-04-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.3...0.0.4)
