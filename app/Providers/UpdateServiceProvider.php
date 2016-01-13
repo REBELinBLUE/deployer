@@ -31,7 +31,9 @@ class UpdateServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('deployer.update-check', function ($app) {
-            return new LatestRelease();
+            $cache = $app['cache.store'];
+
+            return new LatestRelease($cache);
         });
 
         $this->app->alias('deployer.update-check', LatestRelease::class);

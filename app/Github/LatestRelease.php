@@ -3,7 +3,8 @@
 namespace REBELinBLUE\Deployer\Github;
 
 use Httpful\Request;
-use Illuminate\Support\Facades\Cache;
+
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
 
 /**
  * A class to get the latest release tag for Github.
@@ -17,6 +18,18 @@ class LatestRelease
      **/
     private $github_url = 'https://api.github.com/repos/REBELinBLUE/deployer/releases/latest';
 
+    private $cache;
+
+    /**
+     * Class constructor
+     *
+     * @param CacheRepository $cache
+     **/
+    public function __construct(CacheRepository $cache)
+    {
+        $this->cache = $cache;
+    }
+
     /**
      * Get the latest release from Github.
      *
@@ -26,7 +39,7 @@ class LatestRelease
     {
         $cache_for = self::CACHE_TIME_IN_HOURS * 60;
 
-        $release = Cache::remember('latest_version', $cache_for, function () {
+        $release = $this->cache->remember('latest_version', $cache_for, function () {
 
             $request = Request::get($this->github_url)
                               ->expectsJson()
