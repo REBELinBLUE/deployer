@@ -2,13 +2,14 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
-use Httpful\Request;
 use Illuminate\Support\ServiceProvider;
+use REBELinBLUE\Deployer\Github\LatestRelease;
 
+/**
+ * Service provider to register the LatestRelease class as a singleton.
+ **/
 class UpdateServiceProvider extends ServiceProvider
 {
-    private $github_url = 'https://api.github.com/repos/REBELinBLUE/deployer/releases/latest';
-
     /**
      * Bootstrap the application services.
      *
@@ -29,27 +30,10 @@ class UpdateServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->getLatestRelease();
-    }
+        $this->app->singleton('deployer.update-check', function ($app) {
+            return new LatestRelease();
+        });
 
-    /**
-     * Get's the latest release from github.
-     *
-     * @return void
-     */
-    public function getLatestRelease()
-    {
-        $request = Request::get($this->github_url)
-                          ->expectsJson()
-                          ->withAccept('application/vnd.github.v3+json');
-
-        if (config('deployer.github_oauth_token')) {
-            $request->withAuthorization('token ' . config('deployer.github_oauth_token'));
-        }
-
-        $response = $request->send();
-
-        // FIXME: Obviously move this to a class, set it up to cache, handle errors etc
-        define('LATEST_VERSION', $response->body->tag_name);
+        $this->app->alias('deployer.update-check', LatestRelease::class);
     }
 }

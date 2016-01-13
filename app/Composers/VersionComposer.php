@@ -1,25 +1,32 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Http\Composers;
+namespace REBELinBLUE\Deployer\Composers;
 
 use Illuminate\Contracts\View\View;
+use REBELinBLUE\Deployer\Github\LatestRelease;
 use Version\Version;
 
 /**
- * View composer for the footer bar.
+ * View composer for the update bar.
  */
 class VersionComposer
 {
     /**
-     * Generates the pending and deploying projects for the view.
+     * Determines if the update prompt should show.
      *
      * @param  \Illuminate\Contracts\View\View $view
      * @return void
      */
     public function compose(View $view)
     {
+        $latest_tag = app(LatestRelease::class)->latest();
+
         $current = Version::parse(APP_VERSION);
-        $latest = Version::parse(LATEST_VERSION);
+        $latest  = Version::parse(APP_VERSION);
+
+        if ($latest_tag) {
+            $latest = Version::parse($latest_tag);
+        }
 
         $is_outdated = ($latest->compare($current) === 1);
 
