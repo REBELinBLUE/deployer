@@ -26,14 +26,10 @@
 
 **Implemented enhancements:**
 
-- Provide composer auth details [\#132](https://github.com/REBELinBLUE/deployer/issues/132)
 - Remove references to gitlab in the SSH key dialog [\#131](https://github.com/REBELinBLUE/deployer/issues/131)
 - Tokens for deployer and committer users [\#123](https://github.com/REBELinBLUE/deployer/issues/123)
-- Cancel deployment [\#117](https://github.com/REBELinBLUE/deployer/issues/117)
 - Update command should prompt for confirmation before taking the site offline [\#113](https://github.com/REBELinBLUE/deployer/issues/113)
 - Ability to supply ENV variables [\#108](https://github.com/REBELinBLUE/deployer/issues/108)
-- Add the option for a full clone [\#101](https://github.com/REBELinBLUE/deployer/issues/101)
-- Rollback deploys [\#8](https://github.com/REBELinBLUE/deployer/issues/8)
 - Cancel deployment [\#142](https://github.com/REBELinBLUE/deployer/pull/142) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Env variables [\#141](https://github.com/REBELinBLUE/deployer/pull/141) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
@@ -46,7 +42,9 @@
 
 **Closed issues:**
 
+- Provide composer auth details [\#132](https://github.com/REBELinBLUE/deployer/issues/132)
 - websocket not updates the screen [\#125](https://github.com/REBELinBLUE/deployer/issues/125)
+- Add the option for a full clone [\#101](https://github.com/REBELinBLUE/deployer/issues/101)
 
 ## [0.0.22](https://github.com/REBELinBLUE/deployer/tree/0.0.22) (2015-11-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.21...0.0.22)
@@ -150,7 +148,6 @@
 
 **Implemented enhancements:**
 
-- Ordering servers [\#4](https://github.com/REBELinBLUE/deployer/issues/4)
 - Added the ability to notify a channel only on failure [\#61](https://github.com/REBELinBLUE/deployer/pull/61) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Ordering servers [\#60](https://github.com/REBELinBLUE/deployer/pull/60) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Deployment templates [\#58](https://github.com/REBELinBLUE/deployer/pull/58) ([REBELinBLUE](https://github.com/REBELinBLUE))
@@ -159,10 +156,6 @@
 **Fixed bugs:**
 
 - Set access right to 664 for the project global file [\#57](https://github.com/REBELinBLUE/deployer/pull/57) ([iflamed](https://github.com/iflamed))
-
-**Closed issues:**
-
-- Change to use event broadcasting [\#25](https://github.com/REBELinBLUE/deployer/issues/25)
 
 ## [0.0.14](https://github.com/REBELinBLUE/deployer/tree/0.0.14) (2015-06-12)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.13...0.0.14)
