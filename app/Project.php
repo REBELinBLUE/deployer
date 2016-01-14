@@ -328,7 +328,7 @@ class Project extends ProjectRelation implements PresentableInterface
                      ->lists('name')
                      ->toArray();
 
-        usort($tags, 'version_compare');
+        usort($tags, 'version_compare'); // FIXME: Change this to use the Version\Version library!
 
         return collect($tags);
     }
