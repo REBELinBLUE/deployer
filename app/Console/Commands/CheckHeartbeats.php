@@ -62,10 +62,12 @@ class CheckHeartbeats extends Command
                     $heartbeat->missed = $missed;
                     $heartbeat->save();
 
+                    // FIXME: Throw a HeartbeatMissing event?
+
                     foreach ($heartbeat->project->notifications as $notification) {
                         $this->dispatch(new Notify(
                             $notification,
-                            $heartbeat->notificationPayload()
+                            $heartbeat->notificationMissingPayload()
                         ));
                     }
                 }

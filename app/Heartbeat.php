@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Events\HeartbeatRecovered;
 
 /**
  * Heartbeat model.
@@ -112,9 +113,15 @@ class Heartbeat extends Model
      */
     public function pinged()
     {
+        $isHealthy = $this->isHealthy();
+
         $this->status        = self::OK;
         $this->missed        = 0;
         $this->last_activity = $this->freshTimestamp();
+
+        if (!$isHealthy) {
+            event(new HeartbeatRecovered($this));
+        }
 
         return $this->save();
     }
@@ -134,9 +141,9 @@ class Heartbeat extends Model
      *
      * @return array
      */
-    public function notificationPayload()
+    public function notificationMissingPayload()
     {
-        $message = Lang::get('heartbeats.message', ['job' => $this->name]);
+        $message = Lang::get('heartbeats.missing_message', ['job' => $this->name]);
 
         if (is_null($this->last_activity)) {
             $heard_from = Lang::get('app.never');
@@ -160,6 +167,35 @@ class Heartbeat extends Model
                             'value' => $heard_from,
                             'short' => true,
                         ],
+                    ],
+                ],
+            ],
+        ];
+
+        return $payload;
+    }
+
+    /**
+     * Generates a slack payload for the heartbeat recovery.
+     *
+     * @return array
+     */
+    public function notificationRecoveredPayload()
+    {
+        $message = Lang::get('heartbeats.recovered_message', ['job' => $this->name]);
+
+        $payload = [
+            'attachments' => [
+                [
+                    'fallback' => $message,
+                    'text'     => $message,
+                    'color'    => 'good',
+                    'fields'   => [
+                        [
+                            'title' => Lang::get('notifications.project'),
+                            'value' => sprintf('<%s|%s>', url('projects', $this->project_id), $this->project->name),
+                            'short' => true,
+                        ]
                     ],
                 ],
             ],
