@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
@@ -53,7 +54,7 @@ class UpdateGitMirrors extends Command
         $last_mirrored_since = Carbon::now()->subMinutes(self::UPDATE_FREQUENCY_MINUTES);
         $todo = self::UPDATES_TO_QUEUE;
 
-        CheckUrlModel::where('last_mirrored', '<', $last_mirrored_since)->chunk($todo, function ($project) use ($command) {
+        Project::where('last_mirrored', '<', $last_mirrored_since)->chunk($todo, function ($project) use ($command) {
             $command->dispatch(new UpdateGitMirror($project));
         });
     }
