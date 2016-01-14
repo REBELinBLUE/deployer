@@ -170,6 +170,7 @@ return [
         REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RepositoryServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RouteServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
 
     ],

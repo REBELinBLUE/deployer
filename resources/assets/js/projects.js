@@ -64,6 +64,7 @@ var app = app || {};
             $('#project_builds_to_keep').val(10);
             $('#project_url').val('');
             $('#project_build_url').val('');
+            $('#project_allow_other_branch').prop('checked', true);
         }
 
         modal.find('.modal-title span').text(title);
@@ -118,14 +119,15 @@ var app = app || {};
         }
 
         project.save({
-            name: $('#project_name').val(),
-            repository: $('#project_repository').val(),
-            branch: $('#project_branch').val(),
-            group_id: $('#project_group_id').val(),
-            builds_to_keep: $('#project_builds_to_keep').val(),
-            url: $('#project_url').val(),
-            build_url: $('#project_build_url').val(),
-            template_id: $('#project_template_id') ? $('#project_template_id').val() : null
+            name:               $('#project_name').val(),
+            repository:         $('#project_repository').val(),
+            branch:             $('#project_branch').val(),
+            group_id:           $('#project_group_id').val(),
+            builds_to_keep:     $('#project_builds_to_keep').val(),
+            url:                $('#project_url').val(),
+            build_url:          $('#project_build_url').val(),
+            template_id:        $('#project_template_id') ? $('#project_template_id').val() : null,
+            allow_other_branch: $('#project_allow_other_branch').is(':checked')
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -272,6 +274,7 @@ var app = app || {};
             $('#project_builds_to_keep').val(this.model.get('builds_to_keep'));
             $('#project_url').val(this.model.get('url'));
             $('#project_build_url').val(this.model.get('build_url'));
+            $('#project_allow_other_branch').prop('checked', (this.model.get('allow_other_branch') === true));
         }
     });
 

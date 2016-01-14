@@ -135,12 +135,16 @@ class DeploymentController extends Controller
             'optional'   => [],
         ];
 
-        if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
-            $data['branch'] = Input::get('source_' . Input::get('source'));
+        // If allow other branches is set, check for post data
+        if ($project->allow_other_branch) {
+            if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
+                $data['branch'] = Input::get('source_' . Input::get('source'));
+            }
         }
 
-        if (Input::has('optional')) {
-            $data['optional'] = Input::get('optional');
+        if (Input::has('optional') && is_array(Input::get('optional'))) {
+            // TODO: See if this can be removed when switching to the $request class as it use to work!
+            $data['optional'] = array_map('intval', Input::get('optional'));
         }
 
         $deployment = $this->deploymentRepository->create($data);

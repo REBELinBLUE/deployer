@@ -11,12 +11,12 @@ class ProjectTableSeeder extends Seeder
         DB::table('projects')->delete();
 
         Project::create([
-            'name'        => 'Deployer',
-            'hash'        => Str::random(60),
-            'repository'  => 'https://github.com/REBELinBLUE/deployer.git',
-            'url'         => 'http://deploy.app',
-            'group_id'    => 2,
-            'private_key' => '-----BEGIN RSA PRIVATE KEY-----
+            'name'              => 'Deployer',
+            'hash'              => Str::random(60),
+            'repository'        => 'https://github.com/REBELinBLUE/deployer.git',
+            'url'               => 'http://deploy.app',
+            'group_id'          => 2,
+            'private_key'       => '-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAmrMjtajVvmd99T8xwUNrIFbrzSmZ6VCM89hfm4Ut9atv29gG
 l2HFPJY7VtslXDJVL67w5EUMspy82tkAX7F03iaarSsbo6nC16UTfbfNTi44Snm0
 T/5RMavSOnOMRJ8BQcfzqge4oIQzVGXOs0YvNFdSt4paBp9dssKS+7yP/hDvgAVz
@@ -43,13 +43,14 @@ TvjxDQKBgCtikMNAqTParY/tX0xNohD7+svTKZt92CxW7Q/17H26ehFKUQvw6Agd
 ulR2AVTGi6STEgzXf6UP5CAVhYRw9irCAQYpceL0GVzfZPQsXyLuMCnJ8UD6CBRn
 i5vkNY4OZdOuEV9boFOFYa58WRNK7vthHkZJj++Amu3dZ6RHBlLQ
 -----END RSA PRIVATE KEY-----',
-            'public_key'  => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCasyO1qNW+Z331PzHBQ2sgVuvNKZnpUIzz2F+bhS31q2/b2Aa' .
-                             'XYcU8ljtW2yVcMlUvrvDkRQyynLza2QBfsXTeJpqtKxujqcLXpRN9t81OLjhKebRP/lExq9I6c4xEnwFBx/OqB7' .
-                             'ighDNUZc6zRi80V1K3iloGn12ywpL7vI/+EO+ABXP4sTchwh47bppcBNy4HjOre+NqpLNZkZ02E4lngSaOCY6r3' .
-                             '6TdICaigeQX6n/Xgwm2rRkr0qNIZsd/IoyLYS6/CWUUJjX16qxXt1wwMiwwpRbZ2IULnZ0lI74QXjucD+Ow0OKw' .
-                             'WwgLsN55VUGXVOlpX1GJ2p5mZ3H6YX0B deploy@deployer',
-            'last_run'    => null,
-            'build_url'   => 'http://ci.rebelinblue.com/build-status/image/3?branch=master',
+            'public_key'         => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCasyO1qNW+Z331PzHBQ2sgVuvNKZnpUIzz2F+bhS31q2/b2Aa' .
+                                    'XYcU8ljtW2yVcMlUvrvDkRQyynLza2QBfsXTeJpqtKxujqcLXpRN9t81OLjhKebRP/lExq9I6c4xEnwFBx/OqB7' .
+                                    'ighDNUZc6zRi80V1K3iloGn12ywpL7vI/+EO+ABXP4sTchwh47bppcBNy4HjOre+NqpLNZkZ02E4lngSaOCY6r3' .
+                                    '6TdICaigeQX6n/Xgwm2rRkr0qNIZsd/IoyLYS6/CWUUJjX16qxXt1wwMiwwpRbZ2IULnZ0lI74QXjucD+Ow0OKw' .
+                                    'WwgLsN55VUGXVOlpX1GJ2p5mZ3H6YX0B deploy@deployer',
+            'last_run'           => null,
+            'build_url'          => 'http://ci.rebelinblue.com/build-status/image/3?branch=master',
+            'allow_other_branch' => true,
         ]);
     }
 }

@@ -47,6 +47,8 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "~/.gitconfig", destination: "~/.gitconfig"
 
     # Copy deployer supervisor and cron config
+    config.vm.provision "shell", inline: "sudo apt-get install ruby ruby-dev -y"
+    config.vm.provision "shell", inline: "sudo gem install github_changelog_generator"
     config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/supervisor.conf /etc/supervisor/conf.d/deployer.conf"
     config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/crontab /etc/cron.d/deployer"
     config.vm.provision "shell", inline: "sudo cp /var/www/deployer/examples/nginx.conf /etc/nginx/sites-available/deployer.conf"
@@ -58,6 +60,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo service cron restart"
     config.vm.provision "shell", inline: "sudo service php5-fpm restart"
     config.vm.provision "shell", inline: "[ ! -d /var/www/beanstalk ] && sudo composer create-project ptrofimov/beanstalk_console -q -n -s dev /var/www/beanstalk"
+    config.vm.provision "shell", inline: "[ -d /var/www/html ] && sudo rm -rf /var/www/html"
     config.vm.provision "shell", inline: "sudo chown -R vagrant:vagrant /var/www/beanstalk"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e 'DROP DATABASE IF EXISTS deployer'"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e 'CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci'"
