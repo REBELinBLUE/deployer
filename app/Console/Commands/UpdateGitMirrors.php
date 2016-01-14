@@ -9,13 +9,13 @@ use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 
 /**
- * Updates the mirrors for all git repositories
+ * Updates the mirrors for all git repositories.
  */
 class UpdateGitMirrors extends Command
 {
     use DispatchesJobs;
 
-    const UPDATES_TO_QUEUE = 3;
+    const UPDATES_TO_QUEUE         = 3;
     const UPDATE_FREQUENCY_MINUTES = 5;
 
     /**
@@ -52,7 +52,7 @@ class UpdateGitMirrors extends Command
         $command = $this;
 
         $last_mirrored_since = Carbon::now()->subMinutes(self::UPDATE_FREQUENCY_MINUTES);
-        $todo = self::UPDATES_TO_QUEUE;
+        $todo                = self::UPDATES_TO_QUEUE;
 
         Project::where('last_mirrored', '<', $last_mirrored_since)->chunk($todo, function ($project) use ($command) {
             $command->dispatch(new UpdateGitMirror($project));

@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 use Illuminate\Console\Command;
 
 /**
- * Checks for and cleans up orphaned git mirrors
+ * Checks for and cleans up orphaned git mirrors.
  */
 class ClearOrphanMirrors extends Command
 {

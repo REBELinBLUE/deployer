@@ -12,7 +12,7 @@ use REBELinBLUE\Deployer\Project;
 use Symfony\Component\Process\Process;
 
 /**
- * Updates the git mirror for a project
+ * Updates the git mirror for a project.
  */
 class UpdateGitMirror extends Job implements SelfHandling
 {
