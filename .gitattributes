@@ -4,7 +4,7 @@
 
 #
 ## These files are text and should be normalized (Convert crlf => lf)
-#
+#c
 
 # Source code
 *.php text
@@ -12,6 +12,7 @@
 *.sass text
 *.scss text
 *.less text
+*.sh text
 *.js text
 *.json text
 *.svg text
@@ -78,6 +79,7 @@ phpunit.xml.dist export-ignore
 Vagrantfile export-ignore
 CONTRIBUTING.md export-ignore
 SCREENSHOTS.md export-ignore
+build_release.sh export-ignore
 
 #
 ## Github config
