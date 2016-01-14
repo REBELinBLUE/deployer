@@ -35,6 +35,12 @@
                     <input type="password" class="form-control" placeholder="{{ Lang::get('auth.password') }}" name="password" required />
                     <span class="fa fa-lock form-control-feedback"></span>
                 </div>
+                <div class="form-group checkbox">
+                    <label>
+                        <input type="checkbox" name="remember" value="on" />
+                        {{ Lang::get('auth.remember') }}
+                    </label>
+                </div>
                 <div class="row">
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">{{ Lang::get('auth.sign_in') }}</button>

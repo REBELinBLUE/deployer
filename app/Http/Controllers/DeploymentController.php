@@ -142,9 +142,11 @@ class DeploymentController extends Controller
             }
         }
 
+        // Get the optional commands and typecast to integers
         if (Input::has('optional') && is_array(Input::get('optional'))) {
-            // TODO: See if this can be removed when switching to the $request class as it use to work!
-            $data['optional'] = array_map('intval', Input::get('optional'));
+            $data['optional'] = array_filter(array_map(function ($value) {
+                return filter_var($value, FILTER_VALIDATE_INT);
+            }, Input::get('optional')));
         }
 
         $deployment = $this->deploymentRepository->create($data);
