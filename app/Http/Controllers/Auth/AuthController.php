@@ -66,13 +66,14 @@ class AuthController extends Controller
 
             if ($auth->user()->has_two_factor_authentication) {
                 Session::put('2fa_user_id', $auth->user()->id);
+                Session::put('2fa_remember', $request->has('remember'));
 
                 $this->clearLoginAttempts($request);
 
                 return redirect()->route('auth.twofactor');
             }
 
-            $auth->attempt($credentials, true);
+            $auth->attempt($credentials, $request->has('remember'));
 
             return $this->handleUserWasAuthenticated($request, true);
         }
@@ -101,11 +102,12 @@ class AuthController extends Controller
     public function postTwoFactorAuthentication(Request $request)
     {
         $user_id = Session::pull('2fa_user_id');
+        $remember = Session::pull('2fa_login_remember');
 
         if ($user_id) {
             $auth = Auth::guard($this->getGuard());
 
-            $auth->loginUsingId($user_id);
+            $auth->loginUsingId($user_id, $remember);
 
             if (Google2FA::verifyKey($auth->user()->google2fa_secret, $request->get('2fa_code'))) {
                 return $this->handleUserWasAuthenticated($request, true);

@@ -18,6 +18,7 @@ return [
     'reset'                 => 'Reset Password',
     'throttle'              => 'Too many login attempts. Please try again in :seconds seconds.',
     'failed'                => 'These credentials do not match our records.',
-    'invalid_code'          => 'The authentication code was incorrect.'
+    'invalid_code'          => 'The authentication code was incorrect.',
+    'remember'              => 'Remember Me',
 
 ];
