@@ -145,7 +145,7 @@ class DeploymentController extends Controller
         // Get the optional commands and typecast to integers
         if (Input::has('optional') && is_array(Input::get('optional'))) {
             $data['optional'] = array_filter(array_map(function ($value) {
-                return filter_var($value, FILTER_VALIDATE_INT); 
+                return filter_var($value, FILTER_VALIDATE_INT);
             }, Input::get('optional')));
         }
 
