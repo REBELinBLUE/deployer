@@ -142,8 +142,9 @@ class DeploymentController extends Controller
             }
         }
 
-        if (Input::has('optional')) {
-            $data['optional'] = Input::get('optional');
+        if (Input::has('optional') && is_array(Input::get('optional'))) {
+            // TODO: See if this can be removed when switching to the $request class as it use to work!
+            $data['optional'] = array_map('intval', Input::get('optional'));
         }
 
         $deployment = $this->deploymentRepository->create($data);
