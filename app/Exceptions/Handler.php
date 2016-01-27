@@ -53,8 +53,9 @@ class Handler extends ExceptionHandler
             return $this->renderHttpException($exception);
         }
 
-        // Only show whoops pages is debugging is enabled and it is installed, i.e. on dev
-        if (config('app.debug') && class_exists('\Whoops\Run', true)) {
+        // Only show whoops pages if debugging is enabled and it is installed, i.e. on dev
+        // and for exceptions which should actually show an exception page
+        if (config('app.debug') && class_exists('\Whoops\Run', true) && $this->isSafeToWhoops($exception)) {
             return $this->renderExceptionWithWhoops($request, $exception);
         }
 
@@ -82,5 +83,28 @@ class Handler extends ExceptionHandler
             $exception->getStatusCode(),
             $exception->getHeaders()
         );
+    }
+
+    /**
+     * Don't allow the exceptions which laravel handles specially to be converted to Whoops
+     * This is horrible though, see if we can find a better way to do it.
+     * GrahamCampbell/Laravel-Exceptions unfortunately doesn't return JSON for whoops pages which are from AJAX
+     * 
+     * @param  Exception $exception
+     * @return boolean
+     */
+    protected function isSafeToWhoops(Exception $exception)
+    {
+        if ($exception instanceof HttpResponseException) {
+            return false;
+        } else if ($exception instanceof ModelNotFoundException) {
+            return false;
+        } else if ($exception insanceof AuthorizationException) {
+            return false;
+        } else if ($exception instanceof ValidationException && $exception->getResponse()) {
+            return false;
+        }
+
+        return true;
     }
 }
