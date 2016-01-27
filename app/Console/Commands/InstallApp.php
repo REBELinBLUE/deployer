@@ -9,17 +9,20 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use PDO;
+use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use Symfony\Component\Console\Helper\FormatterHelper;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
 
 /**
  * A console command for prompting for install details.
- * TODO: Refactor the validator to reduce duplication, maybe move the askWithValidation to an external library.
+ * TODO: Refactor the validator to reduce duplication
+ * TODO: Move the writing the env file to another class.
  */
 class InstallApp extends Command
 {
+    use AskAndValidate;
+
     /**
      * The name and signature of the console command.
      *
@@ -664,28 +667,6 @@ class InstallApp extends Command
         });
 
         return $locales;
-    }
-
-    /**
-     * Asks a question and validates the response.
-     *
-     * @param  string   $question  The question
-     * @param  array    $choices   Autocomplete options
-     * @param  function $validator The callback function
-     * @param  mixed    $default   The default value
-     * @return string
-     */
-    public function askAndValidate($question, array $choices, $validator, $default = null)
-    {
-        $question = new Question($question, $default);
-
-        if (count($choices)) {
-            $question->setAutocompleterValues($choices);
-        }
-
-        $question->setValidator($validator);
-
-        return $this->output->askQuestion($question);
     }
 
     /**
