@@ -7,6 +7,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Foundation\Validation\ValidationException;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -78,7 +79,7 @@ class Handler extends ExceptionHandler
             $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
         }
 
-        return new \Illuminate\Http\Response(
+        return new Response(
             $whoops->handleException($exception),
             $exception->getStatusCode(),
             $exception->getHeaders()
@@ -88,10 +89,10 @@ class Handler extends ExceptionHandler
     /**
      * Don't allow the exceptions which laravel handles specially to be converted to Whoops
      * This is horrible though, see if we can find a better way to do it.
-     * GrahamCampbell/Laravel-Exceptions unfortunately doesn't return JSON for whoops pages which are from AJAX
-     * 
+     * GrahamCampbell/Laravel-Exceptions unfortunately doesn't return JSON for whoops pages which are from AJAX.
+     *
      * @param  \Exception $exception
-     * @return boolean
+     * @return bool
      */
     protected function isSafeToWhoops(Exception $exception)
     {
