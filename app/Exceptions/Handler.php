@@ -99,7 +99,7 @@ class Handler extends ExceptionHandler
             return false;
         } else if ($exception instanceof ModelNotFoundException) {
             return false;
-        } else if ($exception insanceof AuthorizationException) {
+        } else if ($exception instanceof AuthorizationException) {
             return false;
         } else if ($exception instanceof ValidationException && $exception->getResponse()) {
             return false;
