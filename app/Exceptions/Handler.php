@@ -97,11 +97,11 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof HttpResponseException) {
             return false;
-        } else if ($exception instanceof ModelNotFoundException) {
+        } elseif ($exception instanceof ModelNotFoundException) {
             return false;
-        } else if ($exception instanceof AuthorizationException) {
+        } elseif ($exception instanceof AuthorizationException) {
             return false;
-        } else if ($exception instanceof ValidationException && $exception->getResponse()) {
+        } elseif ($exception instanceof ValidationException && $exception->getResponse()) {
             return false;
         }
 
