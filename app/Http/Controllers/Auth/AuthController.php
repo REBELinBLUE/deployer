@@ -101,7 +101,7 @@ class AuthController extends Controller
      */
     public function postTwoFactorAuthentication(Request $request)
     {
-        $user_id = Session::pull('2fa_user_id');
+        $user_id  = Session::pull('2fa_user_id');
         $remember = Session::pull('2fa_login_remember');
 
         if ($user_id) {
