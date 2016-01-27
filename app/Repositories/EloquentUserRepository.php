@@ -36,7 +36,11 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
 
         $user = $this->model->create($fields);
 
-        event(new UserWasCreated($user, $password));
+        // FIXME: This is horrible, find a better way to do this
+        // Who should be responsible for firing the event?
+        if (!isset($fields['do_not_email'])) {
+            event(new UserWasCreated($user, $password));
+        }
 
         return $user;
     }

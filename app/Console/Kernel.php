@@ -35,12 +35,13 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats::class,
         \REBELinBLUE\Deployer\Console\Commands\CheckUrl::class,
+        \REBELinBLUE\Deployer\Console\Commands\CreateUser::class,
         \REBELinBLUE\Deployer\Console\Commands\ClearOrphanAvatars::class,
         \REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment::class,
         \REBELinBLUE\Deployer\Console\Commands\ClearOldKeys::class,
         \REBELinBLUE\Deployer\Console\Commands\InstallApp::class,
         \REBELinBLUE\Deployer\Console\Commands\UpdateApp::class,
-        \REBELinBLUE\Deployer\Console\Commands\ResetApp::class,
+        \REBELinBLUE\Deployer\Console\Commands\ResetApp::class, // FIXME: Figure out if we can overwrite the constructor and only add this in dev mode
     ];
 
     /**
