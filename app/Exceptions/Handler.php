@@ -90,7 +90,7 @@ class Handler extends ExceptionHandler
      * This is horrible though, see if we can find a better way to do it.
      * GrahamCampbell/Laravel-Exceptions unfortunately doesn't return JSON for whoops pages which are from AJAX
      * 
-     * @param  Exception $exception
+     * @param  \Exception $exception
      * @return boolean
      */
     protected function isSafeToWhoops(Exception $exception)
