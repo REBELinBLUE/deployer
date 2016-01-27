@@ -19,7 +19,7 @@ Almsaeed Studio for AdminLTE - https://almsaeedstudio.com
 /* TECHNOLOGY */
 
 CSS2, HTML5
-Laravel 5.1
+Laravel
 Gulp, Node, Socket.io
 beanstalkd, redis
 
