@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
         \REBELinBLUE\Deployer\Console\Commands\ClearOldKeys::class,
         \REBELinBLUE\Deployer\Console\Commands\InstallApp::class,
         \REBELinBLUE\Deployer\Console\Commands\UpdateApp::class,
-        \REBELinBLUE\Deployer\Console\Commands\ResetApp::class, // FIXME: Figure out if we can overwrite the constructor and only add this in dev mode
+        \REBELinBLUE\Deployer\Console\Commands\ResetApp::class,
     ];
 
     /**
