@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
+use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use RuntimeException;
 
@@ -56,8 +57,8 @@ class CreateUser extends Command
      */
     public function handle()
     {
-        $arguments = $this->argument();
-        $options   = $this->option();
+        $arguments  = $this->argument();
+        $send_email = (!$this->option('no-email'));
 
         $password_generated = false;
         if (!$arguments['password']) {
@@ -76,23 +77,16 @@ class CreateUser extends Command
             throw new RuntimeException($validator->errors()->first());
         }
 
-        // FIXME: This is horrible!
-        $emailed = true;
-        if (isset($options['no-email']) && $options['no-email']) {
-            $arguments['do_not_email'] = true;
-            $emailed                   = false;
-        }
-
         $user = $this->repository->create($arguments);
 
-        $message = 'The user has been created and their account details have been emailed to ' . $user->email;
+        $message = 'The user has been created';
 
-        if (!$emailed) {
-            $message = 'The user has been created';
+        if ($send_email) {
+            $message = 'The user has been created and their account details have been emailed to ' . $user->email;
 
-            if ($password_generated) {
-                $message .= ', however you elected to not email the account details to them. Their password is ' . $arguments['password'];
-            }
+            event(new UserWasCreated($user, $arguments['password']));
+        } elseif ($password_generated) {
+            $message .= ', however you elected to not email the account details to them. Their password is ' . $arguments['password'];
         }
 
         $this->info($message);

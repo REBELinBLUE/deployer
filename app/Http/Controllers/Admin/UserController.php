@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Lang;
+use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreUserRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
@@ -44,11 +45,15 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        return $this->repository->create($request->only(
+        $user = $this->repository->create($request->only(
             'name',
             'email',
             'password'
         ));
+
+        event(new UserWasCreated($user, $request->get('password')));
+
+        return $user;
     }
 
     /**

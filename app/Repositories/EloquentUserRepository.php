@@ -31,18 +31,9 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
      */
     public function create(array $fields)
     {
-        $password           = $fields['password'];
         $fields['password'] = bcrypt($fields['password']);
 
-        $user = $this->model->create($fields);
-
-        // FIXME: This is horrible, find a better way to do this
-        // Who should be responsible for firing the event?
-        if (!isset($fields['do_not_email'])) {
-            event(new UserWasCreated($user, $password));
-        }
-
-        return $user;
+        return $this->model->create($fields);
     }
 
     /**
