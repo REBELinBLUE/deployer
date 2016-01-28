@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+             require('laravel-elixir-remove');
 
 var bower_path = 'vendor/bower_components';
 
@@ -88,5 +89,10 @@ elixir(function(mix) {
         'public/js/ie.js',
         'public/js/vendor.js'
     ])
-    .copy('public/fonts', 'public/build/fonts');
+    .copy('public/fonts', 'public/build/fonts')
+    .remove([
+        'public/css',
+        'public/js',
+        'public/fonts'
+    ]);
 });
