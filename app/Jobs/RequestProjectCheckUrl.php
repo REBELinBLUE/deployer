@@ -58,10 +58,7 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
 
             if ($has_error) {
                 foreach ($link->project->notifications as $notification) {
-                    $this->dispatch(new Notify(
-                        $notification,
-                        $link->notificationPayload()
-                    ));
+                    $this->dispatch(new SlackNotify($notification, $link->notificationPayload()));
                 }
             }
         }
