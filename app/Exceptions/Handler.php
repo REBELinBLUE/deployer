@@ -7,6 +7,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Foundation\Validation\ValidationException;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -53,8 +54,9 @@ class Handler extends ExceptionHandler
             return $this->renderHttpException($exception);
         }
 
-        // Only show whoops pages is debugging is enabled and it is installed, i.e. on dev
-        if (config('app.debug') && class_exists('\Whoops\Run', true)) {
+        // Only show whoops pages if debugging is enabled and it is installed, i.e. on dev
+        // and for exceptions which should actually show an exception page
+        if (config('app.debug') && class_exists('\Whoops\Run', true) && $this->isSafeToWhoops($exception)) {
             return $this->renderExceptionWithWhoops($request, $exception);
         }
 
@@ -77,10 +79,33 @@ class Handler extends ExceptionHandler
             $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
         }
 
-        return new \Illuminate\Http\Response(
+        return new Response(
             $whoops->handleException($exception),
             $exception->getStatusCode(),
             $exception->getHeaders()
         );
+    }
+
+    /**
+     * Don't allow the exceptions which laravel handles specially to be converted to Whoops
+     * This is horrible though, see if we can find a better way to do it.
+     * GrahamCampbell/Laravel-Exceptions unfortunately doesn't return JSON for whoops pages which are from AJAX.
+     *
+     * @param  \Exception $exception
+     * @return bool
+     */
+    protected function isSafeToWhoops(Exception $exception)
+    {
+        if ($exception instanceof HttpResponseException) {
+            return false;
+        } elseif ($exception instanceof ModelNotFoundException) {
+            return false;
+        } elseif ($exception instanceof AuthorizationException) {
+            return false;
+        } elseif ($exception instanceof ValidationException && $exception->getResponse()) {
+            return false;
+        }
+
+        return true;
     }
 }

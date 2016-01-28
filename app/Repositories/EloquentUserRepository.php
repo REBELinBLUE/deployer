@@ -31,14 +31,9 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
      */
     public function create(array $fields)
     {
-        $password           = $fields['password'];
         $fields['password'] = bcrypt($fields['password']);
 
-        $user = $this->model->create($fields);
-
-        event(new UserWasCreated($user, $password));
-
-        return $user;
+        return $this->model->create($fields);
     }
 
     /**

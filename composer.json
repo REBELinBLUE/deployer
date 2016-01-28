@@ -45,7 +45,7 @@
         "block8/php-docblock-checker": "^1.0",
         "squizlabs/php_codesniffer": "~2.3",
         "phpmd/phpmd" : "~2.0",
-        "phploc/phploc": "~2.0",
+        "phploc/phploc": "~3.0",
         "sebastian/phpcpd": "2.0.2",
         "filp/whoops": "^2.0",
         "codeclimate/php-test-reporter": "^0.1.2",
@@ -65,8 +65,10 @@
         ]
     },
     "scripts": {
+        "pre-install-cmd": [
+            "php artisan clear-compiled"
+        ],
         "post-install-cmd": [
-            "php artisan clear-compiled",
             "php artisan optimize"
         ],
         "pre-update-cmd": [
