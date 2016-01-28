@@ -2,6 +2,7 @@
 
 git checkout master
 git branch -D release
+git stash
 git pull
 git checkout release
 git merge --no-edit -q -X theirs master
@@ -25,3 +26,6 @@ git add -f public/build/js/*
 git add -f public/build/*
 git commit -am "Updating assets"
 git push
+
+git checkout master
+git stash pop
