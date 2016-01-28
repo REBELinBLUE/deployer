@@ -20,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
             \REBELinBLUE\Deployer\Listeners\Events\SendSignupEmail::class,
         ],
         \REBELinBLUE\Deployer\Events\DeployFinished::class => [
-            \REBELinBLUE\Deployer\Listeners\Events\Notify::class,
+            \REBELinBLUE\Deployer\Listeners\Events\NotifyDeploy::class,
         ],
         \REBELinBLUE\Deployer\Events\HeartbeatMissed::class => [
             \REBELinBLUE\Deployer\Listeners\Events\NotifyHeartbeat::class,

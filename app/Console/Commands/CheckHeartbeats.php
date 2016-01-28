@@ -4,9 +4,8 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use REBELinBLUE\Deployer\Heartbeat;
-use REBELinBLUE\Deployer\Jobs\Notify;
 use REBELinBLUE\Deployer\Events\HeartbeatMissed;
+use REBELinBLUE\Deployer\Heartbeat;
 
 /**
  * Checks that any expected heartbeats have checked-in.

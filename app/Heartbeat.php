@@ -5,10 +5,9 @@ namespace REBELinBLUE\Deployer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
-use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Events\HeartbeatRecovered;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Heartbeat model.
@@ -113,7 +112,7 @@ class Heartbeat extends Model
      */
     public function pinged()
     {
-        $isHealthy = $this->isHealthy();
+        $isHealthy = ($this->status === self::UNTESTED || $this->isHealthy());
 
         $this->status        = self::OK;
         $this->missed        = 0;
@@ -134,73 +133,5 @@ class Heartbeat extends Model
     public function isHealthy()
     {
         return ($this->status === self::OK);
-    }
-
-    /**
-     * Generates a slack payload for the heartbeat failure.
-     *
-     * @return array
-     */
-    public function notificationMissingPayload()
-    {
-        $message = Lang::get('heartbeats.missing_message', ['job' => $this->name]);
-
-        if (is_null($this->last_activity)) {
-            $heard_from = Lang::get('app.never');
-        } else {
-            $heard_from = $this->last_activity->diffForHumans();
-        }
-
-        $payload = [
-            'attachments' => [
-                [
-                    'fallback' => $message,
-                    'text'     => $message,
-                    'color'    => 'danger',
-                    'fields'   => [
-                        [
-                            'title' => Lang::get('notifications.project'),
-                            'value' => sprintf('<%s|%s>', url('projects', $this->project_id), $this->project->name),
-                            'short' => true,
-                        ], [
-                            'title' => Lang::get('heartbeats.last_check_in'),
-                            'value' => $heard_from,
-                            'short' => true,
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-        return $payload;
-    }
-
-    /**
-     * Generates a slack payload for the heartbeat recovery.
-     *
-     * @return array
-     */
-    public function notificationRecoveredPayload()
-    {
-        $message = Lang::get('heartbeats.recovered_message', ['job' => $this->name]);
-
-        $payload = [
-            'attachments' => [
-                [
-                    'fallback' => $message,
-                    'text'     => $message,
-                    'color'    => 'good',
-                    'fields'   => [
-                        [
-                            'title' => Lang::get('notifications.project'),
-                            'value' => sprintf('<%s|%s>', url('projects', $this->project_id), $this->project->name),
-                            'short' => true,
-                        ]
-                    ],
-                ],
-            ],
-        ];
-
-        return $payload;
     }
 }
