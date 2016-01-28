@@ -12,7 +12,7 @@ use REBELinBLUE\Deployer\Notification;
 /**
  * Sends notification to slack.
  */
-class Notify extends Job implements ShouldQueue
+class SlackNotify extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

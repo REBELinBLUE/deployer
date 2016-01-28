@@ -65,6 +65,7 @@ var app = app || {};
             $('#project_url').val('');
             $('#project_build_url').val('');
             $('#project_allow_other_branch').prop('checked', true);
+            $('#project_include_dev').prop('checked', false);
         }
 
         modal.find('.modal-title span').text(title);
@@ -127,7 +128,8 @@ var app = app || {};
             url:                $('#project_url').val(),
             build_url:          $('#project_build_url').val(),
             template_id:        $('#project_template_id') ? $('#project_template_id').val() : null,
-            allow_other_branch: $('#project_allow_other_branch').is(':checked')
+            allow_other_branch: $('#project_allow_other_branch').is(':checked'),
+            include_dev:        $('#project_include_dev').is(':checked')
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -275,6 +277,7 @@ var app = app || {};
             $('#project_url').val(this.model.get('url'));
             $('#project_build_url').val(this.model.get('build_url'));
             $('#project_allow_other_branch').prop('checked', (this.model.get('allow_other_branch') === true));
+            $('#project_include_dev').prop('checked', (this.model.get('include_dev') === true));
         }
     });
 

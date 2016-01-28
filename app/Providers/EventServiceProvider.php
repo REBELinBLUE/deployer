@@ -16,20 +16,26 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'REBELinBLUE\Deployer\Events\UserWasCreated' => [
-            'REBELinBLUE\Deployer\Listeners\Events\SendSignupEmail',
+        \REBELinBLUE\Deployer\Events\UserWasCreated::class => [
+            \REBELinBLUE\Deployer\Listeners\Events\SendSignupEmail::class,
         ],
-        'REBELinBLUE\Deployer\Events\DeployFinished' => [
-            'REBELinBLUE\Deployer\Listeners\Events\Notify',
+        \REBELinBLUE\Deployer\Events\DeployFinished::class => [
+            \REBELinBLUE\Deployer\Listeners\Events\NotifyDeploy::class,
         ],
-        'REBELinBLUE\Deployer\Events\EmailChangeRequested' => [
-            'REBELinBLUE\Deployer\Listeners\Events\EmailChangeConfirmation',
+        \REBELinBLUE\Deployer\Events\HeartbeatMissed::class => [
+            \REBELinBLUE\Deployer\Listeners\Events\NotifyHeartbeat::class,
         ],
-        'Illuminate\Auth\Events\Login' => [
-            'REBELinBLUE\Deployer\Listeners\Events\CreateJwt',
+        \REBELinBLUE\Deployer\Events\HeartbeatRecovered::class => [
+            \REBELinBLUE\Deployer\Listeners\Events\NotifyHeartbeat::class,
         ],
-        'Illuminate\Auth\Events\Logout' => [
-            'REBELinBLUE\Deployer\Listeners\Events\ClearJwt',
+        \REBELinBLUE\Deployer\Events\EmailChangeRequested::class => [
+            \REBELinBLUE\Deployer\Listeners\Events\EmailChangeConfirmation::class,
+        ],
+        \Illuminate\Auth\Events\Login::class => [
+            \REBELinBLUE\Deployer\Listeners\Events\CreateJwt::class,
+        ],
+        \Illuminate\Auth\Events\Logout::class => [
+            \REBELinBLUE\Deployer\Listeners\Events\ClearJwt::class,
         ],
     ];
 

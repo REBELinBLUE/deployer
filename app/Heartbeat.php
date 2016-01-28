@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
+use REBELinBLUE\Deployer\Events\HeartbeatRecovered;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
@@ -112,9 +112,15 @@ class Heartbeat extends Model
      */
     public function pinged()
     {
+        $isHealthy = ($this->status === self::UNTESTED || $this->isHealthy());
+
         $this->status        = self::OK;
         $this->missed        = 0;
         $this->last_activity = $this->freshTimestamp();
+
+        if (!$isHealthy) {
+            event(new HeartbeatRecovered($this));
+        }
 
         return $this->save();
     }
@@ -127,44 +133,5 @@ class Heartbeat extends Model
     public function isHealthy()
     {
         return ($this->status === self::OK);
-    }
-
-    /**
-     * Generates a slack payload for the heartbeat failure.
-     *
-     * @return array
-     */
-    public function notificationPayload()
-    {
-        $message = Lang::get('heartbeats.message', ['job' => $this->name]);
-
-        if (is_null($this->last_activity)) {
-            $heard_from = Lang::get('app.never');
-        } else {
-            $heard_from = $this->last_activity->diffForHumans();
-        }
-
-        $payload = [
-            'attachments' => [
-                [
-                    'fallback' => $message,
-                    'text'     => $message,
-                    'color'    => 'danger',
-                    'fields'   => [
-                        [
-                            'title' => Lang::get('notifications.project'),
-                            'value' => sprintf('<%s|%s>', url('projects', $this->project_id), $this->project->name),
-                            'short' => true,
-                        ], [
-                            'title' => Lang::get('heartbeats.last_check_in'),
-                            'value' => $heard_from,
-                            'short' => true,
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-        return $payload;
     }
 }

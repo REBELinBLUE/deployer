@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Jobs\Notify;
+use REBELinBLUE\Deployer\Jobs\SlackNotify;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
@@ -60,10 +60,7 @@ class Notification extends Model
 
         // When the notification has been saved queue a test
         static::saved(function (Notification $model) {
-            $model->dispatch(new Notify(
-                $model,
-                $model->testPayload()
-            ));
+            $model->dispatch(new SlackNotify($model, $model->testPayload()));
         });
     }
 

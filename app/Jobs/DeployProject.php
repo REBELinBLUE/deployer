@@ -63,7 +63,6 @@ class DeployProject extends Job implements ShouldQueue
      */
     public function handle()
     {
-        DB::reconnect();
         $project = $this->deployment->project;
 
         $this->deployment->started_at = date('Y-m-d H:i:s');
@@ -386,7 +385,8 @@ CMD;
                 sprintf('cd %s', $latest_release_dir),
                 sprintf(
                     '[ -f %s/composer.json ] && composer install --no-interaction --optimize-autoloader ' .
-                    '--no-dev --prefer-dist --no-ansi --working-dir "%s"',
+                    ($project->include_dev ? '' : '--no-dev ') .
+                    '--prefer-dist --no-ansi --working-dir "%s"',
                     $latest_release_dir,
                     $latest_release_dir
                 ),

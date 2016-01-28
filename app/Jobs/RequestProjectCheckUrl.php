@@ -37,8 +37,6 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
      */
     public function handle()
     {
-        DB::reconnect();
-
         foreach ($this->links as $link) {
             $has_error = false;
 
@@ -58,10 +56,7 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
 
             if ($has_error) {
                 foreach ($link->project->notifications as $notification) {
-                    $this->dispatch(new Notify(
-                        $notification,
-                        $link->notificationPayload()
-                    ));
+                    $this->dispatch(new SlackNotify($notification, $link->notificationPayload()));
                 }
             }
         }

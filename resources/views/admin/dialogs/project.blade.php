@@ -65,6 +65,12 @@
                                 {{ Lang::get('projects.change_branch') }}
                             </label>
                         </div>
+                        <div class="checkbox">
+                            <label for="project_include_dev">
+                                <input type="checkbox" value="1" name="include_dev" id="project_include_dev" />
+                                {{ Lang::get('projects.include_dev') }}
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

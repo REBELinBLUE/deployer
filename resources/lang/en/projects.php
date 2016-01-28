@@ -42,6 +42,7 @@ return [
     'failed'            => 'Failed',
     'not_deployed'      => 'Not Deployed',
     'options'           => 'Options',
-    'change_branch'     => 'Allow other branches to be deployed?'
+    'change_branch'     => 'Allow other branches to be deployed?',
+    'include_dev'       => 'Install composer development packages?',
 
 ];

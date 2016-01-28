@@ -4,17 +4,14 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use REBELinBLUE\Deployer\Events\HeartbeatMissed;
 use REBELinBLUE\Deployer\Heartbeat;
-use REBELinBLUE\Deployer\Jobs\Notify;
 
 /**
  * Checks that any expected heartbeats have checked-in.
  */
 class CheckHeartbeats extends Command
 {
-    use DispatchesJobs;
-
     /**
      * The name and signature of the console command.
      *
@@ -62,12 +59,7 @@ class CheckHeartbeats extends Command
                     $heartbeat->missed = $missed;
                     $heartbeat->save();
 
-                    foreach ($heartbeat->project->notifications as $notification) {
-                        $this->dispatch(new Notify(
-                            $notification,
-                            $heartbeat->notificationPayload()
-                        ));
-                    }
+                    event(new HeartbeatMissed($heartbeat));
                 }
             }
 
