@@ -2,11 +2,17 @@
 
 ## [Unreleased](https://github.com/REBELinBLUE/deployer/tree/HEAD)
 
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.26...HEAD)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.27...HEAD)
 
 **Implemented enhancements:**
 
 - Variables for templates [\#157](https://github.com/REBELinBLUE/deployer/issues/157)
+
+## [0.0.27](https://github.com/REBELinBLUE/deployer/tree/0.0.27) (2016-01-28)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.26...0.0.27)
+
+**Implemented enhancements:**
+
 - Add a console command to create a user [\#155](https://github.com/REBELinBLUE/deployer/issues/155)
 - Add option to deploy only default branch [\#146](https://github.com/REBELinBLUE/deployer/issues/146)
 - Option to include require-dev packages in composer install [\#143](https://github.com/REBELinBLUE/deployer/issues/143)
