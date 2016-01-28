@@ -13,6 +13,7 @@
                     <tr>
                         <th>{{ Lang::get('templates.name') }}</th>
                         <th>{{ Lang::get('commands.label') }}</th>
+                        <th>{{ Lang::get('variables.label') }}</th>
                         <th>{{ Lang::get('sharedFiles.label') }}</th>
                         <th>{{ Lang::get('projectFiles.label') }}</th>
                         <th>&nbsp;</th>
@@ -30,6 +31,7 @@
     <script type="text/template" id="template-template">
         <td><%- name %></td>
         <td><%- command_count %></td>
+        <td><%- variable_count %></td>
         <td><%- file_count %></td>
         <td><%- config_count %></td>
         <td>

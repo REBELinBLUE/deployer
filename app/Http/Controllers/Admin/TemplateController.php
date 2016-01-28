@@ -55,6 +55,7 @@ class TemplateController extends Controller
             'title'         => $template->name,
             'sharedFiles'   => $template->sharedFiles,
             'projectFiles'  => $template->projectFiles,
+            'variables'     => $template->variables,
             'project'       => $template,
             'route'         => 'template.commands',
         ]);
