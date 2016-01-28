@@ -5,7 +5,7 @@ var elixir = require('laravel-elixir');
 var bower_path = 'vendor/bower_components';
 
 var paths = {
-    'adminlte'        : bower_path + '/AdminLTE',
+    'admin_lte'       : bower_path + '/admin-lte',
     'ace'             : bower_path + '/ace-min-noconflict',
     'backbone'        : bower_path + '/backbone',
     'underscore'      : bower_path + '/underscore',
@@ -33,10 +33,10 @@ elixir(function(mix) {
     })
     .styles([
         'public/css/vendor.css',
-        paths.adminlte + '/dist/css/AdminLTE.css',
-        paths.adminlte + '/dist/css/skins/_all-skins.css',
-        paths.toastr   + '/toastr.css',
-        paths.cropper  + '/dist/cropper.css',
+        paths.admin_lte + '/dist/css/AdminLTE.css',
+        paths.admin_lte + '/dist/css/skins/_all-skins.css',
+        paths.toastr    + '/toastr.css',
+        paths.cropper   + '/dist/cropper.css',
     ], 'public/css/vendor.css', './')
     .styles([
         'resources/assets/css/app.css'
@@ -51,7 +51,7 @@ elixir(function(mix) {
         paths.underscore      + '/underscore.js',
         paths.moment          + '/moment.js',
         paths.bootstrap       + '/javascripts/bootstrap.js',
-        paths.adminlte        + '/dist/js/app.js',
+        paths.admin_lte       + '/dist/js/app.js',
         paths.backbone        + '/backbone.js',
         paths.socketio_client + '/socket.io.js',
         paths.toastr          + '/toastr.js',
