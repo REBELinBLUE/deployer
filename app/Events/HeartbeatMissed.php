@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Event class which is thrown when the heartbeat recovers
  **/
-class HeartbeatRecovered extends Event
+class HeartbeatMissed extends Event
 {
     use SerializesModels;
 
