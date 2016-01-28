@@ -386,7 +386,8 @@ CMD;
                 sprintf('cd %s', $latest_release_dir),
                 sprintf(
                     '[ -f %s/composer.json ] && composer install --no-interaction --optimize-autoloader ' .
-                    '--no-dev --prefer-dist --no-ansi --working-dir "%s"',
+                    ($project->include_dev ? '' : '--no-dev ') .
+                    '--prefer-dist --no-ansi --working-dir "%s"',
                     $latest_release_dir,
                     $latest_release_dir
                 ),

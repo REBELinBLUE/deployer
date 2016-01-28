@@ -51,6 +51,7 @@ i5vkNY4OZdOuEV9boFOFYa58WRNK7vthHkZJj++Amu3dZ6RHBlLQ
             'last_run'           => null,
             'build_url'          => 'http://ci.rebelinblue.com/build-status/image/3?branch=master',
             'allow_other_branch' => true,
+            'include_dev'        => false,
         ]);
     }
 }

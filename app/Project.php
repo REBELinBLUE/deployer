@@ -38,7 +38,7 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $fillable = ['name', 'repository', 'branch', 'group_id',
+    protected $fillable = ['name', 'repository', 'branch', 'group_id', 'include_dev',
                            'builds_to_keep', 'url', 'build_url', 'is_template', 'allow_other_branch', ];
 
     /**
@@ -65,6 +65,7 @@ class Project extends ProjectRelation implements PresentableInterface
         'builds_to_keep'     => 'integer',
         'is_template'        => 'boolean',
         'allow_other_branch' => 'boolean',
+        'include_dev'        => 'boolean',
     ];
 
     /**
