@@ -23,6 +23,7 @@
         "html5shiv": "~3.7.2",
         "respond": "~1.4.2",
         "cropper": "~2.0.0",
-        "toastr": "~2.1.2"
+        "toastr": "~2.1.2",
+        "admin-lte": "~2.3.2"
     }
 }

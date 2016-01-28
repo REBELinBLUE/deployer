@@ -1,8 +1,11 @@
 var elixir = require('laravel-elixir');
+             require('laravel-elixir-remove');
+             require('laravel-elixir-bower-io');
 
 var bower_path = 'vendor/bower_components';
 
 var paths = {
+    'admin_lte'       : bower_path + '/admin-lte',
     'ace'             : bower_path + '/ace-min-noconflict',
     'backbone'        : bower_path + '/backbone',
     'underscore'      : bower_path + '/underscore',
@@ -20,7 +23,8 @@ var paths = {
 };
 
 elixir(function(mix) {
-    mix.sass('vendor.scss', 'public/css/vendor.css', {
+    mix.Bower()
+    .sass('vendor.scss', 'public/css/vendor.css', {
         includePaths: [
             paths.bootstrap   + '/stylesheets',
             paths.fontawesome + '/scss',
@@ -29,14 +33,14 @@ elixir(function(mix) {
     })
     .styles([
         'public/css/vendor.css',
-        paths.toastr + '/toastr.css',
-        paths.cropper + '/dist/cropper.css',
+        paths.admin_lte + '/dist/css/AdminLTE.css',
+        paths.admin_lte + '/dist/css/skins/_all-skins.css',
+        paths.toastr    + '/toastr.css',
+        paths.cropper   + '/dist/cropper.css',
     ], 'public/css/vendor.css', './')
     .styles([
-        'AdminLTE.css',
-        '_all-skins.css',
-        'app.css'
-    ], 'public/css/app.css', 'resources/assets/css')
+        'resources/assets/css/app.css'
+    ], 'public/css/app.css', './')
     .scripts([
         paths.html5shiv + '/dist/html5shiv.js',
         paths.respond   + '/dest/respond.src.js'
@@ -47,6 +51,7 @@ elixir(function(mix) {
         paths.underscore      + '/underscore.js',
         paths.moment          + '/moment.js',
         paths.bootstrap       + '/javascripts/bootstrap.js',
+        paths.admin_lte       + '/dist/js/app.js',
         paths.backbone        + '/backbone.js',
         paths.socketio_client + '/socket.io.js',
         paths.toastr          + '/toastr.js',
@@ -74,8 +79,7 @@ elixir(function(mix) {
         'users.js',
         'groups.js',
         'uploader.js',
-        'profile.js',
-        'AdminLTE.js'
+        'profile.js'
     ], 'public/js/app.js', 'resources/assets/js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
@@ -87,5 +91,10 @@ elixir(function(mix) {
         'public/js/ie.js',
         'public/js/vendor.js'
     ])
-    .copy('public/fonts', 'public/build/fonts');
+    .copy('public/fonts', 'public/build/fonts')
+    .remove([
+        'public/css',
+        'public/js',
+        'public/fonts'
+    ]);
 });
