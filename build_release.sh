@@ -10,15 +10,15 @@ git merge --no-edit -q -X theirs master
 # set version
 sed -i 's/-dev//' VERSION
 
+git add VERSION
+git commit -m "Incrementing version"
+
 git rm -rf public/build/*
 rm -rf public/build/
 npm install --production
 composer install --no-dev -o
 bower install
 gulp --production
-
-git add version
-git commit -m "Incrementing version"
 
 git add -f public/build/rev-manifest.json
 git add -f public/build/css/*
