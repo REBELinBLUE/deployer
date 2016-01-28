@@ -7,6 +7,7 @@ use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\ProjectFile;
 use REBELinBLUE\Deployer\SharedFile;
+use REBELinBLUE\Deployer\Variable;
 
 /**
  * A class to handle cloning the command templates for the project.
@@ -43,6 +44,13 @@ class SetupProject extends Job
             $data['project_id'] = $this->project->id;
 
             Command::create($data);
+        }
+
+        foreach ($template->variables as $variable) {
+            $data               = $variable->toArray();
+            $data['project_id'] = $variable->project->id;
+
+            Variable::create($data);
         }
 
         foreach ($template->sharedFiles as $file) {

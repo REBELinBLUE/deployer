@@ -8,8 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Jobs\MailDeployNotification;
-use REBELinBLUE\Deployer\Jobs\SlackNotify;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
+use REBELinBLUE\Deployer\Jobs\SlackNotify;
 
 /**
  * When a deploy finished, notify the followed user.

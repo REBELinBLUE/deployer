@@ -21,7 +21,7 @@ class Template extends Model implements PresentableInterface
      *
      * @var array
      */
-    protected $visible = ['id', 'name', 'command_count', 'file_count', 'config_count'];
+    protected $visible = ['id', 'name', 'command_count', 'file_count', 'config_count', 'variable_count'];
 
     /**
      * The attributes that are mass assignable.
@@ -42,7 +42,7 @@ class Template extends Model implements PresentableInterface
      *
      * @var array
      */
-    protected $appends = ['command_count', 'file_count', 'config_count'];
+    protected $appends = ['command_count', 'file_count', 'config_count', 'variable_count'];
 
     /**
      * The attributes that should be casted to native types.
@@ -98,6 +98,17 @@ class Template extends Model implements PresentableInterface
     }
 
     /**
+     * Define a accessor for the count of env variables.
+     *
+     * @return int
+     */
+    public function getVariableCountAttribute()
+    {
+        return $this->variables()
+                    ->count();
+    }
+
+    /**
      * Has many relationship.
      *
      * @return Command
@@ -125,6 +136,16 @@ class Template extends Model implements PresentableInterface
     public function projectFiles()
     {
         return $this->hasMany('REBELinBLUE\Deployer\ProjectFile', 'project_id');
+    }
+
+    /**
+     * Has many relationship.
+     *
+     * @return Variable
+     */
+    public function variables()
+    {
+        return $this->hasMany('REBELinBLUE\Deployer\Variable', 'project_id');
     }
 
     /**
