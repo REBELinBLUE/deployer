@@ -6,8 +6,11 @@
 
 **Implemented enhancements:**
 
+- Variables for templates [\#157](https://github.com/REBELinBLUE/deployer/issues/157)
 - Add a console command to create a user [\#155](https://github.com/REBELinBLUE/deployer/issues/155)
 - Add option to deploy only default branch [\#146](https://github.com/REBELinBLUE/deployer/issues/146)
+- Option to include require-dev packages in composer install [\#143](https://github.com/REBELinBLUE/deployer/issues/143)
+- Heartbeat should notify on recovery [\#130](https://github.com/REBELinBLUE/deployer/issues/130)
 - Add an "Update available" prompt [\#148](https://github.com/REBELinBLUE/deployer/pull/148) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 **Fixed bugs:**
