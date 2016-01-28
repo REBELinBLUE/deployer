@@ -37,8 +37,6 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
      */
     public function handle()
     {
-        DB::reconnect();
-
         foreach ($this->links as $link) {
             $has_error = false;
 

@@ -36,7 +36,6 @@ class NotifyDeploy extends Event implements ShouldQueue
      */
     public function handle(DeployFinished $event)
     {
-        DB::reconnect();
         $project    = $event->project;
         $deployment = $event->deployment;
 

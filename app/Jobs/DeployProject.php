@@ -63,7 +63,6 @@ class DeployProject extends Job implements ShouldQueue
      */
     public function handle()
     {
-        DB::reconnect();
         $project = $this->deployment->project;
 
         $this->deployment->started_at = date('Y-m-d H:i:s');

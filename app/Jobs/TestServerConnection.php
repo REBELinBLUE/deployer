@@ -37,7 +37,6 @@ class TestServerConnection extends Job implements ShouldQueue
      */
     public function handle()
     {
-        DB::reconnect();
         $this->server->status = Server::TESTING;
         $this->server->save();
 
