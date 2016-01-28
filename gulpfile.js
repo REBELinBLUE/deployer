@@ -1,5 +1,6 @@
 var elixir = require('laravel-elixir');
              require('laravel-elixir-remove');
+             require('laravel-elixir-bower-io');
 
 var bower_path = 'vendor/bower_components';
 
@@ -22,7 +23,8 @@ var paths = {
 };
 
 elixir(function(mix) {
-    mix.sass('vendor.scss', 'public/css/vendor.css', {
+    mix.Bower()
+    .sass('vendor.scss', 'public/css/vendor.css', {
         includePaths: [
             paths.bootstrap   + '/stylesheets',
             paths.fontawesome + '/scss',
