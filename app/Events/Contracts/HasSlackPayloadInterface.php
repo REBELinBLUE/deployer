@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Events\Contracts;
 
-interface HasSlackPayload
+interface HasSlackPayloadInterface
 {
     public function notificationPayload();
 }

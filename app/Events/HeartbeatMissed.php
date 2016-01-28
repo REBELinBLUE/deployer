@@ -4,14 +4,14 @@ namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Events\Contracts\HasSlackPayload;
+use REBELinBLUE\Deployer\Events\Contracts\HasSlackPayloadInterface;
 use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\Heartbeat;
 
 /**
  * Event class which is thrown when the heartbeat recovers.
  **/
-class HeartbeatMissed extends Event implements HasSlackPayload
+class HeartbeatMissed extends Event implements HasSlackPayloadInterface
 {
     use SerializesModels;
 
