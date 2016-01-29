@@ -7,6 +7,7 @@ git pull
 
 # TODO: Build CHANGELOG and figure out to to move "unreleased to the new version"
 # Commit log
+# TODO: maybe use https://github.com/aktau/github-release to actually create the release
 
 git checkout release
 git merge --no-edit -q -X theirs master
