@@ -30,6 +30,19 @@
         </td>
     </script>
 
+    <script type="text/template" id="group-sidebar-template">
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-book"></i>
+                <span id="sidebar_group_<%- id %>"><%- name %></span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+
+            <ul class="treeview-menu" id="group_<%- id %>_projects">
+            </ul>
+        </li>
+    </script>
+
     <script type="text/javascript">
         Lang.create = '{{ Lang::get('groups.create') }}';
         Lang.edit = '{{ Lang::get('groups.edit') }}';
