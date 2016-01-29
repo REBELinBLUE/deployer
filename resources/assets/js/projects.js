@@ -211,7 +211,7 @@ var app = app || {};
                 app.Projects.add(data.model);
 
                 // Append to the menu
-                if ($('#project_' + data.model.id).length === 0) {
+                if ($('#sidebar_project_' + data.model.id).length === 0) {
                     var template = _.template($('#project-sidebar-template').html());
                     $('#group_' + data.model.group_id + '_projects').append(template(data.model));
                 }
