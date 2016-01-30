@@ -45,6 +45,7 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.provision "file", source: "~/.gitconfig", destination: "~/.gitconfig"
+    config.vm.provision "file", source: "~/.composer/auth.json", destination: "~/.composer/auth.json"
 
     # Copy deployer supervisor and cron config
     config.vm.provision "shell", inline: "sudo apt-get install ruby ruby-dev -y"
