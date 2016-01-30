@@ -122,6 +122,12 @@ var app = app || {};
 
             app.listener.on('group:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 app.Groups.add(data.model);
+
+                // Append to the menu
+                if ($('#sidebar_group_' + data.model.id).length === 0) {
+                    var template = _.template($('#group-sidebar-template').html());
+                    $(template(data.model)).insertBefore($('.sidebar-menu li.treeview').last());
+                }
             });
 
             app.listener.on('group:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
@@ -134,7 +140,7 @@ var app = app || {};
         },
         addOne: function (group) {
 
-            var view = new app.GroupView({ 
+            var view = new app.GroupView({
                 model: group
             });
 

@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/REBELinBLUE/deployer/tree/HEAD)
-
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.26...HEAD)
+## [0.0.27](https://github.com/REBELinBLUE/deployer/tree/0.0.27) (2016-01-28)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.26...0.0.27)
 
 **Implemented enhancements:**
 

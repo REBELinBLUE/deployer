@@ -49,6 +49,11 @@
         </td>
     </script>
 
+
+    <script type="text/template" id="project-sidebar-template">
+        <li><a href="/projects/<%- id %>" id="sidebar_project_<%- id %>"><%- name %></a></li>
+    </script>
+
     <script type="text/javascript">
         Lang.create = '{{ Lang::get('projects.create') }}';
         Lang.edit = '{{ Lang::get('projects.edit') }}';

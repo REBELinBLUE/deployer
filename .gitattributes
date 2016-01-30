@@ -79,7 +79,7 @@ phpunit.xml.dist export-ignore
 Vagrantfile export-ignore
 CONTRIBUTING.md export-ignore
 SCREENSHOTS.md export-ignore
-build_release.sh export-ignore
+create-release export-ignore
 
 #
 ## Github config

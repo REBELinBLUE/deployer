@@ -209,6 +209,12 @@ var app = app || {};
 
             app.listener.on('project:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 app.Projects.add(data.model);
+
+                // Append to the menu
+                if ($('#sidebar_project_' + data.model.id).length === 0) {
+                    var template = _.template($('#project-sidebar-template').html());
+                    $('#group_' + data.model.group_id + '_projects').append(template(data.model));
+                }
             });
 
             app.listener.on('project:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
