@@ -12,7 +12,6 @@ var paths = {
     'moment'          : bower_path + '/moment',
     'jquery'          : bower_path + '/jquery',
     'jquery_sortable' : bower_path + '/jquery-sortable',
-    'bootstrap'       : bower_path + '/bootstrap-sass-official/assets',
     'fontawesome'     : bower_path + '/fontawesome',
     'socketio_client' : bower_path + '/socket.io-client',
     'ionicons'        : bower_path + '/ionicons',
@@ -24,15 +23,10 @@ var paths = {
 
 elixir(function(mix) {
     mix.Bower()
-    .sass('vendor.scss', 'public/css/vendor.css', {
-        includePaths: [
-            paths.bootstrap   + '/stylesheets',
-            paths.fontawesome + '/scss',
-            paths.ionicons    + '/scss'
-        ]
-    })
     .styles([
-        'public/css/vendor.css',
+        paths.admin_lte + '/bootstrap/css/bootstrap.css',
+        paths.fontawesome + '/css/font-awesome.css',
+        paths.ionicons    + '/css/ionicons.css',
         paths.admin_lte + '/dist/css/AdminLTE.css',
         paths.admin_lte + '/dist/css/skins/_all-skins.css',
         paths.toastr    + '/toastr.css',
@@ -50,7 +44,7 @@ elixir(function(mix) {
         paths.jquery_sortable + '/source/js/jquery-sortable.js',
         paths.underscore      + '/underscore.js',
         paths.moment          + '/moment.js',
-        paths.bootstrap       + '/javascripts/bootstrap.js',
+        paths.admin_lte       + '/bootstrap/js/bootstrap.js',
         paths.admin_lte       + '/dist/js/app.js',
         paths.backbone        + '/backbone.js',
         paths.socketio_client + '/socket.io.js',
