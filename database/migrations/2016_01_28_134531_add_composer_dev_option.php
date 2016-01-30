@@ -25,7 +25,7 @@ class AddComposerDevOption extends Migration
     public function down()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->boolean('include_dev')->default(true);
+            $table->dropColumn('include_dev');
         });
     }
 }
