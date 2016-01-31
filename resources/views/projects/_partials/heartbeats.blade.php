@@ -5,7 +5,7 @@
         </div>
         <h3 class="box-title">{{ Lang::get('heartbeats.label') }}</h3>
     </div>
-    
+
     <div class="box-body" id="no_heartbeats">
         <p>{{ Lang::get('heartbeats.none') }}</p>
     </div>
@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                
+
             </tbody>
         </table>
     </div>

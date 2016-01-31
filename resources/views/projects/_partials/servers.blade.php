@@ -5,7 +5,7 @@
         </div>
         <h3 class="box-title">{{ Lang::get('servers.label') }}</h3>
     </div>
-    
+
     <div class="box-body" id="no_servers">
         <p>{{ Lang::get('servers.none') }}</p>
     </div>
@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                
+
             </tbody>
         </table>
     </div>

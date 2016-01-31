@@ -35,7 +35,7 @@
                         <label>{{ Lang::get('notifications.failure_only') }}</label>
                         <div class="checkbox">
                             <label for="notification_failure_only">
-                                <input type="checkbox" value="1" name="failure_only" id="notification_failure_only" /> 
+                                <input type="checkbox" value="1" name="failure_only" id="notification_failure_only" />
                                 {{ Lang::get('notifications.failure_description') }}
                             </label>
                         </div>
