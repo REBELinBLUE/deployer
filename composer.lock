@@ -705,16 +705,16 @@
         },
         {
             "name": "graham-campbell/binput",
-            "version": "v3.3.0",
+            "version": "v3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Binput.git",
-                "reference": "a2610fb332a9e2440262b6df5056a518fe0a57f3"
+                "reference": "d54f3a9bdd11e5006e58cf58167450f02c9298b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Binput/zipball/a2610fb332a9e2440262b6df5056a518fe0a57f3",
-                "reference": "a2610fb332a9e2440262b6df5056a518fe0a57f3",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Binput/zipball/d54f3a9bdd11e5006e58cf58167450f02c9298b7",
+                "reference": "d54f3a9bdd11e5006e58cf58167450f02c9298b7",
                 "shasum": ""
             },
             "require": {
@@ -764,20 +764,20 @@
                 "laravel",
                 "security"
             ],
-            "time": "2015-11-14 11:49:49"
+            "time": "2016-01-30 14:14:26"
         },
         {
             "name": "graham-campbell/htmlmin",
-            "version": "v4.2.0",
+            "version": "v4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-HTMLMin.git",
-                "reference": "293a16bd9e7cd5df19283d3a748426261e704a89"
+                "reference": "f4061a0a6c23e30f197077e1853619ce7205d464"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/293a16bd9e7cd5df19283d3a748426261e704a89",
-                "reference": "293a16bd9e7cd5df19283d3a748426261e704a89",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/f4061a0a6c23e30f197077e1853619ce7205d464",
+                "reference": "f4061a0a6c23e30f197077e1853619ce7205d464",
                 "shasum": ""
             },
             "require": {
@@ -829,20 +829,20 @@
                 "laravel",
                 "minifier"
             ],
-            "time": "2015-11-14 11:55:24"
+            "time": "2016-01-30 14:28:54"
         },
         {
             "name": "graham-campbell/security",
-            "version": "v3.5.0",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Security.git",
-                "reference": "bb4e8ec9cfc27403232df7fc2714217f976d875f"
+                "reference": "60292252e7fe1ebe1ea48dbc6b2162a51602c6ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Security/zipball/bb4e8ec9cfc27403232df7fc2714217f976d875f",
-                "reference": "bb4e8ec9cfc27403232df7fc2714217f976d875f",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Security/zipball/60292252e7fe1ebe1ea48dbc6b2162a51602c6ab",
+                "reference": "60292252e7fe1ebe1ea48dbc6b2162a51602c6ab",
                 "shasum": ""
             },
             "require": {
@@ -886,7 +886,7 @@
                 "laravel",
                 "security"
             ],
-            "time": "2015-11-14 11:44:07"
+            "time": "2016-01-30 14:22:10"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1776,16 +1776,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.5",
+            "version": "1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "dd8998b7c846f6909f4e7a5f67fabebfc412a4f7"
+                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/dd8998b7c846f6909f4e7a5f67fabebfc412a4f7",
-                "reference": "dd8998b7c846f6909f4e7a5f67fabebfc412a4f7",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/e6f80ab77885151908d0ec743689ca700886e8b0",
+                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0",
                 "shasum": ""
             },
             "require": {
@@ -1820,7 +1820,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-01-06 13:31:20"
+            "time": "2016-01-29 16:19:52"
         },
         {
             "name": "pda/pheanstalk",
@@ -2286,16 +2286,16 @@
         },
         {
             "name": "simplesoftwareio/simple-qrcode",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SimpleSoftwareIO/simple-qrcode.git",
-                "reference": "551f7ff10d0f95ac64cfc98d1eba5d331cad8428"
+                "reference": "17c5e45c79c40f717d4bc08cf5e568f29ebf9333"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SimpleSoftwareIO/simple-qrcode/zipball/551f7ff10d0f95ac64cfc98d1eba5d331cad8428",
-                "reference": "551f7ff10d0f95ac64cfc98d1eba5d331cad8428",
+                "url": "https://api.github.com/repos/SimpleSoftwareIO/simple-qrcode/zipball/17c5e45c79c40f717d4bc08cf5e568f29ebf9333",
+                "reference": "17c5e45c79c40f717d4bc08cf5e568f29ebf9333",
                 "shasum": ""
             },
             "require": {
@@ -2333,7 +2333,7 @@
                 "qrcode",
                 "wrapper"
             ],
-            "time": "2015-12-22 18:00:28"
+            "time": "2016-01-31 02:09:25"
         },
         {
             "name": "swiftmailer/swiftmailer",

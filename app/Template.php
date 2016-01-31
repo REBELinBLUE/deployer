@@ -50,6 +50,8 @@ class Template extends Model implements PresentableInterface
      * @var array
      */
     protected $casts = [
+        'id'          => 'integer',
+        'group_id'    => 'integer',
         'is_template' => 'boolean',
     ];
 

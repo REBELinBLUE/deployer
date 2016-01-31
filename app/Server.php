@@ -39,8 +39,11 @@ class Server extends Model
      * @var array
      */
     protected $casts = [
+        'id'          => 'integer',
+        'project_id'  => 'integer',
         'status'      => 'integer',
         'deploy_code' => 'boolean',
+        'port'        => 'integer',
     ];
 
     /**

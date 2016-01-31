@@ -61,6 +61,8 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $casts = [
+        'id'                 => 'integer',
+        'group_id'           => 'integer',
         'status'             => 'integer',
         'builds_to_keep'     => 'integer',
         'is_template'        => 'boolean',

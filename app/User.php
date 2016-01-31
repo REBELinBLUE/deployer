@@ -47,6 +47,15 @@ class User extends Model implements
     protected $appends = ['has_two_factor_authentication'];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
+    /**
      * Generate a change email token.
      *
      * @return string

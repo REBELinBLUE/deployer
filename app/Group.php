@@ -28,6 +28,15 @@ class Group extends Model
     protected $hidden = ['created_at', 'deleted_at', 'updated_at'];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
+    /**
      * Additional attributes to include in the JSON representation.
      *
      * @var array
