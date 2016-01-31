@@ -46,9 +46,12 @@ class Command extends Model
      * @var array
      */
     protected $casts = [
+        'id'         => 'integer',
+        'project_id' => 'integer',
         'step'       => 'integer',
         'optional'   => 'boolean',
         'default_on' => 'boolean',
+        'order'      => 'integer',
     ];
 
     /**

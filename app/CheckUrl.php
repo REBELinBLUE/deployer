@@ -36,7 +36,10 @@ class CheckUrl extends Model
      * @var array
      */
     protected $casts = [
-        'is_report' => 'boolean',
+        'id'         => 'integer',
+        'project_id' => 'integer',
+        'is_report'  => 'boolean',
+        'period'     => 'integer',
     ];
 
     /**

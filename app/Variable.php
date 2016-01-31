@@ -28,6 +28,16 @@ class Variable extends Model
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id'         => 'integer',
+        'project_id' => 'integer',
+    ];
+
+    /**
      * Belongs to relationship.
      *
      * @return Project

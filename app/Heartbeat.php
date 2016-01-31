@@ -54,6 +54,10 @@ class Heartbeat extends Model
      * @var array
      */
     protected $casts = [
+        'id'          => 'integer',
+        'project_id'  => 'integer',
+        'missed'      => 'integer',
+        'interval'    => 'integer',
         'status'      => 'integer',
         'deploy_code' => 'boolean',
     ];

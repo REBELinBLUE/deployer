@@ -17,8 +17,11 @@ class DeployStep extends Model implements PresentableInterface
      * @var array
      */
     protected $casts = [
-        'stage'    => 'integer',
-        'optional' => 'boolean',
+        'id'            => 'integer',
+        'command_id'    => 'integer',
+        'deployment_id' => 'integer',
+        'stage'         => 'integer',
+        'optional'      => 'boolean',
     ];
 
     /**

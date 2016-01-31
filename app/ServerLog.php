@@ -39,7 +39,10 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
      * @var array
      */
     protected $casts = [
-        'status' => 'integer',
+        'id'             => 'integer',
+        'server_id'      => 'integer',
+        'deploy_step_id' => 'integer',
+        'status'         => 'integer',
     ];
 
     /**

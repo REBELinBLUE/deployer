@@ -36,6 +36,8 @@ class Notification extends Model
      * @var array
      */
     protected $casts = [
+        'id'           => 'integer',
+        'project_id'   => 'integer',
         'failure_only' => 'boolean',
     ];
 

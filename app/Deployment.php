@@ -50,7 +50,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * @var array
      */
     protected $appends = ['project_name', 'deployer_name', 'commit_url',
-                          'short_commit', 'branch_url', 'repo_failure',];
+                          'short_commit', 'branch_url', 'repo_failure', ];
 
     /**
      * The fields which should be tried as Carbon instances.
@@ -65,6 +65,9 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * @var array
      */
     protected $casts = [
+        'id'         => 'integer',
+        'project_id' => 'integer',
+        'user_id'    => 'integer',
         'status'     => 'integer',
         'is_webhook' => 'boolean',
     ];
