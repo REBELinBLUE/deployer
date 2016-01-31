@@ -62,8 +62,6 @@ VERSION text
 ## Remove development files from git archive
 #
 
-# TODO: See if we can find a way to remove .bowerrc, bower.json, gulpfile.js,
-#       examples/ and resources/assets from tags/release
 tests/ export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
