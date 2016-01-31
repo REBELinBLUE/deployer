@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
@@ -116,10 +116,11 @@ class DeploymentController extends Controller
     /**
      * Adds a deployment for the specified project to the queue.
      *
+     * @param  Request $request
      * @param  int      $project
      * @return Response
      */
-    public function deploy($project_id)
+    public function deploy(Request $request, $project_id)
     {
         $project = $this->projectRepository->getById($project_id);
 
@@ -128,7 +129,7 @@ class DeploymentController extends Controller
         }
 
         $data = [
-            'reason'     => Input::get('reason'),
+            'reason'     => $request->get('reason'),
             'project_id' => $project->id,
             'branch'     => $project->branch,
             'optional'   => [],
@@ -136,16 +137,16 @@ class DeploymentController extends Controller
 
         // If allow other branches is set, check for post data
         if ($project->allow_other_branch) {
-            if (Input::has('source') && Input::has('source_' . Input::get('source'))) {
-                $data['branch'] = Input::get('source_' . Input::get('source'));
+            if ($request->has('source') && $request->has('source_' . $request->get('source'))) {
+                $data['branch'] = $request->get('source_' . $request->get('source'));
             }
         }
 
         // Get the optional commands and typecast to integers
-        if (Input::has('optional') && is_array(Input::get('optional'))) {
+        if ($request->has('optional') && is_array($request->get('optional'))) {
             $data['optional'] = array_filter(array_map(function ($value) {
                 return filter_var($value, FILTER_VALIDATE_INT);
-            }, Input::get('optional')));
+            }, $request->get('optional')));
         }
 
         $deployment = $this->deploymentRepository->create($data);

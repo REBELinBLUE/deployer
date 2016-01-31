@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
-use Illuminate\Support\Facades\Input;
 use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**
@@ -22,7 +21,7 @@ class StoreProfileRequest extends Request
             'password' => 'required|confirmed|min:6',
         ];
 
-        if (Input::get('password') === '') {
+        if ($this->get('password') === '') {
             unset($rules['password']);
         }
 

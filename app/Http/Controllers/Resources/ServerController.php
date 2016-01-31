@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Http\Requests;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
@@ -80,13 +80,14 @@ class ServerController extends ResourceController
     /**
      * Re-generates the order for the supplied servers.
      *
+     * @param  Request $request
      * @return Response
      */
-    public function reorder()
+    public function reorder(Request $request)
     {
         $order = 0;
 
-        foreach (Input::get('servers') as $server_id) {
+        foreach ($request->get('servers') as $server_id) {
             $this->repository->updateById([
                 'order' => $order,
             ], $server_id);

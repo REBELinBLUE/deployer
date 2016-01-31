@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
@@ -43,10 +43,11 @@ class WebhookController extends Controller
     /**
      * Handles incoming requests from Gitlab or PHPCI to trigger deploy.
      *
+     * @param  Request $request
      * @param  string   $hash The webhook hash
      * @return Response
      */
-    public function webhook($hash)
+    public function webhook(Request $request, $hash)
     {
         $project = $this->projectRepository->getByHash($hash);
 
@@ -58,15 +59,15 @@ class WebhookController extends Controller
             $do_deploy = true;
 
             // If allow other branches is set, check for post data
-            if (Input::has('branch')) {
-                $branch = Input::get('branch');
+            if ($request->has('branch')) {
+                $branch = $request->get('branch');
 
                 if (!$project->allow_other_branch && $branch !== $project->branch) {
                     $do_deploy = false;
                 }
             }
 
-            if ($do_deploy && Input::has('update_only') && Input::get('update_only') !== false) {
+            if ($do_deploy && $request->has('update_only') && $request->get('update_only') !== false) {
                 // Get the latest deployment and check the branch matches
                 $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
 
@@ -79,22 +80,22 @@ class WebhookController extends Controller
                 $optional = [];
 
                 // Check if the commands input is set, if so explode on comma and filter out any invalid commands
-                if (Input::has('commands')) {
+                if ($request->has('commands')) {
                     $valid = $project->commands->lists('id');
 
-                    $optional = collect(explode(',', Input::get('commands')))
+                    $optional = collect(explode(',', $request->get('commands')))
                                         ->unique()
                                         ->intersect($valid);
                 }
 
                 // TODO: Validate URL and only accept it if source is set?
                 $this->deploymentRepository->create([
-                    'reason'     => Input::get('reason'),
+                    'reason'     => $request->get('reason'),
                     'project_id' => $project->id,
                     'branch'     => $branch,
                     'optional'   => $optional,
-                    'source'     => Input::get('source'),
-                    'build_url'  => Input::get('url'),
+                    'source'     => $request->get('source'),
+                    'build_url'  => $request->get('url'),
                 ]);
 
                 $success = true;
