@@ -15,7 +15,7 @@ echo -n $NEWVERSION > VERSION
 echo -n '-dev' > VERSION
 
 git add CHANGELOG.md VERSION
-git commit -M 'Updated CHANGELOG'
+git commit -m 'Updated CHANGELOG'
 
 git branch -D release
 #git stash

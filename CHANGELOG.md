@@ -1,11 +1,28 @@
 # Change Log
 
+## [0.0.28](https://github.com/REBELinBLUE/deployer/tree/0.0.28) (2016-01-31)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.27...0.0.28)
+
+**Implemented enhancements:**
+
+- Variables for templates [\#157](https://github.com/REBELinBLUE/deployer/issues/157)
+- Reload after adding a project [\#74](https://github.com/REBELinBLUE/deployer/issues/74)
+
+**Fixed bugs:**
+
+- Minor UI issues in modals, deploy button [\#161](https://github.com/REBELinBLUE/deployer/issues/161)
+- Sidebar is not expanding to the active group [\#160](https://github.com/REBELinBLUE/deployer/issues/160)
+- Reload after adding a project [\#74](https://github.com/REBELinBLUE/deployer/issues/74)
+
+**Closed issues:**
+
+- css broken [\#152](https://github.com/REBELinBLUE/deployer/issues/152)
+
 ## [0.0.27](https://github.com/REBELinBLUE/deployer/tree/0.0.27) (2016-01-28)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.26...0.0.27)
 
 **Implemented enhancements:**
 
-- Variables for templates [\#157](https://github.com/REBELinBLUE/deployer/issues/157)
 - Add a console command to create a user [\#155](https://github.com/REBELinBLUE/deployer/issues/155)
 - Add option to deploy only default branch [\#146](https://github.com/REBELinBLUE/deployer/issues/146)
 - Option to include require-dev packages in composer install [\#143](https://github.com/REBELinBLUE/deployer/issues/143)
