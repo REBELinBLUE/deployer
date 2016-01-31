@@ -2,17 +2,23 @@
 
 VERSION=`sed 's/-dev//' VERSION`
 
+while [[ "$CHANGELOG_GITHUB_TOKEN" =~ ^$  ]]
+do
+    read -p "Github token not set: " GITHUB_TOKEN
+    export CHANGELOG_GITHUB_TOKEN=$GITHUB_TOKEN
+done
+
 git checkout master
 
 github_changelog_generator --future-release $VERSION
 
 while [[ "$NEWVERSION" =~ ^$  ]]
 do
-    read -p "The current version is $VERSION, enter the next version: " NEWVERSION
+    read -p "Enter the next version: " NEWVERSION
 done
 
 echo -n $NEWVERSION > VERSION
-echo -n '-dev' > VERSION
+echo '-dev' >> VERSION
 
 git add CHANGELOG.md VERSION
 git commit -m 'Updated CHANGELOG'
