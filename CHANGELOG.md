@@ -14,10 +14,6 @@
 - Sidebar is not expanding to the active group [\#160](https://github.com/REBELinBLUE/deployer/issues/160)
 - Reload after adding a project [\#74](https://github.com/REBELinBLUE/deployer/issues/74)
 
-**Closed issues:**
-
-- css broken [\#152](https://github.com/REBELinBLUE/deployer/issues/152)
-
 ## [0.0.27](https://github.com/REBELinBLUE/deployer/tree/0.0.27) (2016-01-28)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.26...0.0.27)
 
