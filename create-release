@@ -8,7 +8,7 @@ github_changelog_generator --future-release $VERSION
 
 while [[ "$NEWVERSION" =~ ^$  ]]
 do
-    read -p 'Enter the next version: ' NEWVERSION
+    read -p "The current version is $VERSION, enter the next version: " NEWVERSION
 done
 
 echo -n $NEWVERSION > VERSION
