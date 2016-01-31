@@ -1,19 +1,33 @@
 #!/usr/bin/env bash
 
+VERSION=`sed 's/-dev//' VERSION`
+
 git checkout master
+
+github_changelog_generator --future-release $VERSION
+
+while [[ "$NEWVERSION" =~ ^$  ]]
+do
+    read -p "The current version is $VERSION, enter the next version: " NEWVERSION
+done
+
+echo -n $NEWVERSION > VERSION
+echo -n '-dev' > VERSION
+
+git add CHANGELOG.md VERSION
+git commit -m 'Updated CHANGELOG'
+
 git branch -D release
-git stash
+#git stash
 git pull
 
-# TODO: Build CHANGELOG and figure out to to move "unreleased to the new version"
-# Commit log
 # TODO: maybe use https://github.com/aktau/github-release to actually create the release
 
 git checkout release
 git merge --no-edit -q -X theirs master
 
 # set version
-sed -i 's/-dev//' VERSION
+echo $VERSION > VERSION
 
 git add VERSION
 
@@ -30,7 +44,7 @@ git add -f public/build/fonts/*
 
 # Should we maybe remove things we don't need in a release like the raw CSS/JS from resources and the various files from .gitattributes?
 
-git commit -am "Building new release"
+git commit -am 'Building new release'
 git push
 
 git checkout master
@@ -39,4 +53,6 @@ git branch -d release
 # TODO: Increase dev version? May need to prompt
 gulp
 
-git stash pop
+
+# TODO: Only pop if we made a new stash
+#git stash pop
