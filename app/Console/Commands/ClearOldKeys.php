@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 
 /**
  * Clears out any temp SSH keys and wrapper scripts which have been left on disk.
- * @todo : change to use File facade
  */
 class ClearOldKeys extends Command
 {

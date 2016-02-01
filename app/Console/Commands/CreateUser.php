@@ -53,7 +53,6 @@ class CreateUser extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @todo validate
      */
     public function handle()
     {
@@ -66,7 +65,6 @@ class CreateUser extends Command
             $password_generated    = true;
         }
 
-        // TODO: See if we can get these from StoreUserRequest somehow?
         $validator = Validator::make($arguments, [
             'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users,email',

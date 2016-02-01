@@ -28,8 +28,6 @@ git branch -D release
 #git stash
 git pull
 
-# TODO: maybe use https://github.com/aktau/github-release to actually create the release
-
 git checkout release
 git merge --no-edit -q -X theirs master
 
@@ -57,9 +55,7 @@ git push
 git checkout master
 git branch -d release
 
-# TODO: Increase dev version? May need to prompt
 gulp
-
 
 # TODO: Only pop if we made a new stash
 #git stash pop

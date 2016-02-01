@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.0.28](https://github.com/REBELinBLUE/deployer/tree/0.0.28) (2016-01-31)
+## [0.0.28](https://github.com/REBELinBLUE/deployer/tree/0.0.28) (2016-02-01)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.27...0.0.28)
 
 **Implemented enhancements:**
@@ -10,6 +10,7 @@
 
 **Fixed bugs:**
 
+- Cancelling a deployment sends a success message to Slack [\#163](https://github.com/REBELinBLUE/deployer/issues/163)
 - Minor UI issues in modals, deploy button [\#161](https://github.com/REBELinBLUE/deployer/issues/161)
 - Sidebar is not expanding to the active group [\#160](https://github.com/REBELinBLUE/deployer/issues/160)
 - Reload after adding a project [\#74](https://github.com/REBELinBLUE/deployer/issues/74)

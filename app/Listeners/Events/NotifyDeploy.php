@@ -39,6 +39,10 @@ class NotifyDeploy extends Event implements ShouldQueue
         $project    = $event->project;
         $deployment = $event->deployment;
 
+        if ($deployment->isAborted()) {
+            return;
+        }
+
         // Send slack notifications
         foreach ($project->notifications as $notification) {
             if ($notification->failure_only === true && $deployment->isSuccessful()) {

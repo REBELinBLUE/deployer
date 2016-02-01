@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
-use Illuminate\Support\Facades\Input;
 use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**
@@ -27,7 +26,7 @@ class StoreUserRequest extends Request
         if ($this->get('id')) {
             $rules['email'] .= ',' . $this->get('id');
 
-            if (Input::get('password') !== '') {
+            if ($this->get('password') !== '') {
                 $rules['password'] = 'min:6';
             } else {
                 unset($rules['password']);

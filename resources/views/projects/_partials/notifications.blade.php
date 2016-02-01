@@ -73,6 +73,7 @@
         </div>
     </td>
 </script>
+
 <script type="text/template" id="notifyemail-template">
     <td><%- name %></td>
     <td><%- email %></td>

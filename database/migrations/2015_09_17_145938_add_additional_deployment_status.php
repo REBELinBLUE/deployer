@@ -3,9 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use REBELinBLUE\Deployer\Deployment;
 
-/**
- * @TODO Figure out a better way to do this!
- */
 class AddAdditionalDeploymentStatus extends Migration
 {
     /**
