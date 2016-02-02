@@ -10,7 +10,7 @@ var redis = new Redis({
     db: process.env.REDIS_DATBASE || 0
 });
 
-if (!/^https/i.test(process.env.SOCKET_URL)) {
+if (/^https/i.test(process.env.SOCKET_URL)) {
 
     var ssl_conf = {
         key:  (process.env.SOCKET_SSL_KEY_FILE  ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE)  : null),
