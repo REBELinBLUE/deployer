@@ -151,6 +151,14 @@ class InstallApp extends Command
             unset($input['app']['socket']);
         }
 
+        if (isset($input['app']['ssl'])) {
+            foreach ($input['app']['ssl'] as $key => $value) {
+                $input['socket']['ssl_' . $key] = $value;
+            }
+
+            unset($input['app']['ssl']);
+        }
+
         foreach ($input as $section => $data) {
             foreach ($data as $key => $value) {
                 $env = strtoupper($section . '_' . $key);
@@ -349,6 +357,16 @@ class InstallApp extends Command
             }
         }
 
+        $ssl = null;
+        if (substr($socket, 0, 5) === 'https') {
+            // FIXME Prompt for Cert, Key, CA
+            /*
+            SOCKET_SSL_KEY_FILE=/etc/nginx/ssl/nginx.key
+            SOCKET_SSL_CERT_FILE=/etc/nginx/ssl/nginx.crt
+            SOCKET_SSL_CA_FILE=
+             */
+        }
+
         // If there is only 1 locale just use that
         if (count($locales) === 1) {
             $locale = $locales[0];
@@ -360,6 +378,7 @@ class InstallApp extends Command
             'url'      => $url,
             'timezone' => $region,
             'socket'   => $socket,
+            'ssl'      => $ssl,
             'locale'   => $locale,
         ];
     }
