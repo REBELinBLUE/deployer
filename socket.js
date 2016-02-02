@@ -1,6 +1,5 @@
-
-var io  = require('socket.io')(app);
 var jwt = require('jsonwebtoken');
+var fs = require('fs');
 
 require('dotenv').load();
 
@@ -8,7 +7,7 @@ var debug = (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === true)
 
 var Redis = require('ioredis');
 var redis = new Redis({
-    db: ENV.REDIS_DATBASE || 0
+    db: process.env.REDIS_DATBASE || 0
 });
 
 if (!/^https/i.test(process.env.SOCKET_URL)) {
@@ -23,6 +22,8 @@ if (!/^https/i.test(process.env.SOCKET_URL)) {
 } else {
     var app = require('http').createServer(handler);
 }
+
+var io  = require('socket.io')(app);
 
 app.listen(parseInt(process.env.SOCKET_PORT), function() {
     if (debug) {
