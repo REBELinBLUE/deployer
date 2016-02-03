@@ -80,7 +80,7 @@ class ServerController extends ResourceController
     /**
      * Re-generates the order for the supplied servers.
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function reorder(Request $request)

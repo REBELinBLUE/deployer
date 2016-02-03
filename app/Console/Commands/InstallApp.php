@@ -46,8 +46,6 @@ class InstallApp extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct(UserRepositoryInterface $repository = null)
     {
@@ -92,9 +90,9 @@ class InstallApp extends Command
         $this->line('');
 
         $config = [
-            'db'    => $this->getDatabaseInformation(),
-            'app'   => $this->getInstallInformation(),
-            'mail'  => $this->getEmailInformation(),
+            'db'   => $this->getDatabaseInformation(),
+            'app'  => $this->getInstallInformation(),
+            'mail' => $this->getEmailInformation(),
         ];
 
         $admin = $this->getAdminInformation();
@@ -134,7 +132,8 @@ class InstallApp extends Command
     /**
      * Writes the configuration data to the config file.
      *
-     * @param  array $input The config data to write
+     * @param array $input The config data to write
+     *
      * @return bool
      */
     protected function writeEnvFile(array $input)
@@ -149,6 +148,14 @@ class InstallApp extends Command
         if (isset($input['app']['socket'])) {
             $input['socket']['url'] = $input['app']['socket'];
             unset($input['app']['socket']);
+        }
+
+        if (isset($input['app']['ssl'])) {
+            foreach ($input['app']['ssl'] as $key => $value) {
+                $input['socket']['ssl_' . $key] = $value;
+            }
+
+            unset($input['app']['ssl']);
         }
 
         foreach ($input as $section => $data) {
@@ -182,8 +189,6 @@ class InstallApp extends Command
 
     /**
      * Calls the artisan key:generate to set the APP_KEY.
-     *
-     * @return void
      */
     private function generateKey()
     {
@@ -210,8 +215,7 @@ class InstallApp extends Command
      * Calls the artisan migrate to set up the database
      * in development mode it also seeds the DB.
      *
-     * @param  bool $seed Whether or not to seed the database
-     * @return void
+     * @param bool $seed Whether or not to seed the database
      */
     protected function migrate($seed = false)
     {
@@ -230,8 +234,6 @@ class InstallApp extends Command
 
     /**
      * Clears all Laravel caches.
-     *
-     * @return void
      */
     protected function clearCaches()
     {
@@ -244,8 +246,6 @@ class InstallApp extends Command
 
     /**
      * Runs the artisan optimize commands.
-     *
-     * @return void
      */
     protected function optimize()
     {
@@ -314,19 +314,19 @@ class InstallApp extends Command
         $regions = $this->getTimezoneRegions();
         $locales = $this->getLocales();
 
-        $callback = function ($answer) {
+        $url_callback = function ($answer) {
             $validator = Validator::make(['url' => $answer], [
                 'url' => 'url',
             ]);
 
             if (!$validator->passes()) {
                 throw new \RuntimeException($validator->errors()->first('url'));
-            };
+            }
 
             return preg_replace('#/$#', '', $answer);
         };
 
-        $url    = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $callback);
+        $url    = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $url_callback);
         $region = $this->choice('Timezone region', array_keys($regions), 0);
 
         if ($region !== 'UTC') {
@@ -335,7 +335,7 @@ class InstallApp extends Command
             $region .= '/' . $this->choice('Timezone location', $locations, 0);
         }
 
-        $socket = $this->askAndValidate('Socket URL', [], $callback, $url);
+        $socket = $this->askAndValidate('Socket URL', [], $url_callback, $url);
 
         // If the URL doesn't have : in twice (the first is in the protocol, the second for the port)
         if (substr_count($socket, ':') === 1) {
@@ -349,6 +349,31 @@ class InstallApp extends Command
             }
         }
 
+        $path_callback = function ($answer) {
+            $validator = Validator::make(['path' => $answer], [
+                'path' => 'required',
+            ]);
+
+            if (!$validator->passes()) {
+                throw new \RuntimeException($validator->errors()->first('path'));
+            }
+
+            if (!file_exists($answer)) {
+                throw new \RuntimeException('File does not exist');
+            }
+
+            return $answer;
+        };
+
+        $ssl = null;
+        if (substr($socket, 0, 5) === 'https') {
+            $ssl = [
+                'key_file'  => $this->askAndValidate('SSL key File', [], $path_callback),
+                'cert_file' => $this->askAndValidate('SSL certificate File', [], $path_callback),
+                'ca_file'   => $this->askAndValidate('SSL certificate authority file', [], $path_callback),
+            ];
+        };
+
         // If there is only 1 locale just use that
         if (count($locales) === 1) {
             $locale = $locales[0];
@@ -360,6 +385,7 @@ class InstallApp extends Command
             'url'      => $url,
             'timezone' => $region,
             'socket'   => $socket,
+            'ssl'      => $ssl,
             'locale'   => $locale,
         ];
     }
@@ -450,16 +476,17 @@ class InstallApp extends Command
         $password = $this->secret('Password'); // TODO: Should validate it is at least 6 characters
 
         return [
-            'name'      => $name,
-            'email'     => $email_address,
-            'password'  => $password,
+            'name'     => $name,
+            'email'    => $email_address,
+            'password' => $password,
         ];
     }
 
     /**
      * Verifies that the database connection details are correct.
      *
-     * @param  array $database The connection details
+     * @param array $database The connection details
+     *
      * @return bool
      */
     private function verifyDatabaseDetails(array $database)
@@ -637,8 +664,10 @@ class InstallApp extends Command
     /**
      * Gets a list of available locations in the supplied region.
      *
-     * @param  int   $region The region constant
+     * @param int $region The region constant
+     *
      * @return array
+     *
      * @see DateTimeZone
      */
     private function getTimezoneLocations($region)
@@ -672,9 +701,8 @@ class InstallApp extends Command
     /**
      * A wrapper around symfony's formatter helper to output a block.
      *
-     * @param  string|array $messages Messages to output
-     * @param  string       $type     The type of message to output
-     * @return void
+     * @param string|array $messages Messages to output
+     * @param string       $type     The type of message to output
      */
     protected function block($messages, $type = 'error')
     {
@@ -699,8 +727,7 @@ class InstallApp extends Command
     /**
      * Outputs a header block.
      *
-     * @param  string $header The text to output
-     * @return void
+     * @param string $header The text to output
      */
     protected function header($header)
     {
