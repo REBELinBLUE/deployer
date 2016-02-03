@@ -112,6 +112,11 @@ class UpdateApp extends InstallApp
 
         // Write the file to disk
         $this->writeEnvFile($config);
+
+        // If the updated .env is the same as the backup remove the backup
+        if (md5_file(base_path('.env')) === md5_file(base_path('.env.prev'))) {
+            unlink(base_path('.env.prev'));
+        }
     }
 
     /**
