@@ -322,19 +322,19 @@ class InstallApp extends Command
         $regions = $this->getTimezoneRegions();
         $locales = $this->getLocales();
 
-        $callback = function ($answer) {
+        $url_callback = function ($answer) {
             $validator = Validator::make(['url' => $answer], [
                 'url' => 'url',
             ]);
 
             if (!$validator->passes()) {
                 throw new \RuntimeException($validator->errors()->first('url'));
-            };
+            }
 
             return preg_replace('#/$#', '', $answer);
         };
 
-        $url    = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $callback);
+        $url    = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $url_callback);
         $region = $this->choice('Timezone region', array_keys($regions), 0);
 
         if ($region !== 'UTC') {
@@ -343,7 +343,7 @@ class InstallApp extends Command
             $region .= '/' . $this->choice('Timezone location', $locations, 0);
         }
 
-        $socket = $this->askAndValidate('Socket URL', [], $callback, $url);
+        $socket = $this->askAndValidate('Socket URL', [], $url_callback, $url);
 
         // If the URL doesn't have : in twice (the first is in the protocol, the second for the port)
         if (substr_count($socket, ':') === 1) {
@@ -357,15 +357,31 @@ class InstallApp extends Command
             }
         }
 
+        $path_callback = function ($answer) {
+            $validator = Validator::make(['path' => $answer], [
+                'path' => 'required',
+            ]);
+
+            if (!$validator->passes()) {
+                throw new \RuntimeException($validator->errors()->first('path'));
+            }
+
+            if (!file_exists($answer)) {
+                throw new \RuntimeException('File does not exist');
+            }
+
+            return $answer;
+        };
+
         $ssl = null;
         if (substr($socket, 0, 5) === 'https') {
-            // FIXME Prompt for Cert, Key, CA
-            /*
-            SOCKET_SSL_KEY_FILE=/etc/nginx/ssl/nginx.key
-            SOCKET_SSL_CERT_FILE=/etc/nginx/ssl/nginx.crt
-            SOCKET_SSL_CA_FILE=
-             */
-        }
+
+            $ssl = [
+                'key_file'  => $this->askAndValidate('SSL key File', [], $path_callback),
+                'cert_file' => $this->askAndValidate('SSL certificate File', [], $path_callback),
+                'ca_file'   => $this->askAndValidate('SSL certificate authority file', [], $path_callback),
+            ];
+        };
 
         // If there is only 1 locale just use that
         if (count($locales) === 1) {
