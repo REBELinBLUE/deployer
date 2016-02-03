@@ -90,8 +90,8 @@ class InstallApp extends Command
         $this->line('');
 
         $config = [
-            'db' => $this->getDatabaseInformation(),
-            'app' => $this->getInstallInformation(),
+            'db'   => $this->getDatabaseInformation(),
+            'app'  => $this->getInstallInformation(),
             'mail' => $this->getEmailInformation(),
         ];
 
@@ -125,7 +125,7 @@ class InstallApp extends Command
         $this->line('');
         $this->comment('5. (Optional) Setup logrotate, see "logrotate.conf"');
         $this->line('');
-        $this->comment('6. Visit '.$config['app']['url'].' and login with the details you provided to get started');
+        $this->comment('6. Visit ' . $config['app']['url'] . ' and login with the details you provided to get started');
         $this->line('');
     }
 
@@ -141,7 +141,7 @@ class InstallApp extends Command
         $this->info('Writing configuration file');
         $this->line('');
 
-        $path = base_path('.env');
+        $path   = base_path('.env');
         $config = file_get_contents($path);
 
         // Move the socket value to the correct key
@@ -152,7 +152,7 @@ class InstallApp extends Command
 
         if (isset($input['app']['ssl'])) {
             foreach ($input['app']['ssl'] as $key => $value) {
-                $input['socket']['ssl_'.$key] = $value;
+                $input['socket']['ssl_' . $key] = $value;
             }
 
             unset($input['app']['ssl']);
@@ -160,9 +160,9 @@ class InstallApp extends Command
 
         foreach ($input as $section => $data) {
             foreach ($data as $key => $value) {
-                $env = strtoupper($section.'_'.$key);
+                $env = strtoupper($section . '_' . $key);
 
-                $config = preg_replace('/'.$env.'=(.*)/', $env.'='.$value, $config);
+                $config = preg_replace('/' . $env . '=(.*)/', $env . '=' . $value, $config);
             }
         }
 
@@ -171,7 +171,7 @@ class InstallApp extends Command
             foreach (['host', 'database', 'username', 'password'] as $key) {
                 $key = strtoupper($key);
 
-                $config = preg_replace('/DB_'.$key.'=(.*)[\n]/', '', $config);
+                $config = preg_replace('/DB_' . $key . '=(.*)[\n]/', '', $config);
             }
         }
 
@@ -180,7 +180,7 @@ class InstallApp extends Command
             foreach (['host', 'port', 'username', 'password'] as $key) {
                 $key = strtoupper($key);
 
-                $config = preg_replace('/MAIL_'.$key.'=(.*)[\n]/', '', $config);
+                $config = preg_replace('/MAIL_' . $key . '=(.*)[\n]/', '', $config);
             }
         }
 
@@ -285,15 +285,15 @@ class InstallApp extends Command
                 $user = $this->ask('Username', 'deployer');
                 $pass = $this->secret('Password');
 
-                $database['host'] = $host;
+                $database['host']     = $host;
                 $database['database'] = $name;
                 $database['username'] = $user;
                 $database['password'] = $pass;
 
-                Config::set('database.connections.'.$type.'.host', $host);
-                Config::set('database.connections.'.$type.'.database', $name);
-                Config::set('database.connections.'.$type.'.username', $user);
-                Config::set('database.connections.'.$type.'.password', $pass);
+                Config::set('database.connections.' . $type . '.host', $host);
+                Config::set('database.connections.' . $type . '.database', $name);
+                Config::set('database.connections.' . $type . '.username', $user);
+                Config::set('database.connections.' . $type . '.password', $pass);
             }
 
             $connectionVerified = $this->verifyDatabaseDetails($database);
@@ -326,13 +326,13 @@ class InstallApp extends Command
             return preg_replace('#/$#', '', $answer);
         };
 
-        $url = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $url_callback);
+        $url    = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $url_callback);
         $region = $this->choice('Timezone region', array_keys($regions), 0);
 
         if ($region !== 'UTC') {
             $locations = $this->getTimezoneLocations($regions[$region]);
 
-            $region .= '/'.$this->choice('Timezone location', $locations, 0);
+            $region .= '/' . $this->choice('Timezone location', $locations, 0);
         }
 
         $socket = $this->askAndValidate('Socket URL', [], $url_callback, $url);
@@ -368,9 +368,9 @@ class InstallApp extends Command
         $ssl = null;
         if (substr($socket, 0, 5) === 'https') {
             $ssl = [
-                'key_file' => $this->askAndValidate('SSL key File', [], $path_callback),
+                'key_file'  => $this->askAndValidate('SSL key File', [], $path_callback),
                 'cert_file' => $this->askAndValidate('SSL certificate File', [], $path_callback),
-                'ca_file' => $this->askAndValidate('SSL certificate authority file', [], $path_callback),
+                'ca_file'   => $this->askAndValidate('SSL certificate authority file', [], $path_callback),
             ];
         };
 
@@ -382,11 +382,11 @@ class InstallApp extends Command
         }
 
         return [
-            'url' => $url,
+            'url'      => $url,
             'timezone' => $region,
-            'socket' => $socket,
-            'ssl' => $ssl,
-            'locale' => $locale,
+            'socket'   => $socket,
+            'ssl'      => $ssl,
+            'locale'   => $locale,
         ];
     }
 
@@ -421,8 +421,8 @@ class InstallApp extends Command
             $user = $this->ask('Username');
             $pass = $this->secret('Password');
 
-            $email['host'] = $host;
-            $email['port'] = $port;
+            $email['host']     = $host;
+            $email['port']     = $port;
             $email['username'] = $user;
             $email['password'] = $pass;
         }
@@ -441,9 +441,9 @@ class InstallApp extends Command
             return $answer;
         }, 'deployer@deploy.app');
 
-        $email['from_name'] = $from_name;
+        $email['from_name']    = $from_name;
         $email['from_address'] = $from_address;
-        $email['driver'] = $driver;
+        $email['driver']       = $driver;
 
         // TODO: Attempt to connect?
 
@@ -476,8 +476,8 @@ class InstallApp extends Command
         $password = $this->secret('Password'); // TODO: Should validate it is at least 6 characters
 
         return [
-            'name' => $name,
-            'email' => $email_address,
+            'name'     => $name,
+            'email'    => $email_address,
             'password' => $password,
         ];
     }
@@ -492,18 +492,18 @@ class InstallApp extends Command
     private function verifyDatabaseDetails(array $database)
     {
         if ($database['type'] === 'sqlite') {
-            return touch(storage_path().'/database.sqlite');
+            return touch(storage_path() . '/database.sqlite');
         }
 
         try {
             $connection = new PDO(
-                $database['type'].':host='.$database['host'].';dbname='.$database['database'],
+                $database['type'] . ':host=' . $database['host'] . ';dbname=' . $database['database'],
                 $database['username'],
                 $database['password'],
                 [
                     PDO::ATTR_PERSISTENT => false,
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_TIMEOUT => 2,
+                    PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_TIMEOUT    => 2,
                 ]
             );
 
@@ -566,7 +566,7 @@ class InstallApp extends Command
 
         foreach ($required_extensions as $extension) {
             if (!extension_loaded($extension)) {
-                $this->error('Extension required: '.$extension);
+                $this->error('Extension required: ' . $extension);
                 $errors = true;
             }
         }
@@ -581,7 +581,7 @@ class InstallApp extends Command
 
         foreach ($required_functions as $function) {
             if (!function_exists($function)) {
-                $this->error('Function required: '.$function.'. Is it disabled in php.ini?');
+                $this->error('Function required: ' . $function . '. Is it disabled in php.ini?');
                 $errors = true;
             }
         }
@@ -590,13 +590,13 @@ class InstallApp extends Command
         $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp'];
 
         foreach ($required_commands as $command) {
-            $process = new Process('which '.$command);
+            $process = new Process('which ' . $command);
 
             $process->setTimeout(null);
             $process->run();
 
             if (!$process->isSuccessful()) {
-                $this->error('Program not found in path: '.$command);
+                $this->error('Program not found in path: ' . $command);
                 $errors = true;
             }
         }
@@ -609,7 +609,7 @@ class InstallApp extends Command
 
         foreach ($writable as $path) {
             if (!is_writeable(base_path($path))) {
-                $this->error($path.' is not writeable');
+                $this->error($path . ' is not writeable');
                 $errors = true;
             }
         }
@@ -648,16 +648,16 @@ class InstallApp extends Command
     private function getTimezoneRegions()
     {
         return [
-            'UTC' => DateTimeZone::UTC,
-            'Africa' => DateTimeZone::AFRICA,
-            'America' => DateTimeZone::AMERICA,
+            'UTC'        => DateTimeZone::UTC,
+            'Africa'     => DateTimeZone::AFRICA,
+            'America'    => DateTimeZone::AMERICA,
             'Antarctica' => DateTimeZone::ANTARCTICA,
-            'Asia' => DateTimeZone::ASIA,
-            'Atlantic' => DateTimeZone::ATLANTIC,
-            'Australia' => DateTimeZone::AUSTRALIA,
-            'Europe' => DateTimeZone::EUROPE,
-            'Indian' => DateTimeZone::INDIAN,
-            'Pacific' => DateTimeZone::PACIFIC,
+            'Asia'       => DateTimeZone::ASIA,
+            'Atlantic'   => DateTimeZone::ATLANTIC,
+            'Australia'  => DateTimeZone::AUSTRALIA,
+            'Europe'     => DateTimeZone::EUROPE,
+            'Indian'     => DateTimeZone::INDIAN,
+            'Pacific'    => DateTimeZone::PACIFIC,
         ];
     }
 

@@ -116,7 +116,7 @@ class DeploymentController extends Controller
     /**
      * Adds a deployment for the specified project to the queue.
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  int      $project
      * @return Response
      */

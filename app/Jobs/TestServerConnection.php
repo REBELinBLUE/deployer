@@ -64,7 +64,7 @@ class TestServerConnection extends Job implements ShouldQueue
     }
 
     /**
-     * Generates the script to test the test
+     * Generates the script to test the test.
      *
      * @param  Server $server
      * @param  string $private_key
@@ -73,7 +73,7 @@ class TestServerConnection extends Job implements ShouldQueue
     private function sshCommand(Server $server, $private_key)
     {
         $tmpfile = time() . '_testing_deployer.txt';
-        $tmpdir = time() . '_testing_deployer_dir';
+        $tmpdir  = time() . '_testing_deployer_dir';
 
         // Ensure the directory exists and can be written to
         // that directories can be made and files/directories
