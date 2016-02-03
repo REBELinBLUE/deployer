@@ -1,15 +1,17 @@
 # Change Log
 
-## [0.0.28](https://github.com/REBELinBLUE/deployer/tree/0.0.28) (2016-02-01)
+## [0.0.28](https://github.com/REBELinBLUE/deployer/tree/0.0.28) (2016-02-03)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.27...0.0.28)
 
 **Implemented enhancements:**
 
+- Server testing should check for read + write permission [\#166](https://github.com/REBELinBLUE/deployer/issues/166)
 - Variables for templates [\#157](https://github.com/REBELinBLUE/deployer/issues/157)
 - Reload after adding a project [\#74](https://github.com/REBELinBLUE/deployer/issues/74)
 
 **Fixed bugs:**
 
+- Socket server should be able to run on HTTPS [\#165](https://github.com/REBELinBLUE/deployer/issues/165)
 - Cancelling a deployment sends a success message to Slack [\#163](https://github.com/REBELinBLUE/deployer/issues/163)
 - Minor UI issues in modals, deploy button [\#161](https://github.com/REBELinBLUE/deployer/issues/161)
 - Sidebar is not expanding to the active group [\#160](https://github.com/REBELinBLUE/deployer/issues/160)
