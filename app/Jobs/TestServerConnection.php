@@ -44,7 +44,7 @@ class TestServerConnection extends Job implements ShouldQueue
         file_put_contents($key, $this->server->project->private_key);
 
         try {
-            $command = $this->sshCommand($this->server, $key, 'ls');
+            $command = $this->sshCommand($this->server, $key);
             $process = new Process($command);
             $process->setTimeout(null);
             $process->run();
@@ -64,15 +64,35 @@ class TestServerConnection extends Job implements ShouldQueue
     }
 
     /**
-     * Generates the SSH command for running the script on a server.
+     * Generates the script to test the test
      *
      * @param  Server $server
-     * @param  string $script The script to run
+     * @param  string $private_key
      * @return string
      */
-    private function sshCommand(Server $server, $private_key, $script)
+    private function sshCommand(Server $server, $private_key)
     {
-        $script = 'set -e' . PHP_EOL . $script;
+        $tmpfile = time() . '_testing_deployer.txt';
+        $tmpdir = time() . '_testing_deployer_dir';
+
+        // Ensure the directory exists and can be written to
+        // that directories can be made and files/directories
+        // can be removed
+        $script = <<< EOD
+            set -e
+            cd $server->path
+            ls
+            touch $tmpfile
+            echo "testing" >> $tmpfile
+            chmod +x $tmpfile
+            rm $tmpfile
+            mkdir $tmpdir
+            touch $tmpdir/$tmpfile
+            echo "testing" >> $tmpdir/$tmpfile
+            chmod +x $tmpdir/$tmpfile
+            ls $tmpdir/
+            rm -rf $tmpdir
+EOD;
 
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \
