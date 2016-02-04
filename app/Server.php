@@ -8,6 +8,7 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Server model.
+ * @todo See if there is a cleaner way to do the mutators as they are all very similar
  */
 class Server extends Model
 {
@@ -80,6 +81,22 @@ class Server extends Model
         }
 
         $this->attributes['user'] = $value;
+    }
+
+    /**
+     * Define a mutator for the path, if it has changed or has
+     * not previously been set also set the status to untested.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setPathAttribute($value)
+    {
+        if (!array_key_exists('path', $this->attributes) || $value !== $this->attributes['path']) {
+            $this->attributes['status'] = self::UNTESTED;
+        }
+
+        $this->attributes['path'] = $value;
     }
 
     /**
