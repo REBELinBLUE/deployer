@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=`sed 's/-dev//' VERSION`
+NEW_VERSION=`sed 's/-dev//' VERSION`
 
 while [[ "$CHANGELOG_GITHUB_TOKEN" =~ ^$  ]]
 do
@@ -8,19 +8,24 @@ do
     export CHANGELOG_GITHUB_TOKEN=$GITHUB_TOKEN
 done
 
+CURRENT_VERSION=`curl --silent https://api.github.com/repos/REBELinBLUE/deployer/releases/latest | php -r 'echo json_decode(file_get_contents("php://stdin"))->tag_name;'`
+# FIXME: Should text to ensure this worked!
+
 git checkout master
 
-github_changelog_generator --future-release $VERSION
+github_changelog_generator --future-release $NEW_VERSION
 
-while [[ "$NEWVERSION" =~ ^$  ]]
+while [[ "$NEXT_VERSION" =~ ^$  ]]
 do
-    read -p 'Enter the next version: ' NEWVERSION
+    read -p 'Enter the next version: ' NEXT_VERSION
 done
 
-echo -n $NEWVERSION > VERSION
+echo -n $NEXT_VERSION > VERSION
 echo '-dev' >> VERSION
 
-git add CHANGELOG.md VERSION
+sed -i "s/checkout $CURRENT_VERSION/checkout $NEW_VERSION/g" README.md
+
+git add CHANGELOG.md VERSION README.md
 git commit -m 'Updated CHANGELOG'
 git push
 
@@ -31,7 +36,7 @@ git checkout release
 git merge --no-edit -q -X theirs master
 
 # set version
-echo $VERSION > VERSION
+echo $NEW_VERSION > VERSION
 
 git add VERSION
 
