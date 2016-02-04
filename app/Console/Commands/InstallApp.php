@@ -166,6 +166,15 @@ class InstallApp extends Command
             }
         }
 
+        // Remove SSL certificate keys if not using HTTPS
+        if (substr($input['socket']['url'], 0, 5) !== 'https') {
+            foreach (['key', 'cert', 'ca'] as $key) {
+                $key = strtoupper($key);
+
+                $config = preg_replace('/SOCKET_SSL_' . $key . '_FILE=(.*)[\n]/', '', $config);
+            }
+        }
+
         // Remove keys not needed for sqlite
         if ($input['db']['type'] === 'sqlite') {
             foreach (['host', 'database', 'username', 'password'] as $key) {
@@ -184,7 +193,12 @@ class InstallApp extends Command
             }
         }
 
-        return file_put_contents($path, $config);
+        // Remove github keys if not needed, only really exists on my dev copy
+        if (!isset($input['github']) || empty($input['github']['oauth_token'])) {
+            $config = preg_replace('/GITHUB_OAUTH_TOKEN=(.*)[\n]/', '', $config);
+        }
+
+        return file_put_contents($path, trim($config) . PHP_EOL);
     }
 
     /**
