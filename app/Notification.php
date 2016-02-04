@@ -16,12 +16,15 @@ class Notification extends Model
 {
     use SoftDeletes, DispatchesJobs, BroadcastChanges;
 
+    const SLACK   = 1;
+    const HIPCHAT = 2;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon', 'failure_only'];
+    protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon', 'failure_only', 'service'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -39,6 +42,7 @@ class Notification extends Model
         'id'           => 'integer',
         'project_id'   => 'integer',
         'failure_only' => 'boolean',
+        'service'      => 'integer',
     ];
 
     /**

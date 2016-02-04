@@ -3,10 +3,13 @@
 return [
 
     'label'               => 'Notifications',
-    'slack'               => 'Slack Notifications',
-    'create'              => 'Add a new slack notification',
-    'edit'                => 'Edit the slack notification',
-    'none'                => 'The project does not currently have any slack notifications setup',
+    'chat'                => 'Chat Notifications',
+    'create'              => 'Add a new chat notification',
+    'edit'                => 'Edit the chat notification',
+    'slack'               => 'Slack',
+    'hipchat'             => 'Hipchat',
+    'service'             => 'Service',
+    'none'                => 'The project does not currently have any chat notifications setup',
     'name'                => 'Name',
     'channel'             => 'Channel',
     'warning'             => 'The notification could not be saved, please check the form below.',
