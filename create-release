@@ -71,6 +71,8 @@ git add -f public/build/fonts/*
 git commit -am 'Building new release'
 git push
 
+# TODO: Maybe use https://github.com/aktau/github-release to actually create a release?
+
 git checkout master
 git branch -D release
 
