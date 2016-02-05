@@ -32,8 +32,9 @@ done
 echo -n $NEXT_VERSION > VERSION
 echo '-dev' >> VERSION
 
+# FIXME: Ask for confirmation on wheather to do this
 # Replace the current version with the new version in the README
-sed -i "s/checkout $CURRENT_VERSION/checkout $NEW_VERSION/g" README.md
+# sed -i "s/checkout $CURRENT_VERSION/checkout $NEW_VERSION/g" README.md
 
 # Commit the updated files
 git add CHANGELOG.md VERSION README.md
