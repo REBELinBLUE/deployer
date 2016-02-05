@@ -561,7 +561,7 @@ class InstallApp extends Command
      *
      * @return bool
      */
-    private function checkRequirements()
+    protected function checkRequirements()
     {
         $errors = false;
 
