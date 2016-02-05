@@ -42,7 +42,7 @@ class UpdateApp extends InstallApp
      */
     public function handle()
     {
-        if (!$this->verifyInstalled() || $this->hasRunningDeployments() || $this->composerOutdated()) {
+        if (!$this->verifyInstalled() || $this->hasRunningDeployments() || $this->composerOutdated() || !$this->checkRequirements()) {
             return;
         }
 
