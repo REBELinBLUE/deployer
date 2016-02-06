@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "type": "project",
     "keywords": ["php", "deployer", "deploy", "deployment"],
-    "homepage": "http://deployer.rebelinblue.com/",
+    "homepage": "http://phpdeployment.org/",
     "license": "BSD-2-Clause",
     "authors": [
         {

@@ -7,7 +7,7 @@ if (isset($argv[1]) && $argv[1] == 'clear-compiled') {
     foreach (glob(__DIR__ . '/bootstrap/cache/*.*') as $file) {
         @unlink($file);
     }
-    
+
     exit;
 }
 
@@ -38,11 +38,11 @@ $app = require_once __DIR__ . '/bootstrap/app.php';
 |
 */
 
-$kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 
 $status = $kernel->handle(
-	$input = new Symfony\Component\Console\Input\ArgvInput,
-	new Symfony\Component\Console\Output\ConsoleOutput
+    $input = new Symfony\Component\Console\Input\ArgvInput,
+    new Symfony\Component\Console\Output\ConsoleOutput
 );
 
 /*
