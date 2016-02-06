@@ -7,6 +7,8 @@ if (isset($argv[1]) && $argv[1] == 'clear-compiled') {
     foreach (glob(__DIR__ . '/bootstrap/cache/*.*') as $file) {
         @unlink($file);
     }
+    
+    exit;
 }
 
 /*
