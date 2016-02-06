@@ -66,13 +66,13 @@
     },
     "scripts": {
         "pre-install-cmd": [
-            "([ -d vendor ] && php artisan clear-compiled) || return 0"
+            "php artisan clear-compiled"
         ],
         "post-install-cmd": [
             "php artisan optimize"
         ],
         "pre-update-cmd": [
-            "([ -d vendor ] && php artisan clear-compiled) || return 0"
+            "php artisan clear-compiled"
         ],
         "post-update-cmd": [
             "php artisan optimize"
