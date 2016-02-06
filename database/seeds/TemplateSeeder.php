@@ -2,22 +2,18 @@
 
 use Illuminate\Database\Seeder;
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Template;
 
 class TemplateSeeder extends Seeder
 {
     public function run()
     {
-        $laravel = Project::create([
-            'name'        => 'Laravel',
-            'is_template' => true,
-            'group_id'    => 1,
+        $laravel = Template::create([
+            'name' => 'Laravel',
         ]);
 
-        Project::create([
-            'name'        => 'Wordpress',
-            'is_template' => true,
-            'group_id'    => 1,
+        Template::create([
+            'name' => 'Wordpress',
         ]);
 
         Command::create([
