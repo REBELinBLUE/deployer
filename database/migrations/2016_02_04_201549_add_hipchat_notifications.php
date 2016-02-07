@@ -19,7 +19,7 @@ class AddHipchatNotifications extends Migration
                 . Notification::HIPCHAT . "') NOT NULL DEFAULT '" . Notification::SLACK . "'");
         } else {
             Schema::table('notifications', function (Blueprint $table) {
-                $table->enum('service', [])->default(Notification::SLACK);
+                $table->enum('service', [Notification::SLACK, Notification::HIPCHAT])->default(Notification::SLACK);
             });
         }
     }
