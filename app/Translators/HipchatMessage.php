@@ -1,8 +1,8 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Decorators;
+namespace REBELinBLUE\Deployer\Translators;
 
-use REBELinBLUE\Deployer\Decorators\Contracts\ChatMessageInterface;
+use REBELinBLUE\Deployer\Translators\Contracts\ChatMessageInterface;
 use REBELinBLUE\Deployer\Message;
 use REBELinBLUE\Deployer\Notification;
 
@@ -20,10 +20,19 @@ class HipchatMessage implements ChatMessageInterface
     public function getPayload()
     {
         $payload = [
-            'message'        => $this->message->getMessage(),
-            'message_format' => 'html',
+            'message'        => $this->getMessage(),
+            'message_format' => 'text',
         ];
 
         return $payload;
+    }
+
+    private function getMessage()
+    {
+        $message = $this->message->getMessage();
+
+        $message = str_replace(':+1:', '(corpsethumb)', $message);
+
+        return $message;
     }
 }

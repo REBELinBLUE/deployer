@@ -6,8 +6,8 @@ use Httpful\Request;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Decorators\HipchatMessage;
-use REBELinBLUE\Deployer\Decorators\SlackMessage;
+use REBELinBLUE\Deployer\Translators\HipchatMessage;
+use REBELinBLUE\Deployer\Translators\SlackMessage;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Message;
 use REBELinBLUE\Deployer\Notification;
@@ -19,8 +19,8 @@ class Notify extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    private $notification;
-    private $decorator;
+    private $webhook;
+    private $translator;
 
     /**
      * Create a new command instance.
@@ -31,8 +31,8 @@ class Notify extends Job implements ShouldQueue
      */
     public function __construct(Notification $notification, Message $message)
     {
-        $this->notification = $notification;
-        $this->decorator    = $this->getDecorator($notification, $message);
+        $this->webhook   = $notification->webhook;
+        $this->translator = $this->getTranslator($notification, $message);
     }
 
     /**
@@ -42,17 +42,23 @@ class Notify extends Job implements ShouldQueue
      */
     public function handle()
     {
-        Request::post($this->notification->webhook)
+        Request::post($this->webhook)
                ->sendsJson()
-               ->body($this->decorator->getPayload())
+               ->body($this->translator->getPayload())
                ->send();
     }
 
-    // FIXME: Should the notification class have a getDecorator method?
-    public function getDecorator(Notification $notification, Message $message)
+    /**
+     * Get the translator class for the notification.
+     *
+     * @param  Notification $notification
+     * @param  Message      $message
+     * @return ChatMessageInterface
+     */
+    private function getTranslator(Notification $notification, Message $message)
     {
         $class = HipchatMessage::class;
-        if ($notification->service->isSlack()) {
+        if ($notification->isSlack()) {
             $class = SlackMessage::class;
         }
 

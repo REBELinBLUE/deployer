@@ -1,8 +1,8 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Decorators;
+namespace REBELinBLUE\Deployer\Translators;
 
-use REBELinBLUE\Deployer\Decorators\Contracts\ChatMessageInterface;
+use REBELinBLUE\Deployer\Translators\Contracts\ChatMessageInterface;
 use REBELinBLUE\Deployer\Message;
 use REBELinBLUE\Deployer\Notification;
 

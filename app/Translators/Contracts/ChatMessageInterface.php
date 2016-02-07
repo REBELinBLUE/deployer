@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Decorators\Contracts;
+namespace REBELinBLUE\Deployer\Translators\Contracts;
 
 use REBELinBLUE\Deployer\Message;
 use REBELinBLUE\Deployer\Notification;
