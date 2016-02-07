@@ -71,14 +71,15 @@ class Notification extends Model
     }
 
     /**
-     * Generates a test payload for Slack.
+     * Generates a test payload for chat messaging.
      *
-     * @return array
+     * @return Message
      */
     public function testPayload()
     {
-        return [
-            'text' => Lang::get('notifications.test_message'),
-        ];
+        $msg = new Message;
+        $msg->setMessage(Lang::get('notifications.test_message'));
+
+        return $msg;
     }
 }

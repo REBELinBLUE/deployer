@@ -7,8 +7,16 @@ namespace REBELinBLUE\Deployer;
  */
 class Message
 {
-    public function setMessage()
+    private $message;
+
+    public function setMessage($message)
     {
+        $this->message = $message;
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
     }
 
     public function addField()
