@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Translators;
 
-use REBELinBLUE\Deployer\Translators\Contracts\ChatMessageInterface;
 use REBELinBLUE\Deployer\Message;
 use REBELinBLUE\Deployer\Notification;
+use REBELinBLUE\Deployer\Translators\Contracts\ChatMessageInterface;
 
 class HipchatMessage implements ChatMessageInterface
 {
