@@ -1,17 +1,17 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Translators;
+namespace REBELinBLUE\Deployer\Messages\Translators;
 
-use REBELinBLUE\Deployer\Message;
+use REBELinBLUE\Deployer\Messages\Contracts\MessageInterface;
 use REBELinBLUE\Deployer\Notification;
-use REBELinBLUE\Deployer\Translators\Contracts\ChatMessageInterface;
+use REBELinBLUE\Deployer\Messages\Translators\Contracts\ChatMessageInterface;
 
 class HipchatMessage implements ChatMessageInterface
 {
     private $message;
     private $notification;
 
-    public function __construct(Notification $notification, Message $message)
+    public function __construct(Notification $notification, MessageInterface $message)
     {
         $this->message      = $message;
         $this->notification = $notification;

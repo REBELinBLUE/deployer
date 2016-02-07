@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Jobs\Notify;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Messages\TestMessage;
 
 /**
  * Notification model.
@@ -104,13 +105,10 @@ class Notification extends Model
     /**
      * Generates a test payload for chat messaging.
      *
-     * @return Message
+     * @return MessageInterface
      */
     public function testPayload()
     {
-        $msg = new Message;
-        $msg->setMessage(Lang::get('notifications.test_message'));
-
-        return $msg;
+        return new TestMessage;
     }
 }

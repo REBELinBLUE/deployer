@@ -9,8 +9,9 @@ use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Message;
 use REBELinBLUE\Deployer\Notification;
-use REBELinBLUE\Deployer\Translators\HipchatMessage;
-use REBELinBLUE\Deployer\Translators\SlackMessage;
+use REBELinBLUE\Deployer\Messages\Translators\HipchatMessage;
+use REBELinBLUE\Deployer\Messages\Translators\SlackMessage;
+use REBELinBLUE\Deployer\Messages\Contracts\MessageInterface;
 
 /**
  * Sends notification to slack.
@@ -29,7 +30,7 @@ class Notify extends Job implements ShouldQueue
      * @param  Message      $message
      * @return Notify
      */
-    public function __construct(Notification $notification, Message $message)
+    public function __construct(Notification $notification, MessageInterface $message)
     {
         $this->webhook    = $notification->webhook;
         $this->translator = $this->getTranslator($notification, $message);
@@ -52,10 +53,10 @@ class Notify extends Job implements ShouldQueue
      * Get the translator class for the notification.
      *
      * @param  Notification         $notification
-     * @param  Message              $message
+     * @param  MessageInterface              $message
      * @return ChatMessageInterface
      */
-    private function getTranslator(Notification $notification, Message $message)
+    private function getTranslator(Notification $notification, MessageInterface $message)
     {
         $class = HipchatMessage::class;
         if ($notification->isSlack()) {
