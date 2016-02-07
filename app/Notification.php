@@ -18,6 +18,7 @@ class Notification extends Model
 
     const SLACK   = 1;
     const HIPCHAT = 2;
+    const GITTER  = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -44,6 +45,36 @@ class Notification extends Model
         'failure_only' => 'boolean',
         'service'      => 'integer',
     ];
+
+    /**
+     * Determines whether the notification is for slack.
+     *
+     * @return bool
+     */
+    public function isSlack()
+    {
+        return ($this->service === self::SLACK);
+    }
+
+    /**
+     * Determines whether the notification is for hipchat.
+     *
+     * @return bool
+     */
+    public function isHipchat()
+    {
+        return ($this->service === self::HIPCHAT);
+    }
+
+    /**
+     * Determines whether the notification is for gitter.
+     *
+     * @return bool
+     */
+    public function isGitter()
+    {
+        return ($this->service === self::GITTER);
+    }
 
     /**
      * Belongs to relationship.

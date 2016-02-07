@@ -16,10 +16,11 @@ class AddHipchatNotifications extends Migration
         if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
             DB::statement("ALTER TABLE notifications ADD COLUMN service ENUM('"
                 . Notification::SLACK . "', '"
-                . Notification::HIPCHAT . "') NOT NULL DEFAULT '" . Notification::SLACK . "'");
+                . Notification::HIPCHAT . "', '"
+                . Notification::GITTER . "') NOT NULL DEFAULT '" . Notification::SLACK . "'");
         } else {
             Schema::table('notifications', function (Blueprint $table) {
-                $table->enum('service', [Notification::SLACK, Notification::HIPCHAT])->default(Notification::SLACK);
+                $table->enum('service', [Notification::SLACK, Notification::HIPCHAT, Notification::GITTER])->default(Notification::SLACK);
             });
         }
     }
