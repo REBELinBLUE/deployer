@@ -8,6 +8,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Notification;
+use REBELinBLUE\Deployer\Message;
+use REBELinBLUE\Deployer\Decorators\SlackMessage;
+use REBELinBLUE\Deployer\Decorators\HipchatMessage;
 
 /**
  * Sends notification to slack.
@@ -16,20 +19,20 @@ class Notify extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    private $payload;
     private $notification;
+    private $decorator;
 
     /**
      * Create a new command instance.
      *
      * @param  Notification $notification
-     * @param  array        $payload
+     * @param  Message      $message
      * @return Notify
      */
-    public function __construct(Notification $notification, array $payload)
+    public function __construct(Notification $notification, Message $message)
     {
         $this->notification = $notification;
-        $this->payload      = $payload;
+        $this->decorator = $this->getDecorator($notification, $message);
     }
 
     /**
@@ -39,24 +42,19 @@ class Notify extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $payload = [
-            'channel' => $this->notification->channel,
-        ];
-
-        if (!empty($this->notification->icon)) {
-            $icon_field = 'icon_url';
-            if (preg_match('/:(.*):/', $this->notification->icon)) {
-                $icon_field = 'icon_emoji';
-            }
-
-            $payload[$icon_field] = $this->notification->icon;
-        }
-
-        $payload = array_merge($payload, $this->payload);
-
         Request::post($this->notification->webhook)
                ->sendsJson()
-               ->body($payload)
+               ->body($this->decorator->getPayload())
                ->send();
+    }
+
+    public function getDecorator(Notification $notification, Message $message)
+    {
+        $class = HipchatMessage::class;
+        if ($notification->service === Notification::SLACK) {
+            $class = SlackMessage::class;
+        }
+
+        return new $class($notification, $message);
     }
 }
