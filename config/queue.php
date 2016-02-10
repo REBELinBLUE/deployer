@@ -38,7 +38,7 @@ return [
         'database' => [
             'driver' => 'database',
             'table'  => 'jobs',
-            'queue'  => 'default',
+            'queue'  => 'deployer-default',
             'expire' => 60,
         ],
 
@@ -61,7 +61,7 @@ return [
         'redis' => [
             'driver'     => 'redis',
             'connection' => 'default',
-            'queue'      => 'default',
+            'queue'      => 'deployer-default',
             'expire'     => 60,
         ],
 
