@@ -25,7 +25,6 @@ use Symfony\Component\Process\Process;
  * Deploys an actual project.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * TODO: rewrite this as it is doing way too much and is very messy now.
- * TODO: Move gitWrapperScript somewhere else as it is duplicated in UpdateGitReferences
  * TODO: Expand all parameters
  */
 class DeployProject extends Job implements ShouldQueue
@@ -529,25 +528,6 @@ class DeployProject extends Job implements ShouldQueue
                  ' . $user . '@' . $server->ip_address . ' \'bash -s\' << \'EOF\'
                  ' . $script . '
 EOF';
-    }
-
-    /**
-     * Generates the content of a git bash script.
-     *
-     * @param  string $key_file_path The path to the public key to use
-     * @return string
-     */
-    private function gitWrapperScript($key_file_path)
-    {
-        return <<<OUT
-#!/bin/sh
-ssh -o CheckHostIP=no \
-    -o IdentitiesOnly=yes \
-    -o StrictHostKeyChecking=no \
-    -o PasswordAuthentication=no \
-    -o IdentityFile={$key_file_path} $*
-
-OUT;
     }
 
     /**
