@@ -86,10 +86,9 @@ class DeployProject extends Job implements ShouldQueue
         $this->release_archive = storage_path('app/') . $this->deployment->project_id . '_' . $this->release_id . '.tar.gz';
 
         try {
-            // If the build has been manually triggered update the git information from the remote repository
-            if ($this->deployment->commit === Deployment::LOADING) {
-                $this->updateRepoInfo();
-            }
+            $this->updateRepoInfo();
+
+            $this->createReleaseArchive();
 
             foreach ($this->deployment->steps as $step) {
                 $this->runStep($step);
@@ -144,36 +143,14 @@ class DeployProject extends Job implements ShouldQueue
     {
         $this->dispatch(new UpdateGitMirror($this->deployment->project));
 
-        $mirror_dir = $this->deployment->project->mirrorPath();
-
-        $wrapper = tempnam(storage_path('app/'), 'gitssh');
-        file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
-
-        $working_dir = tempnam(storage_path('app/'), 'clone');
-        unlink($working_dir);
-
-        $tar_file = $this->release_archive;
-
-        $cmd = <<< CMD
-chmod +x "{$wrapper}" && \
-export GIT_SSH="{$wrapper}" && \
-git clone --recursive --quiet --reference {$mirror_dir} --branch %s --depth 1 %s {$working_dir} && \
-cd {$working_dir} && \
-git checkout %s --quiet && \
-git log --pretty=format:"%%H%%x09%%an%%x09%%ae"
-CMD;
-
         $process = new Process(sprintf(
-            $cmd,
-            $this->deployment->branch,
-            $this->deployment->project->repository,
+            'cd %s && git log %s -n1 --pretty=format:"%%H%%x09%%an%%x09%%ae"',
+            $this->deployment->project->mirrorPath(),
             $this->deployment->branch
         ));
 
         $process->setTimeout(null);
         $process->run();
-
-        unlink($wrapper);
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
@@ -196,16 +173,22 @@ CMD;
         }
 
         $this->deployment->save();
+    }
 
-        $cmd = <<< CMD
-export GIT_DIR="{$working_dir}/.git" && \
-export GIT_WORK_TREE="{$working_dir}" && \
-cd {$working_dir} && \
-(git archive --format=tar {$commit} | gzip > {$tar_file}) && \
-rm -rf {$working_dir}
-CMD;
+    /**
+     * Creates the archive for the commit to deploy.
+     *
+     * @return void
+     */
+    private function createReleaseArchive()
+    {
+        $process = new Process(sprintf(
+            'cd %s && (git archive --format=tar %s | gzip > %s)',
+            $this->deployment->project->mirrorPath(),
+            $this->deployment->commit,
+            $this->release_archive
+        ));
 
-        $process = new Process($cmd);
         $process->setTimeout(null);
         $process->run();
 
