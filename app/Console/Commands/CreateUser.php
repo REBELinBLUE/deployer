@@ -84,7 +84,8 @@ class CreateUser extends Command
 
             event(new UserWasCreated($user, $arguments['password']));
         } elseif ($password_generated) {
-            $message .= ', however you elected to not email the account details to them. Their password is ' . $arguments['password'];
+            $message .= ', however you elected to not email the account details to them. ';
+            $messate .= 'Their password is ' . $arguments['password'];
         }
 
         $this->info($message);

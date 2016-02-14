@@ -82,7 +82,12 @@ class DeployProject extends Job implements ShouldQueue
         $this->private_key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
 
-        $this->release_archive = storage_path('app/') . $this->deployment->project_id . '_' . $this->release_id . '.tar.gz';
+        $this->release_archive = sprintf(
+            '%s/%d_%s.tar.gz',
+            storage_path('app'),
+            $this->deployment->project_id,
+            $this->release_id
+        );
 
         try {
             $this->updateRepoInfo();

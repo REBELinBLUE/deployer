@@ -62,9 +62,12 @@ class DeploymentPresenter extends Presenter
      */
     public function presentIcon()
     {
+        $finished_statuses = [Deployment::FAILED, Deployment::COMPLETED_WITH_ERRORS,
+                              Deployment::ABORTING, Deployment::ABORTED, ];
+
         if ($this->status === Deployment::COMPLETED) {
             return 'check';
-        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::COMPLETED_WITH_ERRORS, Deployment::ABORTING, Deployment::ABORTED], true)) {
+        } elseif (in_array($this->status, $finished_statuses, true)) {
             return 'warning';
         } elseif ($this->status === Deployment::DEPLOYING) {
             return 'spinner fa-pulse';
