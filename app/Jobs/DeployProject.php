@@ -463,7 +463,7 @@ CMD;
             }
 
             $tokens = [
-                '{{ release }}'         => $release_id,
+                '{{ release }}'         => $this->release_id,
                 '{{ release_path }}'    => $latest_release_dir,
                 '{{ project_path }}'    => $root_dir,
                 '{{ branch }}'          => $this->deployment->branch,
