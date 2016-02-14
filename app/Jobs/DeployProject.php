@@ -181,11 +181,11 @@ CMD;
 
         $git_info = $process->getOutput();
 
-        $parts = explode("\x09", $git_info);
+        list($commit, $committer, $email) = explode("\x09", $git_info);
 
-        $this->deployment->commit          = $parts[0];
-        $this->deployment->committer       = trim($parts[1]);
-        $this->deployment->committer_email = trim($parts[2]);
+        $this->deployment->commit          = $commit;
+        $this->deployment->committer       = trim($committer);
+        $this->deployment->committer_email = trim($email);
 
         if (!$this->deployment->user_id && !$this->deployment->source) {
             $user = User::where('email', $this->deployment->committer_email)->first();
@@ -201,7 +201,7 @@ CMD;
 export GIT_DIR="{$working_dir}/.git" && \
 export GIT_WORK_TREE="{$working_dir}" && \
 cd {$working_dir} && \
-(git archive --format=tar HEAD | gzip > {$tar_file}) && \
+(git archive --format=tar {$commit} | gzip > {$tar_file}) && \
 rm -rf {$working_dir}
 CMD;
 
