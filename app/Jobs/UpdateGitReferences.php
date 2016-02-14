@@ -38,12 +38,12 @@ class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
-        $mirrorDir = $this->project->mirrorPath();
+        $mirror_dir = $this->project->mirrorPath();
 
         $this->project->refs()->delete();
 
         foreach (['tag', 'branch'] as $ref) {
-            $process = new Process("cd {$mirrorDir} && git {$ref} --list --no-column");
+            $process = new Process("cd {$mirror_dir} && git {$ref} --list --no-column");
             $process->setTimeout(null);
             $process->run();
 

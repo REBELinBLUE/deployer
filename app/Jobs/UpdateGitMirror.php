@@ -39,7 +39,7 @@ class UpdateGitMirror extends Job implements SelfHandling
     {
         // Use the repository rather than the project ID, so if a single
         // repo is used in multiple projects it is not duplicated
-        $mirrorDir = $this->project->mirrorPath();
+        $mirror_dir = $this->project->mirrorPath();
 
         $private_key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($private_key, $this->project->private_key);
@@ -51,8 +51,8 @@ class UpdateGitMirror extends Job implements SelfHandling
 set -e && \
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
-( [ ! -d {$mirrorDir} ] && git clone --mirror %s {$mirrorDir} || cd . ) && \
-cd {$mirrorDir} && \
+( [ ! -d {$mirror_dir} ] && git clone --mirror %s {$mirror_dir} || cd . ) && \
+cd {$mirror_dir} && \
 git fetch --all --prune
 CMD;
 

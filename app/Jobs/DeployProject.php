@@ -144,21 +144,21 @@ class DeployProject extends Job implements ShouldQueue
     {
         $this->dispatch(new UpdateGitMirror($this->deployment->project));
 
-        $mirrorDir = $this->deployment->project->mirrorPath();
+        $mirror_dir = $this->deployment->project->mirrorPath();
 
         $wrapper = tempnam(storage_path('app/'), 'gitssh');
         file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
 
-        $workingDir = tempnam(storage_path('app/'), 'clone');
-        unlink($workingDir);
+        $working_dir = tempnam(storage_path('app/'), 'clone');
+        unlink($working_dir);
 
-        $tarFile = $this->release_archive;
+        $tar_file = $this->release_archive;
 
         $cmd = <<< CMD
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
-git clone --recursive --quiet --reference {$mirrorDir} --branch %s --depth 1 %s {$workingDir} && \
-cd {$workingDir} && \
+git clone --recursive --quiet --reference {$mirror_dir} --branch %s --depth 1 %s {$working_dir} && \
+cd {$working_dir} && \
 git checkout %s --quiet && \
 git log --pretty=format:"%%H%%x09%%an%%x09%%ae"
 CMD;
@@ -198,11 +198,11 @@ CMD;
         $this->deployment->save();
 
         $cmd = <<< CMD
-export GIT_DIR="{$workingDir}/.git" && \
-export GIT_WORK_TREE="{$workingDir}" && \
-cd {$workingDir} && \
-(git archive --format=tar HEAD | gzip > {$tarFile}) && \
-rm -rf {$workingDir}
+export GIT_DIR="{$working_dir}/.git" && \
+export GIT_WORK_TREE="{$working_dir}" && \
+cd {$working_dir} && \
+(git archive --format=tar HEAD | gzip > {$tar_file}) && \
+rm -rf {$working_dir}
 CMD;
 
         $process = new Process($cmd);
