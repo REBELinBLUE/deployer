@@ -61,7 +61,6 @@ class ClearOrphanMirrors extends Command
 
         // Now loop through the mirrors and delete them from storage
         foreach ($orphan_mirrors as $mirror_dir) {
-
             $process = new Process("rm -rf {$mirror_dir}");
             $process->setTimeout(null);
             $process->run();
@@ -72,6 +71,5 @@ class ClearOrphanMirrors extends Command
                 $this->info('Failed to delete ' . basename($mirror_dir));
             }
         }
-
     }
 }
