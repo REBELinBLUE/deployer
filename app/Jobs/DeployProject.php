@@ -80,7 +80,7 @@ class DeployProject extends Job implements ShouldQueue
 
         $this->release_id = date('YmdHis', strtotime($this->deployment->started_at));
 
-        $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
+        $this->private_key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
 
         $this->release_archive = storage_path('app/') . $this->deployment->project_id . '_' . $this->release_id . '.tar.gz';
@@ -146,10 +146,10 @@ class DeployProject extends Job implements ShouldQueue
 
         $mirrorDir = $this->deployment->project->mirrorPath();
 
-        $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
+        $wrapper = tempnam(storage_path('app/'), 'gitssh');
         file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
 
-        $workingDir = tempnam(storage_path() . '/app/', 'clone');
+        $workingDir = tempnam(storage_path('app/'), 'clone');
         unlink($workingDir);
 
         $tarFile = $this->release_archive;
