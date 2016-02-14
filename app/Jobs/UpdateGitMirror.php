@@ -48,7 +48,6 @@ class UpdateGitMirror extends Job implements SelfHandling
         file_put_contents($wrapper, $this->gitWrapperScript($private_key));
 
         $cmd = <<< CMD
-set -e && \
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
 ( [ ! -d {$mirror_dir} ] && git clone --mirror %s {$mirror_dir} || cd . ) && \
