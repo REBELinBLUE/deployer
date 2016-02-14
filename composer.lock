@@ -3579,6 +3579,7 @@
         },
         {
             "name": "version/version",
+<<<<<<< HEAD
             "version": "2.2",
             "source": {
                 "type": "git",
@@ -3589,6 +3590,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-mod/version/zipball/2fc90b9ce281b10efa68ebc90a6b339515aba35f",
                 "reference": "2fc90b9ce281b10efa68ebc90a6b339515aba35f",
+=======
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-mod/version.git",
+                "reference": "5a3f17a41b449e25d9f83a4503d02e977ca9ebb1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-mod/version/zipball/5a3f17a41b449e25d9f83a4503d02e977ca9ebb1",
+                "reference": "5a3f17a41b449e25d9f83a4503d02e977ca9ebb1",
+>>>>>>> Compare tags with version suffixes
                 "shasum": ""
             },
             "require": {
@@ -3621,7 +3634,11 @@
                 "semantic",
                 "version"
             ],
+<<<<<<< HEAD
             "time": "2015-06-07 19:06:40"
+=======
+            "time": "2015-06-07 16:18:01"
+>>>>>>> Compare tags with version suffixes
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5855,10 +5872,21 @@
             "time": "2015-05-27 22:58:02"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "2.2",
+            "alias_normalized": "2.2.0.0",
+            "version": "9999999-dev",
+            "package": "version/version"
+        }
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
+<<<<<<< HEAD
         "andywer/js-localization": 20
+=======
+        "version/version": 20
+>>>>>>> Compare tags with version suffixes
     },
     "prefer-stable": false,
     "prefer-lowest": false,

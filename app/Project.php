@@ -8,6 +8,7 @@ use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\Process\Process;
+use Version\Compare as VersionCompare;
 
 /**
  * Project model.
@@ -322,13 +323,13 @@ class Project extends ProjectRelation implements PresentableInterface
      */
     public function tags()
     {
-        // FIXME: There has to be a way to do this without converting to an array and then back to a collection
         $tags = $this->refs()
                      ->where('is_tag', true)
                      ->lists('name')
                      ->toArray();
 
-        usort($tags, 'version_compare'); // FIXME: Change this to use the Version\Version library!
+        $compare = new VersionCompare;
+        usort($tags, array($compare, 'compare'));
 
         return collect($tags);
     }
