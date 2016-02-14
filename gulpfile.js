@@ -29,19 +29,21 @@ var paths = {
     'respond'         : bower_path + '/respond',
     'cropper'         : bower_path + '/cropper',
     'toastr'          : bower_path + '/toastr',
+    'select2'         : bower_path + '/admin-lte/plugins/select2',
     'localization'    : 'vendor/andywer/js-localization'
 };
 
 elixir(function(mix) {
     mix.Bower()
     .styles([
-        paths.admin_lte + '/bootstrap/css/bootstrap.css',
+        paths.admin_lte   + '/bootstrap/css/bootstrap.css',
+        paths.select2     + '/select2.css',
         paths.fontawesome + '/css/font-awesome.css',
         paths.ionicons    + '/css/ionicons.css',
-        paths.admin_lte + '/dist/css/AdminLTE.css',
-        paths.admin_lte + '/dist/css/skins/_all-skins.css',
-        paths.toastr    + '/toastr.css',
-        paths.cropper   + '/dist/cropper.css',
+        paths.admin_lte   + '/dist/css/AdminLTE.css',
+        paths.admin_lte   + '/dist/css/skins/_all-skins.css',
+        paths.toastr      + '/toastr.css',
+        paths.cropper     + '/dist/cropper.css',
     ], 'public/css/vendor.css', './')
     .styles([
         'resources/assets/css/app.css'
@@ -57,6 +59,7 @@ elixir(function(mix) {
         paths.underscore      + '/underscore.js',
         paths.moment          + '/moment.js',
         paths.admin_lte       + '/bootstrap/js/bootstrap.js',
+        paths.select2         + '/select2.js',
         paths.admin_lte       + '/dist/js/app.js',
         paths.backbone        + '/backbone.js',
         paths.socketio_client + '/socket.io.js',

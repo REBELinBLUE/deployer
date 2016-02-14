@@ -95,8 +95,9 @@ span.label i.fa {
     margin-right: 2px;
 }
 
-select.deployment-source {
+div.deployment-source-container {
     display: none;
+    margin-top: 5px;
 }
 
 #command_script,
@@ -112,6 +113,10 @@ select.deployment-source {
 
 #repository_error {
     display: none;
+}
+
+div#reason div.radio label {
+    min-width: 50%;
 }
 
 #deploying_menu li a p,

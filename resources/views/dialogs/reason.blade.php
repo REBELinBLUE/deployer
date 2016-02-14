@@ -32,11 +32,13 @@
                                     <label for="deployment_source_branch">
                                         <input type="radio" class="deployment-source" name="source" id="deployment_source_branch" value="branch" /> {{ Lang::get('deployments.different_branch') }}
 
-                                        <select class="form-control deployment-source" name="source_branch" id="deployment_branch">
-                                            @foreach ($branches as $branch)
-                                                <option value="{{ $branch }}">{{ $branch }}</option>
-                                            @endforeach
-                                        </select>
+                                        <div class="deployment-source-container">
+                                            <select class="form-control deployment-source" name="source_branch" id="deployment_branch">
+                                                @foreach ($branches as $branch)
+                                                    <option value="{{ $branch }}">{{ $branch }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </label>
                                 </div>
                             </li>
@@ -48,12 +50,13 @@
                                     <label for="deployment_source_tag">
                                         <input type="radio" class="deployment-source" name="source" id="deployment_source_tag" value="tag" /> {{ Lang::get('deployments.tag') }}
 
-                                        <select class="form-control deployment-source" name="source_tag" id="deployment_tag">
-                                            @foreach ($tags as $tag)
-                                                <option value="{{ $tag }}">{{ $tag }}</option>
-                                            @endforeach
-                                        </select>
-
+                                        <div class="deployment-source-container">
+                                            <select class="form-control deployment-source" name="source_tag" id="deployment_tag">
+                                                @foreach ($tags as $tag)
+                                                    <option value="{{ $tag }}">{{ $tag }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </label>
                                 </div>
                             </li>
