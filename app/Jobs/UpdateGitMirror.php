@@ -48,12 +48,12 @@ class UpdateGitMirror extends Job implements SelfHandling
         file_put_contents($wrapper, $this->gitWrapperScript($private_key));
 
         $cmd = <<< CMD
+set -e && \
 chmod +x "{$wrapper}" && \
 export GIT_SSH="{$wrapper}" && \
-( [ ! -d {$mirrorDir} ] && git clone --mirror %s {$mirrorDir} ) && \
-cd {$mirrorDir} &&
+( [ ! -d {$mirrorDir} ] && git clone --mirror %s {$mirrorDir} || cd . ) && \
+cd {$mirrorDir} && \
 git fetch --all --prune
-exit 0 # FIXME: Not sure why I need this, otherwise it fails
 CMD;
 
         $process = new Process(sprintf($cmd, $this->project->repository));
