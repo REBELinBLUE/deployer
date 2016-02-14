@@ -54,8 +54,10 @@ class UpdateGitMirrors extends Command
         $last_mirrored_since = Carbon::now()->subMinutes(self::UPDATE_FREQUENCY_MINUTES);
         $todo                = self::UPDATES_TO_QUEUE;
 
-        Project::where('last_mirrored', '<', $last_mirrored_since)->chunk($todo, function ($project) use ($command) {
-            $command->dispatch(new UpdateGitMirror($project));
+        Project::where('last_mirrored', '<', $last_mirrored_since)->chunk($todo, function ($projects) use ($command) {
+            foreach ($projects as $project) {
+                $command->dispatch(new UpdateGitMirror($project));
+            }
         });
     }
 }
