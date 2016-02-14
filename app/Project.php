@@ -329,7 +329,7 @@ class Project extends ProjectRelation implements PresentableInterface
                      ->toArray();
 
         $compare = new VersionCompare;
-        usort($tags, array($compare, 'compare'));
+        usort($tags, [$compare, 'compare']);
 
         return collect($tags);
     }

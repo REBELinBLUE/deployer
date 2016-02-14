@@ -392,7 +392,7 @@ class InstallApp extends Command
             $locale = $locales[0];
         } else {
             $default = array_search(Config::get('app.fallback_locale'), $locales, true);
-            $locale = $this->choice('Language', $locales, $default);
+            $locale  = $this->choice('Language', $locales, $default);
         }
 
         return [
