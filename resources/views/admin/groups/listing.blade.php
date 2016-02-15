@@ -21,7 +21,7 @@
     @include('admin.dialogs.group')
 
     <script type="text/template" id="group-template">
-        <td><%- name %></td>
+        <td data-group-id="<%- id %>"><%- name %></td>
         <td><%- project_count %></td>
         <td>
             <div class="btn-group pull-right">

@@ -3,7 +3,9 @@
 namespace REBELinBLUE\Deployer\Composers;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\App;
 use REBELinBLUE\Deployer\Group;
+use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Template;
 
 /**
@@ -27,12 +29,10 @@ class NavigationComposer
             $active_project = $view->project->id;
         }
 
-        $groups = Group::where('id', '<>', Template::GROUP_ID)
-                       ->orderBy('name')
-                       ->get();
+        $repository = App::make(GroupRepositoryInterface::class);
 
         $view->with('active_group', $active_group);
         $view->with('active_project', $active_project);
-        $view->with('groups', $groups);
+        $view->with('groups', $repository->getAll());
     }
 }

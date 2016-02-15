@@ -51,7 +51,7 @@ return array(
 
     'storage_files_path' => storage_path('clockwork'),
 
-    'storage_sql_database' => storage_path('clockwork.sqlite'),
+    'storage_sql_database' => database_path('clockwork.sqlite'),
     'storage_sql_table'    => 'clockwork',
 
     /*

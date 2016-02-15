@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest;
@@ -61,5 +62,28 @@ class GroupController extends Controller
         return $this->repository->updateById($request->only(
             'name'
         ), $group_id);
+    }
+
+    /**
+     * Re-generates the order for the supplied groups.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function reorder(Request $request)
+    {
+        $order = 0;
+
+        foreach ($request->get('groups') as $group_id) {
+            $this->repository->updateById([
+                'order' => $order,
+            ], $group_id);
+
+            $order++;
+        }
+
+        return [
+            'success' => true,
+        ];
     }
 }

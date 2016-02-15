@@ -506,7 +506,7 @@ class InstallApp extends Command
     private function verifyDatabaseDetails(array $database)
     {
         if ($database['type'] === 'sqlite') {
-            return touch(storage_path() . '/database.sqlite');
+            return touch(database_path('database.sqlite'));
         }
 
         try {

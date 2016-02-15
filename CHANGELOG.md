@@ -1,5 +1,23 @@
 # Change Log
 
+## [0.0.30](https://github.com/REBELinBLUE/deployer/tree/0.0.30) (2016-02-15)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.29...0.0.30)
+
+**Implemented enhancements:**
+
+- Re-ordering groups [\#176](https://github.com/REBELinBLUE/deployer/issues/176)
+
+**Fixed bugs:**
+
+- SQLite installation no longer works [\#169](https://github.com/REBELinBLUE/deployer/issues/169)
+
+**Closed issues:**
+
+- While running queue always error "No query results for model" [\#172](https://github.com/REBELinBLUE/deployer/issues/172)
+
+## [0.0.29](https://github.com/REBELinBLUE/deployer/tree/0.0.29) (2016-02-05)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.28...0.0.29)
+
 ## [0.0.28](https://github.com/REBELinBLUE/deployer/tree/0.0.28) (2016-02-04)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.27...0.0.28)
 
