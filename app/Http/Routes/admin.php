@@ -23,4 +23,6 @@ Route::group([
         'only' => ['index', 'store', 'update'],
     ]);
 
+    Route::post('groups/reorder', 'GroupController@reorder');
+
 });

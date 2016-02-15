@@ -32,7 +32,7 @@ class EloquentGroupRepository extends EloquentRepository implements GroupReposit
     {
         return $this->model
                     ->where('id', '<>', Template::GROUP_ID)
-                    ->orderBy('name')
+                    ->orderBy('order')
                     ->get();
     }
 }
