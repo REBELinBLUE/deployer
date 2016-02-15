@@ -11,7 +11,13 @@ return [
     'commit'                => 'Commit',
     'manually'              => 'Manually',
     'webhook'               => 'Webhook',
-    'reactivate'            => 'Re-activate',
+    'rollback'              => 'Rollback',
+    'rollback_title'        => 'Rollback to a previous deployment',
+    'expert'                => 'You should not rollback to previous deployments unless you a confident you can perform any additional '.
+                               'cleanup which may be required.',
+    'rollback_warning'      => 'When rolling back to a previous deployment you may need to manually connect to your servers and run '.
+                               'any database rollbacks or similar, this can not be done automatically.',
+    'caution'               => 'Caution!',
     'cancel'                => 'Cancel',
     'loading'               => 'Loading',
     'unknown'               => 'Unknown',

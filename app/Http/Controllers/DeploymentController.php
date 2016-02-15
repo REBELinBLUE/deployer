@@ -159,6 +159,19 @@ class DeploymentController extends Controller
     }
 
     /**
+     * Loads a previous deployment and then creates a new deployment based on it.
+     *
+     * @param  int $deployment_id
+     * @return Response
+     */
+    public function rollback($deployment_id)
+    {
+        return redirect()->route('deployment', [
+            'id' => '?',
+        ]);
+    }
+
+    /**
      * Abort a deployment.
      *
      * @param  int      $deployment_id
