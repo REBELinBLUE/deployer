@@ -42,6 +42,7 @@ class ResetApp extends UpdateApp
             return;
         }
 
+        $this->clearLogs();
         $this->updateConfiguration();
         $this->resetDB();
         $this->migrate(true);
@@ -60,6 +61,21 @@ class ResetApp extends UpdateApp
         $this->line('');
         $this->call('migrate:reset', ['--force' => true]);
         $this->line('');
+    }
+
+    /**
+     * Removes the log files.
+     *
+     * @return void
+     */
+    protected function clearLogs()
+    {
+        $this->info('Removing log files');
+        $this->line('');
+
+        foreach (glob(storage_path('logs/') . '*.log') as $file) {
+            unlink($file);
+        }
     }
 
     /**
