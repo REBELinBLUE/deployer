@@ -35,7 +35,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @var array
      */
-    protected $fillable = ['reason', 'branch', 'project_id', 'source', 'build_url'];
+    protected $fillable = ['reason', 'branch', 'project_id', 'source', 'build_url',
+                           'commit', 'committer_email', 'committer', ];
 
     /**
      * The attributes excluded from the model's JSON form.
