@@ -1443,7 +1443,12 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v5.2.22",
+=======
+<<<<<<< HEAD
+            "version": "v5.2.20",
+>>>>>>> Updated dependencies
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
@@ -1451,8 +1456,25 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/laravel/framework/zipball/aec1b7cb9ec0bac0107361a3730cac9b6f945ef4",
                 "reference": "aec1b7cb9ec0bac0107361a3730cac9b6f945ef4",
+=======
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d4ff9a1e3e9b2f99f8f3e957876e343d804d944f",
+                "reference": "d4ff9a1e3e9b2f99f8f3e957876e343d804d944f",
+=======
+            "version": "v5.2.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "39e89553c124dce266da03ee3c0260bdd62f1848"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/39e89553c124dce266da03ee3c0260bdd62f1848",
+                "reference": "39e89553c124dce266da03ee3c0260bdd62f1848",
+>>>>>>> Updated dependencies
+>>>>>>> Updated dependencies
                 "shasum": ""
             },
             "require": {
@@ -1567,7 +1589,15 @@
                 "framework",
                 "laravel"
             ],
+<<<<<<< HEAD
             "time": "2016-02-27 22:09:19"
+=======
+<<<<<<< HEAD
+            "time": "2016-02-19 17:58:28"
+=======
+            "time": "2016-02-15 17:46:58"
+>>>>>>> Updated dependencies
+>>>>>>> Updated dependencies
         },
         {
             "name": "league/flysystem",
@@ -3580,6 +3610,7 @@
         {
             "name": "version/version",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "2.2",
             "source": {
                 "type": "git",
@@ -3592,16 +3623,24 @@
                 "reference": "2fc90b9ce281b10efa68ebc90a6b339515aba35f",
 =======
             "version": "dev-master",
+=======
+            "version": "2.2",
+>>>>>>> Updated dependencies
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-mod/version.git",
-                "reference": "5a3f17a41b449e25d9f83a4503d02e977ca9ebb1"
+                "reference": "2fc90b9ce281b10efa68ebc90a6b339515aba35f"
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/php-mod/version/zipball/5a3f17a41b449e25d9f83a4503d02e977ca9ebb1",
                 "reference": "5a3f17a41b449e25d9f83a4503d02e977ca9ebb1",
 >>>>>>> Compare tags with version suffixes
+=======
+                "url": "https://api.github.com/repos/php-mod/version/zipball/2fc90b9ce281b10efa68ebc90a6b339515aba35f",
+                "reference": "2fc90b9ce281b10efa68ebc90a6b339515aba35f",
+>>>>>>> Updated dependencies
                 "shasum": ""
             },
             "require": {
@@ -3635,10 +3674,14 @@
                 "version"
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2015-06-07 19:06:40"
 =======
             "time": "2015-06-07 16:18:01"
 >>>>>>> Compare tags with version suffixes
+=======
+            "time": "2015-06-07 19:06:40"
+>>>>>>> Updated dependencies
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5872,15 +5915,9 @@
             "time": "2015-05-27 22:58:02"
         }
     ],
-    "aliases": [
-        {
-            "alias": "2.2",
-            "alias_normalized": "2.2.0.0",
-            "version": "9999999-dev",
-            "package": "version/version"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
+<<<<<<< HEAD
     "stability-flags": {
 <<<<<<< HEAD
         "andywer/js-localization": 20
@@ -5888,6 +5925,9 @@
         "version/version": 20
 >>>>>>> Compare tags with version suffixes
     },
+=======
+    "stability-flags": [],
+>>>>>>> Updated dependencies
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
