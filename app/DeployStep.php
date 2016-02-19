@@ -38,7 +38,7 @@ class DeployStep extends Model implements PresentableInterface
      */
     public function servers()
     {
-        return $this->hasMany('REBELinBLUE\Deployer\ServerLog');
+        return $this->hasMany(ServerLog::class);
     }
 
     /**
@@ -48,7 +48,7 @@ class DeployStep extends Model implements PresentableInterface
      */
     public function command()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\Command')
+        return $this->belongsTo(Command::class)
                     ->withTrashed();
     }
 

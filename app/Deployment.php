@@ -93,7 +93,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function project()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\Project');
+        return $this->belongsTo(Project::class);
     }
 
     /**
@@ -103,7 +103,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function user()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\User')
+        return $this->belongsTo(User::class)
                     ->withTrashed();
     }
 
@@ -114,7 +114,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function steps()
     {
-        return $this->hasMany('REBELinBLUE\Deployer\DeployStep');
+        return $this->hasMany(DeployStep::class);
     }
 
     /**

@@ -54,7 +54,7 @@ class Server extends Model
      */
     public function project()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\Project');
+        return $this->belongsTo(Project::class);
     }
 
     /**
