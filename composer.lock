@@ -231,6 +231,7 @@
         },
         {
             "name": "barryvdh/laravel-ide-helper",
+<<<<<<< HEAD
             "version": "v2.1.3",
             "source": {
                 "type": "git",
@@ -241,6 +242,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/19553f63e4635480363ff2254350075f285fbbc5",
                 "reference": "19553f63e4635480363ff2254350075f285fbbc5",
+=======
+            "version": "v2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-ide-helper.git",
+                "reference": "d82e8f191fb043a0f8cbf2de64fd3027bfa4f772"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/d82e8f191fb043a0f8cbf2de64fd3027bfa4f772",
+                "reference": "d82e8f191fb043a0f8cbf2de64fd3027bfa4f772",
+>>>>>>> Added IDE helper
                 "shasum": ""
             },
             "require": {
@@ -248,8 +261,13 @@
                 "illuminate/filesystem": "5.0.x|5.1.x|5.2.x",
                 "illuminate/support": "5.0.x|5.1.x|5.2.x",
                 "php": ">=5.4.0",
+<<<<<<< HEAD
                 "phpdocumentor/reflection-docblock": "^2.0.4",
                 "symfony/class-loader": "~2.3|~3.0"
+=======
+                "phpdocumentor/reflection-docblock": "2.0.4",
+                "symfony/class-loader": "~2.3"
+>>>>>>> Added IDE helper
             },
             "require-dev": {
                 "doctrine/dbal": "~2.3"
@@ -290,7 +308,11 @@
                 "phpstorm",
                 "sublime"
             ],
+<<<<<<< HEAD
             "time": "2016-03-02 10:03:09"
+=======
+            "time": "2015-12-21 19:48:06"
+>>>>>>> Added IDE helper
         },
         {
             "name": "christian-riesen/base32",
@@ -1444,8 +1466,11 @@
         {
             "name": "laravel/framework",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "v5.2.22",
 =======
+=======
+>>>>>>> Added IDE helper
 <<<<<<< HEAD
             "version": "v5.2.20",
 >>>>>>> Updated dependencies
@@ -1464,17 +1489,28 @@
                 "reference": "d4ff9a1e3e9b2f99f8f3e957876e343d804d944f",
 =======
             "version": "v5.2.16",
+=======
+            "version": "v5.2.20",
+>>>>>>> Added IDE helper
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "39e89553c124dce266da03ee3c0260bdd62f1848"
+                "reference": "d4ff9a1e3e9b2f99f8f3e957876e343d804d944f"
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/laravel/framework/zipball/39e89553c124dce266da03ee3c0260bdd62f1848",
                 "reference": "39e89553c124dce266da03ee3c0260bdd62f1848",
 >>>>>>> Updated dependencies
+<<<<<<< HEAD
 >>>>>>> Updated dependencies
+=======
+=======
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d4ff9a1e3e9b2f99f8f3e957876e343d804d944f",
+                "reference": "d4ff9a1e3e9b2f99f8f3e957876e343d804d944f",
+>>>>>>> Added IDE helper
+>>>>>>> Added IDE helper
                 "shasum": ""
             },
             "require": {
@@ -1590,14 +1626,23 @@
                 "laravel"
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2016-02-27 22:09:19"
 =======
+=======
+>>>>>>> Added IDE helper
 <<<<<<< HEAD
             "time": "2016-02-19 17:58:28"
 =======
             "time": "2016-02-15 17:46:58"
 >>>>>>> Updated dependencies
+<<<<<<< HEAD
 >>>>>>> Updated dependencies
+=======
+=======
+            "time": "2016-02-19 17:58:28"
+>>>>>>> Added IDE helper
+>>>>>>> Added IDE helper
         },
         {
             "name": "league/flysystem",
@@ -2712,6 +2757,7 @@
         },
         {
             "name": "symfony/class-loader",
+<<<<<<< HEAD
             "version": "v3.0.3",
             "source": {
                 "type": "git",
@@ -2733,11 +2779,34 @@
             },
             "suggest": {
                 "symfony/polyfill-apcu": "For using ApcClassLoader on HHVM"
+=======
+            "version": "v2.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/class-loader.git",
+                "reference": "98e9089a428ed0e39423b67352c57ef5910a3269"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/class-loader/zipball/98e9089a428ed0e39423b67352c57ef5910a3269",
+                "reference": "98e9089a428ed0e39423b67352c57ef5910a3269",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "symfony/finder": "~2.0,>=2.0.5|~3.0.0"
+>>>>>>> Added IDE helper
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "3.0-dev"
+=======
+                    "dev-master": "2.8-dev"
+>>>>>>> Added IDE helper
                 }
             },
             "autoload": {
@@ -2764,7 +2833,11 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2016-02-03 09:33:23"
+=======
+            "time": "2016-01-03 15:33:41"
+>>>>>>> Added IDE helper
         },
         {
             "name": "symfony/console",
@@ -4305,7 +4378,11 @@
                 "BSD-3-Clause"
             ],
             "description": "Official version of pdepend to be handled with Composer",
+<<<<<<< HEAD
             "time": "2016-02-23 08:20:26"
+=======
+            "time": "2015-10-16 08:49:58"
+>>>>>>> Added IDE helper
         },
         {
             "name": "phploc/phploc",
