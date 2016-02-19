@@ -134,6 +134,6 @@ abstract class ProjectRelation extends Model
      */
     public function refs()
     {
-        return $this->hasMany('REBELinBLUE\Deployer\Ref');
+        return $this->hasMany(Ref::class);
     }
 }
