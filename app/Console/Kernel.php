@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Console;
 use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging;
 
 /**
  * Kernel class.
