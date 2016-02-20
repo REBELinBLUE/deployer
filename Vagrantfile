@@ -26,7 +26,6 @@ Vagrant.configure("2") do |config|
     config.vm.network "forwarded_port", guest: 80, host: 8000
     config.vm.network "forwarded_port", guest: 443, host: 44300
     config.vm.network "forwarded_port", guest: 3306, host: 33060
-    config.vm.network "forwarded_port", guest: 5432, host: 54320
 
     config.vm.synced_folder "./", "/var/www/deployer"
 
@@ -50,6 +49,15 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo apt-get update"
     config.vm.provision "shell", inline: "sudo apt-get install php7.0-mcrypt -y"
     config.vm.provision "shell", inline: "sudo phpenmod mcrypt"
+
+    # Remove postgresql
+    config.vm.provision "shell", inline: "sudo apt-get remove postgresql-9.4 postgresql-client-9.4 postgresql-common -y"
+    config.vm.provision "shell", inline: "sudo apt-get autoremove"
+    config.vm.provision "shell", inline: "sudo rm -rf /var/log/postgresql"
+    config.vm.provision "shell", inline: "sudo rm -rf /etc/postgresql-common"
+    config.vm.provision "shell", inline: "sudo rm -rf /etc/postgresql"
+    config.vm.provision "shell", inline: "sudo rm -rf /var/run/postgresql"
+    config.vm.provision "shell", inline: "sudo rm -rf /var/lib/postgresql"
 
     # Install github changelog generator
     config.vm.provision "shell", inline: "sudo apt-get install ruby ruby-dev -y"
