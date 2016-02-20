@@ -11,7 +11,6 @@ var redis = new Redis({
 });
 
 if (/^https/i.test(process.env.SOCKET_URL)) {
-
     var ssl_conf = {
         key:  (process.env.SOCKET_SSL_KEY_FILE  ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE)  : null),
         cert: (process.env.SOCKET_SSL_CERT_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CERT_FILE) : null),
@@ -45,7 +44,6 @@ io.use(function(socket, next) {
     }
 
     try {
-
         decoded = jwt.verify(socket.handshake.query.jwt, process.env.JWT_SECRET);
 
         if (debug) {

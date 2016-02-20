@@ -59,6 +59,9 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo apt-get install ruby ruby-dev -y"
     config.vm.provision "shell", inline: "sudo gem install github_changelog_generator -v 1.11.3"
 
+    # Install JS CS
+    config.vm.provision "shell", inline: "sudo npm install jscs -g"
+
     # Create DB
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e 'DROP DATABASE IF EXISTS deployer'"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e 'CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci'"
