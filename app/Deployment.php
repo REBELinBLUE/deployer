@@ -108,9 +108,15 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                     ->withTrashed();
     }
 
+    /**
+     * Has Many Through relationship.
+     *
+     * @return Command
+     */
     public function commands()
     {
-        return $this->hasManyThrough(Command::class, DeployStep::class);
+        return $this->hasMany(DeployStep::class)->hasOne(Command::class);
+        //return $this->hasManyThrough(Command::class, DeployStep::class, 'deployment_id');
     }
 
     /**
