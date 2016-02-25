@@ -34,9 +34,6 @@
                             </li>
                             @endforeach
                         </ul>
-                        <div class="callout callout-info">
-                            <p>NOTE: The commands which were included in the previous deployment have already been selected</p>
-                        </div>
                     </div>
                     @endif
                 </div>
