@@ -70,7 +70,6 @@ class DeploymentPresenter extends Presenter
             }
         }
 
-
         return implode(',', $commands);
     }
 

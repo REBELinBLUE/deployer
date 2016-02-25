@@ -137,7 +137,6 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                              ->orderBy('order')
                              ->get(['commands.*', 'deployment_id']);
 
-
         $hasMany = new HasMany(Command::query(), $this, 'deployment_id', 'id');
         $hasMany->matchMany([$this], $collection, 'commands');
 
