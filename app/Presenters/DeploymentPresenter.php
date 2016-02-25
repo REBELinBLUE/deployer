@@ -64,9 +64,10 @@ class DeploymentPresenter extends Presenter
     {
         $commands = [];
 
-        foreach ($this->object->commands as $command)
-        {
-            $commands[] = $command->id;
+        foreach ($this->object->commands as $command) {
+            if ($command->optional) {
+                $commands[] = $command->id;
+            }
         }
 
 
