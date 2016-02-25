@@ -11,13 +11,16 @@ var app = app || {};
         var button = $(event.relatedTarget);
 
         var deployment = button.data('deployment-id');
-        var commands = [];
 
-        var tmp = button.data('optional-commands');
+        var tmp = button.data('optional-commands') + '';
+        var commands = tmp.split(',');
+
         if (tmp.length > 0) {
-            commands = $.map(tmp.split(','), function(value) {
+            commands = $.map(commands, function(value) {
                 return parseInt(value, 10);
             });
+        } else {
+            commands = [];
         }
 
         var modal = $(this);
