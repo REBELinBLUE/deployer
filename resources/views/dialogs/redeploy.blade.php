@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title"><i class="fa fa-cloud-upload"></i> {{ Lang::get('deployments.rollback_title') }}</h4>
             </div>
-            <form role="form" method="post" action="{{ route('rollback', ['deployment' => '?']) }}">
+            <form role="form" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div class="modal-body">
 

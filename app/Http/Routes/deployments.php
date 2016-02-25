@@ -14,8 +14,7 @@ Route::group([
         'uses' => 'DeploymentController@deploy',
     ]);
 
-    // FIXME: Should be post
-    Route::get('deployment/{deployments}/rollback', [
+    Route::post('deployment/{deployments}/rollback', [
         'as'   => 'rollback',
         'uses' => 'DeploymentController@rollback',
     ]);
