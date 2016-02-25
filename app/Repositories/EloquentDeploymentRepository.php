@@ -75,7 +75,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * Creates a new deployment based on a previous one.
      *
-     * @param  int  $model_id
+     * @param  int   $model_id
      * @param  array $optional
      * @return void
      */
