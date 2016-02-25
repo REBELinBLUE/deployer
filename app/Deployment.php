@@ -139,8 +139,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
 
 
         $hasMany = new HasMany(Command::query(), $this, 'deployment_id', 'id');
-
-        $hasMany->matchMany(array($this), $collection, 'commands');
+        $hasMany->matchMany([$this], $collection, 'commands');
 
         return $this;
     }
