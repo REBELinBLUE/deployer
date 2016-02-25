@@ -76,28 +76,22 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      * Creates a new deployment based on a previous one.
      *
      * @param  int  $model_id
+     * @param  array $optional
      * @return void
      */
-    public function rollback($model_id)
+    public function rollback($model_id, array $optional = [])
     {
         $previous = $this->getById($model_id);
 
-        $deployment = $this->model->create([
+        return $this->create([
             'committer'       => $previous->committer,
             'committer_email' => $previous->committer_email,
             'commit'          => $previous->commit,
             'project_id'      => $previous->project_id,
             'branch'          => $previous->branch,
             'project_id'      => $previous->project_id,
+            'optional'        => $optional,
         ]);
-
-        $this->dispatch(new QueueDeployment(
-            $deployment->project,
-            $deployment,
-            []
-        ));
-
-        return $deployment;
     }
 
     /**
