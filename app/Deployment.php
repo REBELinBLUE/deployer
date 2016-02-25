@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +44,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'deleted_at', 'updated_at', 'user'];
+    protected $hidden = ['created_at', 'deleted_at', 'updated_at', 'user', 'commands'];
 
     /**
      * Additional attributes to include in the JSON representation.
@@ -109,14 +110,39 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Has Many Through relationship.
+     * Define a command attribute to be able to access to commands relationship.
      *
      * @return Command
      */
-    public function commands()
+    public function getCommandsAttribute()
     {
-        return $this->hasMany(DeployStep::class)->hasOne(Command::class);
-        //return $this->hasManyThrough(Command::class, DeployStep::class, 'deployment_id');
+        if (!$this->relationLoaded('commands')) {
+            $this->loadCommands();
+        }
+
+        return $this->getRelation('commands');
+    }
+
+    /**
+     * Query the DB and load the HasMany relationship for commands.
+     *
+     * @return Deployment
+     */
+    private function loadCommands()
+    {
+        $collection = Command::join('deploy_steps', 'commands.id', '=', 'deploy_steps.command_id')
+                             ->where('deploy_steps.deployment_id', $this->getKey())
+                             ->distinct()
+                             ->orderBy('step')
+                             ->orderBy('order')
+                             ->get(['commands.*', 'deployment_id']);
+
+
+        $hasMany = new HasMany(Command::query(), $this, 'deployment_id', 'id');
+
+        $hasMany->matchMany(array($this), $collection, 'commands');
+
+        return $this;
     }
 
     /**
