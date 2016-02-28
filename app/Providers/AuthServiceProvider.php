@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use REBELinBLUE\Deployer\User;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -29,6 +30,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
-        //
+        // Allow the root user to have access to everything!
+        $gate->before(function (User $user, $ability) {
+            if ($user->hasRole('root')) {
+                return true;
+            }
+        });
     }
 }
