@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use REBELinBLUE\Deployer\Presenters\UserPresenter;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * User model.
@@ -39,7 +40,12 @@ class User extends Model implements
     CanResetPasswordContract,
     PresentableInterface
 {
-    use Authenticatable, CanResetPassword, Authorizable, SoftDeletes, BroadcastChanges;
+    use Authenticatable,
+        CanResetPassword,
+        Authorizable,
+        SoftDeletes,
+        BroadcastChanges,
+        HasRoles;
 
     /**
      * The attributes that are mass assignable.
