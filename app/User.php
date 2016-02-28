@@ -127,4 +127,14 @@ class User extends Model implements
     {
         return !empty($this->google2fa_secret);
     }
+
+    /**
+     * Determine whether the user belongs to the root group.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return $this->hasRole('root');
+    }
 }

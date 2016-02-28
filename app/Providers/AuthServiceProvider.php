@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
-use REBELinBLUE\Deployer\User;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use REBELinBLUE\Deployer\User;
 
 /**
  * Add auth policy provider.
@@ -29,10 +29,19 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
-        // Allow the root user to have access to everything!
         $gate->before(function (User $user, $ability) {
-            if ($user->hasRole('root')) {
+
+            // Allow the root user to have access to everything!
+            if ($user->isSuperAdmin()) {
                 return true;
+            }
+
+            // Define a generic "admin" ability which is true if any part of admin can be accessed
+            if ($ability === 'admin') {
+                return $user->can('admin.projects') ||
+                       $user->can('admin.groups') ||
+                       $user->can('admin.users') ||
+                       $user->can('admin.templates');
             }
         });
     }

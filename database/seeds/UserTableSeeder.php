@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\Role;
+use REBELinBLUE\Deployer\User;
 
 class UserTableSeeder extends Seeder
 {
@@ -24,12 +24,14 @@ class UserTableSeeder extends Seeder
         $admin->assignRole($root);
 
         for ($i = 1; $i < 10; $i++) {
-            User::create([
+            $user = User::create([
                 'name'           => $faker->firstName . ' ' . $faker->lastName,
                 'email'          => $faker->safeEmail,
                 'password'       => bcrypt($faker->password),
                 'remember_token' => str_random(10),
             ]);
+
+            $user->assignRole('user');
         }
     }
 }
