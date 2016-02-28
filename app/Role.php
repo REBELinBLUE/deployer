@@ -9,5 +9,5 @@ use Spatie\Permission\Models\Role as BaseModel;
  */
 class Role extends BaseModel
 {
-
+    // Empty model
 }
