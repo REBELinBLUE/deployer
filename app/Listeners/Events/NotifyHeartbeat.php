@@ -4,13 +4,12 @@ namespace REBELinBLUE\Deployer\Listeners\Events;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Events\Contracts\HasSlackPayloadInterface;
-use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\Jobs\SlackNotify;
 
 /**
  * Event handler class for heartbeat recovery.
  **/
-class NotifyHeartbeat
+class NotifyHeartbeat extends Event
 {
     use DispatchesJobs;
 

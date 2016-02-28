@@ -161,6 +161,7 @@ return [
         Clockwork\Support\Laravel\ClockworkServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...
