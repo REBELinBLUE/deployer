@@ -162,6 +162,7 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        BackupManager\Laravel\Laravel5ServiceProvider::class,
 
         /*
          * Application Service Providers...
