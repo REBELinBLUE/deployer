@@ -159,7 +159,7 @@ class ProjectPresenter extends CommandPresenter
 
     /**
      * Gets an icon which represents the repository type.
-     * 
+     *
      * @return string
      */
     public function presentTypeIcon()
