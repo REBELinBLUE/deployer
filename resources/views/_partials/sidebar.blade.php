@@ -31,10 +31,18 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{ Request::is('admin/projects') ? 'active' : null }}"><a href="{{ url('admin/projects') }}">{{ Lang::get('app.projects') }}</a></li>
-                    <li class="{{ Request::is('admin/templates*') ? 'active' : null }}"><a href="{{ url('admin/templates') }}">{{ Lang::get('app.templates') }}</a></li>
-                    <li class="{{ Request::is('admin/groups') ? 'active' : null }}"><a href="{{ url('admin/groups') }}">{{ Lang::get('app.groups') }}</a></li>
-                    <li class="{{ Request::is('admin/users') ? 'active' : null }}"><a href="{{ url('admin/users') }}">{{ Lang::get('app.users') }}</a></li>
+                    @can('admin.projects')
+                        <li class="{{ Request::is('admin/projects') ? 'active' : null }}"><a href="{{ url('admin/projects') }}">{{ Lang::get('app.projects') }}</a></li>
+                    @endcan
+                    @can('admin.templates')
+                        <li class="{{ Request::is('admin/templates*') ? 'active' : null }}"><a href="{{ url('admin/templates') }}">{{ Lang::get('app.templates') }}</a></li>
+                    @endcan
+                    @can('admin.groups')
+                        <li class="{{ Request::is('admin/groups') ? 'active' : null }}"><a href="{{ url('admin/groups') }}">{{ Lang::get('app.groups') }}</a></li>
+                    @endcan
+                    @can('admin.users')
+                        <li class="{{ Request::is('admin/users') ? 'active' : null }}"><a href="{{ url('admin/users') }}">{{ Lang::get('app.users') }}</a></li>
+                    @endcan
                 </ul>
             </li>
             @endcan
