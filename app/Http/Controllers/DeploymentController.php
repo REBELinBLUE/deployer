@@ -54,6 +54,8 @@ class DeploymentController extends Controller
     {
         $project = $this->projectRepository->getById($project_id);
 
+        $this->authorize('view', $project);
+
         $optional = $project->commands->filter(function (Command $command) {
             return $command->optional;
         });
@@ -88,6 +90,8 @@ class DeploymentController extends Controller
     public function show($deployment_id)
     {
         $deployment = $this->deploymentRepository->getById($deployment_id);
+
+        $this->authorize('view', $deployment->project);
 
         $output = [];
         foreach ($deployment->steps as $step) {
@@ -125,6 +129,8 @@ class DeploymentController extends Controller
     public function deploy(Request $request, $project_id)
     {
         $project = $this->projectRepository->getById($project_id);
+
+        $this->authorize('deplou', $project);
 
         if ($project->servers->where('deploy_code', true)->count() === 0) {
             return redirect()->url('projects', $project->id);
@@ -191,10 +197,12 @@ class DeploymentController extends Controller
      */
     public function abort($deployment_id)
     {
-        $this->deploymentRepository->abort($deployment_id);
+        $deployment = $this->deploymentRepository->abort($deployment_id);
+
+        $this->authorize('deploy', $deployment->project);
 
         return redirect()->route('deployment', [
-            'id' => $deployment_id,
+            'id' => $deployment->id,
         ]);
     }
 
