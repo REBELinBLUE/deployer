@@ -2,8 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use REBELinBLUE\Deployer\Role;
-use REBELinBLUE\Deployer\User;
 
 class CreatePermissionTables extends Migration
 {
@@ -78,19 +76,6 @@ class CreatePermissionTables extends Migration
 
             $table->primary(['permission_id', 'role_id']);
         });
-
-        $root = Role::create([
-            'name'  => 'root',
-            'label' => 'Super Administrator',
-        ]);
-
-        $user = User::findOrFail(1);
-        $user->assignRole($root);
-
-        Role::create([
-            'name'  => 'user',
-            'label' => 'User',
-        ]);
     }
 
     /**

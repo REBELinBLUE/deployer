@@ -19,11 +19,18 @@ class UserTableSeeder extends Seeder
             'remember_token' => str_random(10),
         ]);
 
-        $root = Role::findOrFail(1);
+        $admin->assignRole('root');
 
-        $admin->assignRole($root);
+        $user = User::create([
+            'name'           => 'User',
+            'email'          => 'user@example.com',
+            'password'       => bcrypt('password'),
+            'remember_token' => str_random(10),
+        ]);
 
-        for ($i = 1; $i < 10; $i++) {
+        $user->assignRole('user');
+
+        for ($i = 1; $i < 9; $i++) {
             $user = User::create([
                 'name'           => $faker->firstName . ' ' . $faker->lastName,
                 'email'          => $faker->safeEmail,

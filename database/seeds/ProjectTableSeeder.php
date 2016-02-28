@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Permission;
 
 class ProjectTableSeeder extends Seeder
 {
@@ -9,7 +10,7 @@ class ProjectTableSeeder extends Seeder
     {
         DB::table('projects')->delete();
 
-        Project::create([
+        $project = Project::create([
             'name'              => 'Deployer',
             'hash'              => str_random(60),
             'repository'        => 'https://github.com/REBELinBLUE/deployer.git',
@@ -51,6 +52,11 @@ i5vkNY4OZdOuEV9boFOFYa58WRNK7vthHkZJj++Amu3dZ6RHBlLQ
             'build_url'          => 'http://ci.rebelinblue.com/build-status/image/3?branch=master',
             'allow_other_branch' => true,
             'include_dev'        => false,
+        ]);
+
+        // FIXME: This won't be needed as creating a project will automatically create this
+        Permission::create([
+            'name'  => 'projects.' . $project->id . '.view'
         ]);
     }
 }
