@@ -76,7 +76,6 @@ phpcs.xml export-ignore
 phpmd.xml export-ignore
 phpunit.xml.dist export-ignore
 Vagrantfile export-ignore
-CONTRIBUTING.md export-ignore
 SCREENSHOTS.md export-ignore
 create-release export-ignore
 

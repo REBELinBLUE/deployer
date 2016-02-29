@@ -2,7 +2,7 @@
 
 Deployer is a PHP Application deployment system powered by [Laravel 5.2](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
 
-Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](LICENSE.md), [screenshots](SCREENSHOTS.md), and [contribution guidelines](CONTRIBUTING.md).
+Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](/SCREENSHOTS.md), and [contribution guidelines](/.github/CONTRIBUTING.md).
 
 [![Gitter](https://img.shields.io/badge/chat-on%20gitter-green.svg)](https://gitter.im/REBELinBLUE/deployer)
 
@@ -40,7 +40,7 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 
 ## Usage in production
 
-The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. It is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](CONTRIBUTING.md).
+The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. It is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](/.github/CONTRIBUTING.md).
 
 ## Requirements
 
