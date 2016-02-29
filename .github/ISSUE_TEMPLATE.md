@@ -22,8 +22,11 @@ To help us better understand your issue, please answer the following.
 *If your issue requires any specific steps to reproduce, please outline them here.*
 
 ### Environment info
-Operating System: ?
-Database System ?
+Operating System:
+PHP Version:
+Node Version:
+Database System:
+Database Version:
 
 ### Logs (see storage/logs/) or other output that would be helpful
 (If logs are large, please upload as attachment).
