@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use PDO;
 use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
@@ -222,7 +221,7 @@ class InstallApp extends Command
         $this->line('');
         //$this->call('jwt:generate'); This does not update .ENV so do it manually for now
 
-        return Str::random(32);
+        return str_random(32);
     }
 
     /**
@@ -573,9 +572,8 @@ class InstallApp extends Command
 
         // TODO: allow gd or imagemagick
         // TODO: See if there are any others, maybe clean this list up?
-        $required_extensions = ['PDO', 'curl', 'gd',
-                                'mcrypt', 'json', 'tokenizer',
-                                'openssl', 'mbstring',
+        $required_extensions = ['PDO', 'curl', 'gd', 'json',
+                                'tokenizer', 'openssl', 'mbstring',
                                ];
 
         foreach ($required_extensions as $extension) {

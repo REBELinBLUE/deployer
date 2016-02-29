@@ -30,7 +30,7 @@ class CreateJwt extends Event
      */
     public function handle(Login $event)
     {
-        $tokenId    = base64_encode(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+        $tokenId    = base64_encode(str_random(32));
         $issuedAt   = Carbon::now()->timestamp;
         $notBefore  = $issuedAt;
         $expire     = $notBefore + 6 * 60 * 60; // Adding 6 hours

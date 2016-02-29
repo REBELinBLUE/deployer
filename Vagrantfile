@@ -45,11 +45,6 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "~/.gitconfig", destination: "~/.gitconfig"
     config.vm.provision "file", source: "~/.composer/auth.json", destination: "~/.composer/auth.json"
 
-    # Install mcrypt
-    config.vm.provision "shell", inline: "sudo apt-get update"
-    config.vm.provision "shell", inline: "sudo apt-get install php7.0-mcrypt -y"
-    config.vm.provision "shell", inline: "sudo phpenmod mcrypt"
-
     # Remove postgresql
     config.vm.provision "shell", inline: "sudo apt-get remove postgresql-9.4 postgresql-client-9.4 postgresql-common -y"
     config.vm.provision "shell", inline: "sudo apt-get autoremove"
@@ -60,6 +55,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo rm -rf /var/lib/postgresql"
 
     # Install github changelog generator
+    config.vm.provision "shell", inline: "sudo apt-get update"
     config.vm.provision "shell", inline: "sudo apt-get install ruby ruby-dev -y"
     config.vm.provision "shell", inline: "sudo gem install github_changelog_generator"
 

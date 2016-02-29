@@ -21,7 +21,6 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "ext-mcrypt": "*",
         "laravel/framework": "5.2.*",
         "predis/predis": "~1.0",
         "graham-campbell/htmlmin": "~4.0",
