@@ -67,8 +67,8 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e 'DROP DATABASE IF EXISTS deployer'"
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e 'CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci'"
 
-    # Install redis commander
-    config.vm.provision "shell", inline: "sudo npm install -g redis-commander"
+    # Install JS CS & redis commander
+    config.vm.provision "shell", inline: "sudo npm install -g redis-commander jscs"
 
     # Install beanstalk console
     config.vm.provision "shell", inline: "[ ! -d /var/www/beanstalk ] && sudo composer create-project ptrofimov/beanstalk_console -q -n -s dev /var/www/beanstalk"
@@ -94,6 +94,10 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo service cron restart"
     config.vm.provision "shell", inline: "sudo service php7.0-fpm restart"
 
-    # Update composer and php-cs-fixer
+    # Update .profile
+    config.vm.provision "shell", inline: "echo 'alias artisan=\"php artisan\"' >> /home/vagrant/.profile"
+    config.vm.provision "shell", inline: "echo 'export PATH=/var/www/deployer/vendor/bin:$PATH' >> /home/vagrant/.profile"
+
+    # Update composer on each boot
     config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
 end
