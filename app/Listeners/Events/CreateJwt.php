@@ -40,8 +40,6 @@ class CreateJwt extends Event
         $notBefore  = $issuedAt;
         $expire     = $notBefore + 3 * 60 * 60; // Adding 3 hours
 
-        $expire = $issuedAt + 30;
-
         // Create the token
         $config = [
             'iat'  => $issuedAt,         // Issued at: time when the token was generated
