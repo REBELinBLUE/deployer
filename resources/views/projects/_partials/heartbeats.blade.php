@@ -29,44 +29,48 @@
     </div>
 </div>
 
-<script type="text/template" id="heartbeat-template">
-    <td><%- name %></td>
-    <td><%- callback_url %></td>
-    <td><%- interval_label %></td>
-    <td>
-        <% if (has_run) { %>
-            <%- formatted_date %>
-        <% } else { %>
-            {{ Lang::get('app.never') }}
-        <% } %>
-    </td>
-    <td>
-         <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <%- status %></span>
-    </td>
-    <td>
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('heartbeats.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#heartbeat"><i class="fa fa-edit"></i></button>
-        </div>
-    </td>
-</script>
+@push('javascript')
+    <script type="text/javascript">
+        Lang.heartbeats = {
+            status: {
+                ok: '{{ Lang::get('heartbeats.ok') }}',
+                untested: '{{ Lang::get('heartbeats.untested') }}',
+                missing: '{{ Lang::get('heartbeats.missing') }}'
+            },
+            intervals: {
+                10: '{{ Lang::get('heartbeats.interval_10') }}',
+                30: '{{ Lang::get('heartbeats.interval_30') }}',
+                60: '{{ Lang::get('heartbeats.interval_60') }}',
+                120: '{{ Lang::get('heartbeats.interval_120') }}',
+                720: '{{ Lang::get('heartbeats.interval_720') }}',
+                1440: '{{ Lang::get('heartbeats.interval_1440') }}',
+                10080: '{{ Lang::get('heartbeats.interval_10080') }}'
+            },
+            create: '{{ Lang::get('heartbeats.create') }}',
+            edit: '{{ Lang::get('heartbeats.edit') }}'
+        };
+    </script>
+@endpush
 
-<script type="text/javascript">
-    Lang.heartbeats = {
-        status: {
-            ok: '{{ Lang::get('heartbeats.ok') }}',
-            untested: '{{ Lang::get('heartbeats.untested') }}',
-            missing: '{{ Lang::get('heartbeats.missing') }}'
-        },
-        intervals: {
-            10: '{{ Lang::get('heartbeats.interval_10') }}',
-            30: '{{ Lang::get('heartbeats.interval_30') }}',
-            60: '{{ Lang::get('heartbeats.interval_60') }}',
-            120: '{{ Lang::get('heartbeats.interval_120') }}',
-            720: '{{ Lang::get('heartbeats.interval_720') }}',
-            1440: '{{ Lang::get('heartbeats.interval_1440') }}',
-            10080: '{{ Lang::get('heartbeats.interval_10080') }}'
-        },
-        create: '{{ Lang::get('heartbeats.create') }}',
-        edit: '{{ Lang::get('heartbeats.edit') }}'
-    };
-</script>
+@push('templates')
+    <script type="text/template" id="heartbeat-template">
+        <td><%- name %></td>
+        <td><%- callback_url %></td>
+        <td><%- interval_label %></td>
+        <td>
+            <% if (has_run) { %>
+                <%- formatted_date %>
+            <% } else { %>
+                {{ Lang::get('app.never') }}
+            <% } %>
+        </td>
+        <td>
+             <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <%- status %></span>
+        </td>
+        <td>
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('heartbeats.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#heartbeat"><i class="fa fa-edit"></i></button>
+            </div>
+        </td>
+    </script>
+@endpush

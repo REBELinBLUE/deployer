@@ -29,31 +29,35 @@
     </div>
 </div>
 
-<script type="text/template" id="checkUrls-template">
-    <td><%- title %></td>
-    <td><%- url %></td>
-    <td><%- interval_label %></td>
-    <td>
-        <span class="label label-<%- status_css %>">
-            <i class="fa fa-<%-icon_css %>"></i>
-            <%- status %>
-        </span>
-    </td>
-    <td>
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('checkUrls.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#checkurl"><i class="fa fa-edit"></i></button>
-        </div>
-    </td>
-</script>
+@push('javascript')
+    <script type="text/javascript">
+        Lang.CheckUrls = {
+            create: '{{ Lang::get('checkUrls.create') }}',
+            edit: '{{ Lang::get('checkUrls.edit') }}',
+            success: '{{ Lang::get('checkUrls.successful') }}',
+            failure: '{{ Lang::get('checkUrls.failed') }}',
+            yes: '{{ Lang::get('app.yes') }}',
+            no: '{{ Lang::get('app.no') }}',
+            length: '{{ strtolower(Lang::get('checkUrls.length')) }}'
+        };
+    </script>
+@endpush
 
-<script type="text/javascript">
-    Lang.CheckUrls = {
-        create: '{{ Lang::get('checkUrls.create') }}',
-        edit: '{{ Lang::get('checkUrls.edit') }}',
-        success: '{{ Lang::get('checkUrls.successful') }}',
-        failure: '{{ Lang::get('checkUrls.failed') }}',
-        yes: '{{ Lang::get('app.yes') }}',
-        no: '{{ Lang::get('app.no') }}',
-        length: '{{ strtolower(Lang::get('checkUrls.length')) }}'
-    };
-</script>
+@push('templates')
+    <script type="text/template" id="checkUrls-template">
+        <td><%- title %></td>
+        <td><%- url %></td>
+        <td><%- interval_label %></td>
+        <td>
+            <span class="label label-<%- status_css %>">
+                <i class="fa fa-<%-icon_css %>"></i>
+                <%- status %>
+            </span>
+        </td>
+        <td>
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('checkUrls.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#checkurl"><i class="fa fa-edit"></i></button>
+            </div>
+        </td>
+    </script>
+@endpush

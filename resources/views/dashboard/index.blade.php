@@ -68,7 +68,7 @@
     </div>
 @stop
 
-@section('javascript')
+@push('javascript')
     <script type="text/javascript">
         Lang.projects = {
             status: {
@@ -80,4 +80,4 @@
             }
         };
     </script>
-@stop
+@endpush

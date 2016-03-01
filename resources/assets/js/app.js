@@ -207,7 +207,7 @@ toastr.options.extendedTimeOut = 7000;
         $('#deployment_info_' + data.model.id).remove();
         $('#pending_menu, #deploying_menu').show();
 
-        var template = _.template($('#deployment_list_template').html());
+        var template = _.template($('#deployment-list-template').html());
         var html = template(data.model);
 
         if (data.model.status === DEPLOYMENT_PENDING) {

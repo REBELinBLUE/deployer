@@ -41,7 +41,26 @@
     </div>
 
     @include('dialogs.log')
+@stop
 
+@push('javascript')
+    <script type="text/javascript">
+        Lang.status = {
+            pending: '{{ Lang::get('deployments.pending') }}',
+            running: '{{ Lang::get('deployments.running') }}',
+            failed: '{{ Lang::get('servers.failed') }}',
+            cancelled: '{{ Lang::get('deployments.cancelled') }}',
+            completed: '{{ Lang::get('deployments.completed') }}'
+        };
+
+        new app.DeploymentView();
+        app.Deployment.add({!! $output !!});
+
+        app.project_id = {{ $deployment->project_id }};
+    </script>
+@endpush
+
+@push('templates')
     <script type="text/template" id="log-template">
         <td width="30%"><%- server.name %></td>
         <td width="15%">
@@ -76,23 +95,4 @@
             </div>
         </td>
     </script>
-
-    <script type="text/javascript">
-        Lang.status = {
-            pending: '{{ Lang::get('deployments.pending') }}',
-            running: '{{ Lang::get('deployments.running') }}',
-            failed: '{{ Lang::get('servers.failed') }}',
-            cancelled: '{{ Lang::get('deployments.cancelled') }}',
-            completed: '{{ Lang::get('deployments.completed') }}'
-        };
-    </script>
-@stop
-
-@section('javascript')
-    <script type="text/javascript">
-        new app.DeploymentView();
-        app.Deployment.add({!! $output !!});
-
-        app.project_id = {{ $deployment->project_id }};
-    </script>
-@stop
+@endpush

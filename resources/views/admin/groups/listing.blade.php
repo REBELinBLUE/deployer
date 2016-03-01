@@ -19,7 +19,26 @@
     </div>
 
     @include('admin.dialogs.group')
+@stop
 
+@section('right-buttons')
+    <div class="pull-right">
+        <button type="button" class="btn btn-default" title="{{ Lang::get('groups.create') }}" data-toggle="modal" data-target="#group"><span class="fa fa-plus"></span> {{ Lang::get('groups.create') }}</button>
+    </div>
+@stop
+
+@push('javascript')
+    <script type="text/javascript">
+        Lang.create = '{{ Lang::get('groups.create') }}';
+        Lang.edit = '{{ Lang::get('groups.edit') }}';
+        var groups = {!! $groups->toJson() !!};
+
+        new app.GroupsTab();
+        app.Groups.add(groups);
+    </script>
+@endpush
+
+@push('templates')
     <script type="text/template" id="group-template">
         <td data-group-id="<%- id %>"><%- name %></td>
         <td><%- project_count %></td>
@@ -42,24 +61,4 @@
             </ul>
         </li>
     </script>
-
-    <script type="text/javascript">
-        Lang.create = '{{ Lang::get('groups.create') }}';
-        Lang.edit = '{{ Lang::get('groups.edit') }}';
-    </script>
-@stop
-
-@section('javascript')
-    <script type="text/javascript">
-        var groups = {!! $groups->toJson() !!};
-
-        new app.GroupsTab();
-        app.Groups.add(groups);
-    </script>
-@stop
-
-@section('right-buttons')
-    <div class="pull-right">
-        <button type="button" class="btn btn-default" title="{{ Lang::get('groups.create') }}" data-toggle="modal" data-target="#group"><span class="fa fa-plus"></span> {{ Lang::get('groups.create') }}</button>
-    </div>
-@stop
+@endpush

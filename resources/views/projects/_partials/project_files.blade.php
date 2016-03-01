@@ -27,20 +27,24 @@
     </div>
 </div>
 
-<script type="text/template" id="project-files-template">
-    <td><%- name %></td>
-    <td><%- path %></td>
-    <td>
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default btn-view" title="{{ Lang::get('projectFiles.view') }}" data-toggle="modal" data-backdrop="static" data-target="#view-projectfile"><i class="fa fa-eye"></i></button>
-            <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('projectFiles.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#projectfile"><i class="fa fa-edit"></i></button>
-        </div>
-    </td>
-</script>
+@push('javascript')
+    <script type="text/javascript">
+        Lang.projectFiles = {
+            create: '{{ Lang::get('projectFiles.create') }}',
+            edit: '{{ Lang::get('projectFiles.edit') }}'
+        };
+    </script>
+@endpush
 
-<script type="text/javascript">
-    Lang.projectFiles = {
-        create: '{{ Lang::get('projectFiles.create') }}',
-        edit: '{{ Lang::get('projectFiles.edit') }}'
-    };
-</script>
+@push('templates')
+    <script type="text/template" id="project-files-template">
+        <td><%- name %></td>
+        <td><%- path %></td>
+        <td>
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-view" title="{{ Lang::get('projectFiles.view') }}" data-toggle="modal" data-backdrop="static" data-target="#view-projectfile"><i class="fa fa-eye"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('projectFiles.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#projectfile"><i class="fa fa-edit"></i></button>
+            </div>
+        </td>
+    </script>
+@endpush

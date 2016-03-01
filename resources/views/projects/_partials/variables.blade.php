@@ -26,19 +26,23 @@
     </div>
 </div>
 
-<script type="text/template" id="variable-template">
-    <td data-variable-id="<%- id %>"><%- name %></td>
-    <td><%- value %></td>
-    <td>
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('variables.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#variable"><i class="fa fa-edit"></i></button>
-        </div>
-    </td>
-</script>
+@push('javascript')
+    <script type="text/javascript">
+        Lang.variables = {
+            create: '{{ Lang::get('variables.create') }}',
+            edit: '{{ Lang::get('variables.edit') }}'
+        };
+    </script>
+@endpush
 
-<script type="text/javascript">
-    Lang.variables = {
-        create: '{{ Lang::get('variables.create') }}',
-        edit: '{{ Lang::get('variables.edit') }}'
-    };
-</script>
+@push('templates')
+    <script type="text/template" id="variable-template">
+        <td data-variable-id="<%- id %>"><%- name %></td>
+        <td><%- value %></td>
+        <td>
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('variables.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#variable"><i class="fa fa-edit"></i></button>
+            </div>
+        </td>
+    </script>
+@endpush

@@ -57,41 +57,45 @@
     </div>
 </div>
 
-<script type="text/template" id="notification-template">
-    <td><%- name %></td>
-    <td><%- channel %></td>
-    <td>
-        <% if (failure_only) { %>
-            {{ Lang::get('app.yes') }}
-        <% } else { %>
-            {{ Lang::get('app.no') }}
-        <% } %>
-    </td>
-    <td>
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('notifications.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#notification"><i class="fa fa-edit"></i></button>
-        </div>
-    </td>
-</script>
+@push('javascript')
+    <script type="text/javascript">
+        Lang.notifyEmails = {
+            create: '{{ Lang::get('notifyEmails.create') }}',
+            edit: '{{ Lang::get('notifyEmails.edit') }}'
+        };
 
-<script type="text/template" id="notifyemail-template">
-    <td><%- name %></td>
-    <td><%- email %></td>
-    <td>
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('notifyEmails.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#notifyemail"><i class="fa fa-edit"></i></button>
-        </div>
-    </td>
-</script>
+        Lang.notifications = {
+            create: '{{ Lang::get('notifications.create') }}',
+            edit: '{{ Lang::get('notifications.edit') }}'
+        };
+    </script>
+@endpush
 
-<script type="text/javascript">
-    Lang.notifyEmails = {
-        create: '{{ Lang::get('notifyEmails.create') }}',
-        edit: '{{ Lang::get('notifyEmails.edit') }}'
-    };
+@push('templates')
+    <script type="text/template" id="notification-template">
+        <td><%- name %></td>
+        <td><%- channel %></td>
+        <td>
+            <% if (failure_only) { %>
+                {{ Lang::get('app.yes') }}
+            <% } else { %>
+                {{ Lang::get('app.no') }}
+            <% } %>
+        </td>
+        <td>
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('notifications.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#notification"><i class="fa fa-edit"></i></button>
+            </div>
+        </td>
+    </script>
 
-    Lang.notifications = {
-        create: '{{ Lang::get('notifications.create') }}',
-        edit: '{{ Lang::get('notifications.edit') }}'
-    };
-</script>
+    <script type="text/template" id="notifyemail-template">
+        <td><%- name %></td>
+        <td><%- email %></td>
+        <td>
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('notifyEmails.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#notifyemail"><i class="fa fa-edit"></i></button>
+            </div>
+        </td>
+    </script>
+@endpush

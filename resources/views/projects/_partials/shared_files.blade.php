@@ -27,19 +27,23 @@
     </div>
 </div>
 
-<script type="text/template" id="files-template">
-    <td><%- name %></td>
-    <td><%- file %></td>
-    <td>
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('sharedFiles.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#sharefile"><i class="fa fa-edit"></i></button>
-        </div>
-    </td>
-</script>
+@push('javascript')
+    <script type="text/javascript">
+        Lang.sharedFiles = {
+            create: '{{ Lang::get('sharedFiles.create') }}',
+            edit: '{{ Lang::get('sharedFiles.edit') }}'
+        };
+    </script>
+@endpush
 
-<script type="text/javascript">
-    Lang.sharedFiles = {
-        create: '{{ Lang::get('sharedFiles.create') }}',
-        edit: '{{ Lang::get('sharedFiles.edit') }}'
-    };
-</script>
+@push('templates')
+    <script type="text/template" id="files-template">
+        <td><%- name %></td>
+        <td><%- file %></td>
+        <td>
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('sharedFiles.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#sharefile"><i class="fa fa-edit"></i></button>
+            </div>
+        </td>
+    </script>
+@endpush
