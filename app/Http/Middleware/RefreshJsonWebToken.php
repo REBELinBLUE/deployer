@@ -12,7 +12,7 @@ use Tymon\JWTAuth\JWTAuth;
 /**
  * Middleware to ensure the JSON web token is still valid.
  */
-class VerifyWebSocketToken
+class RefreshJsonWebToken
 {
     /**
      * @var JWTAuth

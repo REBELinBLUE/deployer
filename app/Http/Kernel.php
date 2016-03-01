@@ -67,7 +67,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \REBELinBLUE\Deployer\Http\Middleware\Authenticate::class,
-        'jwt' => \REBELinBLUE\Deployer\Http\Middleware\VerifyWebSocketToken::class,
+        'jwt' => \REBELinBLUE\Deployer\Http\Middleware\RefreshJsonWebToken::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest'  => \REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,

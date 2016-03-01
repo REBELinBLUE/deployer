@@ -2,17 +2,18 @@
 
 namespace REBELinBLUE\Deployer\Events;
 
+use Illuminate\Auth\Events\Login as Event;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\User;
 
+/**
+ * Event which is fired when the JSON web token expires.
+ */
 class JsonWebTokenExpired extends Event
 {
     use SerializesModels;
 
     public $user;
-    public $token;
-
     /**
      * Create a new event instance.
      *
