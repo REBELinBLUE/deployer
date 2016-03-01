@@ -90,8 +90,13 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "sudo service cron restart"
     config.vm.provision "shell", inline: "sudo service php7.0-fpm restart"
 
+    # Stop composer complaining - sudo phpdismod -s cli xdebug isn't working
+    config.vm.provision "shell", inline: "sudo rm /etc/php/7.0/cli/conf.d/20-xdebug.ini"
+
     # Update .profile
+    config.vm.provision "shell", inline: "echo 'alias php=\"php -dzend_extension=xdebug.so\"' >> /home/vagrant/.profile"
     config.vm.provision "shell", inline: "echo 'alias artisan=\"php artisan\"' >> /home/vagrant/.profile"
+    config.vm.provision "shell", inline: "echo 'alias phpunit=\"php $(which phpunit)\"' >> /home/vagrant/.profile"
     config.vm.provision "shell", inline: "echo 'export PATH=/var/www/deployer/vendor/bin:$PATH' >> /home/vagrant/.profile"
 
     # Update composer on each boot
