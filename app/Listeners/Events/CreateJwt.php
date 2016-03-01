@@ -5,14 +5,12 @@ namespace REBELinBLUE\Deployer\Listeners\Events;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Session;
-use REBELinBLUE\Deployer\Events\Event;
-use REBELinBLUE\Deployer\Listeners\Events\Event as EventListener;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
  * Event listener class to create JWT on login.
  */
-class CreateJwt extends EventListener
+class CreateJwt extends Event
 {
     /**
      * Create the event listener.
@@ -30,14 +28,12 @@ class CreateJwt extends EventListener
      * @param  Login|JsonWebTokenExpired $event
      * @return void
      */
-    public function handle(Event $event)
+    public function handle($event)
     {
         $tokenId    = base64_encode(str_random(32));
         $issuedAt   = Carbon::now()->timestamp;
         $notBefore  = $issuedAt;
         $expire     = $notBefore + 3 * 60 * 60; // Adding 3 hours
-
-        $expire = $notBefore + 30;
 
         // Create the token
         $config = [
