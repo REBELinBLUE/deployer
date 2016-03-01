@@ -86,7 +86,7 @@ class UpdateApp extends InstallApp
             '--database'        => config('database.default'),
             '--destination'     => 'local',
             '--destinationPath' => $date,
-            '--compression'     => 'gzip'
+            '--compression'     => 'gzip',
         ]);
     }
 

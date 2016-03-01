@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console;
 
+use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,8 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $customBooters = [
-        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class
-            => \REBELinBLUE\Deployer\Bootstrap\ConfigureLogging::class,
+        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => ConfigureLogging::class,
     ];
 
     /**

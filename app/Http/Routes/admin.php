@@ -2,7 +2,7 @@
 
 // Administration
 Route::group([
-    'middleware' => ['web', 'auth'],
+    'middleware' => ['web', 'auth', 'jwt'],
     'prefix'     => 'admin',
     'namespace'  => 'Admin',
 ], function () {

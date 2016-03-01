@@ -3,7 +3,7 @@
 
 // User profile
 Route::group([
-    'middleware' => ['web', 'auth'],
+    'middleware' => ['web', 'auth', 'jwt'],
 ], function () {
 
     Route::get('profile', [
