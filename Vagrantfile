@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
     # Install github changelog generator
     config.vm.provision "shell", inline: "sudo apt-get update"
     config.vm.provision "shell", inline: "sudo apt-get install ruby ruby-dev -y"
-    config.vm.provision "shell", inline: "sudo gem install github_changelog_generator"
+    config.vm.provision "shell", inline: "sudo gem install github_changelog_generator -v 1.11.3"
 
     # Create DB
     config.vm.provision "shell", inline: "mysql -uhomestead -psecret -e 'DROP DATABASE IF EXISTS deployer'"
