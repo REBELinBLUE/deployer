@@ -246,7 +246,8 @@
             "require": {
                 "illuminate/console": "5.0.x|5.1.x|5.2.x",
                 "illuminate/filesystem": "5.0.x|5.1.x|5.2.x",
-                "illuminate/support": "5.0.x|5
+                "illuminate/support": "5.0.x|5.1.x|5.2.x",
+                "php": ">=5.4.0",
                 "phpdocumentor/reflection-docblock": "^2.0.4",
                 "symfony/class-loader": "~2.3|~3.0"
             },
@@ -1442,19 +1443,7 @@
         },
         {
             "name": "laravel/framework",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
             "version": "v5.2.22",
-=======
-=======
->>>>>>> Added IDE helper
-<<<<<<< HEAD
-=======
->>>>>>> Updated
-            "version": "v5.2.20",
->>>>>>> Updated dependencies
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
@@ -1462,47 +1451,8 @@
             },
             "dist": {
                 "type": "zip",
-<<<<<<< HEAD
                 "url": "https://api.github.com/repos/laravel/framework/zipball/aec1b7cb9ec0bac0107361a3730cac9b6f945ef4",
                 "reference": "aec1b7cb9ec0bac0107361a3730cac9b6f945ef4",
-=======
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d4ff9a1e3e9b2f99f8f3e957876e343d804d944f",
-                "reference": "d4ff9a1e3e9b2f99f8f3e957876e343d804d944f",
-<<<<<<< HEAD
-=======
-            "version": "v5.2.16",
-=======
-            "version": "v5.2.20",
->>>>>>> Added IDE helper
-=======
-            "version": "v5.2.21",
->>>>>>> Added a method to load the commands used in a deployment
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "4df24638165650a833e072851cad39606da89faf"
-            },
-            "dist": {
-                "type": "zip",
-<<<<<<< HEAD
-<<<<<<< HEAD
-                "url": "https://api.github.com/repos/laravel/framework/zipball/39e89553c124dce266da03ee3c0260bdd62f1848",
-                "reference": "39e89553c124dce266da03ee3c0260bdd62f1848",
->>>>>>> Updated dependencies
-<<<<<<< HEAD
->>>>>>> Updated dependencies
-=======
-=======
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d4ff9a1e3e9b2f99f8f3e957876e343d804d944f",
-                "reference": "d4ff9a1e3e9b2f99f8f3e957876e343d804d944f",
->>>>>>> Added IDE helper
->>>>>>> Added IDE helper
-=======
->>>>>>> Updated
-=======
-                "url": "https://api.github.com/repos/laravel/framework/zipball/4df24638165650a833e072851cad39606da89faf",
-                "reference": "4df24638165650a833e072851cad39606da89faf",
->>>>>>> Added a method to load the commands used in a deployment
                 "shasum": ""
             },
             "require": {
@@ -1617,32 +1567,7 @@
                 "framework",
                 "laravel"
             ],
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
             "time": "2016-02-27 22:09:19"
-=======
-=======
->>>>>>> Added IDE helper
-<<<<<<< HEAD
-            "time": "2016-02-19 17:58:28"
-=======
-            "time": "2016-02-15 17:46:58"
->>>>>>> Updated dependencies
-<<<<<<< HEAD
->>>>>>> Updated dependencies
-=======
-=======
-            "time": "2016-02-19 17:58:28"
->>>>>>> Added IDE helper
->>>>>>> Added IDE helper
-=======
-            "time": "2016-02-19 17:58:28"
->>>>>>> Updated
-=======
-            "time": "2016-02-24 15:13:36"
->>>>>>> Added a method to load the commands used in a deployment
         },
         {
             "name": "league/flysystem",
@@ -2530,7 +2455,6 @@
         },
         {
             "name": "psy/psysh",
-<<<<<<< HEAD
             "version": "v0.7.1",
             "source": {
                 "type": "git",
@@ -2541,18 +2465,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/bobthecow/psysh/zipball/5e8cedbe0a3681f18782594eefc78423f8401fc8",
                 "reference": "5e8cedbe0a3681f18782594eefc78423f8401fc8",
-=======
-            "version": "v0.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "1573b36948a32bdaf43db525edf5e95d5a08ed06"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/1573b36948a32bdaf43db525edf5e95d5a08ed06",
-                "reference": "1573b36948a32bdaf43db525edf5e95d5a08ed06",
->>>>>>> Added a method to load the commands used in a deployment
                 "shasum": ""
             },
             "require": {
@@ -2611,11 +2523,7 @@
                 "interactive",
                 "shell"
             ],
-<<<<<<< HEAD
             "time": "2016-02-27 18:59:18"
-=======
-            "time": "2016-02-20 16:27:05"
->>>>>>> Added a method to load the commands used in a deployment
         },
         {
             "name": "robclancy/presenter",
@@ -2774,7 +2682,6 @@
         },
         {
             "name": "symfony/class-loader",
-<<<<<<< HEAD
             "version": "v3.0.3",
             "source": {
                 "type": "git",
@@ -2796,34 +2703,11 @@
             },
             "suggest": {
                 "symfony/polyfill-apcu": "For using ApcClassLoader on HHVM"
-=======
-            "version": "v2.8.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/class-loader.git",
-                "reference": "98e9089a428ed0e39423b67352c57ef5910a3269"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/class-loader/zipball/98e9089a428ed0e39423b67352c57ef5910a3269",
-                "reference": "98e9089a428ed0e39423b67352c57ef5910a3269",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "symfony/finder": "~2.0,>=2.0.5|~3.0.0"
->>>>>>> Added IDE helper
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-<<<<<<< HEAD
                     "dev-master": "3.0-dev"
-=======
-                    "dev-master": "2.8-dev"
->>>>>>> Added IDE helper
                 }
             },
             "autoload": {
@@ -2850,11 +2734,7 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2016-02-03 09:33:23"
-=======
-            "time": "2016-01-03 15:33:41"
->>>>>>> Added IDE helper
         },
         {
             "name": "symfony/console",
@@ -4365,15 +4245,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Official version of pdepend to be handled with Composer",
-<<<<<<< HEAD
-<<<<<<< HEAD
             "time": "2016-02-23 08:20:26"
-=======
-            "time": "2015-10-16 08:49:58"
->>>>>>> Added IDE helper
-=======
-            "time": "2016-02-23 08:20:26"
->>>>>>> Added a method to load the commands used in a deployment
         },
         {
             "name": "phploc/phploc",
@@ -5576,7 +5448,6 @@
         },
         {
             "name": "symfony/config",
-<<<<<<< HEAD
             "version": "v3.0.3",
             "source": {
                 "type": "git",
@@ -5587,29 +5458,14 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/config/zipball/79a97025f7bf4bbf8352b5df1905aa136a531066",
                 "reference": "79a97025f7bf4bbf8352b5df1905aa136a531066",
-=======
-            "version": "v3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/config.git",
-                "reference": "8c83ff9a2ffbed1e606bc816db11ddc2385a16ee"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/8c83ff9a2ffbed1e606bc816db11ddc2385a16ee",
-                "reference": "8c83ff9a2ffbed1e606bc816db11ddc2385a16ee",
->>>>>>> Added a method to load the commands used in a deployment
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5.9",
                 "symfony/filesystem": "~2.8|~3.0"
-<<<<<<< HEAD
             },
             "suggest": {
                 "symfony/yaml": "To use the yaml reference dumper"
-=======
->>>>>>> Added a method to load the commands used in a deployment
             },
             "type": "library",
             "extra": {
@@ -5641,11 +5497,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2016-02-23 15:16:06"
-=======
-            "time": "2016-01-21 09:38:31"
->>>>>>> Added a method to load the commands used in a deployment
         },
         {
             "name": "symfony/css-selector",
@@ -5702,7 +5554,6 @@
         },
         {
             "name": "symfony/dependency-injection",
-<<<<<<< HEAD
             "version": "v3.0.3",
             "source": {
                 "type": "git",
@@ -5713,18 +5564,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/821800ae6753b88dab55a7280811d8734b8112bf",
                 "reference": "821800ae6753b88dab55a7280811d8734b8112bf",
-=======
-            "version": "v3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "7f2ec173cc0366efa0ca1f6b1255803ed7c17028"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/7f2ec173cc0366efa0ca1f6b1255803ed7c17028",
-                "reference": "7f2ec173cc0366efa0ca1f6b1255803ed7c17028",
->>>>>>> Added a method to load the commands used in a deployment
                 "shasum": ""
             },
             "require": {
@@ -5770,11 +5609,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2016-02-28 16:50:08"
-=======
-            "time": "2016-02-02 13:48:39"
->>>>>>> Added a method to load the commands used in a deployment
         },
         {
             "name": "symfony/dom-crawler",
@@ -5834,7 +5669,6 @@
         },
         {
             "name": "symfony/filesystem",
-<<<<<<< HEAD
             "version": "v3.0.3",
             "source": {
                 "type": "git",
@@ -5845,18 +5679,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/filesystem/zipball/23ae8f9648d0a7fe94a47c8e20e5bf37c489a451",
                 "reference": "23ae8f9648d0a7fe94a47c8e20e5bf37c489a451",
-=======
-            "version": "v3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/filesystem.git",
-                "reference": "064ac12afd2ceb8a2c1bfb7bed8e931c6dd1997f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/064ac12afd2ceb8a2c1bfb7bed8e931c6dd1997f",
-                "reference": "064ac12afd2ceb8a2c1bfb7bed8e931c6dd1997f",
->>>>>>> Added a method to load the commands used in a deployment
                 "shasum": ""
             },
             "require": {
@@ -5892,11 +5714,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2016-02-23 15:16:06"
-=======
-            "time": "2016-01-27 11:34:55"
->>>>>>> Added a method to load the commands used in a deployment
         },
         {
             "name": "symfony/stopwatch",
@@ -6039,17 +5857,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-<<<<<<< HEAD
     "stability-flags": {
-<<<<<<< HEAD
         "andywer/js-localization": 20
-=======
-        "version/version": 20
->>>>>>> Compare tags with version suffixes
     },
-=======
-    "stability-flags": [],
->>>>>>> Updated dependencies
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

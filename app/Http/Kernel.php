@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http;
 
-use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging;
+use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as HttpLogging;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging;
 
@@ -16,7 +16,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $customBooters = [
-        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => ConfigureLogging::class,
+        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => HttpLogging::class,
     ];
 
     /**
