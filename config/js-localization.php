@@ -66,6 +66,6 @@ return [
     | Attention: Should not be used in production mode due to decreased performance.
     |--------------------------------------------------------------------------
     */
-    'disable_config_cache' => true,
+    'disable_config_cache' => false,
 
 ];
