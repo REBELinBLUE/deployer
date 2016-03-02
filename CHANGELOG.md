@@ -8,8 +8,6 @@
 - Remove need for mcrypt [\#183](https://github.com/REBELinBLUE/deployer/issues/183)
 - Have the update process backup the DB [\#177](https://github.com/REBELinBLUE/deployer/issues/177)
 - Re-ordering groups [\#176](https://github.com/REBELinBLUE/deployer/issues/176)
-- Replace node socket server [\#175](https://github.com/REBELinBLUE/deployer/issues/175)
-- Checking if composer exists [\#103](https://github.com/REBELinBLUE/deployer/issues/103)
 - Mirroring repositories locally to deployer [\#129](https://github.com/REBELinBLUE/deployer/pull/129) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Checking if composer is installed [\#104](https://github.com/REBELinBLUE/deployer/pull/104) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
