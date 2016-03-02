@@ -1,19 +1,24 @@
 # Change Log
 
-## [0.0.30](https://github.com/REBELinBLUE/deployer/tree/0.0.30) (2016-02-15)
+## [0.0.30](https://github.com/REBELinBLUE/deployer/tree/0.0.30) (2016-03-02)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.29...0.0.30)
 
 **Implemented enhancements:**
 
+- Remove need for mcrypt [\#183](https://github.com/REBELinBLUE/deployer/issues/183)
+- Have the update process backup the DB [\#177](https://github.com/REBELinBLUE/deployer/issues/177)
 - Re-ordering groups [\#176](https://github.com/REBELinBLUE/deployer/issues/176)
+- Replace node socket server [\#175](https://github.com/REBELinBLUE/deployer/issues/175)
+- Checking if composer exists [\#103](https://github.com/REBELinBLUE/deployer/issues/103)
+- Mirroring repositories locally to deployer [\#129](https://github.com/REBELinBLUE/deployer/pull/129) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Checking if composer is installed [\#104](https://github.com/REBELinBLUE/deployer/pull/104) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 **Fixed bugs:**
 
+- Refresh JWT when it expires [\#180](https://github.com/REBELinBLUE/deployer/issues/180)
 - SQLite installation no longer works [\#169](https://github.com/REBELinBLUE/deployer/issues/169)
-
-**Closed issues:**
-
-- While running queue always error "No query results for model" [\#172](https://github.com/REBELinBLUE/deployer/issues/172)
+- Aborting a deployment before the git info has been loaded leaves the committer etc as "Loading..." [\#150](https://github.com/REBELinBLUE/deployer/issues/150)
+- Persistent file permissions [\#93](https://github.com/REBELinBLUE/deployer/issues/93)
 
 ## [0.0.29](https://github.com/REBELinBLUE/deployer/tree/0.0.29) (2016-02-05)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.28...0.0.29)

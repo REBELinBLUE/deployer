@@ -396,11 +396,37 @@ class DeployProject extends Job implements ShouldQueue
         } elseif ($step->stage === Stage::DO_INSTALL) {
             // Install composer dependencies
             $commands = [
+                sprintf(
+                    // If there is no composer file, skip this step
+                    '[ ! -f %s/composer.json ] && exit 0',
+                    $latest_release_dir
+                ),
+                sprintf('cd %s', $root_dir),
+                sprintf(
+                    // If composer isn't installed check for composer.phar
+                    // Then check for the phar in the root dir, if not then
+                    // download it and then set an alias
+                    'composer="$(command -v composer)"
+                    if ! hash composer 2>/dev/null; then
+                        composer="$(command -v composer.phar)"
+
+                        if ! hash composer.phar 2>/dev/null; then
+                            if [ ! -f %s/composer.phar ]; then
+                                curl -sS https://getcomposer.org/installer | php
+                                chmod +x composer.phar
+                            fi
+
+                            composer="php %s/composer.phar"
+                        fi
+                    fi',
+                    $root_dir,
+                    $root_dir
+                ),
                 sprintf('cd %s', $latest_release_dir),
                 sprintf(
-                    '( [ -f %s/composer.json ] && composer install --no-interaction --optimize-autoloader ' .
+                    '$composer install --no-interaction --optimize-autoloader ' .
                     ($project->include_dev ? '' : '--no-dev ') .
-                    '--prefer-dist --no-ansi --working-dir "%s" || exit 0 )',
+                    '--prefer-dist --no-ansi --working-dir "%s"',
                     $latest_release_dir,
                     $latest_release_dir
                 ),
