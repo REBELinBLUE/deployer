@@ -5,7 +5,7 @@ var app = app || {};
     $('#notification').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.notifications.create;
+        var title = Lang.get('notifications.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -13,7 +13,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.notifications.edit;
+            title = Lang.get('notifications.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#notification_id').val('');
@@ -185,7 +185,7 @@ var app = app || {};
         },
         addOne: function (notification) {
 
-            var view = new app.NotificationView({ 
+            var view = new app.NotificationView({
                 model: notification
             });
 

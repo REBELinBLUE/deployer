@@ -21,7 +21,24 @@
     </div>
 
     @include('admin.dialogs.user')
+@stop
 
+@section('right-buttons')
+    <div class="pull-right">
+        <button type="button" class="btn btn-default" title="{{ Lang::get('users.create') }}" data-toggle="modal" data-target="#user"><span class="fa fa-plus"></span> {{ Lang::get('users.create') }}</button>
+    </div>
+@stop
+
+@push('javascript')
+    <script type="text/javascript">
+        var users = {!! $users !!};
+
+        new app.UsersTab();
+        app.Users.add(users);
+    </script>
+@endpush
+
+@push('templates')
     <script type="text/template" id="user-template">
         <td><%- name %></td>
         <td><%- email %></td>
@@ -39,24 +56,4 @@
             </div>
         </td>
     </script>
-
-    <script type="text/javascript">
-        Lang.create = '{{ Lang::get('users.create') }}';
-        Lang.edit = '{{ Lang::get('users.edit') }}';
-    </script>
-@stop
-
-@section('javascript')
-    <script type="text/javascript">
-        var users = {!! $users !!};
-
-        new app.UsersTab();
-        app.Users.add(users);
-    </script>
-@stop
-
-@section('right-buttons')
-    <div class="pull-right">
-        <button type="button" class="btn btn-default" title="{{ Lang::get('users.create') }}" data-toggle="modal" data-target="#user"><span class="fa fa-plus"></span> {{ Lang::get('users.create') }}</button>
-    </div>
-@stop
+@endpush

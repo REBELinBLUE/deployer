@@ -27,7 +27,7 @@ var app = app || {};
     $('#projectfile').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.projectFiles.create;
+        var title = Lang.get('projectFiles.create');
 
         editor = ace.edit('project-file-content');
 
@@ -46,7 +46,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.projectFiles.edit;
+            title = Lang.get('projectFiles.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#project_file_id').val('');
@@ -216,7 +216,7 @@ var app = app || {};
         },
         addOne: function (file) {
 
-            var view = new app.ProjectFileView({ 
+            var view = new app.ProjectFileView({
                 model: file
             });
 

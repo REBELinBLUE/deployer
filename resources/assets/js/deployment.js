@@ -7,6 +7,36 @@ var app = app || {};
     var FAILED    = 3;
     var CANCELLED = 4;
 
+    $('#redeploy').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+
+        var deployment = button.data('deployment-id');
+
+        var tmp = button.data('optional-commands') + '';
+        var commands = tmp.split(',');
+
+        if (tmp.length > 0) {
+            commands = $.map(commands, function(value) {
+                return parseInt(value, 10);
+            });
+        } else {
+            commands = [];
+        }
+
+        var modal = $(this);
+
+        $('form', modal).prop('action', '/deployment/' + deployment + '/rollback');
+
+        $('input:checkbox', modal).each(function (index, element) {
+            var input = $(element);
+
+            input.prop('checked', false);
+            if ($.inArray(parseInt(input.val(), 10), commands) != -1) {
+                input.prop('checked', true);
+            }
+        });
+    });
+
     $('#log').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var log_id = button.attr('id').replace('log_', '');
@@ -137,23 +167,23 @@ var app = app || {};
 
             data.status_css = 'info';
             data.icon_css = 'clock-o';
-            data.status = Lang.status.pending;
+            data.status = Lang.get('deployments.pending');
 
             if (parseInt(this.model.get('status')) === COMPLETED) {
                 data.status_css = 'success';
                 data.icon_css = 'check';
-                data.status = Lang.status.completed;
+                data.status = Lang.get('deployments.completed');
             } else if (parseInt(this.model.get('status')) === RUNNING) {
                 data.status_css = 'warning';
                 data.icon_css = 'spinner fa-spin';
-                data.status = Lang.status.running;
+                data.status = Lang.get('deployments.running');
             } else if (parseInt(this.model.get('status')) === FAILED || parseInt(this.model.get('status')) === CANCELLED) {
                 data.status_css = 'danger';
                 data.icon_css = 'warning';
 
-                data.status = Lang.status.failed;
+                data.status = Lang.get('deployments.failed');
                 if (parseInt(this.model.get('status')) === CANCELLED) {
-                    data.status = Lang.status.cancelled;
+                    data.status = Lang.get('deployments.cancelled');
                 }
             }
 

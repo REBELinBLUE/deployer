@@ -29,7 +29,7 @@ var app = app || {};
     $('#group').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.create;
+        var title = Lang.get('groups.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -37,7 +37,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.edit;
+            title = Lang.get('groups.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#group_id').val('');

@@ -27,7 +27,22 @@
     </div>
 
     @include('admin.dialogs.templates')
+@stop
 
+@section('right-buttons')
+    <div class="pull-right">
+        <button type="button" class="btn btn-default" title="{{ Lang::get('templates.create') }}" data-toggle="modal" data-target="#template"><span class="fa fa-plus"></span> {{ Lang::get('templates.create') }}</button>
+    </div>
+@stop
+
+@push('javascript')
+    <script type="text/javascript">
+        new app.TemplatesTab();
+        app.Templates.add({!! $templates !!});
+    </script>
+@endpush
+
+@push('templates')
     <script type="text/template" id="template-template">
         <td><%- name %></td>
         <td><%- command_count %></td>
@@ -41,22 +56,4 @@
             </div>
         </td>
     </script>
-
-    <script type="text/javascript">
-        Lang.create = '{{ Lang::get('templates.create') }}';
-        Lang.edit = '{{ Lang::get('templates.edit') }}';
-    </script>
-@stop
-
-@section('javascript')
-    <script type="text/javascript">
-        new app.TemplatesTab();
-        app.Templates.add({!! $templates !!});
-    </script>
-@stop
-
-@section('right-buttons')
-    <div class="pull-right">
-        <button type="button" class="btn btn-default" title="{{ Lang::get('templates.create') }}" data-toggle="modal" data-target="#template"><span class="fa fa-plus"></span> {{ Lang::get('templates.create') }}</button>
-    </div>
-@stop
+@endpush

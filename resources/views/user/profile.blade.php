@@ -93,7 +93,7 @@
 
                         <div id="avatar-save-buttons">
                             <button type="button" class="btn btn-primary btn-flat hide" id="save-avatar">{{ Lang::get('users.save') }}</button>
-                            <button type="button" class="btn btn-warning btn-flat @if(!$logged_in_user->avatar) hide @endif" id="use-gravatar">{{ Lang::get('users.reset_gravatar') }}</button>
+                            <button type="button" class="btn btn-warning btn-flat @if (!$logged_in_user->avatar) hide @endif " id="use-gravatar">{{ Lang::get('users.reset_gravatar') }}</button>
                         </div>
                     </div>
                 </div>

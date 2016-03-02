@@ -9,7 +9,7 @@ var app = app || {};
     $('#heartbeat').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.heartbeats.create;
+        var title = Lang.get('heartbeats.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -17,7 +17,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.heartbeats.edit;
+            title = Lang.get('heartbeats.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#heartbeat_id').val('');
@@ -189,7 +189,7 @@ var app = app || {};
         },
         addOne: function (heartbeat) {
 
-            var view = new app.HeartbeatView({ 
+            var view = new app.HeartbeatView({
                 model: heartbeat
             });
 
@@ -217,22 +217,22 @@ var app = app || {};
 
             data.status_css = 'primary';
             data.icon_css   = 'question';
-            data.status     = Lang.heartbeats.status.untested;
+            data.status     = Lang.get('heartbeats.untested');
             data.has_run    = false;
 
             if (parseInt(this.model.get('status')) === OK) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
-                data.status     = Lang.heartbeats.status.ok;
+                data.status     = Lang.get('heartbeats.ok');
                 data.has_run    = true;
             } else if (parseInt(this.model.get('status')) === MISSING) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
-                data.status     = Lang.heartbeats.status.missing;
+                data.status     = Lang.get('heartbeats.missing');
                 data.has_run    = data.last_activity ? true : false;
             }
 
-            data.interval_label = Lang.heartbeats.intervals[data.interval];
+            data.interval_label = Lang.get('heartbeats.interval_' + data.interval);
 
             data.formatted_date = '';
             if (data.has_run) {

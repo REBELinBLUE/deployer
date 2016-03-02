@@ -61,7 +61,7 @@ class Command extends Model
      */
     public function project()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\Project');
+        return $this->belongsTo(Project::class);
     }
 
     /**
@@ -71,6 +71,7 @@ class Command extends Model
      */
     public function servers()
     {
-        return $this->belongsToMany('REBELinBLUE\Deployer\Server')->orderBy('order', 'ASC');
+        return $this->belongsToMany(Server::class)
+                    ->orderBy('order', 'ASC');
     }
 }

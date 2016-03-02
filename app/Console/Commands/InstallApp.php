@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use PDO;
 use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
@@ -119,9 +118,9 @@ class InstallApp extends Command
         $this->line('');
         $this->comment('2. Setup the cronjobs, see "crontab"');
         $this->line('');
-        $this->comment('3. Setup the socket server and queue runner, see "supervisor.conf" for an example of how to do this with supervisor');
+        $this->comment('3. Setup the socket server & queue runner, see "supervisor.conf" for an example commands');
         $this->line('');
-        $this->comment('4. Ensure that "storage" and "public/upload" are writable by the webserver, for example run "chmod -R 777 storage"');
+        $this->comment('4. Ensure that "storage" and "public/upload" are writable by the webserver');
         $this->line('');
         $this->comment('5. (Optional) Setup logrotate, see "logrotate.conf"');
         $this->line('');
@@ -222,7 +221,7 @@ class InstallApp extends Command
         $this->line('');
         //$this->call('jwt:generate'); This does not update .ENV so do it manually for now
 
-        return Str::random(32);
+        return str_random(32);
     }
 
     /**
@@ -392,7 +391,8 @@ class InstallApp extends Command
         if (count($locales) === 1) {
             $locale = $locales[0];
         } else {
-            $locale = $this->choice('Language', $locales, array_search(Config::get('app.fallback_locale'), $locales, true));
+            $default = array_search(Config::get('app.fallback_locale'), $locales, true);
+            $locale  = $this->choice('Language', $locales, $default);
         }
 
         return [
@@ -573,9 +573,8 @@ class InstallApp extends Command
 
         // TODO: allow gd or imagemagick
         // TODO: See if there are any others, maybe clean this list up?
-        $required_extensions = ['PDO', 'curl', 'gd',
-                                'mcrypt', 'json', 'tokenizer',
-                                'openssl', 'mbstring',
+        $required_extensions = ['PDO', 'curl', 'gd', 'json',
+                                'tokenizer', 'openssl', 'mbstring',
                                ];
 
         foreach ($required_extensions as $extension) {
@@ -586,7 +585,9 @@ class InstallApp extends Command
         }
 
         if (!count($this->getDatabaseDrivers())) {
-            $this->error('At least 1 PDO database driver is required. Either sqlite, mysql, pgsql or sqlsrv, check your php.ini file');
+            $this->error(
+                'At least 1 PDO driver is required. Either sqlite, mysql, pgsql or sqlsrv, check your php.ini file'
+            );
             $errors = true;
         }
 
@@ -601,7 +602,7 @@ class InstallApp extends Command
         }
 
         // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp'];
+        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip'];
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);
@@ -632,7 +633,7 @@ class InstallApp extends Command
 
         if ($errors) {
             $this->line('');
-            $this->block('Deployer cannot be installed, as not all requirements are met. Please review the errors above before continuing.');
+            $this->block('Deployer cannot be installed. Please review the errors above before continuing.');
             $this->line('');
 
             return false;

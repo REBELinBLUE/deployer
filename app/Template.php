@@ -139,7 +139,7 @@ class Template extends Model implements PresentableInterface
      */
     public function commands()
     {
-        return $this->hasMany('REBELinBLUE\Deployer\Command', 'project_id');
+        return $this->hasMany(Command::class, 'project_id');
     }
 
     /**
@@ -149,7 +149,7 @@ class Template extends Model implements PresentableInterface
      */
     public function sharedFiles()
     {
-        return $this->hasMany('REBELinBLUE\Deployer\SharedFile', 'project_id');
+        return $this->hasMany(SharedFile::class, 'project_id');
     }
 
     /**
@@ -159,7 +159,7 @@ class Template extends Model implements PresentableInterface
      */
     public function projectFiles()
     {
-        return $this->hasMany('REBELinBLUE\Deployer\ProjectFile', 'project_id');
+        return $this->hasMany(ProjectFile::class, 'project_id');
     }
 
     /**
@@ -169,7 +169,7 @@ class Template extends Model implements PresentableInterface
      */
     public function variables()
     {
-        return $this->hasMany('REBELinBLUE\Deployer\Variable', 'project_id');
+        return $this->hasMany(Variable::class, 'project_id');
     }
 
     /**

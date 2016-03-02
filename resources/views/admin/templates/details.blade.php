@@ -34,7 +34,7 @@
     @include('dialogs.project_files')
 @stop
 
-@section('javascript')
+@push('javascript')
     <script type="text/javascript">
         new app.SharedFilesTab();
         new app.ProjectFilesTab();
@@ -46,4 +46,4 @@
 
         app.project_id = {{ $project->id }};
     </script>
-@stop
+@endpush

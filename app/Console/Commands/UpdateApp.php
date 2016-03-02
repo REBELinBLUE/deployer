@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Deployment;
@@ -42,7 +43,10 @@ class UpdateApp extends InstallApp
      */
     public function handle()
     {
-        if (!$this->verifyInstalled() || $this->hasRunningDeployments() || $this->composerOutdated() || !$this->checkRequirements()) {
+        if (!$this->verifyInstalled() ||
+            $this->hasRunningDeployments() ||
+            $this->composerOutdated() ||
+            !$this->checkRequirements()) {
             return;
         }
 
@@ -60,6 +64,7 @@ class UpdateApp extends InstallApp
             $this->call('down');
         }
 
+        $this->backupDatabase();
         $this->updateConfiguration();
         $this->migrate();
         $this->optimize();
@@ -69,6 +74,23 @@ class UpdateApp extends InstallApp
         if ($bring_back_up) {
             $this->call('up');
         }
+    }
+
+    /**
+     * Backup the database.
+     *
+     * @return void
+     */
+    protected function backupDatabase()
+    {
+        $date = Carbon::now()->format('Y-m-d H.i.s');
+
+        $this->call('db:backup', [
+            '--database'        => config('database.default'),
+            '--destination'     => 'local',
+            '--destinationPath' => $date,
+            '--compression'     => 'gzip',
+        ]);
     }
 
     /**

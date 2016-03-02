@@ -21,6 +21,8 @@ toastr.options.extendedTimeOut = 7000;
         return;
     }
 
+    Lang.setLocale($('meta[name="locale"]').attr('content'));
+
     var FINISHED     = 0;
     var PENDING      = 1;
     var DEPLOYING    = 2;
@@ -87,7 +89,7 @@ toastr.options.extendedTimeOut = 7000;
 
             var icon_class = 'clock-o';
             var label_class = 'info';
-            var label = Lang.deployments.status.pending;
+            var label = Lang.get('deployments.pending');
             var done = false;
 
             data.model.status = parseInt(data.model.status);
@@ -96,26 +98,26 @@ toastr.options.extendedTimeOut = 7000;
             if (data.model.status === DEPLOYMENT_COMPLETED) {
                 icon_class = 'check';
                 label_class = 'success';
-                label = Lang.deployments.status.completed;
+                label = Lang.get('deployments.completed');
                 done = true;
             } else if (data.model.status === DEPLOYMENT_DEPLOYING) {
                 icon_class = 'spinner fa-pulse';
                 label_class = 'warning';
-                label = Lang.deployments.status.running;
+                label = Lang.get('deployments.running');
             } else if (data.model.status === DEPLOYMENT_FAILED) {
                 icon_class = 'warning';
                 label_class = 'danger';
-                label = Lang.deployments.status.failed;
+                label = Lang.get('deployments.failed');
                 done = true;
             } else if (data.model.status === DEPLOYMENT_ERRORS) {
                 icon_class = 'warning';
                 label_class = 'success';
-                label = Lang.deployments.status.errors;
+                label = Lang.get('deployments.completed_with_errors');
                 done = true;
             } else if (data.model.status === DEPLOYMENT_CANCELLED) {
                 icon_class = 'warning';
                 label_class = 'danger';
-                label = Lang.deployments.status.cancelled;
+                label = Lang.get('deployments.cancelled');
                 done = true;
             }
 
@@ -128,12 +130,17 @@ toastr.options.extendedTimeOut = 7000;
             $('span', status).text(label);
         } else if ($('#timeline').length === 0) { // Don't show on dashboard
             // FIXME: Also don't show if viewing the deployment, or the project the deployment is for
+
+            var toast_title = Lang.get('dashboard.deployment_number', {
+                'id': data.model.id
+            });
+
             if (data.model.status === DEPLOYMENT_COMPLETED) {
-                toastr.success(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.completed, data.model.project_name);
+                toastr.success(toast_title + ' - ' + Lang.get('deployments.completed'), data.model.project_name);
             } else if (data.model.status === DEPLOYMENT_FAILED) {
-                toastr.error(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.failed, data.model.project_name);
+                toastr.error(toast_title + ' - ' + Lang.get('deployments.failed'), data.model.project_name);
             } else if (data.model.status === DEPLOYMENT_ERRORS) {
-                toastr.warning(Lang.toast.title.replace(':id', data.model.id) + ' - ' + Lang.toast.completed_with_errors, data.model.project_name);
+                toastr.warning(toast_title + ' - ' + Lang.get('deployments.completed_with_errors'), data.model.project_name);
             } // FIXME: Add cancelled
         }
     });
@@ -151,7 +158,7 @@ toastr.options.extendedTimeOut = 7000;
 
             var icon_class = 'question-circle';
             var label_class = 'primary';
-            var label = Lang.projects.status.not_deployed;
+            var label = Lang.get('projects.not_deployed');
 
             data.model.status = parseInt(data.model.status);
             var status = $('td:nth-child(3) span.label', project);
@@ -159,19 +166,19 @@ toastr.options.extendedTimeOut = 7000;
             if (data.model.status === FINISHED) {
                 icon_class = 'check';
                 label_class = 'success';
-                label = Lang.projects.status.finished;
+                label = Lang.get('projects.finished');
             } else if (data.model.status === DEPLOYING) {
                 icon_class = 'spinner fa-pulse';
                 label_class = 'warning';
-                label = Lang.projects.status.deploying;
+                label = Lang.get('projects.deploying');
             } else if (data.model.status === FAILED) {
                 icon_class = 'warning';
                 label_class = 'danger';
-                label = Lang.projects.status.failed;
+                label = Lang.get('projects.failed');
             } else if (data.model.status === PENDING) {
                 icon_class = 'clock-o';
                 label_class = 'info';
-                label = Lang.projects.status.pending;
+                label = Lang.get('projects.pending');
             }
 
             $('td:first a', project).text(data.model.name);
@@ -207,7 +214,7 @@ toastr.options.extendedTimeOut = 7000;
         $('#deployment_info_' + data.model.id).remove();
         $('#pending_menu, #deploying_menu').show();
 
-        var template = _.template($('#deployment_list_template').html());
+        var template = _.template($('#deployment-list-template').html());
         var html = template(data.model);
 
         if (data.model.status === DEPLOYMENT_PENDING) {
@@ -220,20 +227,20 @@ toastr.options.extendedTimeOut = 7000;
         var pending = $('#pending_menu ul.menu li').length;
         var deploying = $('#deploying_menu ul.menu li').length;
 
-        var pending_label = Lang.nav.multi_pending.replace(':count', pending);
+        var pending_label = Lang.choice('dashboard.pending', pending, {
+            'count': pending
+        });
+
         if (pending === 0) {
             $('#pending_menu').hide();
         }
-        else if (pending === 1) {
-            pending_label = Lang.nav.single_pending;
-        }
 
-        var deploying_label = Lang.nav.multi_running.replace(':count', deploying);
+        var deploying_label = Lang.choice('dashboard.running', deploying, {
+            'count': deploying
+        });
+
         if (deploying === 0) {
             $('#deploying_menu').hide();
-        }
-        else if (deploying === 1) {
-            deploying_label = Lang.nav.single_running;
         }
 
         $('#deploying_menu span.label-warning').html(deploying);

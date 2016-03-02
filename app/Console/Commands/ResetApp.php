@@ -73,7 +73,7 @@ class ResetApp extends UpdateApp
         $this->info('Removing log files');
         $this->line('');
 
-        foreach (glob(storage_path('logs/') . '*.log') as $file) {
+        foreach (glob(storage_path('logs/') . '*.log*') as $file) {
             unlink($file);
         }
     }

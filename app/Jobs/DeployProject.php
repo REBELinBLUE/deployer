@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
 use Illuminate\Queue\SerializesModels;
@@ -13,6 +14,7 @@ use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
@@ -23,14 +25,17 @@ use Symfony\Component\Process\Process;
  * Deploys an actual project.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * TODO: rewrite this as it is doing way too much and is very messy now.
+ * TODO: Expand all parameters
  */
 class DeployProject extends Job implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
+    use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
     private $deployment;
     private $private_key;
     private $cache_key;
+    private $release_archive;
+    private $release_id;
 
     /**
      * Create a new command instance.
@@ -72,14 +77,27 @@ class DeployProject extends Job implements ShouldQueue
         $project->status = Project::DEPLOYING;
         $project->save();
 
-        $this->private_key = tempnam(storage_path() . '/app/', 'sshkey');
+        $this->release_id = date('YmdHis', strtotime($this->deployment->started_at));
+
+        $this->private_key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
 
+        $this->release_archive = sprintf(
+            '%s/%d_%s.tar.gz',
+            storage_path('app'),
+            $this->deployment->project_id,
+            $this->release_id
+        );
+
+        $this->dispatch(new UpdateGitMirror($this->deployment->project));
+
         try {
-            // If the build has been manually triggered update the git information from the remote repository
+            // If the build has been manually triggered get the committer info from the repo
             if ($this->deployment->commit === Deployment::LOADING) {
                 $this->updateRepoInfo();
             }
+
+            $this->createReleaseArchive();
 
             foreach ($this->deployment->steps as $step) {
                 $this->runStep($step);
@@ -118,6 +136,10 @@ class DeployProject extends Job implements ShouldQueue
         event(new DeployFinished($project, $this->deployment));
 
         unlink($this->private_key);
+
+        if (file_exists($this->release_archive)) {
+            unlink($this->release_archive);
+        }
     }
 
     /**
@@ -128,33 +150,14 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function updateRepoInfo()
     {
-        $wrapper = tempnam(storage_path() . '/app/', 'gitssh');
-        file_put_contents($wrapper, $this->gitWrapperScript($this->private_key));
-
-        $workingdir = tempnam(storage_path() . '/app/', 'clone');
-        unlink($workingdir);
-
-        $cmd = <<< CMD
-chmod +x "{$wrapper}" && \
-export GIT_SSH="{$wrapper}" && \
-git clone --quiet --branch %s --depth 1 %s {$workingdir} && \
-cd {$workingdir} && \
-git checkout %s --quiet && \
-git log --pretty=format:"%%H%%x09%%an%%x09%%ae" && \
-rm -rf {$workingdir}
-CMD;
-
         $process = new Process(sprintf(
-            $cmd,
-            $this->deployment->branch,
-            $this->deployment->project->repository,
+            'cd %s && git log %s -n1 --pretty=format:"%%H%%x09%%an%%x09%%ae"',
+            $this->deployment->project->mirrorPath(),
             $this->deployment->branch
         ));
 
         $process->setTimeout(null);
         $process->run();
-
-        unlink($wrapper);
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
@@ -162,11 +165,11 @@ CMD;
 
         $git_info = $process->getOutput();
 
-        $parts = explode("\x09", $git_info);
+        list($commit, $committer, $email) = explode("\x09", $git_info);
 
-        $this->deployment->commit          = $parts[0];
-        $this->deployment->committer       = trim($parts[1]);
-        $this->deployment->committer_email = trim($parts[2]);
+        $this->deployment->commit          = $commit;
+        $this->deployment->committer       = trim($committer);
+        $this->deployment->committer_email = trim($email);
 
         if (!$this->deployment->user_id && !$this->deployment->source) {
             $user = User::where('email', $this->deployment->committer_email)->first();
@@ -180,15 +183,35 @@ CMD;
     }
 
     /**
-     * Removed left over artifacts from a failed deploy on each server.
+     * Creates the archive for the commit to deploy.
+     *
+     * @return void
+     */
+    private function createReleaseArchive()
+    {
+        $process = new Process(sprintf(
+            'cd %s && (git archive --format=tar %s | gzip > %s)',
+            $this->deployment->project->mirrorPath(),
+            $this->deployment->commit,
+            $this->release_archive
+        ));
+
+        $process->setTimeout(null);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
+        }
+    }
+
+    /**
+     * Remove left over artifacts from a failed deploy on each server.
      *
      * @return void
      */
     private function cleanupDeployment()
     {
         $project = $this->deployment->project;
-
-        $release_id = date('YmdHis', strtotime($this->deployment->started_at));
 
         foreach ($project->servers as $server) {
             if (!$server->deploy_code) {
@@ -202,15 +225,12 @@ CMD;
             }
 
             $releases_dir       = $root_dir . '/releases';
-            $latest_release_dir = $releases_dir . '/' . $release_id;
-
-            $remote_key_file     = $root_dir . '/id_rsa';
-            $remote_wrapper_file = $root_dir . '/wrapper.sh';
+            $latest_release_dir = $releases_dir . '/' . $this->release_id;
+            $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
 
             $commands = [
                 sprintf('cd %s', $root_dir),
-                sprintf('[ -f %s ] && rm %s', $remote_key_file, $remote_key_file),
-                sprintf('[ -f %s ] && rm %s', $remote_wrapper_file, $remote_wrapper_file),
+                sprintf('[ -f %s ] && rm %s', $remote_archive, $remote_archive),
                 sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir),
             ];
 
@@ -255,7 +275,9 @@ CMD;
 
             try {
                 $server = $log->server;
-                $script = $this->getScript($step, $server);
+
+                // FIME: Have a getFiles method here for transferring files
+                $script = $this->getScript($step, $server, $log);
 
                 $user = $server->user;
                 if (isset($step->command)) {
@@ -335,7 +357,7 @@ CMD;
      * @param  Server     $server
      * @return string
      */
-    private function getScript(DeployStep $step, Server $server)
+    private function getScript(DeployStep $step, Server $server, $log = null)
     {
         $project = $this->deployment->project;
 
@@ -348,45 +370,37 @@ CMD;
 
         $releases_dir = $root_dir . '/releases';
 
-        $release_id         = date('YmdHis', strtotime($this->deployment->started_at));
-        $latest_release_dir = $releases_dir . '/' . $release_id;
+        $latest_release_dir = $releases_dir . '/' . $this->release_id;
         $release_shared_dir = $root_dir . '/shared';
+        $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
 
         $commands = false;
 
         if ($step->stage === Stage::DO_CLONE) {
-            // Clone the repository
-            $remote_key_file     = $root_dir . '/id_rsa';
-            $remote_wrapper_file = $root_dir . '/wrapper.sh';
-
-            $this->prepareServer($server);
+            $this->sendFile($this->release_archive, $remote_archive, $server, $log);
 
             $commands = [
                 sprintf('cd %s', $root_dir),
-                sprintf('chmod 0600 %s', $remote_key_file),
-                sprintf('chmod +x %s', $remote_wrapper_file),
                 sprintf('[ ! -d %s ] && mkdir %s', $releases_dir, $releases_dir),
                 sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
-                sprintf('cd %s', $releases_dir),
-                sprintf('export GIT_SSH="%s"', $remote_wrapper_file),
+                sprintf('mkdir %s', $latest_release_dir),
+                sprintf('cd %s', $latest_release_dir),
+                sprintf('echo -e "\nExtracting...\n"'),
                 sprintf(
-                    'git clone --branch %s --depth 1 --recursive %s %s',
-                    $this->deployment->branch,
-                    $project->repository,
+                    'tar --warning=no-timestamp --gunzip --verbose --extract --file=%s --directory=%s',
+                    $remote_archive,
                     $latest_release_dir
                 ),
-                sprintf('cd %s', $latest_release_dir),
-                sprintf('git checkout %s', $this->deployment->branch),
-                sprintf('rm %s %s', $remote_key_file, $remote_wrapper_file),
+                sprintf('rm %s', $remote_archive),
             ];
         } elseif ($step->stage === Stage::DO_INSTALL) {
             // Install composer dependencies
             $commands = [
                 sprintf('cd %s', $latest_release_dir),
                 sprintf(
-                    '[ -f %s/composer.json ] && composer install --no-interaction --optimize-autoloader ' .
+                    '( [ -f %s/composer.json ] && composer install --no-interaction --optimize-autoloader ' .
                     ($project->include_dev ? '' : '--no-dev ') .
-                    '--prefer-dist --no-ansi --working-dir "%s"',
+                    '--prefer-dist --no-ansi --working-dir "%s" || exit 0 )',
                     $latest_release_dir,
                     $latest_release_dir
                 ),
@@ -439,7 +453,7 @@ CMD;
             }
 
             $tokens = [
-                '{{ release }}'         => $release_id,
+                '{{ release }}'         => $this->release_id,
                 '{{ release_path }}'    => $latest_release_dir,
                 '{{ project_path }}'    => $root_dir,
                 '{{ branch }}'          => $this->deployment->branch,
@@ -525,25 +539,6 @@ EOF';
     }
 
     /**
-     * Generates the content of a git bash script.
-     *
-     * @param  string $key_file_path The path to the public key to use
-     * @return string
-     */
-    private function gitWrapperScript($key_file_path)
-    {
-        return <<<OUT
-#!/bin/sh
-ssh -o CheckHostIP=no \
-    -o IdentitiesOnly=yes \
-    -o StrictHostKeyChecking=no \
-    -o PasswordAuthentication=no \
-    -o IdentityFile={$key_file_path} $*
-
-OUT;
-    }
-
-    /**
      * Sends a file to a remote server.
      *
      * @param  string           $local_file
@@ -552,15 +547,16 @@ OUT;
      * @throws RuntimeException
      * @return void
      */
-    private function sendFile($local_file, $remote_file, Server $server)
+    private function sendFile($local_file, $remote_file, Server $server, $log = null)
     {
         $copy = sprintf(
-            'scp -o CheckHostIP=no ' .
+            'rsync --verbose --compress --progress --out-format="Receiving %%n" -e "ssh -p %s ' .
+            '-o CheckHostIP=no ' .
             '-o IdentitiesOnly=yes ' .
             '-o StrictHostKeyChecking=no ' .
             '-o PasswordAuthentication=no ' .
-            '-P %s ' .
-            '-i %s %s %s@%s:%s',
+            '-i %s" ' .
+            '%s %s@%s:%s',
             $server->port,
             $this->private_key,
             $local_file,
@@ -571,54 +567,49 @@ OUT;
 
         $process = new Process($copy);
         $process->setTimeout(null);
-        $process->run();
+        ///$process->run();
+
+        $output = '';
+        $process->run(function ($type, $output_line) use (&$output, &$log) {
+            if ($type === Process::ERR) {
+                $output .= $this->logError($output_line);
+            } else {
+                // FIXME: Horrible hack
+                $output_line = str_replace('received', 'xxx', $output_line);
+                $output_line = str_replace('sent', 'received', $output_line);
+                $output_line = str_replace('xxx', 'sent', $output_line);
+
+                $output .= $this->logSuccess($output_line);
+            }
+
+            $log->output = $output;
+            $log->save();
+        });
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not send file - ' . $process->getErrorOutput());
+            throw new \RuntimeException($process->getErrorOutput());
         }
-    }
 
-    /**
-     * Prepares a server for code deployment by adding the files which are required.
-     *
-     * @param  Server $server
-     * @return void
-     */
-    private function prepareServer(Server $server)
-    {
-        $root_dir = preg_replace('#/$#', '', $server->path);
-
-        $remote_key_file     = $root_dir . '/id_rsa';
-        $remote_wrapper_file = $root_dir . '/wrapper.sh';
-
-        // Upload the SSH private key
-        $this->sendFile($this->private_key, $remote_key_file, $server);
-
-        // Upload the wrapper file
-        $this->sendFileFromString(
-            $server,
-            $remote_wrapper_file,
-            $this->gitWrapperScript($remote_key_file)
-        );
+        //return $process->getOutput();
     }
 
     /**
      * Send a string to server.
      *
-     * @param  Server $server   target server
-     * @param  string $filename remote filename
-     * @param  string $content  the file content
+     * @param  Server $server      target server
+     * @param  string $remote_path remote filename
+     * @param  string $content     the file content
      * @return void
      */
-    private function sendFileFromString(Server $server, $filepath, $content)
+    private function sendFileFromString(Server $server, $remote_path, $content)
     {
-        $wrapper = tempnam(storage_path() . '/app/', 'tmpfile');
-        file_put_contents($wrapper, $content);
+        $tmp_file = tempnam(storage_path('app/'), 'tmpfile');
+        file_put_contents($tmp_file, $content);
 
         // Upload the wrapper file
-        $this->sendFile($wrapper, $filepath, $server);
+        $this->sendFile($tmp_file, $remote_path, $server);
 
-        unlink($wrapper);
+        unlink($tmp_file);
     }
 
     /**

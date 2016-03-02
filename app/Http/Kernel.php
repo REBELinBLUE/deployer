@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging;
+use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as HttpLogging;
 
 /**
  * Kernel class.
@@ -14,8 +16,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $customBooters = [
-        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class
-            => \REBELinBLUE\Deployer\Bootstrap\ConfigureLogging::class,
+        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => HttpLogging::class,
     ];
 
     /**
@@ -23,7 +24,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $disabledBooters = [
-        
+
     ];
 
     /**
@@ -50,7 +51,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \REBELinBLUE\Deployer\Http\Middleware\VerifyCsrfToken::class,
             \Clockwork\Support\Laravel\ClockworkMiddleware::class,
-            \GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware::class
+            \GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware::class,
         ],
 
         'api' => [
@@ -66,10 +67,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \REBELinBLUE\Deployer\Http\Middleware\Authenticate::class,
+        'jwt'        => \REBELinBLUE\Deployer\Http\Middleware\RefreshJsonWebToken::class,
+        'auth'       => \REBELinBLUE\Deployer\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest'  => \REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'guest'      => \REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 
     /**

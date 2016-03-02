@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Listeners\Events;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Session;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\JWTAuth;
 
 /**
  * Event listener class to create JWT on login.
@@ -13,27 +13,32 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class CreateJwt extends Event
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
+     * @var JWTAuth
      */
-    public function __construct()
+    protected $auth;
+
+    /**
+     * Create a new middleware instance.
+     *
+     * @param JWTAuth $auth
+     */
+    public function __construct(JWTAuth $auth)
     {
-        //
+        $this->auth = $auth;
     }
 
     /**
      * Handle the event.
      *
-     * @param  Login $event
+     * @param  Login|JsonWebTokenExpired $event
      * @return void
      */
     public function handle(Login $event)
     {
-        $tokenId    = base64_encode(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+        $tokenId    = base64_encode(str_random(32));
         $issuedAt   = Carbon::now()->timestamp;
         $notBefore  = $issuedAt;
-        $expire     = $notBefore + 6 * 60 * 60; // Adding 6 hours
+        $expire     = $notBefore + 3 * 60 * 60; // Adding 3 hours
 
         // Create the token
         $config = [
@@ -47,6 +52,6 @@ class CreateJwt extends Event
             ],
         ];
 
-        Session::put('jwt', JWTAuth::fromUser($event->user, $config));
+        Session::put('jwt', $this->auth->fromUser($event->user, $config));
     }
 }

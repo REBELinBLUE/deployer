@@ -5,7 +5,6 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->in('app')
     ->in('database')
     ->name('*.php')
-    ->notName('Kernel.php') // There has to be a better way to do this!
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 

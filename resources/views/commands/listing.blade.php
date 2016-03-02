@@ -7,7 +7,19 @@
     </div>
 
     @include('dialogs.command')
+@stop
 
+@push('javascript')
+    <script type="text/javascript">
+        new app.CommandsTab();
+        app.Commands.add({!! $commands->toJson() !!});
+
+        app.project_id = {{ $project->id }};
+        app.command_action = {{ $action }};
+    </script>
+@endpush
+
+@push('templates')
     <script type="text/template" id="command-template">
         <td data-command-id="<%- id %>"><%- name %></td>
         <td><%- user %></td>
@@ -24,19 +36,4 @@
             </div>
         </td>
     </script>
-
-    <script type="text/javascript">
-        Lang.create = '{{ Lang::get('commands.create') }}';
-        Lang.edit = '{{ Lang::get('commands.edit') }}';
-    </script>
-@stop
-
-@section('javascript')
-    <script type="text/javascript">
-        new app.CommandsTab();
-        app.Commands.add({!! $commands->toJson() !!});
-
-        app.project_id = {{ $project->id }};
-        app.command_action = {{ $action }};
-    </script>
-@stop
+@endpush

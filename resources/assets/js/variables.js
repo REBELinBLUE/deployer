@@ -5,7 +5,7 @@ var app = app || {};
     $('#variable').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.variables.create;
+        var title = Lang.get('variables.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -13,7 +13,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.variables.edit;
+            title = Lang.get('variables.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#variable_id').val('');

@@ -2,7 +2,7 @@
 
 // Resource management
 Route::group([
-    'middleware' => ['web', 'auth'],
+    'middleware' => ['web', 'auth', 'jwt'],
     'namespace'  => 'Resources',
 ], function () {
 

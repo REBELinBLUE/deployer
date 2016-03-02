@@ -4,9 +4,7 @@ namespace REBELinBLUE\Deployer\Composers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\App;
-use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
-use REBELinBLUE\Deployer\Template;
 
 /**
  * View composer for the navigation bar.

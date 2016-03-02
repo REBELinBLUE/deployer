@@ -1,14 +1,19 @@
 var app = app || {};
 
 (function ($) {
+    $('select.deployment-source').select2({
+        width: '100%',
+        minimumResultsForSearch: 6
+    });
+
     $('.deployment-source:radio').on('change', function (event) {
         var target = $(event.currentTarget);
 
-        $('input[type=text].deployment-source').hide();
+        $('div.deployment-source-container').hide();
         if (target.val() === 'branch') {
-            $('#deployment_branch').show();
+            $('#deployment_branch').parent('div').show();
         } else if (target.val() === 'tag') {
-            $('#deployment_tag').show();
+            $('#deployment_tag').parent('div').show();
         }
     });
 
@@ -43,7 +48,7 @@ var app = app || {};
     $('#project').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.create;
+        var title = Lang.get('projects.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -52,7 +57,7 @@ var app = app || {};
         $('#template-list', modal).hide();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.edit;
+            title = Lang.get('projects.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#template-list', modal).show();

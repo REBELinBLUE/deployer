@@ -93,8 +93,7 @@ return [
 
     'key' => env('APP_KEY', 'SomeRandomString'),
 
-    // TODO: See if we can figure out a way to set this to 'AES-256-CBC' for new installs only
-    'cipher' => MCRYPT_RIJNDAEL_128,
+    'cipher' => 'AES-256-CBC',
 
     /*
     |--------------------------------------------------------------------------
@@ -161,6 +160,9 @@ return [
         Clockwork\Support\Laravel\ClockworkServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        BackupManager\Laravel\Laravel5ServiceProvider::class,
+        JsLocalization\JsLocalizationServiceProvider::class,
 
         /*
          * Application Service Providers...
