@@ -429,7 +429,7 @@ class DeployProject extends Job implements ShouldQueue
                     '--prefer-dist --no-ansi --working-dir "%s"',
                     $latest_release_dir,
                     $latest_release_dir
-                )
+                ),
             ];
 
             // The shared file must be created in the install step
