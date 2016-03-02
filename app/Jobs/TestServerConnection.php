@@ -40,7 +40,7 @@ class TestServerConnection extends Job implements ShouldQueue
         $this->server->status = Server::TESTING;
         $this->server->save();
 
-        $key = tempnam(storage_path() . '/app/', 'sshkey');
+        $key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($key, $this->server->project->private_key);
 
         try {

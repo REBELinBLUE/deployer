@@ -99,6 +99,8 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "echo 'alias phpunit=\"php $(which phpunit)\"' >> /home/vagrant/.profile"
     config.vm.provision "shell", inline: "echo 'export PATH=/var/www/deployer/vendor/bin:$PATH' >> /home/vagrant/.profile"
 
+    config.vm.provision "shell", inline: "echo 'export PATH=/var/www/deployer/vendor/bin:$PATH' >> /home/vagrant/.profile"
+
     # Update composer on each boot
     config.vm.provision "shell", inline: "sudo /usr/local/bin/composer self-update", run: "always"
 end

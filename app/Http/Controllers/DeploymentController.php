@@ -73,6 +73,8 @@ class DeploymentController extends Controller
             'checkUrls'     => $project->checkUrls,
             'variables'     => $project->variables,
             'optional'      => $optional,
+            'tags'          => $project->tags()->reverse(),
+            'branches'      => $project->branches(),
             'route'         => 'commands',
         ]);
     }
@@ -150,6 +152,31 @@ class DeploymentController extends Controller
         }
 
         $deployment = $this->deploymentRepository->create($data);
+
+        return redirect()->route('deployment', [
+            'id' => $deployment->id,
+        ]);
+    }
+
+    /**
+     * Loads a previous deployment and then creates a new deployment based on it.
+     *
+     * @param  Request  $request
+     * @param  int      $deployment_id
+     * @return Response
+     */
+    public function rollback(Request $request, $deployment_id)
+    {
+        $optional = [];
+
+        // Get the optional commands and typecast to integers
+        if ($request->has('optional') && is_array($request->get('optional'))) {
+            $optional = array_filter(array_map(function ($value) {
+                return filter_var($value, FILTER_VALIDATE_INT);
+            }, $request->get('optional')));
+        }
+
+        $deployment = $this->deploymentRepository->rollback($deployment_id, $optional);
 
         return redirect()->route('deployment', [
             'id' => $deployment->id,

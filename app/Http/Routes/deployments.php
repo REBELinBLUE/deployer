@@ -14,6 +14,11 @@ Route::group([
         'uses' => 'DeploymentController@deploy',
     ]);
 
+    Route::post('deployment/{deployments}/rollback', [
+        'as'   => 'rollback',
+        'uses' => 'DeploymentController@rollback',
+    ]);
+
     Route::get('deployment/{deployments}/abort', [
         'as'   => 'abort',
         'uses' => 'DeploymentController@abort',

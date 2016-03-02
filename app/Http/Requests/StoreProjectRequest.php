@@ -32,12 +32,10 @@ class StoreProjectRequest extends Request
 
                 /*
                 TODO: improve these regexs, using the following stolen from PHPCI (sorry Dan!)
-
                 'ssh': /git\@github\.com\:([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
                 'git': /git\:\/\/github.com\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
                 'http': /https\:\/\/github\.com\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)(\.git)?/
                 */
-
                 if (preg_match('/^[a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-\.]+$/', $value)) { // Github
                     return true;
                 }

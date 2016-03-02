@@ -32,7 +32,7 @@ return [
     'project_path'         => 'The project path',
     'after'                => 'After',
     'configure'            => 'Configure',
-    'clone'                => 'Clone New Release',
+    'clone'                => 'Create New Release',
     'install'              => 'Install Composer Dependencies',
     'activate'             => 'Activate New Release',
     'purge'                => 'Purge Old Releases',

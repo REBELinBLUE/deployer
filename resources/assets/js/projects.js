@@ -1,14 +1,19 @@
 var app = app || {};
 
 (function ($) {
+    $('select.deployment-source').select2({
+        width: '100%',
+        minimumResultsForSearch: 6
+    });
+
     $('.deployment-source:radio').on('change', function (event) {
         var target = $(event.currentTarget);
 
-        $('input[type=text].deployment-source').hide();
+        $('div.deployment-source-container').hide();
         if (target.val() === 'branch') {
-            $('#deployment_branch').show();
+            $('#deployment_branch').parent('div').show();
         } else if (target.val() === 'tag') {
-            $('#deployment_tag').show();
+            $('#deployment_tag').parent('div').show();
         }
     });
 

@@ -101,6 +101,7 @@
     @include('dialogs.check_urls')
     @include('dialogs.key')
     @include('dialogs.reason')
+    @include('dialogs.redeploy')
 @stop
 
 @section('right-buttons')

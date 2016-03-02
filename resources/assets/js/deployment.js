@@ -7,6 +7,36 @@ var app = app || {};
     var FAILED    = 3;
     var CANCELLED = 4;
 
+    $('#redeploy').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+
+        var deployment = button.data('deployment-id');
+
+        var tmp = button.data('optional-commands') + '';
+        var commands = tmp.split(',');
+
+        if (tmp.length > 0) {
+            commands = $.map(commands, function(value) {
+                return parseInt(value, 10);
+            });
+        } else {
+            commands = [];
+        }
+
+        var modal = $(this);
+
+        $('form', modal).prop('action', '/deployment/' + deployment + '/rollback');
+
+        $('input:checkbox', modal).each(function (index, element) {
+            var input = $(element);
+
+            input.prop('checked', false);
+            if ($.inArray(parseInt(input.val(), 10), commands) != -1) {
+                input.prop('checked', true);
+            }
+        });
+    });
+
     $('#log').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var log_id = button.attr('id').replace('log_', '');

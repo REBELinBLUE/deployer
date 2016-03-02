@@ -8,17 +8,16 @@ class CommandTableSeeder extends Seeder
     private function getScript()
     {
         return <<< EOD
-
-        echo "Release {{ release }}"
-        echo "Release Path {{ release_path }}"
-        echo "Project Path {{ project_path }}"
-        echo "Branch {{ branch }}"
-        echo "SHA {{ sha }}"
-        echo "Short SHA {{ short_sha }}"
-        echo "Deployer email {{ deployer_email }}"
-        echo "Deployer name {{ deployer_name }}"
-        echo "Committer email {{ committer_email }}"
-        echo "Committer name {{ committer_name }}"
+echo "Release {{ release }}"
+echo "Release Path {{ release_path }}"
+echo "Project Path {{ project_path }}"
+echo "Branch {{ branch }}"
+echo "SHA {{ sha }}"
+echo "Short SHA {{ short_sha }}"
+echo "Deployer email {{ deployer_email }}"
+echo "Deployer name {{ deployer_name }}"
+echo "Committer email {{ committer_email }}"
+echo "Committer name {{ committer_name }}"
 EOD;
     }
 
@@ -32,6 +31,7 @@ EOD;
             'project_id' => 1,
             'user'       => 'deploy',
             'step'       => Command::BEFORE_CLONE,
+            'optional'   => true,
         ])->servers()->attach([1, 2]);
 
         Command::create([
@@ -88,6 +88,7 @@ EOD;
             'project_id' => 1,
             'user'       => 'deploy',
             'step'       => Command::AFTER_PURGE,
+            'optional'   => true,
         ])->servers()->attach([1, 2]);
     }
 }

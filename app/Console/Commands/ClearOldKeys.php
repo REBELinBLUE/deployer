@@ -41,8 +41,8 @@ class ClearOldKeys extends Command
     public function handle()
     {
         // Clear out old SSH key files
-        $files   = glob(storage_path() . '/app/*ssh*'); // sshkey and gitssh
-        $folders = glob(storage_path() . '/app/*clone*'); // cloned copies of code
+        $files   = glob(storage_path('app/') . '*ssh*'); // sshkey and gitssh
+        $folders = glob(storage_path('app/') . '*clone*'); // cloned copies of code
 
         $this->info('Found ' . count($files) . ' files and ' . count($folders) . ' folders to purge');
 
