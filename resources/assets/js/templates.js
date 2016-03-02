@@ -5,7 +5,7 @@ var app = app || {};
     $('#template').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.create;
+        var title = Lang.get('templates.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -13,7 +13,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.edit;
+            title = Lang.get('templates.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#template_id').val('');
@@ -172,7 +172,7 @@ var app = app || {};
             }
         },
         addOne: function (template) {
-            var view = new app.TemplateView({ 
+            var view = new app.TemplateView({
                 model: template
             });
 

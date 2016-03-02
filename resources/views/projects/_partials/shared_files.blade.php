@@ -27,15 +27,6 @@
     </div>
 </div>
 
-@push('javascript')
-    <script type="text/javascript">
-        Lang.sharedFiles = {
-            create: '{{ Lang::get('sharedFiles.create') }}',
-            edit: '{{ Lang::get('sharedFiles.edit') }}'
-        };
-    </script>
-@endpush
-
 @push('templates')
     <script type="text/template" id="files-template">
         <td><%- name %></td>

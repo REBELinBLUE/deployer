@@ -72,19 +72,3 @@
 
     @endif
 </div>
-
-@push('javascript')
-    <script type="text/javascript">
-        Lang.deployments = {
-            status: {
-                completed: '{{ Lang::get('deployments.completed') }}',
-                errors: '{{ Lang::get('deployments.completed_with_errors') }}',
-                cancelled: '{{ Lang::get('deployments.cancelled') }}',
-                pending: '{{ Lang::get('deployments.pending') }}',
-                deploying: '{{ Lang::get('deployments.deploying') }}',
-                failed: '{{ Lang::get('deployments.failed') }}',
-                running: '{{ Lang::get('deployments.running') }}'
-            }
-        };
-    </script>
-@endpush

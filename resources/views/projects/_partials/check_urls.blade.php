@@ -29,20 +29,6 @@
     </div>
 </div>
 
-@push('javascript')
-    <script type="text/javascript">
-        Lang.CheckUrls = {
-            create: '{{ Lang::get('checkUrls.create') }}',
-            edit: '{{ Lang::get('checkUrls.edit') }}',
-            success: '{{ Lang::get('checkUrls.successful') }}',
-            failure: '{{ Lang::get('checkUrls.failed') }}',
-            yes: '{{ Lang::get('app.yes') }}',
-            no: '{{ Lang::get('app.no') }}',
-            length: '{{ strtolower(Lang::get('checkUrls.length')) }}'
-        };
-    </script>
-@endpush
-
 @push('templates')
     <script type="text/template" id="checkUrls-template">
         <td><%- title %></td>

@@ -2,6 +2,16 @@ var elixir = require('laravel-elixir');
              require('laravel-elixir-remove');
              require('laravel-elixir-bower-io');
 
+var gulp   = require('gulp');
+var shell  = require('gulp-shell');
+
+var Task = elixir.Task;
+elixir.extend('lang', function() {
+    new Task('lang', function(){
+        return gulp.src('').pipe(shell('php artisan js-localization:refresh'));
+    });
+});
+
 var bower_path = 'vendor/bower_components';
 
 var paths = {
@@ -19,6 +29,7 @@ var paths = {
     'respond'         : bower_path + '/respond',
     'cropper'         : bower_path + '/cropper',
     'toastr'          : bower_path + '/toastr',
+    'localization'    : 'vendor/andywer/js-localization'
 };
 
 elixir(function(mix) {
@@ -39,6 +50,7 @@ elixir(function(mix) {
         paths.html5shiv + '/dist/html5shiv.js',
         paths.respond   + '/dest/respond.src.js'
     ], 'public/js/ie.js', bower_path)
+    .copy(paths.localization    + '/resources/js/localization.js', bower_path)
     .scripts([
         paths.jquery          + '/dist/jquery.js',
         paths.jquery_sortable + '/source/js/jquery-sortable.js',
@@ -48,6 +60,7 @@ elixir(function(mix) {
         paths.admin_lte       + '/dist/js/app.js',
         paths.backbone        + '/backbone.js',
         paths.socketio_client + '/socket.io.js',
+        bower_path            + '/localization.js',
         paths.toastr          + '/toastr.js',
         paths.cropper         + '/dist/cropper.js',
         paths.ace             + '/ace.js',
@@ -89,6 +102,8 @@ elixir(function(mix) {
     .remove([
         'public/css',
         'public/js',
-        'public/fonts'
-    ]);
+        'public/fonts',
+        bower_path + '/localization.js'
+    ])
+    .lang();
 });

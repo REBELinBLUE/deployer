@@ -29,29 +29,6 @@
     </div>
 </div>
 
-@push('javascript')
-    <script type="text/javascript">
-        Lang.heartbeats = {
-            status: {
-                ok: '{{ Lang::get('heartbeats.ok') }}',
-                untested: '{{ Lang::get('heartbeats.untested') }}',
-                missing: '{{ Lang::get('heartbeats.missing') }}'
-            },
-            intervals: {
-                10: '{{ Lang::get('heartbeats.interval_10') }}',
-                30: '{{ Lang::get('heartbeats.interval_30') }}',
-                60: '{{ Lang::get('heartbeats.interval_60') }}',
-                120: '{{ Lang::get('heartbeats.interval_120') }}',
-                720: '{{ Lang::get('heartbeats.interval_720') }}',
-                1440: '{{ Lang::get('heartbeats.interval_1440') }}',
-                10080: '{{ Lang::get('heartbeats.interval_10080') }}'
-            },
-            create: '{{ Lang::get('heartbeats.create') }}',
-            edit: '{{ Lang::get('heartbeats.edit') }}'
-        };
-    </script>
-@endpush
-
 @push('templates')
     <script type="text/template" id="heartbeat-template">
         <td><%- name %></td>

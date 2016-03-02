@@ -18,8 +18,7 @@
         <meta name="token" content="{{ Session::token() }}" />
         <meta name="socket_url" content="{{ config('deployer.socket_url') }}" />
         <meta name="jwt" content="{{ Session::get('jwt') }}" />
-
-        <script type="text/javascript">var Lang = {};</script>
+        <meta name="locale" content="{{ App::getLocale() }}" />
     </head>
     <body class="skin-{{ $theme }}">
         <div class="wrapper">
@@ -55,32 +54,13 @@
                     @yield('content')
                 </section>
             </div>
-
-
         </div>
 
         <script src="{{ elixir('js/vendor.js') }}"></script>
+        <script src="/js-localization/messages"></script>
         <script src="{{ elixir('js/app.js') }}"></script>
 
         @stack('templates')
-
-        <script type="text/javascript">
-            Lang.nav = {
-                single_pending: '{{ Lang::choice('dashboard.pending', 1) }}',
-                multi_pending: '{{ Lang::choice('dashboard.pending', ':count') }}',
-                single_running: '{{ Lang::choice('dashboard.running', 1) }}',
-                multi_running: '{{ Lang::choice('dashboard.running', ':count') }}'
-            };
-
-            Lang.toast = {
-                title: '{{ Lang::get('dashboard.deployment_number') }}',
-                completed: '{{ Lang::get('deployments.completed') }}',
-                completed_with_errors: '{{ Lang::get('deployments.completed_with_errors') }}',
-                cancelled: '{{ Lang::get('deployments.cancelled') }}',
-                failed: '{{ Lang::get('deployments.failed') }}'
-            };
-        </script>
-
         @stack('javascript')
     </body>
 </html>

@@ -37,9 +37,6 @@
 
 @push('javascript')
     <script type="text/javascript">
-        Lang.create = '{{ Lang::get('templates.create') }}';
-        Lang.edit = '{{ Lang::get('templates.edit') }}';
-
         new app.TemplatesTab();
         app.Templates.add({!! $templates !!});
     </script>

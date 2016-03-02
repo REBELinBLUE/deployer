@@ -26,15 +26,6 @@
     </div>
 </div>
 
-@push('javascript')
-    <script type="text/javascript">
-        Lang.variables = {
-            create: '{{ Lang::get('variables.create') }}',
-            edit: '{{ Lang::get('variables.edit') }}'
-        };
-    </script>
-@endpush
-
 @push('templates')
     <script type="text/template" id="variable-template">
         <td data-variable-id="<%- id %>"><%- name %></td>

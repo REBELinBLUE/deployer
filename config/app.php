@@ -162,6 +162,7 @@ return [
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         BackupManager\Laravel\Laravel5ServiceProvider::class,
+        JsLocalization\JsLocalizationServiceProvider::class,
 
         /*
          * Application Service Providers...

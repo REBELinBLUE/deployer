@@ -27,15 +27,6 @@
     </div>
 </div>
 
-@push('javascript')
-    <script type="text/javascript">
-        Lang.projectFiles = {
-            create: '{{ Lang::get('projectFiles.create') }}',
-            edit: '{{ Lang::get('projectFiles.edit') }}'
-        };
-    </script>
-@endpush
-
 @push('templates')
     <script type="text/template" id="project-files-template">
         <td><%- name %></td>

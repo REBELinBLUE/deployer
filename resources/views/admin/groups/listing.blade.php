@@ -29,8 +29,6 @@
 
 @push('javascript')
     <script type="text/javascript">
-        Lang.create = '{{ Lang::get('groups.create') }}';
-        Lang.edit = '{{ Lang::get('groups.edit') }}';
         var groups = {!! $groups->toJson() !!};
 
         new app.GroupsTab();

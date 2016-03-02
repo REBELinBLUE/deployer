@@ -38,9 +38,6 @@
 
 @push('javascript')
     <script type="text/javascript">
-        Lang.create = '{{ Lang::get('projects.create') }}';
-        Lang.edit = '{{ Lang::get('projects.edit') }}';
-
         new app.ProjectsTab();
         app.Projects.add({!! $projects !!});
     </script>

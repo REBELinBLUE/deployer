@@ -30,21 +30,6 @@
     </div>
 </div>
 
-@push('javascript')
-    <script type="text/javascript">
-        Lang.servers = {
-            status: {
-                successful: '{{ Lang::get('servers.successful') }}',
-                testing: '{{ Lang::get('servers.testing') }}',
-                failed: '{{ Lang::get('servers.failed') }}',
-                untested: '{{ Lang::get('servers.untested') }}'
-            },
-            create: '{{ Lang::get('servers.create') }}',
-            edit: '{{ Lang::get('servers.edit') }}'
-        };
-    </script>
-@endpush
-
 @push('templates')
     <script type="text/template" id="server-template">
         <td data-server-id="<%- id %>"><%- name %></td>

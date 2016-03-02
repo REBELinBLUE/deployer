@@ -31,9 +31,6 @@
 
 @push('javascript')
     <script type="text/javascript">
-        Lang.create = '{{ Lang::get('users.create') }}';
-        Lang.edit = '{{ Lang::get('users.edit') }}';
-
         var users = {!! $users !!};
 
         new app.UsersTab();

@@ -45,14 +45,6 @@
 
 @push('javascript')
     <script type="text/javascript">
-        Lang.status = {
-            pending: '{{ Lang::get('deployments.pending') }}',
-            running: '{{ Lang::get('deployments.running') }}',
-            failed: '{{ Lang::get('servers.failed') }}',
-            cancelled: '{{ Lang::get('deployments.cancelled') }}',
-            completed: '{{ Lang::get('deployments.completed') }}'
-        };
-
         new app.DeploymentView();
         app.Deployment.add({!! $output !!});
 

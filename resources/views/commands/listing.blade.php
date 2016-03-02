@@ -11,9 +11,6 @@
 
 @push('javascript')
     <script type="text/javascript">
-        Lang.create = '{{ Lang::get('commands.create') }}';
-        Lang.edit = '{{ Lang::get('commands.edit') }}';
-
         new app.CommandsTab();
         app.Commands.add({!! $commands->toJson() !!});
 
