@@ -15,8 +15,6 @@
 
 - Refresh JWT when it expires [\#180](https://github.com/REBELinBLUE/deployer/issues/180)
 - SQLite installation no longer works [\#169](https://github.com/REBELinBLUE/deployer/issues/169)
-- Aborting a deployment before the git info has been loaded leaves the committer etc as "Loading..." [\#150](https://github.com/REBELinBLUE/deployer/issues/150)
-- Persistent file permissions [\#93](https://github.com/REBELinBLUE/deployer/issues/93)
 
 ## [0.0.29](https://github.com/REBELinBLUE/deployer/tree/0.0.29) (2016-02-05)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.28...0.0.29)
