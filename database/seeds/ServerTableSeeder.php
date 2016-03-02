@@ -28,10 +28,10 @@ class ServerTableSeeder extends Seeder
         ]);
 
         Server::create([
-            'name'        => 'DB VM',
+            'name'        => 'Database VM',
             'ip_address'  => '192.168.33.70',
             'user'        => 'deploy',
-            'path'        => '/var/www',
+            'path'        => '/home/deploy',
             'project_id'  => 1,
             'deploy_code' => false,
         ]);

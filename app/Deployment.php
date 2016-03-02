@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -35,14 +36,15 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @var array
      */
-    protected $fillable = ['reason', 'branch', 'project_id', 'source', 'build_url'];
+    protected $fillable = ['reason', 'branch', 'project_id', 'source', 'build_url',
+                           'commit', 'committer_email', 'committer', ];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'deleted_at', 'updated_at', 'user'];
+    protected $hidden = ['created_at', 'deleted_at', 'updated_at', 'user', 'commands'];
 
     /**
      * Additional attributes to include in the JSON representation.
@@ -93,7 +95,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function project()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\Project');
+        return $this->belongsTo(Project::class);
     }
 
     /**
@@ -103,8 +105,42 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function user()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\User')
+        return $this->belongsTo(User::class)
                     ->withTrashed();
+    }
+
+    /**
+     * Define a command attribute to be able to access to commands relationship.
+     *
+     * @return Command
+     */
+    public function getCommandsAttribute()
+    {
+        if (!$this->relationLoaded('commands')) {
+            $this->loadCommands();
+        }
+
+        return $this->getRelation('commands');
+    }
+
+    /**
+     * Query the DB and load the HasMany relationship for commands.
+     *
+     * @return Deployment
+     */
+    private function loadCommands()
+    {
+        $collection = Command::join('deploy_steps', 'commands.id', '=', 'deploy_steps.command_id')
+                             ->where('deploy_steps.deployment_id', $this->getKey())
+                             ->distinct()
+                             ->orderBy('step')
+                             ->orderBy('order')
+                             ->get(['commands.*', 'deployment_id']);
+
+        $hasMany = new HasMany(Command::query(), $this, 'deployment_id', 'id');
+        $hasMany->matchMany([$this], $collection, 'commands');
+
+        return $this;
     }
 
     /**
@@ -114,7 +150,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function steps()
     {
-        return $this->hasMany('REBELinBLUE\Deployer\DeployStep');
+        return $this->hasMany(DeployStep::class);
     }
 
     /**

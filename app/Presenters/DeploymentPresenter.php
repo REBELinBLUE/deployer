@@ -56,15 +56,36 @@ class DeploymentPresenter extends Presenter
     }
 
     /**
+     * Gets the IDs of the optional commands which were included in the deployments, for use in a data attribute.
+     *
+     * @return string
+     */
+    public function presentOptionalCommandsUsed()
+    {
+        $commands = [];
+
+        foreach ($this->object->commands as $command) {
+            if ($command->optional) {
+                $commands[] = $command->id;
+            }
+        }
+
+        return implode(',', $commands);
+    }
+
+    /**
      * Gets the CSS icon class for the deployment status.
      *
      * @return string
      */
     public function presentIcon()
     {
+        $finished_statuses = [Deployment::FAILED, Deployment::COMPLETED_WITH_ERRORS,
+                              Deployment::ABORTING, Deployment::ABORTED, ];
+
         if ($this->status === Deployment::COMPLETED) {
             return 'check';
-        } elseif (in_array($this->status, [Deployment::FAILED, Deployment::COMPLETED_WITH_ERRORS, Deployment::ABORTING, Deployment::ABORTED], true)) {
+        } elseif (in_array($this->status, $finished_statuses, true)) {
             return 'warning';
         } elseif ($this->status === Deployment::DEPLOYING) {
             return 'spinner fa-pulse';

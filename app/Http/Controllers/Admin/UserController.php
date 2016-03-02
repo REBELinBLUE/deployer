@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         return view('admin.users.listing', [
             'title' => Lang::get('users.manage'),
-            'users' => $this->repository->getAll()->toJson(), // Because PresentableInterface toJson() is not working in the view
+            'users' => $this->repository->getAll()->toJson(), // PresentableInterface toJson() is not working in view
         ]);
     }
 

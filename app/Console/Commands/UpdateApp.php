@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Deployment;
@@ -42,7 +43,10 @@ class UpdateApp extends InstallApp
      */
     public function handle()
     {
-        if (!$this->verifyInstalled() || $this->hasRunningDeployments() || $this->composerOutdated()) {
+        if (!$this->verifyInstalled() ||
+            $this->hasRunningDeployments() ||
+            $this->composerOutdated() ||
+            !$this->checkRequirements()) {
             return;
         }
 
@@ -60,6 +64,7 @@ class UpdateApp extends InstallApp
             $this->call('down');
         }
 
+        $this->backupDatabase();
         $this->updateConfiguration();
         $this->migrate();
         $this->optimize();
@@ -69,6 +74,23 @@ class UpdateApp extends InstallApp
         if ($bring_back_up) {
             $this->call('up');
         }
+    }
+
+    /**
+     * Backup the database.
+     *
+     * @return void
+     */
+    protected function backupDatabase()
+    {
+        $date = Carbon::now()->format('Y-m-d H.i.s');
+
+        $this->call('db:backup', [
+            '--database'        => config('database.default'),
+            '--destination'     => 'local',
+            '--destinationPath' => $date,
+            '--compression'     => 'gzip',
+        ]);
     }
 
     /**
@@ -112,6 +134,11 @@ class UpdateApp extends InstallApp
 
         // Write the file to disk
         $this->writeEnvFile($config);
+
+        // If the updated .env is the same as the backup remove the backup
+        if (md5_file(base_path('.env')) === md5_file(base_path('.env.prev'))) {
+            unlink(base_path('.env.prev'));
+        }
     }
 
     /**

@@ -28,7 +28,22 @@
     </div>
 
     @include('admin.dialogs.project')
+@stop
 
+@section('right-buttons')
+    <div class="pull-right">
+        <button type="button" class="btn btn-default" title="{{ Lang::get('projects.create') }}" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> {{ Lang::get('projects.create') }}</button>
+    </div>
+@stop
+
+@push('javascript')
+    <script type="text/javascript">
+        new app.ProjectsTab();
+        app.Projects.add({!! $projects !!});
+    </script>
+@stop
+
+@push('templates')
     <script type="text/template" id="project-template">
         <td><%- name %></td>
         <td><%- group_name %></td>
@@ -49,26 +64,7 @@
         </td>
     </script>
 
-
     <script type="text/template" id="project-sidebar-template">
         <li><a href="/projects/<%- id %>" id="sidebar_project_<%- id %>"><%- name %></a></li>
     </script>
-
-    <script type="text/javascript">
-        Lang.create = '{{ Lang::get('projects.create') }}';
-        Lang.edit = '{{ Lang::get('projects.edit') }}';
-    </script>
-@stop
-
-@section('javascript')
-    <script type="text/javascript">
-        new app.ProjectsTab();
-        app.Projects.add({!! $projects !!});
-    </script>
-@stop
-
-@section('right-buttons')
-    <div class="pull-right">
-        <button type="button" class="btn btn-default" title="{{ Lang::get('projects.create') }}" data-toggle="modal" data-target="#project"><span class="fa fa-plus"></span> {{ Lang::get('projects.create') }}</button>
-    </div>
-@stop
+@endpush

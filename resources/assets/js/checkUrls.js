@@ -7,7 +7,7 @@ var app = app || {};
     $('#checkurl').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.CheckUrls.create;
+        var title = Lang.get('checkUrls.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -15,7 +15,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.CheckUrls.edit;
+            title = Lang.get('checkUrls.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#url_id').val('');
@@ -179,7 +179,7 @@ var app = app || {};
             }
         },
         addOne: function (url) {
-            var view = new app.CheckUrlView({ 
+            var view = new app.CheckUrlView({
                 model: url
             });
 
@@ -208,19 +208,19 @@ var app = app || {};
             if (parseInt(data.last_status) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
-                data.status     = Lang.CheckUrls.failure;
+                data.status     = Lang.get('checkUrls.failed');
             } else {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
-                data.status     = Lang.CheckUrls.success;
+                data.status     = Lang.get('checkUrls.successful');
             }
 
-            data.interval_label = data.period + ' ' + Lang.CheckUrls.length;
+            data.interval_label = data.period + ' ' + Lang.get('checkUrls.length');
 
-            // data.report = Lang.CheckUrls.no;
+            // data.report = Lang.get('app.no');
 
             // if (data.is_report) {
-            //     data.report = Lang.CheckUrls.yes;
+            //     data.report = Lang.get('app.ues');
             // }
 
             this.$el.html(this.template(data));

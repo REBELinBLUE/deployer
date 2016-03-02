@@ -5,7 +5,7 @@ var app = app || {};
     $('#user').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.create;
+        var title = Lang.get('users.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -16,7 +16,7 @@ var app = app || {};
 
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.edit;
+            title = Lang.get('users.edit');
             $('.btn-danger', modal).show();
             $('.existing-only', modal).show();
         } else {
@@ -173,7 +173,7 @@ var app = app || {};
             });
         },
         addOne: function (user) {
-            var view = new app.UserView({ 
+            var view = new app.UserView({
                 model: user
             });
 

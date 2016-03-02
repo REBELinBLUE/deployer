@@ -31,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
         \REBELinBLUE\Deployer\Events\EmailChangeRequested::class => [
             \REBELinBLUE\Deployer\Listeners\Events\EmailChangeConfirmation::class,
         ],
+        \REBELinBLUE\Deployer\Events\JsonWebTokenExpired::class => [
+           \REBELinBLUE\Deployer\Listeners\Events\CreateJwt::class,
+        ],
         \Illuminate\Auth\Events\Login::class => [
             \REBELinBLUE\Deployer\Listeners\Events\CreateJwt::class,
         ],
@@ -48,7 +51,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot(DispatcherContract $events)
     {
         parent::boot($events);
-
-        //
     }
 }

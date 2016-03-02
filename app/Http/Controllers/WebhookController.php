@@ -43,8 +43,8 @@ class WebhookController extends Controller
     /**
      * Handles incoming requests from Gitlab or PHPCI to trigger deploy.
      *
-     * @param  Request $request
-     * @param  string   $hash The webhook hash
+     * @param  Request  $request
+     * @param  string   $hash    The webhook hash
      * @return Response
      */
     public function webhook(Request $request, $hash)

@@ -32,6 +32,7 @@
                     </div>
                     <div class="form-group">
                         <label for="server_path">{{ Lang::get('servers.path') }}</label>
+                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('servers.example') }}"></i>
                         <input type="text" class="form-control" id="server_path" name="path" placeholder="/var/www/project" />
                     </div>
                     <div class="form-group">

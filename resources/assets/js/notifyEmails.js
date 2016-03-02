@@ -5,7 +5,7 @@ var app = app || {};
     $('#notifyemail').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.notifyEmails.create;
+        var title = Lang.get('notifyEmails.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -13,7 +13,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.notifyEmails.edit;
+            title = Lang.get('notifyEmails.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#notifyemail_id').val('');
@@ -176,7 +176,7 @@ var app = app || {};
         },
         addOne: function (file) {
 
-            var view = new app.EmailView({ 
+            var view = new app.EmailView({
                 model: file
             });
 

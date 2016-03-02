@@ -2,7 +2,7 @@
 
 // Deployments
 Route::group([
-    'middleware' => ['web', 'auth'],
+    'middleware' => ['web', 'auth', 'jwt'],
 ], function () {
 
     Route::get('webhook/{projects}/refresh', 'WebhookController@refresh');
@@ -12,6 +12,11 @@ Route::group([
     Route::post('projects/{projects}/deploy', [
         'as'   => 'deploy',
         'uses' => 'DeploymentController@deploy',
+    ]);
+
+    Route::post('deployment/{deployments}/rollback', [
+        'as'   => 'rollback',
+        'uses' => 'DeploymentController@rollback',
     ]);
 
     Route::get('deployment/{deployments}/abort', [

@@ -78,11 +78,13 @@
     </nav>
 </header>
 
-<script type="text/template" id="deployment_list_template">
-    <li id="deployment_info_<%- id %>">
-        <a href="<%- url %>">
-            <h4><%- project_name %> <small class="pull-right">{{ Lang::get('dashboard.started') }}: <%- time %></small></h4>
-            <p>{{ Lang::get('deployments.branch') }}: <%- branch %></p>
-        </a>
-    </li>
-</script>
+@push('templates')
+    <script type="text/template" id="deployment-list-template">
+        <li id="deployment_info_<%- id %>">
+            <a href="<%- url %>">
+                <h4><%- project_name %> <small class="pull-right">{{ Lang::get('dashboard.started') }}: <%- time %></small></h4>
+                <p>{{ Lang::get('deployments.branch') }}: <%- branch %></p>
+            </a>
+        </li>
+    </script>
+@endpush

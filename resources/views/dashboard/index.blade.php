@@ -67,17 +67,3 @@
         </div>
     </div>
 @stop
-
-@section('javascript')
-    <script type="text/javascript">
-        Lang.projects = {
-            status: {
-                finished: '{{ Lang::get('projects.finished') }}',
-                pending: '{{ Lang::get('projects.pending') }}',
-                deploying: '{{ Lang::get('projects.deploying') }}',
-                failed: '{{ Lang::get('projects.failed') }}',
-                not_deployed: '{{ Lang::get('projects.not_deployed') }}'
-            }
-        };
-    </script>
-@stop

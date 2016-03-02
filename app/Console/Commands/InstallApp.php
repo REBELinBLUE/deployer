@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use PDO;
 use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
@@ -46,8 +45,6 @@ class InstallApp extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct(UserRepositoryInterface $repository = null)
     {
@@ -92,9 +89,9 @@ class InstallApp extends Command
         $this->line('');
 
         $config = [
-            'db'    => $this->getDatabaseInformation(),
-            'app'   => $this->getInstallInformation(),
-            'mail'  => $this->getEmailInformation(),
+            'db'   => $this->getDatabaseInformation(),
+            'app'  => $this->getInstallInformation(),
+            'mail' => $this->getEmailInformation(),
         ];
 
         $admin = $this->getAdminInformation();
@@ -121,9 +118,9 @@ class InstallApp extends Command
         $this->line('');
         $this->comment('2. Setup the cronjobs, see "crontab"');
         $this->line('');
-        $this->comment('3. Setup the socket server and queue runner, see "supervisor.conf" for an example of how to do this with supervisor');
+        $this->comment('3. Setup the socket server & queue runner, see "supervisor.conf" for an example commands');
         $this->line('');
-        $this->comment('4. Ensure that "storage" and "public/upload" are writable by the webserver, for example run "chmod -R 777 storage"');
+        $this->comment('4. Ensure that "storage" and "public/upload" are writable by the webserver');
         $this->line('');
         $this->comment('5. (Optional) Setup logrotate, see "logrotate.conf"');
         $this->line('');
@@ -134,7 +131,8 @@ class InstallApp extends Command
     /**
      * Writes the configuration data to the config file.
      *
-     * @param  array $input The config data to write
+     * @param array $input The config data to write
+     *
      * @return bool
      */
     protected function writeEnvFile(array $input)
@@ -151,11 +149,28 @@ class InstallApp extends Command
             unset($input['app']['socket']);
         }
 
+        if (isset($input['app']['ssl'])) {
+            foreach ($input['app']['ssl'] as $key => $value) {
+                $input['socket']['ssl_' . $key] = $value;
+            }
+
+            unset($input['app']['ssl']);
+        }
+
         foreach ($input as $section => $data) {
             foreach ($data as $key => $value) {
                 $env = strtoupper($section . '_' . $key);
 
                 $config = preg_replace('/' . $env . '=(.*)/', $env . '=' . $value, $config);
+            }
+        }
+
+        // Remove SSL certificate keys if not using HTTPS
+        if (substr($input['socket']['url'], 0, 5) !== 'https') {
+            foreach (['key', 'cert', 'ca'] as $key) {
+                $key = strtoupper($key);
+
+                $config = preg_replace('/SOCKET_SSL_' . $key . '_FILE=(.*)[\n]/', '', $config);
             }
         }
 
@@ -177,13 +192,16 @@ class InstallApp extends Command
             }
         }
 
-        return file_put_contents($path, $config);
+        // Remove github keys if not needed, only really exists on my dev copy
+        if (!isset($input['github']) || empty($input['github']['oauth_token'])) {
+            $config = preg_replace('/GITHUB_OAUTH_TOKEN=(.*)[\n]/', '', $config);
+        }
+
+        return file_put_contents($path, trim($config) . PHP_EOL);
     }
 
     /**
      * Calls the artisan key:generate to set the APP_KEY.
-     *
-     * @return void
      */
     private function generateKey()
     {
@@ -203,15 +221,14 @@ class InstallApp extends Command
         $this->line('');
         //$this->call('jwt:generate'); This does not update .ENV so do it manually for now
 
-        return Str::random(32);
+        return str_random(32);
     }
 
     /**
      * Calls the artisan migrate to set up the database
      * in development mode it also seeds the DB.
      *
-     * @param  bool $seed Whether or not to seed the database
-     * @return void
+     * @param bool $seed Whether or not to seed the database
      */
     protected function migrate($seed = false)
     {
@@ -230,8 +247,6 @@ class InstallApp extends Command
 
     /**
      * Clears all Laravel caches.
-     *
-     * @return void
      */
     protected function clearCaches()
     {
@@ -244,8 +259,6 @@ class InstallApp extends Command
 
     /**
      * Runs the artisan optimize commands.
-     *
-     * @return void
      */
     protected function optimize()
     {
@@ -314,19 +327,19 @@ class InstallApp extends Command
         $regions = $this->getTimezoneRegions();
         $locales = $this->getLocales();
 
-        $callback = function ($answer) {
+        $url_callback = function ($answer) {
             $validator = Validator::make(['url' => $answer], [
                 'url' => 'url',
             ]);
 
             if (!$validator->passes()) {
                 throw new \RuntimeException($validator->errors()->first('url'));
-            };
+            }
 
             return preg_replace('#/$#', '', $answer);
         };
 
-        $url    = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $callback);
+        $url    = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $url_callback);
         $region = $this->choice('Timezone region', array_keys($regions), 0);
 
         if ($region !== 'UTC') {
@@ -335,7 +348,7 @@ class InstallApp extends Command
             $region .= '/' . $this->choice('Timezone location', $locations, 0);
         }
 
-        $socket = $this->askAndValidate('Socket URL', [], $callback, $url);
+        $socket = $this->askAndValidate('Socket URL', [], $url_callback, $url);
 
         // If the URL doesn't have : in twice (the first is in the protocol, the second for the port)
         if (substr_count($socket, ':') === 1) {
@@ -349,17 +362,44 @@ class InstallApp extends Command
             }
         }
 
+        $path_callback = function ($answer) {
+            $validator = Validator::make(['path' => $answer], [
+                'path' => 'required',
+            ]);
+
+            if (!$validator->passes()) {
+                throw new \RuntimeException($validator->errors()->first('path'));
+            }
+
+            if (!file_exists($answer)) {
+                throw new \RuntimeException('File does not exist');
+            }
+
+            return $answer;
+        };
+
+        $ssl = null;
+        if (substr($socket, 0, 5) === 'https') {
+            $ssl = [
+                'key_file'  => $this->askAndValidate('SSL key File', [], $path_callback),
+                'cert_file' => $this->askAndValidate('SSL certificate File', [], $path_callback),
+                'ca_file'   => $this->askAndValidate('SSL certificate authority file', [], $path_callback),
+            ];
+        };
+
         // If there is only 1 locale just use that
         if (count($locales) === 1) {
             $locale = $locales[0];
         } else {
-            $locale = $this->choice('Language', $locales, array_search(Config::get('app.fallback_locale'), $locales, true));
+            $default = array_search(Config::get('app.fallback_locale'), $locales, true);
+            $locale  = $this->choice('Language', $locales, $default);
         }
 
         return [
             'url'      => $url,
             'timezone' => $region,
             'socket'   => $socket,
+            'ssl'      => $ssl,
             'locale'   => $locale,
         ];
     }
@@ -450,22 +490,23 @@ class InstallApp extends Command
         $password = $this->secret('Password'); // TODO: Should validate it is at least 6 characters
 
         return [
-            'name'      => $name,
-            'email'     => $email_address,
-            'password'  => $password,
+            'name'     => $name,
+            'email'    => $email_address,
+            'password' => $password,
         ];
     }
 
     /**
      * Verifies that the database connection details are correct.
      *
-     * @param  array $database The connection details
+     * @param array $database The connection details
+     *
      * @return bool
      */
     private function verifyDatabaseDetails(array $database)
     {
         if ($database['type'] === 'sqlite') {
-            return touch(storage_path() . '/database.sqlite');
+            return touch(database_path('database.sqlite'));
         }
 
         try {
@@ -520,7 +561,7 @@ class InstallApp extends Command
      *
      * @return bool
      */
-    private function checkRequirements()
+    protected function checkRequirements()
     {
         $errors = false;
 
@@ -532,9 +573,8 @@ class InstallApp extends Command
 
         // TODO: allow gd or imagemagick
         // TODO: See if there are any others, maybe clean this list up?
-        $required_extensions = ['PDO', 'curl', 'gd',
-                                'mcrypt', 'json', 'tokenizer',
-                                'openssl', 'mbstring',
+        $required_extensions = ['PDO', 'curl', 'gd', 'json',
+                                'tokenizer', 'openssl', 'mbstring',
                                ];
 
         foreach ($required_extensions as $extension) {
@@ -545,7 +585,9 @@ class InstallApp extends Command
         }
 
         if (!count($this->getDatabaseDrivers())) {
-            $this->error('At least 1 PDO database driver is required. Either sqlite, mysql, pgsql or sqlsrv, check your php.ini file');
+            $this->error(
+                'At least 1 PDO driver is required. Either sqlite, mysql, pgsql or sqlsrv, check your php.ini file'
+            );
             $errors = true;
         }
 
@@ -560,7 +602,7 @@ class InstallApp extends Command
         }
 
         // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp'];
+        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip'];
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);
@@ -591,7 +633,7 @@ class InstallApp extends Command
 
         if ($errors) {
             $this->line('');
-            $this->block('Deployer cannot be installed, as not all requirements are met. Please review the errors above before continuing.');
+            $this->block('Deployer cannot be installed. Please review the errors above before continuing.');
             $this->line('');
 
             return false;
@@ -637,8 +679,10 @@ class InstallApp extends Command
     /**
      * Gets a list of available locations in the supplied region.
      *
-     * @param  int   $region The region constant
+     * @param int $region The region constant
+     *
      * @return array
+     *
      * @see DateTimeZone
      */
     private function getTimezoneLocations($region)
@@ -672,9 +716,8 @@ class InstallApp extends Command
     /**
      * A wrapper around symfony's formatter helper to output a block.
      *
-     * @param  string|array $messages Messages to output
-     * @param  string       $type     The type of message to output
-     * @return void
+     * @param string|array $messages Messages to output
+     * @param string       $type     The type of message to output
      */
     protected function block($messages, $type = 'error')
     {
@@ -699,8 +742,7 @@ class InstallApp extends Command
     /**
      * Outputs a header block.
      *
-     * @param  string $header The text to output
-     * @return void
+     * @param string $header The text to output
      */
     protected function header($header)
     {

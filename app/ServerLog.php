@@ -66,7 +66,7 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
      */
     public function server()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\Server');
+        return $this->belongsTo(Server::class);
     }
 
     /**

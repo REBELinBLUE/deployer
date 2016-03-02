@@ -10,6 +10,7 @@ build_settings:
         - "storage"
         - "tests"
         - "vendor"
+        - "create-release"
 
 setup:
     wipe:
@@ -29,12 +30,12 @@ setup:
 test:
     lint:
         directory: "app/"
-    php_unit:
-        config:
-            - "phpunit.xml.dist"
-        directory:
-            - "tests/"
-        coverage: "/var/www/PHPCI/shared/coverage/deployer/"
+    # php_unit:
+    #     config:
+    #         - "phpunit.xml.dist"
+    #     directory:
+    #         - "tests/"
+    #     coverage: "/var/www/PHPCI/shared/coverage/deployer/"
     php_mess_detector:
         allowed_warnings: 0
         path: "app/"

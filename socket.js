@@ -1,13 +1,28 @@
-var app = require('http').createServer(handler);
-var io  = require('socket.io')(app);
 var jwt = require('jsonwebtoken');
+var fs = require('fs');
 
 require('dotenv').load();
 
 var debug = (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === true);
 
 var Redis = require('ioredis');
-var redis = new Redis();
+var redis = new Redis({
+    db: process.env.REDIS_DATBASE || 0
+});
+
+if (/^https/i.test(process.env.SOCKET_URL)) {
+    var ssl_conf = {
+        key:  (process.env.SOCKET_SSL_KEY_FILE  ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE)  : null),
+        cert: (process.env.SOCKET_SSL_CERT_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CERT_FILE) : null),
+        ca:   (process.env.SOCKET_SSL_CA_FILE   ? fs.readFileSync(process.env.SOCKET_SSL_CA_FILE)   : null)
+    };
+
+    var app = require('https').createServer(ssl_conf, handler);
+} else {
+    var app = require('http').createServer(handler);
+}
+
+var io  = require('socket.io')(app);
 
 app.listen(parseInt(process.env.SOCKET_PORT), function() {
     if (debug) {
@@ -29,7 +44,6 @@ io.use(function(socket, next) {
     }
 
     try {
-
         decoded = jwt.verify(socket.handshake.query.jwt, process.env.JWT_SECRET);
 
         if (debug) {

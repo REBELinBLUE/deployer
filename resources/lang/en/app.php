@@ -13,6 +13,7 @@ return [
     'users'             => 'Users',
     'created'           => 'Created',
     'edit'              => 'Edit',
+    'confirm'           => 'Confirm',
     'not_applicable'    => 'N/A',
     'date'              => 'Date',
     'status'            => 'Status',

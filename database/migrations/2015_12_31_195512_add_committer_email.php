@@ -13,8 +13,13 @@ class AddCommitterEmail extends Migration
      */
     public function up()
     {
+        // SQLite doesn't allow you to add columns which allow null values - http://bit.ly/1NXf2f1
         Schema::table('deployments', function (Blueprint $table) {
-            $table->string('committer_email')->after('committer');
+            if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] === 'sqlite') {
+                $table->string('committer_email')->default('none@example.com');
+            } else {
+                $table->string('committer_email')->after('committer');
+            }
         });
 
         DB::table('deployments')->update([

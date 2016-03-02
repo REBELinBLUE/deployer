@@ -2,7 +2,7 @@
 
 // Administration
 Route::group([
-    'middleware' => ['web', 'auth'],
+    'middleware' => ['web', 'auth', 'jwt'],
     'prefix'     => 'admin',
     'namespace'  => 'Admin',
 ], function () {
@@ -22,5 +22,7 @@ Route::group([
     Route::resource('groups', 'GroupController', [
         'only' => ['index', 'store', 'update'],
     ]);
+
+    Route::post('groups/reorder', 'GroupController@reorder');
 
 });

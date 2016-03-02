@@ -20,7 +20,7 @@ var app = app || {};
                 ids.push($(element).data('server-id'));
             });
 
-            $.ajax({ 
+            $.ajax({
                 url: '/servers/reorder',
                 method: 'POST',
                 data: {
@@ -30,12 +30,11 @@ var app = app || {};
         }
     });
 
-
     // FIXME: This seems very wrong
     $('#server').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.servers.create;
+        var title = Lang.get('servers.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -44,7 +43,7 @@ var app = app || {};
         $('#add-server-command', modal).hide();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.servers.edit;
+            title = Lang.get('servers.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#server_id').val('');
@@ -159,10 +158,6 @@ var app = app || {};
     });
 
 
-
-
-
-
     app.Server = Backbone.Model.extend({
         urlRoot: '/servers'
     });
@@ -231,7 +226,7 @@ var app = app || {};
         },
         addOne: function (server) {
 
-            var view = new app.ServerView({ 
+            var view = new app.ServerView({
                 model: server
             });
 
@@ -260,20 +255,20 @@ var app = app || {};
 
             data.status_css = 'primary';
             data.icon_css   = 'question';
-            data.status     = Lang.servers.status.untested;
+            data.status     = Lang.get('servers.untested');
 
             if (parseInt(this.model.get('status')) === SUCCESSFUL) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
-                data.status     = Lang.servers.status.successful;
+                data.status     = Lang.get('servers.successful');
             } else if (parseInt(this.model.get('status')) === TESTING) {
                 data.status_css = 'warning';
                 data.icon_css   = 'spinner fa-pulse';
-                data.status     = Lang.servers.status.testing;
+                data.status     = Lang.get('servers.testing');
             } else if (parseInt(this.model.get('status')) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
-                data.status     = Lang.servers.status.failed;
+                data.status     = Lang.get('servers.failed');
             }
 
             this.$el.html(this.template(data));

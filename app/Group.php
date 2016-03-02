@@ -18,7 +18,7 @@ class Group extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'order'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -50,7 +50,7 @@ class Group extends Model
      */
     public function projects()
     {
-        return $this->hasMany('REBELinBLUE\Deployer\Project')
+        return $this->hasMany(Project::class)
                     ->notTemplates()
                     ->orderBy('name');
     }

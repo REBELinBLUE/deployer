@@ -14,6 +14,7 @@ return [
     'status'             => 'Connection Status',
     'test'               => 'Test the server connection',
     'path'               => 'Project Path',
+    'example'            => 'The directory needs to exist on the server already & be both readable and writeable',
     'warning'            => 'The server could not be saved, please check the form below.',
     'successful'         => 'Successful',
     'testing'            => 'Testing',

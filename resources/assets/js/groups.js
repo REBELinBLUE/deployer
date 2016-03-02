@@ -1,11 +1,35 @@
 var app = app || {};
 
 (function ($) {
+    $('#group_list table').sortable({
+        containerSelector: 'table',
+        itemPath: '> tbody',
+        itemSelector: 'tr',
+        placeholder: '<tr class="placeholder"/>',
+        delay: 500,
+        onDrop: function (item, container, _super) {
+            _super(item, container);
+
+            var ids = [];
+            $('tbody tr td:first-child', container.el[0]).each(function (idx, element) {
+                ids.push($(element).data('group-id'));
+            });
+
+            $.ajax({
+                url: '/admin/groups/reorder',
+                method: 'POST',
+                data: {
+                    groups: ids
+                }
+            });
+        }
+    });
+
    // FIXME: This seems very wrong
     $('#group').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.create;
+        var title = Lang.get('groups.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -13,7 +37,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.edit;
+            title = Lang.get('groups.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#group_id').val('');

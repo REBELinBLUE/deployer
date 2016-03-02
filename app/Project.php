@@ -8,6 +8,7 @@ use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\Process\Process;
+use Version\Compare as VersionCompare;
 
 /**
  * Project model.
@@ -31,7 +32,7 @@ class Project extends ProjectRelation implements PresentableInterface
                          'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
                          'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
                          'notifications', 'deployments', 'shareFiles', 'projectFiles',
-                         'is_template', ];
+                         'is_template', 'last_mirrored', ];
 
     /**
      * The attributes that are mass assignable.
@@ -46,7 +47,7 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $dates = ['last_run'];
+    protected $dates = ['last_run', 'last_mirrored'];
 
     /**
      * Additional attributes to include in the JSON representation.
@@ -294,7 +295,7 @@ class Project extends ProjectRelation implements PresentableInterface
      */
     protected function generateSSHKey()
     {
-        $key = tempnam(storage_path() . '/app/', 'sshkey');
+        $key = tempnam(storage_path('app/'), 'sshkey');
         unlink($key);
 
         $process = new Process(sprintf(
@@ -313,5 +314,49 @@ class Project extends ProjectRelation implements PresentableInterface
 
         unlink($key);
         unlink($key . '.pub');
+    }
+
+    /**
+     * Gets the list of all tags for the project.
+     *
+     * @return Collection
+     */
+    public function tags()
+    {
+        $tags = $this->refs()
+                     ->where('is_tag', true)
+                     ->lists('name')
+                     ->toArray();
+
+        $compare = new VersionCompare;
+        usort($tags, [$compare, 'compare']);
+
+        return collect($tags);
+    }
+
+    /**
+     * Gets the list of all branches for the project which are not the default.
+     *
+     * @return Collection
+     */
+    public function branches()
+    {
+        return $this->refs()
+                    ->where('is_tag', false)
+                    ->where('name', '<>', $this->branch)
+                    ->orderBy('name')
+                    ->lists('name');
+    }
+
+    /**
+     * Generate a friendly path for the mirror of the repository.
+     * Use the repository rather than the project ID, so if a single
+     * repo is used in multiple projects it is not duplicated.
+     *
+     * @return string
+     */
+    public function mirrorPath()
+    {
+        return storage_path('app/mirrors/' . preg_replace('/[^_\-.\-a-zA-Z0-9\s]/u', '_', $this->repository));
     }
 }

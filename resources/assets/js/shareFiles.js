@@ -5,7 +5,7 @@ var app = app || {};
     $('#sharefile').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.sharedFiles.create;
+        var title = Lang.get('sharedFiles.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
@@ -13,7 +13,7 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.sharedFiles.edit;
+            title = Lang.get('sharedFiles.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#file_id').val('');
@@ -176,7 +176,7 @@ var app = app || {};
         },
         addOne: function (file) {
 
-            var view = new app.FileView({ 
+            var view = new app.FileView({
                 model: file
             });
 
