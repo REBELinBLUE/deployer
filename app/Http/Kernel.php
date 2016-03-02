@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http;
 
-use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as HttpLogging;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging;
+use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as HttpLogging;
 
 /**
  * Kernel class.
