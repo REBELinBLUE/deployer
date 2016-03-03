@@ -48,6 +48,7 @@ class ResetApp extends UpdateApp
         $this->migrate(true);
         $this->clearCaches();
         $this->restartQueue();
+        $this->restartSocket();
     }
 
     /**

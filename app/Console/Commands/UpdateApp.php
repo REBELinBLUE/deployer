@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Events\RestartSocketServer;
 
 /**
  * A console command for updating the installation.
@@ -69,6 +70,7 @@ class UpdateApp extends InstallApp
         $this->migrate();
         $this->optimize();
         $this->restartQueue();
+        $this->restartSocket();
 
         // If we prompted the user to bring the app down, bring it back up
         if ($bring_back_up) {
@@ -152,6 +154,19 @@ class UpdateApp extends InstallApp
         $this->line('');
         $this->call('queue:flush');
         $this->call('queue:restart');
+        $this->line('');
+    }
+
+    /**
+     * Restarts the socket server.
+     *
+     * @return void
+     */
+    protected function restartSocket()
+    {
+        $this->info('Restarting the socket server');
+        $this->line('');
+        event(new RestartSocketServer);
         $this->line('');
     }
 
