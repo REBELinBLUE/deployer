@@ -167,7 +167,6 @@ class UpdateApp extends InstallApp
         $this->info('Restarting the socket server');
         $this->line('');
         event(new RestartSocketServer);
-        $this->line('');
     }
 
     /**
