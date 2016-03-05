@@ -6,11 +6,11 @@
         <h3 class="box-title">{{ Lang::get('servers.label') }}</h3>
     </div>
 
-    <div class="box-body">
+    <div class="box-body" v-if="!hasServers">
         <p>{{ Lang::get('servers.none') }}</p>
     </div>
 
-    <div class="box-body table-responsive">
+    <div class="box-body table-responsive" v-else>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -29,41 +29,21 @@
                     <td>@{{ server.user }}</td>
                     <td>@{{ server.ip_address }}</td>
                     <td>@{{ server.port }}</td>
-                    <td>@{{ server.deploy_code }}</td>
-                    <td><span class="label label-@ status_css %>"><i class="fa fa-@ icon_css "></i> @{{ server.status }}</td>
-                    <td>...</td>
+                    <td>
+                        <template v-if="server.deploy_code">{{ Lang::get('app.yes') }}</template>
+                        <template v-else>{{ Lang::get('app.no') }}</template>
+                    </td>
+                    <td>
+                        <span class="label label-@{{ server.status_css }}"><i class="fa fa-@{{ server.icon_css }}"></i> @{{ server.status_label }}
+                    </td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-default btn-test" title="{{ Lang::get('servers.test') }}" v-bind:disabled="server.isTesting"><i class="fa fa-refresh" v-bind:class="server.isTesting ? 'fa-spin' : ''"></i></button>
+                            <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('servers.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#server" v-bind:disabled="server.isTesting"><i class="fa fa-edit"></i></button>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-@push('templates')
-    <script type="text/template" id="server-template">
-        <td data-server-id="<%- id %>"><%- name %></td>
-        <td><%- user %></td>
-        <td><%- ip_address %></td>
-        <td><%- port %></td>
-        <td>
-            <% if (deploy_code) { %>
-                {{ Lang::get('app.yes') }}
-            <% } else { %>
-                {{ Lang::get('app.no') }}
-            <% } %>
-        </td>
-        <td>
-             <span class="label label-<%- status_css %>"><i class="fa fa-<%-icon_css %>"></i> <%- status %></span>
-        </td>
-        <td>
-            <div class="btn-group pull-right">
-                <% if (status === 'Testing') { %>
-                    <button type="button" class="btn btn-default btn-test" title="{{ Lang::get('servers.test') }}" disabled><i class="fa fa-refresh fa-spin"></i></button>
-                    <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('servers.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#server" disabled><i class="fa fa-edit"></i></button>
-                <% } else { %>
-                    <button type="button" class="btn btn-default btn-test" title="{{ Lang::get('servers.test') }}"><i class="fa fa-refresh"></i></button>
-                    <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('servers.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#server"><i class="fa fa-edit"></i></button>
-                <% } %>
-            </div>
-        </td>
-    </script>
-@endpush
