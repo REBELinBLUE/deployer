@@ -112,7 +112,7 @@
 @stop
 
 @push('javascript')
-    <script type="text/javascript">
+    <!--script type="text/javascript">
         new app.ServersTab();
         new app.SharedFilesTab();
         new app.ProjectFilesTab();
@@ -131,6 +131,9 @@
         app.CheckUrls.add({!! $checkUrls->toJson() !!});
         app.Variables.add({!! $variables->toJson() !!});
 
+        app.project_id = {{ $project->id }};
+    </script-->
+    <script type="text/javascript">
         app.project_id = {{ $project->id }};
     </script>
 @endpush

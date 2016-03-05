@@ -1,4 +1,4 @@
-<div class="box">
+<div class="box" id="manage-servers">
     <div class="box-header">
         <div class="pull-right">
             <button type="button" class="btn btn-default" title="{{ Lang::get('servers.create') }}" data-toggle="modal" data-backdrop="static" data-target="#server"><span class="fa fa-plus"></span> {{ Lang::get('servers.create') }}</button>
@@ -6,11 +6,11 @@
         <h3 class="box-title">{{ Lang::get('servers.label') }}</h3>
     </div>
 
-    <div class="box-body" id="no_servers">
+    <div class="box-body">
         <p>{{ Lang::get('servers.none') }}</p>
     </div>
 
-    <div class="box-body table-responsive" id="server_list">
+    <div class="box-body table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -24,7 +24,15 @@
                 </tr>
             </thead>
             <tbody>
-
+                <tr v-for="server in servers" track-by="id">
+                    <td>@{{ server.name }}</td>
+                    <td>@{{ server.user }}</td>
+                    <td>@{{ server.ip_address }}</td>
+                    <td>@{{ server.port }}</td>
+                    <td>@{{ server.deploy_code }}</td>
+                    <td><span class="label label-@ status_css %>"><i class="fa fa-@ icon_css "></i> @{{ server.status }}</td>
+                    <td>...</td>
+                </tr>
             </tbody>
         </table>
     </div>
