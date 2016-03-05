@@ -6,77 +6,100 @@ var app = app || {};
     var FAILED     = 2;
     var TESTING    = 3;
 
+    app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+        if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+            app.servers.servers.push(data.model);
+        }
+    });
+
+    app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
+        if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+            app.servers.servers.push(data.model);
+        }
+    });
+
+    app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
+        if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+            //app.servers.servers.$remove(data.model);
+        }
+    });
+
     app.servers = new Vue({
         el: '#manage-servers',
 
         data: {
-            servers: [
-                {
-                    id: 1,
-                    name: 'web',
-                    user: 'root',
-                    ip_address: '127.0.0.1',
-                    port: 22,
-                    deploy: true,
-                    status: 0
-                },
-                {
-                    id: 2,
-                    name: 'cron',
-                    user: 'root',
-                    ip_address: '127.0.0.1',
-                    port: 22,
-                    deploy: true,
-                    status: 2
-                },
-                {
-                    id: 3,
-                    name: 'db',
-                    user: 'root',
-                    ip_address: '127.0.0.1',
-                    port: 22,
-                    deploy: false,
-                    status: 1
-                }
-            ]
+            servers: []
         },
 
+        components: {
+            server: {
+                props: ['server'],
+                template: '#server-template',
+                methods: {
+                    testServer: function() {
+                        if (parseInt(this.server.status) === TESTING) {
+                            return;
+                        }
+
+                        this.server.status = TESTING;
+
+                        var that = this;
+                        $.ajax({
+                            type: 'GET',
+                            url: '/servers/' + this.server.id + '/test'
+                        }).fail(function (response) {
+                            that.server.status = FAILED;
+                        });
+                    }
+                },
+                computed: {
+                    isTesting: function () {
+                        return parseInt(this.server.status) === TESTING;
+                    },
+                    state: function () {
+                        switch (parseInt(this.server.status)) {
+                            case SUCCESSFUL:
+                                return 'success';
+                            case TESTING:
+                                return 'warning';
+                            case FAILED:
+                                return 'danger';
+                        }
+
+                        return 'primary';
+                    },
+                    icon: function () {
+                        switch (parseInt(this.server.status)) {
+                            case SUCCESSFUL:
+                                return 'check';
+                            case TESTING:
+                                return 'spinner fa-pulse';
+                            case FAILED:
+                                return 'warning';
+                        }
+
+                        return 'question';
+                    },
+                    label: function () {
+                        switch (parseInt(this.server.status)) {
+                            case SUCCESSFUL:
+                                return Lang.get('servers.successful');
+                            case TESTING:
+                                return Lang.get('servers.testing');
+                            case FAILED:
+                                return Lang.get('servers.failed');
+                        }
+
+                        return Lang.get('servers.untested');
+                    }
+                }
+            }
+        },
         computed: {
             hasServers: function() {
                 return this.servers.length > 0;
             }
-        },
-
-        beforeCompile: function() {
-            this.calculateStatus();
-        },
-
-        methods: {
-            calculateStatus: function () {
-                this.servers.forEach(function (server) {
-                    server.status_css   = 'primary';
-                    server.icon_css     = 'question';
-                    server.status_label = Lang.get('servers.untested');
-                    server.isTesting    = false;
-
-                    if (parseInt(server.status) === SUCCESSFUL) {
-                        server.status_css   = 'success';
-                        server.icon_css     = 'check';
-                        server.status_label = Lang.get('servers.successful');
-                    } else if (parseInt(server.status) === TESTING) {
-                        server.status_css   = 'warning';
-                        server.icon_css     = 'spinner fa-pulse';
-                        server.status_label = Lang.get('servers.testing');
-                        server.server.isTesting    = true;
-                    } else if (parseInt(server.status) === FAILED) {
-                        server.status_css   = 'danger';
-                        server.icon_css     = 'warning';
-                        server.status_label = Lang.get('servers.failed');
-                    }
-                });
-            }
-        },
-
+        }
     });
 
 })(jQuery);
