@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 <tr v-for="server in servers | orderBy 'order' | orderBy 'id'"
-                    is="server"
+                    is="Server"
                     track-by="id"
                     :server="server"
                 ></tr>
@@ -34,24 +34,26 @@
     </div>
 </div>
 
-<template id="server-template">
-    <tr>
-        <td>@{{ server.name }}</td>
-        <td>@{{ server.user }}</td>
-        <td>@{{ server.ip_address }}</td>
-        <td>@{{ server.port }}</td>
-        <td>
-            <template v-if="server.deploy_code">{{ Lang::get('app.yes') }}</template>
-            <template v-else>{{ Lang::get('app.no') }}</template>
-        </td>
-        <td>
-            <span class="label label-@{{ state }}"><i class="fa fa-@{{ icon }}"></i> @{{ label }}
-        </td>
-        <td>
-            <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-test" title="{{ Lang::get('servers.test') }}" v-bind:disabled="isTesting"><i class="fa fa-refresh" v-on:click="testServer" v-bind:class="isTesting ? 'fa-spin' : ''"></i></button>
-                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('servers.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#server" v-bind:disabled="isTesting"><i class="fa fa-edit"></i></button>
-            </div>
-        </td>
-    </tr>
-</template>
+@push('templates')
+    <template id="server-template">
+        <tr>
+            <td>@{{ server.name }}</td>
+            <td>@{{ server.user }}</td>
+            <td>@{{ server.ip_address }}</td>
+            <td>@{{ server.port }}</td>
+            <td>
+                <template v-if="server.deploy_code">{{ Lang::get('app.yes') }}</template>
+                <template v-else>{{ Lang::get('app.no') }}</template>
+            </td>
+            <td>
+                <span class="label label-@{{ state }}"><i class="fa fa-@{{ icon }}"></i> @{{ label }}
+            </td>
+            <td>
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default btn-test" title="{{ Lang::get('servers.test') }}" v-bind:disabled="isTesting"><i class="fa fa-refresh" v-on:click="testServer" v-bind:class="isTesting ? 'fa-spin' : ''"></i></button>
+                    <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('servers.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#server" v-bind:disabled="isTesting"><i class="fa fa-edit"></i></button>
+                </div>
+            </td>
+        </tr>
+    </template>
+@endpush

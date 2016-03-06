@@ -11,6 +11,7 @@
         "gulp-shell": "^0.5.2",
         "laravel-elixir": "^5.0.0",
         "laravel-elixir-bower-io": "^0.1.1",
-        "laravel-elixir-remove": "^0.2.0"
+        "laravel-elixir-remove": "^0.2.0",
+        "laravel-elixir-vueify": "^1.0.2"
     }
 }

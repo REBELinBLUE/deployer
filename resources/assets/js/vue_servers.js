@@ -33,66 +33,7 @@ var app = app || {};
 
         components: {
             server: {
-                props: ['server'],
-                template: '#server-template',
-                methods: {
-                    testServer: function() {
-                        if (parseInt(this.server.status) === TESTING) {
-                            return;
-                        }
 
-                        this.server.status = TESTING;
-
-                        var that = this;
-                        $.ajax({
-                            type: 'GET',
-                            url: '/servers/' + this.server.id + '/test'
-                        }).fail(function (response) {
-                            that.server.status = FAILED;
-                        });
-                    }
-                },
-                computed: {
-                    isTesting: function () {
-                        return parseInt(this.server.status) === TESTING;
-                    },
-                    state: function () {
-                        switch (parseInt(this.server.status)) {
-                            case SUCCESSFUL:
-                                return 'success';
-                            case TESTING:
-                                return 'warning';
-                            case FAILED:
-                                return 'danger';
-                        }
-
-                        return 'primary';
-                    },
-                    icon: function () {
-                        switch (parseInt(this.server.status)) {
-                            case SUCCESSFUL:
-                                return 'check';
-                            case TESTING:
-                                return 'spinner fa-pulse';
-                            case FAILED:
-                                return 'warning';
-                        }
-
-                        return 'question';
-                    },
-                    label: function () {
-                        switch (parseInt(this.server.status)) {
-                            case SUCCESSFUL:
-                                return Lang.get('servers.successful');
-                            case TESTING:
-                                return Lang.get('servers.testing');
-                            case FAILED:
-                                return Lang.get('servers.failed');
-                        }
-
-                        return Lang.get('servers.untested');
-                    }
-                }
             }
         },
         computed: {

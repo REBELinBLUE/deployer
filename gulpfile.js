@@ -1,6 +1,7 @@
 var elixir = require('laravel-elixir');
              require('laravel-elixir-remove');
              require('laravel-elixir-bower-io');
+             require('laravel-elixir-vueify');
 
 var gulp   = require('gulp');
 var shell  = require('gulp-shell');
@@ -76,10 +77,11 @@ elixir(function(mix) {
         paths.ace             + '/mode-yaml.js',
         paths.ace             + '/mode-ini.js'
     ], 'public/js/vendor.js', bower_path)
+    .browserify('project.js')
     .scripts([
         'app.js',
-        'vue_servers.js',
-/*        'projects.js',
+/*        'vue_servers.js',
+        'projects.js',
         'templates.js',
         'servers.js',
         'heartbeats.js',
@@ -104,7 +106,8 @@ elixir(function(mix) {
         'public/css/vendor.css',
         'public/js/app.js',
         'public/js/ie.js',
-        'public/js/vendor.js'
+        'public/js/vendor.js',
+        'public/js/project.js'
     ])
     .copy('public/fonts', 'public/build/fonts')
     .remove([

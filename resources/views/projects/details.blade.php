@@ -112,8 +112,9 @@
 @stop
 
 @push('javascript')
+    <script type="text/javascript" src="{{ elixir('js/project.js') }}"></script>
     <script type="text/javascript">
-        app.servers.servers = {!! $servers->toJson() !!};
+        app.vue.servers = {!! $servers->toJson() !!};
 
         app.project_id = {{ $project->id }};
     </script>
