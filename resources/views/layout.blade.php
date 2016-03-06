@@ -52,15 +52,18 @@
 
                 <section class="content" id="app">
                     @yield('content')
+
+                    <pre>@{{ $data | json }}</pre>
                 </section>
             </div>
         </div>
+
+        @stack('templates')
 
         <script src="{{ elixir('js/vendor.js') }}"></script>
         <script src="/js-localization/messages"></script>
         <script src="{{ elixir('js/app.js') }}"></script>
 
-        @stack('templates')
         @stack('javascript')
     </body>
 </html>

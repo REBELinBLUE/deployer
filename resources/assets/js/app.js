@@ -1,6 +1,8 @@
-import Server from './components/Server.vue';
+import ServerList from './components/tabs/Servers.vue';
 
 window.app = {};
+
+var socket;
 
 (function ($) {
     // Don't need to try and connect to the web socket when not logged in
@@ -28,6 +30,10 @@ window.app = {};
     //     }
     // });
 
+    socket = io.connect($('meta[name="socket_url"]').attr('content'), {
+        query: 'jwt=' + $('meta[name="jwt"]').attr('content')
+    });
+
     window.app = new Vue({
         el: '#app',
 
@@ -36,11 +42,10 @@ window.app = {};
             warning: false,
             current: null,
             project_id: null,
-            servers: []
         },
 
         components: {
-            Server
+            ServerList
         },
 
         events: {
@@ -48,12 +53,6 @@ window.app = {};
                 this.current = item;
                 this.is_new = false;
                 this.warning = false;
-            }
-        },
-
-        computed: {
-            hasServers() {
-                return this.servers.length > 0;
             }
         },
 

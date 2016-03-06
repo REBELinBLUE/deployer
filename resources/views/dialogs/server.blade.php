@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="server_port">{{ Lang::get('servers.port') }}</label>
-                        <input type="number" class="form-control" id="server_port" name="port" placeholder="22" value="22" v-model="current.port" />
+                        <input type="number" class="form-control" id="server_port" name="port" placeholder="22" new-value="22" v-model="current.port" number />
                     </div>
                     <div class="form-group">
                         <label for="server_path">{{ Lang::get('servers.path') }}</label>
