@@ -1,8 +1,8 @@
 <script>
-    var SUCCESSFUL = 0;
-    var UNTESTED   = 1;
-    var FAILED     = 2;
-    var TESTING    = 3;
+    const SUCCESSFUL = 0;
+    const UNTESTED   = 1;
+    const FAILED     = 2;
+    const TESTING    = 3;
 
     export default {
         props: ['server'],
@@ -23,6 +23,9 @@
                 }).fail(function (response) {
                     that.server.status = FAILED;
                 });
+            },
+            editServer(server) {
+                this.$dispatch('edit-item', this.server);
             }
         },
         computed: {

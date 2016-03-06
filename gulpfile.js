@@ -77,10 +77,10 @@ elixir(function(mix) {
         paths.ace             + '/mode-yaml.js',
         paths.ace             + '/mode-ini.js'
     ], 'public/js/vendor.js', bower_path)
-    .browserify('project.js')
-    .scripts([
+    .browserify('app.js')
+/*    .scripts([
         'app.js',
-/*        'vue_servers.js',
+        'vue_servers.js',
         'projects.js',
         'templates.js',
         'servers.js',
@@ -96,8 +96,8 @@ elixir(function(mix) {
         'users.js',
         'groups.js',
         'uploader.js',
-        'profile.js'*/
-    ], 'public/js/app.js', 'resources/assets/js')
+        'profile.js'
+    ], 'public/js/app.js', 'resources/assets/js') */
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
     .copy(paths.ionicons    + '/fonts/**',           'public/fonts')
@@ -106,8 +106,7 @@ elixir(function(mix) {
         'public/css/vendor.css',
         'public/js/app.js',
         'public/js/ie.js',
-        'public/js/vendor.js',
-        'public/js/project.js'
+        'public/js/vendor.js'
     ])
     .copy('public/fonts', 'public/build/fonts')
     .remove([
