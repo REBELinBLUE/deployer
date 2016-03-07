@@ -1,8 +1,8 @@
 import ServerList from './components/tabs/Servers.vue';
 
+// This is horrible, but if I don't use window. I can't access them
 window.app = {};
-
-var socket;
+window.socket = null;
 
 (function ($) {
     // Don't need to try and connect to the web socket when not logged in
@@ -12,25 +12,7 @@ var socket;
 
     Lang.setLocale($('meta[name="locale"]').attr('content'));
 
-    // app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
-    //     if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
-    //         app.servers.servers.push(data.model);
-    //     }
-    // });
-
-    // app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
-    //     if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
-    //         app.servers.servers.push(data.model);
-    //     }
-    // });
-
-    // app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
-    //     if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
-    //         //app.servers.servers.$remove(data.model);
-    //     }
-    // });
-
-    socket = io.connect($('meta[name="socket_url"]').attr('content'), {
+    window.socket = io.connect($('meta[name="socket_url"]').attr('content'), {
         query: 'jwt=' + $('meta[name="jwt"]').attr('content')
     });
 
@@ -42,6 +24,7 @@ var socket;
             warning: false,
             current: null,
             project_id: null,
+            servers: []
         },
 
         components: {
@@ -50,16 +33,17 @@ var socket;
 
         events: {
             'edit-item': function(item) {
-                this.current = item;
-                this.is_new = false;
-                this.warning = false;
+                this.setupItem(item, false);
+            },
+            'add-item': function(item) {
+                this.setupItem(item, true);
             }
         },
 
         methods: {
-            newItem() {
-                this.current = null;
-                this.is_new = true;
+            setupItem(item, is_new) {
+                this.current = item;
+                this.is_new = is_new;
                 this.warning = false;
             }
         }

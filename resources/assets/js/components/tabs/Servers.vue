@@ -2,19 +2,19 @@
     import Server from '../items/Server.vue';
 
     export default {
-        data: function() {
-            return {
-                servers: [
-                    {id:1,name:'test', path:'/var', ip_address:'127.0.0.1',deploy_code:true,order:1,user:'root',status:2}
-                ]
-            }
-        },
+        props: ['servers'],
 
         methods: {
             newItem() {
-                alert('here');
+                this.$dispatch('add-item', {
+                    name: '',
+                    user: '',
+                    ip_address: '',
+                    port: 22,
+                    path: '',
+                    deploy_code: true
+                });
             }
-
         },
 
         components: {
@@ -26,5 +26,25 @@
                 return this.servers.length > 0;
             }
         },
+
+        ready() {
+            window.socket.on('server:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(window.app.project_id)) {
+                    window.app.servers.push(data.model);
+                }
+            });
+
+            window.socket.on('server:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(window.app.project_id)) {
+                    window.app.servers.push(data.model);
+                }
+            });
+
+            window.socket.on('server:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
+                if (parseInt(data.model.project_id) === parseInt(window.app.project_id)) {
+                    //window.app.servers.$remove(data.model);
+                }
+            });
+        }
     };
 </script>

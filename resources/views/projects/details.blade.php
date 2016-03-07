@@ -113,7 +113,7 @@
 
 @push('javascript')
     <script type="text/javascript">
-        //app.servers = {!! $servers->toJson() !!};
+        app.servers = {!! $servers->toJson() !!};
 
         app.project_id = {{ $project->id }};
     </script>

@@ -52,8 +52,6 @@
 
                 <section class="content" id="app">
                     @yield('content')
-
-                    <pre>@{{ $data | json }}</pre>
                 </section>
             </div>
         </div>

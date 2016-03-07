@@ -1,4 +1,4 @@
-<server-list inline-template>
+<server-list :servers="servers" inline-template>
     <div class="box" id="manage-servers">
         <div class="box-header">
             <div class="pull-right">
