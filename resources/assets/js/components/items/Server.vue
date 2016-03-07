@@ -6,7 +6,9 @@
 
     export default {
         props: ['server'],
+
         template: '#server-template',
+
         methods: {
             testServer() {
                 if (parseInt(this.server.status) === TESTING) {
@@ -28,6 +30,7 @@
                 this.$dispatch('edit-item', this.server);
             }
         },
+
         computed: {
             isTesting() {
                 return parseInt(this.server.status) === TESTING;

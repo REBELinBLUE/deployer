@@ -36,12 +36,12 @@ window.socket = null;
                 this.setupItem(item, false);
             },
             'add-item': function(item) {
-                this.setupItem(item, true);
+                this.setupItem(item);
             }
         },
 
         methods: {
-            setupItem(item, is_new) {
+            setupItem(item, is_new = true) {
                 this.current = item;
                 this.is_new = is_new;
                 this.warning = false;
