@@ -49,7 +49,7 @@
 
                 <div class="row">
                     <div class="col-xs-6">
-                        <button type="submit" class="btn btn-success btn-block btn-flat">Submit Payment</button>
+                        <button type="button" class="btn btn-success btn-block btn-flat" onclick="alert('Nope!')">Submit Payment</button>
                     </div>
                 </div>
             </form>
