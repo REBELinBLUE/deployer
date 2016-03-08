@@ -96,6 +96,13 @@ The `master` branch of this repository is a development branch and **should not*
     $ editor .env
     ```
 
+7. Configure your web server to point to `public/`, see `examples/` for Apache and nginx sample configuration files.
+
+8. Start socket server and setup cron jobs.
+    If you are not configuring `supervisor` you will need to manually start the socket
+    server with `node socket.js` (listens on port 6001 by default) and setup cron jobs, see `examples/crontab`.
+    If you are configuring `supervisor` see `examples/supervisor.conf`
+
 ### Updating
 
 1. Get the latest code
