@@ -632,7 +632,7 @@ EOF';
         $tmp_file = tempnam(storage_path('app/'), 'tmpfile');
         file_put_contents($tmp_file, $content);
 
-        // Upload the wrapper file
+        // Upload the file
         $this->sendFile($tmp_file, $remote_path, $server);
 
         unlink($tmp_file);

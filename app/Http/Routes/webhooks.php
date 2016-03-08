@@ -3,22 +3,13 @@
 // Webhooks
 Route::get('cctray.xml', 'DashboardController@cctray');
 
-Route::group([
+Route::post('deploy/{hash}', [
+    'as'         => 'webhook',
     'middleware' => 'api',
-], function () {
+    'uses'       => 'WebhookController@webhook',
+]);
 
-    Route::group(['namespace' => 'Resources'], function () {
-
-        Route::get('heartbeat/{hash}', [
-            'as'   => 'heartbeat',
-            'uses' => 'HeartbeatController@ping',
-        ]);
-
-    });
-
-    Route::post('deploy/{hash}', [
-        'as'   => 'webhook',
-        'uses' => 'WebhookController@webhook',
-    ]);
-
-});
+Route::get('heartbeat/{hash}', [
+    'as'   => 'heartbeat',
+    'uses' => 'Resources\HeartbeatController@ping',
+]);
