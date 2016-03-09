@@ -28,7 +28,7 @@
 
 
         <div class="login-box-body">
-            <p class="login-box-msg">In order to continue using Deployer please renew your annual subscription. The subscription charge is <strong>&pound29.99</strong> per month.</p>
+            <p class="login-box-msg">In order to continue using Deployer please renew your annual subscription. The subscription charge is <strong>&pound;29.99</strong> per month.</p>
             <form action="{{ url('login') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div class="form-group has-feedback">
