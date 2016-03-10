@@ -1,0 +1,37 @@
+[program:deployer]
+command=php artisan queue:work --queue=deployer-high,deployer-low --sleep=3 --tries=1 --daemon
+directory=/var/www/deployer
+process_name=queue_%(process_num)s
+numprocs=3
+numprocs_start=0
+stdout_logfile=/var/www/deployer/storage/logs/supervisord-%(process_num)s-stdout.log
+stderr_logfile=/var/www/deployer/storage/logs/supervisord-%(process_num)s-stderr.log
+stderr_logfile_maxbytes=1MB
+stdout_logfile_maxbytes=1MB
+redirect_stderr=true
+autostart=true
+autorestart=true
+
+[program:deployer-socketio]
+command=nodejs socket.js
+directory=/var/www/deployer
+numprocs=1
+autostart=true
+autorestart=true
+environment=NODE_ENV=production
+stderr_logfile=/var/www/deployer/storage/logs/node-stderr.log
+stdout_logfile=/var/www/deployer/storage/logs/node-stdout.log
+stderr_logfile_maxbytes=1MB
+stdout_logfile_maxbytes=1MB
+
+[program:deployer-broadcast]
+command=php artisan queue:work --queue=deployer-default --sleep=3 --tries=1 --daemon
+directory=/var/www/deployer
+numprocs=1
+stderr_logfile=/var/www/deployer/storage/logs/broadcast-stderr.log
+stdout_logfile=/var/www/deployer/storage/logs/broadcast-stdout.log
+stderr_logfile_maxbytes=1MB
+stdout_logfile_maxbytes=1MB
+redirect_stderr=true
+autostart=true
+autorestart=true
