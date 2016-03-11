@@ -54,8 +54,8 @@ gem install github_changelog_generator -v 1.11.3
 # Create DB
 mysql -uhomestead -psecret -e "CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;"
 
-# Install JS CS & redis commander
-npm install -g redis-commander jscs
+# Install JS CS, redis commander & diff-so-fancy
+npm install -g redis-commander jscs diff-so-fancy
 
 # Install beanstalk console
 [ ! -d /var/www/beanstalk ] && composer create-project ptrofimov/beanstalk_console -q -n -s dev /var/www/beanstalk
