@@ -45,6 +45,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
+            \REBELinBLUE\Deployer\Http\Middleware\LicenseCheck::class,
             \REBELinBLUE\Deployer\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
