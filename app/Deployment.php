@@ -227,7 +227,11 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                                                               ->first();
         }
 
-        return (self::$currentDeployment[$this->project_id]->id === $this->id);
+        if (isset(self::$currentDeployment[$this->project_id])) {
+            return (self::$currentDeployment[$this->project_id]->id === $this->id);
+        }
+
+        return false;
     }
 
     /**
