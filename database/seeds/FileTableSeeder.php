@@ -16,13 +16,13 @@ class FileTableSeeder extends Seeder
         SharedFile::create([
             'name'       => 'Storage',
             'file'       => 'storage/',
-            'project_id' => 1
+            'project_id' => 1,
         ]);
 
         SharedFile::create([
             'name'       => 'Uploads',
             'file'       => 'public/uploads/',
-            'project_id' => 1
+            'project_id' => 1,
         ]);
 
         ProjectFile::create([
@@ -62,7 +62,7 @@ CACHE_DRIVER=file
 SESSION_DRIVER=file
 IMAGE_DRIVER=gd
 ',
-            'project_id' => 1
+            'project_id' => 1,
         ]);
     }
 }
