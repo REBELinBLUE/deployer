@@ -72,8 +72,8 @@
             "php artisan clear-compiled"
         ],
         "post-install-cmd": [
-            "php artisan optimize",
-            "php artisan js-localization:refresh"
+            "([ -f .env ] && php artisan optimize) || exit 0",
+            "([ -f .env ] && php artisan js-localization:refresh) || exit 0"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"
