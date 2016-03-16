@@ -382,7 +382,6 @@ class DeployProject extends Job implements ShouldQueue
             $this->sendFile($this->release_archive, $remote_archive, $server, $log);
 
             $commands = file_get_contents(app_path('Jobs/Scripts/CreateNewRelease.sh'));
-
         } elseif ($step->stage === Stage::DO_INSTALL) {
             // Install composer dependencies
             $commands = file_get_contents(app_path('Jobs/Scripts/InstallComposerDependencies.sh'));
@@ -401,7 +400,6 @@ class DeployProject extends Job implements ShouldQueue
                 $server,
                 $log
             );
-
         } elseif ($step->stage === Stage::DO_ACTIVATE) {
             // Activate latest release
             $commands = file_get_contents(app_path('Jobs/Scripts/ActivateNewRelease.sh'));
@@ -586,17 +584,24 @@ EOF';
         unlink($tmp_file);
     }
 
+    /**
+     * create the command for sending uploaded files.
+     *
+     * @param  Project   $project
+     * @param  string    $release_dir
+     * @param  Server    $server
+     * @param  ServerLog $log
+     * @return string
+     */
     private function configurationFileCommands(Project $project, $release_dir, Server $server, ServerLog $log)
     {
         $commands = [];
 
         foreach ($project->projectFiles as $file) {
-            if ($file->path) {
-                $filepath = $release_dir . '/' . $file->path;
-                $this->sendFileFromString($server, $filepath, $file->content, $log);
+            $filepath = $release_dir . '/' . $file->path;
+            $this->sendFileFromString($server, $filepath, $file->content, $log);
 
-                $commands[] = sprintf('chmod 0664 %s', $filepath);
-            }
+            $commands[] = sprintf('chmod 0664 %s', $filepath);
         }
 
         return implode(PHP_EOL, $commands) . PHP_EOL;
@@ -608,7 +613,7 @@ EOF';
      * @param  Project $project     the related project
      * @param  string  $release_dir current release dir
      * @param  string  $shared_dir  the shared dir
-     * @return array
+     * @return string
      */
     private function shareFileCommands(Project $project, $release_dir, $shared_dir)
     {

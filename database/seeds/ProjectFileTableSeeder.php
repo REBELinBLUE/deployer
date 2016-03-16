@@ -10,8 +10,8 @@ class ProjectFileTableSeeder extends Seeder
         DB::table('project_files')->delete();
 
         ProjectFile::create([
-            'name' => 'Configuration',
-            'path' => '.env',
+            'name'    => 'Configuration',
+            'path'    => '.env',
             'content' => 'APP_ENV=local
 APP_DEBUG=true
 APP_KEY=KkaOy5AZuzQ8ILAs6EwEYnK4VZVZJvNT
