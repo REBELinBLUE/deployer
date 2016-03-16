@@ -17,27 +17,27 @@ class TemplateTableSeeder extends Seeder
         ]);
 
         Command::create([
-            'name' => 'Down',
-            'script' => 'php artisan down',
+            'name'       => 'Down',
+            'script'     => 'php artisan down',
             'project_id' => $laravel->id,
-            'user' => 'deploy',
-            'step' => Command::BEFORE_ACTIVATE,
+            'user'       => 'deploy',
+            'step'       => Command::BEFORE_ACTIVATE,
         ]);
 
         Command::create([
-            'name' => 'Run Migrations',
-            'script' => 'php artisan migrate --force',
+            'name'       => 'Run Migrations',
+            'script'     => 'php artisan migrate --force',
             'project_id' => $laravel->id,
-            'user' => 'deploy',
-            'step' => Command::BEFORE_ACTIVATE,
+            'user'       => 'deploy',
+            'step'       => Command::BEFORE_ACTIVATE,
         ]);
 
         Command::create([
-            'name' => 'Up',
-            'script' => 'php artisan up',
+            'name'       => 'Up',
+            'script'     => 'php artisan up',
             'project_id' => $laravel->id,
-            'user' => 'deploy',
-            'step' => Command::BEFORE_ACTIVATE,
+            'user'       => 'deploy',
+            'step'       => Command::BEFORE_ACTIVATE,
         ]);
     }
 }

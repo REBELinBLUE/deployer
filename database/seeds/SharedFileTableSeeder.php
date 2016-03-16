@@ -10,14 +10,14 @@ class SharedFileTableSeeder extends Seeder
         DB::table('shared_files')->delete();
 
         SharedFile::create([
-            'name' => 'Storage',
-            'file' => 'storage/',
+            'name'       => 'Storage',
+            'file'       => 'storage/',
             'project_id' => 1,
         ]);
 
         SharedFile::create([
-            'name' => 'Uploads',
-            'file' => 'public/uploads/',
+            'name'       => 'Uploads',
+            'file'       => 'public/uploads/',
             'project_id' => 1,
         ]);
     }
