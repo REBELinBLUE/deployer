@@ -34,6 +34,11 @@
     overflow: auto;
 }
 
+#key pre,
+#help pre {
+    white-space: pre-wrap;
+}
+
 body {
     background-color: #ecf0f5;
 }
