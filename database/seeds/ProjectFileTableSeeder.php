@@ -2,33 +2,17 @@
 
 use Illuminate\Database\Seeder;
 use REBELinBLUE\Deployer\ProjectFile;
-use REBELinBLUE\Deployer\SharedFile;
 
-class FileTableSeeder extends Seeder
+class ProjectFileTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('shared_files')->delete();
         DB::table('project_files')->delete();
 
-        $faker = Faker\Factory::create('en_GB');
-
-        SharedFile::create([
-            'name'       => 'Storage',
-            'file'       => 'storage/',
-            'project_id' => 1,
-        ]);
-
-        SharedFile::create([
-            'name'       => 'Uploads',
-            'file'       => 'public/uploads/',
-            'project_id' => 1,
-        ]);
-
         ProjectFile::create([
-            'name'       => 'Configuration',
-            'path'       => '.env',
-            'content'    => 'APP_ENV=local
+            'name' => 'Configuration',
+            'path' => '.env',
+            'content' => 'APP_ENV=local
 APP_DEBUG=true
 APP_KEY=KkaOy5AZuzQ8ILAs6EwEYnK4VZVZJvNT
 APP_URL=http://deploy.app

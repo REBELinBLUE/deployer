@@ -6,8 +6,6 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -18,8 +16,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CommandTableSeeder::class);
         $this->call(NotificationTableSeeder::class);
         $this->call(HeartbeatTableSeeder::class);
-        $this->call(TemplateSeeder::class);
+        $this->call(CheckUrlTableSeeder::class);
+        $this->call(TemplateTableSeeder::class);
         $this->call(VariableTableSeeder::class);
-        $this->call(FileTableSeeder::class);
+        $this->call(SharedFileTableSeeder::class);
+        $this->call(ProjectFileTableSeeder::class);
     }
 }
