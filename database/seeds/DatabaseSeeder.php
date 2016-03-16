@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(HeartbeatTableSeeder::class);
         $this->call(TemplateSeeder::class);
         $this->call(VariableTableSeeder::class);
+        $this->call(FileTableSeeder::class);
     }
 }
