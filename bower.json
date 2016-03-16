@@ -1,6 +1,5 @@
 {
     "name": "Deployer",
-    "version": "0.0.15",
     "authors": [
         "Stephen Ball <stephen@rebelinblue.com>"
     ],
@@ -13,16 +12,16 @@
     ],
     "dependencies": {
         "ace-min-noconflict": "~1.1.9",
-        "backbone": "~1.1.2",
-        "fontawesome": "~4.4.0",
+        "backbone": "~1.3.0",
+        "fontawesome": "~4.5.0",
         "ionicons": "~2.0.1",
-        "jquery-sortable": "~0.9.12",
-        "moment": "~2.10.2",
-        "socket.io-client": "~1.3.6",
-        "html5shiv": "~3.7.2",
+        "jquery-sortable": "~0.9.13",
+        "moment": "~2.12.0",
+        "socket.io-client": "~1.4.5",
+        "html5shiv": "~3.7.3",
         "respond": "~1.4.2",
-        "cropper": "~2.0.0",
+        "cropper": "~2.3.0",
         "toastr": "~2.1.2",
-        "admin-lte": "~2.3.2"
+        "admin-lte": "~2.3.0"
     }
 }
