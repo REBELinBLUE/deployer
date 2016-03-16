@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="alert alert-warning">
                     <p>{!! Lang::get('projects.server_keys') !!}</p>
-                    <p>{!! Lang::get('projects.gitlab_keys') !!}</p>
+                    <p>{!! Lang::get('projects.git_keys') !!}</p>
                 </div>
 
                 <pre>{{ $project->public_key }}</pre>
