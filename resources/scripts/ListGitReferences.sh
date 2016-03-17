@@ -1,0 +1,1 @@
+cd {$mirror_dir} && git {$ref} --list --no-column
