@@ -1,3 +1,5 @@
+set -e
+
 # If there is no composer file, skip this step
 [ ! -f {{ release_path }}/composer.json ] && exit 0
 

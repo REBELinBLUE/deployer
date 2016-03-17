@@ -1,3 +1,5 @@
+set -e
+
 cd {{ project_path }}
 
 # Create the releases directory if it doesn't exist
