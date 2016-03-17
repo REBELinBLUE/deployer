@@ -460,13 +460,13 @@ class DeployProject extends Job implements ShouldQueue
     {
         switch ($step->stage) {
             case Stage::DO_CLONE:
-                return $this->loadScriptFromTemplate('CreateNewRelease');
+                return $this->loadScriptFromTemplate('deploy.steps.CreateNewRelease');
             case Stage::DO_INSTALL:
-                return $this->loadScriptFromTemplate('InstallComposerDependencies');
+                return $this->loadScriptFromTemplate('deploy.steps.InstallComposerDependencies');
             case Stage::DO_ACTIVATE:
-                return $this->loadScriptFromTemplate('ActivateNewRelease');
+                return $this->loadScriptFromTemplate('deploy.steps.ActivateNewRelease');
             case Stage::DO_PURGE:
-                return $this->loadScriptFromTemplate('PurgeOldReleases');
+                return $this->loadScriptFromTemplate('deploy.steps.PurgeOldReleases');
         }
 
         // Custom step
@@ -482,7 +482,7 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function loadScriptFromTemplate($template)
     {
-        $template = resource_path('scripts/' . $template . '.sh');
+        $template = resource_path('scripts/' . str_replace('.', '/', $template) . '.sh');
 
         if (file_exists($template)) {
             return file_get_contents($template);
