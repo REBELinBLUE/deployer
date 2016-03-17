@@ -34,7 +34,7 @@ class Parser
      */
     public function parseFile($file, array $tokens = [])
     {
-        $template = resource_path('scripts/' . $file . '.sh');
+        $template = resource_path('scripts/' . str_replace('.', '/', $file) . '.sh');
 
         if (file_exists($template)) {
             return $this->parseString(file_get_contents($template), $tokens);
