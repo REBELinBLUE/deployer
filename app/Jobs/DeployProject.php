@@ -20,6 +20,7 @@ use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
 use Symfony\Component\Process\Process;
+use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 
 /**
  * Deploys an actual project.
@@ -277,6 +278,8 @@ class DeployProject extends Job implements ShouldQueue
 
             try {
                 $server = $log->server;
+
+                $script = new ScriptParser($step, $server);
 
                 // FIME: Have a getFiles method here for transferring files
                 $script = $this->buildScript($step, $server, $log);
