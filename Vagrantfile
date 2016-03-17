@@ -9,6 +9,9 @@ Vagrant.configure("2") do |config|
     # Configure SSH
     config.ssh.forward_agent = true
 
+    # Prevent TTY Errors
+    config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
     # Configure a private network IP
     config.vm.network :private_network, ip: "192.168.10.10"
 
@@ -23,9 +26,9 @@ Vagrant.configure("2") do |config|
     end
 
     # Configure port forwarding to the box
-    config.vm.network "forwarded_port", guest: 80, host: 8000
-    config.vm.network "forwarded_port", guest: 443, host: 44300
-    config.vm.network "forwarded_port", guest: 3306, host: 33060
+    config.vm.network "forwarded_port", guest: 80, host: 8000, auto_correct: true
+    config.vm.network "forwarded_port", guest: 443, host: 44300, auto_correct: true
+    config.vm.network "forwarded_port", guest: 3306, host: 33060, auto_correct: true
 
     config.vm.synced_folder "./", "/var/www/deployer"
 
