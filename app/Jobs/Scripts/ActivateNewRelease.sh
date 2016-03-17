@@ -1,7 +1,3 @@
 cd {{ project_path }}
-
-# Remove the symlink if it already exists
-[ -h {{ project_path }}/latest ] && rm -f {{ project_path }}/latest
-
-# Create the new symlink
+[ -h {{ project_path }}/latest ] && rm {{ project_path }}/latest
 ln -s {{ release_path }} {{ project_path }}/latest
