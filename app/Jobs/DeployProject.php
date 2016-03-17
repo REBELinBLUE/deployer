@@ -229,7 +229,7 @@ class DeployProject extends Job implements ShouldQueue
             $latest_release_dir = $releases_dir . '/' . $this->release_id;
             $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
 
-            $script = $this->loadScriptFromTemplate('CleanupFailedRelease');
+            //$script = $this->loadScriptFromTemplate('CleanupFailedRelease');
 
             $tokens = [
                 '{{ release_path }}'    => $latest_release_dir,
@@ -279,10 +279,11 @@ class DeployProject extends Job implements ShouldQueue
             try {
                 $server = $log->server;
 
-                $script = new ScriptParser($step, $server);
+                $parser = new ScriptParser($step, $server);
+                $script = $parser->getScript();
 
                 // FIME: Have a getFiles method here for transferring files
-                $script = $this->buildScript($step, $server, $log);
+                //$script = $this->buildScript($step, $server, $log);
 
                 $user = $server->user;
                 if (isset($step->command)) {
@@ -436,47 +437,6 @@ class DeployProject extends Job implements ShouldQueue
         ]);
 
         return str_replace(array_keys($tokens), array_values($tokens), $script);
-    }
-
-    /**
-     * Gets the script which is used for the supplied step.
-     *
-     * @param  DeployStep $step
-     * @return string
-     */
-    private function getScriptForStep(DeployStep $step)
-    {
-        switch ($step->stage) {
-            case Stage::DO_CLONE:
-                return $this->loadScriptFromTemplate('CreateNewRelease');
-            case Stage::DO_INSTALL:
-                return $this->loadScriptFromTemplate('InstallComposerDependencies');
-            case Stage::DO_ACTIVATE:
-                return $this->loadScriptFromTemplate('ActivateNewRelease');
-            case Stage::DO_PURGE:
-                return $this->loadScriptFromTemplate('PurgeOldReleases');
-        }
-
-        // Custom step
-        return $step->command->script;
-    }
-
-    /**
-     * Loads a script from a template file.
-     *
-     * @param  string $template
-     * @return string
-     * @throws RuntimeException
-     */
-    private function loadScriptFromTemplate($template)
-    {
-        $template = resource_path('scripts/' . $template . '.sh');
-
-        if (file_exists($template)) {
-            return file_get_contents($template);
-        }
-
-        throw new \RuntimeException('Template ' . $template . ' does not exist');
     }
 
     /**
