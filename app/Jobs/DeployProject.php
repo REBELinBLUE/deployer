@@ -225,7 +225,7 @@ class DeployProject extends Job implements ShouldQueue
                 continue;
             }
 
-            $script = with(new ScriptParser)->parseFile('CleanupFailedRelease', [
+            $script = with(new ScriptParser)->parseFile('deploy.CleanupFailedRelease', [
                 'project_path'   => $root_dir,
                 'release_path'   => $root_dir . '/releases/' . $this->release_id,
                 'remote_archive' => $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz',

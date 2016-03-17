@@ -1,5 +1,3 @@
-set -e
-
 cd {{ project_path }}
 
 # Remove the symlink if it already exists
