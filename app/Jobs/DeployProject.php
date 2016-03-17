@@ -513,15 +513,13 @@ class DeployProject extends Job implements ShouldQueue
         // Turn on quit on non-zero exit
         $script = 'set -e' . PHP_EOL . $script;
 
-        return 'ssh -o CheckHostIP=no \
-                 -o IdentitiesOnly=yes \
-                 -o StrictHostKeyChecking=no \
-                 -o PasswordAuthentication=no \
-                 -o IdentityFile=' . $this->private_key . ' \
-                 -p ' . $server->port . ' \
-                 ' . $user . '@' . $server->ip_address . ' \'bash -s\' << \'EOF\'
-                 ' . $script . '
-EOF';
+        return with(new ScriptParser)->parseFile('RunScriptOverSSH', [
+            'private_key' => $this->private_key,
+            'username'    => $user,
+            'port'        => $server->port,
+            'ip_address'  => $server->ip_address,
+            'script'      => $script,
+        ]);
     }
 
     /**
