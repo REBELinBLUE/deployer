@@ -228,13 +228,15 @@ class DeployProject extends Job implements ShouldQueue
             $latest_release_dir = $releases_dir . '/' . $this->release_id;
             $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
 
-            $commands = [
-                sprintf('cd %s', $root_dir),
-                sprintf('[ -f %s ] && rm %s', $remote_archive, $remote_archive),
-                sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir),
+            $script = $this->loadScriptFromTemplate('CleanupFailedRelease');
+
+            $tokens = [
+                '{{ release_path }}'    => $latest_release_dir,
+                '{{ project_path }}'    => $root_dir,
+                '{{ remote_archive }}'  => $remote_archive,
             ];
 
-            $script = implode(PHP_EOL, $commands);
+            $script = str_replace(array_keys($tokens), array_values($tokens), $script);
 
             $process = new Process($this->sshCommand($server, $script));
             $process->setTimeout(null);
@@ -277,7 +279,7 @@ class DeployProject extends Job implements ShouldQueue
                 $server = $log->server;
 
                 // FIME: Have a getFiles method here for transferring files
-                $script = $this->getScript($step, $server, $log);
+                $script = $this->buildScript($step, $server, $log);
 
                 $user = $server->user;
                 if (isset($step->command)) {
@@ -317,6 +319,7 @@ class DeployProject extends Job implements ShouldQueue
                     $log->output = $output;
                 }
             } catch (\Exception $e) {
+                // FIXME: In debug mode log this?
                 $log->output .= $this->logError('[' . $server->ip_address . ']: ' . $e->getMessage());
                 $failed = true;
             }
@@ -355,9 +358,10 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param  DeployStep $step
      * @param  Server     $server
+     * @param  ServerLog  $log
      * @return string
      */
-    private function getScript(DeployStep $step, Server $server, $log = null)
+    private function buildScript(DeployStep $step, Server $server, ServerLog $log)
     {
         $project = $this->deployment->project;
 
@@ -374,137 +378,102 @@ class DeployProject extends Job implements ShouldQueue
         $release_shared_dir = $root_dir . '/shared';
         $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
 
-        $commands = false;
-
-        if ($step->stage === Stage::DO_CLONE) {
-            $this->sendFile($this->release_archive, $remote_archive, $server, $log);
-
-            $commands = [
-                sprintf('cd %s', $root_dir),
-                sprintf('[ ! -d %s ] && mkdir %s', $releases_dir, $releases_dir),
-                sprintf('[ ! -d %s ] && mkdir %s', $release_shared_dir, $release_shared_dir),
-                sprintf('mkdir %s', $latest_release_dir),
-                sprintf('cd %s', $latest_release_dir),
-                sprintf('echo -e "\nExtracting...\n"'),
-                sprintf(
-                    'tar --warning=no-timestamp --gunzip --verbose --extract --file=%s --directory=%s',
-                    $remote_archive,
-                    $latest_release_dir
-                ),
-                sprintf('rm %s', $remote_archive),
-            ];
-        } elseif ($step->stage === Stage::DO_INSTALL) {
-            // Install composer dependencies
-            $commands = [
-                sprintf(
-                    // If there is no composer file, skip this step
-                    '[ ! -f %s/composer.json ] && exit 0',
-                    $latest_release_dir
-                ),
-                sprintf('cd %s', $root_dir),
-                sprintf(
-                    // If composer isn't installed check for composer.phar
-                    // Then check for the phar in the root dir, if not then
-                    // download it and then set an alias
-                    'composer="$(command -v composer)"
-                    if ! hash composer 2>/dev/null; then
-                        composer="$(command -v composer.phar)"
-
-                        if ! hash composer.phar 2>/dev/null; then
-                            if [ ! -f %s/composer.phar ]; then
-                                curl -sS https://getcomposer.org/installer | php
-                                chmod +x composer.phar
-                            fi
-
-                            composer="php %s/composer.phar"
-                        fi
-                    fi',
-                    $root_dir,
-                    $root_dir
-                ),
-                sprintf('cd %s', $latest_release_dir),
-                sprintf(
-                    '$composer install --no-interaction --optimize-autoloader ' .
-                    ($project->include_dev ? '' : '--no-dev ') .
-                    '--prefer-dist --no-ansi --working-dir "%s"',
-                    $latest_release_dir,
-                    $latest_release_dir
-                ),
-            ];
-
-            // The shared file must be created in the install step
-            $shareFileCommands = $this->shareFileCommands(
-                $project,
-                $latest_release_dir,
-                $release_shared_dir
-            );
-
-            // Write project file to release dir before install
-            $projectFiles = $project->projectFiles;
-            foreach ($projectFiles as $file) {
-                if ($file->path) {
-                    $filepath = $latest_release_dir . '/' . $file->path;
-                    $this->sendFileFromString($server, $filepath, $file->content, $log);
-                    $commands[] = sprintf('chmod 0664 %s', $filepath);
-                }
-            }
-        } elseif ($step->stage === Stage::DO_ACTIVATE) {
-            // Activate latest release
-            $commands = [
-                sprintf('cd %s', $root_dir),
-                sprintf('[ -h %s/latest ] && rm %s/latest', $root_dir, $root_dir),
-                sprintf('ln -s %s %s/latest', $latest_release_dir, $root_dir),
-            ];
-        } elseif ($step->stage === Stage::DO_PURGE) {
-            // Purge old releases
-            $commands = [
-                sprintf('cd %s', $releases_dir),
-                sprintf('(ls -t|head -n %u;ls)|sort|uniq -u|xargs rm -rf', $project->builds_to_keep + 1),
-            ];
-        } else {
-            // Custom step!
-            $commands = $step->command->script;
-
-            // FIXME: This should be on the deployment model
-            // Set the deployer tags
-            $deployer_email = '';
-            $deployer_name  = 'webhook';
-            if ($this->deployment->user) {
-                $deployer_name  = $this->deployment->user->name;
-                $deployer_email = $this->deployment->user->email;
-            } elseif ($this->deployment->is_webhook && !empty($this->deployment->source)) {
-                $deployer_name = $this->deployment->source;
-            }
-
-            $tokens = [
-                '{{ release }}'         => $this->release_id,
-                '{{ release_path }}'    => $latest_release_dir,
-                '{{ project_path }}'    => $root_dir,
-                '{{ branch }}'          => $this->deployment->branch,
-                '{{ sha }}'             => $this->deployment->commit,
-                '{{ short_sha }}'       => $this->deployment->short_commit,
-                '{{ deployer_email }}'  => $deployer_email,
-                '{{ deployer_name }}'   => $deployer_name,
-                '{{ committer_email }}' => $this->deployment->committer_email,
-                '{{ committer_name }}'  => $this->deployment->committer,
-            ];
-
-            $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);
-        }
-
-        if (is_array($commands)) {
-            $commands = implode(PHP_EOL, $commands);
-        }
-
-        $variables = '';
+        $script = '';
         foreach ($project->variables as $variable) {
             $key   = $variable->name;
             $value = $variable->value;
 
-            $variables .= "export {$key}={$value}" . PHP_EOL;
+            $script .= "export {$key}={$value}" . PHP_EOL;
         }
 
-        return $variables . $commands;
+        $script .= $this->getScriptForStep($step);
+
+        // FIXME: The buildScript method should only be building a script, no data should be sent at this stage!
+        if ($step->stage === Stage::DO_CLONE) {
+            $this->sendFile($this->release_archive, $remote_archive, $server, $log);
+        } elseif ($step->stage === Stage::DO_INSTALL) {
+            // The shared file must be created in the install step
+            $script .= $this->shareFileCommands($project, $latest_release_dir, $release_shared_dir);
+
+            // Write project file to release dir before install
+            $script .= $this->configurationFileCommands($project, $latest_release_dir, $server, $log);
+        }
+
+        // FIXME: This should be on the deployment model
+        // Set the deployer tags
+        $deployer_email = '';
+        $deployer_name  = 'webhook';
+        if ($this->deployment->user) {
+            $deployer_name  = $this->deployment->user->name;
+            $deployer_email = $this->deployment->user->email;
+        } elseif ($this->deployment->is_webhook && !empty($this->deployment->source)) {
+            $deployer_name = $this->deployment->source;
+        }
+
+        $tokens = [
+            '{{ release }}'         => $this->release_id,
+            '{{ release_path }}'    => $latest_release_dir,
+            '{{ project_path }}'    => $root_dir,
+            '{{ branch }}'          => $this->deployment->branch,
+            '{{ sha }}'             => $this->deployment->commit,
+            '{{ short_sha }}'       => $this->deployment->short_commit,
+            '{{ deployer_email }}'  => $deployer_email,
+            '{{ deployer_name }}'   => $deployer_name,
+            '{{ committer_email }}' => $this->deployment->committer_email,
+            '{{ committer_name }}'  => $this->deployment->committer,
+        ];
+
+        // FIXME: These ones should only exist for scripts loaded from a file, i.e the built in commands
+        $tokens = array_merge($tokens, [
+            '{{ remote_archive }}'  => $remote_archive,
+            '{{ include_dev }}'     => $project->include_dev,
+            '{{ builds_to_keep }}'  => $project->builds_to_keep + 1,
+            '{{ shared_path }}'     => $release_shared_dir,
+            '{{ releases_path }}'   => $releases_dir,
+        ]);
+
+        return str_replace(array_keys($tokens), array_values($tokens), $script);
+    }
+
+    /**
+     * Gets the script which is used for the supplied step.
+     *
+     * @param  DeployStep $step
+     * @return string
+     */
+    private function getScriptForStep(DeployStep $step)
+    {
+        switch ($step->stage) {
+            case Stage::DO_CLONE:
+                return $this->loadScriptFromTemplate('CreateNewRelease');
+            case Stage::DO_INSTALL:
+                return $this->loadScriptFromTemplate('InstallComposerDependencies');
+            case Stage::DO_ACTIVATE:
+                return $this->loadScriptFromTemplate('ActivateNewRelease');
+            case Stage::DO_PURGE:
+                return $this->loadScriptFromTemplate('PurgeOldReleases');
+        }
+
+        // Custom step
+        return $step->command->script;
+    }
+
+    /**
+     * Loads a script from a template file.
+     *
+     * @param  string $template
+     * @return string
+     * @throws RuntimeException
+     */
+    private function loadScriptFromTemplate($template)
+    {
+        $template = app_path('Jobs/Scripts/' . $template . '.sh');
+
+        if (file_exists($template)) {
+            return file_get_contents($template);
+        }
+
+        throw new \RuntimeException('Template ' . $template . ' does not exist');
     }
 
     /**
@@ -627,7 +596,7 @@ EOF';
      * @param  ServerLog $log
      * @return void
      */
-    private function sendFileFromString(Server $server, $remote_path, $content, $log)
+    private function sendFileFromString(Server $server, $remote_path, $content, ServerLog $log)
     {
         $tmp_file = tempnam(storage_path('app/'), 'tmpfile');
         file_put_contents($tmp_file, $content);
@@ -636,6 +605,29 @@ EOF';
         $this->sendFile($tmp_file, $remote_path, $server, $log);
 
         unlink($tmp_file);
+    }
+
+    /**
+     * create the command for sending uploaded files.
+     *
+     * @param  Project   $project
+     * @param  string    $release_dir
+     * @param  Server    $server
+     * @param  ServerLog $log
+     * @return string
+     */
+    private function configurationFileCommands(Project $project, $release_dir, Server $server, ServerLog $log)
+    {
+        $commands = [];
+
+        foreach ($project->projectFiles as $file) {
+            $filepath = $release_dir . '/' . $file->path;
+            $this->sendFileFromString($server, $filepath, $file->content, $log);
+
+            $commands[] = sprintf('chmod 0664 %s', $filepath);
+        }
+
+        return implode(PHP_EOL, $commands) . PHP_EOL;
     }
 
     /**
@@ -649,6 +641,7 @@ EOF';
     private function shareFileCommands(Project $project, $release_dir, $shared_dir)
     {
         $commands = [];
+
         foreach ($project->sharedFiles as $filecfg) {
             if ($filecfg->file) {
                 $pathinfo = pathinfo($filecfg->file);
@@ -696,6 +689,6 @@ EOF';
             }
         }
 
-        return $commands;
+        return implode(PHP_EOL, $commands) . PHP_EOL;
     }
 }
