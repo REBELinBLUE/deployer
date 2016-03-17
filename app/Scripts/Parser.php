@@ -10,62 +10,24 @@ use REBELinBLUE\Deployer\Command as Stage;
 **/
 class Parser
 {
-    private $step;
-    private $server;
-
-    /**
-     * Class constructor.
-     *
-     * @param DeployStep $step
-     * @param Server $server
-     */
-    public function __construct(DeployStep $step, Server $server)
+    public function parseString($script, array $tokens = [])
     {
-        $this->step = $step;
-        $this->server = $server;
+        $values = array_values($tokens);
+
+        $tokens = array_map(function ($token) {
+            return '{{ ' . strtolower($token) . ' }}';
+        }, array_keys($tokens));
+
+
+        return str_replace($tokens, $values, $script);
     }
 
-    public function getScript()
+    public function parseFile($file, array $tokens = [])
     {
-        return $this->getScriptForStep($this->step);
-    }
-
-    /**
-     * Gets the script which is used for the supplied step.
-     *
-     * @param  DeployStep $step
-     * @return string
-     */
-    private function getScriptForStep(DeployStep $step)
-    {
-        switch ($step->stage) {
-            case Stage::DO_CLONE:
-                return $this->loadScriptFromTemplate('CreateNewRelease');
-            case Stage::DO_INSTALL:
-                return $this->loadScriptFromTemplate('InstallComposerDependencies');
-            case Stage::DO_ACTIVATE:
-                return $this->loadScriptFromTemplate('ActivateNewRelease');
-            case Stage::DO_PURGE:
-                return $this->loadScriptFromTemplate('PurgeOldReleases');
-        }
-
-        // Custom step
-        return $step->command->script;
-    }
-
-    /**
-     * Loads a script from a template file.
-     *
-     * @param  string $template
-     * @return string
-     * @throws RuntimeException
-     */
-    private function loadScriptFromTemplate($template)
-    {
-        $template = resource_path('scripts/' . $template . '.sh');
+        $template = resource_path('scripts/' . $file . '.sh');
 
         if (file_exists($template)) {
-            return file_get_contents($template);
+            return $this->parseString(file_get_contents($template), $tokens);
         }
 
         throw new \RuntimeException('Template ' . $template . ' does not exist');

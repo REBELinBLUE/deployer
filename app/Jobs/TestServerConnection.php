@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Server;
 use Symfony\Component\Process\Process;
+use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 
 /**
  * Tests if a server can successfully be SSHed into.
@@ -44,8 +45,7 @@ class TestServerConnection extends Job implements ShouldQueue
         file_put_contents($key, $this->server->project->private_key);
 
         try {
-            $command = $this->sshCommand($this->server, $key);
-            $process = new Process($command);
+            $process = new Process($this->sshCommand($this->server, $key));
             $process->setTimeout(null);
             $process->run();
 
@@ -72,27 +72,15 @@ class TestServerConnection extends Job implements ShouldQueue
      */
     private function sshCommand(Server $server, $private_key)
     {
-        $tmpfile = time() . '_testing_deployer.txt';
-        $tmpdir  = time() . '_testing_deployer_dir';
+        $parser = new ScriptParser;
 
-        // Ensure the directory exists and can be written to
-        // that directories can be made and files/directories
-        // can be removed
-        $script = <<< EOD
-            set -e
-            cd $server->path
-            ls
-            touch $tmpfile
-            echo "testing" >> $tmpfile
-            chmod +x $tmpfile
-            rm $tmpfile
-            mkdir $tmpdir
-            touch $tmpdir/$tmpfile
-            echo "testing" >> $tmpdir/$tmpfile
-            chmod +x $tmpdir/$tmpfile
-            ls $tmpdir/
-            rm -rf $tmpdir
-EOD;
+        $script = $parser->parseFile('TestServerConnection', [
+            'project_path'   => $server->path,
+            'test_file'      => time() . '_testing_deployer.txt',
+            'test_directory' => time() . '_testing_deployer_dir'
+        ]);
+
+
 
         return 'ssh -o CheckHostIP=no \
                  -o IdentitiesOnly=yes \

@@ -461,6 +461,50 @@ class DeployProject extends Job implements ShouldQueue
         return '<info>' . $message . '</info>';
     }
 
+
+
+    /**
+     * Gets the script which is used for the supplied step.
+     *
+     * @param  DeployStep $step
+     * @return string
+     */
+    private function getScriptForStep(DeployStep $step)
+    {
+        switch ($step->stage) {
+            case Stage::DO_CLONE:
+                return $this->loadScriptFromTemplate('CreateNewRelease');
+            case Stage::DO_INSTALL:
+                return $this->loadScriptFromTemplate('InstallComposerDependencies');
+            case Stage::DO_ACTIVATE:
+                return $this->loadScriptFromTemplate('ActivateNewRelease');
+            case Stage::DO_PURGE:
+                return $this->loadScriptFromTemplate('PurgeOldReleases');
+        }
+
+        // Custom step
+        return $step->command->script;
+    }
+
+    /**
+     * Loads a script from a template file.
+     *
+     * @param  string $template
+     * @return string
+     * @throws RuntimeException
+     */
+    private function loadScriptFromTemplate($template)
+    {
+        $template = resource_path('scripts/' . $template . '.sh');
+
+        if (file_exists($template)) {
+            return file_get_contents($template);
+        }
+
+        throw new \RuntimeException('Template ' . $template . ' does not exist');
+    }
+
+
     /**
      * Generates the SSH command for running the script on a server.
      *

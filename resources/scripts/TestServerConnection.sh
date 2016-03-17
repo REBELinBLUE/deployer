@@ -1,13 +1,23 @@
+# Exit on error
 set -e
-cd $server->path
+
+# Ensure the directory exists and can be written to
+cd {{ project_path }}
 ls
-touch $tmpfile
-echo "testing" >> $tmpfile
-chmod +x $tmpfile
-rm $tmpfile
-mkdir $tmpdir
-touch $tmpdir/$tmpfile
-echo "testing" >> $tmpdir/$tmpfile
-chmod +x $tmpdir/$tmpfile
-ls $tmpdir/
-rm -rf $tmpdir
+
+# Ensure it can be written to
+touch {{ test_file }}
+echo "testing" >> {{ test_file }}
+chmod +x {{ test_file }}
+rm {{ test_file }}
+
+# Ensure directories can be made
+mkdir {{ test_directory }}
+
+touch {{ test_directory }}/{{ test_file }}
+echo "testing" >> {{ test_directory }}/{{ test_file }}
+chmod +x {{ test_directory }}/{{ test_file }}
+
+ls {{ test_directory }}/
+
+rm -rf {{ test_directory }}
