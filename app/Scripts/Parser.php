@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Scripts;
 
 /**
  * Class which loads a shell script template and parses any variables.
-**/
+ */
 class Parser
 {
     /**

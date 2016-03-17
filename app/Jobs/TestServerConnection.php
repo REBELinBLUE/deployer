@@ -7,9 +7,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Server;
 use Symfony\Component\Process\Process;
-use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 
 /**
  * Tests if a server can successfully be SSHed into.
@@ -77,7 +77,7 @@ class TestServerConnection extends Job implements ShouldQueue
         $script = $parser->parseFile('TestServerConnection', [
             'project_path'   => $server->path,
             'test_file'      => time() . '_testing_deployer.txt',
-            'test_directory' => time() . '_testing_deployer_dir'
+            'test_directory' => time() . '_testing_deployer_dir',
         ]);
 
         return $parser->parseFile('RunScriptOverSSH', [
@@ -85,7 +85,7 @@ class TestServerConnection extends Job implements ShouldQueue
             'username'    => $server->user,
             'port'        => $server->port,
             'ip_address'  => $server->ip_address,
-            'script'      => $script
+            'script'      => $script,
         ]);
     }
 }

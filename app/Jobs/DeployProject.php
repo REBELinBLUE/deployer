@@ -16,11 +16,11 @@ use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
 use Symfony\Component\Process\Process;
-use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 
 /**
  * Deploys an actual project.
@@ -461,8 +461,6 @@ class DeployProject extends Job implements ShouldQueue
         return '<info>' . $message . '</info>';
     }
 
-
-
     /**
      * Gets the script which is used for the supplied step.
      *
@@ -489,9 +487,9 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Loads a script from a template file.
      *
-     * @param  string $template
-     * @return string
+     * @param  string           $template
      * @throws RuntimeException
+     * @return string
      */
     private function loadScriptFromTemplate($template)
     {
@@ -503,7 +501,6 @@ class DeployProject extends Job implements ShouldQueue
 
         throw new \RuntimeException('Template ' . $template . ' does not exist');
     }
-
 
     /**
      * Generates the SSH command for running the script on a server.
