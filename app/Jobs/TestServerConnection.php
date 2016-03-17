@@ -80,16 +80,12 @@ class TestServerConnection extends Job implements ShouldQueue
             'test_directory' => time() . '_testing_deployer_dir'
         ]);
 
-
-
-        return 'ssh -o CheckHostIP=no \
-                 -o IdentitiesOnly=yes \
-                 -o StrictHostKeyChecking=no \
-                 -o PasswordAuthentication=no \
-                 -o IdentityFile=' . $private_key . ' \
-                 -p ' . $server->port . ' \
-                 ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << \'EOF\'
-                 ' . $script . '
-EOF';
+        return $parser->parseFile('RunScriptOverSSH', [
+            'private_key' => $private_key,
+            'username'    => $server->user,
+            'port'        => $server->port,
+            'ip_address'  => $server->ip_address,
+            'script'      => $script
+        ]);
     }
 }
