@@ -228,13 +228,15 @@ class DeployProject extends Job implements ShouldQueue
             $latest_release_dir = $releases_dir . '/' . $this->release_id;
             $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
 
-            $commands = [
-                sprintf('cd %s', $root_dir),
-                sprintf('[ -f %s ] && rm %s', $remote_archive, $remote_archive),
-                sprintf('[ -d %s ] && rm -rf %s', $latest_release_dir, $latest_release_dir),
+            $script = $this->loadScriptFromTemplate('CleanupFailedRelease');
+
+            $tokens = [
+                '{{ release_path }}'    => $latest_release_dir,
+                '{{ project_path }}'    => $root_dir,
+                '{{ remote_archive }}'  => $remote_archive,
             ];
 
-            $script = implode(PHP_EOL, $commands);
+            $script = str_replace(array_keys($tokens), array_values($tokens), $script);
 
             $process = new Process($this->sshCommand($server, $script));
             $process->setTimeout(null);
