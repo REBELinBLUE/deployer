@@ -467,7 +467,7 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function loadScriptFromTemplate($template)
     {
-        $template = app_path('Jobs/Scripts/' . $template . '.sh');
+        $template = resource_path('scripts/' . $template . '.sh');
 
         if (file_exists($template)) {
             return file_get_contents($template);
