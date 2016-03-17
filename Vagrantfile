@@ -46,6 +46,7 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.provision "file", source: "~/.gitconfig", destination: "~/.gitconfig"
+    config.vm.provision "file", source: "~/.gitignore_global", destination: "~/.gitignore_global"
     config.vm.provision "file", source: "~/.composer/auth.json", destination: "~/.composer/auth.json"
 
     # Provision
