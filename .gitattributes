@@ -91,3 +91,6 @@ vendor.scss linguest-vendored
 
 # Consider blade files as HTML
 *.blade.php linguist-language=HTML
+
+# Make sure sh files are shell scripts
+*.sh linguist-language=shellscript
