@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
         provider.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
         provider.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         provider.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
-        provider.customize ["modifyvm", :id, "--groups", "/Deployer"]
+        provider.customize ["modifyvm", :id, "--groups", "/PHP Deployer"]
     end
 
     # Configure port forwarding to the box
