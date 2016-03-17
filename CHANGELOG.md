@@ -1,5 +1,17 @@
 # Change Log
 
+## [0.0.31](https://github.com/REBELinBLUE/deployer/tree/0.0.31) (2016-03-11)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.30...0.0.31)
+
+**Fixed bugs:**
+
+- Exception when project has deployments but none are 'completed' [\#188](https://github.com/REBELinBLUE/deployer/issues/188)
+- Throttling interferes with heartbeart URLS [\#153](https://github.com/REBELinBLUE/deployer/issues/153)
+
+**Merged pull requests:**
+
+- \[IMPROVEMENT\] Added HTTP and Node instructions to Install section [\#185](https://github.com/REBELinBLUE/deployer/pull/185) ([Patabugen](https://github.com/Patabugen))
+
 ## [0.0.30](https://github.com/REBELinBLUE/deployer/tree/0.0.30) (2016-03-02)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.29...0.0.30)
 

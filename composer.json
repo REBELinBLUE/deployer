@@ -23,14 +23,14 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "predis/predis": "~1.0",
-        "graham-campbell/htmlmin": "~4.0",
-        "pda/pheanstalk": "~3.0",
+        "graham-campbell/htmlmin": "~4.2",
+        "pda/pheanstalk": "~3.1",
         "creativeorange/gravatar": "~1.0",
-        "nategood/httpful": "~0.2.19",
+        "nategood/httpful": "~0.2",
         "robclancy/presenter": "1.3.*",
         "doctrine/dbal": "~2.5",
-        "intervention/image": "^2.2",
-        "graham-campbell/binput": "~3.2",
+        "intervention/image": "^2.3",
+        "graham-campbell/binput": "~3.3",
         "itsgoingd/clockwork": "~1.9",
         "tymon/jwt-auth": "~0.5",
         "pragmarx/google2fa": "^0.7.1",
@@ -46,12 +46,12 @@
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "block8/php-docblock-checker": "^1.0",
-        "squizlabs/php_codesniffer": "~2.3",
-        "phpmd/phpmd" : "~2.0",
+        "squizlabs/php_codesniffer": "~2.5",
+        "phpmd/phpmd" : "~2.4",
         "phploc/phploc": "~3.0",
         "sebastian/phpcpd": "2.0.2",
         "filp/whoops": "^2.0",
-        "codeclimate/php-test-reporter": "^0.1.2",
+        "codeclimate/php-test-reporter": "^0.3.0",
         "fabpot/php-cs-fixer": "^1.10"
     },
     "autoload": {
@@ -72,8 +72,8 @@
             "php artisan clear-compiled"
         ],
         "post-install-cmd": [
-            "php artisan optimize",
-            "php artisan js-localization:refresh"
+            "([ -f .env ] && php artisan optimize) || exit 0",
+            "([ -f .env ] && php artisan js-localization:refresh) || exit 0"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"

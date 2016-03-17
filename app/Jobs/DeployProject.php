@@ -439,14 +439,12 @@ class DeployProject extends Job implements ShouldQueue
                 $release_shared_dir
             );
 
-            $commands = array_merge($commands, $shareFileCommands);
-
             // Write project file to release dir before install
             $projectFiles = $project->projectFiles;
             foreach ($projectFiles as $file) {
                 if ($file->path) {
                     $filepath = $latest_release_dir . '/' . $file->path;
-                    $this->sendFileFromString($server, $filepath, $file->content);
+                    $this->sendFileFromString($server, $filepath, $file->content, $log);
                     $commands[] = sprintf('chmod 0664 %s', $filepath);
                 }
             }
@@ -570,10 +568,11 @@ EOF';
      * @param  string           $local_file
      * @param  string           $remote_file
      * @param  Server           $server
+     * @param  ServerLog        $log
      * @throws RuntimeException
      * @return void
      */
-    private function sendFile($local_file, $remote_file, Server $server, $log = null)
+    private function sendFile($local_file, $remote_file, Server $server, $log)
     {
         $copy = sprintf(
             'rsync --verbose --compress --progress --out-format="Receiving %%n" -e "ssh -p %s ' .
@@ -622,18 +621,19 @@ EOF';
     /**
      * Send a string to server.
      *
-     * @param  Server $server      target server
-     * @param  string $remote_path remote filename
-     * @param  string $content     the file content
+     * @param  Server    $server      target server
+     * @param  string    $remote_path remote filename
+     * @param  string    $content     the file content
+     * @param  ServerLog $log
      * @return void
      */
-    private function sendFileFromString(Server $server, $remote_path, $content)
+    private function sendFileFromString(Server $server, $remote_path, $content, $log)
     {
         $tmp_file = tempnam(storage_path('app/'), 'tmpfile');
         file_put_contents($tmp_file, $content);
 
         // Upload the file
-        $this->sendFile($tmp_file, $remote_path, $server);
+        $this->sendFile($tmp_file, $remote_path, $server, $log);
 
         unlink($tmp_file);
     }
@@ -644,7 +644,7 @@ EOF';
      * @param  Project $project     the related project
      * @param  string  $release_dir current release dir
      * @param  string  $shared_dir  the shared dir
-     * @return array
+     * @return string
      */
     private function shareFileCommands(Project $project, $release_dir, $shared_dir)
     {

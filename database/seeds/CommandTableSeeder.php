@@ -26,7 +26,7 @@ EOD;
         DB::table('commands')->delete();
 
         Command::create([
-            'name'       => 'Before Clone',
+            'name'       => 'Before Create New Release',
             'script'     => $this->getScript(),
             'project_id' => 1,
             'user'       => 'deploy',
@@ -35,7 +35,7 @@ EOD;
         ])->servers()->attach([1, 2]);
 
         Command::create([
-            'name'       => 'After Clone',
+            'name'       => 'After Create New Release',
             'script'     => $this->getScript(),
             'project_id' => 1,
             'user'       => 'deploy',
