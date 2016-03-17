@@ -225,19 +225,11 @@ class DeployProject extends Job implements ShouldQueue
                 continue;
             }
 
-            $releases_dir       = $root_dir . '/releases';
-            $latest_release_dir = $releases_dir . '/' . $this->release_id;
-            $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
-
-            //$script = $this->loadScriptFromTemplate('CleanupFailedRelease');
-
-            $tokens = [
-                '{{ release_path }}'    => $latest_release_dir,
-                '{{ project_path }}'    => $root_dir,
-                '{{ remote_archive }}'  => $remote_archive,
-            ];
-
-            $script = str_replace(array_keys($tokens), array_values($tokens), $script);
+            $script = with(new ScriptParser)->parseFile('CleanupFailedRelease', [
+                'project_path'   => $root_dir,
+                'release_path'   => $root_dir . '/releases/' . $this->release_id,
+                'remote_archive' => $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz',
+            ]);
 
             $process = new Process($this->sshCommand($server, $script));
             $process->setTimeout(null);
@@ -380,7 +372,7 @@ class DeployProject extends Job implements ShouldQueue
 
         $latest_release_dir = $releases_dir . '/' . $this->release_id;
         $release_shared_dir = $root_dir . '/shared';
-        $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
+        $remote_archive     = $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
 
         $script = '';
         foreach ($project->variables as $variable) {
