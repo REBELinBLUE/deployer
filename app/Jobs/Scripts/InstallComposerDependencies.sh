@@ -1,16 +1,18 @@
 # If there is no composer file, skip this step
 [ ! -f {{ release_path }}/composer.json ] && exit 0
+
 cd {{ project_path }}
 
-# If composer isn't installed check for composer.phar
-# Then check for the phar in the root dir, if not then
-# download it and then set an alias
+# Check composer is installed
 composer="$(command -v composer)"
 if ! hash composer 2>/dev/null; then
+    # If not, check for composer.phar
     composer="$(command -v composer.phar)"
 
     if ! hash composer.phar 2>/dev/null; then
+        # If still not, check for composer.phar in the project path
         if [ ! -f {{ project_path }}/composer.phar ]; then
+            # Finally, resort to downloading it
             curl -sS https://getcomposer.org/installer | php
             chmod +x composer.phar
         fi
