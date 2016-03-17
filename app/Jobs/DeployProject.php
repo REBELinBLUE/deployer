@@ -439,6 +439,8 @@ class DeployProject extends Job implements ShouldQueue
                 $release_shared_dir
             );
 
+            $commands = array_merge($commands, $shareFileCommands);
+
             // Write project file to release dir before install
             $projectFiles = $project->projectFiles;
             foreach ($projectFiles as $file) {
