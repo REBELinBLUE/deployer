@@ -1,3 +1,8 @@
+engines:
+    markdownlint:
+        enabled: true
+    shellcheck:
+        enabled: true
 languages:
     Ruby: false
     JavaScript: true
