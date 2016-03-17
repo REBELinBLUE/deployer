@@ -277,7 +277,7 @@ class DeployProject extends Job implements ShouldQueue
                 $server = $log->server;
 
                 // FIME: Have a getFiles method here for transferring files
-                $script = $this->getScript($step, $server, $log);
+                $script = $this->buildScript($step, $server, $log);
 
                 $user = $server->user;
                 if (isset($step->command)) {
@@ -359,7 +359,7 @@ class DeployProject extends Job implements ShouldQueue
      * @param  ServerLog  $log
      * @return string
      */
-    private function getScript(DeployStep $step, Server $server, ServerLog $log)
+    private function buildScript(DeployStep $step, Server $server, ServerLog $log)
     {
         $project = $this->deployment->project;
 
@@ -376,39 +376,25 @@ class DeployProject extends Job implements ShouldQueue
         $release_shared_dir = $root_dir . '/shared';
         $remote_archive     = $root_dir . '/' . $this->release_id . '.tar.gz';
 
-        $commands = false;
+        $script = '';
+        foreach ($project->variables as $variable) {
+            $key   = $variable->name;
+            $value = $variable->value;
 
+            $script .= "export {$key}={$value}" . PHP_EOL;
+        }
+
+        $script .= $this->getScriptForStep($step);
+
+        // FIXME: The buildScript method should only be building a script, no data should be sent at this stage!
         if ($step->stage === Stage::DO_CLONE) {
             $this->sendFile($this->release_archive, $remote_archive, $server, $log);
-
-            $commands = file_get_contents(app_path('Jobs/Scripts/CreateNewRelease.sh'));
         } elseif ($step->stage === Stage::DO_INSTALL) {
-            // Install composer dependencies
-            $commands = file_get_contents(app_path('Jobs/Scripts/InstallComposerDependencies.sh'));
-
             // The shared file must be created in the install step
-            $commands .= $this->shareFileCommands(
-                $project,
-                $latest_release_dir,
-                $release_shared_dir
-            );
+            $script .= $this->shareFileCommands($project, $latest_release_dir, $release_shared_dir);
 
             // Write project file to release dir before install
-            $commands .= $this->configurationFileCommands(
-                $project,
-                $latest_release_dir,
-                $server,
-                $log
-            );
-        } elseif ($step->stage === Stage::DO_ACTIVATE) {
-            // Activate latest release
-            $commands = file_get_contents(app_path('Jobs/Scripts/ActivateNewRelease.sh'));
-        } elseif ($step->stage === Stage::DO_PURGE) {
-            // Purge old releases
-            $commands = file_get_contents(app_path('Jobs/Scripts/PurgeOldReleases.sh'));
-        } else {
-            // Custom step!
-            $commands = $step->command->script;
+            $script .= $this->configurationFileCommands($project, $latest_release_dir, $server, $log);
         }
 
         // FIXME: This should be on the deployment model
@@ -423,11 +409,8 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         $tokens = [
-            '{{ remote_archive }}'  => $remote_archive,
             '{{ release }}'         => $this->release_id,
             '{{ release_path }}'    => $latest_release_dir,
-            '{{ shared_path }}'     => $release_shared_dir,
-            '{{ releases_path }}'   => $releases_dir,
             '{{ project_path }}'    => $root_dir,
             '{{ branch }}'          => $this->deployment->branch,
             '{{ sha }}'             => $this->deployment->commit,
@@ -436,21 +419,59 @@ class DeployProject extends Job implements ShouldQueue
             '{{ deployer_name }}'   => $deployer_name,
             '{{ committer_email }}' => $this->deployment->committer_email,
             '{{ committer_name }}'  => $this->deployment->committer,
-            '{{ include_dev }}'     => $project->include_dev,
-            '{{ builds_to_keep }}'  => $project->builds_to_keep + 1,
         ];
 
-        $commands = str_replace(array_keys($tokens), array_values($tokens), $commands);
+        // FIXME: These ones should only exist for scripts loaded from a file, i.e the built in commands
+        $tokens = array_merge($tokens, [
+            '{{ remote_archive }}'  => $remote_archive,
+            '{{ include_dev }}'     => $project->include_dev,
+            '{{ builds_to_keep }}'  => $project->builds_to_keep + 1,
+            '{{ shared_path }}'     => $release_shared_dir,
+            '{{ releases_path }}'   => $releases_dir,
+        ]);
 
-        $variables = '';
-        foreach ($project->variables as $variable) {
-            $key   = $variable->name;
-            $value = $variable->value;
+        return str_replace(array_keys($tokens), array_values($tokens), $script);
+    }
 
-            $variables .= "export {$key}={$value}" . PHP_EOL;
+    /**
+     * Gets the script which is used for the supplied step.
+     *
+     * @param  DeployStep $step
+     * @return string
+     */
+    private function getScriptForStep(DeployStep $step)
+    {
+        switch ($step->stage) {
+            case Stage::DO_CLONE:
+                return $this->loadScriptFromTemplate('CreateNewRelease');
+            case Stage::DO_INSTALL:
+                return $this->loadScriptFromTemplate('InstallComposerDependencies');
+            case Stage::DO_ACTIVATE:
+                return $this->loadScriptFromTemplate('ActivateNewRelease');
+            case Stage::DO_PURGE:
+                return $this->loadScriptFromTemplate('PurgeOldReleases');
         }
 
-        return $variables . $commands;
+        // Custom step
+        return $step->command->script;
+    }
+
+    /**
+     * Loads a script from a template file.
+     *
+     * @param  string $template
+     * @return string
+     * @throws RuntimeException
+     */
+    private function loadScriptFromTemplate($template)
+    {
+        $template = app_path('Jobs/Scripts/' . $template . '.sh');
+
+        if (file_exists($template)) {
+            return file_get_contents($template);
+        }
+
+        throw new \RuntimeException('Template ' . $template . ' does not exist');
     }
 
     /**
