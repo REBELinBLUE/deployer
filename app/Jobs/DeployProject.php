@@ -271,11 +271,8 @@ class DeployProject extends Job implements ShouldQueue
             try {
                 $server = $log->server;
 
-                $parser = new ScriptParser($step, $server);
-                $script = $parser->getScript();
-
                 // FIME: Have a getFiles method here for transferring files
-                //$script = $this->buildScript($step, $server, $log);
+                $script = $this->buildScript($step, $server, $log);
 
                 $user = $server->user;
                 if (isset($step->command)) {
