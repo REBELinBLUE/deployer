@@ -292,7 +292,7 @@ class DeployProject extends Job implements ShouldQueue
                 $cancelled = false;
 
                 if (!empty($script)) {
-                    $process = new Process($this->sshCommand($server, $script, $user));
+                    $process = new Process($this->generateSSHCommand($server, $script, $user));
                     $process->setTimeout(null);
 
                     $output = '';
@@ -407,7 +407,6 @@ class DeployProject extends Job implements ShouldQueue
         $release_shared_dir = $root_dir . '/shared';
         $remote_archive     = $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
 
-        // FIXME: This should be on the deployment model
         // Set the deployer tags
         $deployer_email = '';
         $deployer_name  = 'webhook';
@@ -431,14 +430,15 @@ class DeployProject extends Job implements ShouldQueue
             '{{ committer_name }}'  => $this->deployment->committer,
         ];
 
-        // FIXME: These ones should only exist for scripts loaded from a file, i.e the built in commands
-        $tokens = array_merge($tokens, [
-            '{{ remote_archive }}'  => $remote_archive,
-            '{{ include_dev }}'     => $project->include_dev,
-            '{{ builds_to_keep }}'  => $project->builds_to_keep + 1,
-            '{{ shared_path }}'     => $release_shared_dir,
-            '{{ releases_path }}'   => $releases_dir,
-        ]);
+        if (!$step->isCustomStep()) {
+            $tokens = array_merge($tokens, [
+                '{{ remote_archive }}'  => $remote_archive,
+                '{{ include_dev }}'     => $project->include_dev,
+                '{{ builds_to_keep }}'  => $project->builds_to_keep + 1,
+                '{{ shared_path }}'     => $release_shared_dir,
+                '{{ releases_path }}'   => $releases_dir,
+            ]);
+        }
 
         // Generate the export
         $script = '';
@@ -510,8 +510,8 @@ class DeployProject extends Job implements ShouldQueue
      * Generates the SSH command for running the script on a server.
      *
      * @param  Server $server
-     * @param  string $script The script to run
-     * @param  string $user
+     * @param  string $script
+     * @param  string|null $user
      * @return string
      */
     private function generateSSHCommand(Server $server, $script, $user = null)
@@ -544,8 +544,8 @@ class DeployProject extends Job implements ShouldQueue
      * @param  string           $remote_file
      * @param  Server           $server
      * @param  ServerLog        $log
-     * @throws RuntimeException
      * @return void
+     * @throws RuntimeException
      */
     private function sendFile($local_file, $remote_file, Server $server, $log)
     {

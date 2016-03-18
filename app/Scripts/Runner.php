@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Scripts
+namespace REBELinBLUE\Deployer\Scripts;
 
 class Runner
 {

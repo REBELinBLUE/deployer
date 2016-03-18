@@ -61,4 +61,15 @@ class DeployStep extends Model implements PresentableInterface
     {
         return new DeployStepPresenter($this);
     }
+
+    /**
+     * Determines if the step is a BEFORE or AFTER step.
+     *
+     * @return boolean
+     */
+    public function isCustomStep()
+    {
+        // Add 1 to the stage, if it is divisible by 0 it is one of the "DO" steps
+        return ($this->stage + 1 % 3 !== 0);
+    }
 }

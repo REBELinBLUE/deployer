@@ -18,6 +18,8 @@ class Parser
      */
     public function parseString($script, array $tokens = [])
     {
+        $script = $this->tidyScript($script);
+
         $values = array_values($tokens);
 
         $tokens = array_map(function ($token) {
@@ -26,7 +28,7 @@ class Parser
 
         $script = str_replace($tokens, $values, $script);
 
-        //Log::info($script);
+        Log::debug($script);
 
         return $script;
     }
@@ -47,5 +49,17 @@ class Parser
         }
 
         throw new \RuntimeException('Template ' . $template . ' does not exist');
+    }
+
+    /**
+     * Cleans up things which are only in the script to make it easy to read but don't
+     * need to be sent to the server, i.e. comments
+     *
+     * @param  string $script
+     * @return string
+     */
+    private function tidyScript($script)
+    {
+        return $script;
     }
 }
