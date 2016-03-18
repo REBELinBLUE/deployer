@@ -355,14 +355,19 @@ class DeployProject extends Job implements ShouldQueue
         }
     }
 
+    /**
+     * Sends the files needed to the server.
+     *
+     * @param  DeployStep $step
+     * @param  Server     $server
+     * @param  ServerLog  $log
+     * @return void
+     */
     private function sendFilesForStep(DeployStep $step, Server $server, ServerLog $log)
     {
-
         $project = $this->deployment->project;
 
         $root_dir = preg_replace('#/$#', '', $server->path);
-
-
 
         $releases_dir = $root_dir . '/releases';
 
@@ -374,11 +379,10 @@ class DeployProject extends Job implements ShouldQueue
             $this->sendFile($this->release_archive, $remote_archive, $server, $log);
         } elseif ($step->stage === Stage::DO_INSTALL) {
             foreach ($project->projectFiles as $file) {
-                $filepath = $release_dir . '/' . $file->path;
+                $filepath = $latest_release_dir . '/' . $file->path;
 
                 $this->sendFileFromString($server, $filepath, $file->content, $log);
             }
-
         }
     }
 
@@ -418,25 +422,25 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         $tokens = [
-            '{{ release }}'         => $this->release_id,
-            '{{ release_path }}'    => $latest_release_dir,
-            '{{ project_path }}'    => $root_dir,
-            '{{ branch }}'          => $this->deployment->branch,
-            '{{ sha }}'             => $this->deployment->commit,
-            '{{ short_sha }}'       => $this->deployment->short_commit,
-            '{{ deployer_email }}'  => $deployer_email,
-            '{{ deployer_name }}'   => $deployer_name,
-            '{{ committer_email }}' => $this->deployment->committer_email,
-            '{{ committer_name }}'  => $this->deployment->committer,
+            'release'         => $this->release_id,
+            'release_path'    => $latest_release_dir,
+            'project_path'    => $root_dir,
+            'branch'          => $this->deployment->branch,
+            'sha'             => $this->deployment->commit,
+            'short_sha'       => $this->deployment->short_commit,
+            'deployer_email'  => $deployer_email,
+            'deployer_name'   => $deployer_name,
+            'committer_email' => $this->deployment->committer_email,
+            'committer_name'  => $this->deployment->committer,
         ];
 
         if (!$step->isCustomStep()) {
             $tokens = array_merge($tokens, [
-                '{{ remote_archive }}'  => $remote_archive,
-                '{{ include_dev }}'     => $project->include_dev,
-                '{{ builds_to_keep }}'  => $project->builds_to_keep + 1,
-                '{{ shared_path }}'     => $release_shared_dir,
-                '{{ releases_path }}'   => $releases_dir,
+                'remote_archive' => $remote_archive,
+                'include_dev'    => $project->include_dev,
+                'builds_to_keep' => $project->builds_to_keep + 1,
+                'shared_path'    => $release_shared_dir,
+                'releases_path'  => $releases_dir,
             ]);
         }
 
@@ -450,9 +454,9 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         // Now get the full scrip
-        $script .= $this->getScriptForStep($step, $tokens);
+        $script .= PHP_EOL . $this->getScriptForStep($step, $tokens);
 
-        return $script;
+        return trim($script);
     }
 
     /**
@@ -493,9 +497,9 @@ class DeployProject extends Job implements ShouldQueue
                 return $parser->parseFile('deploy.steps.CreateNewRelease', $tokens);
             case Stage::DO_INSTALL:
                 // Write configuration file to release dir, symlink shared files and run composer
-                return $this->configurationFileCommands($project, $latest_release_dir) .
+                return $this->configurationFileCommands($tokens['release_path']) .
                        $parser->parseFile('deploy.steps.InstallComposerDependencies', $tokens) .
-                       $this->shareFileCommands($project, $latest_release_dir, $release_shared_dir);
+                       $this->shareFileCommands($tokens['release_path'], $tokens['shared_path']);
             case Stage::DO_ACTIVATE:
                 return $parser->parseFile('deploy.steps.ActivateNewRelease', $tokens);
             case Stage::DO_PURGE:
@@ -616,15 +620,14 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * create the command for sending uploaded files.
      *
-     * @param  Project   $project
      * @param  string    $release_dir
      * @return string
      */
-    private function configurationFileCommands(Project $project, $release_dir)
+    private function configurationFileCommands($release_dir)
     {
         $commands = [];
 
-        foreach ($project->projectFiles as $file) {
+        foreach ($this->deployment->project->projectFiles as $file) {
             $filepath = $release_dir . '/' . $file->path;
 
             $commands[] = sprintf('chmod 0664 %s', $filepath);
@@ -636,16 +639,15 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * create the command for share files.
      *
-     * @param  Project $project     the related project
-     * @param  string  $release_dir current release dir
-     * @param  string  $shared_dir  the shared dir
+     * @param  string  $release_dir
+     * @param  string  $shared_dir
      * @return string
      */
-    private function shareFileCommands(Project $project, $release_dir, $shared_dir)
+    private function shareFileCommands($release_dir, $shared_dir)
     {
         $commands = [];
 
-        foreach ($project->sharedFiles as $filecfg) {
+        foreach ($this->deployment->project->sharedFiles as $filecfg) {
             if ($filecfg->file) {
                 $pathinfo = pathinfo($filecfg->file);
                 $isDir    = false;

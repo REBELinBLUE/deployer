@@ -69,7 +69,11 @@ class DeployStep extends Model implements PresentableInterface
      */
     public function isCustomStep()
     {
-        // Add 1 to the stage, if it is divisible by 0 it is one of the "DO" steps
-        return ($this->stage + 1 % 3 !== 0);
+        return (!in_array($this->stage, [
+            Command::DO_CLONE,
+            Command::DO_INSTALL,
+            Command::DO_ACTIVATE,
+            Command::DO_PURGE
+        ]));
     }
 }
