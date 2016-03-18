@@ -369,27 +369,6 @@ class DeployProject extends Job implements ShouldQueue
         $release_shared_dir = $root_dir . '/shared';
         $remote_archive     = $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
 
-        $script = '';
-        foreach ($project->variables as $variable) {
-            $key   = $variable->name;
-            $value = $variable->value;
-
-            $script .= "export {$key}={$value}" . PHP_EOL;
-        }
-
-        $script .= $this->getScriptForStep($step);
-
-        // FIXME: The buildScript method should only be building a script, no data should be sent at this stage!
-        if ($step->stage === Stage::DO_CLONE) {
-            $this->sendFile($this->release_archive, $remote_archive, $server, $log);
-        } elseif ($step->stage === Stage::DO_INSTALL) {
-            // The shared file must be created in the install step
-            $script .= $this->shareFileCommands($project, $latest_release_dir, $release_shared_dir);
-
-            // Write project file to release dir before install
-            $script .= $this->configurationFileCommands($project, $latest_release_dir, $server, $log);
-        }
-
         // FIXME: This should be on the deployment model
         // Set the deployer tags
         $deployer_email = '';
@@ -423,7 +402,29 @@ class DeployProject extends Job implements ShouldQueue
             '{{ releases_path }}'   => $releases_dir,
         ]);
 
-        return str_replace(array_keys($tokens), array_values($tokens), $script);
+        // Generate the export
+        $script = '';
+        foreach ($project->variables as $variable) {
+            $key   = $variable->name;
+            $value = $variable->value;
+
+            $script .= "export {$key}={$value}" . PHP_EOL;
+        }
+
+        $script = $this->getScriptForStep($step, $tokens);
+
+        // FIXME: The buildScript method should only be building a script, no data should be sent at this stage!
+        if ($step->stage === Stage::DO_CLONE) {
+            $this->sendFile($this->release_archive, $remote_archive, $server, $log);
+        } elseif ($step->stage === Stage::DO_INSTALL) {
+            // The shared file must be created in the install step
+            $script .= $this->shareFileCommands($project, $latest_release_dir, $release_shared_dir);
+
+            // Write project file to release dir before install
+            $script .= $this->configurationFileCommands($project, $latest_release_dir, $server, $log);
+        }
+
+        return $script;
     }
 
     /**
@@ -456,19 +457,21 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function getScriptForStep(DeployStep $step)
     {
+        $parser = new ScriptParser;
+
         switch ($step->stage) {
             case Stage::DO_CLONE:
-                return $this->loadScriptFromTemplate('deploy.steps.CreateNewRelease');
+                return $parser->parseFile('deploy.steps.CreateNewRelease', $tokens);
             case Stage::DO_INSTALL:
-                return $this->loadScriptFromTemplate('deploy.steps.InstallComposerDependencies');
+                return $parser->parseFile('deploy.steps.InstallComposerDependencies', $tokens);
             case Stage::DO_ACTIVATE:
-                return $this->loadScriptFromTemplate('deploy.steps.ActivateNewRelease');
+                return $parser->parseFile('deploy.steps.ActivateNewRelease', $tokens);
             case Stage::DO_PURGE:
-                return $this->loadScriptFromTemplate('deploy.steps.PurgeOldReleases');
+                return $parser->parseFile('deploy.steps.PurgeOldReleases', $tokens);
         }
 
         // Custom step
-        return $step->command->script;
+        return $parser->parseString($step->command->script, $tokens);
     }
 
     /**
