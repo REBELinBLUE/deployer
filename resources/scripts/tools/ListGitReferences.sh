@@ -1,1 +1,2 @@
-cd {$mirror_dir} && git {$ref} --list --no-column
+cd {{ mirror_path }} && \
+git {{ git_reference }} --list --no-column

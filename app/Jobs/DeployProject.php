@@ -219,7 +219,7 @@ class DeployProject extends Job implements ShouldQueue
                 continue;
             }
 
-            $root_dir = preg_replace('#/$#', '', $server->path);
+            $root_dir = preg_replace('#/$#', '', $server->path); // FIXME make server saving remove the trailing slash
 
             if (empty($root_dir)) {
                 continue;
