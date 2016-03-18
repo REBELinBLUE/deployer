@@ -19,7 +19,6 @@ use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 
 /**
@@ -107,11 +106,6 @@ class DeployProject extends Job implements ShouldQueue
             $this->deployment->status = Deployment::COMPLETED;
             $project->status          = Project::FINISHED;
         } catch (\Exception $error) {
-
-
-            Log::error($error);
-
-
             $this->deployment->status = Deployment::FAILED;
             $project->status          = Project::FAILED;
 

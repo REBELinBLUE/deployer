@@ -2,7 +2,4 @@
 
 namespace REBELinBLUE\Deployer\Scripts;
 
-class Runner
-{
-
-}
+class Runner { }
