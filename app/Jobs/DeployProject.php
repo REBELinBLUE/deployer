@@ -273,7 +273,7 @@ class DeployProject extends Job implements ShouldQueue
                 $this->sendFilesForStep($step, $server, $log);
 
                 // FIME: Have a getFiles method here for transferring files
-                $script = $this->buildScript($step, $server, $log);
+                $script = $this->buildScript($step, $server);
 
                 $user = $server->user;
                 if (isset($step->command)) {
@@ -364,7 +364,6 @@ class DeployProject extends Job implements ShouldQueue
         $releases_dir = $root_dir . '/releases';
 
         $latest_release_dir = $releases_dir . '/' . $this->release_id;
-        $release_shared_dir = $root_dir . '/shared';
         $remote_archive     = $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
 
         if ($step->stage === Stage::DO_CLONE) {
@@ -383,10 +382,9 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param  DeployStep $step
      * @param  Server     $server
-     * @param  ServerLog  $log
      * @return string
      */
-    private function buildScript(DeployStep $step, Server $server, ServerLog $log)
+    private function buildScript(DeployStep $step, Server $server)
     {
         $project = $this->deployment->project;
 
