@@ -8,7 +8,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
@@ -21,6 +20,7 @@ use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Deploys an actual project.
@@ -107,6 +107,8 @@ class DeployProject extends Job implements ShouldQueue
             $this->deployment->status = Deployment::COMPLETED;
             $project->status          = Project::FINISHED;
         } catch (\Exception $error) {
+
+            Log::info($error);
             $this->deployment->status = Deployment::FAILED;
             $project->status          = Project::FAILED;
 
@@ -190,7 +192,7 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function createReleaseArchive()
     {
-        $cmd = with(new ScriptParser)->parseFile('tools.CreateReleaseArchive', [
+        $cmd = with(new ScriptParser)->parseFile('deploy.CreateReleaseArchive', [
             'mirror_path'     => $this->deployment->project->mirrorPath(),
             'sha'             => $this->deployment->commit,
             'release_archive' => $this->release_archive,
@@ -271,6 +273,8 @@ class DeployProject extends Job implements ShouldQueue
             try {
                 $server = $log->server;
 
+                $this->sendFilesForStep($step, $server, $log);
+
                 // FIME: Have a getFiles method here for transferring files
                 $script = $this->buildScript($step, $server, $log);
 
@@ -346,6 +350,33 @@ class DeployProject extends Job implements ShouldQueue
         }
     }
 
+    private function sendFilesForStep(DeployStep $step, Server $server, ServerLog $log)
+    {
+
+        $project = $this->deployment->project;
+
+        $root_dir = preg_replace('#/$#', '', $server->path);
+
+
+
+        $releases_dir = $root_dir . '/releases';
+
+        $latest_release_dir = $releases_dir . '/' . $this->release_id;
+        $release_shared_dir = $root_dir . '/shared';
+        $remote_archive     = $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
+
+        if ($step->stage === Stage::DO_CLONE) {
+            $this->sendFile($this->release_archive, $remote_archive, $server, $log);
+        } elseif ($step->stage === Stage::DO_INSTALL) {
+            foreach ($project->projectFiles as $file) {
+                $filepath = $release_dir . '/' . $file->path;
+
+                $this->sendFileFromString($server, $filepath, $file->content, $log);
+            }
+
+        }
+    }
+
     /**
      * Generates the actual bash commands to run on the server.
      *
@@ -413,18 +444,8 @@ class DeployProject extends Job implements ShouldQueue
             $script .= "export {$key}={$value}" . PHP_EOL;
         }
 
-        $script = $this->getScriptForStep($step, $tokens);
-
-        // FIXME: The buildScript method should only be building a script, no data should be sent at this stage!
-        if ($step->stage === Stage::DO_CLONE) {
-            $this->sendFile($this->release_archive, $remote_archive, $server, $log);
-        } elseif ($step->stage === Stage::DO_INSTALL) {
-            // The shared file must be created in the install step
-            $script .= $this->shareFileCommands($project, $latest_release_dir, $release_shared_dir);
-
-            // Write project file to release dir before install
-            $script .= $this->configurationFileCommands($project, $latest_release_dir, $server, $log);
-        }
+        // Now get the full scrip
+        $script .= $this->getScriptForStep($step, $tokens);
 
         return $script;
     }
@@ -455,9 +476,10 @@ class DeployProject extends Job implements ShouldQueue
      * Gets the script which is used for the supplied step.
      *
      * @param  DeployStep $step
+     * @param array $tokens
      * @return string
      */
-    private function getScriptForStep(DeployStep $step)
+    private function getScriptForStep(DeployStep $step, array $tokens = [])
     {
         $parser = new ScriptParser;
 
@@ -465,7 +487,10 @@ class DeployProject extends Job implements ShouldQueue
             case Stage::DO_CLONE:
                 return $parser->parseFile('deploy.steps.CreateNewRelease', $tokens);
             case Stage::DO_INSTALL:
-                return $parser->parseFile('deploy.steps.InstallComposerDependencies', $tokens);
+                // Write configuration file to release dir, symlink shared files and run composer
+                return $this->configurationFileCommands($project, $latest_release_dir) .
+                       $parser->parseFile('deploy.steps.InstallComposerDependencies', $tokens) .
+                       $this->shareFileCommands($project, $latest_release_dir, $release_shared_dir);
             case Stage::DO_ACTIVATE:
                 return $parser->parseFile('deploy.steps.ActivateNewRelease', $tokens);
             case Stage::DO_PURGE:
@@ -474,24 +499,6 @@ class DeployProject extends Job implements ShouldQueue
 
         // Custom step
         return $parser->parseString($step->command->script, $tokens);
-    }
-
-    /**
-     * Loads a script from a template file.
-     *
-     * @param  string           $template
-     * @throws RuntimeException
-     * @return string
-     */
-    private function loadScriptFromTemplate($template)
-    {
-        $template = resource_path('scripts/' . str_replace('.', '/', $template) . '.sh');
-
-        if (file_exists($template)) {
-            return file_get_contents($template);
-        }
-
-        throw new \RuntimeException('Template ' . $template . ' does not exist');
     }
 
     /**
@@ -606,17 +613,14 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param  Project   $project
      * @param  string    $release_dir
-     * @param  Server    $server
-     * @param  ServerLog $log
      * @return string
      */
-    private function configurationFileCommands(Project $project, $release_dir, Server $server, ServerLog $log)
+    private function configurationFileCommands(Project $project, $release_dir)
     {
         $commands = [];
 
         foreach ($project->projectFiles as $file) {
             $filepath = $release_dir . '/' . $file->path;
-            $this->sendFileFromString($server, $filepath, $file->content, $log);
 
             $commands[] = sprintf('chmod 0664 %s', $filepath);
         }

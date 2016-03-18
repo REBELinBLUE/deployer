@@ -46,7 +46,7 @@ class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
         foreach (['tag', 'branch'] as $ref) {
             $cmd = with(new ScriptParser)->parseFile('tools.ListGitReferences', [
                 'mirror_path'   => $mirror_dir,
-                'git_reference' => $ref
+                'git_reference' => $ref,
             ]);
 
             $process = new Process($cmd);
