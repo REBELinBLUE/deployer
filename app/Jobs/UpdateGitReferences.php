@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Ref;
+use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use Symfony\Component\Process\Process;
 
 /**
@@ -43,7 +44,12 @@ class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
         $this->project->refs()->delete();
 
         foreach (['tag', 'branch'] as $ref) {
-            $process = new Process("cd {$mirror_dir} && git {$ref} --list --no-column");
+            $cmd = with(new ScriptParser)->parseFile('tools.ListGitReferences', [
+                'mirror_path'   => $mirror_dir,
+                'git_reference' => $ref
+            ]);
+
+            $process = new Process($cmd);
             $process->setTimeout(null);
             $process->run();
 
