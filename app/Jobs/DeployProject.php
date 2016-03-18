@@ -479,7 +479,7 @@ class DeployProject extends Job implements ShouldQueue
      * Gets the script which is used for the supplied step.
      *
      * @param  DeployStep $step
-     * @param array $tokens
+     * @param  array      $tokens
      * @return string
      */
     private function getScriptForStep(DeployStep $step, array $tokens = [])
@@ -507,8 +507,8 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Generates the SSH command for running the script on a server.
      *
-     * @param  Server $server
-     * @param  string $script
+     * @param  Server      $server
+     * @param  string      $script
      * @param  string|null $user
      * @return string
      */
@@ -542,8 +542,8 @@ class DeployProject extends Job implements ShouldQueue
      * @param  string           $remote_file
      * @param  Server           $server
      * @param  ServerLog        $log
-     * @return void
      * @throws RuntimeException
+     * @return void
      */
     private function sendFile($local_file, $remote_file, Server $server, $log)
     {
@@ -614,7 +614,7 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * create the command for sending uploaded files.
      *
-     * @param  string    $release_dir
+     * @param  string $release_dir
      * @return string
      */
     private function configurationFileCommands($release_dir)
@@ -633,8 +633,8 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * create the command for share files.
      *
-     * @param  string  $release_dir
-     * @param  string  $shared_dir
+     * @param  string $release_dir
+     * @param  string $shared_dir
      * @return string
      */
     private function shareFileCommands($release_dir, $shared_dir)

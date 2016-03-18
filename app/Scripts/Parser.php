@@ -53,7 +53,7 @@ class Parser
 
     /**
      * Cleans up things which are only in the script to make it easy to read but don't
-     * need to be sent to the server, i.e. comments
+     * need to be sent to the server, i.e. comments.
      *
      * @param  string $script
      * @return string

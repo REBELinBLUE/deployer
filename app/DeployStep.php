@@ -65,7 +65,7 @@ class DeployStep extends Model implements PresentableInterface
     /**
      * Determines if the step is a BEFORE or AFTER step.
      *
-     * @return boolean
+     * @return bool
      */
     public function isCustomStep()
     {
@@ -73,7 +73,7 @@ class DeployStep extends Model implements PresentableInterface
             Command::DO_CLONE,
             Command::DO_INSTALL,
             Command::DO_ACTIVATE,
-            Command::DO_PURGE
-        ]));
+            Command::DO_PURGE,
+        ], true));
     }
 }
