@@ -19,8 +19,8 @@ use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
-use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\Process\Process;
 
 /**
  * Deploys an actual project.
@@ -108,7 +108,10 @@ class DeployProject extends Job implements ShouldQueue
             $project->status          = Project::FINISHED;
         } catch (\Exception $error) {
 
-            Log::info($error);
+
+            Log::error($error);
+
+
             $this->deployment->status = Deployment::FAILED;
             $project->status          = Project::FAILED;
 
@@ -153,12 +156,14 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function updateRepoInfo()
     {
-        $process = new Process(sprintf(
-            'cd %s && git log %s -n1 --pretty=format:"%%H%%x09%%an%%x09%%ae"',
-            $this->deployment->project->mirrorPath(),
-            $this->deployment->branch
-        ));
+        $cmd = with(new ScriptParser)->parseFile('tools.GetCommitDetails', [
+            'mirror_path'   => $this->deployment->project->mirrorPath(),
+            'git_reference' => $this->deployment->branch,
+        ]);
 
+        Log::info($cmd);
+
+        $process = new Process($cmd);
         $process->setTimeout(null);
         $process->run();
 
