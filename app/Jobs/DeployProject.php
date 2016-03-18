@@ -188,13 +188,13 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function createReleaseArchive()
     {
-        $process = new Process(sprintf(
-            'cd %s && (git archive --format=tar %s | gzip > %s)',
-            $this->deployment->project->mirrorPath(),
-            $this->deployment->commit,
-            $this->release_archive
-        ));
+        $cmd = with(new ScriptParser)->parseFile('tools.CreateReleaseArchive', [
+            'mirror_path'     => $this->deployment->project->mirrorPath(),
+            'sha'             => $this->deployment->commit,
+            'release_archive' => $this->release_archive,
+        ]);
 
+        $process = new Process($cmd);
         $process->setTimeout(null);
         $process->run();
 

@@ -1,1 +1,2 @@
-cd %s && (git archive --format=tar %s | gzip > %s)
+cd {{ mirror_path }} && \
+(git archive --format=tar {{ sha }} | gzip > {{ release_archive }})
