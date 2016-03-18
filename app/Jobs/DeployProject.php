@@ -155,8 +155,6 @@ class DeployProject extends Job implements ShouldQueue
             'git_reference' => $this->deployment->branch,
         ]);
 
-        Log::info($cmd);
-
         $process = new Process($cmd);
         $process->setTimeout(null);
         $process->run();
