@@ -229,7 +229,7 @@ class DeployProject extends Job implements ShouldQueue
                 'remote_archive' => $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz',
             ]);
 
-            $process = new Process($this->sshCommand($server, $script));
+            $process = new Process($this->generateSSHCommand($server, $script));
             $process->setTimeout(null);
             $process->run();
         }
@@ -497,7 +497,7 @@ class DeployProject extends Job implements ShouldQueue
      * @param  string $user
      * @return string
      */
-    private function sshCommand(Server $server, $script, $user = null)
+    private function generateSSHCommand(Server $server, $script, $user = null)
     {
         if (is_null($user)) {
             $user = $server->user;

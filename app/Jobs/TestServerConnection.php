@@ -45,7 +45,7 @@ class TestServerConnection extends Job implements ShouldQueue
         file_put_contents($key, $this->server->project->private_key);
 
         try {
-            $process = new Process($this->generateCommand($this->server, $key));
+            $process = new Process($this->generateSSHCommand($this->server, $key));
             $process->setTimeout(null);
             $process->run();
 
@@ -70,7 +70,7 @@ class TestServerConnection extends Job implements ShouldQueue
      * @param  string $private_key
      * @return string
      */
-    private function generateCommand(Server $server, $private_key)
+    private function generateSSHCommand(Server $server, $private_key)
     {
         $parser = new ScriptParser;
 
