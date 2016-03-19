@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Scripts;
 
 /**
- * Class which runs scripts
+ * Class which runs scripts.
  */
 class Runner
 {

@@ -67,21 +67,19 @@ class DeployProject extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $project = $this->deployment->project;
-
         $this->deployment->started_at = date('Y-m-d H:i:s');
         $this->deployment->status     = Deployment::DEPLOYING;
         $this->deployment->save();
 
-        $project->status = Project::DEPLOYING;
-        $project->save();
+        $this->deployment->project->status = Project::DEPLOYING;
+        $this->deployment->project->save();
 
         $this->private_key = tempnam(storage_path('app/'), 'sshkey');
-        file_put_contents($this->private_key, $project->private_key);
+        file_put_contents($this->private_key, $this->deployment->project->private_key);
 
         $this->release_archive = $this->deployment->project_id . '_' . $this->deployment->release_id . '.tar.gz';
 
-        $this->dispatch(new UpdateGitMirror($project));
+        $this->dispatch(new UpdateGitMirror($this->deployment->project));
 
         try {
             // If the build has been manually triggered get the committer info from the repo
@@ -95,11 +93,11 @@ class DeployProject extends Job implements ShouldQueue
                 $this->runStep($step);
             }
 
-            $this->deployment->status = Deployment::COMPLETED;
-            $project->status          = Project::FINISHED;
+            $this->deployment->status                   = Deployment::COMPLETED;
+            $this->deployment->project->status          = Project::FINISHED;
         } catch (\Exception $error) {
-            $this->deployment->status = Deployment::FAILED;
-            $project->status          = Project::FAILED;
+            $this->deployment->status                   = Deployment::FAILED;
+            $this->deployment->project->status          = Project::FAILED;
 
             if ($error->getMessage() === 'Cancelled') {
                 $this->deployment->status = Deployment::ABORTED;
@@ -112,8 +110,8 @@ class DeployProject extends Job implements ShouldQueue
                 if ($step->stage <= Stage::DO_ACTIVATE) {
                     $this->cleanupDeployment();
                 } else {
-                    $this->deployment->status = Deployment::COMPLETED_WITH_ERRORS;
-                    $project->status          = Project::FINISHED;
+                    $this->deployment->status                   = Deployment::COMPLETED_WITH_ERRORS;
+                    $this->deployment->project->status          = Project::FINISHED;
                 }
             }
         }
@@ -121,11 +119,11 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->finished_at = date('Y-m-d H:i:s');
         $this->deployment->save();
 
-        $project->last_run = $this->deployment->finished_at;
-        $project->save();
+        $this->deployment->project->last_run = $this->deployment->finished_at;
+        $this->deployment->project->save();
 
         // Notify user or others the deployment has been finished
-        event(new DeployFinished($project, $this->deployment));
+        event(new DeployFinished($this->deployment->project, $this->deployment));
 
         unlink($this->private_key);
 
@@ -616,8 +614,6 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function getTokenList(DeployStep $step, Server $server)
     {
-        $project = $this->deployment->project;
-
         $releases_dir       = $server->clean_path . '/releases';
         $latest_release_dir = $releases_dir . '/' . $this->deployment->release_id;
         $release_shared_dir = $server->clean_path . '/shared';
@@ -649,8 +645,8 @@ class DeployProject extends Job implements ShouldQueue
         if (!$step->isCustomStep()) {
             $tokens = array_merge($tokens, [
                 'remote_archive' => $remote_archive,
-                'include_dev'    => $project->include_dev,
-                'builds_to_keep' => $project->builds_to_keep + 1,
+                'include_dev'    => $this->deployment->project->include_dev,
+                'builds_to_keep' => $this->deployment->project->builds_to_keep + 1,
                 'shared_path'    => $release_shared_dir,
                 'releases_path'  => $releases_dir,
             ]);

@@ -134,7 +134,6 @@ class Server extends Model
     /**
      * The server path without a trailing slash.
      *
-     * @param  string  $value
      * @return string
      */
     public function getCleanPathAttribute()
