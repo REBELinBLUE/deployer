@@ -533,15 +533,21 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function configurationFileCommands($release_dir)
     {
-        $commands = [];
-
-        foreach ($this->deployment->project->projectFiles as $file) {
-            $filepath = $release_dir . '/' . $file->path;
-
-            $commands[] = sprintf('chmod 0664 %s', $filepath);
+        if (!$this->deployment->project->projectFiles->count()) {
+            return '';
         }
 
-        return implode(PHP_EOL, $commands) . PHP_EOL;
+        $parser = new ScriptParser;
+
+        $script = '';
+
+        foreach ($this->deployment->project->projectFiles as $file) {
+            $script .= $parser->parseFile('deploy.ConfigurationFile', [
+                'path' => $release_dir . '/' . $file->path
+            ]);
+        }
+
+        return $script . PHP_EOL;
     }
 
     /**
@@ -553,56 +559,40 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function shareFileCommands($release_dir, $shared_dir)
     {
-        $commands = [];
-
-        foreach ($this->deployment->project->sharedFiles as $filecfg) {
-            if ($filecfg->file) {
-                $pathinfo = pathinfo($filecfg->file);
-                $isDir    = false;
-
-                if (substr($filecfg->file, 0, 1) === '/') {
-                    $filecfg->file = substr($filecfg->file, 1);
-                }
-
-                if (substr($filecfg->file, -1) === '/') {
-                    $isDir         = true;
-                    $filecfg->file = substr($filecfg->file, 0, -1);
-                }
-
-                if (isset($pathinfo['extension'])) {
-                    $filename = $pathinfo['filename'] . '.' . $pathinfo['extension'];
-                } else {
-                    $filename = $pathinfo['filename'];
-                }
-
-                $sourceFile = $shared_dir . '/' . $filename;
-                $targetFile = $release_dir . '/' . $filecfg->file;
-
-                if ($isDir) {
-                    $commands[] = sprintf(
-                        '[ -d %s ] && cp -pRn %s %s && rm -rf %s',
-                        $targetFile,
-                        $targetFile,
-                        $sourceFile,
-                        $targetFile
-                    );
-                    $commands[] = sprintf('[ ! -d %s ] && mkdir %s', $sourceFile, $sourceFile);
-                } else {
-                    $commands[] = sprintf(
-                        '[ -f %s ] && cp -pRn %s %s && rm -rf %s',
-                        $targetFile,
-                        $targetFile,
-                        $sourceFile,
-                        $targetFile
-                    );
-                    $commands[] = sprintf('[ ! -f %s ] && touch %s', $sourceFile, $sourceFile);
-                }
-
-                $commands[] = sprintf('ln -s %s %s', $sourceFile, $targetFile);
-            }
+        if (!$this->deployment->project->sharedFiles->count()) {
+            return '';
         }
 
-        return implode(PHP_EOL, $commands) . PHP_EOL;
+        $parser = new ScriptParser;
+
+        $script = '';
+
+        foreach ($this->deployment->project->sharedFiles as $filecfg) {
+            $pathinfo = pathinfo($filecfg->file);
+            $template = 'File';
+
+            if (substr($filecfg->file, 0, 1) === '/') {
+                $filecfg->file = substr($filecfg->file, 1);
+            }
+
+            if (substr($filecfg->file, -1) === '/') {
+                $template = 'Directory';
+                $filecfg->file = substr($filecfg->file, 0, -1);
+            }
+
+            if (isset($pathinfo['extension'])) {
+                $filename = $pathinfo['filename'] . '.' . $pathinfo['extension'];
+            } else {
+                $filename = $pathinfo['filename'];
+            }
+
+            $script .= $parser->parseFile('deploy.Share' . $template, [
+                'target_file' => $release_dir . '/' . $filecfg->file,
+                'source_file' => $shared_dir . '/' . $filename,
+            ]);
+        }
+
+        return PHP_EOL . $script;
     }
 
     /**
