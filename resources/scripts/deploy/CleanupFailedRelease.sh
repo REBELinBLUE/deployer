@@ -1,7 +1,11 @@
 cd {{ project_path }}
 
 # Remove the archive
-[ -f {{ remote_archive }} ] && rm {{ remote_archive }}
+if [ -f {{ remote_archive }} ]; then
+    rm {{ remote_archive }}
+fi
 
 # Remove the release directory
-[ -d {{ release_path }} ] && rm -rf {{ release_path }}
+if [ -d {{ release_path }} ]; then
+    rm -rf {{ release_path }}
+fi

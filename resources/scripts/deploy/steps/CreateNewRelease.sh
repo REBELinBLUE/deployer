@@ -1,10 +1,14 @@
 cd {{ project_path }}
 
 # Create the releases directory if it doesn't exist
-[ ! -d {{ releases_path }} ] && mkdir {{ releases_path }}
+if [ ! -d {{ releases_path }} ]; then
+    mkdir {{ releases_path }}
+fi
 
 # Create the shared directory if it doesn't exist
-[ ! -d {{ shared_path }} ] && mkdir {{ shared_path }}
+if [ ! -d {{ shared_path }} ]; then
+    mkdir {{ shared_path }}
+fi
 
 mkdir {{ release_path }}
 cd {{ release_path }}
