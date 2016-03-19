@@ -35,7 +35,6 @@ class DeployProject extends Job implements ShouldQueue
     private $private_key;
     private $cache_key;
     private $release_archive;
-    private $release_id;
 
     /**
      * Create a new command instance.
@@ -77,19 +76,12 @@ class DeployProject extends Job implements ShouldQueue
         $project->status = Project::DEPLOYING;
         $project->save();
 
-        $this->release_id = date('YmdHis', strtotime($this->deployment->started_at));
-
         $this->private_key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($this->private_key, $project->private_key);
 
-        $this->release_archive = sprintf(
-            '%s/%d_%s.tar.gz',
-            storage_path('app'),
-            $this->deployment->project_id,
-            $this->release_id
-        );
+        $this->release_archive = $this->deployment->project_id . '_' . $this->deployment->release_id . '.tar.gz';
 
-        $this->dispatch(new UpdateGitMirror($this->deployment->project));
+        $this->dispatch(new UpdateGitMirror($project));
 
         try {
             // If the build has been manually triggered get the committer info from the repo
@@ -129,7 +121,7 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->finished_at = date('Y-m-d H:i:s');
         $this->deployment->save();
 
-        $project->last_run = date('Y-m-d H:i:s');
+        $project->last_run = $this->deployment->finished_at;
         $project->save();
 
         // Notify user or others the deployment has been finished
@@ -137,8 +129,8 @@ class DeployProject extends Job implements ShouldQueue
 
         unlink($this->private_key);
 
-        if (file_exists($this->release_archive)) {
-            unlink($this->release_archive);
+        if (file_exists(storage_path('app/' . $this->release_archive))) {
+            unlink(storage_path('app/' . $this->release_archive));
         }
     }
 
@@ -192,7 +184,7 @@ class DeployProject extends Job implements ShouldQueue
         $cmd = with(new ScriptParser)->parseFile('deploy.CreateReleaseArchive', [
             'mirror_path'     => $this->deployment->project->mirrorPath(),
             'sha'             => $this->deployment->commit,
-            'release_archive' => $this->release_archive,
+            'release_archive' => storage_path('app/' . $this->release_archive),
         ]);
 
         $process = new Process($cmd);
@@ -218,8 +210,8 @@ class DeployProject extends Job implements ShouldQueue
 
             $script = with(new ScriptParser)->parseFile('deploy.CleanupFailedRelease', [
                 'project_path'   => $server->clean_path,
-                'release_path'   => $server->clean_path . '/releases/' . $this->release_id,
-                'remote_archive' => $server->clean_path . '/' . $project->id . '_' . $this->release_id . '.tar.gz',
+                'release_path'   => $server->clean_path . '/releases/' . $this->deployment->release_id,
+                'remote_archive' => $server->clean_path . '/' . $this->release_archive,
             ]);
 
             $process = new Process($this->generateSSHCommand($server, $script));
@@ -350,11 +342,11 @@ class DeployProject extends Job implements ShouldQueue
     {
         $project = $this->deployment->project;
 
-        $latest_release_dir = $server->clean_path . '/releases/' . $this->release_id;
-        $remote_archive     = $server->clean_path . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
+        $latest_release_dir = $server->clean_path . '/releases/' . $this->deployment->release_id;
+        $remote_archive     = $server->clean_path . '/' . $this->release_archive;
 
         if ($step->stage === Stage::DO_CLONE) {
-            $this->sendFile($this->release_archive, $remote_archive, $server, $log);
+            $this->sendFile(storage_path('app/' . $this->release_archive), $remote_archive, $server, $log);
         } elseif ($step->stage === Stage::DO_INSTALL) {
             foreach ($project->projectFiles as $file) {
                 $this->sendFileFromString($server, $latest_release_dir . '/' . $file->path, $file->content, $log);
@@ -371,49 +363,11 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function buildScript(DeployStep $step, Server $server)
     {
-        $project = $this->deployment->project;
-
-        $releases_dir       = $server->clean_path . '/releases';
-        $latest_release_dir = $releases_dir . '/' . $this->release_id;
-        $release_shared_dir = $server->clean_path . '/shared';
-        $remote_archive     = $server->clean_path . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
-
-        // Set the deployer tags
-        $deployer_email = '';
-        $deployer_name  = 'webhook';
-        if ($this->deployment->user) {
-            $deployer_name  = $this->deployment->user->name;
-            $deployer_email = $this->deployment->user->email;
-        } elseif ($this->deployment->is_webhook && !empty($this->deployment->source)) {
-            $deployer_name = $this->deployment->source;
-        }
-
-        $tokens = [
-            'release'         => $this->release_id,
-            'release_path'    => $latest_release_dir,
-            'project_path'    => $server->clean_path,
-            'branch'          => $this->deployment->branch,
-            'sha'             => $this->deployment->commit,
-            'short_sha'       => $this->deployment->short_commit,
-            'deployer_email'  => $deployer_email,
-            'deployer_name'   => $deployer_name,
-            'committer_email' => $this->deployment->committer_email,
-            'committer_name'  => $this->deployment->committer,
-        ];
-
-        if (!$step->isCustomStep()) {
-            $tokens = array_merge($tokens, [
-                'remote_archive' => $remote_archive,
-                'include_dev'    => $project->include_dev,
-                'builds_to_keep' => $project->builds_to_keep + 1,
-                'shared_path'    => $release_shared_dir,
-                'releases_path'  => $releases_dir,
-            ]);
-        }
+        $tokens = $this->getTokenList($step, $server);
 
         // Generate the export
         $script = '';
-        foreach ($project->variables as $variable) {
+        foreach ($this->deployment->project->variables as $variable) {
             $key   = $variable->name;
             $value = $variable->value;
 
@@ -652,5 +606,57 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         return implode(PHP_EOL, $commands) . PHP_EOL;
+    }
+
+    /**
+     * Generates the list of tokens for the scripts.
+     *
+     * @param  DeployStep $step
+     * @param  Server     $server
+     * @return array
+     */
+    private function getTokenList(DeployStep $step, Server $server)
+    {
+        $project = $this->deployment->project;
+
+        $releases_dir       = $server->clean_path . '/releases';
+        $latest_release_dir = $releases_dir . '/' . $this->deployment->release_id;
+        $release_shared_dir = $server->clean_path . '/shared';
+        $remote_archive     = $server->clean_path . '/' . $this->release_archive;
+
+        // Set the deployer tags
+        $deployer_email = '';
+        $deployer_name  = 'webhook';
+        if ($this->deployment->user) {
+            $deployer_name  = $this->deployment->user->name;
+            $deployer_email = $this->deployment->user->email;
+        } elseif ($this->deployment->is_webhook && !empty($this->deployment->source)) {
+            $deployer_name = $this->deployment->source;
+        }
+
+        $tokens = [
+            'release'         => $this->deployment->release_id,
+            'release_path'    => $latest_release_dir,
+            'project_path'    => $server->clean_path,
+            'branch'          => $this->deployment->branch,
+            'sha'             => $this->deployment->commit,
+            'short_sha'       => $this->deployment->short_commit,
+            'deployer_email'  => $deployer_email,
+            'deployer_name'   => $deployer_name,
+            'committer_email' => $this->deployment->committer_email,
+            'committer_name'  => $this->deployment->committer,
+        ];
+
+        if (!$step->isCustomStep()) {
+            $tokens = array_merge($tokens, [
+                'remote_archive' => $remote_archive,
+                'include_dev'    => $project->include_dev,
+                'builds_to_keep' => $project->builds_to_keep + 1,
+                'shared_path'    => $release_shared_dir,
+                'releases_path'  => $releases_dir,
+            ]);
+        }
+
+        return $tokens;
     }
 }
