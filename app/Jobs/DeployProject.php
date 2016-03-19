@@ -541,27 +541,19 @@ class DeployProject extends Job implements ShouldQueue
      * @throws RuntimeException
      * @return void
      */
-    private function sendFile($local_file, $remote_file, Server $server, $log)
+    private function sendFile($local_file, $remote_file, Server $server, ServerLog $log)
     {
-        $copy = sprintf(
-            'rsync --verbose --compress --progress --out-format="Receiving %%n" -e "ssh -p %s ' .
-            '-o CheckHostIP=no ' .
-            '-o IdentitiesOnly=yes ' .
-            '-o StrictHostKeyChecking=no ' .
-            '-o PasswordAuthentication=no ' .
-            '-i %s" ' .
-            '%s %s@%s:%s',
-            $server->port,
-            $this->private_key,
-            $local_file,
-            $server->user,
-            $server->ip_address,
-            $remote_file
-        );
+        $cmd = with(new ScriptParser)->parseFile('deploy.SendFileToServer', [
+            'port'        => $server->port,
+            'private_key' => $this->private_key,
+            'local_file'  => $local_file,
+            'remote_file' => $remote_file,
+            'username'    => $server->user,
+            'ip_address'  => $server->ip_address,
+        ]);
 
-        $process = new Process($copy);
+        $process = new Process($cmd);
         $process->setTimeout(null);
-        ///$process->run();
 
         $output = '';
         $process->run(function ($type, $output_line) use (&$output, &$log) {
@@ -583,16 +575,14 @@ class DeployProject extends Job implements ShouldQueue
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
         }
-
-        //return $process->getOutput();
     }
 
     /**
      * Send a string to server.
      *
-     * @param  Server    $server      target server
-     * @param  string    $remote_path remote filename
-     * @param  string    $content     the file content
+     * @param  Server    $server
+     * @param  string    $remote_path
+     * @param  string    $content
      * @param  ServerLog $log
      * @return void
      */
