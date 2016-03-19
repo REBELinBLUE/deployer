@@ -252,7 +252,7 @@ class DeployProject extends Job implements ShouldQueue
             try {
                 $server = $log->server;
 
-                $this->sendFilesForStep($step, $server, $log);
+                $this->sendFilesForStep($step, $log);
 
                 $script = $this->buildScript($step, $server);
 
@@ -294,7 +294,6 @@ class DeployProject extends Job implements ShouldQueue
                     $log->output = $output;
                 }
             } catch (\Exception $e) {
-                // FIXME: In debug mode log this?
                 $log->output .= $this->logError('[' . $server->ip_address . ']: ' . $e->getMessage());
                 $failed = true;
             }
@@ -321,7 +320,7 @@ class DeployProject extends Job implements ShouldQueue
                 throw new \RuntimeException('Failed');
             }
 
-            // FIXME: This is a messy way to do it
+            // This is a messy way to do it
             if ($cancelled) {
                 throw new \RuntimeException('Cancelled');
             }
@@ -332,21 +331,20 @@ class DeployProject extends Job implements ShouldQueue
      * Sends the files needed to the server.
      *
      * @param  DeployStep $step
-     * @param  Server     $server
      * @param  ServerLog  $log
      * @return void
      */
-    private function sendFilesForStep(DeployStep $step, Server $server, ServerLog $log)
+    private function sendFilesForStep(DeployStep $step, ServerLog $log)
     {
-        $latest_release_dir = $server->clean_path . '/releases/' . $this->deployment->release_id;
-        $remote_archive     = $server->clean_path . '/' . $this->release_archive;
+        $latest_release_dir = $log->server->clean_path . '/releases/' . $this->deployment->release_id;
+        $remote_archive     = $log->server->clean_path . '/' . $this->release_archive;
         $local_archive      = storage_path('app/' . $this->release_archive);
 
         if ($step->stage === Stage::DO_CLONE) {
-            $this->sendFile($local_archive, $remote_archive, $server, $log);
+            $this->sendFile($local_archive, $remote_archive, $log);
         } elseif ($step->stage === Stage::DO_INSTALL) {
             foreach ($this->deployment->project->projectFiles as $file) {
-                $this->sendFileFromString($server, $latest_release_dir . '/' . $file->path, $file->content, $log);
+                $this->sendFileFromString($latest_release_dir . '/' . $file->path, $file->content, $log);
             }
         }
     }
@@ -464,20 +462,19 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param  string           $local_file
      * @param  string           $remote_file
-     * @param  Server           $server
      * @param  ServerLog        $log
      * @throws RuntimeException
      * @return void
      */
-    private function sendFile($local_file, $remote_file, Server $server, ServerLog $log)
+    private function sendFile($local_file, $remote_file, ServerLog $log)
     {
         $cmd = with(new ScriptParser)->parseFile('deploy.SendFileToServer', [
-            'port'        => $server->port,
+            'port'        => $log->server->port,
             'private_key' => $this->private_key,
             'local_file'  => $local_file,
             'remote_file' => $remote_file,
-            'username'    => $server->user,
-            'ip_address'  => $server->ip_address,
+            'username'    => $log->server->user,
+            'ip_address'  => $log->server->ip_address,
         ]);
 
         $process = new Process($cmd);
@@ -508,19 +505,18 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Send a string to server.
      *
-     * @param  Server    $server
      * @param  string    $remote_path
      * @param  string    $content
      * @param  ServerLog $log
      * @return void
      */
-    private function sendFileFromString(Server $server, $remote_path, $content, ServerLog $log)
+    private function sendFileFromString($remote_path, $content, ServerLog $log)
     {
         $tmp_file = tempnam(storage_path('app/'), 'tmpfile');
         file_put_contents($tmp_file, $content);
 
         // Upload the file
-        $this->sendFile($tmp_file, $remote_path, $server, $log);
+        $this->sendFile($tmp_file, $remote_path, $log);
 
         unlink($tmp_file);
     }
@@ -543,7 +539,7 @@ class DeployProject extends Job implements ShouldQueue
 
         foreach ($this->deployment->project->projectFiles as $file) {
             $script .= $parser->parseFile('deploy.ConfigurationFile', [
-                'path' => $release_dir . '/' . $file->path
+                'path' => $release_dir . '/' . $file->path,
             ]);
         }
 
@@ -576,7 +572,7 @@ class DeployProject extends Job implements ShouldQueue
             }
 
             if (substr($filecfg->file, -1) === '/') {
-                $template = 'Directory';
+                $template      = 'Directory';
                 $filecfg->file = substr($filecfg->file, 0, -1);
             }
 
