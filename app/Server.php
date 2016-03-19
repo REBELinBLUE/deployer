@@ -132,13 +132,13 @@ class Server extends Model
     }
 
     /**
-     * The the server path without a trailing slash.
+     * The server path without a trailing slash.
      *
      * @param  string  $value
      * @return string
      */
-    public function getCleanPathAttribute($value)
+    public function getCleanPathAttribute()
     {
-        return preg_replace('#/$#', '', $value);
+        return preg_replace('#/$#', '', $this->path);
     }
 }

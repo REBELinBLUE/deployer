@@ -399,8 +399,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @return string
      */
-    public function getReleaseId()
+    public function getReleaseIdAttribute()
     {
-        return date('YmdHis', strtotime($this->started_at));
+        return $this->started_at->format('YmdHis');
     }
 }
