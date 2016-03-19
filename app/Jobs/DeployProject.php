@@ -340,15 +340,14 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function sendFilesForStep(DeployStep $step, Server $server, ServerLog $log)
     {
-        $project = $this->deployment->project;
-
         $latest_release_dir = $server->clean_path . '/releases/' . $this->deployment->release_id;
         $remote_archive     = $server->clean_path . '/' . $this->release_archive;
+        $local_archive      = storage_path('app/' . $this->release_archive);
 
         if ($step->stage === Stage::DO_CLONE) {
-            $this->sendFile(storage_path('app/' . $this->release_archive), $remote_archive, $server, $log);
+            $this->sendFile($local_archive, $remote_archive, $server, $log);
         } elseif ($step->stage === Stage::DO_INSTALL) {
-            foreach ($project->projectFiles as $file) {
+            foreach ($this->deployment->project->projectFiles as $file) {
                 $this->sendFileFromString($server, $latest_release_dir . '/' . $file->path, $file->content, $log);
             }
         }
@@ -491,7 +490,7 @@ class DeployProject extends Job implements ShouldQueue
             if ($type === Process::ERR) {
                 $output .= $this->logError($output_line);
             } else {
-                // FIXME: Horrible hack
+                // Switching sent/received around
                 $output_line = str_replace('received', 'xxx', $output_line);
                 $output_line = str_replace('sent', 'received', $output_line);
                 $output_line = str_replace('xxx', 'sent', $output_line);
