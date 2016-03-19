@@ -75,7 +75,7 @@ class TestServerConnection extends Job implements ShouldQueue
         $parser = new ScriptParser;
 
         $script = $parser->parseFile('TestServerConnection', [
-            'project_path'   => $server->path,
+            'project_path'   => $server->clean_path,
             'test_file'      => time() . '_testing_deployer.txt',
             'test_directory' => time() . '_testing_deployer_dir',
         ]);

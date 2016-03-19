@@ -211,23 +211,15 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function cleanupDeployment()
     {
-        $project = $this->deployment->project;
-
-        foreach ($project->servers as $server) {
+        foreach ($this->deployment->project->servers as $server) {
             if (!$server->deploy_code) {
                 continue;
             }
 
-            $root_dir = preg_replace('#/$#', '', $server->path); // FIXME make server saving remove the trailing slash
-
-            if (empty($root_dir)) {
-                continue;
-            }
-
             $script = with(new ScriptParser)->parseFile('deploy.CleanupFailedRelease', [
-                'project_path'   => $root_dir,
-                'release_path'   => $root_dir . '/releases/' . $this->release_id,
-                'remote_archive' => $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz',
+                'project_path'   => $server->clean_path,
+                'release_path'   => $server->clean_path . '/releases/' . $this->release_id,
+                'remote_archive' => $server->clean_path . '/' . $project->id . '_' . $this->release_id . '.tar.gz',
             ]);
 
             $process = new Process($this->generateSSHCommand($server, $script));
@@ -272,7 +264,6 @@ class DeployProject extends Job implements ShouldQueue
 
                 $this->sendFilesForStep($step, $server, $log);
 
-                // FIME: Have a getFiles method here for transferring files
                 $script = $this->buildScript($step, $server);
 
                 $user = $server->user;
@@ -359,20 +350,14 @@ class DeployProject extends Job implements ShouldQueue
     {
         $project = $this->deployment->project;
 
-        $root_dir = preg_replace('#/$#', '', $server->path);
-
-        $releases_dir = $root_dir . '/releases';
-
-        $latest_release_dir = $releases_dir . '/' . $this->release_id;
-        $remote_archive     = $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
+        $latest_release_dir = $server->clean_path . '/releases/' . $this->release_id;
+        $remote_archive     = $server->clean_path . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
 
         if ($step->stage === Stage::DO_CLONE) {
             $this->sendFile($this->release_archive, $remote_archive, $server, $log);
         } elseif ($step->stage === Stage::DO_INSTALL) {
             foreach ($project->projectFiles as $file) {
-                $filepath = $latest_release_dir . '/' . $file->path;
-
-                $this->sendFileFromString($server, $filepath, $file->content, $log);
+                $this->sendFileFromString($server, $latest_release_dir . '/' . $file->path, $file->content, $log);
             }
         }
     }
@@ -388,18 +373,10 @@ class DeployProject extends Job implements ShouldQueue
     {
         $project = $this->deployment->project;
 
-        $root_dir = preg_replace('#/$#', '', $server->path);
-
-        // Precaution to make sure nothing accidentially runs at /
-        if (empty($root_dir)) {
-            return '';
-        }
-
-        $releases_dir = $root_dir . '/releases';
-
+        $releases_dir       = $server->clean_path . '/releases';
         $latest_release_dir = $releases_dir . '/' . $this->release_id;
-        $release_shared_dir = $root_dir . '/shared';
-        $remote_archive     = $root_dir . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
+        $release_shared_dir = $server->clean_path . '/shared';
+        $remote_archive     = $server->clean_path . '/' . $project->id . '_' . $this->release_id . '.tar.gz';
 
         // Set the deployer tags
         $deployer_email = '';
@@ -414,7 +391,7 @@ class DeployProject extends Job implements ShouldQueue
         $tokens = [
             'release'         => $this->release_id,
             'release_path'    => $latest_release_dir,
-            'project_path'    => $root_dir,
+            'project_path'    => $server->clean_path,
             'branch'          => $this->deployment->branch,
             'sha'             => $this->deployment->commit,
             'short_sha'       => $this->deployment->short_commit,
@@ -443,7 +420,7 @@ class DeployProject extends Job implements ShouldQueue
             $script .= "export {$key}={$value}" . PHP_EOL;
         }
 
-        // Now get the full scrip
+        // Now get the full script
         $script .= PHP_EOL . $this->getScriptForStep($step, $tokens);
 
         return trim($script);
