@@ -1,5 +1,3 @@
-set -e
-
 # Ensure the directory exists and can be written to
 cd {{ project_path }}
 ls

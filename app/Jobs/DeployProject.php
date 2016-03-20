@@ -455,9 +455,6 @@ class DeployProject extends Job implements ShouldQueue
             $script = 'set -v' . PHP_EOL . $script;
         }
 
-        // Turn on quit on non-zero exit
-        $script = 'set -e' . PHP_EOL . $script;
-
         return with(new ScriptParser)->parseFile('RunScriptOverSSH', [
             'private_key' => $this->private_key,
             'username'    => $user,
