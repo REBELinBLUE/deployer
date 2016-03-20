@@ -50,10 +50,14 @@ class UpdateGitMirror extends Job implements SelfHandling
         $wrapper_file = tempnam(storage_path('app/'), 'gitssh');
         file_put_contents($wrapper_file, $wrapper);
 
-        $cmd = $parser->parseFile('tools.MirrorGitRepository', [
+        $script = $parser->parseFile('tools.MirrorGitRepository', [
             'wrapper_file' => $wrapper_file,
             'mirror_path'  => $this->project->mirrorPath(),
             'repository'   => $this->project->repository,
+        ]);
+
+        $cmd = $parser->parseFile('RunScriptLocally', [
+            'script' => $script,
         ]);
 
         $process = new Process($cmd);

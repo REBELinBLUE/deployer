@@ -43,10 +43,16 @@ class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
 
         $this->project->refs()->delete();
 
+        $parser = new ScriptParser;
+
         foreach (['tag', 'branch'] as $ref) {
-            $cmd = with(new ScriptParser)->parseFile('tools.ListGitReferences', [
+            $script = $parser->parseFile('tools.ListGitReferences', [
                 'mirror_path'   => $mirror_dir,
                 'git_reference' => $ref,
+            ]);
+
+            $cmd = $parser->parseFile('RunScriptLocally', [
+                'script' => $script,
             ]);
 
             $process = new Process($cmd);
