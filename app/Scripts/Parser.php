@@ -2,8 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Scripts;
 
-use Illuminate\Support\Facades\Log;
-
 /**
  * Class which loads a shell script template and parses any variables.
  */
@@ -26,11 +24,7 @@ class Parser
             return '{{ ' . strtolower($token) . ' }}';
         }, array_keys($tokens));
 
-        $script = str_replace($tokens, $values, $script);
-
-        Log::debug($script);
-
-        return $script;
+        return str_replace($tokens, $values, $script);
     }
 
     /**
