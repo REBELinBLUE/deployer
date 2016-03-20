@@ -5,11 +5,11 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
+use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\Process\Process;
 use Version\Compare as VersionCompare;
-use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 
 /**
  * Project model.
