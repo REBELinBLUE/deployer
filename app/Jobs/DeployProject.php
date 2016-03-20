@@ -254,9 +254,9 @@ class DeployProject extends Job implements ShouldQueue
 
                 $this->sendFilesForStep($step, $log);
 
-                $script = $this->buildScript($step, $server);
+                $script = $this->buildScript($step, $server); // Move the code from below to here aong with the sshcommand
 
-                $user = $server->user;
+                $user = $server->user; // move thid
                 if (isset($step->command)) {
                     $user = $step->command->user;
                 }
