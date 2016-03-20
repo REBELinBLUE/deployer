@@ -9,6 +9,7 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\Process\Process;
 use Version\Compare as VersionCompare;
+use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 
 /**
  * Project model.
@@ -298,11 +299,12 @@ class Project extends ProjectRelation implements PresentableInterface
         $key = tempnam(storage_path('app/'), 'sshkey');
         unlink($key);
 
-        $process = new Process(sprintf(
-            'ssh-keygen -t rsa -b 2048 -f %s -N "" -C "deploy@deployer"',
-            $key
-        ));
+        $cmd = with(new ScriptParser)->parseFile('tools.GenerateSSHKey', [
+            'key_file' => $key,
+        ]);
 
+        $process = new Process($cmd);
+        $process->setTimeout(null);
         $process->run();
 
         if (!$process->isSuccessful()) {
