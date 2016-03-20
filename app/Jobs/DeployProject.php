@@ -138,9 +138,13 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function updateRepoInfo()
     {
-        $cmd = with(new ScriptParser)->parseFile('tools.GetCommitDetails', [
+        $script = with(new ScriptParser)->parseFile('tools.GetCommitDetails', [
             'mirror_path'   => $this->deployment->project->mirrorPath(),
             'git_reference' => $this->deployment->branch,
+        ]);
+
+        $cmd = with(new ScriptParser)->parseFile('RunScriptLocally', [
+            'script' => $script,
         ]);
 
         $process = new Process($cmd);
