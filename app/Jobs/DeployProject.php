@@ -24,8 +24,6 @@ use Symfony\Component\Process\Process;
 /**
  * Deploys an actual project.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * TODO: rewrite this as it is doing way too much and is very messy now.
- * TODO: Expand all parameters
  */
 class DeployProject extends Job implements ShouldQueue
 {
@@ -93,11 +91,11 @@ class DeployProject extends Job implements ShouldQueue
                 $this->runStep($step);
             }
 
-            $this->deployment->status                   = Deployment::COMPLETED;
-            $this->deployment->project->status          = Project::FINISHED;
+            $this->deployment->status          = Deployment::COMPLETED;
+            $this->deployment->project->status = Project::FINISHED;
         } catch (\Exception $error) {
-            $this->deployment->status                   = Deployment::FAILED;
-            $this->deployment->project->status          = Project::FAILED;
+            $this->deployment->status          = Deployment::FAILED;
+            $this->deployment->project->status = Project::FAILED;
 
             if ($error->getMessage() === 'Cancelled') {
                 $this->deployment->status = Deployment::ABORTED;
@@ -110,8 +108,8 @@ class DeployProject extends Job implements ShouldQueue
                 if ($step->stage <= Stage::DO_ACTIVATE) {
                     $this->cleanupDeployment();
                 } else {
-                    $this->deployment->status                   = Deployment::COMPLETED_WITH_ERRORS;
-                    $this->deployment->project->status          = Project::FINISHED;
+                    $this->deployment->status          = Deployment::COMPLETED_WITH_ERRORS;
+                    $this->deployment->project->status = Project::FINISHED;
                 }
             }
         }
@@ -123,7 +121,7 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->project->save();
 
         // Notify user or others the deployment has been finished
-        event(new DeployFinished($this->deployment->project, $this->deployment));
+        event(new DeployFinished($this->deployment));
 
         unlink($this->private_key);
 
