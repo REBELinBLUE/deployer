@@ -254,18 +254,13 @@ class DeployProject extends Job implements ShouldQueue
 
                 $this->sendFilesForStep($step, $log);
 
-                $script = $this->buildScript($step, $server); // Move the code from below to here aong with the sshcommand
-
-                $user = $server->user; // move thid
-                if (isset($step->command)) {
-                    $user = $step->command->user;
-                }
+                $cmd = $this->buildScript($step, $server);
 
                 $failed    = false;
                 $cancelled = false;
 
-                if (!empty($script)) {
-                    $process = new Process($this->generateSSHCommand($server, $script, $user));
+                if (!empty($cmd)) {
+                    $process = new Process($cmd);
                     $process->setTimeout(null);
 
                     $output = '';
@@ -361,18 +356,29 @@ class DeployProject extends Job implements ShouldQueue
         $tokens = $this->getTokenList($step, $server);
 
         // Generate the export
-        $script = '';
+        $variables = '';
         foreach ($this->deployment->project->variables as $variable) {
             $key   = $variable->name;
             $value = $variable->value;
 
-            $script .= "export {$key}={$value}" . PHP_EOL;
+            $variables .= "export {$key}={$value}" . PHP_EOL;
         }
 
         // Now get the full script
-        $script .= PHP_EOL . $this->getScriptForStep($step, $tokens);
+        $script = $this->getScriptForStep($step, $tokens);
 
-        return trim($script);
+        if (empty($script)) {
+            return '';
+        }
+
+        $script = trim($variables . PHP_EOL . $script);
+
+        $user = $server->user;
+        if (isset($step->command)) {
+            $user = $step->command->user;
+        }
+
+        return $this->generateSSHCommand($server, $script, $user);
     }
 
     /**
