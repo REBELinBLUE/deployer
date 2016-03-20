@@ -5,10 +5,9 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
-use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
+use REBELinBLUE\Deployer\Scripts\Runner as ScriptRunner;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
-use Symfony\Component\Process\Process;
 use Version\Compare as VersionCompare;
 
 /**
@@ -299,13 +298,10 @@ class Project extends ProjectRelation implements PresentableInterface
         $key = tempnam(storage_path('app/'), 'sshkey');
         unlink($key);
 
-        $cmd = with(new ScriptParser)->parseFile('tools.GenerateSSHKey', [
+        $process = new ScriptRunner;
+        $process->local('tools.GenerateSSHKey', [
             'key_file' => $key,
         ]);
-
-        $process = new Process($cmd);
-        $process->setTimeout(null);
-        $process->run();
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
