@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
-use REBELinBLUE\Deployer\Scripts\Runner as ScriptRunner;
+use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
 use Version\Compare as VersionCompare;
@@ -298,7 +298,7 @@ class Project extends ProjectRelation implements PresentableInterface
         $key = tempnam(storage_path('app/'), 'sshkey');
         unlink($key);
 
-        $process = new ScriptRunner;
+        $process = new Process;
         $process->local('tools.GenerateSSHKey', [
             'key_file' => $key,
         ]);
