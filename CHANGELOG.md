@@ -1,17 +1,13 @@
 # Change Log
 
-## [0.0.31](https://github.com/REBELinBLUE/deployer/tree/0.0.31) (2016-03-21)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.30...0.0.31)
+## [0.0.32](https://github.com/REBELinBLUE/deployer/tree/0.0.32) (2016-03-21)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.30...0.0.32)
 
 **Fixed bugs:**
 
 - Can't go through installation process with PostgreSQL [\#194](https://github.com/REBELinBLUE/deployer/issues/194)
 - Exception when project has deployments but none are 'completed' [\#188](https://github.com/REBELinBLUE/deployer/issues/188)
 - Throttling interferes with heartbeart URLS [\#153](https://github.com/REBELinBLUE/deployer/issues/153)
-
-**Closed issues:**
-
-- Can't go through installation \#2 [\#195](https://github.com/REBELinBLUE/deployer/issues/195)
 
 **Merged pull requests:**
 
