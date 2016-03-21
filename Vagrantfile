@@ -9,6 +9,9 @@ Vagrant.configure("2") do |config|
     # Configure SSH
     config.ssh.forward_agent = true
 
+    # Prevent TTY Errors
+    config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
     # Configure a private network IP
     config.vm.network :private_network, ip: "192.168.10.10"
 
@@ -20,12 +23,13 @@ Vagrant.configure("2") do |config|
         provider.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
         provider.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         provider.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+        provider.customize ["modifyvm", :id, "--groups", "/PHP Deployer"]
     end
 
     # Configure port forwarding to the box
-    config.vm.network "forwarded_port", guest: 80, host: 8000
-    config.vm.network "forwarded_port", guest: 443, host: 44300
-    config.vm.network "forwarded_port", guest: 3306, host: 33060
+    config.vm.network "forwarded_port", guest: 80, host: 8000, auto_correct: true
+    config.vm.network "forwarded_port", guest: 443, host: 44300, auto_correct: true
+    config.vm.network "forwarded_port", guest: 3306, host: 33060, auto_correct: true
 
     config.vm.synced_folder "./", "/var/www/deployer"
 
@@ -43,6 +47,7 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.provision "file", source: "~/.gitconfig", destination: "~/.gitconfig"
+    config.vm.provision "file", source: "~/.gitignore_global", destination: "~/.gitignore_global"
     config.vm.provision "file", source: "~/.composer/auth.json", destination: "~/.composer/auth.json"
 
     # Provision

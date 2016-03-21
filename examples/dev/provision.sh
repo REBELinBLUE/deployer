@@ -48,10 +48,14 @@ service mysql restart
 
 # Install github changelog generator
 apt-get update
-apt-get install ruby ruby-dev -y
-gem install github_changelog_generator -v 1.11.3
+
+apt-add-repository ppa:brightbox/ruby-ng
+apt-get update
+apt-get install ruby2.3 ruby2.3-dev
+gem install github_changelog_generator
 
 # Create DB
+mysql -uhomestead -psecret -e "DROP DATABASE IF EXISTS deployer;"
 mysql -uhomestead -psecret -e "CREATE DATABASE deployer DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;"
 
 # Install JS CS, redis commander & diff-so-fancy

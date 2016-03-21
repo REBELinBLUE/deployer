@@ -12,7 +12,7 @@ class AddAdditionalDeploymentStatus extends Migration
      */
     public function up()
     {
-        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
+        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] === 'mysql') {
             DB::statement("ALTER TABLE deployments CHANGE status status ENUM('"
                 . Deployment::PENDING . "', '"
                 . Deployment::DEPLOYING . "', '"
@@ -29,7 +29,7 @@ class AddAdditionalDeploymentStatus extends Migration
      */
     public function down()
     {
-        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
+        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] === 'mysql') {
             DB::statement("ALTER TABLE deployments CHANGE status status ENUM('"
                 . Deployment::PENDING . "', '"
                 . Deployment::DEPLOYING . "', '"

@@ -122,9 +122,7 @@ class InstallApp extends Command
         $this->line('');
         $this->comment('4. Ensure that "storage" and "public/upload" are writable by the webserver');
         $this->line('');
-        $this->comment('5. (Optional) Setup logrotate, see "logrotate.conf"');
-        $this->line('');
-        $this->comment('6. Visit ' . $config['app']['url'] . ' and login with the details you provided to get started');
+        $this->comment('5. Visit ' . $config['app']['url'] . ' and login with the details you provided to get started');
         $this->line('');
     }
 

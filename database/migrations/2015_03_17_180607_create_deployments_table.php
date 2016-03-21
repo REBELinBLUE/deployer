@@ -20,7 +20,9 @@ class CreateDeploymentsTable extends Migration
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('user_id')->nullable()->default(null);
             $table->enum('status', [Deployment::PENDING, Deployment::DEPLOYING,
-                                    Deployment::COMPLETED, Deployment::FAILED, ])->default(Deployment::PENDING);
+                                    Deployment::COMPLETED, Deployment::FAILED,
+                                    Deployment::COMPLETED_WITH_ERRORS,
+                                    Deployment::ABORTING, Deployment::ABORTED, ])->default(Deployment::PENDING);
             $table->timestamps();
             $table->softDeletes();
             $table->dateTime('started_at')->nullable();
