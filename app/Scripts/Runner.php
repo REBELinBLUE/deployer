@@ -33,9 +33,11 @@ class Runner
      */
     public function local($file, array $tokens = [], $callback = null)
     {
-        $script = with(new ScriptParser)->parseFile($file, $tokens);
+        $parser = new Parser;
 
-        $cmd = with(new Parser)->parseFile('RunScriptLocally', [
+        $script = $parser->parseFile($file, $tokens);
+
+        $cmd = $parser->parseFile('RunScriptLocally', [
             'script' => $script,
         ]);
 
@@ -47,8 +49,28 @@ class Runner
     /**
      * Runs a script remotely.
      */
-    public function remote()
+    public function remote(Server $server, $private_key, $file, array $tokens = [], $callback = null)
     {
+        $parser = new Parser;
+
+        $script = $parser->parseFile($file, $tokens);
+
+        if (config('app.debug')) {
+            // Turn on verbose output so we can see all commands when in debug mode
+            $script = 'set -v' . PHP_EOL . $script;
+        }
+
+        $cmd = $parser->parseFile('RunScriptOverSSH', [
+            'private_key' => $private_key,
+            'username'    => $server->user,
+            'port'        => $server->port,
+            'ip_address'  => $server->ip_address,
+            'script'      => $script,
+        ]);
+
+        $this->process->setCommandLine($cmd);
+
+        return $this->process->run($callback);
     }
 
     public function isSuccessful()
