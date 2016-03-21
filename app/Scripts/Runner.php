@@ -29,80 +29,107 @@ class Runner
         $this->script = with(new Parser)->parseFile($temple, $tokens);
     }
 
+    /**
+     * Sets the process timeout.
+     *
+     * @param  int     $timeout
+     * @return Process
+     */
     public function setTimeout($timeout)
     {
-        $this->process->setTimeout($timeout);
+        return $this->process->setTimeout($timeout);
     }
 
     /**
      * Runs a script locally.
      *
-     * @param callable|null $callback
-     *
+     * @param  callable|null $callback
      * @return int
      */
     public function run($callback = null)
     {
-        $command = $this->wrapCommand();
+        $command = $this->wrapCommand($this->script);
 
         $this->process->setCommandLine($command);
 
         return $this->process->run($callback);
     }
 
-    private function wrapCommand()
-    {
-        $wrapper = 'Locally';
-        $tokens = [
-            'script' => $this->script,
-        ];
-
-        if (!$this->is_local) {
-            $wrapper = 'OverSSH';
-            $tokens = array_merge($tokens, [
-                'private_key' => $this->private_key,
-                'username'    => $this->server->user,
-                'port'        => $this->server->port,
-                'ip_address'  => $this->server->ip_address,
-            ]);
-
-            // Turn on verbose output so we can see all commands when in debug mode
-            if (config('app.debug')) {
-                $tokens['script'] = 'set -v' . PHP_EOL . $tokens['script'];
-            }
-        }
-
-        return with(new Parser)->parseFile('RunScript' . $wrapper, $tokens);
-    }
-
     /**
-     * Runs a script remotely.
+     * Sets the script to run on a remote server.
      *
-     * @param Server        $server
-     * @param string        $private_key
-     * @param callable|null $callback
-     *
+     * @param  Server $server
+     * @param  string $private_key
      * @return int
      */
     public function setServer(Server $server, $private_key)
     {
-        $this->server = $server;
+        $this->server      = $server;
         $this->private_key = $private_key;
-        $this->is_local = false;
+        $this->is_local    = false;
     }
 
+    /**
+     * Checks if the process ended successfully.
+     *
+     * @return bool
+     */
     public function isSuccessful()
     {
         return $this->process->isSuccessful();
     }
 
+    /**
+     * Returns the current error output of the process (STDERR).
+     *
+     * @return string
+     */
     public function getErrorOutput()
     {
         return $this->process->getErrorOutput();
     }
 
+    /**
+     * Stops the process.
+     *
+     * @param  int $timeout
+     * @param  int $signal
+     * @return int
+     */
     public function stop($timeout = 10, $signal = null)
     {
         return $this->process->stop($timeout, $signal);
+    }
+
+    /**
+     * Wraps the command in either local or remote wrappers.
+     *
+     * @param  string $script
+     * @return string
+     */
+    private function wrapCommand($script)
+    {
+        $wrapper = 'Locally';
+        $tokens  = [
+            'script' => $script,
+        ];
+
+        if (!$this->is_local) {
+            // Turn on verbose output so we can see all commands when in debug mode
+            if (config('app.debug')) {
+                $script = 'set -v' . PHP_EOL . $script;
+            }
+
+            $wrapper = 'OverSSH';
+            $tokens  = [
+                'private_key' => $this->private_key,
+                'username'    => $this->server->user,
+                'port'        => $this->server->port,
+                'ip_address'  => $this->server->ip_address,
+                'script'      => $script,
+            ];
+        }
+
+        return with(new Parser)->parseFile('RunScript' . $wrapper, $tokens);
     }
 }
