@@ -52,13 +52,13 @@ class Runner
 
     private function wrapCommand()
     {
-        $wrapper = 'RunScriptLocally';
+        $wrapper = 'Locally';
         $tokens = [
             'script' => $this->script,
         ];
 
         if (!$this->is_local) {
-            $wrapper = 'RunScriptOverSSH';
+            $wrapper = 'OverSSH';
             $tokens = array_merge($tokens, [
                 'private_key' => $this->private_key,
                 'username'    => $this->server->user,
@@ -72,7 +72,7 @@ class Runner
             }
         }
 
-        return with(new Parser)->parseFile($weapper, $tokens);
+        return with(new Parser)->parseFile('RunScript' . $wrapper, $tokens);
     }
 
     /**
