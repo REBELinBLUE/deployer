@@ -10,11 +10,23 @@ use Symfony\Component\Process\Process;
 class Runner
 {
     private $process;
+    private $script;
+    private $server;
+    private $private_key;
+    private $is_local = true;
 
-    public function __construct()
+    /**
+     * Class constructor.
+     *
+     * @param string $temple
+     * @param array  $tokens
+     */
+    public function __construct($temple, array $tokens = [])
     {
         $this->process = new Process('');
         $this->process->setTimeout(null);
+
+        $this->script = with(new Parser)->parseFile($temple, $tokens);
     }
 
     public function setTimeout($timeout)
@@ -25,52 +37,58 @@ class Runner
     /**
      * Runs a script locally.
      *
-     * @param string $file
-     * @param array  $tokens
      * @param callable|null $callback
      *
      * @return int
      */
-    public function local($file, array $tokens = [], $callback = null)
+    public function run($callback = null)
     {
-        $parser = new Parser;
+        $command = $this->wrapCommand();
 
-        $script = $parser->parseFile($file, $tokens);
-
-        $cmd = $parser->parseFile('RunScriptLocally', [
-            'script' => $script,
-        ]);
-
-        $this->process->setCommandLine($cmd);
+        $this->process->setCommandLine($command);
 
         return $this->process->run($callback);
     }
 
-    /**
-     * Runs a script remotely.
-     */
-    public function remote(Server $server, $private_key, $file, array $tokens = [], $callback = null)
+    private function wrapCommand()
     {
-        $parser = new Parser;
+        $wrapper = 'RunScriptLocally';
+        $tokens = [
+            'script' => $this->script,
+        ];
 
-        $script = $parser->parseFile($file, $tokens);
+        if (!$this->is_local) {
+            $wrapper = 'RunScriptOverSSH';
+            $tokens = array_merge($tokens, [
+                'private_key' => $this->private_key,
+                'username'    => $this->server->user,
+                'port'        => $this->server->port,
+                'ip_address'  => $this->server->ip_address,
+            ]);
 
-        if (config('app.debug')) {
             // Turn on verbose output so we can see all commands when in debug mode
-            $script = 'set -v' . PHP_EOL . $script;
+            if (config('app.debug')) {
+                $tokens['script'] = 'set -v' . PHP_EOL . $tokens['script'];
+            }
         }
 
-        $cmd = $parser->parseFile('RunScriptOverSSH', [
-            'private_key' => $private_key,
-            'username'    => $server->user,
-            'port'        => $server->port,
-            'ip_address'  => $server->ip_address,
-            'script'      => $script,
-        ]);
+        return with(new Parser)->parseFile($weapper, $tokens);
+    }
 
-        $this->process->setCommandLine($cmd);
-
-        return $this->process->run($callback);
+    /**
+     * Runs a script remotely.
+     *
+     * @param Server        $server
+     * @param string        $private_key
+     * @param callable|null $callback
+     *
+     * @return int
+     */
+    public function setServer(Server $server, $private_key)
+    {
+        $this->server = $server;
+        $this->private_key = $private_key;
+        $this->is_local = false;
     }
 
     public function isSuccessful()

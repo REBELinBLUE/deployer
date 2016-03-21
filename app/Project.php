@@ -298,10 +298,10 @@ class Project extends ProjectRelation implements PresentableInterface
         $key = tempnam(storage_path('app/'), 'sshkey');
         unlink($key);
 
-        $process = new Process;
-        $process->local('tools.GenerateSSHKey', [
+        $process = new Process('tools.GenerateSSHKey', [
             'key_file' => $key,
         ]);
+        $process->run();
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
