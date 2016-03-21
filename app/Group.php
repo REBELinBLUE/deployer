@@ -62,7 +62,6 @@ class Group extends Model
      */
     public function getProjectCountAttribute()
     {
-        return $this->projects()
-                    ->count();
+        return $this->projects->count();
     }
 }
