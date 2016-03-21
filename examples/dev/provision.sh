@@ -50,8 +50,8 @@ service mysql restart
 apt-get update
 
 apt-add-repository ppa:brightbox/ruby-ng
-apt-get update
-apt-get install ruby2.3 ruby2.3-dev
+apt-get update -y
+apt-get install ruby2.3 ruby2.3-dev -y
 gem install github_changelog_generator
 
 # Create DB
