@@ -56,11 +56,12 @@
             </div>
         </div>
 
+        @stack('templates')
+
         <script src="{{ elixir('js/vendor.js') }}"></script>
         <script src="/js-localization/messages"></script>
         <script src="{{ elixir('js/app.js') }}"></script>
 
-        @stack('templates')
         @stack('javascript')
     </body>
 </html>

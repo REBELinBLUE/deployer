@@ -113,23 +113,7 @@
 
 @push('javascript')
     <script type="text/javascript">
-        new app.ServersTab();
-        new app.SharedFilesTab();
-        new app.ProjectFilesTab();
-        new app.NotificationsTab();
-        new app.NotifyEmailsTab();
-        new app.HeartbeatsTab();
-        new app.VariablesTab();
-        new app.CheckUrlsTab();
-
-        app.Servers.add({!! $servers->toJson() !!});
-        app.SharedFiles.add({!! $sharedFiles->toJson() !!});
-        app.ProjectFiles.add({!! $projectFiles->toJson() !!});
-        app.Notifications.add({!! $notifications->toJson() !!});
-        app.NotifyEmails.add({!! $notifyEmails->toJson() !!});
-        app.Heartbeats.add({!! $heartbeats->toJson() !!});
-        app.CheckUrls.add({!! $checkUrls->toJson() !!});
-        app.Variables.add({!! $variables->toJson() !!});
+        app.servers = {!! $servers->toJson() !!};
 
         app.project_id = {{ $project->id }};
     </script>

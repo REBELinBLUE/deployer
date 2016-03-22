@@ -7,7 +7,7 @@
     "ignore": [
         "**/.*",
         "node_modules",
-        "bower_components",
+        "vendor",
         "tests"
     ],
     "dependencies": {
@@ -22,6 +22,8 @@
         "respond": "~1.4.2",
         "cropper": "~2.3.0",
         "toastr": "~2.1.2",
-        "admin-lte": "~2.3.0"
+        "admin-lte": "~2.3.2",
+        "vue": "^1.0.17",
+        "vue-resource": "^0.7.0"
     }
 }

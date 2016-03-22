@@ -1,6 +1,7 @@
 var elixir = require('laravel-elixir');
              require('laravel-elixir-remove');
              require('laravel-elixir-bower-io');
+             require('laravel-elixir-vueify');
 
 var gulp   = require('gulp');
 var shell  = require('gulp-shell');
@@ -17,7 +18,8 @@ var bower_path = 'vendor/bower_components';
 var paths = {
     'admin_lte'       : bower_path + '/admin-lte',
     'ace'             : bower_path + '/ace-min-noconflict',
-    'backbone'        : bower_path + '/backbone',
+    'vue'             : bower_path + '/vue',
+    'vue_resource'    : bower_path + '/vue-resource',
     'underscore'      : bower_path + '/underscore',
     'moment'          : bower_path + '/moment',
     'jquery'          : bower_path + '/jquery',
@@ -61,7 +63,8 @@ elixir(function(mix) {
         paths.admin_lte       + '/bootstrap/js/bootstrap.js',
         paths.select2         + '/select2.js',
         paths.admin_lte       + '/dist/js/app.js',
-        paths.backbone        + '/backbone.js',
+        paths.vue             + '/dist/vue.js',
+        paths.vue_resource    + '/dist/vue-resource.js',
         paths.socketio_client + '/socket.io.js',
         bower_path            + '/localization.js',
         paths.toastr          + '/toastr.js',
@@ -72,25 +75,7 @@ elixir(function(mix) {
         paths.ace             + '/mode-yaml.js',
         paths.ace             + '/mode-ini.js'
     ], 'public/js/vendor.js', bower_path)
-    .scripts([
-        'app.js',
-        'projects.js',
-        'templates.js',
-        'servers.js',
-        'heartbeats.js',
-        'notifications.js',
-        'notifyEmails.js',
-        'shareFiles.js',
-        'projectFiles.js',
-        'checkUrls.js',
-        'variables.js',
-        'deployment.js',
-        'commands.js',
-        'users.js',
-        'groups.js',
-        'uploader.js',
-        'profile.js'
-    ], 'public/js/app.js', 'resources/assets/js')
+    .browserify('app.js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
     .copy(paths.ionicons    + '/fonts/**',           'public/fonts')
