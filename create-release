@@ -2,7 +2,7 @@
 
 # Use the composer github token if it exists
 if [ -z "$CHANGELOG_GITHUB_TOKEN" ]; then
-    CHANGELOG_GITHUB_TOKEN=`composer config --global github-oauth.github.com`
+    export CHANGELOG_GITHUB_TOKEN=`composer config --global github-oauth.github.com`
 fi
 
 # Check that a github token exists in CHANGELOG_GITHUB_TOKEN
