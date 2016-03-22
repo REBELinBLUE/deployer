@@ -358,7 +358,7 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         // Now get the full script
-        return $this->getScriptForStep($step, $tokens);
+        return $this->getScriptForStep($step, $tokens)
                     ->prependScript($exports)
                     ->setServer($server, $this->private_key);
     }
