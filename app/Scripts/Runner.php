@@ -32,6 +32,32 @@ class Runner
     }
 
     /**
+     * Prepend commands to the beginning of the script.
+     *
+     * @param  string $script
+     * @return self
+     */
+    public function prependScript($script)
+    {
+        $this->script = trim($script . PHP_EOL . $this->script);
+
+        return $this;
+    }
+
+    /**
+     * Append commands to the end of the script.
+     *
+     * @param  string $script
+     * @return self
+     */
+    public function appendScript($script)
+    {
+        $this->script = trim($this->script . PHP_EOL . $script);
+
+        return $this;
+    }
+
+    /**
      * Runs a script locally.
      *
      * @param  callable|null $callback
@@ -72,7 +98,7 @@ class Runner
     {
         $wrapper = 'Locally';
         $tokens  = [
-            'script' => $script,
+            'script' => trim($script),
         ];
 
         if (!$this->is_local) {
