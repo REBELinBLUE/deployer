@@ -246,15 +246,12 @@ class DeployProject extends Job implements ShouldQueue
 
                 $this->sendFilesForStep($step, $log);
 
-                $cmd = $this->buildScript($step, $server);
+                $process = $this->buildScript($step, $server);
 
                 $failed    = false;
                 $cancelled = false;
 
-                if (!empty($cmd)) {
-                    $process = new SymfonyProcess($cmd);
-                    $process->setTimeout(null);
-
+                if (!empty($process)) {
                     $output = '';
                     $process->run(function ($type, $output_line) use (&$output, &$log, $process, $step) {
                         if ($type === \Symfony\Component\Process\Process::ERR) {
@@ -348,29 +345,22 @@ class DeployProject extends Job implements ShouldQueue
         $tokens = $this->getTokenList($step, $server);
 
         // Generate the export
-        $variables = '';
+        $exports = '';
         foreach ($this->deployment->project->variables as $variable) {
             $key   = $variable->name;
             $value = $variable->value;
 
-            $variables .= "export {$key}={$value}" . PHP_EOL;
+            $exports .= "export {$key}={$value}" . PHP_EOL;
+        }
+
+        if (isset($step->command)) {
+            $server->user = $step->command->user;
         }
 
         // Now get the full script
-        $script = $this->getScriptForStep($step, $tokens);
-
-        if (empty($script)) {
-            return '';
-        }
-
-        $script = trim($variables . PHP_EOL . $script);
-
-        $user = $server->user;
-        if (isset($step->command)) {
-            $user = $step->command->user;
-        }
-
-        return $this->generateSSHCommand($server, $script, $user);
+        return $this->getScriptForStep($step, $tokens);
+                    ->prependScript($exports)
+                    ->setServer($server, $this->private_key);
     }
 
     /**
@@ -404,52 +394,25 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function getScriptForStep(DeployStep $step, array $tokens = [])
     {
-        $parser = new ScriptParser;
-
         switch ($step->stage) {
             case Stage::DO_CLONE:
-                return $parser->parseFile('deploy.steps.CreateNewRelease', $tokens);
+                return new Process('deploy.steps.CreateNewRelease', $tokens);
             case Stage::DO_INSTALL:
                 // Write configuration file to release dir, symlink shared files and run composer
-                return $this->configurationFileCommands($tokens['release_path']) .
-                       $parser->parseFile('deploy.steps.InstallComposerDependencies', $tokens) .
-                       $this->shareFileCommands($tokens['release_path'], $tokens['shared_path']);
+                $process = new Process('deploy.steps.InstallComposerDependencies', $tokens);
+                $process->prependScript($this->configurationFileCommands($tokens['release_path']))
+                        ->appendScript($this->shareFileCommands($tokens['release_path'], $tokens['shared_path']));
+
+                return $process;
             case Stage::DO_ACTIVATE:
-                return $parser->parseFile('deploy.steps.ActivateNewRelease', $tokens);
+                return new Process('deploy.steps.ActivateNewRelease', $tokens);
             case Stage::DO_PURGE:
-                return $parser->parseFile('deploy.steps.PurgeOldReleases', $tokens);
+                return new Process('deploy.steps.PurgeOldReleases', $tokens);
         }
+
 
         // Custom step
-        return $parser->parseString($step->command->script, $tokens);
-    }
-
-    /**
-     * Generates the SSH command for running the script on a server.
-     *
-     * @param  Server      $server
-     * @param  string      $script
-     * @param  string|null $user
-     * @return string
-     */
-    private function generateSSHCommand(Server $server, $script, $user = null)
-    {
-        if (is_null($user)) {
-            $user = $server->user;
-        }
-
-        if (config('app.debug')) {
-            // Turn on verbose output so we can see all commands when in debug mode
-            $script = 'set -v' . PHP_EOL . $script;
-        }
-
-        return with(new ScriptParser)->parseFile('RunScriptOverSSH', [
-            'private_key' => $this->private_key,
-            'username'    => $user,
-            'port'        => $server->port,
-            'ip_address'  => $server->ip_address,
-            'script'      => $script,
-        ]);
+        //return $parser->parseString($step->command->script, $tokens);
     }
 
     /**
