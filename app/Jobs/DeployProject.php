@@ -19,7 +19,8 @@ use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
-use Symfony\Component\Process\Process;
+use REBELinBLUE\Deployer\Scripts\Runner as Process;
+use Symfony\Component\Process\Process as SymfonyProcess;
 
 /**
  * Deploys an actual project.
@@ -138,19 +139,10 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function updateRepoInfo()
     {
-        $parser = new ScriptParser;
-
-        $script = $parser->parseFile('tools.GetCommitDetails', [
+        $process = new Process('tools.GetCommitDetails', [
             'mirror_path'   => $this->deployment->project->mirrorPath(),
             'git_reference' => $this->deployment->branch,
         ]);
-
-        $cmd = $parser->parseFile('RunScriptLocally', [
-            'script' => $script,
-        ]);
-
-        $process = new Process($cmd);
-        $process->setTimeout(null);
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -183,14 +175,11 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function createReleaseArchive()
     {
-        $cmd = with(new ScriptParser)->parseFile('deploy.CreateReleaseArchive', [
+        $process = new Process('deploy.CreateReleaseArchive', [
             'mirror_path'     => $this->deployment->project->mirrorPath(),
             'sha'             => $this->deployment->commit,
             'release_archive' => storage_path('app/' . $this->release_archive),
         ]);
-
-        $process = new Process($cmd);
-        $process->setTimeout(null);
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -210,15 +199,14 @@ class DeployProject extends Job implements ShouldQueue
                 continue;
             }
 
-            $script = with(new ScriptParser)->parseFile('deploy.CleanupFailedRelease', [
+            $process = new Process('deploy.CleanupFailedRelease', [
                 'project_path'   => $server->clean_path,
                 'release_path'   => $server->clean_path . '/releases/' . $this->deployment->release_id,
                 'remote_archive' => $server->clean_path . '/' . $this->release_archive,
             ]);
 
-            $process = new Process($this->generateSSHCommand($server, $script));
-            $process->setTimeout(null);
-            $process->run();
+            $process->setServer($server, $this->private_key)
+                    ->run();
         }
     }
 
@@ -264,12 +252,12 @@ class DeployProject extends Job implements ShouldQueue
                 $cancelled = false;
 
                 if (!empty($cmd)) {
-                    $process = new Process($cmd);
+                    $process = new SymfonyProcess($cmd);
                     $process->setTimeout(null);
 
                     $output = '';
                     $process->run(function ($type, $output_line) use (&$output, &$log, $process, $step) {
-                        if ($type === Process::ERR) {
+                        if ($type === \Symfony\Component\Process\Process::ERR) {
                             $output .= $this->logError($output_line);
                         } else {
                             $output .= $this->logSuccess($output_line);
@@ -475,7 +463,7 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function sendFile($local_file, $remote_file, ServerLog $log)
     {
-        $cmd = with(new ScriptParser)->parseFile('deploy.SendFileToServer', [
+        $process = new Process('deploy.SendFileToServer', [
             'port'        => $log->server->port,
             'private_key' => $this->private_key,
             'local_file'  => $local_file,
@@ -484,12 +472,9 @@ class DeployProject extends Job implements ShouldQueue
             'ip_address'  => $log->server->ip_address,
         ]);
 
-        $process = new Process($cmd);
-        $process->setTimeout(null);
-
         $output = '';
         $process->run(function ($type, $output_line) use (&$output, &$log) {
-            if ($type === Process::ERR) {
+            if ($type === \Symfony\Component\Process\Process::ERR) {
                 $output .= $this->logError($output_line);
             } else {
                 // Switching sent/received around

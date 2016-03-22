@@ -48,8 +48,9 @@ class TestServerConnection extends Job implements ShouldQueue
                 'test_file'      => time() . '_testing_deployer.txt',
                 'test_directory' => time() . '_testing_deployer_dir',
             ]);
-            $process->setServer($this->server, $key);
-            $process->run();
+
+            $process->setServer($this->server, $key)
+                    ->run();
 
             if (!$process->isSuccessful()) {
                 $this->server->status = Server::FAILED;

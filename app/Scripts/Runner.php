@@ -8,7 +8,6 @@ use Symfony\Component\Process\Process;
 
 /**
  * Class which runs scripts.
- * @fixme add a magic __call method which calls everything on ->process instead
  */
 class Runner
 {
@@ -33,17 +32,6 @@ class Runner
     }
 
     /**
-     * Sets the process timeout.
-     *
-     * @param  int     $timeout
-     * @return Process
-     */
-    public function setTimeout($timeout)
-    {
-        return $this->process->setTimeout($timeout);
-    }
-
-    /**
      * Runs a script locally.
      *
      * @param  callable|null $callback
@@ -63,55 +51,15 @@ class Runner
      *
      * @param  Server $server
      * @param  string $private_key
-     * @return int
+     * @return self
      */
     public function setServer(Server $server, $private_key)
     {
         $this->server      = $server;
         $this->private_key = $private_key;
         $this->is_local    = false;
-    }
 
-    /**
-     * Checks if the process ended successfully.
-     *
-     * @return bool
-     */
-    public function isSuccessful()
-    {
-        return $this->process->isSuccessful();
-    }
-
-    /**
-     * Returns the current error output of the process (STDERR).
-     *
-     * @return string
-     */
-    public function getErrorOutput()
-    {
-        return $this->process->getErrorOutput();
-    }
-
-    /**
-     * Returns the current output of the process (STDOUT).
-     *
-     * @return string
-     */
-    public function getOutput()
-    {
-        return $this->process->getOutput();
-    }
-
-    /**
-     * Stops the process.
-     *
-     * @param  int $timeout
-     * @param  int $signal
-     * @return int
-     */
-    public function stop($timeout = 10, $signal = null)
-    {
-        return $this->process->stop($timeout, $signal);
+        return $this;
     }
 
     /**
@@ -128,19 +76,13 @@ class Runner
         ];
 
         if (!$this->is_local) {
-            // Turn on verbose output so we can see all commands when in debug mode
-            if (config('app.debug')) {
-                $script = 'set -v' . PHP_EOL . $script;
-            }
-
             $wrapper = 'OverSSH';
-            $tokens  = [
+            $tokens  = array_merge($tokens, [
                 'private_key' => $this->private_key,
                 'username'    => $this->server->user,
                 'port'        => $this->server->port,
                 'ip_address'  => $this->server->ip_address,
-                'script'      => $script,
-            ];
+            ]);
         }
 
         $output = with(new Parser)->parseFile('RunScript' . $wrapper, $tokens);
@@ -148,5 +90,22 @@ class Runner
         Log::debug($output);
 
         return $output;
+    }
+
+    /**
+     * Overloading call to undefined methods to pass them to the process object.
+     *
+     * @param  string $method
+     * @param  array  $arguments
+     * @return mixed
+     * @throws RuntimeException
+     */
+    public function __call($method, array $arguments = [])
+    {
+        if (!is_callable([$this->process, $method])) {
+            throw new \RuntimeException('Method ' . $method . ' not exists');
+        }
+
+        return call_user_func([$this->process, $method], $arguments);
     }
 }
