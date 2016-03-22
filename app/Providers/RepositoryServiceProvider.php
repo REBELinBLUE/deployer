@@ -61,7 +61,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GroupRepositoryInterface::class, EloquentGroupRepository::class);
         $this->app->bind(HeartbeatRepositoryInterface::class, EloquentHeartbeatRepository::class);
         $this->app->bind(NotificationRepositoryInterface::class, EloquentNotificationRepository::class);
-        $this->app->bind(MotifyEmailRepositoryInterface::class, EloquentNotifyEmailRepository::class);
+        $this->app->bind(NotifyEmailRepositoryInterface::class, EloquentNotifyEmailRepository::class);
         $this->app->bind(ProjectRepositoryInterface::class, EloquentProjectRepository::class);
         $this->app->bind(ProjectFileRepositoryInterface::class, EloquentProjectFileRepository::class);
         $this->app->bind(ServerRepositoryInterface::class, EloquentServerRepository::class);
