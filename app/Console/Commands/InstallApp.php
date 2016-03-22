@@ -604,7 +604,6 @@ class InstallApp extends Command
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);
-
             $process->setTimeout(null);
             $process->run();
 

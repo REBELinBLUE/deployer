@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
 /**

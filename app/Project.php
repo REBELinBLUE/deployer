@@ -5,9 +5,9 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
+use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
-use Symfony\Component\Process\Process;
 use Version\Compare as VersionCompare;
 
 /**
@@ -298,11 +298,9 @@ class Project extends ProjectRelation implements PresentableInterface
         $key = tempnam(storage_path('app/'), 'sshkey');
         unlink($key);
 
-        $process = new Process(sprintf(
-            'ssh-keygen -t rsa -b 2048 -f %s -N "" -C "deploy@deployer"',
-            $key
-        ));
-
+        $process = new Process('tools.GenerateSSHKey', [
+            'key_file' => $key,
+        ]);
         $process->run();
 
         if (!$process->isSuccessful()) {

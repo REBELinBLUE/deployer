@@ -130,4 +130,14 @@ class Server extends Model
 
         $this->attributes['port'] = $value;
     }
+
+    /**
+     * The server path without a trailing slash.
+     *
+     * @return string
+     */
+    public function getCleanPathAttribute()
+    {
+        return preg_replace('#/$#', '', $this->path);
+    }
 }

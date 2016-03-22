@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Ref;
-use Symfony\Component\Process\Process;
+use REBELinBLUE\Deployer\Scripts\Runner as Process;
 
 /**
  * Updates the list of tags and branches in a project.
@@ -43,8 +43,10 @@ class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
         $this->project->refs()->delete();
 
         foreach (['tag', 'branch'] as $ref) {
-            $process = new Process("cd {$mirror_dir} && git {$ref} --list --no-column");
-            $process->setTimeout(null);
+            $process = new Process('tools.ListGitReferences', [
+                'mirror_path'   => $mirror_dir,
+                'git_reference' => $ref,
+            ]);
             $process->run();
 
             if ($process->isSuccessful()) {
