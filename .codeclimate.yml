@@ -1,20 +1,8 @@
-engines:
-    phpmd:
-        enabled: true
-    phpcodesniffer:
-        enabled: true
-    markdownlint:
-        enabled: true
-    shellcheck:
-        enabled: true
-    duplication:
-        enabled: true
-        config:
-            languages:
-                - javascript
-                - php
-    fixme:
-        enabled: true
+languages:
+    Ruby: false
+    JavaScript: true
+    PHP: true
+    Python: false
 exclude_paths:
     - "vendor/*"
     - "config/*"
