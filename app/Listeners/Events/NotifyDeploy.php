@@ -36,7 +36,7 @@ class NotifyDeploy extends Event implements ShouldQueue
      */
     public function handle(DeployFinished $event)
     {
-        $project    = $event->project;
+        $project    = $event->deployment->project;
         $deployment = $event->deployment;
 
         if ($deployment->isAborted()) {

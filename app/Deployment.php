@@ -393,4 +393,14 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     {
         return ($this->commit === self::LOADING && $this->status === self::FAILED);
     }
+
+    /**
+     * Mutator to get the release ID.
+     *
+     * @return string
+     */
+    public function getReleaseIdAttribute()
+    {
+        return $this->started_at->format('YmdHis');
+    }
 }

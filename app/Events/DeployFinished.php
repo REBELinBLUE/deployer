@@ -14,7 +14,6 @@ class DeployFinished extends Event
 {
     use SerializesModels;
 
-    public $project;
     public $deployment;
 
     /**
@@ -22,9 +21,8 @@ class DeployFinished extends Event
      *
      * @return void
      */
-    public function __construct(Project $project, Deployment $deployment)
+    public function __construct(Deployment $deployment)
     {
-        $this->project    = $project;
         $this->deployment = $deployment;
     }
 }

@@ -44,7 +44,6 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
         $deployment = $this->model->create($fields);
 
-        // FIXME: Catch an error here and rollback model if it fails
         $this->dispatch(new QueueDeployment(
             $deployment->project,
             $deployment,

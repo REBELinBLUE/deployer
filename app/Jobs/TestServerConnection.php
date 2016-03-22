@@ -5,10 +5,9 @@ namespace REBELinBLUE\Deployer\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Server;
-use Symfony\Component\Process\Process;
 
 /**
  * Tests if a server can successfully be SSHed into.
@@ -44,10 +43,14 @@ class TestServerConnection extends Job implements ShouldQueue
         file_put_contents($key, $this->server->project->private_key);
 
         try {
-            $command = $this->sshCommand($this->server, $key);
-            $process = new Process($command);
-            $process->setTimeout(null);
-            $process->run();
+            $process = new Process('TestServerConnection', [
+                'project_path'   => $this->server->clean_path,
+                'test_file'      => time() . '_testing_deployer.txt',
+                'test_directory' => time() . '_testing_deployer_dir',
+            ]);
+
+            $process->setServer($this->server, $key)
+                    ->run();
 
             if (!$process->isSuccessful()) {
                 $this->server->status = Server::FAILED;
@@ -61,47 +64,5 @@ class TestServerConnection extends Job implements ShouldQueue
         $this->server->save();
 
         unlink($key);
-    }
-
-    /**
-     * Generates the script to test the test.
-     *
-     * @param  Server $server
-     * @param  string $private_key
-     * @return string
-     */
-    private function sshCommand(Server $server, $private_key)
-    {
-        $tmpfile = time() . '_testing_deployer.txt';
-        $tmpdir  = time() . '_testing_deployer_dir';
-
-        // Ensure the directory exists and can be written to
-        // that directories can be made and files/directories
-        // can be removed
-        $script = <<< EOD
-            set -e
-            cd $server->path
-            ls
-            touch $tmpfile
-            echo "testing" >> $tmpfile
-            chmod +x $tmpfile
-            rm $tmpfile
-            mkdir $tmpdir
-            touch $tmpdir/$tmpfile
-            echo "testing" >> $tmpdir/$tmpfile
-            chmod +x $tmpdir/$tmpfile
-            ls $tmpdir/
-            rm -rf $tmpdir
-EOD;
-
-        return 'ssh -o CheckHostIP=no \
-                 -o IdentitiesOnly=yes \
-                 -o StrictHostKeyChecking=no \
-                 -o PasswordAuthentication=no \
-                 -o IdentityFile=' . $private_key . ' \
-                 -p ' . $server->port . ' \
-                 ' . $server->user . '@' . $server->ip_address . ' \'bash -s\' << \'EOF\'
-                 ' . $script . '
-EOF';
     }
 }

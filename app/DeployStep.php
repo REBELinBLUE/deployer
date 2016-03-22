@@ -61,4 +61,19 @@ class DeployStep extends Model implements PresentableInterface
     {
         return new DeployStepPresenter($this);
     }
+
+    /**
+     * Determines if the step is a BEFORE or AFTER step.
+     *
+     * @return bool
+     */
+    public function isCustomStep()
+    {
+        return (!in_array($this->stage, [
+            Command::DO_CLONE,
+            Command::DO_INSTALL,
+            Command::DO_ACTIVATE,
+            Command::DO_PURGE,
+        ], true));
+    }
 }
