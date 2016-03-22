@@ -10,7 +10,7 @@ use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
-use Symfony\Component\Process\Process;
+use REBELinBLUE\Deployer\Scripts\Runner as Process;
 
 /**
  * Updates the git mirror for a project.
@@ -38,30 +38,21 @@ class UpdateGitMirror extends Job implements SelfHandling
      */
     public function handle()
     {
-        $parser = new ScriptParser;
-
         $private_key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($private_key, $this->project->private_key);
 
-        $wrapper = $parser->parseFile('tools.SSHWrapperScript', [
+        $wrapper = with(new ScriptParser)->parseFile('tools.SSHWrapperScript', [
             'private_key' => $private_key,
         ]);
 
         $wrapper_file = tempnam(storage_path('app/'), 'gitssh');
         file_put_contents($wrapper_file, $wrapper);
 
-        $script = $parser->parseFile('tools.MirrorGitRepository', [
+        $process = new Process('tools.MirrorGitRepository', [
             'wrapper_file' => $wrapper_file,
             'mirror_path'  => $this->project->mirrorPath(),
             'repository'   => $this->project->repository,
         ]);
-
-        $cmd = $parser->parseFile('RunScriptLocally', [
-            'script' => $script,
-        ]);
-
-        $process = new Process($cmd);
-        $process->setTimeout(null);
         $process->run();
 
         unlink($wrapper_file);

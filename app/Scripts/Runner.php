@@ -6,6 +6,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * Class which runs scripts.
+ * @fixme add a magic __call method which calls everything on ->process instead
  */
 class Runner
 {
@@ -87,6 +88,16 @@ class Runner
     public function getErrorOutput()
     {
         return $this->process->getErrorOutput();
+    }
+
+    /**
+     * Returns the current output of the process (STDOUT).
+     *
+     * @return string
+     */
+    public function getOutput()
+    {
+        return $this->process->getOutput();
     }
 
     /**

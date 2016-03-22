@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Server;
@@ -45,8 +44,12 @@ class TestServerConnection extends Job implements ShouldQueue
         file_put_contents($key, $this->server->project->private_key);
 
         try {
-            $process = new Process($this->generateSSHCommand($this->server, $key));
-            $process->setTimeout(null);
+            $process = new Process('TestServerConnection', [
+                'project_path'   => $server->clean_path,
+                'test_file'      => time() . '_testing_deployer.txt',
+                'test_directory' => time() . '_testing_deployer_dir',
+            ]);
+            $process->setServer($this->server, $key);
             $process->run();
 
             if (!$process->isSuccessful()) {
@@ -61,31 +64,5 @@ class TestServerConnection extends Job implements ShouldQueue
         $this->server->save();
 
         unlink($key);
-    }
-
-    /**
-     * Generates the script to run the test.
-     *
-     * @param  Server $server
-     * @param  string $private_key
-     * @return string
-     */
-    private function generateSSHCommand(Server $server, $private_key)
-    {
-        $parser = new ScriptParser;
-
-        $script = $parser->parseFile('TestServerConnection', [
-            'project_path'   => $server->clean_path,
-            'test_file'      => time() . '_testing_deployer.txt',
-            'test_directory' => time() . '_testing_deployer_dir',
-        ]);
-
-        return $parser->parseFile('RunScriptOverSSH', [
-            'private_key' => $private_key,
-            'username'    => $server->user,
-            'port'        => $server->port,
-            'ip_address'  => $server->ip_address,
-            'script'      => $script,
-        ]);
     }
 }
