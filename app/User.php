@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use REBELinBLUE\Deployer\Presenters\UserPresenter;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * User model.
@@ -24,6 +25,10 @@ class User extends Model implements
     PresentableInterface
 {
     use Authenticatable, CanResetPassword, Authorizable, SoftDeletes, BroadcastChanges;
+
+    use HasRoles {
+        hasPermissionTo as realHasPermissionTo;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -102,5 +107,34 @@ class User extends Model implements
     public function getHasTwoFactorAuthenticationAttribute()
     {
         return !empty($this->google2fa_secret);
+    }
+
+    /**
+     * Determine whether the user belongs to the root group.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return $this->hasRole('root');
+    }
+
+    /**
+     * Override the method from the trait.
+     *
+     * @param  mixed $permission
+     * @param  mixed $resource
+     * @return bool
+     */
+    public function hasPermissionTo($permission, $resource = null)
+    {
+        if (is_string($permission) && strpos('.*.', $permission) !== -1 && $resource instanceof Model) {
+            $all_permission    = str_replace('.*.', '.all.', $permission);
+            $single_permission = str_replace('.*.', '.' . $resource->id . '.', $permission);
+
+            return $this->realHasPermissionTo($all_permission) || $this->realHasPermissionTo($single_permission);
+        }
+
+        return $this->realHasPermissionTo($permission);
     }
 }
