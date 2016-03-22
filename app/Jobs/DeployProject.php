@@ -412,7 +412,7 @@ class DeployProject extends Job implements ShouldQueue
 
 
         // Custom step
-        //return $parser->parseString($step->command->script, $tokens);
+        return new Process($step->command->script, $tokens, Process::DIRECT_INPUT);
     }
 
     /**
