@@ -11,6 +11,9 @@ use Symfony\Component\Process\Process;
  */
 class Runner
 {
+    const TEMPLATE_INPUT = true;
+    const DIRECT_INPUT = false;
+
     private $process;
     private $script;
     private $server;
@@ -20,15 +23,20 @@ class Runner
     /**
      * Class constructor.
      *
-     * @param string $temple
+     * @param string $input
      * @param array  $tokens
+     * @param int    $script_source
      */
-    public function __construct($temple, array $tokens = [])
+    public function __construct($input, array $tokens = [], $script_source = self::TEMPLATE_INPUT)
     {
         $this->process = new Process('');
         $this->process->setTimeout(null);
 
-        $this->script = with(new Parser)->parseFile($temple, $tokens);
+        if ($script_source === self::TEMPLATE_INPUT) {
+            $this->script = with(new Parser)->parseFile($input, $tokens);
+        } else {
+            $this->script = with(new Parser)->parseString($input, $tokens);
+        }
     }
 
     /**
