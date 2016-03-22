@@ -20,7 +20,6 @@ use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
-use Symfony\Component\Process\Process as SymfonyProcess;
 
 /**
  * Deploys an actual project.
@@ -353,14 +352,15 @@ class DeployProject extends Job implements ShouldQueue
             $exports .= "export {$key}={$value}" . PHP_EOL;
         }
 
+        $user = $server->user;
         if (isset($step->command)) {
-            $server->user = $step->command->user;
+            $user = $step->command->user;
         }
 
         // Now get the full script
         return $this->getScriptForStep($step, $tokens)
                     ->prependScript($exports)
-                    ->setServer($server, $this->private_key);
+                    ->setServer($server, $this->private_key, $user);
     }
 
     /**

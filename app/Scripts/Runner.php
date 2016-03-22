@@ -18,6 +18,7 @@ class Runner
     private $script;
     private $server;
     private $private_key;
+    private $alternative_user;
     private $is_local = true;
 
     /**
@@ -83,15 +84,17 @@ class Runner
     /**
      * Sets the script to run on a remote server.
      *
-     * @param  Server $server
-     * @param  string $private_key
+     * @param Server $server
+     * @param string $private_key
+     * @param string $alternative_user
      * @return self
      */
-    public function setServer(Server $server, $private_key)
+    public function setServer(Server $server, $private_key, $alternative_user = null)
     {
-        $this->server      = $server;
-        $this->private_key = $private_key;
-        $this->is_local    = false;
+        $this->server           = $server;
+        $this->private_key      = $private_key;
+        $this->alternative_user = $alternative_user;
+        $this->is_local         = false;
 
         return $this;
     }
@@ -113,7 +116,7 @@ class Runner
             $wrapper = 'OverSSH';
             $tokens  = array_merge($tokens, [
                 'private_key' => $this->private_key,
-                'username'    => $this->server->user,
+                'username'    => $this->alternative_user ?: $this->server->user,
                 'port'        => $this->server->port,
                 'ip_address'  => $this->server->ip_address,
             ]);
