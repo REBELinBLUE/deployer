@@ -18,7 +18,8 @@ class LicenseCheck
      */
     public function handle($request, Closure $next)
     {
-        if ($request->root() === 'http://deploy.aardvarklondon.com' && !$request->is('expired') && date('m-d') === '04-01') {
+        if ($request->root() === 'http://deploy.aardvarklondon.com' &&
+            !$request->is('expired') && date('m-d') === '04-01') {
             return redirect('/expired');
         }
 
