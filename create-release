@@ -3,7 +3,7 @@
 # Use the composer github token if it exists
 if [ -z "$CHANGELOG_GITHUB_TOKEN" ]; then
     CHANGELOG_GITHUB_TOKEN=`composer config --global github-oauth.github.com`
-fi;
+fi
 
 # Check that a github token exists in CHANGELOG_GITHUB_TOKEN
 while [[ "$CHANGELOG_GITHUB_TOKEN" =~ ^$  ]]
@@ -12,7 +12,7 @@ do
     export CHANGELOG_GITHUB_TOKEN=$GITHUB_TOKEN
 done
 
-git stash save --include-untracked --all "tmp-create-release"
+#git stash save --include-untracked --all "tmp-create-release"
 
 git checkout master
 
@@ -84,4 +84,4 @@ git branch -D release
 # Build the assets as switching back would have removed them
 gulp
 
-git stash pop "tmp-create-release"
+#git stash pop "tmp-create-release"
