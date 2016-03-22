@@ -6,9 +6,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Jobs\Job;
-use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
+use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Server;
-use Symfony\Component\Process\Process;
 
 /**
  * Tests if a server can successfully be SSHed into.
@@ -45,7 +44,7 @@ class TestServerConnection extends Job implements ShouldQueue
 
         try {
             $process = new Process('TestServerConnection', [
-                'project_path'   => $server->clean_path,
+                'project_path'   => $this->server->clean_path,
                 'test_file'      => time() . '_testing_deployer.txt',
                 'test_directory' => time() . '_testing_deployer_dir',
             ]);

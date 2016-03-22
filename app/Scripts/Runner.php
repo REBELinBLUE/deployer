@@ -2,6 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Scripts;
 
+use Illuminate\Support\Facades\Log;
+use REBELinBLUE\Deployer\Server;
 use Symfony\Component\Process\Process;
 
 /**
@@ -141,6 +143,10 @@ class Runner
             ];
         }
 
-        return with(new Parser)->parseFile('RunScript' . $wrapper, $tokens);
+        $output = with(new Parser)->parseFile('RunScript' . $wrapper, $tokens);
+
+        Log::debug($output);
+
+        return $output;
     }
 }
