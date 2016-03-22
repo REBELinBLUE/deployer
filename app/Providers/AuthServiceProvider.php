@@ -4,6 +4,8 @@ namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use REBELinBLUE\Deployer\Policies\ProjectPolicy;
+use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\User;
 
 /**
@@ -17,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        \REBELinBLUE\Deployer\Project::class => \REBELinBLUE\Deployer\Policies\ProjectPolicy::class,
+        Project::class => ProjectPolicy::class,
     ];
 
     /**
