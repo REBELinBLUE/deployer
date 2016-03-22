@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
 use REBELinBLUE\Deployer\Project;
-use Symfony\Component\Process\Process;
+use REBELinBLUE\Deployer\Scripts\Runner as Process
 
 /**
  * Checks for and cleans up orphaned git mirrors.
@@ -61,8 +61,9 @@ class ClearOrphanMirrors extends Command
 
         // Now loop through the mirrors and delete them from storage
         foreach ($orphan_mirrors as $mirror_dir) {
-            $process = new Process("rm -rf {$mirror_dir}");
-            $process->setTimeout(null);
+            $process = new Process('tools.RemoveMirrorDirectory', [
+                'mirror_path' => $mirror_dir
+            ]);
             $process->run();
 
             if ($process->isSuccessful()) {

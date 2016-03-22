@@ -16,10 +16,10 @@ use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
+use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\User;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
 
 /**
  * Deploys an actual project.
@@ -409,7 +409,6 @@ class DeployProject extends Job implements ShouldQueue
             case Stage::DO_PURGE:
                 return new Process('deploy.steps.PurgeOldReleases', $tokens);
         }
-
 
         // Custom step
         return new Process($step->command->script, $tokens, Process::DIRECT_INPUT);

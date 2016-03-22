@@ -12,7 +12,7 @@ use Symfony\Component\Process\Process;
 class Runner
 {
     const TEMPLATE_INPUT = true;
-    const DIRECT_INPUT = false;
+    const DIRECT_INPUT   = false;
 
     private $process;
     private $script;
@@ -84,9 +84,9 @@ class Runner
     /**
      * Sets the script to run on a remote server.
      *
-     * @param Server $server
-     * @param string $private_key
-     * @param string $alternative_user
+     * @param  Server $server
+     * @param  string $private_key
+     * @param  string $alternative_user
      * @return self
      */
     public function setServer(Server $server, $private_key, $alternative_user = null)
@@ -132,10 +132,10 @@ class Runner
     /**
      * Overloading call to undefined methods to pass them to the process object.
      *
-     * @param  string $method
-     * @param  array  $arguments
-     * @return mixed
+     * @param  string           $method
+     * @param  array            $arguments
      * @throws RuntimeException
+     * @return mixed
      */
     public function __call($method, array $arguments = [])
     {
