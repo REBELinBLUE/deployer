@@ -210,7 +210,7 @@ class DeploymentController extends Controller
 
         $this->authorize('deploy', $deployment->project);
 
-        $deployment = $this->deploymentRepository->abort($deployment_id);
+        $this->deploymentRepository->abort($deployment_id);
 
         return redirect()->route('deployment', [
             'id' => $deployment->id,

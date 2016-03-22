@@ -21,4 +21,9 @@ class ProjectPolicy
     {
         return true;
     }
+
+    public function manage(User $user, Project $project)
+    {
+        return true;
+    }
 }
