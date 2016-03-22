@@ -14,7 +14,7 @@ mkdir {{ release_path }}
 cd {{ release_path }}
 
 # Extract the archive
-echo -e "\nExtracting...\n"
+echo -e "Extracting...\n"
 tar --warning=no-timestamp --gunzip --verbose --extract --file={{ remote_archive }} --directory={{ release_path }}
 
 rm -f {{ remote_archive }}
