@@ -130,7 +130,7 @@ class DeploymentController extends Controller
     {
         $project = $this->projectRepository->getById($project_id);
 
-        $this->authorize('deplou', $project);
+        $this->authorize('deploy', $project);
 
         if ($project->servers->where('deploy_code', true)->count() === 0) {
             return redirect()->url('projects', $project->id);
@@ -173,6 +173,10 @@ class DeploymentController extends Controller
      */
     public function rollback(Request $request, $deployment_id)
     {
+        $deployment = $this->deploymentRepository->getById($deployment_id);
+
+        $this->authorize('deploy', $deployment->project);
+
         $optional = [];
 
         // Get the optional commands and typecast to integers
@@ -197,9 +201,11 @@ class DeploymentController extends Controller
      */
     public function abort($deployment_id)
     {
-        $deployment = $this->deploymentRepository->abort($deployment_id);
+        $deployment = $this->deploymentRepository->getById($deployment_id);
 
         $this->authorize('deploy', $deployment->project);
+
+        $deployment = $this->deploymentRepository->abort($deployment_id);
 
         return redirect()->route('deployment', [
             'id' => $deployment->id,
