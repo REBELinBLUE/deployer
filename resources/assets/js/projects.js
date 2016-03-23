@@ -56,6 +56,8 @@ var app = app || {};
         $('.label-danger', modal).remove();
         $('#template-list', modal).hide();
 
+        $('.nav-tabs a:first', modal).tab('show');
+
         if (button.hasClass('btn-edit')) {
             title = Lang.get('projects.edit');
             $('.btn-danger', modal).show();
