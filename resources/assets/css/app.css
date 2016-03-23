@@ -209,3 +209,7 @@ div#project div.nav-tabs-custom {
 div#project div.nav-tabs-custom > .tab-content {
     padding: 15px;
 }
+
+div#project div.callout-danger {
+    margin: 15px;
+}
