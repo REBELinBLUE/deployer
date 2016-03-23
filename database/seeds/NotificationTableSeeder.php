@@ -15,6 +15,7 @@ class NotificationTableSeeder extends Seeder
             'icon'       => ':ghost:',
             'webhook'    => 'https://hooks.slack.com/services/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',
             'project_id' => 1,
+            'service'    => Notification::SLACK,
         ]);
     }
 }

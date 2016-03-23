@@ -15,6 +15,26 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="notification_service">{{ Lang::get('notifications.service') }}</label>
+                        <ul class="list-unstyled">
+                            <li>
+                                <div class="radio">
+                                    <label for="notification_service_slack">
+                                        <input type="radio" class="notification-service" name="service" id="notification_service_slack" value="{{ REBELinBLUE\Deployer\Notification::SLACK }}" /> {{ Lang::get('notifications.slack') }}
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio">
+                                    <label for="notification_service_hipchat">
+                                        <input type="radio" class="notification-service" name="service" id="notification_service_hipchat" value="{{ REBELinBLUE\Deployer\Notification::HIPCHAT }}" /> {{ Lang::get('notifications.hipchat') }}
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
                         <label for="notification_name">{{ Lang::get('notifications.name') }}</label>
                         <input type="text" class="form-control" id="notification_name" name="name" placeholder="{{ Lang::get('notifications.bot') }}" />
                     </div>
@@ -23,7 +43,7 @@
                         <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('notifications.icon_info') }}"></i>
                         <input type="text" class="form-control" id="notification_icon" name="icon" placeholder=":ghost:" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group slack-only">
                         <label for="notification_channel">{{ Lang::get('notifications.channel') }}</label>
                         <input type="text" class="form-control" id="notification_channel" name="channel" placeholder="#slack" />
                     </div>

@@ -1,6 +1,18 @@
 var app = app || {};
 
 (function ($) {
+    var SLACK = 1;
+    var HIPCHAT = 2;
+
+    $('input.notification-service').on('change', function () {
+        $('div.slack-only').show();
+
+        if (parseInt($(this).val()) !== SLACK) {
+            $('div.slack-only').hide();
+        }
+
+    });
+
     // FIXME: This seems very wrong
     $('#notification').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -22,6 +34,8 @@ var app = app || {};
             $('#notification_channel').val('');
             $('#notification_icon').val('');
             $('#notification_failure_only').prop('checked', true);
+            $('#notification_service_slack').prop('checked', true);
+            $('#notification_service_slack').trigger('change');
         }
 
         modal.find('.modal-title span').text(title);
@@ -211,6 +225,8 @@ var app = app || {};
         render: function () {
             var data = this.model.toJSON();
 
+            data.is_slack = (parseInt(data.service) === SLACK);
+
             this.$el.html(this.template(data));
 
             return this;
@@ -223,6 +239,14 @@ var app = app || {};
             $('#notification_channel').val(this.model.get('channel'));
             $('#notification_icon').val(this.model.get('icon'));
             $('#notification_failure_only').prop('checked', (this.model.get('failure_only') === true));
+
+            if (parseInt(this.model.get('service')) === SLACK) {
+                $('#notification_service_slack').prop('checked', true);
+                $('#notification_service_slack').trigger('change');
+            } else {
+                $('#notification_service_hipchat').prop('checked', true);
+                $('#notification_service_hipchat').trigger('change');
+            }
         }
     });
 })(jQuery);

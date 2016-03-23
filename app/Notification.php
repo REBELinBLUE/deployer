@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Jobs\SlackNotify;
+use REBELinBLUE\Deployer\Jobs\Notify;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Messages\TestMessage;
 
 /**
  * Notification model.
@@ -16,12 +17,16 @@ class Notification extends Model
 {
     use SoftDeletes, DispatchesJobs, BroadcastChanges;
 
+    const SLACK   = 1;
+    const HIPCHAT = 2;
+    const GITTER  = 3;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon', 'failure_only'];
+    protected $fillable = ['name', 'channel', 'webhook', 'project_id', 'icon', 'failure_only', 'service'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -39,7 +44,38 @@ class Notification extends Model
         'id'           => 'integer',
         'project_id'   => 'integer',
         'failure_only' => 'boolean',
+        'service'      => 'integer',
     ];
+
+    /**
+     * Determines whether the notification is for slack.
+     *
+     * @return bool
+     */
+    public function isSlack()
+    {
+        return ($this->service === self::SLACK);
+    }
+
+    /**
+     * Determines whether the notification is for hipchat.
+     *
+     * @return bool
+     */
+    public function isHipchat()
+    {
+        return ($this->service === self::HIPCHAT);
+    }
+
+    /**
+     * Determines whether the notification is for gitter.
+     *
+     * @return bool
+     */
+    public function isGitter()
+    {
+        return ($this->service === self::GITTER);
+    }
 
     /**
      * Belongs to relationship.
@@ -62,19 +98,17 @@ class Notification extends Model
 
         // When the notification has been saved queue a test
         static::saved(function (Notification $model) {
-            $model->dispatch(new SlackNotify($model, $model->testPayload()));
+            $model->dispatch(new Notify($model, $model->testPayload()));
         });
     }
 
     /**
-     * Generates a test payload for Slack.
+     * Generates a test payload for chat messaging.
      *
-     * @return array
+     * @return MessageInterface
      */
     public function testPayload()
     {
-        return [
-            'text' => Lang::get('notifications.test_message'),
-        ];
+        return new TestMessage;
     }
 }

@@ -3,7 +3,7 @@
         <div class="pull-right">
             <button type="button" class="btn btn-default" title="{{ Lang::get('notifications.create') }}" data-toggle="modal" data-target="#notification"><span class="fa fa-plus"></span> {{ Lang::get('notifications.create') }}</button>
         </div>
-        <h3 class="box-title">{{ Lang::get('notifications.slack') }}</h3>
+        <h3 class="box-title">{{ Lang::get('notifications.chat') }}</h3>
     </div>
 
 
@@ -16,7 +16,7 @@
             <thead>
                 <tr>
                     <th>{{ Lang::get('notifications.name') }}</th>
-                    <th>{{ Lang::get('notifications.channel') }}</th>
+                    <th>{{ Lang::get('notifications.service') }}</th>
                     <th>{{ Lang::get('notifications.notify_failure_only') }}</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -60,7 +60,13 @@
 @push('templates')
     <script type="text/template" id="notification-template">
         <td><%- name %></td>
-        <td><%- channel %></td>
+        <td>
+            <% if (is_slack) { %>
+                {{ Lang::get('notifications.slack') }}
+            <% } else { %>
+                {{ Lang::get('notifications.hipchat') }}
+            <% } %>
+        </td>
         <td>
             <% if (failure_only) { %>
                 {{ Lang::get('app.yes') }}
