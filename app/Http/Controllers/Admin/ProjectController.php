@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
@@ -30,15 +31,18 @@ class ProjectController extends Controller
      *
      * @param  TemplateRepositoryInterface $templateRepository
      * @param  GroupRepositoryInterface    $groupRepository
+     * @param  Request $request
      * @return Response
      */
     public function index(
         TemplateRepositoryInterface $templateRepository,
-        GroupRepositoryInterface $groupRepository
+        GroupRepositoryInterface $groupRepository,
+        Request $request
     ) {
         $projects = $this->repository->getAll();
 
         return view('admin.projects.listing', [
+            'is_secure' => $request->secure(),
             'title'     => Lang::get('projects.manage'),
             'templates' => $templateRepository->getAll(),
             'groups'    => $groupRepository->getAll(),
