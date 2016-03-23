@@ -31,7 +31,7 @@ class ProjectController extends Controller
      *
      * @param  TemplateRepositoryInterface $templateRepository
      * @param  GroupRepositoryInterface    $groupRepository
-     * @param  Request $request
+     * @param  Request                     $request
      * @return Response
      */
     public function index(
