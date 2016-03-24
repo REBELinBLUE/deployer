@@ -330,7 +330,7 @@ class Project extends ProjectRelation implements PresentableInterface
         file_put_contents($key, $this->private_key);
 
         $process = new Process('tools.RegeneratePublicSSHKey', [
-            'key_file' => $key
+            'key_file' => $key,
         ]);
         $process->run();
 
