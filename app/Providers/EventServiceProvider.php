@@ -4,6 +4,21 @@ namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use REBELinBLUE\Deployer\Events\UserWasCreated;
+use REBELinBLUE\Deployer\Listeners\Events\SendSignupEmail;
+use REBELinBLUE\Deployer\Events\DeployFinished;
+use REBELinBLUE\Deployer\Listeners\Events\NotifyDeploy;
+use REBELinBLUE\Deployer\Events\HeartbeatMissed;
+use REBELinBLUE\Deployer\Listeners\Events\NotifyHeartbeat;
+use REBELinBLUE\Deployer\Events\HeartbeatRecovered;
+use REBELinBLUE\Deployer\Listeners\Events\NotifyHeartbeat;
+use REBELinBLUE\Deployer\Events\EmailChangeRequested;
+use REBELinBLUE\Deployer\Listeners\Events\EmailChangeConfirmation;
+use REBELinBLUE\Deployer\Events\JsonWebTokenExpired;
+use REBELinBLUE\Deployer\Listeners\Events\CreateJwt;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use REBELinBLUE\Deployer\Listeners\Events\ClearJwt;
 
 /**
  * The event service provider.
@@ -16,30 +31,14 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \REBELinBLUE\Deployer\Events\UserWasCreated::class => [
-            \REBELinBLUE\Deployer\Listeners\Events\SendSignupEmail::class,
-        ],
-        \REBELinBLUE\Deployer\Events\DeployFinished::class => [
-            \REBELinBLUE\Deployer\Listeners\Events\NotifyDeploy::class,
-        ],
-        \REBELinBLUE\Deployer\Events\HeartbeatMissed::class => [
-            \REBELinBLUE\Deployer\Listeners\Events\NotifyHeartbeat::class,
-        ],
-        \REBELinBLUE\Deployer\Events\HeartbeatRecovered::class => [
-            \REBELinBLUE\Deployer\Listeners\Events\NotifyHeartbeat::class,
-        ],
-        \REBELinBLUE\Deployer\Events\EmailChangeRequested::class => [
-            \REBELinBLUE\Deployer\Listeners\Events\EmailChangeConfirmation::class,
-        ],
-        \REBELinBLUE\Deployer\Events\JsonWebTokenExpired::class => [
-           \REBELinBLUE\Deployer\Listeners\Events\CreateJwt::class,
-        ],
-        \Illuminate\Auth\Events\Login::class => [
-            \REBELinBLUE\Deployer\Listeners\Events\CreateJwt::class,
-        ],
-        \Illuminate\Auth\Events\Logout::class => [
-            \REBELinBLUE\Deployer\Listeners\Events\ClearJwt::class,
-        ],
+        UserWasCreated::class       => [ SendSignupEmail::class ],
+        DeployFinished::class       => [ NotifyDeploy::class ],
+        HeartbeatMissed::class      => [ NotifyHeartbeat::class ],
+        HeartbeatRecovered::class   => [ NotifyHeartbeat::class ],
+        EmailChangeRequested::class => [ EmailChangeConfirmation::class ],
+        JsonWebTokenExpired::class  => [ CreateJwt::class ],
+        Login::class                => [ CreateJwt::class ],
+        Logout::class               => [ ClearJwt::class ],
     ];
 
     /**
