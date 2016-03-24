@@ -28,6 +28,7 @@ return [
         "array"   => "The :attribute must have between :min and :max items.",
     ],
     "boolean"              => "The :attribute field must be true or false.",
+    "channel"              => "The :channel field is not a valid channel.",
     "confirmed"            => "The :attribute confirmation does not match.",
     "date"                 => "The :attribute is not a valid date.",
     "date_format"          => "The :attribute does not match the format :format.",
@@ -43,7 +44,7 @@ return [
     "ip"                   => "The :attribute must be a valid IP address.",
     "json"                 => "The :attribute must be a valid JSON string.",
     "host"                 => "The :attribute must be a valid host.",
-    "repository"           => "The :attribute must be a valid git repository",
+    "repository"           => "The :attribute must be a valid git repository.",
     "max"                  => [
         "numeric" => "The :attribute may not be greater than :max.",
         "file"    => "The :attribute may not be greater than :max kilobytes.",
@@ -67,7 +68,7 @@ return [
     "required_without"     => "The :attribute field is required when :values is not present.",
     "required_without_all" => "The :attribute field is required when none of :values are present.",
     "same"                 => "The :attribute and :other must match.",
-    "sshkey"               => "The :attribute is not a valid passphrase-less key",
+    "sshkey"               => "The :attribute is not a valid passphrase-less key.",
     "size"                 => [
         "numeric" => "The :attribute must be :size.",
         "file"    => "The :attribute must be :size kilobytes.",
