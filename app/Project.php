@@ -107,6 +107,13 @@ class Project extends ProjectRelation implements PresentableInterface
                 $model->generateHash();
             }
         });
+
+        // When updating the model regenerate the public key if the private key has been changed
+        static::updating(function (Project $model) {
+            if (!array_key_exists('public_key', $model->attributes) || $model->public_key === '') {
+                $model->regeneratePublicKey();
+            }
+        });
     }
 
     /**
