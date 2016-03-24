@@ -158,11 +158,10 @@ var app = app || {};
 
                 var errors = response.responseJSON;
 
-
                 $('.has-error', dialog).removeClass('has-error');
                 $('.label-danger', dialog).remove();
 
-                $('form input', dialog).each(function (index, element) {
+                $('form :input', dialog).each(function (index, element) {
                     element = $(element);
 
                     var name = element.attr('name');
