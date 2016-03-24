@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
-use Illuminate\Validation\Factory;
 use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**
@@ -10,31 +9,6 @@ use REBELinBLUE\Deployer\Http\Requests\Request;
  */
 class StoreServerRequest extends Request
 {
-    /**
-     * Overwrite the parent constructor to define a new validator.
-     *
-     * @param  Factory $factory
-     * @return void
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    public function __construct(Factory $factory)
-    {
-        $factory->extend(
-            'host',
-            function ($attribute, $value, $parameters) {
-                if (filter_var($value, FILTER_VALIDATE_IP)) {
-                    return true;
-                }
-
-                if (filter_var(gethostbyname($value), FILTER_VALIDATE_IP)) {
-                    return true;
-                }
-
-                return false;
-            }
-        );
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

@@ -55,6 +55,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // FIXME: Move this to an array at the front of the class and loop through it
         $this->app->bind(CheckUrlRepositoryInterface::class, EloquentCheckUrlRepository::class);
         $this->app->bind(CommandRepositoryInterface::class, EloquentCommandRepository::class);
         $this->app->bind(DeploymentRepositoryInterface::class, EloquentDeploymentRepository::class);

@@ -23,6 +23,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(Factory $factory)
     {
+        // FIXME make an array which we loop through
         $factory->composer(['_partials.nav', 'dialogs.command', 'user.profile'], ActiveUserComposer::class);
         $factory->composer('_partials.nav', HeaderComposer::class);
         $factory->composer('_partials.sidebar', NavigationComposer::class);

@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
-use Illuminate\Validation\Factory;
 use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**
@@ -10,25 +9,6 @@ use REBELinBLUE\Deployer\Http\Requests\Request;
  */
 class StoreNotificationRequest extends Request
 {
-    /**
-     * Overwrite the parent constructor to define a new validator.
-     *
-     * @param  Factory $factory
-     * @return void
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    public function __construct(Factory $factory)
-    {
-        $factory->extend(
-            'channel',
-            function ($attribute, $value, $parameters) {
-                $first_character = substr($value, 0, 1);
-
-                return (($first_character === '#' || $first_character === '@') && strlen($value) > 1);
-            }
-        );
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
