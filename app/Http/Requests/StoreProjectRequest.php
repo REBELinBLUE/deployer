@@ -52,6 +52,30 @@ class StoreProjectRequest extends Request
                 return false;
             }
         );
+
+        $factory->extend(
+            'sshkey',
+            function ($attribute, $value, $parameters) {
+                $value = trim($value);
+
+                // Check for start marker for SSH key
+                if (!preg_match('/^-----BEGIN (.*) PRIVATE KEY-----/i', $value)) {
+                    return false;
+                }
+
+                // Check for end marker for SSH key
+                if (!preg_match('/-----END (.*) PRIVATE KEY-----$/i', $value)) {
+                    return false;
+                }
+
+                // Make sure key does not have passphrase
+                if (preg_match('/ENCRYPTED/i', $value)) {
+                    return false;
+                }
+
+                return true;
+            }
+        );
     }
 
     /**
@@ -72,6 +96,7 @@ class StoreProjectRequest extends Request
             'build_url'          => 'url',
             'allow_other_branch' => 'boolean',
             'include_dev'        => 'boolean',
+            'private_key'        => 'sshkey',
         ];
     }
 }

@@ -40,7 +40,8 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $fillable = ['name', 'repository', 'branch', 'group_id', 'include_dev',
-                           'builds_to_keep', 'url', 'build_url', 'is_template', 'allow_other_branch', ];
+                           'builds_to_keep', 'url', 'build_url', 'is_template', 'allow_other_branch',
+                           'private_key', ];
 
     /**
      * The fields which should be treated as Carbon instances.
@@ -96,6 +97,10 @@ class Project extends ProjectRelation implements PresentableInterface
         static::creating(function (Project $model) {
             if (!array_key_exists('private_key', $model->attributes)) {
                 $model->generateSSHKey();
+            }
+
+            if (!array_key_exists('public_key', $model->attributes)) {
+                $model->regeneratePublicKey();
             }
 
             if (!array_key_exists('hash', $model->attributes)) {
@@ -308,6 +313,31 @@ class Project extends ProjectRelation implements PresentableInterface
         }
 
         $this->attributes['private_key'] = file_get_contents($key);
+        $this->attributes['public_key']  = file_get_contents($key . '.pub');
+
+        unlink($key);
+        unlink($key . '.pub');
+    }
+
+    /**
+     * Generates an SSH key and sets the private/public key properties.
+     *
+     * @return void
+     */
+    protected function regeneratePublicKey()
+    {
+        $key = tempnam(storage_path('app/'), 'sshkey');
+        file_put_contents($key, $this->private_key);
+
+        $process = new Process('tools.RegeneratePublicSSHKey', [
+            'key_file' => $key
+        ]);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process->getErrorOutput());
+        }
+
         $this->attributes['public_key']  = file_get_contents($key . '.pub');
 
         unlink($key);

@@ -68,7 +68,8 @@ class ProjectController extends Controller
             'build_url',
             'template_id',
             'allow_other_branch',
-            'include_dev'
+            'include_dev',
+            'private_key'
         ));
     }
 

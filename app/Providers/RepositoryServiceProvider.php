@@ -33,8 +33,8 @@ use REBELinBLUE\Deployer\Repositories\EloquentUserRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentVariableRepository;
 
 /**
- * The repository service provider, binds interfaces to
- * concrete classes for dependency injection.
+ * The repository service provider, binds interfaces to concrete classes for dependency injection.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class RepositoryServiceProvider extends ServiceProvider
 {
