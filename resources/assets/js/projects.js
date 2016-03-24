@@ -56,6 +56,8 @@ var app = app || {};
         $('.label-danger', modal).remove();
         $('#template-list', modal).hide();
 
+        $('.nav-tabs a:first', modal).tab('show');
+
         if (button.hasClass('btn-edit')) {
             title = Lang.get('projects.edit');
             $('.btn-danger', modal).show();
@@ -71,6 +73,7 @@ var app = app || {};
             $('#project_build_url').val('');
             $('#project_allow_other_branch').prop('checked', true);
             $('#project_include_dev').prop('checked', false);
+            $('#project_private_key').val('');
         }
 
         modal.find('.modal-title span').text(title);
@@ -134,7 +137,8 @@ var app = app || {};
             build_url:          $('#project_build_url').val(),
             template_id:        $('#project_template_id') ? $('#project_template_id').val() : null,
             allow_other_branch: $('#project_allow_other_branch').is(':checked'),
-            include_dev:        $('#project_include_dev').is(':checked')
+            include_dev:        $('#project_include_dev').is(':checked'),
+            private_key:        $('#project_private_key').val()
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -154,11 +158,10 @@ var app = app || {};
 
                 var errors = response.responseJSON;
 
-
                 $('.has-error', dialog).removeClass('has-error');
                 $('.label-danger', dialog).remove();
 
-                $('form input', dialog).each(function (index, element) {
+                $('form :input', dialog).each(function (index, element) {
                     element = $(element);
 
                     var name = element.attr('name');
@@ -289,6 +292,7 @@ var app = app || {};
             $('#project_build_url').val(this.model.get('build_url'));
             $('#project_allow_other_branch').prop('checked', (this.model.get('allow_other_branch') === true));
             $('#project_include_dev').prop('checked', (this.model.get('include_dev') === true));
+            $('#project_private_key').val('');
         }
     });
 

@@ -66,6 +66,29 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
+     * Update an instance of the project.
+     *
+     * @param  array $fields
+     * @return Model
+     */
+    public function updateById(array $fields, $model_id)
+    {
+        $project = $this->getById($model_id);
+
+        if (array_key_exists('private_key', $fields)) {
+            if (empty($fields['private_key'])) {
+                unset($fields['private_key']);
+            } else {
+                $project->public_key = '';
+            }
+        }
+
+        $project->update($fields);
+
+        return $project;
+    }
+
+    /**
      * Gets a project by it's hash.
      *
      * @param  string    $hash
