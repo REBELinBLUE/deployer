@@ -16,8 +16,8 @@
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#project_details" data-toggle="tab">{{ Lang::get('projects.project_details') }}</a></li>
-                            <li><a href="#project_build" data-toggle="tab">{{ Lang::get('projects.repository') }}</a></li>
-                            <li><a href="#project_repo" data-toggle="tab">{{ Lang::get('projects.build_options') }}</a></li>
+                            <li><a href="#project_repo" data-toggle="tab">{{ Lang::get('projects.repository') }}</a></li>
+                            <li><a href="#project_build" data-toggle="tab">{{ Lang::get('projects.build_options') }}</a></li>
                             <li><a href="#project_key" data-toggle="tab">{{ Lang::get('projects.ssh_key') }}</a></li>
                         </ul>
 
