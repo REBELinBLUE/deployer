@@ -20,6 +20,7 @@ return [
         realpath(__DIR__ . '/../app/Providers/RepositoryServiceProvider.php'),
         realpath(__DIR__ . '/../app/Providers/RouteServiceProvider.php'),
         realpath(__DIR__ . '/../app/Providers/UpdateServiceProvider.php'),
+        realpath(__DIR__ . '/../app/Providers/ValidationServiceProvider.php'),
         realpath(__DIR__ . '/../app/Providers/ViewServiceProvider.php'),
 
     ],
