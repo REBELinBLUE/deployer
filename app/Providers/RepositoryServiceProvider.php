@@ -38,6 +38,23 @@ use REBELinBLUE\Deployer\Repositories\EloquentVariableRepository;
  */
 class RepositoryServiceProvider extends ServiceProvider
 {
+    public $repositories = [
+        CheckUrlRepositoryInterface::class     => EloquentCheckUrlRepository::class,
+        CommandRepositoryInterface::class      => EloquentCommandRepository::class,
+        DeploymentRepositoryInterface::class   => EloquentDeploymentRepository::class,
+        GroupRepositoryInterface::class        => EloquentGroupRepository::class,
+        HeartbeatRepositoryInterface::class    => EloquentHeartbeatRepository::class,
+        NotificationRepositoryInterface::class => EloquentNotificationRepository::class,
+        NotifyEmailRepositoryInterface::class  => EloquentNotifyEmailRepository::class,
+        ProjectRepositoryInterface::class      => EloquentProjectRepository::class,
+        ProjectFileRepositoryInterface::class  => EloquentProjectFileRepository::class,
+        ServerRepositoryInterface::class       => EloquentServerRepository::class,
+        SharedFileRepositoryInterface::class   => EloquentCheckUrlRepository::class,
+        TemplateRepositoryInterface::class     => EloquentTemplateRepository::class,
+        UserRepositoryInterface::class         => EloquentUserRepository::class,
+        VariableRepositoryInterface::class     => EloquentVariableRepository::class,
+    ];
+
     /**
      * Bootstrap the application services.
      *
@@ -49,26 +66,14 @@ class RepositoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Binds a repository interface to an eloquent repository.
+     * Bind the repository interface to the implementations.
      *
      * @return void
      */
     public function register()
     {
-        // FIXME: Move this to an array at the front of the class and loop through it
-        $this->app->bind(CheckUrlRepositoryInterface::class, EloquentCheckUrlRepository::class);
-        $this->app->bind(CommandRepositoryInterface::class, EloquentCommandRepository::class);
-        $this->app->bind(DeploymentRepositoryInterface::class, EloquentDeploymentRepository::class);
-        $this->app->bind(GroupRepositoryInterface::class, EloquentGroupRepository::class);
-        $this->app->bind(HeartbeatRepositoryInterface::class, EloquentHeartbeatRepository::class);
-        $this->app->bind(NotificationRepositoryInterface::class, EloquentNotificationRepository::class);
-        $this->app->bind(NotifyEmailRepositoryInterface::class, EloquentNotifyEmailRepository::class);
-        $this->app->bind(ProjectRepositoryInterface::class, EloquentProjectRepository::class);
-        $this->app->bind(ProjectFileRepositoryInterface::class, EloquentProjectFileRepository::class);
-        $this->app->bind(ServerRepositoryInterface::class, EloquentServerRepository::class);
-        $this->app->bind(SharedFileRepositoryInterface::class, EloquentSharedFileRepository::class);
-        $this->app->bind(TemplateRepositoryInterface::class, EloquentTemplateRepository::class);
-        $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
-        $this->app->bind(VariableRepositoryInterface::class, EloquentVariableRepository::class);
+        foreach ($this->repositories as $interface => $implementation) {
+            $this->app->bind($interface, $implementation);
+        }
     }
 }
