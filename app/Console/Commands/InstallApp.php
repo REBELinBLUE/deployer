@@ -453,8 +453,6 @@ class InstallApp extends Command
         $email['from_address'] = $from_address;
         $email['driver']       = $driver;
 
-        // TODO: Attempt to connect?
-
         return $email;
     }
 
@@ -536,7 +534,6 @@ class InstallApp extends Command
      */
     private function verifyNotInstalled()
     {
-        // TODO: Check for valid DB connection, and migrations have run?
         if (config('app.key') !== false && config('app.key') !== 'SomeRandomString') {
             $this->block([
                 'You have already installed Deployer!',
