@@ -204,7 +204,7 @@ class UpdateApp extends InstallApp
             $this->block([
                 'Update not complete!',
                 PHP_EOL,
-                'Please run "composer install" before you continue.',
+                'Please run "composer install --no-dev -o" and "npm install --production" before you continue.',
             ]);
 
             return true;

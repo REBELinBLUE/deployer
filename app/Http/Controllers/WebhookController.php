@@ -88,14 +88,23 @@ class WebhookController extends Controller
                                         ->intersect($valid);
                 }
 
-                // TODO: Validate URL and only accept it if source is set?
+                // If there is a source and a URL validate that the URL is valid
+                $build_url = null;
+                if ($request->has('source') && $request->has('url')) {
+                    $build_url = $request->get('url');
+
+                    if (!filter_var($build_url, FILTER_VALIDATE_URL)) {
+                        $build_url = null;
+                    }
+                }
+
                 $this->deploymentRepository->create([
                     'reason'     => $request->get('reason'),
                     'project_id' => $project->id,
                     'branch'     => $branch,
                     'optional'   => $optional,
                     'source'     => $request->get('source'),
-                    'build_url'  => $request->get('url'),
+                    'build_url'  => $build_url,
                 ]);
 
                 $success = true;

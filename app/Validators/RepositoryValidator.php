@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Http\Validators;
+namespace REBELinBLUE\Deployer\Validators;
 
 /**
  * Class for validating git repository URLs.
@@ -14,6 +14,7 @@ class RepositoryValidator
      * @param  mixed  $value
      * @param  mixed  $parameters
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function validate($attribute, $value, $parameters)
     {

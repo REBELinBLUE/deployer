@@ -5,8 +5,6 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ModelChanged;
@@ -120,7 +118,11 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
             $this->loadCommands();
         }
 
-        return $this->getRelation('commands');
+        if ($this->relationLoaded('commands')) {
+            return $this->getRelation('commands');
+        }
+
+        return collect([]);
     }
 
     /**

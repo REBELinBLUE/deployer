@@ -15,8 +15,6 @@ use Symfony\Component\Process\Process;
 
 /**
  * A console command for prompting for install details.
- * TODO: Refactor the validator to reduce duplication
- * TODO: Move the writing the env file to another class.
  */
 class InstallApp extends Command
 {
@@ -65,8 +63,6 @@ class InstallApp extends Command
         }
 
         $this->clearCaches();
-
-        // TODO: Add options so they can be passed in via the command line?
 
         $config = base_path('.env');
 
@@ -457,8 +453,6 @@ class InstallApp extends Command
         $email['from_address'] = $from_address;
         $email['driver']       = $driver;
 
-        // TODO: Attempt to connect?
-
         return $email;
     }
 
@@ -485,7 +479,17 @@ class InstallApp extends Command
             return $answer;
         });
 
-        $password = $this->secret('Password'); // TODO: Should validate it is at least 6 characters
+        $password = $this->askSecretAndValidate('Password', [], function ($answer) {
+            $validator = Validator::make(['password' => $answer], [
+                'password' => 'min:6',
+            ]);
+
+            if (!$validator->passes()) {
+                throw new \RuntimeException($validator->errors()->first('password'));
+            };
+
+            return $answer;
+        });
 
         return [
             'name'     => $name,
@@ -540,7 +544,6 @@ class InstallApp extends Command
      */
     private function verifyNotInstalled()
     {
-        // TODO: Check for valid DB connection, and migrations have run?
         if (config('app.key') !== false && config('app.key') !== 'SomeRandomString') {
             $this->block([
                 'You have already installed Deployer!',
@@ -569,8 +572,7 @@ class InstallApp extends Command
             $errors = true;
         }
 
-        // TODO: allow gd or imagemagick
-        // TODO: See if there are any others, maybe clean this list up?
+        // Check for required PHP extensions
         $required_extensions = ['PDO', 'curl', 'gd', 'json',
                                 'tokenizer', 'openssl', 'mbstring',
                                ];
@@ -600,7 +602,7 @@ class InstallApp extends Command
         }
 
         // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip'];
+        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash'];
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);
