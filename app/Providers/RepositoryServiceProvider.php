@@ -49,6 +49,7 @@ class RepositoryServiceProvider extends ServiceProvider
         ProjectRepositoryInterface::class      => EloquentProjectRepository::class,
         ProjectFileRepositoryInterface::class  => EloquentProjectFileRepository::class,
         ServerRepositoryInterface::class       => EloquentServerRepository::class,
+        SharedFileRepositoryInterface::class   => EloquentSharedFileRepository::class,
         SharedFileRepositoryInterface::class   => EloquentCheckUrlRepository::class,
         TemplateRepositoryInterface::class     => EloquentTemplateRepository::class,
         UserRepositoryInterface::class         => EloquentUserRepository::class,
