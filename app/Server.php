@@ -99,7 +99,7 @@ class Server extends Model
      */
     public function setIpAddressAttribute($value)
     {
-        $this->setAttributeStatusUntested('ip_address',$value);
+        $this->setAttributeStatusUntested('ip_address', $value);
     }
 
     /**
@@ -118,7 +118,7 @@ class Server extends Model
      * Updates the attribute value and if it has changed set the server status to untested.
      *
      * @param string $attribute
-     * @param mixed $value
+     * @param mixed  $value
      * @param void
      */
     private function setAttributeStatusUntested($attribute, $value)
