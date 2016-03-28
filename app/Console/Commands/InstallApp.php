@@ -64,8 +64,6 @@ class InstallApp extends Command
 
         $this->clearCaches();
 
-        // TODO: Add options so they can be passed in via the command line?
-
         $config = base_path('.env');
 
         if (!file_exists($config)) {
