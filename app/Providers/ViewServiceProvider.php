@@ -15,6 +15,14 @@ use REBELinBLUE\Deployer\Composers\VersionComposer;
  */
 class ViewServiceProvider extends ServiceProvider
 {
+    public $composers = [
+        ActiveUserComposer::class => ['_partials.nav', 'dialogs.command', 'user.profile'],
+        HeaderComposer::class     => '_partials.nav',
+        NavigationComposer::class => '_partials.sidebar',
+        ThemeComposer::class      => ['layout', 'user.profile'],
+        VersionComposer::class    => '_partials.update'
+    ];
+
     /**
      * Bootstrap the application services.
      *
@@ -23,12 +31,9 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(Factory $factory)
     {
-        // FIXME make an array which we loop through
-        $factory->composer(['_partials.nav', 'dialogs.command', 'user.profile'], ActiveUserComposer::class);
-        $factory->composer('_partials.nav', HeaderComposer::class);
-        $factory->composer('_partials.sidebar', NavigationComposer::class);
-        $factory->composer(['layout', 'user.profile'], ThemeComposer::class);
-        $factory->composer('_partials.update', VersionComposer::class);
+        foreach ($this->composers as $composer => $views) {
+            $factory->composer($views, $composer);
+        }
     }
 
     /**
