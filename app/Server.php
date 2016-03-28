@@ -8,7 +8,6 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Server model.
- * @todo See if there is a cleaner way to do the mutators as they are all very similar
  */
 class Server extends Model
 {
@@ -76,11 +75,7 @@ class Server extends Model
      */
     public function setUserAttribute($value)
     {
-        if (!array_key_exists('user', $this->attributes) || $value !== $this->attributes['user']) {
-            $this->attributes['status'] = self::UNTESTED;
-        }
-
-        $this->attributes['user'] = $value;
+        $this->setAttributeStatusUntested('user', $value);
     }
 
     /**
@@ -92,11 +87,7 @@ class Server extends Model
      */
     public function setPathAttribute($value)
     {
-        if (!array_key_exists('path', $this->attributes) || $value !== $this->attributes['path']) {
-            $this->attributes['status'] = self::UNTESTED;
-        }
-
-        $this->attributes['path'] = $value;
+        $this->setAttributeStatusUntested('path', $value);
     }
 
     /**
@@ -108,11 +99,7 @@ class Server extends Model
      */
     public function setIpAddressAttribute($value)
     {
-        if (!array_key_exists('ip_address', $this->attributes) || $value !== $this->attributes['ip_address']) {
-            $this->attributes['status'] = self::UNTESTED;
-        }
-
-        $this->attributes['ip_address'] = $value;
+        $this->setAttributeStatusUntested('ip_address',$value);
     }
 
     /**
@@ -124,11 +111,23 @@ class Server extends Model
      */
     public function setPortAttribute($value)
     {
-        if (!array_key_exists('port', $this->attributes) || (int) $value !== (int) $this->attributes['port']) {
+        $this->setAttributeStatusUntested('port', (int) $value);
+    }
+
+    /**
+     * Updates the attribute value and if it has changed set the server status to untested.
+     *
+     * @param string $attribute
+     * @param mixed $value
+     * @param void
+     */
+    private function setAttributeStatusUntested($attribute, $value)
+    {
+        if (!array_key_exists($attribute, $this->attributes) || $value !== $this->attributes[$attribute]) {
             $this->attributes['status'] = self::UNTESTED;
         }
 
-        $this->attributes['port'] = $value;
+        $this->attributes[$attribute] = $value;
     }
 
     /**
