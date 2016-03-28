@@ -12,15 +12,20 @@ trait AskAndValidate
     /**
      * Asks a question and validates the response.
      *
-     * @param  string   $question  The question
-     * @param  array    $choices   Autocomplete options
-     * @param  function $validator The callback function
-     * @param  mixed    $default   The default value
+     * @param  string   $question
+     * @param  array    $choices
+     * @param  function $validator
+     * @param  mixed    $default
+     * @param  bool     $secret
      * @return string
      */
-    public function askAndValidate($question, array $choices, $validator, $default = null)
+    public function askAndValidate($question, array $choices, $validator, $default = null, $secret = false)
     {
         $question = new Question($question, $default);
+
+        if ($secret) {
+            $question->setHidden(true);
+        }
 
         if (count($choices)) {
             $question->setAutocompleterValues($choices);
@@ -29,5 +34,18 @@ trait AskAndValidate
         $question->setValidator($validator);
 
         return $this->output->askQuestion($question);
+    }
+
+    /**
+     * Asks a question and validates the secret response.
+     * @param  string   $question
+     * @param  array    $choices
+     * @param  function $validator
+     * @param  mixed    $default
+     * @return string
+     */
+    public function askSecretAndValidate($question, array $choices, $validator, $default = null)
+    {
+        return $this->askAndValidate($question, $choices, $validator, $default, true);
     }
 }

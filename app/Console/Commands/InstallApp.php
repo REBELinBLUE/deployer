@@ -479,7 +479,17 @@ class InstallApp extends Command
             return $answer;
         });
 
-        $password = $this->secret('Password'); // TODO: Should validate it is at least 6 characters
+        $password = $this->askSecretAndValidate('Password', [], function ($answer) {
+            $validator = Validator::make(['password' => $answer], [
+                'password' => 'min:6',
+            ]);
+
+            if (!$validator->passes()) {
+                throw new \RuntimeException($validator->errors()->first('password'));
+            };
+
+            return $answer;
+        });
 
         return [
             'name'     => $name,
