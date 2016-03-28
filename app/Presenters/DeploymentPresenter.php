@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Presenters;
 
 use Illuminate\Support\Facades\Lang;
+use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Presenters\Traits\RuntimePresenter;
 use Robbo\Presenter\Presenter;
@@ -62,15 +63,9 @@ class DeploymentPresenter extends Presenter
      */
     public function presentOptionalCommandsUsed()
     {
-        $commands = [];
-
-        foreach ($this->object->commands as $command) {
-            if ($command->optional) {
-                $commands[] = $command->id;
-            }
-        }
-
-        return implode(',', $commands);
+        return $this->object->commands->filter(function (Command $command) {
+            return $command->optional;
+        })->implode('id', ',');
     }
 
     /**
