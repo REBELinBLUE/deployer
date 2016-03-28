@@ -15,7 +15,6 @@ use Symfony\Component\Process\Process;
 
 /**
  * A console command for prompting for install details.
- * TODO: Move the writing the env file to another class.
  */
 class InstallApp extends Command
 {
