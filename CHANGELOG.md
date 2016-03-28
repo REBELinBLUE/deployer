@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.0.32](https://github.com/REBELinBLUE/deployer/tree/0.0.32) (2016-03-28)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.31...0.0.32)
+
+**Fixed bugs:**
+
+- Project page fails after successful deploy due to there being no optional commands [\#197](https://github.com/REBELinBLUE/deployer/issues/197)
+
 ## [0.0.31](https://github.com/REBELinBLUE/deployer/tree/0.0.31) (2016-03-21)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.30...0.0.31)
 
