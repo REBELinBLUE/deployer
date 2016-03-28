@@ -1,7 +1,5 @@
 <?php
 
-// TODO: Make this a reuseable laravel package
-
 namespace REBELinBLUE\Deployer\Console\Commands\Traits;
 
 use Symfony\Component\Console\Question\Question;

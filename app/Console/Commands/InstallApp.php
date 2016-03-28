@@ -15,7 +15,6 @@ use Symfony\Component\Process\Process;
 
 /**
  * A console command for prompting for install details.
- * TODO: Refactor the validator to reduce duplication
  * TODO: Move the writing the env file to another class.
  */
 class InstallApp extends Command
@@ -569,8 +568,7 @@ class InstallApp extends Command
             $errors = true;
         }
 
-        // TODO: allow gd or imagemagick
-        // TODO: See if there are any others, maybe clean this list up?
+        // Check for required PHP extensions
         $required_extensions = ['PDO', 'curl', 'gd', 'json',
                                 'tokenizer', 'openssl', 'mbstring',
                                ];
