@@ -14,6 +14,7 @@ class RepositoryValidator
      * @param  mixed  $value
      * @param  mixed  $parameters
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function validate($attribute, $value, $parameters)
     {
