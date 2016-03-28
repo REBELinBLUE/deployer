@@ -23,6 +23,9 @@ return [
     'options'            => 'Options',
     'deploy_code'        => 'Code should be deployed to this server',
     'runs_code'          => 'Deploy Code',
-    'add_command'        => 'Add the new server to all existing commands'
+    'add_command'        => 'Add the new server to all existing commands',
+    'fpm_failure_head'   => 'Problem with the server',
+    'fpm_failure'        => 'Your server is running <em>php-fpm</em> but it could not be restarted. You need to ' .
+                            'add the following line to the server\'s <strong>/etc/sudoers</strong> file'
 
 ];

@@ -116,7 +116,7 @@ div.deployment-source-container {
     overflow-y: scroll;
 }
 
-#repository_error {
+#repository_error, #fpm_error {
     display: none;
 }
 
