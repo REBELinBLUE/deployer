@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    @include('admin.dialogs.project')
+    @include('admin.projects.dialog')
 @stop
 
 @section('right-buttons')

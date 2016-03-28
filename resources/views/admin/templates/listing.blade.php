@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    @include('admin.dialogs.templates')
+    @include('admin.templates.dialog')
 @stop
 
 @section('right-buttons')
