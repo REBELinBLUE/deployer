@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Http\Validators;
+namespace REBELinBLUE\Deployer\Validators;
 
 /**
  * Class for validating git repository URLs.

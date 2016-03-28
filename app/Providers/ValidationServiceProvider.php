@@ -3,10 +3,10 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use REBELinBLUE\Deployer\Http\Validators\ChannelValidator;
-use REBELinBLUE\Deployer\Http\Validators\HostValidator;
-use REBELinBLUE\Deployer\Http\Validators\RepositoryValidator;
-use REBELinBLUE\Deployer\Http\Validators\SSHKeyValidator;
+use REBELinBLUE\Deployer\Validators\ChannelValidator;
+use REBELinBLUE\Deployer\Validators\HostValidator;
+use REBELinBLUE\Deployer\Validators\RepositoryValidator;
+use REBELinBLUE\Deployer\Validators\SSHKeyValidator;
 
 /**
  * Service provider to register the validation classes.
