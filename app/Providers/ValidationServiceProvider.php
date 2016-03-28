@@ -8,6 +8,9 @@ use REBELinBLUE\Deployer\Http\Validators\HostValidator;
 use REBELinBLUE\Deployer\Http\Validators\RepositoryValidator;
 use REBELinBLUE\Deployer\Http\Validators\SSHKeyValidator;
 
+/**
+ * Service provider to register the validation classes.
+ **/
 class ValidationServiceProvider extends ServiceProvider
 {
     public $validators = [
