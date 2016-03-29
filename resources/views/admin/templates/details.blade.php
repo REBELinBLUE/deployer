@@ -28,10 +28,10 @@
         </div>
     </div>
 
-    @include('dialogs.server')
-    @include('dialogs.variable')
-    @include('dialogs.shared_files')
-    @include('dialogs.project_files')
+    @include('projects.dialogs.server')
+    @include('projects.dialogs.variable')
+    @include('projects.dialogs.shared_files')
+    @include('projects.dialogs.project_files')
 @stop
 
 @push('javascript')

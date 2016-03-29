@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    @include('admin.dialogs.user')
+    @include('admin.users.dialog')
 @stop
 
 @section('right-buttons')
