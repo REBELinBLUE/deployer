@@ -40,7 +40,7 @@
         @endforeach
     </div>
 
-    @include('deployments.log')
+    @include('deployment.log')
 @stop
 
 @push('javascript')
