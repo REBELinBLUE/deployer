@@ -91,6 +91,7 @@ toastr.options.extendedTimeOut = 7000;
             var label_class = 'info';
             var label = Lang.get('deployments.pending');
             var done = false;
+            var success = false;
 
             data.model.status = parseInt(data.model.status);
             var status = $('td:nth-child(7) span.label', deployment);
@@ -100,6 +101,7 @@ toastr.options.extendedTimeOut = 7000;
                 label_class = 'success';
                 label = Lang.get('deployments.completed');
                 done = true;
+                success = true;
             } else if (data.model.status === DEPLOYMENT_DEPLOYING) {
                 icon_class = 'spinner fa-pulse';
                 label_class = 'warning';
@@ -114,6 +116,7 @@ toastr.options.extendedTimeOut = 7000;
                 label_class = 'success';
                 label = Lang.get('deployments.completed_with_errors');
                 done = true;
+                success = true;
             } else if (data.model.status === DEPLOYMENT_CANCELLED) {
                 icon_class = 'warning';
                 label_class = 'danger';
@@ -124,6 +127,10 @@ toastr.options.extendedTimeOut = 7000;
             if (done) {
                 $('button#deploy_project:disabled').removeAttr('disabled');
                 $('td:nth-child(8) a.btn-cancel', deployment).remove();
+
+                if (success) {
+                    $('button.btn-rollback').removeClass('hide');
+                }
             }
 
             status.attr('class', 'label label-' + label_class)
