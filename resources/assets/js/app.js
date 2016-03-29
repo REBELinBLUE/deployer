@@ -123,6 +123,7 @@ toastr.options.extendedTimeOut = 7000;
 
             if (done) {
                 $('button#deploy_project:disabled').removeAttr('disabled');
+                $('td:nth-child(8) a.btn-cancel', deployment).remove();
             }
 
             status.attr('class', 'label label-' + label_class)
