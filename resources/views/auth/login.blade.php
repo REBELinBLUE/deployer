@@ -50,7 +50,7 @@
         </div>
 
         <div class="pull-right" id="forgotten-password">
-            <p><a href="{{ url('/password/email') }}">{{ Lang::get('auth.forgotten') }}</a></p>
+            <p><a href="{{ route('auth.reset-password-confirm') }}">{{ Lang::get('auth.forgotten') }}</a></p>
         </div>
     </div>
 @stop

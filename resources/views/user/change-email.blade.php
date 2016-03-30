@@ -7,7 +7,7 @@
         </div>
         <div class="login-box-body">
             <p class="login-box-msg">{{ Lang::get('users.enter_email') }}</p>
-            <form action="{{ url('/profile/update-email') }}" method="post">
+            <form action="{{ route('profile.change-email') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" name="token" value="{{ $token }}">
                 <div class="form-group has-feedback">

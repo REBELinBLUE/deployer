@@ -22,7 +22,7 @@
                 </ul>
             </div>
         @endif
-    
+
         <div class="login-box-body">
             <p class="login-box-msg">{{ Lang::get('auth.enter_email') }}</p>
             <form action="{{ url('/password/email') }}" method="post">
