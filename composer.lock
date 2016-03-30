@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "881cb25fd76c5491b4827322164e8c20",
-    "content-hash": "9f5c6f398d8f76acd8ca2b6205d97ad7",
+    "hash": "5cae8bb9e3858af8bbaf2b8e1e687d01",
+    "content-hash": "be4343a5557e60bdbd895fa4cb1b9218",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -4009,6 +4009,60 @@
             "time": "2015-05-29 06:29:14"
         },
         {
+            "name": "gitonomy/gitlib",
+            "version": "v0.1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gitonomy/gitlib.git",
+                "reference": "f575b8f7da917ade7890c6aa705fa22545690389"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/f575b8f7da917ade7890c6aa705fa22545690389",
+                "reference": "f575b8f7da917ade7890c6aa705fa22545690389",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/process": "^2.3|^3.0"
+            },
+            "require-dev": {
+                "psr/log": "^1.0"
+            },
+            "suggest": {
+                "psr/log": "Add some log"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gitonomy\\Git\\": "src/Gitonomy/Git/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandre Salomé",
+                    "email": "alexandre.salome@gmail.com",
+                    "homepage": "http://alexandre-salome.fr"
+                },
+                {
+                    "name": "Julien DIDIER",
+                    "email": "genzo.wm@gmail.com",
+                    "homepage": "http://www.jdidier.net"
+                }
+            ],
+            "description": "Library for accessing git",
+            "homepage": "http://gitonomy.com",
+            "time": "2015-12-01 22:25:57"
+        },
+        {
             "name": "guzzle/guzzle",
             "version": "v3.8.1",
             "source": {
@@ -4367,6 +4421,84 @@
                 "pmd"
             ],
             "time": "2016-03-10 17:17:44"
+        },
+        {
+            "name": "phpro/grumphp",
+            "version": "v0.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpro/grumphp.git",
+                "reference": "06671cdb6b3706d25a0f91916ffe904efae1e9f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpro/grumphp/zipball/06671cdb6b3706d25a0f91916ffe904efae1e9f4",
+                "reference": "06671cdb6b3706d25a0f91916ffe904efae1e9f4",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "~1.0",
+                "doctrine/collections": "~1.2",
+                "gitonomy/gitlib": "~0.1.7",
+                "monolog/monolog": "~1.17",
+                "php": ">=5.3.6",
+                "seld/jsonlint": "~1.1",
+                "symfony/config": "~2.4|~3.0",
+                "symfony/console": "~2.6|~3.0",
+                "symfony/dependency-injection": "~2.4|~3.0",
+                "symfony/event-dispatcher": "~2.5|~3.0",
+                "symfony/filesystem": "~2.4|~3.0",
+                "symfony/finder": "~2.4|~3.0",
+                "symfony/options-resolver": "~2.6|~3.0",
+                "symfony/process": "~2.4|~3.0",
+                "symfony/yaml": "~2.4|~3.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0-alpha11",
+                "fabpot/php-cs-fixer": "~1.0",
+                "phpspec/phpspec": "~2.4",
+                "phpunit/phpunit": "^4.8",
+                "sensiolabs/security-checker": "^3.0",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "suggest": {
+                "behat/behat": "Lets GrumPHP validate your project features.",
+                "codeception/codeception": "Lets GrumPHP run your project's full stack tests",
+                "fabpot/php-cs-fixer": "Lets GrumPHP automatically fix your codestyle.",
+                "phpspec/phpspec": "Lets GrumPHP spec your code.",
+                "phpunit/phpunit": "Lets GrumPHP run your unit tests.",
+                "roave/security-advisories": "Lets GrumPHP be sure that there are no known security issues.",
+                "sensiolabs/security-checker": "Lets GrumPHP be sure that there are no known security issues.",
+                "squizlabs/php_codesniffer": "Lets GrumPHP sniff on your code."
+            },
+            "bin": [
+                "bin/grumphp"
+            ],
+            "type": "composer-plugin",
+            "extra": {
+                "class": "GrumPHP\\Composer\\GrumPHPPlugin"
+            },
+            "autoload": {
+                "psr-0": {
+                    "GrumPHP\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Toon Verwerft",
+                    "email": "toon.verwerft@phpro.be"
+                },
+                {
+                    "name": "Alexander Deruwe",
+                    "email": "alexander.deruwe@phpro.be"
+                }
+            ],
+            "description": "A composer plugin that enables source code quality checks.",
+            "time": "2016-02-29 05:56:57"
         },
         {
             "name": "phpspec/prophecy",
@@ -5363,6 +5495,52 @@
             "time": "2015-06-21 13:59:46"
         },
         {
+            "name": "seld/jsonlint",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/jsonlint.git",
+                "reference": "66834d3e3566bb5798db7294619388786ae99394"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/66834d3e3566bb5798db7294619388786ae99394",
+                "reference": "66834d3e3566bb5798db7294619388786ae99394",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3 || ^7.0"
+            },
+            "bin": [
+                "bin/jsonlint"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Seld\\JsonLint\\": "src/Seld/JsonLint/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "JSON Linter",
+            "keywords": [
+                "json",
+                "linter",
+                "parser",
+                "validator"
+            ],
+            "time": "2015-11-21 02:21:41"
+        },
+        {
             "name": "squizlabs/php_codesniffer",
             "version": "2.5.1",
             "source": {
@@ -5708,6 +5886,60 @@
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
             "time": "2016-03-27 10:24:39"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "v3.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/options-resolver.git",
+                "reference": "9a05ccd013e9089c3503d740503fb9357c8c341c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/9a05ccd013e9089c3503d740503fb9357c8c341c",
+                "reference": "9a05ccd013e9089c3503d740503fb9357c8c341c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony OptionsResolver Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "time": "2016-03-04 07:55:57"
         },
         {
             "name": "symfony/stopwatch",
