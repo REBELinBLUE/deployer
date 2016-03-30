@@ -1,3 +1,5 @@
+alias ls='ls -F -G --color=auto --quoting-style=literal'
+
 BLACK=$(tput -Txterm setaf 0)
 RED=$(tput -Txterm setaf 1)
 GREEN=$(tput -Txterm setaf 2)
