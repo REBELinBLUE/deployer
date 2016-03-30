@@ -19,7 +19,7 @@
 
         <div class="login-box-body">
             <p class="login-box-msg">{{ Lang::get('auth.enter_password') }}</p>
-            <form action="{{ url('/password/reset') }}" method="post">
+            <form action="{{ route('auth.reset-password') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" name="token" value="{{ $token }}">
                 <div class="form-group has-feedback">

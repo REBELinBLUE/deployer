@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    @include('admin.dialogs.group')
+    @include('admin.groups.dialog')
 @stop
 
 @section('right-buttons')

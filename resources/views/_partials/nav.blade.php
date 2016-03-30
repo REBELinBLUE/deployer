@@ -18,7 +18,7 @@
                             <ul class="menu">
                                 @foreach ($pending as $deployment)
                                     <li id="deployment_info_{{ $deployment->id }}">
-                                        <a href="{{ route('deployment', ['id' => $deployment->id]) }}">
+                                        <a href="{{ route('deployments', ['id' => $deployment->id]) }}">
                                             <h4>{{ $deployment->project->name }} <small class="pull-right">{{ Lang::get('dashboard.started') }}: {{ $deployment->started_at->format('g:i:s A') }}</small></h4>
                                             <p>{{ Lang::get('deployments.branch') }}: {{ $deployment->branch }}</p>
                                         </a>
@@ -40,7 +40,7 @@
                             <ul class="menu">
                                 @foreach ($deploying as $deployment)
                                     <li id="deployment_info_{{ $deployment->id }}">
-                                        <a href="{{ route('deployment', ['id' => $deployment->id]) }}">
+                                        <a href="{{ route('deployments', ['id' => $deployment->id]) }}">
                                             <h4>{{ $deployment->project->name }} <small class="pull-right">{{ Lang::get('dashboard.started') }}: {{ $deployment->started_at->format('g:i:s A') }}</small></h4>
                                             <p>{{ Lang::get('deployments.branch') }}: {{ $deployment->branch }}</p>
                                         </a>
@@ -59,16 +59,14 @@
                     <ul class="dropdown-menu">
                         <li class="user-header">
                             <img src="{{ $logged_in_user->avatar_url }}" class="img-circle" />
-                            <p>
-                                {{ $logged_in_user->name }}
-                            </p>
+                            <p>{{ $logged_in_user->name }}</p>
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
                                 <a href="{{ route('profile.index') }}" class="btn btn-default btn-flat">{{ Lang::get('users.profile') }}</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ url('logout') }}" class="btn btn-default btn-flat">{{ Lang::get('app.signout') }}</a>
+                                <a href="{{ route('auth.logout') }}" class="btn btn-default btn-flat">{{ Lang::get('app.signout') }}</a>
                             </div>
                         </li>
                     </ul>

@@ -13,7 +13,7 @@ return [
     'oops'                  => 'Whoops!',
     'problems'              => 'There were some problems with your input.',
     'enter_email'           => 'Please enter your email to reset your password',
-    'eeter_password'        => 'Please enter your new password below',
+    'enter_password'        => 'Please enter your new password below',
     'send_link'             => 'Send Password Reset Link',
     'reset'                 => 'Reset Password',
     'throttle'              => 'Too many login attempts. Please try again in :seconds seconds.',

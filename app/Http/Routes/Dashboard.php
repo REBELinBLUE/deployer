@@ -10,6 +10,9 @@ Route::group([
         'uses' => 'DashboardController@index',
     ]);
 
-    Route::get('timeline', 'DashboardController@timeline');
+    Route::get('timeline', [
+        'as'   => 'dashboard.timeline',
+        'uses' => 'DashboardController@timeline',
+    ]);
 
 });

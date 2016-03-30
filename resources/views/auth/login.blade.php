@@ -25,7 +25,7 @@
 
         <div class="login-box-body">
             <p class="login-box-msg">{{ Lang::get('auth.please_sign_in') }}</p>
-            <form action="{{ url('login') }}" method="post">
+            <form action="{{ route('auth.login') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div class="form-group has-feedback">
                     <input type="email" class="form-control" placeholder="{{ Lang::get('auth.email') }}" name="email" value="{{ old('email') }}" required />
@@ -50,7 +50,7 @@
         </div>
 
         <div class="pull-right" id="forgotten-password">
-            <p><a href="{{ url('/password/email') }}">{{ Lang::get('auth.forgotten') }}</a></p>
+            <p><a href="{{ route('auth.reset-password-confirm') }}">{{ Lang::get('auth.forgotten') }}</a></p>
         </div>
     </div>
 @stop

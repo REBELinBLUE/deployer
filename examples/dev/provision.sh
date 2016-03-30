@@ -51,7 +51,7 @@ apt-get update
 
 apt-add-repository ppa:brightbox/ruby-ng
 apt-get update -y
-apt-get install ruby2.3 ruby2.3-dev -y
+DEBIAN_FRONTEND=noninteractive apt-get install ruby2.3 ruby2.3-dev httpie -y
 gem install github_changelog_generator
 
 # Create DB
@@ -93,3 +93,8 @@ echo 'alias php="php -dzend_extension=xdebug.so"' >> /home/vagrant/.profile
 echo 'alias artisan="php artisan"' >> /home/vagrant/.profile
 echo 'alias phpunit="php $(which phpunit)"' >> /home/vagrant/.profile
 echo 'export PATH=/var/www/deployer/vendor/bin:$PATH' >> /home/vagrant/.profile
+
+git clone https://github.com/magicmonty/bash-git-prompt.git /home/vagrant/.bash-git-prompt --depth=1
+cp /var/www/deployer/examples/dev/prompt /home/vagrant/.bashrc
+
+

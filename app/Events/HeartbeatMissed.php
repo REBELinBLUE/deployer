@@ -35,7 +35,7 @@ class HeartbeatMissed extends Event implements HasSlackPayloadInterface
     public function notificationPayload()
     {
         $message = Lang::get('heartbeats.missing_message', ['job' => $this->heartbeat->name]);
-        $url     = url('projects', $this->heartbeat->project_id);
+        $url     = route('projects', ['id' => $this->heartbeat->project_id]);
 
         if (is_null($this->heartbeat->last_activity)) {
             $heard_from = Lang::get('app.never');

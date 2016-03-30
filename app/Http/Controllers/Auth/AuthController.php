@@ -115,11 +115,11 @@ class AuthController extends Controller
 
             $auth->logout();
 
-            return redirect()->route('login')
+            return redirect()->route('auth.login')
                              ->withError(Lang::get('auth.invalid_code'));
         }
 
-        return redirect()->route('login')
+        return redirect()->route('auth.login')
                          ->withError(Lang::get('auth.invalid_code'));
     }
 }

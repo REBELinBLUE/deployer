@@ -50,14 +50,14 @@ class TemplateController extends Controller
 
         return view('admin.templates.details', [
             'breadcrumb' => [
-                ['url' => url('admin/templates'), 'label' => Lang::get('templates.label')],
+                ['url' => route('admin.templates.index'), 'label' => Lang::get('templates.label')],
             ],
             'title'         => $template->name,
             'sharedFiles'   => $template->sharedFiles,
             'projectFiles'  => $template->projectFiles,
             'variables'     => $template->variables,
             'project'       => $template,
-            'route'         => 'template.commands',
+            'route'         => 'admin.templates.commands.step',
         ]);
     }
 

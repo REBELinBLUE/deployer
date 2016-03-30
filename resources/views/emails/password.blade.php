@@ -7,5 +7,5 @@
 
     <br />
 
-    {{ Lang::get('emails.reset_here') }}: <a href="{{ url('password/reset/' . $token) }}">{{ url('password/reset/' . $token) }}</a>
+    {{ Lang::get('emails.reset_here') }}: <a href="{{ route('auth.reset-password-confirm', ['token' => $token]) }}">{{ route('auth.reset-password-confirm', ['token' => $token]) }}</a>
 @stop

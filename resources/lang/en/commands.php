@@ -10,7 +10,7 @@ return [
     'webhook_reason'       => 'The reason the deployment is being run',
     'webhook_source'       => 'A name to use for the "Deployer", for instance "CI server"',
     'webhook_branch'       => 'The branch to deploy, if blank it defaults to the branch configured in the project',
-    'webhook_update'       => 'Whether a deployment should only run if the currently deployed branch matches to branch to be deployed'.
+    'webhook_update'       => 'Whether a deployment should only run if the currently deployed branch matches to branch to be deployed' .
                               ' , defaults to false',
     'webhook_url'          => 'A URL to link the name to, for example the build details on your CI server',
     'webhook_commands'     => 'A comma seperated list of optional command IDs to run',
@@ -50,6 +50,6 @@ return [
     'optional'             => 'Optional',
     'example'              => 'e.g.',
     'optional_description' => 'Ask at deploy time whether or not the include this step',
-    'default_description'  => 'Include this step unless explicitly disabled (e.g. checkbox on by default)'
+    'default_description'  => 'Include this step unless explicitly disabled (e.g. checkbox on by default)',
 
 ];

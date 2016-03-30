@@ -6,7 +6,7 @@
     <h2>{{ Lang::get('emails.created') }}</h2>
 
     <br />
-    {{ Lang::get('emails.login_at') }}: <a href="{{ url('/') }}">{{ url('/') }}</a>
+    {{ Lang::get('emails.login_at') }}: <a href="{{ route('dashboard') }}">{{ route('dashboard') }}</a>
 
     <br />
     <br />

@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.0.33](https://github.com/REBELinBLUE/deployer/tree/0.0.33) (2016-03-30)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.32...0.0.33)
+
+**Fixed bugs:**
+
+- Abort button not disappearing when deployment finishes [\#193](https://github.com/REBELinBLUE/deployer/issues/193)
+- Deployment fails at installing Composer dependencies [\#191](https://github.com/REBELinBLUE/deployer/issues/191)
+
 ## [0.0.32](https://github.com/REBELinBLUE/deployer/tree/0.0.32) (2016-03-28)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.31...0.0.32)
 

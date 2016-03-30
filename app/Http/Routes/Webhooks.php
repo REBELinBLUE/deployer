@@ -1,15 +1,18 @@
 <?php
 
 // Webhooks
-Route::get('cctray.xml', 'DashboardController@cctray');
+Route::get('cctray.xml', [
+    'as'   => 'cctray',
+    'uses' => 'DashboardController@cctray',
+]);
 
 Route::post('deploy/{hash}', [
-    'as'         => 'webhook',
+    'as'         => 'webhook.deploy',
     'middleware' => 'api',
     'uses'       => 'WebhookController@webhook',
 ]);
 
 Route::get('heartbeat/{hash}', [
-    'as'   => 'heartbeat',
+    'as'   => 'heartbeats',
     'uses' => 'Resources\HeartbeatController@ping',
 ]);

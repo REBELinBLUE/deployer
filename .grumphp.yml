@@ -1,0 +1,27 @@
+parameters:
+    bin_dir: "./vendor/bin"
+    git_dir: "."
+    stop_on_failure: false
+    ignore_unstaged_changes: true
+    ascii:
+        failed: ~
+        succeeded: ~
+    tasks:
+        composer:
+            file: "./composer.json"
+        git_blacklist:
+            keywords:
+                - "die("
+                - "dd("
+                - "var_dump("
+                - "exit;"
+        phpcs:
+            standard: "./phpcs.xml"
+            show_warnings: true
+            tab_width: 4
+        phpcsfixer:
+           config_file: "./.php_cs"
+           verbose: true
+        xmllint: ~
+        yamllint: ~
+    extensions: []

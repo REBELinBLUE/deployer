@@ -106,7 +106,7 @@ class Heartbeat extends Model
      */
     public function getCallbackUrlAttribute()
     {
-        return route('heartbeat', $this->hash);
+        return route('heartbeats', $this->hash);
     }
 
     /**

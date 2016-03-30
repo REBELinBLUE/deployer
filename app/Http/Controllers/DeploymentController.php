@@ -75,7 +75,7 @@ class DeploymentController extends Controller
             'optional'      => $optional,
             'tags'          => $project->tags()->reverse(),
             'branches'      => $project->branches(),
-            'route'         => 'commands',
+            'route'         => 'commands.step',
         ]);
     }
 
@@ -105,7 +105,7 @@ class DeploymentController extends Controller
 
         return view('deployment.details', [
             'breadcrumb' => [
-                ['url' => url('projects', $project->id), 'label' => $project->name],
+                ['url' => route('projects', ['id' => $project->id]), 'label' => $project->name],
             ],
             'title'      => Lang::get('deployments.deployment_number', ['id' => $deployment->id]),
             'subtitle'   => $project->name,
@@ -127,7 +127,7 @@ class DeploymentController extends Controller
         $project = $this->projectRepository->getById($project_id);
 
         if ($project->servers->where('deploy_code', true)->count() === 0) {
-            return redirect()->url('projects', $project->id);
+            return redirect()->route('projects', ['id' => $project->id]);
         }
 
         $data = [
@@ -153,7 +153,7 @@ class DeploymentController extends Controller
 
         $deployment = $this->deploymentRepository->create($data);
 
-        return redirect()->route('deployment', [
+        return redirect()->route('deployments', [
             'id' => $deployment->id,
         ]);
     }
@@ -178,7 +178,7 @@ class DeploymentController extends Controller
 
         $deployment = $this->deploymentRepository->rollback($deployment_id, $optional);
 
-        return redirect()->route('deployment', [
+        return redirect()->route('deployments', [
             'id' => $deployment->id,
         ]);
     }
@@ -193,7 +193,7 @@ class DeploymentController extends Controller
     {
         $this->deploymentRepository->abort($deployment_id);
 
-        return redirect()->route('deployment', [
+        return redirect()->route('deployments', [
             'id' => $deployment_id,
         ]);
     }

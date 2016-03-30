@@ -52,7 +52,8 @@
         "sebastian/phpcpd": "2.0.2",
         "filp/whoops": "^2.0",
         "codeclimate/php-test-reporter": "^0.3.0",
-        "fabpot/php-cs-fixer": "^1.10"
+        "fabpot/php-cs-fixer": "^1.10",
+        "phpro/grumphp": "^0.8.0"
     },
     "autoload": {
         "classmap": [
@@ -87,5 +88,10 @@
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "extra": {
+        "grumphp": {
+            "config-default-path": ".grumphp.yml"
+        }
     }
 }

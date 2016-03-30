@@ -90,18 +90,18 @@
         </div>
     </div>
 
-    @include('dialogs.server')
-    @include('dialogs.shared_files')
-    @include('dialogs.project_files')
-    @include('dialogs.channel')
-    @include('dialogs.webhook')
-    @include('dialogs.variable')
-    @include('dialogs.notify_email')
-    @include('dialogs.heartbeat')
-    @include('dialogs.check_urls')
-    @include('dialogs.key')
-    @include('dialogs.reason')
-    @include('dialogs.redeploy')
+    @include('projects.dialogs.server')
+    @include('projects.dialogs.shared_files')
+    @include('projects.dialogs.project_files')
+    @include('projects.dialogs.channel')
+    @include('projects.dialogs.webhook')
+    @include('projects.dialogs.variable')
+    @include('projects.dialogs.notify_email')
+    @include('projects.dialogs.heartbeat')
+    @include('projects.dialogs.check_urls')
+    @include('projects.dialogs.key')
+    @include('projects.dialogs.reason')
+    @include('projects.dialogs.redeploy')
 @stop
 
 @section('right-buttons')

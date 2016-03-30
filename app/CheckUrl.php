@@ -87,8 +87,12 @@ class CheckUrl extends Model
                     'fields'   => [
                         [
                             'title' => Lang::get('notifications.project'),
-                            'value' => sprintf('<%s|%s>', url('projects', $this->project_id), $this->project->name),
-                            'short' => true,
+                            'value' => sprintf(
+                                '<%s|%s>',
+                                route('projects', ['id' => $this->project_id]),
+                                $this->project->name
+                            ),
+                            'short' => true
                         ],
                     ],
                 ],

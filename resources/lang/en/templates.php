@@ -11,6 +11,6 @@ return [
     'name'       => 'Name',
     'create'     => 'Add a new template',
     'edit'       => 'Edit the template',
-    'warning'    => 'The deployment template could not be saved, please check the form below.'
+    'warning'    => 'The deployment template could not be saved, please check the form below.',
 
 ];

@@ -53,15 +53,15 @@
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            @if ($deployment->isSuccessful() && !$deployment->isCurrent())
-                                <button type="button" data-toggle="modal" data-backdrop="static" data-target="#redeploy" data-optional-commands="{{ $deployment->optional_commands_used }}" data-deployment-id="{{ $deployment->id }}" class="btn btn-default" title="{{ Lang::get('deployments.rollback') }}"><i class="fa fa-cloud-upload"></i></button>
+                            @if ($deployment->isSuccessful())
+                                <button type="button" data-toggle="modal" data-backdrop="static" data-target="#redeploy" data-optional-commands="{{ $deployment->optional_commands_used }}" data-deployment-id="{{ $deployment->id }}" class="btn btn-default btn-rollback @if ($deployment->isCurrent()) hide @endif" title="{{ Lang::get('deployments.rollback') }}"><i class="fa fa-cloud-upload"></i></button>
                             @endif
 
                             @if ($deployment->isPending() || $deployment->isRunning())
                                 <!-- FIXME: Try and change this to a form as abort should be a POST request -->
-                                <a href="{{ route('abort', ['id' => $deployment->id]) }}" class="btn btn-default" title="{{ Lang::get('deployments.cancel') }}"><i class="fa fa-ban"></i></a>
+                                <a href="{{ route('deployments.abort', ['id' => $deployment->id]) }}" class="btn btn-default btn-cancel" title="{{ Lang::get('deployments.cancel') }}"><i class="fa fa-ban"></i></a>
                             @endif
-                            <a href="{{ route('deployment', ['id' => $deployment->id]) }}" type="button" class="btn btn-default" title="{{ Lang::get('app.details') }}"><i class="fa fa-info-circle"></i></a>
+                            <a href="{{ route('deployments', ['id' => $deployment->id]) }}" type="button" class="btn btn-default" title="{{ Lang::get('app.details') }}"><i class="fa fa-info-circle"></i></a>
                         </div>
                     </td>
                 </tr>

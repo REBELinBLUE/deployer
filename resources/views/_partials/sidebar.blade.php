@@ -17,7 +17,7 @@
                 </a>
                 <ul class="treeview-menu" id="group_{{ $group->id }}_projects">
                     @foreach($group->projects as $project)
-                        <li class="{{ $active_project === $project->id ? 'active' : null }}"><a href="{{ url('projects', $project->id) }}" id="sidebar_project_{{ $project->id }}">{{ $project->name }}</a></li>
+                        <li class="{{ $active_project === $project->id ? 'active' : null }}"><a href="{{ route('projects', ['id' => $project->id]) }}" id="sidebar_project_{{ $project->id }}">{{ $project->name }}</a></li>
                     @endforeach
                 </ul>
             </li>
@@ -30,10 +30,10 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{ Request::is('admin/projects') ? 'active' : null }}"><a href="{{ url('admin/projects') }}">{{ Lang::get('app.projects') }}</a></li>
-                    <li class="{{ Request::is('admin/templates*') ? 'active' : null }}"><a href="{{ url('admin/templates') }}">{{ Lang::get('app.templates') }}</a></li>
-                    <li class="{{ Request::is('admin/groups') ? 'active' : null }}"><a href="{{ url('admin/groups') }}">{{ Lang::get('app.groups') }}</a></li>
-                    <li class="{{ Request::is('admin/users') ? 'active' : null }}"><a href="{{ url('admin/users') }}">{{ Lang::get('app.users') }}</a></li>
+                    <li class="{{ Request::is('admin/projects') ? 'active' : null }}"><a href="{{ route('admin.projects.index') }}">{{ Lang::get('app.projects') }}</a></li>
+                    <li class="{{ Request::is('admin/templates*') ? 'active' : null }}"><a href="{{ route('admin.templates.index') }}">{{ Lang::get('app.templates') }}</a></li>
+                    <li class="{{ Request::is('admin/groups') ? 'active' : null }}"><a href="{{ route('admin.groups.index') }}">{{ Lang::get('app.groups') }}</a></li>
+                    <li class="{{ Request::is('admin/users') ? 'active' : null }}"><a href="{{ route('admin.users.index') }}">{{ Lang::get('app.users') }}</a></li>
                 </ul>
             </li>
         </ul>

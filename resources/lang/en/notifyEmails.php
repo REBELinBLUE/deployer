@@ -18,6 +18,6 @@ return [
     'finished_at'     => 'Finished at',
     'last_committer'  => 'Last committer',
     'last_committ'    => 'Last committ',
-    'reason'          => 'Reason'
+    'reason'          => 'Reason',
 
 ];
