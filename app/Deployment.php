@@ -317,12 +317,20 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
             'attachments' => [
                 [
                     'fallback' => sprintf($message, '#' . $this->id),
-                    'text'     => sprintf($message, sprintf('<%s|#%u>', route('deployments', ['id' => $this->id]), $this->id)),
+                    'text'     => sprintf($message, sprintf(
+                        '<%s|#%u>',
+                        route('deployments', ['id' => $this->id]),
+                        $this->id
+                    )),
                     'color'    => $colour,
                     'fields'   => [
                         [
                             'title' => Lang::get('notifications.project'),
-                            'value' => sprintf('<%s|%s>', route('projects', ['id' => $this->project_id]), $this->project->name),
+                            'value' => sprintf(
+                                '<%s|%s>',
+                                route('projects', ['id' => $this->project_id]),
+                                $this->project->name
+                            ),
                             'short' => true,
                         ], [
                             'title' => Lang::get('notifications.commit'),
