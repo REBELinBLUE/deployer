@@ -18,12 +18,12 @@ Route::group([
 
     Route::post('servers/reorder', [
         'as'    => 'servers.reorder',
-        'uses'  => 'ServerController@reorder'
+        'uses'  => 'ServerController@reorder',
     ]);
 
     Route::get('servers/{servers}/test', [
         'as'    => 'servers.test',
-        'uses'  => 'ServerController@test'
+        'uses'  => 'ServerController@test',
     ]);
 
     $actions = [

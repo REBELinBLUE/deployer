@@ -12,7 +12,7 @@ Route::group([
 
     Route::get('timeline', [
         'as'   => 'dashboard.timeline',
-        'uses' => 'DashboardController@timeline'
+        'uses' => 'DashboardController@timeline',
     ]);
 
 });

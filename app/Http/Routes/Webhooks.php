@@ -3,7 +3,7 @@
 // Webhooks
 Route::get('cctray.xml', [
     'as'   => 'cctray',
-    'uses' => 'DashboardController@cctray'
+    'uses' => 'DashboardController@cctray',
 ]);
 
 Route::post('deploy/{hash}', [

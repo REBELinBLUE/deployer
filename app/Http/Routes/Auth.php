@@ -31,17 +31,17 @@ Route::group([
 
     Route::get('password/reset/{token?}', [
         'as'   => 'auth.reset-password-confirm',
-        'uses' => 'PasswordController@showResetForm'
+        'uses' => 'PasswordController@showResetForm',
     ]);
 
     Route::post('password/email', [
         'as'   => 'auth.request-password-reset',
-        'uses' => 'PasswordController@sendResetLinkEmail'
+        'uses' => 'PasswordController@sendResetLinkEmail',
     ]);
 
     Route::post('password/reset', [
         'as'   => 'auth.reset-password',
-        'uses' => 'PasswordController@reset'
+        'uses' => 'PasswordController@reset',
     ]);
 
 });

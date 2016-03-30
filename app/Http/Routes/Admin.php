@@ -25,6 +25,6 @@ Route::group([
 
     Route::post('groups/reorder', [
         'as'    => 'admin.groups.reorder',
-        'uses'  => 'GroupController@reorder'
+        'uses'  => 'GroupController@reorder',
     ]);
 });
