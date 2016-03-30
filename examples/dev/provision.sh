@@ -51,7 +51,7 @@ apt-get update
 
 apt-add-repository ppa:brightbox/ruby-ng
 apt-get update -y
-apt-get install ruby2.3 ruby2.3-dev -y
+DEBIAN_FRONTEND=noninteractive apt-get install ruby2.3 ruby2.3-dev httpie -y
 gem install github_changelog_generator
 
 # Create DB
