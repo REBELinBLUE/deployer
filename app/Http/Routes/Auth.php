@@ -8,12 +8,13 @@ Route::group([
 
     Route::get('login', [
         'middleware' => 'guest',
-        'as'         => 'login',
+        'as'         => 'auth.login',
         'uses'       => 'AuthController@getLogin',
     ]);
 
     Route::post('login', [
         'middleware' => ['guest', 'throttle:10,10'],
+        'as'         => 'auth.login-verify',
         'uses'       => 'AuthController@postLogin',
     ]);
 
@@ -24,22 +25,29 @@ Route::group([
 
     Route::post('login/2fa', [
         'middleware' => 'throttle:10,10',
+        'as'         => 'auth.twofactor-verify',
         'uses'       => 'AuthController@postTwoFactorAuthentication',
     ]);
 
-    Route::get('password/reset/{token?}', 'PasswordController@showResetForm');
-    Route::post('password/email', 'PasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'PasswordController@reset');
+    Route::get('password/reset/{token?}', [
+        'as'   => 'auth.reset-password-confirm',
+        'uses' => 'PasswordController@showResetForm'
+    ]);
 
-});
+    Route::post('password/email', [
+        'as'   => 'auth.request-password-reset',
+        'uses' => 'PasswordController@sendResetLinkEmail'
+    ]);
 
-Route::group([
-    'middleware' => ['web', 'auth'],
-], function () {
-
-    Route::get('logout', [
-        'as'         => 'logout',
-        'uses'       => 'Auth\AuthController@logout',
+    Route::post('password/reset', [
+        'as'   => 'auth.reset-password',
+        'uses' => 'PasswordController@reset'
     ]);
 
 });
+
+Route::get('logout', [
+    'middleware' => ['web', 'auth'],
+    'as'         => 'auth.logout',
+    'uses'       => 'Auth\AuthController@logout',
+]);

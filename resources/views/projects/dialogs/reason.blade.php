@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title"><i class="fa fa-comment-o"></i> {{ Lang::get('deployments.reason') }}</h4>
             </div>
-            <form role="form" method="post" action="{{ route('deploy', ['id' => $project->id]) }}">
+            <form role="form" method="post" action="{{ route('projects.deploy', ['id' => $project->id]) }}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <div class="modal-body">

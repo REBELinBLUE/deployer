@@ -286,7 +286,7 @@ class Project extends ProjectRelation implements PresentableInterface
      */
     public function getWebhookUrlAttribute()
     {
-        return route('webhook', $this->hash);
+        return route('webhook.deploy', $this->hash);
     }
 
     /**

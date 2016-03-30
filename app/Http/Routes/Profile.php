@@ -22,12 +22,12 @@ Route::group([
     ]);
 
     Route::post('profile/email', [
-        'as'   => 'profile.request_change_email',
+        'as'   => 'profile.request-change-email',
         'uses' => 'ProfileController@requestEmail',
     ]);
 
     Route::post('profile/upload', [
-        'as'   => 'profile.upload_avatar',
+        'as'   => 'profile.upload-avatar',
         'uses' => 'ProfileController@upload',
     ]);
 
@@ -46,7 +46,14 @@ Route::group([
         'uses' => 'ProfileController@twoFactor',
     ]);
 
-    Route::get('profile/email/{token}', 'ProfileController@email');
-    Route::post('profile/update-email', 'ProfileController@changeEmail');
+    Route::get('profile/email/{token}', [
+        'as'   => 'profile.confirm-change-email',
+        'uses' => 'ProfileController@email',
+    ]);
+
+    Route::post('profile/update-email', [
+        'as'   => 'profile.change-email',
+        'uses' => 'ProfileController@changeEmail',
+    ]);
 
 });

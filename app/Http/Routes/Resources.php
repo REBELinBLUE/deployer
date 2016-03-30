@@ -6,15 +6,25 @@ Route::group([
     'namespace'  => 'Resources',
 ], function () {
 
-    Route::post('commands/reorder', 'CommandController@reorder');
+    Route::post('commands/reorder', [
+        'as'   => 'commands.reorder',
+        'uses' => 'CommandController@reorder',
+    ]);
 
     Route::get('projects/{projects}/commands/{step}', [
-        'as'   => 'commands',
+        'as'   => 'commands.step',
         'uses' => 'CommandController@listing',
     ]);
 
-    Route::post('servers/reorder', 'ServerController@reorder');
-    Route::get('servers/{servers}/test', 'ServerController@test');
+    Route::post('servers/reorder', [
+        'as'    => 'servers.reorder',
+        'uses'  => 'ServerController@reorder'
+    ]);
+
+    Route::get('servers/{servers}/test', [
+        'as'    => 'servers.test',
+        'uses'  => 'ServerController@test'
+    ]);
 
     $actions = [
         'only' => ['store', 'update', 'destroy'],
@@ -31,7 +41,7 @@ Route::group([
     Route::resource('check-url', 'CheckUrlController', $actions);
 
     Route::get('admin/templates/{projects}/commands/{step}', [
-        'as'   => 'template.commands',
+        'as'   => 'admin.templates.commands.step',
         'uses' => 'CommandController@listing',
     ]);
 

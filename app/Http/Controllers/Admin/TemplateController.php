@@ -57,7 +57,7 @@ class TemplateController extends Controller
             'projectFiles'  => $template->projectFiles,
             'variables'     => $template->variables,
             'project'       => $template,
-            'route'         => 'template.commands',
+            'route'         => 'admin.templates.commands.step',
         ]);
     }
 

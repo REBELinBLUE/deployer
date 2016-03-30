@@ -129,7 +129,7 @@ class WebhookController extends Controller
         $project->save();
 
         return [
-            'url' => route('webhook', $project->hash),
+            'url' => route('webhook.deploy', $project->hash),
         ];
     }
 }
