@@ -59,9 +59,7 @@
                     <ul class="dropdown-menu">
                         <li class="user-header">
                             <img src="{{ $logged_in_user->avatar_url }}" class="img-circle" />
-                            <p>
-                                {{ $logged_in_user->name }}
-                            </p>
+                            <p>{{ $logged_in_user->name }}</p>
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
