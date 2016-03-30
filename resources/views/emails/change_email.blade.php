@@ -6,5 +6,5 @@
     <h2>{{ Lang::get('emails.login_reset') }}</h2>
 
     <br />
-    {{ Lang::get('emails.request_email', ['username' => $name ]) }}: <a href="{{ url('/profile/email', [$token]) }}">{{ url('/profile/email', [$token]) }}</a>
+    {{ Lang::get('emails.request_email', ['username' => $name ]) }}: <a href="{{ route('profile.confirm-change-email', ['token' => $token]) }}">{{ route('profile.confirm-change-email', ['token' => $token]) }}</a>
 @stop
