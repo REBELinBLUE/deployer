@@ -153,7 +153,7 @@ class DeploymentController extends Controller
 
         $deployment = $this->deploymentRepository->create($data);
 
-        return redirect()->route('deployment', [
+        return redirect()->route('deployments', [
             'id' => $deployment->id,
         ]);
     }
@@ -178,7 +178,7 @@ class DeploymentController extends Controller
 
         $deployment = $this->deploymentRepository->rollback($deployment_id, $optional);
 
-        return redirect()->route('deployment', [
+        return redirect()->route('deployments', [
             'id' => $deployment->id,
         ]);
     }
@@ -193,7 +193,7 @@ class DeploymentController extends Controller
     {
         $this->deploymentRepository->abort($deployment_id);
 
-        return redirect()->route('deployment', [
+        return redirect()->route('deployments', [
             'id' => $deployment_id,
         ]);
     }
