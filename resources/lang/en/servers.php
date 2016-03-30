@@ -23,6 +23,6 @@ return [
     'options'            => 'Options',
     'deploy_code'        => 'Code should be deployed to this server',
     'runs_code'          => 'Deploy Code',
-    'add_command'        => 'Add the new server to all existing commands'
+    'add_command'        => 'Add the new server to all existing commands',
 
 ];

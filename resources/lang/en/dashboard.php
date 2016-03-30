@@ -13,6 +13,6 @@ return [
     'site'              => 'View the site',
     'view'              => 'View the deployment details',
     'deployment_number' => 'Deployment #:id',
-    'started'           => 'Started at'
+    'started'           => 'Started at',
 
 ];

@@ -13,9 +13,9 @@ return [
     'webhook'               => 'Webhook',
     'rollback'              => 'Rollback',
     'rollback_title'        => 'Rollback to a previous deployment',
-    'expert'                => 'You should not rollback to previous deployments unless you a confident you can perform any additional '.
+    'expert'                => 'You should not rollback to previous deployments unless you a confident you can perform any additional ' .
                                'cleanup which may be required.',
-    'rollback_warning'      => 'When rolling back to a previous deployment you may need to manually connect to your servers and run '.
+    'rollback_warning'      => 'When rolling back to a previous deployment you may need to manually connect to your servers and run ' .
                                'any database rollbacks or similar, this can not be done automatically.',
     'caution'               => 'Caution!',
     'cancel'                => 'Cancel',
@@ -53,6 +53,6 @@ return [
     'minute'                => ':time minute|:time minutes',
     'second'                => ':time second|:time seconds',
     'repo_failure'          => 'There was an error retrieving the repository information, please check that the URL is correct and that the SSH key has been added',
-    'repo_failure_head'     => 'Problem with the repository'
+    'repo_failure_head'     => 'Problem with the repository',
 
 ];

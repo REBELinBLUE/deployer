@@ -24,6 +24,6 @@ return [
     'interval_120'      => '2 hours',
     'interval_720'      => '12 hours',
     'interval_1440'     => '1 day',
-    'interval_10080'    => '1 week'
+    'interval_10080'    => '1 week',
 
 ];
