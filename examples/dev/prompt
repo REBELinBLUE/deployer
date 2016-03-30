@@ -20,7 +20,7 @@ if [ -f ~/.bash-git-prompt/gitprompt.sh ]; then
     #GIT_PROMPT_COMMAND_FAIL="${RED}✘-_LAST_COMMAND_STATE_ " # displays as ✘-1 for exit code 1
     #_LAST_COMMAND_INDICATOR_
 
-    GIT_PROMPT_START="\n${GREEN}\u ${RESET}in ${PINK}\w${RESET}"
+    GIT_PROMPT_START="\n${GREEN}\u@\h ${RESET}in ${PINK}\w${RESET}"
     GIT_PROMPT_END="${RESET}\n${RESET}\$ "
 
     source ~/.bash-git-prompt/gitprompt.sh
@@ -33,7 +33,7 @@ else
         git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
     }
 
-    export PS1="\n\[${GREEN}\]\u \[$RESET\]in \[$PINK\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$BLUE\]\$(parse_git_branch)\[$RESET\]\n$ \[$RESET\]"
+    export PS1="\n\[${GREEN}\]\u@\h \[$RESET\]in \[$PINK\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$BLUE\]\$(parse_git_branch)\[$RESET\]\n$ \[$RESET\]"
 fi
 
 cd /var/www/deployer
