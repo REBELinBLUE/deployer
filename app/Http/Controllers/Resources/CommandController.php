@@ -54,13 +54,13 @@ class CommandController extends ResourceController
         $project = $this->projectRepository->getById($project_id);
 
         $breadcrumb = [
-            ['url' => url('projects', $project->id), 'label' => $project->name],
+            ['url' => route('projects', ['id' => $project->id]), 'label' => $project->name],
         ];
 
         if ($project->is_template) {
             $breadcrumb = [
-                ['url' => url('admin/templates'), 'label' => Lang::get('templates.label')],
-                ['url' => url('admin/templates', $project->id), 'label' => $project->name],
+                ['url' => route('admin.templates.index'), 'label' => Lang::get('templates.label')],
+                ['url' => route('admin.templates.show', ['templates' => $project->id]), 'label' => $project->name],
             ];
         }
 

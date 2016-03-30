@@ -11,7 +11,7 @@ Route::group([
         'uses' => 'CommandController@reorder',
     ]);
 
-    Route::get('projects/{projects}/commands/{step}', [
+    Route::get('projects/{id}/commands/{step}', [
         'as'   => 'commands.step',
         'uses' => 'CommandController@listing',
     ]);
@@ -21,7 +21,7 @@ Route::group([
         'uses'  => 'ServerController@reorder',
     ]);
 
-    Route::get('servers/{servers}/test', [
+    Route::get('servers/{id}/test', [
         'as'    => 'servers.test',
         'uses'  => 'ServerController@test',
     ]);
@@ -40,7 +40,7 @@ Route::group([
     Route::resource('notify-email', 'NotifyEmailController', $actions);
     Route::resource('check-url', 'CheckUrlController', $actions);
 
-    Route::get('admin/templates/{projects}/commands/{step}', [
+    Route::get('admin/templates/{id}/commands/{step}', [
         'as'   => 'admin.templates.commands.step',
         'uses' => 'CommandController@listing',
     ]);

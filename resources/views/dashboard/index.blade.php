@@ -32,7 +32,7 @@
                             <tbody>
                                 @foreach ($group_projects as $group_project)
                                 <tr id="project_{{ $group_project->id }}">
-                                    <td><a href="{{ url('projects', ['id' => $group_project->id]) }}" title="View Details">{{ $group_project->name }}</a></td>
+                                    <td><a href="{{ route('projects', ['id' => $group_project->id]) }}" title="View Details">{{ $group_project->name }}</a></td>
                                     <td>{{ $group_project->last_run ? $group_project->last_run->format('jS F Y g:i:s A') : 'Never' }}</td>
                                     <td>
                                         <span class="label label-{{ $group_project->css_class }}"><i class="fa fa-{{ $group_project->icon }}"></i> <span>{{ $group_project->readable_status }}</span></span>
@@ -42,7 +42,7 @@
                                             @if(isset($project->url))
                                             <a href="{{ $group_project->url }}" class="btn btn-default" title="{{ Lang::get('dashboard.site') }}" target="_blank"><i class="fa fa-globe"></i></a>
                                             @endif
-                                            <a href="{{ url('projects', ['id' => $group_project->id]) }}" class="btn btn-default" title="{{ Lang::get('dashboard.view') }}"><i class="fa fa-info-circle"></i></a>
+                                            <a href="{{ route('projects', ['id' => $group_project->id]) }}" class="btn btn-default" title="{{ Lang::get('dashboard.view') }}"><i class="fa fa-info-circle"></i></a>
                                         </div>
                                     </td>
                                 </tr>

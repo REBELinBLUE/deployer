@@ -5,37 +5,37 @@ Route::group([
     'middleware' => ['web', 'auth', 'jwt'],
 ], function () {
 
-    Route::get('webhook/{projects}/refresh', [
+    Route::get('webhook/{id}/refresh', [
         'as'   => 'webhook.refresh',
         'uses' => 'WebhookController@refresh',
     ]);
 
-    Route::get('projects/{projects}', [
+    Route::get('projects/{id}', [
         'as'   => 'projects',
         'uses' => 'DeploymentController@project',
     ]);
 
-    Route::post('projects/{projects}/deploy', [
+    Route::post('projects/{id}/deploy', [
         'as'   => 'projects.deploy',
         'uses' => 'DeploymentController@deploy',
     ]);
 
-    Route::post('deployment/{deployments}/rollback', [
+    Route::post('deployment/{id}/rollback', [
         'as'   => 'deployments.rollback',
         'uses' => 'DeploymentController@rollback',
     ]);
 
-    Route::get('deployment/{deployments}/abort', [
+    Route::get('deployment/{id}/abort', [
         'as'   => 'deployments.abort',
         'uses' => 'DeploymentController@abort',
     ]);
 
-    Route::get('deployment/{deployments}', [
+    Route::get('deployment/{id}', [
         'as'   => 'deployments',
         'uses' => 'DeploymentController@show',
     ]);
 
-    Route::get('log/{log}', [
+    Route::get('log/{id}', [
         'as'   => 'deployments.log',
         'uses' => 'DeploymentController@log',
     ]);

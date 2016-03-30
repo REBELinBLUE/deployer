@@ -17,7 +17,7 @@
                 </a>
                 <ul class="treeview-menu" id="group_{{ $group->id }}_projects">
                     @foreach($group->projects as $project)
-                        <li class="{{ $active_project === $project->id ? 'active' : null }}"><a href="{{ url('projects', $project->id) }}" id="sidebar_project_{{ $project->id }}">{{ $project->name }}</a></li>
+                        <li class="{{ $active_project === $project->id ? 'active' : null }}"><a href="{{ route('projects', ['id' => $project->id]) }}" id="sidebar_project_{{ $project->id }}">{{ $project->name }}</a></li>
                     @endforeach
                 </ul>
             </li>

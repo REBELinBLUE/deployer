@@ -105,7 +105,7 @@ class DeploymentController extends Controller
 
         return view('deployment.details', [
             'breadcrumb' => [
-                ['url' => url('projects', $project->id), 'label' => $project->name],
+                ['url' => route('projects', ['id' => $project->id]), 'label' => $project->name],
             ],
             'title'      => Lang::get('deployments.deployment_number', ['id' => $deployment->id]),
             'subtitle'   => $project->name,
@@ -127,7 +127,7 @@ class DeploymentController extends Controller
         $project = $this->projectRepository->getById($project_id);
 
         if ($project->servers->where('deploy_code', true)->count() === 0) {
-            return redirect()->url('projects', $project->id);
+            return redirect()->route('projects', ['id' => $project->id]);
         }
 
         $data = [
