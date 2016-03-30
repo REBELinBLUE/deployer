@@ -18,7 +18,7 @@
                             <ul class="menu">
                                 @foreach ($pending as $deployment)
                                     <li id="deployment_info_{{ $deployment->id }}">
-                                        <a href="{{ route('deployment', ['id' => $deployment->id]) }}">
+                                        <a href="{{ route('deployments', ['id' => $deployment->id]) }}">
                                             <h4>{{ $deployment->project->name }} <small class="pull-right">{{ Lang::get('dashboard.started') }}: {{ $deployment->started_at->format('g:i:s A') }}</small></h4>
                                             <p>{{ Lang::get('deployments.branch') }}: {{ $deployment->branch }}</p>
                                         </a>
@@ -40,7 +40,7 @@
                             <ul class="menu">
                                 @foreach ($deploying as $deployment)
                                     <li id="deployment_info_{{ $deployment->id }}">
-                                        <a href="{{ route('deployment', ['id' => $deployment->id]) }}">
+                                        <a href="{{ route('deployments', ['id' => $deployment->id]) }}">
                                             <h4>{{ $deployment->project->name }} <small class="pull-right">{{ Lang::get('dashboard.started') }}: {{ $deployment->started_at->format('g:i:s A') }}</small></h4>
                                             <p>{{ Lang::get('deployments.branch') }}: {{ $deployment->branch }}</p>
                                         </a>
