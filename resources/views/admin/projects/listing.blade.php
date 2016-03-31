@@ -41,7 +41,7 @@
         new app.ProjectsTab();
         app.Projects.add({!! $projects !!});
     </script>
-@stop
+@endpush
 
 @push('templates')
     <script type="text/template" id="project-template">

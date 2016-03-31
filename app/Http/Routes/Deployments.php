@@ -35,7 +35,7 @@ Route::group([
         'uses' => 'DeploymentController@show',
     ]);
 
-    Route::get('log/{id}', [
+    Route::get('log/{log}', [
         'as'   => 'deployments.log',
         'uses' => 'DeploymentController@log',
     ]);

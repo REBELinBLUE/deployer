@@ -93,25 +93,18 @@ class Project extends ProjectRelation implements PresentableInterface
     {
         parent::boot();
 
-        // When first creating the model generate an SSH Key pair and a webhook hash
-        static::creating(function (Project $model) {
-            if (!array_key_exists('private_key', $model->attributes)) {
+        // When  creating the model generate an SSH Key pair and a webhook hash
+        static::saving(function (Project $model) {
+            if (!array_key_exists('private_key', $model->attributes) || $model->private_key === '') {
                 $model->generateSSHKey();
             }
 
-            if (!array_key_exists('public_key', $model->attributes)) {
+            if (!array_key_exists('public_key', $model->attributes) || $model->public_key === '') {
                 $model->regeneratePublicKey();
             }
 
             if (!array_key_exists('hash', $model->attributes)) {
                 $model->generateHash();
-            }
-        });
-
-        // When updating the model regenerate the public key if the private key has been changed
-        static::updating(function (Project $model) {
-            if (!array_key_exists('public_key', $model->attributes) || $model->public_key === '') {
-                $model->regeneratePublicKey();
             }
         });
     }

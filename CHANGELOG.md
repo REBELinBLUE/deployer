@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.0.33](https://github.com/REBELinBLUE/deployer/tree/0.0.33) (2016-03-30)
+## [0.0.33](https://github.com/REBELinBLUE/deployer/tree/0.0.33) (2016-03-31)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.32...0.0.33)
 
 **Fixed bugs:**
