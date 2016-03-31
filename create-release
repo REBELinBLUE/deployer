@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # Use the composer github token if it exists
 if [ -z "$CHANGELOG_GITHUB_TOKEN" ]; then
     export CHANGELOG_GITHUB_TOKEN=`composer config --global github-oauth.github.com`

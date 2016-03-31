@@ -5,6 +5,7 @@
 
 **Fixed bugs:**
 
+- SSH key not being created [\#201](https://github.com/REBELinBLUE/deployer/issues/201)
 - Abort button not disappearing when deployment finishes [\#193](https://github.com/REBELinBLUE/deployer/issues/193)
 - Deployment fails at installing Composer dependencies [\#191](https://github.com/REBELinBLUE/deployer/issues/191)
 
