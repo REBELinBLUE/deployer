@@ -53,6 +53,10 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
             unset($fields['template_id']);
         }
 
+        if (array_key_exists('private_key', $fields) && empty($fields['private_key'])) {
+            unset($fields['private_key']);
+        }
+
         $project = $this->model->create($fields);
 
         if ($template) {
