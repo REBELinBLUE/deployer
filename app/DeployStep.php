@@ -67,7 +67,7 @@ class DeployStep extends Model implements PresentableInterface
      *
      * @return bool
      */
-    public function isCustomStep()
+    public function isCustom()
     {
         return (!in_array($this->stage, [
             Command::DO_CLONE,

@@ -353,7 +353,7 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         $user = $server->user;
-        if (isset($step->command)) {
+        if ($step->isCustom()) {
             $user = $step->command->user;
         }
 
@@ -582,7 +582,7 @@ class DeployProject extends Job implements ShouldQueue
             'committer_name'  => $this->deployment->committer,
         ];
 
-        if (!$step->isCustomStep()) {
+        if (!$step->isCustom()) {
             $tokens = array_merge($tokens, [
                 'remote_archive' => $remote_archive,
                 'include_dev'    => $this->deployment->project->include_dev,
