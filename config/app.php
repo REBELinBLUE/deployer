@@ -163,6 +163,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         BackupManager\Laravel\Laravel5ServiceProvider::class,
         JsLocalization\JsLocalizationServiceProvider::class,
+        Themsaid\Langman\LangmanServiceProvider::class,
 
         /*
          * Application Service Providers...

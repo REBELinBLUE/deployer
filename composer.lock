@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5cae8bb9e3858af8bbaf2b8e1e687d01",
-    "content-hash": "be4343a5557e60bdbd895fa4cb1b9218",
+    "hash": "af8bec2645a0c1a041bdeae7a9faa2c8",
+    "content-hash": "5c73776e516b89e830f0843096165c41",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -3514,6 +3514,60 @@
                 "dump"
             ],
             "time": "2016-03-10 10:34:12"
+        },
+        {
+            "name": "themsaid/laravel-langman",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/themsaid/laravel-langman.git",
+                "reference": "23c8e7b3c07ac97c5614ef3f3fd15db1eda196cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/themsaid/laravel-langman/zipball/23c8e7b3c07ac97c5614ef3f3fd15db1eda196cd",
+                "reference": "23c8e7b3c07ac97c5614ef3f3fd15db1eda196cd",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^5.1",
+                "illuminate/filesystem": "^5.1",
+                "illuminate/support": "^5.1",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.4",
+                "orchestra/testbench": "^3.2",
+                "phpunit/phpunit": "^4.8|^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Themsaid\\Langman\\": "src"
+                },
+                "classmap": [
+                    "tests"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Said",
+                    "email": "theMohamedSaid@gmail.com",
+                    "homepage": "https://themsaid.github.io"
+                }
+            ],
+            "description": "Manage language files with ease.",
+            "homepage": "https://github.com/themsaid/laravel-langman",
+            "keywords": [
+                "laravel",
+                "localization",
+                "multilingual"
+            ],
+            "time": "2016-04-04 14:52:20"
         },
         {
             "name": "tymon/jwt-auth",
