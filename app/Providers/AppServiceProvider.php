@@ -9,6 +9,16 @@ use Illuminate\Support\ServiceProvider;
  */
 class AppServiceProvider extends ServiceProvider
 {
+    public $live_providers = [
+        'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
+    ];
+
+    public $local_providers = [
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+        'Clockwork\Support\Laravel\ClockworkServiceProvider',
+        'Themsaid\Langman\LangmanServiceProvider',
+    ];
+
     /**
      * Bootstrap any application services.
      *
@@ -26,6 +36,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $providers = ($this->app->environment('local') ? $this->local_providers : $this->live_providers);
+
+        foreach ($providers as $provider) {
+            if (class_exists($provider, true)) {
+                $this->app->register($provider);
+            }
+        }
     }
 }
