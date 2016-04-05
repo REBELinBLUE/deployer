@@ -161,11 +161,6 @@ return [
         BackupManager\Laravel\Laravel5ServiceProvider::class,
         JsLocalization\JsLocalizationServiceProvider::class,
 
-        // GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class,
-        // Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        // Clockwork\Support\Laravel\ClockworkServiceProvider::class,
-        // Themsaid\Langman\LangmanServiceProvider::class,
-
         /*
          * Application Service Providers...
          */

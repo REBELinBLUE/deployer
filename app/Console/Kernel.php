@@ -44,7 +44,7 @@ class Kernel extends ConsoleKernel
         \REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors::class,
         \REBELinBLUE\Deployer\Console\Commands\InstallApp::class,
         \REBELinBLUE\Deployer\Console\Commands\UpdateApp::class,
-        \REBELinBLUE\Deployer\Console\Commands\ResetApp::class,
+        \REBELinBLUE\Deployer\Console\Commands\ResetApp::class, // FIXME: Only register on local
     ];
 
     /**
