@@ -226,7 +226,7 @@ return [
         'Gravatar'   => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Image'      => Intervention\Image\Facades\Image::class,
         'JWTAuth'    => Tymon\JWTAuth\Facades\JWTAuth::class,
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class, // TODO: Remove the ones not being used?
         'Google2FA'  => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
 
     ],

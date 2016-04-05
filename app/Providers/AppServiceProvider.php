@@ -9,10 +9,18 @@ use Illuminate\Support\ServiceProvider;
  */
 class AppServiceProvider extends ServiceProvider
 {
-    public $live_providers = [
+    /**
+     * Service providers which are only used in production.
+     * @var array
+     */
+    public $production_providers = [
         'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
     ];
 
+    /**
+     * Service providers which are only used in development.
+     * @var array
+     */
     public $local_providers = [
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Clockwork\Support\Laravel\ClockworkServiceProvider',
@@ -36,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $providers = ($this->app->environment('local') ? $this->local_providers : $this->live_providers);
+        $providers = ($this->app->environment('local') ? $this->local_providers : $this->production_providers);
 
         foreach ($providers as $provider) {
             if (class_exists($provider, true)) {
