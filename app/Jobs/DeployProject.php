@@ -285,7 +285,6 @@ class DeployProject extends Job implements ShouldQueue
 
             // Check if there is a cache key and if so abort
             if (Cache::pull($this->cache_key) !== null) {
-
                 // Only allow aborting if the release has not yet been activated
                 if ($step->stage <= Stage::DO_ACTIVATE) {
                     $log->status = ServerLog::CANCELLED;
@@ -521,13 +520,15 @@ class DeployProject extends Job implements ShouldQueue
             $pathinfo = pathinfo($filecfg->file);
             $template = 'File';
 
-            if (substr($filecfg->file, 0, 1) === '/') {
-                $filecfg->file = substr($filecfg->file, 1);
+            $file = $filecfg->file;
+
+            if (substr($file, 0, 1) === '/') {
+                $file = substr($file, 1);
             }
 
-            if (substr($filecfg->file, -1) === '/') {
+            if (substr($file, -1) === '/') {
                 $template      = 'Directory';
-                $filecfg->file = substr($filecfg->file, 0, -1);
+                $file          = substr($file, 0, -1);
             }
 
             if (isset($pathinfo['extension'])) {
@@ -537,7 +538,7 @@ class DeployProject extends Job implements ShouldQueue
             }
 
             $script .= $parser->parseFile('deploy.Share' . $template, [
-                'target_file' => $release_dir . '/' . $filecfg->file,
+                'target_file' => $release_dir . '/' . $file,
                 'source_file' => $shared_dir . '/' . $filename,
             ]);
         }
