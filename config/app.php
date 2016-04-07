@@ -151,16 +151,13 @@ return [
         /*
          * Package Service Providers...
          */
-        GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Robbo\Presenter\PresenterServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         GrahamCampbell\Security\SecurityServiceProvider::class,
         GrahamCampbell\Binput\BinputServiceProvider::class,
-        Clockwork\Support\Laravel\ClockworkServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         BackupManager\Laravel\Laravel5ServiceProvider::class,
         JsLocalization\JsLocalizationServiceProvider::class,
 
@@ -224,7 +221,6 @@ return [
         'Gravatar'   => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Image'      => Intervention\Image\Facades\Image::class,
         'JWTAuth'    => Tymon\JWTAuth\Facades\JWTAuth::class,
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Google2FA'  => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
 
     ],

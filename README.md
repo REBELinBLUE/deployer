@@ -67,7 +67,7 @@ The `master` branch of this repository is a development branch and **should not*
 2. Checkout the latest release
 
     ```shell
-    $ git checkout 0.0.34
+    $ git checkout 0.0.33
     ```
 
 3. Install dependencies
@@ -109,7 +109,7 @@ The `master` branch of this repository is a development branch and **should not*
 
     ```shell
     $ git fetch --all
-    $ git checkout 0.0.34
+    $ git checkout 0.0.33
      ```
 
 2. Update the dependencies

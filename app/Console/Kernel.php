@@ -44,7 +44,6 @@ class Kernel extends ConsoleKernel
         \REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors::class,
         \REBELinBLUE\Deployer\Console\Commands\InstallApp::class,
         \REBELinBLUE\Deployer\Console\Commands\UpdateApp::class,
-        \REBELinBLUE\Deployer\Console\Commands\ResetApp::class,
     ];
 
     /**
@@ -81,6 +80,21 @@ class Kernel extends ConsoleKernel
         $schedule->command('deployer:purge-temp')
                  ->hourly()
                  ->withoutOverlapping();
+    }
+
+    /**
+     * Bootstrap the application for artisan commands.
+     *
+     * @return void
+     */
+    public function bootstrap()
+    {
+        parent::bootstrap();
+
+        // Only register the reset command on the local environment
+        if ($this->app->environment('local')) {
+            $this->commands[] = \REBELinBLUE\Deployer\Console\Commands\ResetApp::class;
+        }
     }
 
     /**

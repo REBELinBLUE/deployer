@@ -92,7 +92,7 @@ class CheckUrl extends Model
                                 route('projects', ['id' => $this->project_id]),
                                 $this->project->name
                             ),
-                            'short' => true
+                            'short' => true,
                         ],
                     ],
                 ],
