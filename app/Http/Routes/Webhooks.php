@@ -6,7 +6,7 @@ Route::get('cctray.xml', [
     'uses' => 'DashboardController@cctray',
 ]);
 
-Route::post('deploy/{hash}', [
+Route::get('deploy/{hash}', [
     'as'         => 'webhook.deploy',
     'middleware' => 'api',
     'uses'       => 'WebhookController@webhook',
