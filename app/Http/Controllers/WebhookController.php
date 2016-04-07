@@ -106,45 +106,56 @@ class WebhookController extends Controller
             return false;
         }
 
-        $data = $request->json();
+        $payload = $request->json();
 
         // Github sends a payload when you close a pull request with a non-existent commit.
-        if ($data->has('after') && $data->has('after') === '0000000000000000000000000000000000000000') {
+        if ($payload->has('after') && $payload->has('after') === '0000000000000000000000000000000000000000') {
             return false;
         }
 
-        $branch = str_replace('refs/heads/', '', $data->get('ref'));
+        $head = $payload->get('head_commit');
+
+        if ($payload->has('commits')) {
+            $branch = str_replace('refs/heads/', '', $payload->get('ref'));
+
+            //commit_id = head['id']
+        } else {
+            $branch = str_replace('refs/tags/', '', $payload->get('ref'));
+
+            //commit_id = $payload->get('after')
+        }
 
         if (!$project->allow_other_branch && $branch !== $project->branch) {
             return false;
         }
 
-        // FIXME: What do we do about optional commands and update only?
+        // Check if the request has an update_only query string and if so check the branch matches
+        if ($request->has('update_only') && $request->get('update_only') !== false) {
+            $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
+
+            if (!$deployment || $deployment->branch !== $branch) {
+                return false;
+            }
+        }
 
         // todo: should we check the following match the repository
         /*
-            [git_url] => git://github.com/REBELinBLUE/deployer.git
-            [ssh_url] => git@github.com:REBELinBLUE/deployer.git
-            [clone_url] => https://github.com/REBELinBLUE/deployer.git
+            [repository][git_url] => git://github.com/REBELinBLUE/deployer.git
+            [repository][ssh_url] => git@github.com:REBELinBLUE/deployer.git
+            [repository][clone_url] => https://github.com/REBELinBLUE/deployer.git
         */
 
-        // $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
-
-        // if (!$deployment || $deployment->branch !== $branch) {
-        //     return false;
-        // }
-
-        $commit = $data->get('head_commit');
-
-        // ref = commit['id']
-
         return [
-            'reason'     => $commit['message'],
-            'project_id' => $project->id,
-            'branch'     => $branch,
-            'optional'   => [],
-            'source'     => 'Github',
-            'build_url'  => $commit['url'],
+            'reason'          => $commit['message'],
+            'project_id'      => $project->id,
+            'branch'          => $branch,
+            'optional'        => [],
+            'source'          => 'Github',
+            'build_url'       => $commit['url'],
+            'commit'          => $head['id'],
+            'committer'       => $head['committer']['name'],
+            'committer_email' => $head['committer']['email'],
+
         ];
 
         return false;
