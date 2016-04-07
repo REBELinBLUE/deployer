@@ -109,7 +109,7 @@ class WebhookController extends Controller
         $payload = $request->json();
 
         // Github sends a payload when you close a pull request with a non-existent commit.
-        if ($payload->has('after') && $payload->has('after') === '0000000000000000000000000000000000000000') {
+        if ($payload->has('after') && $payload->get('after') === '0000000000000000000000000000000000000000') {
             return false;
         }
 
