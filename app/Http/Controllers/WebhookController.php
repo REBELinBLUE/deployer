@@ -146,12 +146,12 @@ class WebhookController extends Controller
         */
 
         return [
-            'reason'          => $commit['message'],
+            'reason'          => $head['message'],
             'project_id'      => $project->id,
             'branch'          => $branch,
             'optional'        => [],
             'source'          => 'Github',
-            'build_url'       => $commit['url'],
+            'build_url'       => $head['url'],
             'commit'          => $head['id'],
             'committer'       => $head['committer']['name'],
             'committer_email' => $head['committer']['email'],
