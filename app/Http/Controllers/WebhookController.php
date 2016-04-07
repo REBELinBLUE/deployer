@@ -3,8 +3,9 @@
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
 /**
  * The deployment webhook controller.
@@ -67,27 +68,119 @@ class WebhookController extends Controller
         ];
     }
 
-    private function parseWebhookRequest(Request $request, $project)
+    /**
+     * Examines the request to determine which service is calling the webhook.
+     *
+     * @param  Request $request
+     * @param  Project $project
+     * @return mixed   Either an array of parameters for the deployment config, or false if it is invalid.
+     */
+    private function parseWebhookRequest(Request $request, Project $project)
     {
-        if ($request->headers->has('X-GitHub-Delivery')) {
+        if ($request->headers->has('X-GitHub-Event')) {
             return $this->githubWebhook($request, $project);
+        }
+
+        if ($request->headers->has('X-Gitlab-Event')) {
+            return $this->gitlabWebhook($request, $project);
+        }
+
+        if ($request->headers->has('X-Event-Key')) {
+            return $this->bitbucketWebhook($request, $project);
         }
 
         return $this->customWebhook($request, $project);
     }
 
-    private function githubWebhook(Request $request, $project)
+    /**
+     * Handles a github webhook request.
+     *
+     * @param  Request $request
+     * @param  Project $project
+     * @return mixed   Either an array of parameters for the deployment config, or false if it is invalid.
+     */
+    private function githubWebhook(Request $request, Project $project)
     {
+        // We only care about push events
+        if ($request->header('X-GitHub-Event') !== 'push') {
+            return false;
+        }
+
+        $data = $request->json();
+
+        // Github sends a payload when you close a pull request with a non-existent commit.
+        if ($data->has('after') && $data->has('after') === '0000000000000000000000000000000000000000') {
+            return false;
+        }
+
+        $branch = str_replace('refs/heads/', '', $data->get('ref'));
+
+        if (!$project->allow_other_branch && $branch !== $project->branch) {
+            return false;
+        }
+
+        // FIXME: What do we do about optional commands and update only?
+
+        // todo: should we check the following match the repository
+        /*
+            [git_url] => git://github.com/REBELinBLUE/deployer.git
+            [ssh_url] => git@github.com:REBELinBLUE/deployer.git
+            [clone_url] => https://github.com/REBELinBLUE/deployer.git
+        */
+
+        // $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
+
+        // if (!$deployment || $deployment->branch !== $branch) {
+        //     return false;
+        // }
+
+        $commit = $data->get('head_commit');
+
+        // ref = commit['id']
+
+        return [
+            'reason'     => $commit['message'],
+            'project_id' => $project->id,
+            'branch'     => $branch,
+            'optional'   => [],
+            'source'     => 'Github',
+            'build_url'  => $commit['url'],
+        ];
+
+        return false;
     }
 
-    private function gitlabWebhook(Request $request, $project)
+    /**
+     * Handles a gitlab webhook request.
+     *
+     * @param  Request $request
+     * @param  Project $project
+     * @return mixed   Either an array of parameters for the deployment config, or false if it is invalid.
+     */
+    private function gitlabWebhook(Request $request, Project $project)
     {
+        return false;
     }
 
-    private function bitbucketWebhook(Request $request, $project)
+    /**
+     * Handles a bitbucket webhook request.
+     *
+     * @param  Request $request
+     * @param  Project $project
+     * @return mixed   Either an array of parameters for the deployment config, or false if it is invalid.
+     */
+    private function bitbucketWebhook(Request $request, Project $project)
     {
+        return false;
     }
 
+    /**
+     * Handles Deployer's custom webhook request.
+     *
+     * @param  Request $request
+     * @param  Project $project
+     * @return mixed   Either an array of parameters for the deployment config, or false if it is invalid.
+     */
     private function customWebhook(Request $request, $project)
     {
         // Get the branch if it is the request, otherwise deploy the default branch
@@ -102,7 +195,7 @@ class WebhookController extends Controller
             }
         }
 
-        if ($do_deploy && $request->has('update_only') && $request->get('update_only') !== false) {
+        if ($request->has('update_only') && $request->get('update_only') !== false) {
             // Get the latest deployment and check the branch matches
             $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
 
@@ -132,6 +225,7 @@ class WebhookController extends Controller
             }
         }
 
+        // TODO: Allow a ref to be parsed in?
         return [
             'reason'     => $request->get('reason'),
             'project_id' => $project->id,
