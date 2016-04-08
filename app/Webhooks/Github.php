@@ -14,7 +14,7 @@ class Github extends Webhook
      */
     public function isRequestOrigin()
     {
-        return ($this->request->headers->has('X-GitHub-Event');
+        return ($this->request->headers->has('X-GitHub-Event'));
     }
 
     /**

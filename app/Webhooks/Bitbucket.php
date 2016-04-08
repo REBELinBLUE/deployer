@@ -14,7 +14,7 @@ class Bitbucket extends Webhook
      */
     public function isRequestOrigin()
     {
-        return ($this->request->headers->has('X-Event-Key');
+        return ($this->request->headers->has('X-Event-Key'));
     }
 
     /**

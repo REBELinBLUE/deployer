@@ -14,7 +14,7 @@ class Gitlab extends Webhook
      */
     public function isRequestOrigin()
     {
-        return ($this->request->headers->has('X-Gitlab-Event');
+        return ($this->request->headers->has('X-Gitlab-Event'));
     }
 
     /**
