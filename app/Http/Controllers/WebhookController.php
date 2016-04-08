@@ -101,7 +101,7 @@ class WebhookController extends Controller
             $integration = new $service($request);
 
             if ($integration->isRequestOrigin()) {
-                return $integration->handlePush($project);
+                return $integration->handlePush();
             }
         }
 
