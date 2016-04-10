@@ -26,7 +26,6 @@ class WebhookController extends Controller
         Bitbucket::class,
         Github::class,
         Gitlab::class,
-        Custom::class,
     ];
 
     /**
@@ -54,6 +53,8 @@ class WebhookController extends Controller
     ) {
         $this->projectRepository    = $projectRepository;
         $this->deploymentRepository = $deploymentRepository;
+
+        $this->services[] = Custom::class;
     }
 
     /**
