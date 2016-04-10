@@ -93,7 +93,6 @@ class WebhookController extends Controller
      */
     private function parseWebhookRequest(Request $request, Project $project)
     {
-        $payload = false;
         foreach ($this->services as $service) {
             $integration = new $service($request);
 
