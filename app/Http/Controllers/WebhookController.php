@@ -6,16 +6,20 @@ use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
-use REBELiuBLUE\Deployer\Webhooks\Beanstalkapp;
-use REBELiuBLUE\Deployer\Webhooks\Bitbucket;
-use REBELiuBLUE\Deployer\Webhooks\Github;
-use REBELiuBLUE\Deployer\Webhooks\Gitlab;
+use REBELinBLUE\Deployer\Webhooks\Beanstalkapp;
+use REBELinBLUE\Deployer\Webhooks\Bitbucket;
+use REBELinBLUE\Deployer\Webhooks\Github;
+use REBELinBLUE\Deployer\Webhooks\Gitlab;
 
 /**
  * The deployment webhook controller.
  */
 class WebhookController extends Controller
 {
+    /**
+     * List of supported service classes.
+     * @var array
+     */
     private $services = [
         Beanstalkapp::class,
         Bitbucket::class,
@@ -25,14 +29,12 @@ class WebhookController extends Controller
 
     /**
      * The project repository.
-     *
      * @var ProjectRepositoryInterface
      */
     private $projectRepository;
 
     /**
      * The deployment repository.
-     *
      * @var deploymentRepository
      */
     private $deploymentRepository;
@@ -82,6 +84,8 @@ class WebhookController extends Controller
                 }
             }
              */
+
+            $payload['project_id'] = $project->id;
 
             if (is_array($payload)) {
                 $this->deploymentRepository->create($payload);

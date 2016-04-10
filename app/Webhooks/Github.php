@@ -40,8 +40,6 @@ class Github extends Webhook
 
         if ($payload->has('commits')) {
             $branch = str_replace('refs/heads/', '', $payload->get('ref'));
-
-            //commit_id = head['id']
         } else {
             $branch = str_replace('refs/tags/', '', $payload->get('ref'));
 
@@ -50,15 +48,12 @@ class Github extends Webhook
 
         return [
             'reason'          => $head['message'],
-            'project_id'      => $project->id,
             'branch'          => $branch,
-            'optional'        => [],
             'source'          => 'Github',
             'build_url'       => $head['url'],
             'commit'          => $head['id'],
             'committer'       => $head['committer']['name'],
             'committer_email' => $head['committer']['email'],
-
         ];
     }
 }
