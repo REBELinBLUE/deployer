@@ -16,6 +16,13 @@ use REBELiuBLUE\Deployer\Webhooks\Gitlab;
  */
 class WebhookController extends Controller
 {
+    private $services = [
+        Beanstalkapp::class,
+        Bitbucket::class,
+        Github::class,
+        Gitlab::class,
+    ];
+
     /**
      * The project repository.
      *
@@ -97,7 +104,7 @@ class WebhookController extends Controller
      */
     private function parseWebhookRequest(Request $request, Project $project)
     {
-        foreach (['Github', 'Gitlab', 'Bitbucket', 'Beanstalkapp'] as $service) {
+        foreach ($this->services as $service) {
             $integration = new $service($request);
 
             if ($integration->isRequestOrigin()) {

@@ -37,5 +37,5 @@ abstract class Webhook
      *
      * @return mixed Either an array of parameters for the deployment config, or false if it is invalid.
      */
-    abstract public function handlePush(Project $project);
+    abstract public function handlePush();
 }

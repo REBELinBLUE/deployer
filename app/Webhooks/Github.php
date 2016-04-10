@@ -10,7 +10,7 @@ class Github extends Webhook
     /**
      * Determines whether the request was from Github.
      *
-     * @return boolean
+     * @return bool
      */
     public function isRequestOrigin()
     {
@@ -47,13 +47,6 @@ class Github extends Webhook
 
             //commit_id = $payload->get('after')
         }
-
-        // todo: should we check the following match the repository
-        /*
-            [repository][git_url] => git://github.com/REBELinBLUE/deployer.git
-            [repository][ssh_url] => git@github.com:REBELinBLUE/deployer.git
-            [repository][clone_url] => https://github.com/REBELinBLUE/deployer.git
-        */
 
         return [
             'reason'          => $head['message'],
