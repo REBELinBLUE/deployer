@@ -36,15 +36,8 @@ class Github extends Webhook
             return false;
         }
 
-        $head = $payload->get('head_commit');
-
-        if ($payload->has('commits')) {
-            $branch = str_replace('refs/heads/', '', $payload->get('ref'));
-        } else {
-            $branch = str_replace('refs/tags/', '', $payload->get('ref'));
-
-            //commit_id = $payload->get('after')
-        }
+        $head   = $payload->get('head_commit');
+        $branch = preg_replace('#refs/(tags|heads)/#', '', $payload->get('ref'));
 
         return [
             'reason'          => $head['message'],
