@@ -160,6 +160,7 @@ return [
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
         BackupManager\Laravel\Laravel5ServiceProvider::class,
         JsLocalization\JsLocalizationServiceProvider::class,
+        Fideloper\Proxy\TrustedProxyServiceProvider::class,
 
         /*
          * Application Service Providers...
