@@ -1,4 +1,9 @@
 alias ls='ls -F -G --color=auto --quoting-style=literal'
+alias la='ls -lA --color=auto --quoting-style=literal'
+
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
 
 BLACK=$(tput -Txterm setaf 0)
 RED=$(tput -Txterm setaf 1)
