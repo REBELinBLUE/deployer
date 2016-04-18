@@ -29,7 +29,11 @@ Vagrant.configure("2") do |config|
     if Vagrant.has_plugin?("vagrant-cachier")
         config.cache.scope = :box
         config.cache.enable :apt
+        config.cache.enable :apt_lists
+        config.cache.enable :bower
         config.cache.enable :composer
+        config.cache.enable :gem
+        config.cache.enable :npm
 
         config.cache.synced_folder_opts = {
             type: :nfs,
