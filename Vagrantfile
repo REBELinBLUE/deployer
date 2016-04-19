@@ -26,21 +26,6 @@ Vagrant.configure("2") do |config|
         provider.customize ["modifyvm", :id, "--groups", "/PHP Deployer"]
     end
 
-    if Vagrant.has_plugin?("vagrant-cachier")
-        config.cache.scope = :box
-        config.cache.enable :apt
-        config.cache.enable :apt_lists
-        config.cache.enable :bower
-        config.cache.enable :composer
-        config.cache.enable :gem
-        config.cache.enable :npm
-
-        config.cache.synced_folder_opts = {
-            type: :nfs,
-            mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
-        }
-    end
-
     # Configure port forwarding to the box
     config.vm.network "forwarded_port", guest: 80, host: 8000, auto_correct: true
     config.vm.network "forwarded_port", guest: 443, host: 44300, auto_correct: true
