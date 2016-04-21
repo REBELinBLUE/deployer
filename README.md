@@ -60,70 +60,69 @@ The `master` branch of this repository is a development branch and **should not*
 
 1. Clone the repository
 
-    ```shell
-    $ git clone https://github.com/REBELinBLUE/deployer.git
-    ```
+```shell
+$ git clone https://github.com/REBELinBLUE/deployer.git
+```
 
 2. Checkout the latest release
 
-    ```shell
-    $ git checkout 0.0.33
-    ```
+```shell
+$ git checkout 0.0.33
+```
 
 3. Install dependencies
 
-    ```shell
-    $ composer install -o --no-dev
-    $ npm install --production
-    ```
+```shell
+$ composer install -o --no-dev
+$ npm install --production
+```
 
 4. Make sure the storage and upload directories are writable
 
-    ```shell
-    $ chmod -R 777 storage
-    $ chmod -R 777 public/upload
-    ```
+```shell
+$ chmod -R 777 storage
+$ chmod -R 777 public/upload
+```
 
 5. Run the installer and follow the instructions
 
-    ```shell
-    $ php artisan app:install
-    ```
+```shell
+$ php artisan app:install
+```
 
 6. (Optional) Make any additional configuration changes
 
-    ```shell
-    $ editor .env
-    ```
+```shell
+$ editor .env
+```
 
 7. Configure your web server to point to `public/`, see `examples/` for Apache and nginx sample configuration files.
 
 8. Start socket server and setup cron jobs.
-    If you are not configuring `supervisor` you will need to manually start the socket
-    server with `node socket.js` (listens on port 6001 by default) and setup cron jobs, see `examples/crontab`.
+    If you are not configuring `supervisor` you will need to manually start the socket server with `node socket.js` (listens on port 6001 by default) and setup cron jobs, see `examples/crontab`.
     If you are configuring `supervisor` see `examples/supervisor.conf`
 
 ### Updating
 
 1. Get the latest code
 
-    ```shell
-    $ git fetch --all
-    $ git checkout 0.0.33
-     ```
+```shell
+$ git fetch --all
+$ git checkout 0.0.33
+ ```
 
 2. Update the dependencies
 
-    ```shell
-    $ composer install -o --no-dev
-    $ npm install --production
-    ```
+```shell
+$ composer install -o --no-dev
+$ npm install --production
+```
 
 3. Run the updater
 
-    ```shell
-    $ php artisan app:update
-    ```
+```shell
+$ php artisan app:update
+```
 
 ## License
 
