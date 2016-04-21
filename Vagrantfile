@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
     config.vm.network :private_network, ip: "192.168.10.10"
 
     # Configure VirtualBox settings
-    config.vm.provider "virtualbox" do |provider|
+    config.vm.provider :virtualbox do |provider|
         provider.name = "deployer"
         provider.customize ["modifyvm", :id, "--memory", 2048]
         provider.customize ["modifyvm", :id, "--cpus", 1]
