@@ -191,6 +191,11 @@ class InstallApp extends Command
             $config = preg_replace('/GITHUB_OAUTH_TOKEN=(.*)[\n]/', '', $config);
         }
 
+        // Remove trusted_proxies if not set
+        if (!isset($input['trusted']) || !isset($input['trusted']['proxied'])) {
+            $config = preg_replace('/TRUSTED_PROXIES=(.*)[\n]/', '', $config);
+        }
+
         return file_put_contents($path, trim($config) . PHP_EOL);
     }
 

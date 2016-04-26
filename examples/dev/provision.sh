@@ -93,8 +93,4 @@ echo 'alias php="php -dzend_extension=xdebug.so"' >> /home/vagrant/.profile
 echo 'alias artisan="php artisan"' >> /home/vagrant/.profile
 echo 'alias phpunit="php $(which phpunit)"' >> /home/vagrant/.profile
 echo 'export PATH=/var/www/deployer/vendor/bin:$PATH' >> /home/vagrant/.profile
-
-git clone https://github.com/magicmonty/bash-git-prompt.git /home/vagrant/.bash-git-prompt --depth=1
-cp /var/www/deployer/examples/dev/prompt /home/vagrant/.bashrc
-
-
+echo 'cd /var/www/deployer' >> /home/vagrant/.profile
