@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.0.34](https://github.com/REBELinBLUE/deployer/tree/0.0.34) (2016-04-26)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.33...0.0.34)
+## [0.0.35](https://github.com/REBELinBLUE/deployer/tree/0.0.35) (2016-04-26)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.33...0.0.35)
 
 **Implemented enhancements:**
 
@@ -9,7 +9,7 @@
 
 **Fixed bugs:**
 
-- old builds are not being deleted [\#211](https://github.com/REBELinBLUE/deployer/issues/211)
+- Old builds not being deleted [\#211](https://github.com/REBELinBLUE/deployer/issues/211)
 
 ## [0.0.33](https://github.com/REBELinBLUE/deployer/tree/0.0.33) (2016-03-31)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.32...0.0.33)
