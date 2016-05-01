@@ -127,8 +127,8 @@ class QueueDeployment extends Job
             $this->deployment->is_webhook = true;
         }
 
-        $this->deployment->committer = Deployment::LOADING;
-        $this->deployment->commit    = Deployment::LOADING;
+        $this->deployment->committer = $this->deployment->committer ?: Deployment::LOADING;
+        $this->deployment->commit    = $this->deployment->commit ?: Deployment::LOADING;
         $this->deployment->save();
 
         $this->deployment->project->status = Project::PENDING;
