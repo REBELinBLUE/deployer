@@ -29,26 +29,28 @@ class Bitbucket extends Webhook
             return false;
         }
 
-        return false;
+        $payload = $this->request->json('push');
 
-        $payload = $this->request->json();
-
-        // Github sends a payload when you close a pull request with a non-existent commit.
-        if ($payload->has('after') && $payload->get('after') === '0000000000000000000000000000000000000000') {
+        // Invalid event from bitbucket
+        if ($payload->has('changes') || !count($payload->get('changes', []))) {
             return false;
         }
 
-        $head   = $payload->get('head_commit');
-        $branch = preg_replace('#refs/(tags|heads)/#', '', $payload->get('ref'));
+        $commits = collect($payload->get('changes'));
+
+        $head = $commits->first();
+        $head = $head['new'];
+
+        list($name, $email) = explode(' <', trim($head['target']['author']['raw'], '> '));
 
         return [
-            'reason'          => $head['message'],
-            'branch'          => $branch,
+            'reason'          => $head['target']['message'],
+            'branch'          => $head['name'],
             'source'          => 'Bitbucket',
-            'build_url'       => $head['url'],
-            'commit'          => $head['id'],
-            'committer'       => $head['committer']['name'],
-            'committer_email' => $head['committer']['email'],
+            'build_url'       => $head['target']['links']['self']['href'],
+            'commit'          => $head['target']['hash'],
+            'committer'       => $name,
+            'committer_email' => $email,
         ];
     }
 }
