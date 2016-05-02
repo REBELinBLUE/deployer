@@ -141,7 +141,8 @@ class WebhookController extends Controller
             $requested = explode(',', $request->get('commands'));
 
             $payload['optional'] = collect($requested)->unique()
-                                                      ->intersect($valid);
+                                                      ->intersect($valid)
+                                                      ->toArray();
         }
 
         // Check if the request has an update_only query string and if so check the branch matches
