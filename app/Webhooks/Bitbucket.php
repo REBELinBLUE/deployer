@@ -40,17 +40,11 @@ class Bitbucket extends Webhook
 
         list($name, $email) = explode(' <', trim($head['target']['author']['raw'], '> '));
 
-        // Use the link to the commit or the link to the tag
-        $link = $head['target']['links']['html']['href'];
-        if ($head['type'] === 'tag') {
-            $link = $head['links']['html']['href'];
-        }
-
         return [
             'reason'          => trim($head['target']['message']),
             'branch'          => $head['name'],
             'source'          => 'Bitbucket',
-            'build_url'       => $link,
+            'build_url'       => $head['target']['links']['html']['href'],
             'commit'          => $head['target']['hash'],
             'committer'       => $name,
             'committer_email' => $email,
