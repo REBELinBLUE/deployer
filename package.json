@@ -4,12 +4,12 @@
         "dotenv": "^2.0.0",
         "ioredis": "^1.15.1",
         "socket.io": "^1.4.5",
-        "jsonwebtoken": "^5.7.0"
+        "jsonwebtoken": "^6.2.0"
     },
     "devDependencies": {
         "gulp": "^3.9.1",
         "gulp-shell": "^0.5.2",
-        "laravel-elixir": "^5.0.0",
+        "laravel-elixir": "^6.0.0-1",
         "laravel-elixir-bower-io": "^0.1.1",
         "laravel-elixir-remove": "^0.2.0"
     }
