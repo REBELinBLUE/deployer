@@ -26,35 +26,28 @@ class Beanstalkapp extends Webhook
     {
         $payload = $this->request->json();
 
-        // Beanstalk is different to the other services, trigger is not in the headers but in the payload
-        if (!$payload->has('trigger')) {
+        // Beanstalk is different to the other services, trigger is not in the headers but in the payload.
+        // Only push can be used for beanstalk as create_tag doesn't include enough info
+        if (!$payload->has('trigger') || $payload->get('trigger') !== 'push') {
             return false;
         }
 
-        // We only create about push and tag events
-        $trigger = $payload->get('trigger');
-        if (!in_array($trigger, ['push', 'create_tag'], true)) {
-            return false;
-        }
+        $payload = $payload->get('payload');
 
-        return false;
+        // Sort the commits by the timestamp descending order and then get the first one
+        $head = collect($payload['commits'])->sortByDesc(function($commit, $key) {
+            return strtotime($commit['committed_at']);
+        })->first();
 
-        // Github sends a payload when you close a pull request with a non-existent commit.
-        if ($payload->has('after') && $payload->get('after') === '0000000000000000000000000000000000000000') {
-            return false;
-        }
-
-        $head   = $payload->get('head_commit');
-        $branch = preg_replace('#refs/(tags|heads)/#', '', $payload->get('ref'));
 
         return [
-            'reason'          => $head['message'],
-            'branch'          => $branch,
+            'reason'          => trim($head['message']),
+            'branch'          => $payload['branch'],
             'source'          => 'Beanstalkapp',
-            'build_url'       => $head['url'],
-            'commit'          => $head['id'],
-            'committer'       => $head['committer']['name'],
-            'committer_email' => $head['committer']['email'],
+            'build_url'       => $head['changeset_url'],
+            'commit'          => $payload['after'],
+            'committer'       => $head['author']['name'],
+            'committer_email' => $head['author']['email'],
         ];
     }
 }
