@@ -40,7 +40,7 @@ class Github extends Webhook
         $branch = preg_replace('#refs/(tags|heads)/#', '', $payload->get('ref'));
 
         return [
-            'reason'          => $head['message'],
+            'reason'          => trim($head['message']),
             'branch'          => $branch,
             'source'          => 'Github',
             'build_url'       => $head['url'],
