@@ -29,26 +29,23 @@ class Gitlab extends Webhook
             return false;
         }
 
-        return false;
-
         $payload = $this->request->json();
 
-        // Github sends a payload when you close a pull request with a non-existent commit.
-        if ($payload->has('after') && $payload->get('after') === '0000000000000000000000000000000000000000') {
-            return false;
-        }
+        // Sort the commits by the timestamp descending order and then get the first one
+        $head = collect($payload->get('commits'))->sortByDesc(function($commit, $key) {
+            return strtotime($commit['timestamp']);
+        })->first();
 
-        $head   = $payload->get('head_commit');
         $branch = preg_replace('#refs/(tags|heads)/#', '', $payload->get('ref'));
 
         return [
-            'reason'          => $head['message'],
+            'reason'          => trim($head['message']),
             'branch'          => $branch,
             'source'          => 'Gitlab',
             'build_url'       => $head['url'],
             'commit'          => $head['id'],
-            'committer'       => $head['committer']['name'],
-            'committer_email' => $head['committer']['email'],
+            'committer'       => $head['author']['name'],
+            'committer_email' => $head['author']['email'],
         ];
     }
 }
