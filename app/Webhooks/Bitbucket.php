@@ -29,25 +29,28 @@ class Bitbucket extends Webhook
             return false;
         }
 
-        $payload = $this->request->json('push');
+        $payload = collect($this->request->json('push'));
 
         // Invalid event from bitbucket
-        if ($payload->has('changes') || !count($payload->get('changes', []))) {
+        if (!$payload->has('changes') || !count($payload->get('changes', []))) {
             return false;
         }
 
-        $commits = collect($payload->get('changes'));
-
-        $head = $commits->first();
-        $head = $head['new'];
+        $head = $payload->get('changes')[0]['new'];
 
         list($name, $email) = explode(' <', trim($head['target']['author']['raw'], '> '));
 
+        // Use the link to the commit or the link to the tag
+        $link = $head['target']['links']['html']['href'];
+        if ($head['type'] === 'tag') {
+            $link = $head['links']['html']['href'];
+        }
+
         return [
-            'reason'          => $head['target']['message'],
+            'reason'          => trim($head['target']['message']),
             'branch'          => $head['name'],
             'source'          => 'Bitbucket',
-            'build_url'       => $head['target']['links']['self']['href'],
+            'build_url'       => $link,
             'commit'          => $head['target']['hash'],
             'committer'       => $name,
             'committer_email' => $email,
