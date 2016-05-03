@@ -35,10 +35,9 @@ class Beanstalkapp extends Webhook
         $payload = $payload->get('payload');
 
         // Sort the commits by the timestamp descending order and then get the first one
-        $head = collect($payload['commits'])->sortByDesc(function($commit, $key) {
+        $head = collect($payload['commits'])->sortByDesc(function ($commit) {
             return strtotime($commit['committed_at']);
         })->first();
-
 
         return [
             'reason'          => trim($head['message']),

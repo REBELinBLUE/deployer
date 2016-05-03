@@ -32,7 +32,7 @@ class Gitlab extends Webhook
         $payload = $this->request->json();
 
         // Sort the commits by the timestamp descending order and then get the first one
-        $head = collect($payload->get('commits'))->sortByDesc(function($commit, $key) {
+        $head = collect($payload->get('commits'))->sortByDesc(function ($commit) {
             return strtotime($commit['timestamp']);
         })->first();
 
