@@ -7,7 +7,10 @@ var debug = (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === true)
 
 var Redis = require('ioredis');
 var redis = new Redis({
-    db: process.env.REDIS_DATBASE || 0
+    port: process.env.REDIS_PORT || 6379, 
+    host: process.env.REDIS_HOST || '127.0.0.1', 
+    db: process.env.REDIS_DATBASE || 0,
+    password: process.env.REDIS_PASSWORD || null
 });
 
 if (/^https/i.test(process.env.SOCKET_URL)) {
