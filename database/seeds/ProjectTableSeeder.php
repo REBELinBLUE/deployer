@@ -13,7 +13,7 @@ class ProjectTableSeeder extends Seeder
             'name'              => 'Deployer',
             'hash'              => str_random(60),
             'repository'        => 'https://github.com/REBELinBLUE/deployer.git',
-            'url'               => 'http://deployer.app',
+            'url'               => 'http://deploy.app',
             'group_id'          => 2,
             'private_key'       => '-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAmrMjtajVvmd99T8xwUNrIFbrzSmZ6VCM89hfm4Ut9atv29gG

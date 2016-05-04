@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://deployer.app'),
+    'url' => env('APP_URL', 'http://deploy.app'),
 
     /*
     |--------------------------------------------------------------------------

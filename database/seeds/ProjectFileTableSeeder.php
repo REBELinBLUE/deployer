@@ -15,7 +15,7 @@ class ProjectFileTableSeeder extends Seeder
             'content' => 'APP_ENV=local
 APP_DEBUG=true
 APP_KEY=KkaOy5AZuzQ8ILAs6EwEYnK4VZVZJvNT
-APP_URL=http://deployer.app
+APP_URL=http://deploy.app
 APP_TIMEZONE=UTC
 APP_LOCALE=en
 APP_THEME=green
@@ -23,7 +23,7 @@ APP_LOG=daily
 
 JWT_SECRET=zLBooByVMcfVWJYaSEKr7iKHIMluVBAl
 
-SOCKET_URL=http://deployer.app
+SOCKET_URL=http://deploy.app
 SOCKET_PORT=6001
 
 DB_TYPE=mysql
@@ -34,7 +34,7 @@ DB_PASSWORD=secret
 
 MAIL_DRIVER=mail
 MAIL_FROM_NAME=Deployer
-MAIL_FROM_ADDRESS=deployer@deployer.app
+MAIL_FROM_ADDRESS=deployer@deploy.app
 
 REDIS_HOST=127.0.0.1
 REDIS_PORT=6379
