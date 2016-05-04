@@ -11,7 +11,7 @@ class CheckUrlTableSeeder extends Seeder
 
         CheckUrl::create([
             'title'      => 'Deployer',
-            'url'        => 'http://deploy.app',
+            'url'        => 'http://deployer.app',
             'project_id' => 1,
             'period'     => 10,
         ]);
