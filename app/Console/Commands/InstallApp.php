@@ -338,7 +338,7 @@ class InstallApp extends Command
             return preg_replace('#/$#', '', $answer);
         };
 
-        $url    = $this->askAndValidate('Application URL ("http://deploy.app" for example)', [], $url_callback);
+        $url    = $this->askAndValidate('Application URL ("http://deployer.app" for example)', [], $url_callback);
         $region = $this->choice('Timezone region', array_keys($regions), 0);
 
         if ($region !== 'UTC') {
@@ -452,7 +452,7 @@ class InstallApp extends Command
             };
 
             return $answer;
-        }, 'deployer@deploy.app');
+        }, 'deployer@deployer.app');
 
         $email['from_name']    = $from_name;
         $email['from_address'] = $from_address;
