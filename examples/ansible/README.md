@@ -7,7 +7,7 @@ Here's an example of an Ansible set up the deployer tool in a server with Ubuntu
  - In the hosts file change the IP address and replace it with your production server.
 
  - In the group_vars/production.yml file customize the vhost domain
- 
+
  - In the vars/server.yml file you can change what version of the deployer is going to be installed
 
 ## Launch ansible
@@ -15,4 +15,3 @@ Here's an example of an Ansible set up the deployer tool in a server with Ubuntu
 ```
 ansible-playbook -i hosts playbook.yml --limit colt
 ```
-
