@@ -40,5 +40,3 @@ class RepositoryValidatorTest extends TestCase
         ];
     }
 }
-
-
