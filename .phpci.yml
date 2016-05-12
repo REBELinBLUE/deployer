@@ -30,12 +30,12 @@ setup:
 test:
     lint:
         directory: "app/"
-    # php_unit:
-    #     config:
-    #         - "phpunit.xml.dist"
-    #     directory:
-    #         - "tests/"
-    #     coverage: "/var/www/PHPCI/shared/coverage/deployer/"
+    php_unit:
+        config:
+            - "phpunit.xml.dist"
+        directory:
+            - "tests/"
+        coverage: "/var/www/PHPCI/shared/coverage/deployer/"
     php_mess_detector:
         allowed_warnings: 0
         path: "app/"
@@ -59,10 +59,10 @@ failure:
         committer: true
 
 complete:
-    #env:
-    #    CODECLIMATE_REPO_TOKEN: "f5222770741fef12c55315f61a267c8a615908e511241618ce171129e8217e63"
-    #shell:
-    #    - "php /var/www/PHPCI/latest/vendor/bin/phpunit --coverage-clover %BUILD_PATH%/storage/coverage/clover.xml -c %BUILD_PATH%/phpunit.xml.dist %BUILD_PATH%/tests"
-    #    - "php /var/www/PHPCI/latest/vendor/bin/test-reporter --coverage-report=%BUILD_PATH%/storage/coverage/clover.xml"
+    env:
+       CODECLIMATE_REPO_TOKEN: "f5222770741fef12c55315f61a267c8a615908e511241618ce171129e8217e63"
+    shell:
+       - "php /var/www/PHPCI/latest/vendor/bin/phpunit --coverage-clover %BUILD_PATH%/storage/logs/clover.xml -c %BUILD_PATH%/phpunit.xml.dist %BUILD_PATH%/tests"
+       - "php /var/www/PHPCI/latest/vendor/bin/test-reporter --coverage-report=%BUILD_PATH%/storage/logs/clover.xml"
 
 success:
