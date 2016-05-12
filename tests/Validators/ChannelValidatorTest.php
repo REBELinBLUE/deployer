@@ -7,7 +7,7 @@ class ChannelValidatorTest extends TestCase
     /**
      * @dataProvider validationDataProvider
      */
-    public function testValidateFailure($value, $valid)
+    public function testValidate($value, $valid)
     {
         $validator = new ChannelValidator;
 
