@@ -35,8 +35,7 @@ test:
             - "phpunit.xml.dist"
         directory:
             - "tests/"
-        args:
-            - "--no-coverage"
+        args: "--no-coverage"
     php_mess_detector:
         allowed_warnings: 0
         path: "app/"
