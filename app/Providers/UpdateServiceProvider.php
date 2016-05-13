@@ -42,4 +42,3 @@ class UpdateServiceProvider extends ServiceProvider
         $this->app->alias('deployer.update-check', LatestReleaseInterface::class);
     }
 }
-

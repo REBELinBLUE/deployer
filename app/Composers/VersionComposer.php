@@ -13,6 +13,11 @@ class VersionComposer
 {
     private $release;
 
+    /**
+     * Class constructor.
+     *
+     * @param LatestReleaseInterface $release
+     */
     public function __construct(LatestReleaseInterface $release)
     {
         $this->release = $release;
