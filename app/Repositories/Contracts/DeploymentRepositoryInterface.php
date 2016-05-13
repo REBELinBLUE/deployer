@@ -13,4 +13,6 @@ interface DeploymentRepositoryInterface
     public function getTimeline();
     public function getTodayCount($project_id);
     public function getLastWeekCount($project_id);
+    public function getPending();
+    public function getRunning();
 }
