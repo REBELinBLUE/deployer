@@ -11,6 +11,18 @@ use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
  */
 class NavigationComposer
 {
+    private $groupRepository;
+
+    /**
+     * Class constructor.
+     *
+     * @param DeploymentRepositoryInterface $user
+     */
+    public function __construct(GroupRepositoryInterface $groupRepository)
+    {
+        $this->groupRepository = $groupRepository;
+    }
+
     /**
      * Generates the group listing for the view.
      *
@@ -27,10 +39,8 @@ class NavigationComposer
             $active_project = $view->project->id;
         }
 
-        $repository = App::make(GroupRepositoryInterface::class);
-
         $view->with('active_group', $active_group);
         $view->with('active_project', $active_project);
-        $view->with('groups', $repository->getAll());
+        $view->with('groups', $this->groupRepository->getAll());
     }
 }
