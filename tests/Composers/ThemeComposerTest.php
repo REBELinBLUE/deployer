@@ -17,10 +17,17 @@ class ThemeComposerTest extends TestCase
         $view->expects($this->any())
              ->method('with')
              ->withConsecutive(
-                 [$this->equalTo('theme'), $this->equalTo($expected_theme)]
+                 [$this->equalTo('theme'), $this->equalTo($expected_theme)],
+                 [$this->equalTo('theme'), $this->equalTo('pink')]
              );
 
         $composer = new ThemeComposer;
+        $composer->compose($view);
+
+        Auth::shouldReceive('user')
+            ->once()
+            ->andReturn((object) ['skin' => 'pink']);
+
         $composer->compose($view);
     }
 }
