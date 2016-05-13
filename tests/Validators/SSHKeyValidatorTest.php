@@ -2,7 +2,7 @@
 
 use REBELinBLUE\Deployer\Validators\SSHKeyValidator;
 
-class SSHKeyValidator extends TestCase
+class SSHKeyValidatorTest extends TestCase
 {
     /**
      * @dataProvider validationDataProvider
