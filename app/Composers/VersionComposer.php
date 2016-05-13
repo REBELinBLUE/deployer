@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Composers;
 
 use Illuminate\Contracts\View\View;
-use REBELinBLUE\Deployer\Github\Contracts\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
 use Version\Version;
 
 /**

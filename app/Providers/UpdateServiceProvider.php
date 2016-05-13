@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use REBELinBLUE\Deployer\Github\LatestRelease;
-use REBELinBLUE\Deployer\Github\Contracts\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
 
 /**
  * Service provider to register the LatestRelease class as a singleton.

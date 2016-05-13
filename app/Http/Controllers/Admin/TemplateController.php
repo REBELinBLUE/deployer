@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreTemplateRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\TemplateRepositoryInterface;
 
 /**
  * Controller for managing deployment template.

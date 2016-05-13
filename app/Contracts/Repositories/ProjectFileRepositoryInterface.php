@@ -1,8 +1,8 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Repositories\Contracts;
+namespace REBELinBLUE\Deployer\Contracts\Repositories;
 
-interface NotifyEmailRepositoryInterface
+interface ProjectFileRepositoryInterface
 {
     public function create(array $fields);
     public function updateById(array $fields, $model_id);

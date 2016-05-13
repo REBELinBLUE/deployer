@@ -1,9 +1,10 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Repositories\Contracts;
+namespace REBELinBLUE\Deployer\Contracts\Repositories;
 
-interface UserRepositoryInterface
+interface ProjectRepositoryInterface
 {
+    public function getByHash($hash);
     public function getAll();
     public function create(array $fields);
     public function updateById(array $fields, $model_id);

@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 
 /**
  * The deployment webhook controller.

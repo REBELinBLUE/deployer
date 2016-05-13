@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Events\Contracts\HasSlackPayloadInterface;
+use REBELinBLUE\Deployer\Contracts\Events\HasSlackPayloadInterface;
 use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\Heartbeat;
 

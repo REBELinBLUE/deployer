@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectFileRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\ProjectFileRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\ProjectFileRepositoryInterface;
 
 /**
  * Manage the project global file like some environment files.

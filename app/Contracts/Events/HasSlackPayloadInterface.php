@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Events\Contracts;
+namespace REBELinBLUE\Deployer\Contracts\Events;
 
 interface HasSlackPayloadInterface
 {

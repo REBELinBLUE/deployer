@@ -2,7 +2,7 @@
 
 use REBELinBLUE\Deployer\Composers\HeaderComposer;
 use Illuminate\Contracts\View\View;
-use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
 
 class HeaderComposerTest extends TestCase
 {

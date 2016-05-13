@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreUserRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
 
 /**
  * User management controller.

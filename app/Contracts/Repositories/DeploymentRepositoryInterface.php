@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Repositories\Contracts;
+namespace REBELinBLUE\Deployer\Contracts\Repositories;
 
 interface DeploymentRepositoryInterface
 {

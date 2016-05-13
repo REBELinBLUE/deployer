@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\ProjectFile;
-use REBELinBLUE\Deployer\Repositories\Contracts\ProjectFileRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\ProjectFileRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**

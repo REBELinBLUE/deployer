@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\TemplateRepositoryInterface;
 
 /**
  * The controller for managging projects.

@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use REBELinBLUE\Deployer\Repositories\Contracts\VariableRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\VariableRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Variable;
 

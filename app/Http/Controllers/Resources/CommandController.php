@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\CommandRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 
 /**
  * Controller for managing commands.

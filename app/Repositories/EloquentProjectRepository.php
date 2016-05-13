@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Repositories;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Jobs\SetupProject;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 
 /**
  * The project repository.

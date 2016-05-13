@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\HeartbeatRepositoryInterface;
 
 /**
  * Controller for managing notifications.

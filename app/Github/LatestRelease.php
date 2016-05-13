@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Github;
 
 use Httpful\Request;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
-use REBELinBLUE\Deployer\Github\Contracts\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
 
 /**
  * A class to get the latest release tag for Github.

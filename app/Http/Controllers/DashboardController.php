@@ -4,8 +4,8 @@ namespace REBELinBLUE\Deployer\Http\Controllers;
 
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Response;
-use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 
 /**
  * The dashboard controller.

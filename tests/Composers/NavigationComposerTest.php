@@ -2,7 +2,7 @@
 
 use REBELinBLUE\Deployer\Composers\NavigationComposer;
 use Illuminate\Contracts\View\View;
-use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
 
 class NavigationComposerTest extends TestCase
 {

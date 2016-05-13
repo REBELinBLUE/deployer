@@ -10,7 +10,7 @@ use PragmaRX\Google2FA\Vendor\Laravel\Facade as Google2FA;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
 use REBELinBLUE\Deployer\Http\Requests\StoreSettingsRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
 
 /**
  * The use profile controller.
