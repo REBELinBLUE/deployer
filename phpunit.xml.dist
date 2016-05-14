@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutOutputDuringTests="true"
          bootstrap="bootstrap/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
+         failOnRisky="true"
+         failOnWarning="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false">
+         syntaxCheck="false"
+         verbose="true"
+>
     <testsuites>
-        <testsuite name="Application Test Suite">
+        <testsuite name="Deployer Test Suite">
             <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app/</directory>
-            <exclude>
-                <file>./app/Http/routes.php</file>
-            </exclude>
         </whitelist>
     </filter>
     <logging>
@@ -30,10 +33,14 @@
     </logging>
     <php>
         <env name="APP_ENV" value="testing" />
+        <env name="APP_URL" value="http://localhost" />
         <env name="APP_DEBUG" value="true" />
         <env name="APP_KEY" value="cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy" />
+        <env name="DB_DRIVER" value="sqlite" />
+        <env name="DB_DATABASE" value=":memory:" />
         <env name="CACHE_DRIVER" value="array" />
         <env name="SESSION_DRIVER" value="array" />
+        <env name="MAIL_DRIVER" value="log" />
         <env name="QUEUE_DRIVER" value="sync" />
         <env name="BROADCAST_DRIVER" value="log" />
     </php>
