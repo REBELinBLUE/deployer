@@ -48,7 +48,7 @@ Along with the standard requirements, development also requires the following
 
 There is a [Vagrant VM](https://github.com/REBELinBLUE/deployer-vm) for running Deployer, it uses the `ubuntu/trusty64` box. The VM uses the domain `deployer.app` and the IP address `192.168.10.10` so you will need to add the following line your `/etc/hosts` file
 
-    192.168.10.1 deployer.app
+    192.168.10.10 deployer.app
 
 You will need to install the required box and start vagrant
 
