@@ -53,7 +53,6 @@
         "filp/whoops": "^2.0",
         "codeclimate/php-test-reporter": "^0.3.0",
         "fabpot/php-cs-fixer": "^1.10",
-        "phpro/grumphp": "^0.8.0",
         "barryvdh/laravel-ide-helper": "^2.1",
         "themsaid/laravel-langman": "^1.1"
     },
