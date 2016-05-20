@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fd2d0de75f3fc72435f6c6da7acea210",
-    "content-hash": "798502bf0c309d07c6345c2aca0ae0f4",
+    "hash": "ceb4441916073909fbc44a5daf9fbe9b",
+    "content-hash": "504c51c7ae8e1907914234de83e4884b",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -3736,16 +3736,16 @@
         },
         {
             "name": "diablomedia/phpunit-pretty-printer",
-            "version": "v1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/diablomedia/phpunit-pretty-printer.git",
-                "reference": "5ad8f7019845fce9341eff0fcdaf2934ce890cfd"
+                "url": "https://github.com/REBELinBLUE/phpunit-pretty-printer.git",
+                "reference": "d31e1d7287928c9cf0a85f19402c4d380b831c64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/diablomedia/phpunit-pretty-printer/zipball/5ad8f7019845fce9341eff0fcdaf2934ce890cfd",
-                "reference": "5ad8f7019845fce9341eff0fcdaf2934ce890cfd",
+                "url": "https://api.github.com/repos/REBELinBLUE/phpunit-pretty-printer/zipball/d31e1d7287928c9cf0a85f19402c4d380b831c64",
+                "reference": "d31e1d7287928c9cf0a85f19402c4d380b831c64",
                 "shasum": ""
             },
             "require": {
@@ -3758,7 +3758,6 @@
                     "DiabloMedia\\PHPUnit\\Printer\\": "src/DiabloMedia/PHPUnit/Printer"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3778,7 +3777,10 @@
                 "test",
                 "unit"
             ],
-            "time": "2016-02-16 21:45:23"
+            "support": {
+                "source": "https://github.com/REBELinBLUE/phpunit-pretty-printer/tree/master"
+            },
+            "time": "2016-05-20 20:00:40"
         },
         {
             "name": "doctrine/instantiator",
@@ -6182,7 +6184,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "andywer/js-localization": 20
+        "andywer/js-localization": 20,
+        "diablomedia/phpunit-pretty-printer": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
