@@ -96,10 +96,5 @@
     },
     "config": {
         "preferred-install": "dist"
-    },
-    "extra": {
-        "grumphp": {
-            "config-default-path": ".grumphp.yml"
-        }
     }
 }
