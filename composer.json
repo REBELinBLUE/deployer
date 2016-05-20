@@ -54,7 +54,8 @@
         "codeclimate/php-test-reporter": "^0.3.0",
         "fabpot/php-cs-fixer": "^1.10",
         "barryvdh/laravel-ide-helper": "^2.1",
-        "themsaid/laravel-langman": "^1.1"
+        "themsaid/laravel-langman": "^1.1",
+        "diablomedia/phpunit-pretty-printer": "^1.0"
     },
     "autoload": {
         "classmap": [

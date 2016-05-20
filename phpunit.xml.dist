@@ -14,6 +14,7 @@
          stopOnFailure="false"
          syntaxCheck="false"
          verbose="true"
+         printerClass="DiabloMedia\PHPUnit\Printer\PrettyPrinter"
 >
     <testsuites>
         <testsuite name="Deployer Test Suite">
