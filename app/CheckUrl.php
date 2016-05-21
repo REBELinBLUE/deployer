@@ -60,8 +60,7 @@ class CheckUrl extends Model
     }
 
     /**
-     * Define a mutator for the IP Address, if it has changed or
-     * has not previously been set also set the status to untested.
+     * Define a mutator to set the status to untested if the URL changes.
      *
      * @param  string $value
      * @return void
