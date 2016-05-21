@@ -42,9 +42,6 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
             try {
                 $response = Request::get($link->url)->send();
 
-                $link->last_status = $response->hasErrors();
-                $link->save();
-
                 $has_error = $response->hasErrors();
             } catch (ConnectionErrorException $error) {
                 $has_error = true;
@@ -54,8 +51,12 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
             $link->save();
 
             if ($has_error) {
-                foreach ($link->project->notifications as $notification) {
-                    $this->dispatch(new SlackNotify($notification, $link->notificationPayload()));
+                 foreach ($link->project->notifications as $notification) {
+                    try {
+                         $this->dispatch(new SlackNotify($notification, $link->notificationPayload()));
+                    } catch (\Exception $error) {
+                        // Don't worry about this error
+                    }
                 }
             }
         }

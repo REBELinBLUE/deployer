@@ -205,11 +205,15 @@ var app = app || {};
         render: function () {
             var data = this.model.toJSON();
 
+            data.status_css = 'primary';
+            data.icon_css   = 'question';
+            data.status     = Lang.get('checkUrls.untested');
+
             if (parseInt(data.last_status) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.get('checkUrls.failed');
-            } else {
+            } else if (parseInt(data.last_status) === SUCCESS) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
                 data.status     = Lang.get('checkUrls.successful');

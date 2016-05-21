@@ -53,10 +53,26 @@ class CheckUrl extends Model
 
         // When first creating the model generate a webhook hash
         static::saved(function (CheckUrl $model) {
-            if ($model->isDirty('url')) {
+            if (is_null($model->last_status)) { //isDirty('url')) {
                 $model->dispatch(new RequestProjectCheckUrl([$model]));
             }
         });
+    }
+
+    /**
+     * Define a mutator for the IP Address, if it has changed or
+     * has not previously been set also set the status to untested.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setUrlAttribute($value)
+    {
+        if (!array_key_exists('url', $this->attributes) || $value !== $this->attributes['url']) {
+            $this->attributes['last_status'] = null;
+        }
+
+        $this->attributes['url'] = $value;
     }
 
     /**
