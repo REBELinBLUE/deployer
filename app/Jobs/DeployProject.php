@@ -77,9 +77,10 @@ class DeployProject extends Job implements ShouldQueue
 
         $this->release_archive = $this->deployment->project_id . '_' . $this->deployment->release_id . '.tar.gz';
 
-        $this->dispatch(new UpdateGitMirror($this->deployment->project));
-
         try {
+
+            $this->dispatch(new UpdateGitMirror($this->deployment->project));
+
             // If the build has been manually triggered get the committer info from the repo
             if ($this->deployment->commit === Deployment::LOADING) {
                 $this->updateRepoInfo();
