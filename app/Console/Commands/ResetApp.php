@@ -2,11 +2,15 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
+
 /**
  * A console command for clearing all data and setting up again.
  */
 class ResetApp extends UpdateApp
 {
+    use MocksApplicationServices;
+
     /**
      * The name and signature of the console command.
      *
@@ -41,6 +45,10 @@ class ResetApp extends UpdateApp
         if (!$this->verifyNotProduction()) {
             return;
         }
+
+        $this->app = $this->laravel;
+
+        $this->withoutEvents();
 
         $this->clearLogs();
         $this->updateConfiguration();
