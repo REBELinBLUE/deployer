@@ -1,7 +1,27 @@
 # Change Log
 
-## [0.0.35](https://github.com/REBELinBLUE/deployer/tree/0.0.35) (2016-04-26)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.33...0.0.35)
+## [0.0.35](https://github.com/REBELinBLUE/deployer/tree/0.0.35) (2016-05-22)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.34...0.0.35)
+
+**Implemented enhancements:**
+
+- Ignore deployment if already deploying [\#145](https://github.com/REBELinBLUE/deployer/issues/145)
+- \[FEATURE\] Ansible example [\#190](https://github.com/REBELinBLUE/deployer/pull/190) ([jcornide](https://github.com/jcornide))
+
+**Fixed bugs:**
+
+- URL check task fails after edition [\#221](https://github.com/REBELinBLUE/deployer/issues/221)
+- If not set deploy key, delpoy will always pending at  Create New Release  [\#217](https://github.com/REBELinBLUE/deployer/issues/217)
+- Check link firing too often [\#162](https://github.com/REBELinBLUE/deployer/issues/162)
+- Webhook should check for valid data [\#66](https://github.com/REBELinBLUE/deployer/issues/66)
+- \[FIX\] Socket should also connect to redis specified in .env [\#213](https://github.com/REBELinBLUE/deployer/pull/213) ([pavankumarkatakam](https://github.com/pavankumarkatakam))
+
+**Closed issues:**
+
+- Split dev VM stuff into a seperate repo [\#214](https://github.com/REBELinBLUE/deployer/issues/214)
+
+## [0.0.34](https://github.com/REBELinBLUE/deployer/tree/0.0.34) (2016-04-26)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.33...0.0.34)
 
 **Implemented enhancements:**
 
