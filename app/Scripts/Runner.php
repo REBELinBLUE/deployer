@@ -143,6 +143,6 @@ class Runner
             throw new \RuntimeException('Method ' . $method . ' not exists');
         }
 
-        return call_user_func([$this->process, $method], $arguments);
+        return call_user_func_array([$this->process, $method], $arguments);
     }
 }
