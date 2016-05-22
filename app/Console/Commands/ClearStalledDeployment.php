@@ -88,6 +88,10 @@ class ClearStalledDeployment extends Command
         Deployment::whereIn('status', [Deployment::DEPLOYING, Deployment::PENDING])
                   ->update(['status' => Deployment::FAILED]);
 
+        // Mark any aborting deployments as aborted
+        Deployment::whereIn('status', [Deployment::ABORTING])
+                  ->update(['status' => Deployment::ABORTED]);
+
         // Mark any deploying/pending projects as failed
         Project::whereIn('status', [Project::DEPLOYING, Project::PENDING])
                ->update(['status' => Project::FAILED]);
