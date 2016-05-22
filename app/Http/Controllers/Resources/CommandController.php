@@ -5,9 +5,9 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
 use REBELinBLUE\Deployer\Contracts\Repositories\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
 
 /**
  * Controller for managing commands.

@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use REBELinBLUE\Deployer\Http\Requests\StoreProjectFileRequest;
 use REBELinBLUE\Deployer\Contracts\Repositories\ProjectFileRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreProjectFileRequest;
 
 /**
  * Manage the project global file like some environment files.

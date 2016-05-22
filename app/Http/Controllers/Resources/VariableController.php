@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use REBELinBLUE\Deployer\Contracts\Repositories\VariableRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Requests;
 use REBELinBLUE\Deployer\Http\Requests\StoreVariableRequest;
-use REBELinBLUE\Deployer\Contracts\Repositories\VariableRepositoryInterface;
 
 /**
  * Variable management controller.

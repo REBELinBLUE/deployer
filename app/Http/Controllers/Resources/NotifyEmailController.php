@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use REBELinBLUE\Deployer\Http\Requests\StoreNotifyEmailRequest;
 use REBELinBLUE\Deployer\Contracts\Repositories\NotifyEmailRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreNotifyEmailRequest;
 
 /**
  * Controller for managing NotifyEmails.

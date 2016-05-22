@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use REBELinBLUE\Deployer\Http\Requests\StoreSharedFileRequest;
 use REBELinBLUE\Deployer\Contracts\Repositories\SharedFileRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreSharedFileRequest;
 
 /**
  * Controller for managing files.

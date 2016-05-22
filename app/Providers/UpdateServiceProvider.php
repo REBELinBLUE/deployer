@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use REBELinBLUE\Deployer\Github\LatestRelease;
 use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Github\LatestRelease;
 
 /**
  * Service provider to register the LatestRelease class as a singleton.

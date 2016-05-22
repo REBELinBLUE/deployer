@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use REBELinBLUE\Deployer\NotifyEmail;
 use REBELinBLUE\Deployer\Contracts\Repositories\NotifyEmailRepositoryInterface;
+use REBELinBLUE\Deployer\NotifyEmail;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
