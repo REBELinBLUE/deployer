@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Webhooks\Beanstalkapp;
@@ -11,6 +10,7 @@ use REBELinBLUE\Deployer\Http\Webhooks\Bitbucket;
 use REBELinBLUE\Deployer\Http\Webhooks\Custom;
 use REBELinBLUE\Deployer\Http\Webhooks\Github;
 use REBELinBLUE\Deployer\Http\Webhooks\Gitlab;
+use REBELinBLUE\Deployer\Project;
 
 /**
  * The deployment webhook controller.
@@ -73,6 +73,7 @@ class WebhookController extends Controller
             $payload = $this->parseWebhookRequest($request, $project);
 
             if (is_array($payload)) {
+                $this->deploymentRepository->abortQueued($project->id);
                 $this->deploymentRepository->create($payload);
 
                 $success = true;

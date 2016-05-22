@@ -4,10 +4,10 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
-use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
@@ -68,6 +68,31 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
             $deployment->save();
 
             $this->dispatch(new AbortDeployment($deployment));
+        }
+    }
+
+    /**
+     * Gets all pending and running deployments for a project and aborts them.
+     *
+     * @param  int  $project_id
+     * @return void
+     */
+    public function abortQueued($project_id)
+    {
+        $deployments = $this->model->where('project_id', $project_id)
+                                   ->whereIn('status', [Deployment::DEPLOYING, Deployment::PENDING])
+                                   ->orderBy('started_at', 'DESC')
+                                   ->get();
+
+        foreach ($deployments as $deployment) {
+            $deployment->status = Deployment::ABORTING;
+            $deployment->save();
+
+            $this->dispatch(new AbortDeployment($deployment));
+
+            if ($deployment->is_webhook) {
+                $deployment->delete();
+            }
         }
     }
 
