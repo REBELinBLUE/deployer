@@ -297,7 +297,12 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         $info = $this->project->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
+            $path = 'tree';
+            if (preg_match('/bitbucket/', $info['domain'])) {
+                $path = 'commits/branch';
+            }
+
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $this->branch;
         }
 
         return false;
