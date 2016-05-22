@@ -114,7 +114,10 @@ class DeployProject extends Job implements ShouldQueue
             }
         }
 
-        $this->deployment->finished_at = date('Y-m-d H:i:s');
+        if ($this->deployment->status !== Deployment::ABORTED) {
+            $this->deployment->finished_at = date('Y-m-d H:i:s');
+        }
+
         $this->deployment->save();
 
         $this->deployment->project->last_run = $this->deployment->finished_at;

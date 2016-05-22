@@ -8,7 +8,7 @@ return [
     'webhook_example'      => 'By making an HTTP POST request to this URL you will trigger a new deployment of the latest commit.',
     'webhook_fields'       => 'Optional POST fields',
     'webhook_reason'       => 'The reason the deployment is being run',
-    'webhook_source'       => 'A name to use for the "Deployer", for instance "CI server"',
+    'webhook_source'       => 'A name to use to indicate who/what triggered the deployment, for instance "CI server"',
     'webhook_branch'       => 'The branch to deploy, if blank it defaults to the branch configured in the project',
     'webhook_update'       => 'Whether a deployment should only run if the currently deployed branch matches to branch to be deployed' .
                               ' , defaults to false',
@@ -51,5 +51,9 @@ return [
     'example'              => 'e.g.',
     'optional_description' => 'Ask at deploy time whether or not the include this step',
     'default_description'  => 'Include this step unless explicitly disabled (e.g. checkbox on by default)',
+    'services'             => 'Supported services',
+    'services_description' => 'You can use the webhook with these services and the relevant details will be gathered from the data ' .
+                              'they send across. The &quot;<em>update_only</em>&quot; and &quot;<em>commands</em>&quot; parameters ' .
+                              'may be included in the query string, all other fields are ignored.',
 
 ];

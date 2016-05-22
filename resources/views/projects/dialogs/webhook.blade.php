@@ -38,6 +38,11 @@
 
                 <h5><strong>{{ Lang::get('commands.webhook_curl') }}</strong></h5>
                 <pre>curl -X POST {{ $project->webhook_url }} -d 'reason={{ urlencode(Lang::get('commands.reason_example')) }}&amp;branch=master&amp;update_only=true'</pre>
+
+                <hr />
+
+                <h5><strong>{{ Lang::get('commands.services') }} - <i class="fa fa-github"></i> Github, <i class="fa fa-gitlab"></i> Gitlab, <i class="fa fa-bitbucket"></i> Bitbucket &amp; Beanstalk</strong></h5>
+                <p>{!! Lang::get('commands.services_description') !!}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ Lang::get('app.close') }}</button>

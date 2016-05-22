@@ -169,6 +169,8 @@ class ProjectPresenter extends CommandPresenter
         if (isset($details['domain'])) {
             if (preg_match('/github\.com/', $details['domain'])) {
                 return 'fa-github';
+            } elseif (preg_match('/gitlab\.com/', $details['domain'])) {
+                return 'fa-gitlab';
             } elseif (preg_match('/bitbucket/', $details['domain'])) {
                 return 'fa-bitbucket';
             } elseif (preg_match('/amazonaws\.com/', $details['domain'])) {
