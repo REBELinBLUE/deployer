@@ -7,7 +7,6 @@
 
 - Ignore deployment if already deploying [\#145](https://github.com/REBELinBLUE/deployer/issues/145)
 - Support for webhooks from Github, Gitlab & Bitbucket [\#66](https://github.com/REBELinBLUE/deployer/issues/66)
-- \[FEATURE\] Ansible example [\#190](https://github.com/REBELinBLUE/deployer/pull/190) ([jcornide](https://github.com/jcornide))
 
 **Fixed bugs:**
 
@@ -17,7 +16,7 @@
 
 **Closed issues:**
 
-- Split dev VM stuff into a seperate repo [\#214](https://github.com/REBELinBLUE/deployer/issues/214)
+- Split Vagrant machine into a seperate repository [\#214](https://github.com/REBELinBLUE/deployer/issues/214)
 
 ## [0.0.34](https://github.com/REBELinBLUE/deployer/tree/0.0.34) (2016-04-26)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.33...0.0.34)
