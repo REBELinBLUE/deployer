@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
-use REBELinBLUE\Deployer\Webhooks\Beanstalkapp;
-use REBELinBLUE\Deployer\Webhooks\Bitbucket;
-use REBELinBLUE\Deployer\Webhooks\Custom;
-use REBELinBLUE\Deployer\Webhooks\Github;
-use REBELinBLUE\Deployer\Webhooks\Gitlab;
+use REBELinBLUE\Deployer\Webhooks\Http\Beanstalkapp;
+use REBELinBLUE\Deployer\Webhooks\Http\Bitbucket;
+use REBELinBLUE\Deployer\Webhooks\Http\Custom;
+use REBELinBLUE\Deployer\Webhooks\Http\Github;
+use REBELinBLUE\Deployer\Webhooks\Http\Gitlab;
 
 /**
  * The deployment webhook controller.

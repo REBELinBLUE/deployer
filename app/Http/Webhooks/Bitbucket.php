@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Webhooks;
+namespace REBELinBLUE\Deployer\Http\Webhooks;
 
 /**
  * Class to handle integration with Bitbucket webhooks.
