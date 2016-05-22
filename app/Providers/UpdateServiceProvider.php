@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
 use REBELinBLUE\Deployer\Github\LatestRelease;
 
 /**
@@ -30,12 +31,14 @@ class UpdateServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(LatestReleaseInterface::class, LatestRelease::class);
+
         $this->app->singleton('deployer.update-check', function ($app) {
             $cache = $app['cache.store'];
 
             return new LatestRelease($cache);
         });
 
-        $this->app->alias('deployer.update-check', LatestRelease::class);
+        $this->app->alias('deployer.update-check', LatestReleaseInterface::class);
     }
 }

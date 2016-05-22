@@ -16,6 +16,7 @@ return [
     'last_status'        => 'Status',
     'successful'         => 'Online',
     'failed'             => 'Offline',
+    'untested'           => 'Unknown',
     'message'            => ':link appears to be down!',
 
 ];

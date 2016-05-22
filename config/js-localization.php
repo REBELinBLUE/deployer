@@ -35,7 +35,7 @@ return [
                             'deploying', 'running', 'cancelled', 'failed', ],
         'variables'     => ['create', 'edit'],
         'projects'      => ['create', 'edit', 'finished', 'pending', 'deploying', 'failed', 'not_deployed'],
-        'checkUrls'     => ['create', 'edit', 'successful', 'failed', 'length'],
+        'checkUrls'     => ['create', 'edit', 'successful', 'failed', 'untested', 'length'],
         'commands'      => ['create', 'edit'],
         'groups'        => ['create', 'edit'],
         'users'         => ['create', 'edit'],

@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\CheckUrl;
-use REBELinBLUE\Deployer\Repositories\Contracts\CheckUrlRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\CheckUrlRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**

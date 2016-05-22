@@ -165,7 +165,6 @@ class UpdateApp extends InstallApp
     protected function restartSocket()
     {
         $this->info('Restarting the socket server');
-        $this->line('');
         event(new RestartSocketServer);
     }
 

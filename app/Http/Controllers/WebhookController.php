@@ -3,8 +3,14 @@
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Webhooks\Beanstalkapp;
+use REBELinBLUE\Deployer\Http\Webhooks\Bitbucket;
+use REBELinBLUE\Deployer\Http\Webhooks\Custom;
+use REBELinBLUE\Deployer\Http\Webhooks\Github;
+use REBELinBLUE\Deployer\Http\Webhooks\Gitlab;
+use REBELinBLUE\Deployer\Project;
 
 /**
  * The deployment webhook controller.
@@ -12,15 +18,24 @@ use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 class WebhookController extends Controller
 {
     /**
+     * List of supported service classes.
+     * @var array
+     */
+    private $services = [
+        Beanstalkapp::class,
+        Bitbucket::class,
+        Github::class,
+        Gitlab::class,
+    ];
+
+    /**
      * The project repository.
-     *
      * @var ProjectRepositoryInterface
      */
     private $projectRepository;
 
     /**
      * The deployment repository.
-     *
      * @var deploymentRepository
      */
     private $deploymentRepository;
@@ -38,10 +53,12 @@ class WebhookController extends Controller
     ) {
         $this->projectRepository    = $projectRepository;
         $this->deploymentRepository = $deploymentRepository;
+
+        $this->services[] = Custom::class;
     }
 
     /**
-     * Handles incoming requests from Gitlab or PHPCI to trigger deploy.
+     * Handles incoming requests to trigger deploy.
      *
      * @param  Request  $request
      * @param  string   $hash    The webhook hash
@@ -53,59 +70,11 @@ class WebhookController extends Controller
 
         $success = false;
         if ($project->servers->where('deploy_code', true)->count() > 0) {
-            // Get the branch if it is the rquest, otherwise deploy the default branch
-            $branch = $project->branch;
+            $payload = $this->parseWebhookRequest($request, $project);
 
-            $do_deploy = true;
-
-            // If allow other branches is set, check for post data
-            if ($request->has('branch')) {
-                $branch = $request->get('branch');
-
-                if (!$project->allow_other_branch && $branch !== $project->branch) {
-                    $do_deploy = false;
-                }
-            }
-
-            if ($do_deploy && $request->has('update_only') && $request->get('update_only') !== false) {
-                // Get the latest deployment and check the branch matches
-                $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
-
-                if (!$deployment || $deployment->branch !== $branch) {
-                    $do_deploy = false;
-                }
-            }
-
-            if ($do_deploy) {
-                $optional = [];
-
-                // Check if the commands input is set, if so explode on comma and filter out any invalid commands
-                if ($request->has('commands')) {
-                    $valid = $project->commands->lists('id');
-
-                    $optional = collect(explode(',', $request->get('commands')))
-                                        ->unique()
-                                        ->intersect($valid);
-                }
-
-                // If there is a source and a URL validate that the URL is valid
-                $build_url = null;
-                if ($request->has('source') && $request->has('url')) {
-                    $build_url = $request->get('url');
-
-                    if (!filter_var($build_url, FILTER_VALIDATE_URL)) {
-                        $build_url = null;
-                    }
-                }
-
-                $this->deploymentRepository->create([
-                    'reason'     => $request->get('reason'),
-                    'project_id' => $project->id,
-                    'branch'     => $branch,
-                    'optional'   => $optional,
-                    'source'     => $request->get('source'),
-                    'build_url'  => $build_url,
-                ]);
+            if (is_array($payload)) {
+                $this->deploymentRepository->abortQueued($project->id);
+                $this->deploymentRepository->create($payload);
 
                 $success = true;
             }
@@ -114,6 +83,79 @@ class WebhookController extends Controller
         return [
             'success' => $success,
         ];
+    }
+
+    /**
+     * Goes through the various webhook integrations as checks if the request is for them and parses it.
+     * Then adds the various additional details required to trigger a deployment.
+     *
+     * @param  Request $request
+     * @param  Project $project
+     * @return mixed   Either an array of parameters for the deployment config, or false if it is invalid.
+     */
+    private function parseWebhookRequest(Request $request, Project $project)
+    {
+        foreach ($this->services as $service) {
+            $integration = new $service($request);
+
+            if ($integration->isRequestOrigin()) {
+                return $this->appendProjectSettings($integration->handlePush(), $request, $project);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Takes the data returned from the webhook request and then adds deployers own data, such as project ID
+     * and runs any checks such as checks the branch is allowed to be deployed.
+     *
+     * @param  mixed   $payload
+     * @param  Request $request
+     * @param  Project $project
+     * @return mixed   Either an array of the complete deployment config, or false if it is invalid.
+     */
+    private function appendProjectSettings($payload, Request $request, Project $project)
+    {
+        // If the payload is empty return false
+        if (!is_array($payload) || !count($payload)) {
+            return false;
+        }
+
+        $payload['project_id'] = $project->id;
+
+        // If there is no branch set get it from the project
+        if (is_null($payload['branch']) || empty($payload['branch'])) {
+            $payload['branch'] = $project->branch;
+        }
+
+        // If the project doesn't allow other branches check the requested branch is the correct one
+        if (!$project->allow_other_branch && $payload['branch'] !== $project->branch) {
+            return false;
+        }
+
+        $payload['optional'] = [];
+
+        // Check if the commands input is set, if so explode on comma and filter out any invalid commands
+        if ($request->has('commands')) {
+            $valid     = $project->commands->lists('id');
+            $requested = explode(',', $request->get('commands'));
+
+            $payload['optional'] = collect($requested)->unique()
+                                                      ->intersect($valid)
+                                                      ->toArray();
+        }
+
+        // Check if the request has an update_only query string and if so check the branch matches
+        if ($request->has('update_only') && $request->get('update_only') !== false) {
+            $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
+
+            if (!$deployment || $deployment->branch !== $payload['branch']) {
+                return false;
+            }
+        }
+
+        return $payload;
     }
 
     /**

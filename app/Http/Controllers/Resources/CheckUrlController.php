@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use REBELinBLUE\Deployer\Contracts\Repositories\CheckUrlRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Requests\StoreCheckUrlRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\CheckUrlRepositoryInterface;
 
 /**
  * Controller for managing URLs.

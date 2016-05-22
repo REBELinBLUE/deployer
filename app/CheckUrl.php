@@ -51,12 +51,27 @@ class CheckUrl extends Model
     {
         parent::boot();
 
-        // When first creating the model generate a webhook hash
+        // When saving the model, if the URL has changed we need to test it
         static::saved(function (CheckUrl $model) {
-            if ($model->isDirty('url')) {
+            if (is_null($model->last_status)) {
                 $model->dispatch(new RequestProjectCheckUrl([$model]));
             }
         });
+    }
+
+    /**
+     * Define a mutator to set the status to untested if the URL changes.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setUrlAttribute($value)
+    {
+        if (!array_key_exists('url', $this->attributes) || $value !== $this->attributes['url']) {
+            $this->attributes['last_status'] = null;
+        }
+
+        $this->attributes['url'] = $value;
     }
 
     /**

@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use REBELinBLUE\Deployer\Contracts\Repositories\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
-use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Server;
 

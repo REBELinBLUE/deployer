@@ -4,8 +4,8 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
+use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
-use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use RuntimeException;
 
 /**

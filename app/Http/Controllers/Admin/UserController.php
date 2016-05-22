@@ -3,10 +3,10 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Lang;
+use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreUserRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 
 /**
  * User management controller.

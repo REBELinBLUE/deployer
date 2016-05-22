@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
+use REBELinBLUE\Deployer\Contracts\Repositories\HeartbeatRepositoryInterface;
 use REBELinBLUE\Deployer\Heartbeat;
-use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**

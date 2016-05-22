@@ -4,11 +4,12 @@ namespace REBELinBLUE\Deployer\Github;
 
 use Httpful\Request;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
+use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
 
 /**
  * A class to get the latest release tag for Github.
  */
-class LatestRelease
+class LatestRelease implements LatestReleaseInterface
 {
     const CACHE_TIME_IN_HOURS = 12;
 

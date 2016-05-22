@@ -42,7 +42,7 @@
     "require-dev": {
         "fzaninotto/faker": "~1.5",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.5",
+        "phpunit/phpunit": "~5.3",
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "block8/php-docblock-checker": "^1.0",
@@ -53,10 +53,16 @@
         "filp/whoops": "^2.0",
         "codeclimate/php-test-reporter": "^0.3.0",
         "fabpot/php-cs-fixer": "^1.10",
-        "phpro/grumphp": "^0.8.0",
         "barryvdh/laravel-ide-helper": "^2.1",
-        "themsaid/laravel-langman": "^1.1"
+        "themsaid/laravel-langman": "^1.1",
+        "diablomedia/phpunit-pretty-printer": "dev-master"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/REBELinBLUE/phpunit-pretty-printer"
+        }
+    ],
     "autoload": {
         "classmap": [
             "database"
@@ -90,10 +96,5 @@
     },
     "config": {
         "preferred-install": "dist"
-    },
-    "extra": {
-        "grumphp": {
-            "config-default-path": ".grumphp.yml"
-        }
     }
 }

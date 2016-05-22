@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Listeners\Events;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use REBELinBLUE\Deployer\Events\Contracts\HasSlackPayloadInterface;
+use REBELinBLUE\Deployer\Contracts\Events\HasSlackPayloadInterface;
 use REBELinBLUE\Deployer\Jobs\SlackNotify;
 
 /**
