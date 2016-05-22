@@ -6,15 +6,14 @@
 **Implemented enhancements:**
 
 - Ignore deployment if already deploying [\#145](https://github.com/REBELinBLUE/deployer/issues/145)
+- Support for webhooks from Github, Gitlab & Bitbucket [\#66](https://github.com/REBELinBLUE/deployer/issues/66)
 - \[FEATURE\] Ansible example [\#190](https://github.com/REBELinBLUE/deployer/pull/190) ([jcornide](https://github.com/jcornide))
 
 **Fixed bugs:**
 
-- URL check task fails after edition [\#221](https://github.com/REBELinBLUE/deployer/issues/221)
-- If not set deploy key, delpoy will always pending at  Create New Release  [\#217](https://github.com/REBELinBLUE/deployer/issues/217)
+- If the deploy key is invalid, the deployment will get stuck at "Running" and never abort [\#217](https://github.com/REBELinBLUE/deployer/issues/217)
 - Check link firing too often [\#162](https://github.com/REBELinBLUE/deployer/issues/162)
-- Webhook should check for valid data [\#66](https://github.com/REBELinBLUE/deployer/issues/66)
-- \[FIX\] Socket should also connect to redis specified in .env [\#213](https://github.com/REBELinBLUE/deployer/pull/213) ([pavankumarkatakam](https://github.com/pavankumarkatakam))
+- Socket should also connect to redis specified in .env [\#213](https://github.com/REBELinBLUE/deployer/pull/213) ([pavankumarkatakam](https://github.com/pavankumarkatakam))
 
 **Closed issues:**
 
