@@ -260,7 +260,12 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         if ($this->commit !== self::LOADING) {
             $info = $this->project->accessDetails();
             if (isset($info['domain']) && isset($info['reference'])) {
-                return 'http://' . $info['domain'] . '/' . $info['reference'] . '/commit/' . $this->commit;
+                $path = 'commit';
+                if (preg_match('/bitbucket/', $info['domain'])) {
+                    $path = 'commits';
+                }
+
+                return 'http://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $this->commit;
             }
         }
 

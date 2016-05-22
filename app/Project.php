@@ -210,7 +210,12 @@ class Project extends ProjectRelation implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
+            $path = 'tree';
+            if (preg_match('/bitbucket/', $info['domain'])) {
+                $path = 'commits/branch';
+            }
+
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $this->branch;
         }
 
         return false;
