@@ -13,7 +13,7 @@ class NotificationTableSeeder extends Seeder
             'name'       => 'Deployer',
             'channel'    => '#testing',
             'icon'       => ':ghost:',
-            'webhook'    => 'https://hooks.slack.com/services/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',
+            'webhook'    => 'https://hooks.slack.com/services/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',
             'project_id' => 1,
         ]);
     }
