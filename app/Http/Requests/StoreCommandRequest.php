@@ -19,7 +19,7 @@ class StoreCommandRequest extends Request
     {
         $rules = [
             'name'       => 'required|max:255',
-            'user'       => 'required|max:255',
+            'user'       => 'max:255',
             'script'     => 'required',
             'optional'   => 'boolean',
             'default_on' => 'boolean',

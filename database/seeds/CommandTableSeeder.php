@@ -18,6 +18,7 @@ echo "Deployer email {{ deployer_email }}"
 echo "Deployer name {{ deployer_name }}"
 echo "Committer email {{ committer_email }}"
 echo "Committer name {{ committer_name }}"
+echo "Server user \$(whoami)"
 EOD;
     }
 
@@ -29,7 +30,7 @@ EOD;
             'name'       => 'Before Create New Release',
             'script'     => $this->getScript(),
             'project_id' => 1,
-            'user'       => 'deploy',
+            'user'       => '',
             'step'       => Command::BEFORE_CLONE,
             'optional'   => true,
         ])->servers()->attach([1, 2]);
@@ -38,7 +39,7 @@ EOD;
             'name'       => 'After Create New Release',
             'script'     => $this->getScript(),
             'project_id' => 1,
-            'user'       => 'deploy',
+            'user'       => '',
             'step'       => Command::AFTER_CLONE,
         ])->servers()->attach([1, 2]);
 

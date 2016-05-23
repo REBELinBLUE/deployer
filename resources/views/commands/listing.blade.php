@@ -22,7 +22,9 @@
 @push('templates')
     <script type="text/template" id="command-template">
         <td data-command-id="<%- id %>"><%- name %></td>
-        <td><%- user %></td>
+        <td>
+            <%= user ? user : '{{ Lang::get('commands.default') }}' %>
+        </td>
         <td>
             <% if (optional) { %>
                 {{ Lang::get('app.yes') }}
