@@ -294,18 +294,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function getBranchURLAttribute()
     {
-        $info = $this->project->accessDetails();
-
-        if (isset($info['domain']) && isset($info['reference'])) {
-            $path = 'tree';
-            if (preg_match('/bitbucket/', $info['domain'])) {
-                $path = 'commits/branch';
-            }
-
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $this->branch;
-        }
-
-        return false;
+        return $this->project->getBranchUrlAttribute($this->branch);
     }
 
     /**

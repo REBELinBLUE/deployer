@@ -202,10 +202,11 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Gets the HTTP URL to the branch.
      *
+     * @param string $alternative
      * @return string|false
      * @see \REBELinBLUE\Deployer\Project::accessDetails()
      */
-    public function getBranchUrlAttribute()
+    public function getBranchUrlAttribute($alternative = null)
     {
         $info = $this->accessDetails();
 
@@ -215,7 +216,9 @@ class Project extends ProjectRelation implements PresentableInterface
                 $path = 'commits/branch';
             }
 
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $this->branch;
+            $branch = (is_null($alternative) ? $this->branch : $alternative);
+
+            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $branch;
         }
 
         return false;
