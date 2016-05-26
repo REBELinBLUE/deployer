@@ -3,12 +3,13 @@ cd {{ project_path }}
 # If there is no composer file, skip this step
 if [ -f {{ release_path }}/composer.json ]; then
     # Check composer is installed
-    composer="$(command -v composer)"
-    if [ ! hash composer 2>/dev/null ]; then
+    if type -P composer &> /dev/null; then
+        composer="$(command -v composer)"
+    else
         # If not, check for composer.phar
-        composer="$(command -v composer.phar)"
-
-        if [ ! hash composer.phar 2>/dev/null ]; then
+        if type -P composer.phar &> /dev/null; then
+            composer="$(command -v composer.phar)"
+        else
             # If still not, check for composer.phar in the project path
             if [ ! -f {{ project_path }}/composer.phar ]; then
                 # Finally, resort to downloading it
