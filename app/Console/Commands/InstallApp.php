@@ -6,6 +6,8 @@ use DateTimeZone;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use PDO;
 use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
@@ -607,7 +609,7 @@ class InstallApp extends Command
         }
 
         // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash'];
+        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash', 'node'];
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);
@@ -633,7 +635,22 @@ class InstallApp extends Command
             }
         }
 
-        // FIXE: Redis and beanstalk are running and node is installed?
+        // Check that redis is running
+        try {
+            Redis::connection()->ping();
+        } catch (\Exception $e) {
+            $this->error('Redis is not running');
+            $errors = true;
+        }
+
+        $connected = Queue::connection()->getPheanstalk()
+                                        ->getConnection()
+                                        ->isServiceListening();
+
+        if (!$connected) {
+            $this->error('Beanstalkd is not running');
+            $errors = true;
+        }
 
         if ($errors) {
             $this->line('');
