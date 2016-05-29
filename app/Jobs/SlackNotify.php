@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Carbon\Carbon;
 use Httpful\Request;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,6 +19,7 @@ class SlackNotify extends Job implements ShouldQueue
 
     private $payload;
     private $notification;
+    private $timeout;
 
     /**
      * Create a new command instance.
@@ -26,10 +28,11 @@ class SlackNotify extends Job implements ShouldQueue
      * @param  array        $payload
      * @return Notify
      */
-    public function __construct(Notification $notification, array $payload)
+    public function __construct(Notification $notification, array $payload, $timeout = 60)
     {
         $this->notification = $notification;
         $this->payload      = $payload;
+        $this->timeout      = $timeout;
     }
 
     /**
@@ -53,6 +56,14 @@ class SlackNotify extends Job implements ShouldQueue
         }
 
         $payload = array_merge($payload, $this->payload);
+
+        if (isset($payload['attachments'])) {
+            $expire_at = Carbon::createFromTimestamp($payload['attachments'][0]['ts'])->addMinutes($this->timeout);
+
+            if (Carbon::now()->gt($expire_at)) {
+                return;
+            }
+        }
 
         Request::post($this->notification->webhook)
                ->sendsJson()

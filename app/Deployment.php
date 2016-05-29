@@ -260,7 +260,12 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         if ($this->commit !== self::LOADING) {
             $info = $this->project->accessDetails();
             if (isset($info['domain']) && isset($info['reference'])) {
-                return 'http://' . $info['domain'] . '/' . $info['reference'] . '/commit/' . $this->commit;
+                $path = 'commit';
+                if (preg_match('/bitbucket/', $info['domain'])) {
+                    $path = 'commits';
+                }
+
+                return 'http://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $this->commit;
             }
         }
 
@@ -289,13 +294,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      */
     public function getBranchURLAttribute()
     {
-        $info = $this->project->accessDetails();
-
-        if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/tree/' . $this->branch;
-        }
-
-        return false;
+        return $this->project->getBranchUrlAttribute($this->branch);
     }
 
     /**
@@ -350,6 +349,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                             'short' => true,
                         ],
                     ],
+                    'footer' => Lang::get('app.name'),
+                    'ts'     => time(),
                 ],
             ],
         ];

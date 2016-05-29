@@ -110,6 +110,8 @@ class CheckUrl extends Model
                             'short' => true,
                         ],
                     ],
+                    'footer' => Lang::get('app.name'),
+                    'ts'     => time(),
                 ],
             ],
         ];

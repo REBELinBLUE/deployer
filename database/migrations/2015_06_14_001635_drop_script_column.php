@@ -13,7 +13,7 @@ class DropScriptColumn extends Migration
     public function up()
     {
         Schema::table('server_logs', function (Blueprint $table) {
-             $table->dropColumn('script');
+            $table->dropColumn('script');
         });
     }
 

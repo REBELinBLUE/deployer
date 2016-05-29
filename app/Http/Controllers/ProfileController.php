@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Intervention\Image\Facades\Image;
-use PragmaRX\Google2FA\Vendor\Laravel\Facade as Google2FA;
+use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
 use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
@@ -17,15 +17,20 @@ use REBELinBLUE\Deployer\Http\Requests\StoreSettingsRequest;
  */
 class ProfileController extends Controller
 {
+    private $repository;
+    private $google2fa;
+
     /**
      * Class constructor.
      *
      * @param  UserRepositoryInterface $repository
+     * @param Google2FA $google2fa
      * @return void
      */
-    public function __construct(UserRepositoryInterface $repository)
+    public function __construct(UserRepositoryInterface $repository, Google2FA $google2fa)
     {
         $this->repository = $repository;
+        $this->google2fa  = $google2fa;
     }
 
     /**
@@ -36,12 +41,12 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        $code = Google2FA::generateSecretKey();
+        $code = $this->google2fa->generateSecretKey();
         if ($user->has_two_factor_authentication || old('google_code')) {
             $code = old('google_code', $user->google2fa_secret);
         }
 
-        $img = Google2FA::getQRCodeGoogleUrl('Deployer', $user->email, $code);
+        $img = $this->google2fa->getQRCodeGoogleUrl('Deployer', $user->email, $code);
 
         return view('user.profile', [
             'google_2fa_url'  => $img,
@@ -159,7 +164,7 @@ class ProfileController extends Controller
         $user->save();
 
         return [
-            'image'   => avatar($user),
+            'image'   => $user->avatar_url,
             'success' => true,
         ];
     }
@@ -209,7 +214,7 @@ class ProfileController extends Controller
         if ($request->has('two_factor')) {
             $secret = $request->get('google_code');
 
-            if (!Google2FA::verifyKey($secret, $request->get('2fa_code'))) {
+            if (!$this->google2fa->verifyKey($secret, $request->get('2fa_code'))) {
                 $secret = null;
 
                 return redirect()->back()

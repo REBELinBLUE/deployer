@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group">
                         <label for="command_user">{{ Lang::get('commands.run_as') }}</label>
-                        <input type="text" class="form-control" name="user" id="command_user" placeholder="deploy" />
+                        <input type="text" class="form-control" name="user" id="command_user" placeholder="{{ Lang::get('commands.default') }}" />
                     </div>
                     <div class="form-group">
                         <label for="command_script">{{ Lang::get('commands.bash') }}</label>
@@ -51,7 +51,7 @@
                             <li>
                                 <div class="checkbox">
                                     <label for="command_server_{{ $server->id }}">
-                                        <input type="checkbox" class="command-server" name="servers[]" id="command_server_{{ $server->id }}" value="{{ $server->id }}" /> {{ $server->name }} ({{ $server->ip_address }})
+                                        <input type="checkbox" class="command-server" name="servers[]" id="command_server_{{ $server->id }}" value="{{ $server->id }}" /> {{ $server->name }} ({{ $server->user }}&commat;{{ $server->ip_address }})
                                     </label>
                                 </div>
                             </li>

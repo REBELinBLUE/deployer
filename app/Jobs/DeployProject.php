@@ -356,7 +356,7 @@ class DeployProject extends Job implements ShouldQueue
 
         $user = $server->user;
         if ($step->isCustom()) {
-            $user = $step->command->user;
+            $user = empty($step->command->user) ? $server->user : $step->command->user;
         }
 
         // Now get the full script

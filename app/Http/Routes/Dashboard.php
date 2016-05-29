@@ -4,7 +4,6 @@
 Route::group([
     'middleware' => ['web', 'auth', 'jwt'],
 ], function () {
-
     Route::get('/', [
         'as'   => 'dashboard',
         'uses' => 'DashboardController@index',
@@ -14,5 +13,4 @@ Route::group([
         'as'   => 'dashboard.timeline',
         'uses' => 'DashboardController@timeline',
     ]);
-
 });

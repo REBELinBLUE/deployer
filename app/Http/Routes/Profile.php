@@ -1,11 +1,9 @@
 <?php
 
-
 // User profile
 Route::group([
     'middleware' => ['web', 'auth', 'jwt'],
 ], function () {
-
     Route::get('profile', [
         'as'   => 'profile.index',
         'uses' => 'ProfileController@index',
@@ -55,5 +53,4 @@ Route::group([
         'as'   => 'profile.change-email',
         'uses' => 'ProfileController@changeEmail',
     ]);
-
 });

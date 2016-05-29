@@ -5,7 +5,6 @@ Route::group([
     'middleware' => ['web', 'guest'],
     'namespace'  => 'Auth',
 ], function () {
-
     Route::get('login', [
         'middleware' => 'guest',
         'as'         => 'auth.login',
@@ -43,7 +42,6 @@ Route::group([
         'as'   => 'auth.reset-password',
         'uses' => 'PasswordController@reset',
     ]);
-
 });
 
 Route::get('logout', [
