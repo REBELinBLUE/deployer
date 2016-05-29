@@ -52,10 +52,10 @@
         "sebastian/phpcpd": "2.0.2",
         "filp/whoops": "^2.0",
         "codeclimate/php-test-reporter": "^0.3.0",
-        "fabpot/php-cs-fixer": "^1.10",
         "barryvdh/laravel-ide-helper": "^2.1",
         "themsaid/laravel-langman": "^1.1",
-        "diablomedia/phpunit-pretty-printer": "dev-master"
+        "diablomedia/phpunit-pretty-printer": "dev-master",
+        "friendsofphp/php-cs-fixer": "^1.11"
     },
     "repositories": [
         {
