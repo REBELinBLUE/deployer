@@ -50,6 +50,8 @@ class HeartbeatRecovered extends Event implements HasSlackPayloadInterface
                             'short' => true,
                         ],
                     ],
+                    'footer' => Lang::get('app.name'),
+                    'ts'     => time(),
                 ],
             ],
         ];

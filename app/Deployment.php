@@ -349,6 +349,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                             'short' => true,
                         ],
                     ],
+                    'footer' => Lang::get('app.name'),
+                    'ts'     => time(),
                 ],
             ],
         ];
