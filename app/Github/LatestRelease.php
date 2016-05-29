@@ -40,7 +40,6 @@ class LatestRelease implements LatestReleaseInterface
         $cache_for = self::CACHE_TIME_IN_HOURS * 60;
 
         $release = $this->cache->remember('latest_version', $cache_for, function () {
-
             $request = Request::get($this->github_url)
                               ->expectsJson()
                               ->withAccept('application/vnd.github.v3+json');

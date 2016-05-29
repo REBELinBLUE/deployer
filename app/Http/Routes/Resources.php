@@ -5,7 +5,6 @@ Route::group([
     'middleware' => ['web', 'auth', 'jwt'],
     'namespace'  => 'Resources',
 ], function () {
-
     Route::post('commands/reorder', [
         'as'   => 'commands.reorder',
         'uses' => 'CommandController@reorder',
@@ -44,5 +43,4 @@ Route::group([
         'as'   => 'admin.templates.commands.step',
         'uses' => 'CommandController@listing',
     ]);
-
 });

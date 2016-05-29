@@ -6,7 +6,6 @@ Route::group([
     'prefix'     => 'admin',
     'namespace'  => 'Admin',
 ], function () {
-
     Route::resource('templates', 'TemplateController', [
         'only' => ['index', 'store', 'update', 'destroy', 'show'],
     ]);

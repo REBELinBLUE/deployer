@@ -4,7 +4,6 @@
 Route::group([
     'middleware' => ['web', 'auth', 'jwt'],
 ], function () {
-
     Route::get('webhook/{id}/refresh', [
         'as'   => 'webhook.refresh',
         'uses' => 'WebhookController@refresh',
@@ -39,5 +38,4 @@ Route::group([
         'as'   => 'deployments.log',
         'uses' => 'DeploymentController@log',
     ]);
-
 });

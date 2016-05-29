@@ -202,7 +202,7 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Gets the HTTP URL to the branch.
      *
-     * @param string $alternative
+     * @param  string       $alternative
      * @return string|false
      * @see \REBELinBLUE\Deployer\Project::accessDetails()
      */
