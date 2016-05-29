@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.0.35](https://github.com/REBELinBLUE/deployer/tree/0.0.35) (2016-05-29)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.34...0.0.35)
+## [0.0.36](https://github.com/REBELinBLUE/deployer/tree/0.0.36) (2016-05-29)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.34...0.0.36)
 
 **Implemented enhancements:**
 
@@ -24,7 +24,6 @@
 **Closed issues:**
 
 - Process Output don't show full log [\#219](https://github.com/REBELinBLUE/deployer/issues/219)
-- https socket not working with letsencrypt [\#215](https://github.com/REBELinBLUE/deployer/issues/215)
 - Split Vagrant machine into a seperate repository [\#214](https://github.com/REBELinBLUE/deployer/issues/214)
 
 ## [0.0.34](https://github.com/REBELinBLUE/deployer/tree/0.0.34) (2016-04-26)
