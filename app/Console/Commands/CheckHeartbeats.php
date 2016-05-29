@@ -62,7 +62,6 @@ class CheckHeartbeats extends Command
                     event(new HeartbeatMissed($heartbeat));
                 }
             }
-
         });
     }
 }
