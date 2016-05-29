@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.0.35](https://github.com/REBELinBLUE/deployer/tree/0.0.35) (2016-05-29)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.34...0.0.35)
+## [0.0.36](https://github.com/REBELinBLUE/deployer/tree/0.0.36) (2016-05-29)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.34...0.0.36)
 
 **Implemented enhancements:**
 
@@ -14,7 +14,7 @@
 - Deploy fails when composer doesn't exist, instead of downloading it [\#226](https://github.com/REBELinBLUE/deployer/issues/226)
 - "Run as" user on the before/after command hooks should be optional [\#223](https://github.com/REBELinBLUE/deployer/issues/223)
 - If the deploy key is invalid, the deployment will get stuck at "Running" and never abort [\#217](https://github.com/REBELinBLUE/deployer/issues/217)
-- Heartbeat notifications can queue up, if Slack \(or other service?\) is unavailable. [\#212](https://github.com/REBELinBLUE/deployer/issues/212)
+- Heartbeat notifications can queue up, if Slack is unavailable. [\#212](https://github.com/REBELinBLUE/deployer/issues/212)
 - Check redis and beanstalk are running [\#208](https://github.com/REBELinBLUE/deployer/issues/208)
 - Cleanup command not cleaning up "aborting" deploy [\#207](https://github.com/REBELinBLUE/deployer/issues/207)
 - Bitbucket links incorrect [\#205](https://github.com/REBELinBLUE/deployer/issues/205)
@@ -23,7 +23,6 @@
 
 **Closed issues:**
 
-- Deployer callback URL - Laravel error [\#225](https://github.com/REBELinBLUE/deployer/issues/225)
 - Process Output don't show full log [\#219](https://github.com/REBELinBLUE/deployer/issues/219)
 - https socket not working with letsencrypt [\#215](https://github.com/REBELinBLUE/deployer/issues/215)
 - Split Vagrant machine into a seperate repository [\#214](https://github.com/REBELinBLUE/deployer/issues/214)
