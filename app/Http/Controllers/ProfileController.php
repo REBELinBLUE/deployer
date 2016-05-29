@@ -159,7 +159,7 @@ class ProfileController extends Controller
         $user->save();
 
         return [
-            'image'   => avatar($user),
+            'image'   => $user->avatar_url,
             'success' => true,
         ];
     }
