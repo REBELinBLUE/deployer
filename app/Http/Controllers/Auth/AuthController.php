@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
-use PragmaRX\Google2FA\Vendor\Laravel\Facade as Google2FA;
+use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\User;
 
@@ -25,6 +25,19 @@ class AuthController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+
+    private $google2fa;
+
+    /**
+     * Class constructor.
+     *
+     * @param  Google2FA $google2fa
+     * @return void
+     */
+    public function __construct(Google2FA $google2fa)
+    {
+        $this->google2fa  = $google2fa;
+    }
 
     /**
      * Show the application login form.
@@ -109,7 +122,7 @@ class AuthController extends Controller
 
             $auth->loginUsingId($user_id, $remember);
 
-            if (Google2FA::verifyKey($auth->user()->google2fa_secret, $request->get('2fa_code'))) {
+            if ($this->google2fa->verifyKey($auth->user()->google2fa_secret, $request->get('2fa_code'))) {
                 return $this->handleUserWasAuthenticated($request, true);
             }
 
