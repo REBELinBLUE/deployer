@@ -5,6 +5,7 @@
 
 **Implemented enhancements:**
 
+- "Run as" user on the before/after command hooks should be optional [\#223](https://github.com/REBELinBLUE/deployer/issues/223)
 - Ignore deployment if already deploying [\#145](https://github.com/REBELinBLUE/deployer/issues/145)
 - Support for webhooks from Github, Gitlab & Bitbucket [\#66](https://github.com/REBELinBLUE/deployer/issues/66)
 
@@ -12,7 +13,6 @@
 
 - Resetting to gravatar causes a 500 error [\#228](https://github.com/REBELinBLUE/deployer/issues/228)
 - Deploy fails when composer doesn't exist, instead of downloading it [\#226](https://github.com/REBELinBLUE/deployer/issues/226)
-- "Run as" user on the before/after command hooks should be optional [\#223](https://github.com/REBELinBLUE/deployer/issues/223)
 - If the deploy key is invalid, the deployment will get stuck at "Running" and never abort [\#217](https://github.com/REBELinBLUE/deployer/issues/217)
 - Heartbeat notifications can queue up, if Slack is unavailable. [\#212](https://github.com/REBELinBLUE/deployer/issues/212)
 - Check redis and beanstalk are running [\#208](https://github.com/REBELinBLUE/deployer/issues/208)
