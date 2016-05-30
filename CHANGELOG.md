@@ -1,11 +1,11 @@
 # Change Log
 
-## [0.0.36](https://github.com/REBELinBLUE/deployer/tree/0.0.36) (2016-05-30)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.35...0.0.36)
+## [0.0.37](https://github.com/REBELinBLUE/deployer/tree/0.0.37) (2016-05-30)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.35...0.0.37)
 
 **Fixed bugs:**
 
-- update broken [\#229](https://github.com/REBELinBLUE/deployer/issues/229)
+- Update command broken [\#229](https://github.com/REBELinBLUE/deployer/issues/229)
 
 ## [0.0.35](https://github.com/REBELinBLUE/deployer/tree/0.0.35) (2016-05-29)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.34...0.0.35)
