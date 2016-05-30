@@ -643,13 +643,15 @@ class InstallApp extends Command
             $errors = true;
         }
 
-        $connected = Queue::connection()->getPheanstalk()
-                                        ->getConnection()
-                                        ->isServiceListening();
+        if (isset($_ENV['QUEUE_DRIVER']) && $_ENV['QUEUE_DRIVER'] === 'beanstalkd') {
+            $connected = Queue::connection()->getPheanstalk()
+                                            ->getConnection()
+                                            ->isServiceListening();
 
-        if (!$connected) {
-            $this->error('Beanstalkd is not running');
-            $errors = true;
+            if (!$connected) {
+                $this->error('Beanstalkd is not running');
+                $errors = true;
+            }
         }
 
         if ($errors) {
