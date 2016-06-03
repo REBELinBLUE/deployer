@@ -105,8 +105,8 @@ elixir(function(mix) {
     .remove([
         'public/css',
         'public/js',
-        'public/fonts',
-        bower_path + '/localization.js'
+        'public/fonts'
+        //bower_path + '/localization.js' // removing this breaks watch
     ])
     .lang();
 });
