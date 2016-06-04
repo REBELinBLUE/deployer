@@ -49,12 +49,12 @@ The `master` branch of this repository is a development branch and **should not*
 - [Composer](https://getcomposer.org)
 - [Redis](http://redis.io)
 - [Node.js](https://nodejs.org/)
-- A suitable [queue](http://laravel.com/docs/5.1/queues) for Laravel, [Beanstalkd](http://kr.github.io/beanstalkd/) is recommended but Redis can also be used
+- [Beanstalkd](http://kr.github.io/beanstalkd/) for queuing jobs. Although Laravel can use redis there is currently [an issue when using more than 1 queue worker](https://github.com/laravel/framework/issues/8577), the default in Deployer is 3.
 
 ### Optional extras
 
 - [Supervisor](http://supervisord.org) to keep the queue listener and Node.js socket server running
-- A [caching server](http://laravel.com/docs/5.1/cache), unless you expect a lot of traffic the default `file` cache is probably enough
+- A [caching server](http://laravel.com/docs/5.2/cache), unless you expect a lot of traffic the default `file` cache is probably enough
 
 ## Installation
 
