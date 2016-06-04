@@ -24,8 +24,8 @@ class ServerOutputChanged extends Event implements ShouldBroadcast
      */
     public function __construct(ServerLog $log)
     {
-        $this->id = $log->id;
-        $this->output = ((is_null($log->output) || !strlen($log->output)) ? null : $log->output);
+        $this->id     = $log->id;
+        $this->output = $log->output;
     }
 
     /**
