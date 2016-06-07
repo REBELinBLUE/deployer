@@ -81,9 +81,7 @@ class DeployProject extends Job implements ShouldQueue
             $this->dispatch(new UpdateGitMirror($this->deployment->project));
 
             // If the build has been manually triggered get the committer info from the repo
-            if ($this->deployment->commit === Deployment::LOADING) {
-                $this->updateRepoInfo();
-            }
+            $this->updateRepoInfo();
 
             $this->createReleaseArchive();
 
@@ -141,9 +139,11 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function updateRepoInfo()
     {
+        $commit = ($this->deployment->commit === Deployment::LOADING ? null : $this->deployment->commit);
+
         $process = new Process('tools.GetCommitDetails', [
             'mirror_path'   => $this->deployment->project->mirrorPath(),
-            'git_reference' => $this->deployment->branch,
+            'git_reference' => $commit ?: $this->deployment->branch,
         ]);
         $process->run();
 

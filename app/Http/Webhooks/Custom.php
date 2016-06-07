@@ -37,12 +37,21 @@ class Custom extends Webhook
             }
         }
 
-        // TODO: Allow a ref to be passed in?
+        $commit = '';
+        if ($this->request->has('commit')) {
+            $commit = $this->request->get('commit');
+
+            if (strlen($commit) < 7) {
+                $commit = '';
+            }
+        }
+
         return [
-            'reason'     => $this->request->get('reason'),
-            'branch'     => $branch,
-            'source'     => $this->request->get('source'),
-            'build_url'  => $build_url,
+            'reason'    => $this->request->get('reason'),
+            'branch'    => $branch,
+            'source'    => $this->request->get('source'),
+            'build_url' => $build_url,
+            'commit'    => $commit,
         ];
     }
 }
