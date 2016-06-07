@@ -146,12 +146,16 @@ class WebhookController extends Controller
                                                       ->toArray();
         }
 
-        // Check if the request has an update_only query string and if so check the branch matches
-        if ($request->has('update_only') && $request->get('update_only') !== false) {
-            $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
+        // If the webhook is allowed to deploy other branches check for update only
+        if ($project->allow_other_branch)
+        {
+            // Check if the request has an update_only query string and if so check the branch matches
+            if ($request->has('update_only') && $request->get('update_only') !== false) {
+                $deployment = $this->deploymentRepository->getLatestSuccessful($project->id);
 
-            if (!$deployment || $deployment->branch !== $payload['branch']) {
-                return false;
+                if (!$deployment || $deployment->branch !== $payload['branch']) {
+                    return false;
+                }
             }
         }
 
