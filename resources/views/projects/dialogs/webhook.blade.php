@@ -10,6 +10,8 @@
                 <p>{{ Lang::get('commands.webhook_example') }}</p>
                 <h5><strong>{{ Lang::get('commands.webhook_fields') }}</strong></h5>
                 <dl class="dl-horizontal" id="hook_fields">
+                    <dt><em>commit</em></dt>
+                    <dd>{{ Lang::get('commands.webhook_commit') }}</dd>
                     <dt><em>branch</em></dt>
                     <dd>{{ Lang::get('commands.webhook_branch') }}</dd>
                     <dt><em>update_only</em></dt>
