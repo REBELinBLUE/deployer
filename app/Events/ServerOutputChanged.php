@@ -14,7 +14,7 @@ class ServerOutputChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
-    public $id;
+    public $log_id;
     public $output;
 
     /**
@@ -24,7 +24,7 @@ class ServerOutputChanged extends Event implements ShouldBroadcast
      */
     public function __construct(ServerLog $log)
     {
-        $this->id     = $log->id;
+        $this->log_id = $log->id;
         $this->output = $log->output;
     }
 
@@ -35,6 +35,6 @@ class ServerOutputChanged extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['serverlog-' . $this->id];
+        return ['serverlog-' . $this->log_id];
     }
 }
