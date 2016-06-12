@@ -31,6 +31,12 @@
 
 #log pre {
     max-height: 300px;
+    min-height: 300px;
+    overflow: auto;
+}
+
+#log pre {
+    max-height: 300px;
     overflow: auto;
 }
 

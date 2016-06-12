@@ -56,23 +56,46 @@ var app = app || {};
             type: 'GET',
             url: '/log/' + log_id
         }).done(function (data) {
-            var output = data.output;
-            // FIXME: There has to be a cleaner way to do this surely?
-            output = output.replace(/<\/error>/g, '</span>')
-            output = output.replace(/<\/info>/g, '</span>');
-            output = output.replace(/<error>/g, '<span class="text-red">')
-            output = output.replace(/<info>/g, '<span class="text-default">');
+            var output = parseOutput(data.output);
 
             log.html(output);
 
             log.show();
             loader.hide();
+
+
+            app.listener.on('serverlog-' + log_id + ':REBELinBLUE\\Deployer\\Events\\ServerOutputChanged', function (data) {
+
+                if (data.id === parseInt(log_id)) {
+                    var output = parseOutput(data.output);
+
+                    var atBottom = false;
+                    if (log.scrollTop() + log.innerHeight() >= log.get(0).scrollHeight) {
+                        atBottom = true;
+                    }
+
+                    log.html(output);
+
+                    if (atBottom) {
+                        log.scrollTop(log.get(0).scrollHeight);
+                    }
+                }
+            });
         }).fail(function() {
 
         }).always(function() {
 
         });
     });
+
+    // FIXME: There has to be a cleaner way to do this surely?
+    function parseOutput(output) {
+        return output.replace(/<\/error>/g, '</span>')
+                     .replace(/<\/info>/g, '</span>')
+                     .replace(/<error>/g, '<span class="text-red">')
+                     .replace(/<info>/g, '<span class="text-default">');
+    }
+
 
     app.ServerLog = Backbone.Model.extend({
         urlRoot: '/status'

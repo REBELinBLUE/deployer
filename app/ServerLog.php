@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ServerLogChanged;
+use REBELinBLUE\Deployer\Events\ServerOutputChanged;
 use REBELinBLUE\Deployer\Presenters\ServerLogPresenter;
 use Robbo\Presenter\PresentableInterface;
 
@@ -56,6 +57,11 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 
         static::updated(function (ServerLog $model) {
             event(new ServerLogChanged($model));
+
+            // FIXME: Only throw this is the content has changed
+            if (!empty($model->output)) {
+                event(new ServerOutputChanged($model));
+            }
         });
     }
 

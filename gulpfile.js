@@ -43,10 +43,11 @@ elixir(function(mix) {
         paths.admin_lte   + '/dist/css/AdminLTE.css',
         paths.admin_lte   + '/dist/css/skins/_all-skins.css',
         paths.toastr      + '/toastr.css',
-        paths.cropper     + '/dist/cropper.css',
+        paths.cropper     + '/dist/cropper.css'
     ], 'public/css/vendor.css', './')
     .styles([
-        'resources/assets/css/app.css'
+        'resources/assets/css/app.css',
+        'resources/assets/css/console.css'
     ], 'public/css/app.css', './')
     .scripts([
         paths.html5shiv + '/dist/html5shiv.js',
