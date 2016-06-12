@@ -622,9 +622,9 @@ class InstallApp extends Command
             }
         }
 
-        $required_one_commands = ['nodejs', 'node'];
+        $required_one = ['nodejs', 'node'];
         $found = true;
-        foreach ($required_one_commands as $command) {
+        foreach ($required_one as $command) {
             $process = new Process('which ' . $command);
             $process->setTimeout(null);
             $process->run();
