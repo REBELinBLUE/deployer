@@ -80,7 +80,8 @@ class ProfileController extends Controller
     public function settings(StoreSettingsRequest $request)
     {
         $this->repository->updateById($request->only(
-            'skin'
+            'skin',
+            'scheme'
         ), Auth::user()->id);
 
         return redirect()->to('/');

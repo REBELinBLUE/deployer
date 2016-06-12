@@ -92,9 +92,10 @@ var app = app || {};
     function parseOutput(output) {
         return output.replace(/<\/error>/g, '</span>')
                      .replace(/<\/info>/g, '</span>')
-                     .replace(/<error>/g, '<span class="console-text-red">')
-                     .replace(/<info>/g, '<span class="console-text-default">');
+                     .replace(/<error>/g, '<span class="text-red">')
+                     .replace(/<info>/g, '<span class="text-default">');
     }
+
 
     app.ServerLog = Backbone.Model.extend({
         urlRoot: '/status'
