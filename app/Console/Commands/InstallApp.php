@@ -609,7 +609,7 @@ class InstallApp extends Command
         }
 
         // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash', 'node'];
+        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash'];
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);
@@ -620,6 +620,23 @@ class InstallApp extends Command
                 $this->error('Program not found in path: ' . $command);
                 $errors = true;
             }
+        }
+
+        $required_one_commands = ['nodejs', 'node'];
+        $found = true;
+        foreach ($required_one_commands as $command) {
+            $process = new Process('which ' . $command);
+            $process->setTimeout(null);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                $found = false;
+                $errors = true;
+            }
+        }
+
+        if (!$found) {
+            $this->error('node.js was not found');
         }
 
         // Files and directories which need to be writable
