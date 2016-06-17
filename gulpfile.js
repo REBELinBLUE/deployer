@@ -12,7 +12,7 @@ elixir.extend('lang', function() {
     });
 });
 
-var bower_path = 'vendor/bower_components';
+var bower_path = 'bower_components';
 
 var paths = {
     'admin_lte'       : bower_path + '/admin-lte',
