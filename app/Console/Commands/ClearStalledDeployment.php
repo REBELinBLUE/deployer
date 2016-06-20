@@ -30,8 +30,6 @@ class ClearStalledDeployment extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -71,7 +69,7 @@ class ClearStalledDeployment extends Command
     /**
      * Cleans up any stalled deployments in the database.
      *
-     * @tpdp Maybe readd pending to the queue if possible?
+     * @todo Maybe readd pending to the queue if possible?
      * @return void
      */
     public function cleanupDeployments()

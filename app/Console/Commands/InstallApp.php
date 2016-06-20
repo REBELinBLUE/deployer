@@ -45,6 +45,8 @@ class InstallApp extends Command
 
     /**
      * Create a new command instance.
+     *
+     * @param UserRepositoryInterface $repository
      */
     public function __construct(UserRepositoryInterface $repository = null)
     {

@@ -27,7 +27,7 @@ class ServerController extends ResourceController
      * Store a newly created server in storage.
      *
      * @param  StoreServerRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(StoreServerRequest $request)
     {
@@ -47,7 +47,7 @@ class ServerController extends ResourceController
      * Update the specified server in storage.
      *
      * @param  StoreServerRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($server_id, StoreServerRequest $request)
     {
@@ -66,7 +66,7 @@ class ServerController extends ResourceController
      * Queues a connection test for the specified server.
      *
      * @param  int      $server_id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function test($server_id)
     {
@@ -81,7 +81,7 @@ class ServerController extends ResourceController
      * Re-generates the order for the supplied servers.
      *
      * @param  Request  $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function reorder(Request $request)
     {

@@ -15,7 +15,10 @@ class DashboardController extends Controller
     /**
      * The main page of the dashboard.
      *
-     * @return View
+     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @param ProjectRepositoryInterface $projectRepository
+     *
+     * @return \Illuminate\View\View
      */
     public function index(
         DeploymentRepositoryInterface $deploymentRepository,
@@ -45,7 +48,7 @@ class DashboardController extends Controller
      * Returns the timeline.
      *
      * @param  DeploymentRepositoryInterface $deploymentRepository
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function timeline(DeploymentRepositoryInterface $deploymentRepository)
     {
@@ -55,9 +58,10 @@ class DashboardController extends Controller
     }
 
     /**
-     * Builds the data for the timline.
+     * Builds the data for the timeline.
      *
      * @param  DeploymentRepositoryInterface $deploymentRepository
+     *
      * @return array
      */
     private function buildTimelineData(DeploymentRepositoryInterface $deploymentRepository)
@@ -82,7 +86,7 @@ class DashboardController extends Controller
      * Generates an XML file for CCTray.
      *
      * @param  ProjectRepositoryInterface $projectRepository
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function cctray(ProjectRepositoryInterface $projectRepository)
     {

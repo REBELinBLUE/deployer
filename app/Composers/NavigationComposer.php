@@ -10,12 +10,15 @@ use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
  */
 class NavigationComposer
 {
+    /**
+     * @var GroupRepositoryInterface
+     */
     private $groupRepository;
 
     /**
-     * Class constructor.
+     * NavigationComposer constructor.
      *
-     * @param DeploymentRepositoryInterface $user
+     * @param GroupRepositoryInterface $groupRepository
      */
     public function __construct(GroupRepositoryInterface $groupRepository)
     {

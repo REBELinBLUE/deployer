@@ -13,6 +13,7 @@ class Kernel extends HttpKernel
 {
     /**
      * The custom bootstrappers like Logging or Environment detector.
+     *
      * @var array
      */
     protected $customBooters = [
@@ -21,6 +22,7 @@ class Kernel extends HttpKernel
 
     /**
      * Disable bootstrapper list.
+     *
      * @var array
      */
     protected $disabledBooters = [

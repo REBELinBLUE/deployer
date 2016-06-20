@@ -17,15 +17,21 @@ use REBELinBLUE\Deployer\Http\Requests\StoreSettingsRequest;
  */
 class ProfileController extends Controller
 {
+    /**
+     * @var UserRepositoryInterface
+     */
     private $repository;
+
+    /**
+     * @var Google2FA
+     */
     private $google2fa;
 
     /**
-     * Class constructor.
+     * ProfileController constructor.
      *
-     * @param  UserRepositoryInterface $repository
+     * @param UserRepositoryInterface $repository
      * @param Google2FA $google2fa
-     * @return void
      */
     public function __construct(UserRepositoryInterface $repository, Google2FA $google2fa)
     {
@@ -35,7 +41,8 @@ class ProfileController extends Controller
 
     /**
      * View user profile.
-     * @return Response
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -58,8 +65,8 @@ class ProfileController extends Controller
     /**
      * Update user's basic profile.
      *
-     * @param  StoreProfileRequest $request
-     * @return Response
+     * @param StoreProfileRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StoreProfileRequest $request)
     {
@@ -74,8 +81,8 @@ class ProfileController extends Controller
     /**
      * Update user's settings.
      *
-     * @param  StoreSettingsRequest $request
-     * @return Response
+     * @param StoreSettingsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function settings(StoreSettingsRequest $request)
     {
@@ -89,7 +96,8 @@ class ProfileController extends Controller
 
     /**
      * Send email to change a new email.
-     * @return Response
+     *
+     * @return \Illuminate\View\View
      */
     public function requestEmail()
     {
@@ -100,6 +108,9 @@ class ProfileController extends Controller
 
     /**
      * Show the page to input the new email.
+     *
+     * @param string $token
+     * @return \Illuminate\View\View
      */
     public function email($token)
     {
@@ -110,7 +121,9 @@ class ProfileController extends Controller
 
     /**
      * Change the user's email.
-     * @return Response
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function changeEmail(Request $request)
     {
@@ -128,7 +141,9 @@ class ProfileController extends Controller
 
     /**
      * Upload file.
-     * @return Response
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
      */
     public function upload(Request $request)
     {
@@ -156,7 +171,8 @@ class ProfileController extends Controller
 
     /**
      * Reset the user's avatar to gravatar.
-     * @return Response
+     *
+     * @return \Illuminate\View\View
      */
     public function gravatar()
     {
@@ -172,7 +188,9 @@ class ProfileController extends Controller
 
     /**
      * Set and crop the avatar.
-     * @return Response
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
      */
     public function avatar(Request $request)
     {
@@ -206,8 +224,9 @@ class ProfileController extends Controller
 
     /**
      * Activates two factor authentication.
-     * @param  Request  $request
-     * @return Response
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function twoFactor(Request $request)
     {

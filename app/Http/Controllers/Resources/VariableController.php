@@ -26,7 +26,7 @@ class VariableController extends ResourceController
      * Store a newly created variable in storage.
      *
      * @param  StoreVariableRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(StoreVariableRequest $request)
     {
@@ -42,7 +42,7 @@ class VariableController extends ResourceController
      *
      * @param  int                  $variable_id
      * @param  StoreVariableRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($variable_id, StoreVariableRequest $request)
     {

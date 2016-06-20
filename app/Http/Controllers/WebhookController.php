@@ -30,22 +30,23 @@ class WebhookController extends Controller
 
     /**
      * The project repository.
+     *
      * @var ProjectRepositoryInterface
      */
     private $projectRepository;
 
     /**
      * The deployment repository.
+     *
      * @var deploymentRepository
      */
     private $deploymentRepository;
 
     /**
-     * Class constructor.
+     * WebhookController constructor.
      *
-     * @param  ProjectRepositoryInterface    $projectRepository
-     * @param  DeploymentRepositoryInterface $deploymentRepository
-     * @return void
+     * @param ProjectRepositoryInterface $projectRepository
+     * @param DeploymentRepositoryInterface $deploymentRepository
      */
     public function __construct(
         ProjectRepositoryInterface $projectRepository,
@@ -60,9 +61,9 @@ class WebhookController extends Controller
     /**
      * Handles incoming requests to trigger deploy.
      *
-     * @param  Request  $request
-     * @param  string   $hash    The webhook hash
-     * @return Response
+     * @param Request $request
+     * @param string $hash The webhook hash
+     * @return \Illuminate\View\View
      */
     public function webhook(Request $request, $hash)
     {
@@ -89,9 +90,9 @@ class WebhookController extends Controller
      * Goes through the various webhook integrations as checks if the request is for them and parses it.
      * Then adds the various additional details required to trigger a deployment.
      *
-     * @param  Request $request
-     * @param  Project $project
-     * @return mixed   Either an array of parameters for the deployment config, or false if it is invalid.
+     * @param Request $request
+     * @param Project $project
+     * @return mixed Either an array of parameters for the deployment config, or false if it is invalid.
      */
     private function parseWebhookRequest(Request $request, Project $project)
     {
@@ -110,10 +111,10 @@ class WebhookController extends Controller
      * Takes the data returned from the webhook request and then adds deployers own data, such as project ID
      * and runs any checks such as checks the branch is allowed to be deployed.
      *
-     * @param  mixed   $payload
-     * @param  Request $request
-     * @param  Project $project
-     * @return mixed   Either an array of the complete deployment config, or false if it is invalid.
+     * @param mixed $payload
+     * @param Request $request
+     * @param Project $project
+     * @return mixed Either an array of the complete deployment config, or false if it is invalid.
      */
     private function appendProjectSettings($payload, Request $request, Project $project)
     {
@@ -162,8 +163,8 @@ class WebhookController extends Controller
     /**
      * Generates a new webhook URL.
      *
-     * @param  int      $project_id
-     * @return Response
+     * @param int $project_id
+     * @return \Illuminate\View\View
      */
     public function refresh($project_id)
     {

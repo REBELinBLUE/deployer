@@ -11,10 +11,13 @@ use Version\Version;
  */
 class VersionComposer
 {
+    /**
+     * @var LatestReleaseInterface
+     */
     private $release;
 
     /**
-     * Class constructor.
+     * VersionComposer constructor.
      *
      * @param LatestReleaseInterface $release
      */

@@ -40,7 +40,7 @@ class CommandController extends ResourceController
      *
      * @param  int      $project_id
      * @param  string   $action     Either clone, install, activate or purge
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function listing($project_id, $action)
     {
@@ -78,7 +78,7 @@ class CommandController extends ResourceController
      * Store a newly created command in storage.
      *
      * @param  StoreCommandRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(StoreCommandRequest $request)
     {
@@ -99,7 +99,7 @@ class CommandController extends ResourceController
      *
      * @param  int                 $command_id
      * @param  StoreCommandRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($command_id, StoreCommandRequest $request)
     {
@@ -117,7 +117,7 @@ class CommandController extends ResourceController
      * Re-generates the order for the supplied commands.
      *
      * @param  Request  $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function reorder(Request $request)
     {

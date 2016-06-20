@@ -24,7 +24,7 @@ class ProjectFileController extends ResourceController
     /**
      * Store a newly created resource in storage.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(StoreProjectFileRequest $request)
     {
@@ -40,7 +40,7 @@ class ProjectFileController extends ResourceController
      * Update the specified resource in storage.
      *
      * @param  int      $file_id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($file_id, StoreProjectFileRequest $request)
     {

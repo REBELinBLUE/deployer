@@ -25,7 +25,7 @@ class NotificationController extends ResourceController
      * Store a newly created notification in storage.
      *
      * @param  StoreNotificationRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(StoreNotificationRequest $request)
     {
@@ -44,7 +44,7 @@ class NotificationController extends ResourceController
      *
      * @param  int                      $notification_id
      * @param  StoreNotificationRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($notification_id, StoreNotificationRequest $request)
     {

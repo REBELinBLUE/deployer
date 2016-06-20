@@ -27,7 +27,7 @@ class UserController extends Controller
     /**
      * Display a listing of the users.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -41,7 +41,7 @@ class UserController extends Controller
      * Store a newly created user in storage.
      *
      * @param  StoreUserRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(StoreUserRequest $request)
     {
@@ -61,7 +61,7 @@ class UserController extends Controller
      *
      * @param  int              $user_id
      * @param  StoreUserRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($user_id, StoreUserRequest $request)
     {

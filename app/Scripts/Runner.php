@@ -14,19 +14,42 @@ class Runner
     const TEMPLATE_INPUT = true;
     const DIRECT_INPUT   = false;
 
+    /**
+     * @var Process
+     */
     private $process;
+
+    /**
+     * @var string
+     */
     private $script;
+
+    /**
+     * @var Server
+     */
     private $server;
+
+    /**
+     * @var string
+     */
     private $private_key;
+
+    /**
+     * @var string
+     */
     private $alternative_user;
+
+    /**
+     * @var bool
+     */
     private $is_local = true;
 
     /**
      * Class constructor.
      *
      * @param string $input
-     * @param array  $tokens
-     * @param int    $script_source
+     * @param array $tokens
+     * @param bool $script_source
      */
     public function __construct($input, array $tokens = [], $script_source = self::TEMPLATE_INPUT)
     {
@@ -43,7 +66,7 @@ class Runner
     /**
      * Prepend commands to the beginning of the script.
      *
-     * @param  string $script
+     * @param string $script
      * @return self
      */
     public function prependScript($script)
@@ -56,7 +79,7 @@ class Runner
     /**
      * Append commands to the end of the script.
      *
-     * @param  string $script
+     * @param string $script
      * @return self
      */
     public function appendScript($script)
@@ -69,7 +92,7 @@ class Runner
     /**
      * Runs a script locally.
      *
-     * @param  callable|null $callback
+     * @param callable|null $callback
      * @return int
      */
     public function run($callback = null)
@@ -84,9 +107,9 @@ class Runner
     /**
      * Sets the script to run on a remote server.
      *
-     * @param  Server $server
-     * @param  string $private_key
-     * @param  string $alternative_user
+     * @param Server $server
+     * @param string $private_key
+     * @param string $alternative_user
      * @return self
      */
     public function setServer(Server $server, $private_key, $alternative_user = null)
@@ -132,10 +155,10 @@ class Runner
     /**
      * Overloading call to undefined methods to pass them to the process object.
      *
-     * @param  string           $method
-     * @param  array            $arguments
-     * @throws RuntimeException
+     * @param  string $method
+     * @param  array $arguments
      * @return mixed
+     * @throws RuntimeException
      */
     public function __call($method, array $arguments = [])
     {

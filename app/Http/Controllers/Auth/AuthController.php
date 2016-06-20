@@ -42,7 +42,7 @@ class AuthController extends Controller
     /**
      * Show the application login form.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function getLogin()
     {
@@ -57,7 +57,7 @@ class AuthController extends Controller
      * Handle a login request to the application.
      *
      * @param  Request  $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function postLogin(Request $request)
     {
@@ -99,7 +99,7 @@ class AuthController extends Controller
     /**
      * Shows the 2FA form.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function getTwoFactorAuthentication()
     {
@@ -110,7 +110,7 @@ class AuthController extends Controller
      * Validates the 2FA code.
      *
      * @param  Request  $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function postTwoFactorAuthentication(Request $request)
     {

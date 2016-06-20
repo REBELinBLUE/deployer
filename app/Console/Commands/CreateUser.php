@@ -39,8 +39,7 @@ class CreateUser extends Command
     /**
      * Create a new command instance..
      *
-     * @param  UserRepositoryInterface $repository
-     * @return void
+     * @param UserRepositoryInterface $repository
      */
     public function __construct(UserRepositoryInterface $repository)
     {

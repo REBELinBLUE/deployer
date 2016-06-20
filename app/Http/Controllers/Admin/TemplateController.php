@@ -26,7 +26,7 @@ class TemplateController extends Controller
     /**
      * Shows all templates.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -42,7 +42,7 @@ class TemplateController extends Controller
      * Show the template configuration.
      *
      * @param  int      $template_id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($template_id)
     {
@@ -65,7 +65,7 @@ class TemplateController extends Controller
      * Store a newly created template in storage.
      *
      * @param  StoreTemplateRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(StoreTemplateRequest $request)
     {
@@ -79,7 +79,7 @@ class TemplateController extends Controller
      *
      * @param  int                  $template_id
      * @param  StoreTemplateRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($template_id, StoreTemplateRequest $request)
     {

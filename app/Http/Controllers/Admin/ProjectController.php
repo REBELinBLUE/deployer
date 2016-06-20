@@ -32,7 +32,7 @@ class ProjectController extends Controller
      * @param  TemplateRepositoryInterface $templateRepository
      * @param  GroupRepositoryInterface    $groupRepository
      * @param  Request                     $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index(
         TemplateRepositoryInterface $templateRepository,
@@ -54,7 +54,7 @@ class ProjectController extends Controller
      * Store a newly created project in storage.
      *
      * @param  StoreProjectRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(StoreProjectRequest $request)
     {
@@ -78,7 +78,7 @@ class ProjectController extends Controller
      *
      * @param  int                 $project_id
      * @param  StoreProjectRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($project_id, StoreProjectRequest $request)
     {

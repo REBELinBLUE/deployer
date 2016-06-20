@@ -32,7 +32,7 @@ class CheckUrlController extends ResourceController
      * Store a newly created URL in storage.
      *
      * @param  StoreCheckUrlRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(StoreCheckUrlRequest $request)
     {
@@ -50,7 +50,7 @@ class CheckUrlController extends ResourceController
      *
      * @param  int                  $url_id
      * @param  StoreCheckUrlRequest $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($url_id, StoreCheckUrlRequest $request)
     {

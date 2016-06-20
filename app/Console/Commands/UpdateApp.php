@@ -29,8 +29,6 @@ class UpdateApp extends InstallApp
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {

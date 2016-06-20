@@ -10,12 +10,15 @@ use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
  */
 class HeaderComposer
 {
+    /**
+     * @var DeploymentRepositoryInterface
+     */
     private $deploymentRepository;
 
     /**
-     * Class constructor.
+     * HeaderComposer constructor.
      *
-     * @param DeploymentRepositoryInterface $user
+     * @param DeploymentRepositoryInterface $deploymentRepository
      */
     public function __construct(DeploymentRepositoryInterface $deploymentRepository)
     {
