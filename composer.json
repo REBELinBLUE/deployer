@@ -54,15 +54,8 @@
         "codeclimate/php-test-reporter": "^0.3.0",
         "barryvdh/laravel-ide-helper": "^2.1",
         "themsaid/laravel-langman": "^1.1",
-        "diablomedia/phpunit-pretty-printer": "dev-master",
         "friendsofphp/php-cs-fixer": "^1.11"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/REBELinBLUE/phpunit-pretty-printer"
-        }
-    ],
     "autoload": {
         "classmap": [
             "database"
