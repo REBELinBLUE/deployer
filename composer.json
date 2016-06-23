@@ -5,7 +5,7 @@
     "type": "project",
     "keywords": ["php", "deployer", "deploy", "deployment"],
     "homepage": "http://phpdeployment.org/",
-    "license": "BSD-2-Clause",
+    "license": "MIT",
     "authors": [
         {
             "name": "Stephen Ball",
