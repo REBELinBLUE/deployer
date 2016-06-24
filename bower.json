@@ -22,6 +22,7 @@
         "respond": "~1.4.2",
         "cropper": "~2.3.0",
         "toastr": "~2.1.2",
-        "admin-lte": "~2.3.0"
+        "admin-lte": "~2.3.0",
+        "jquery": "~2.2.4"
     }
 }
