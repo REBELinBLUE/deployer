@@ -1,20 +1,24 @@
-var elixir = require('laravel-elixir');
-             require('laravel-elixir-remove');
-             require('laravel-elixir-bower-io');
+const Elixir = require('laravel-elixir');
+const gulp   = require('gulp');
+const shell  = require('gulp-shell');
+const bower  = require('gulp-bower');
+               require('laravel-elixir-remove');
 
-var gulp   = require('gulp');
-var shell  = require('gulp-shell');
-
-var Task = elixir.Task;
-elixir.extend('lang', function() {
-    new Task('lang', function(){
+Elixir.extend('lang', function () {
+    new Elixir.Task('lang', function () {
         return gulp.src('').pipe(shell('php artisan js-localization:refresh'));
     });
 });
 
-var bower_path = 'bower_components';
+Elixir.extend('bower', function() {
+    new Elixir.Task('bower', function() {
+        return bower();
+    });
+});
 
-var paths = {
+const bower_path = 'bower_components';
+
+const paths = {
     'admin_lte'       : bower_path + '/admin-lte',
     'ace'             : bower_path + '/ace-min-noconflict',
     'backbone'        : bower_path + '/backbone',
@@ -33,8 +37,8 @@ var paths = {
     'localization'    : 'vendor/andywer/js-localization'
 };
 
-elixir(function(mix) {
-    mix.Bower()
+Elixir(function(mix) {
+    mix.bower()
     .styles([
         paths.admin_lte   + '/bootstrap/css/bootstrap.css',
         paths.select2     + '/select2.css',
