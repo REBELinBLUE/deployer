@@ -2,12 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Presenters;
 
-use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Deployment;
 use Robbo\Presenter\Presenter;
 
 /**
  * The view presenter for a server class.
+ * @property string readable_runtime
  */
 class ServerLogPresenter extends Presenter
 {

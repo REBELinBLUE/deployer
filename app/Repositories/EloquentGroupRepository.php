@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Group;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Template;
 
 /**
@@ -13,10 +12,9 @@ use REBELinBLUE\Deployer\Template;
 class EloquentGroupRepository extends EloquentRepository implements GroupRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentGroupRepository constructor.
      *
-     * @param  Group                   $model
-     * @return EloquentGroupRepository
+     * @param Group $model
      */
     public function __construct(Group $model)
     {
@@ -24,9 +22,7 @@ class EloquentGroupRepository extends EloquentRepository implements GroupReposit
     }
 
     /**
-     * Gets all groups.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAll()
     {

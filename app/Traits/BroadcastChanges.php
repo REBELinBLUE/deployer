@@ -12,9 +12,10 @@ use REBELinBLUE\Deployer\Events\ModelTrashed;
 trait BroadcastChanges
 {
     /**
-     * Override the boot method to bind model event listeners.
-     *
-     * @return void
+     * Boot method to bind model event listeners.
+     * @fires ModelCreated
+     * @fires ModelChanged
+     * @fires ModelTrashed
      */
     public static function bootBroadcastChanges()
     {

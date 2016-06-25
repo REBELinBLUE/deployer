@@ -28,8 +28,6 @@ class CheckHeartbeats extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -39,7 +37,7 @@ class CheckHeartbeats extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @fires HeartbeatMissed
      */
     public function handle()
     {

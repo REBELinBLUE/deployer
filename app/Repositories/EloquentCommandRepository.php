@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Contracts\Repositories\CommandRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The command repository.
@@ -12,10 +11,9 @@ use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 class EloquentCommandRepository extends EloquentRepository implements CommandRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentCommandRepository constructor.
      *
-     * @param  Command                    $model
-     * @return CommandRepositoryInterface
+     * @param Command $model
      */
     public function __construct(Command $model)
     {
@@ -23,10 +21,7 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     }
 
     /**
-     * Creates a new instance of the command.
-     *
-     * @param  array $fields
-     * @return Model
+     * {@inheritdoc}
      */
     public function create(array $fields)
     {
@@ -61,11 +56,7 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     }
 
     /**
-     * Updates an instance by it's ID.
-     *
-     * @param  array $fields
-     * @param  int   $model_id
-     * @return Model
+     * {@inheritdoc}
      */
     public function updateById(array $fields, $model_id)
     {
@@ -89,11 +80,7 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     }
 
     /**
-     * Get's the commands in a specific step.
-     *
-     * @param  int        $project_id
-     * @param  int        $step
-     * @return Collection
+     * {@inheritdoc}
      */
     public function getForDeployStep($project_id, $step)
     {

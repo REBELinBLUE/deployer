@@ -6,7 +6,6 @@ use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use REBELinBLUE\Deployer\Deployment;
-use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 
 /**
@@ -14,13 +13,21 @@ use REBELinBLUE\Deployer\Project;
  */
 class MailDeployNotification extends Job
 {
+    /**
+     * @var Project
+     */
     private $project;
+
+    /**
+     * @var Deployment
+     */
     private $deployment;
 
     /**
-     * Create a new command instance.
+     * MailDeployNotification constructor.
      *
-     * @return void
+     * @param Project $project
+     * @param Deployment $deployment
      */
     public function __construct(Project $project, Deployment $deployment)
     {
@@ -30,8 +37,6 @@ class MailDeployNotification extends Job
 
     /**
      * Execute the command.
-     *
-     * @return void
      */
     public function handle()
     {

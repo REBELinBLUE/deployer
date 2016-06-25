@@ -11,15 +11,14 @@ use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Contro
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
 
 /**
- * The controller for managging projects.
+ * The controller for managing projects.
  */
 class ProjectController extends Controller
 {
     /**
-     * Class constructor.
+     * ProjectController constructor.
      *
-     * @param  ProjectRepositoryInterface $repository
-     * @return void
+     * @param ProjectRepositoryInterface $repository
      */
     public function __construct(ProjectRepositoryInterface $repository)
     {
@@ -29,10 +28,10 @@ class ProjectController extends Controller
     /**
      * Shows all projects.
      *
-     * @param  TemplateRepositoryInterface $templateRepository
-     * @param  GroupRepositoryInterface    $groupRepository
-     * @param  Request                     $request
-     * @return Response
+     * @param TemplateRepositoryInterface $templateRepository
+     * @param GroupRepositoryInterface $groupRepository
+     * @param Request $request
+     * @return \Illuminate\View\View
      */
     public function index(
         TemplateRepositoryInterface $templateRepository,
@@ -53,8 +52,8 @@ class ProjectController extends Controller
     /**
      * Store a newly created project in storage.
      *
-     * @param  StoreProjectRequest $request
-     * @return Response
+     * @param StoreProjectRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreProjectRequest $request)
     {
@@ -76,9 +75,9 @@ class ProjectController extends Controller
     /**
      * Update the specified project in storage.
      *
-     * @param  int                 $project_id
-     * @param  StoreProjectRequest $request
-     * @return Response
+     * @param int $project_id
+     * @param StoreProjectRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($project_id, StoreProjectRequest $request)
     {

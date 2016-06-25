@@ -34,8 +34,6 @@ class UpdateGitMirrors extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -46,6 +44,7 @@ class UpdateGitMirrors extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @dispatches UpdateGitMirror
      */
     public function handle()
     {

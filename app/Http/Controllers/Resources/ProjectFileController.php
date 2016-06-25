@@ -11,10 +11,9 @@ use REBELinBLUE\Deployer\Http\Requests\StoreProjectFileRequest;
 class ProjectFileController extends ResourceController
 {
     /**
-     * Class constructor.
+     * ProjectFileController constructor.
      *
-     * @param  ProjectFileRepositoryInterface $repository
-     * @return void
+     * @param ProjectFileRepositoryInterface $repository
      */
     public function __construct(ProjectFileRepositoryInterface $repository)
     {
@@ -24,7 +23,8 @@ class ProjectFileController extends ResourceController
     /**
      * Store a newly created resource in storage.
      *
-     * @return Response
+     * @param StoreProjectFileRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreProjectFileRequest $request)
     {
@@ -39,8 +39,9 @@ class ProjectFileController extends ResourceController
     /**
      * Update the specified resource in storage.
      *
-     * @param  int      $file_id
-     * @return Response
+     * @param int $file_id
+     * @param StoreProjectFileRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($file_id, StoreProjectFileRequest $request)
     {

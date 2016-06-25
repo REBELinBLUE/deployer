@@ -128,9 +128,9 @@ abstract class ProjectRelation extends Model
     /**
      * Has many relationship for git references.
      *
-     * @see PREBELinBLUE\Deployer\Project::tags()
-     * @see PREBELinBLUE\Deployer\Project::branches()
-     * @return Ref
+     * @see Project::tags()
+     * @see Project::branches()
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function refs()
     {

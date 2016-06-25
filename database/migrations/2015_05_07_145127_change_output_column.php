@@ -6,8 +6,6 @@ class ChangeOutputColumn extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -18,8 +16,6 @@ class ChangeOutputColumn extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

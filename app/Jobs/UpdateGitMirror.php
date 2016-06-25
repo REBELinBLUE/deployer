@@ -2,12 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Jobs\Job;
-use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
@@ -15,16 +12,19 @@ use REBELinBLUE\Deployer\Scripts\Runner as Process;
 /**
  * Updates the git mirror for a project.
  */
-class UpdateGitMirror extends Job implements SelfHandling
+class UpdateGitMirror extends Job
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
+    /**
+     * @var Project
+     */
     private $project;
 
     /**
-     * Create a new job instance.
+     * UpdateGitMirror constructor.
      *
-     * @return void
+     * @param Project $project
      */
     public function __construct(Project $project)
     {
@@ -33,8 +33,8 @@ class UpdateGitMirror extends Job implements SelfHandling
 
     /**
      * Execute the job.
-     *
-     * @return void
+     * @throws \RuntimeException
+     * @dispatches UpdateGitReferences
      */
     public function handle()
     {

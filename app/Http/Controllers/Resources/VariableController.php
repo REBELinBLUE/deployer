@@ -12,10 +12,9 @@ use REBELinBLUE\Deployer\Http\Requests\StoreVariableRequest;
 class VariableController extends ResourceController
 {
     /**
-     * Class constructor.
+     * VariableController constructor.
      *
-     * @param  VariableRepositoryInterface $repository
-     * @return void
+     * @param VariableRepositoryInterface $repository
      */
     public function __construct(VariableRepositoryInterface $repository)
     {
@@ -25,8 +24,8 @@ class VariableController extends ResourceController
     /**
      * Store a newly created variable in storage.
      *
-     * @param  StoreVariableRequest $request
-     * @return Response
+     * @param StoreVariableRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreVariableRequest $request)
     {
@@ -40,9 +39,9 @@ class VariableController extends ResourceController
     /**
      * Update the specified variable in storage.
      *
-     * @param  int                  $variable_id
-     * @param  StoreVariableRequest $request
-     * @return Response
+     * @param int $variable_id
+     * @param StoreVariableRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($variable_id, StoreVariableRequest $request)
     {

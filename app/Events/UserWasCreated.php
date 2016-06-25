@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\User;
 
 /**
@@ -14,8 +13,6 @@ class UserWasCreated extends Event
     use SerializesModels;
 
     /**
-     * The user which was created.
-     *
      * @var User
      */
     public $user;
@@ -28,11 +25,10 @@ class UserWasCreated extends Event
     public $password;
 
     /**
-     * Create a new event instance.
+     * UserWasCreated constructor.
      *
-     * @param  User           $user
-     * @param  string         $password
-     * @return UserWasCreated
+     * @param User $user
+     * @param string $password
      */
     public function __construct(User $user, $password)
     {

@@ -10,8 +10,6 @@ class AddChgemailTokenToUsersTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -22,8 +20,6 @@ class AddChgemailTokenToUsersTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

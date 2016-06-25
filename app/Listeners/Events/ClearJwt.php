@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Session;
 class ClearJwt extends Event
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
+     * ClearJwt constructor.
      */
     public function __construct()
     {
@@ -23,8 +21,7 @@ class ClearJwt extends Event
     /**
      * Handle the event.
      *
-     * @param  Logout $event
-     * @return void
+     * @param Logout $event
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function handle(Logout $event)

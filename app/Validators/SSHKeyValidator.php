@@ -10,9 +10,9 @@ class SSHKeyValidator
     /**
      * Validate that the SSH key looks valid.
      *
-     * @param  string $attribute
-     * @param  mixed  $value
-     * @param  mixed  $parameters
+     * @param string $attribute
+     * @param string $value
+     * @param array $parameters
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

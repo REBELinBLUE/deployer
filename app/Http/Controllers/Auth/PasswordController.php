@@ -14,6 +14,11 @@ class PasswordController extends Controller
     use ResetsPasswords;
 
     /**
+     * @var string
+     */
+    protected $subject;
+
+    /**
      * Where to redirect to once the password has been reset.
      *
      * @var string
@@ -22,8 +27,6 @@ class PasswordController extends Controller
 
     /**
      * Create a new password controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {

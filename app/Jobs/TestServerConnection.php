@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Server;
 
@@ -16,13 +15,15 @@ class TestServerConnection extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    /**
+     * @var Server
+     */
     public $server;
 
     /**
-     * Create a new command instance.
+     * TestServerConnection constructor.
      *
-     * @param  Server               $server
-     * @return TestServerConnection
+     * @param Server $server
      */
     public function __construct(Server $server)
     {
@@ -31,8 +32,6 @@ class TestServerConnection extends Job implements ShouldQueue
 
     /**
      * Execute the command.
-     *
-     * @return void
      */
     public function handle()
     {

@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Events;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Contracts\Events\HasSlackPayloadInterface;
-use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\Heartbeat;
 
 /**
@@ -15,12 +14,15 @@ class HeartbeatMissed extends Event implements HasSlackPayloadInterface
 {
     use SerializesModels;
 
+    /**
+     * @var Heartbeat
+     */
     public $heartbeat;
 
     /**
-     * Create a new event instance.
+     * HeartbeatMissed constructor.
      *
-     * @return void
+     * @param Heartbeat $heartbeat
      */
     public function __construct(Heartbeat $heartbeat)
     {
@@ -28,8 +30,6 @@ class HeartbeatMissed extends Event implements HasSlackPayloadInterface
     }
 
     /**
-     * Generates a slack payload for the heartbeat failure.
-     *
      * @return array
      */
     public function notificationPayload()

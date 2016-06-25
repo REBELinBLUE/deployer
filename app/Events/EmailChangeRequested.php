@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\User;
 
 /**
@@ -13,12 +12,15 @@ class EmailChangeRequested extends Event
 {
     use SerializesModels;
 
+    /**
+     * @var User
+     */
     public $user;
 
     /**
-     * Create a new event instance.
+     * EmailChangeRequested constructor.
      *
-     * @return void
+     * @param User $user
      */
     public function __construct(User $user)
     {

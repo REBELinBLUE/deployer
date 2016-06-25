@@ -11,10 +11,9 @@ use REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest;
 class HeartbeatController extends ResourceController
 {
     /**
-     * Class constructor.
+     * HeartbeatController constructor.
      *
-     * @param  NotificationRepositoryInterface $repository
-     * @return void
+     * @param HeartbeatRepositoryInterface $repository
      */
     public function __construct(HeartbeatRepositoryInterface $repository)
     {
@@ -24,8 +23,8 @@ class HeartbeatController extends ResourceController
     /**
      * Handles the callback URL for the heartbeat.
      *
-     * @param  string   $hash The webhook hash
-     * @return Response
+     * @param string $hash
+     * @return \Illuminate\View\View
      */
     public function ping($hash)
     {
@@ -41,8 +40,8 @@ class HeartbeatController extends ResourceController
     /**
      * Store a newly created heartbeat in storage.
      *
-     * @param  StoreHeartbeatRequest $request
-     * @return Response
+     * @param StoreHeartbeatRequest $request
+     * @return \Illuminate\View\View
      */
     public function store(StoreHeartbeatRequest $request)
     {
@@ -56,9 +55,9 @@ class HeartbeatController extends ResourceController
     /**
      * Update the specified heartbeat in storage.
      *
-     * @param  int                   $heartbeat_id
-     * @param  StoreHeartbeatRequest $request
-     * @return Response
+     * @param int $heartbeat_id
+     * @param StoreHeartbeatRequest $request
+     * @return \Illuminate\View\View
      */
     public function update($heartbeat_id, StoreHeartbeatRequest $request)
     {

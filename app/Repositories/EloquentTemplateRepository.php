@@ -11,10 +11,9 @@ use REBELinBLUE\Deployer\Template;
 class EloquentTemplateRepository extends EloquentRepository implements TemplateRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentTemplateRepository constructor.
      *
-     * @param  Template                  $model
-     * @return EloquentProjectRepository
+     * @param Template $model
      */
     public function __construct(Template $model)
     {
@@ -22,9 +21,7 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
     }
 
     /**
-     * Gets all templates.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAll()
     {
@@ -32,16 +29,5 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
                     ->templates()
                     ->orderBy('name')
                     ->get();
-    }
-
-    /**
-     * Overwrite the parent method to add the requires fields.
-     *
-     * @param  array    $fields
-     * @return Template
-     */
-    public function create(array $fields)
-    {
-        return parent::create($fields);
     }
 }

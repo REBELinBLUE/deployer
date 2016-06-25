@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\User;
 
 /**
@@ -12,10 +11,9 @@ use REBELinBLUE\Deployer\User;
 class EloquentUserRepository extends EloquentRepository implements UserRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentUserRepository constructor.
      *
-     * @param  User                   $model
-     * @return EloquentUserRepository
+     * @param User $model
      */
     public function __construct(User $model)
     {
@@ -23,10 +21,7 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * Creates a new instance of the user.
-     *
-     * @param  array $fields
-     * @return Model
+     * {@inheritdoc}
      */
     public function create(array $fields)
     {
@@ -36,10 +31,7 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * Update an instance of the user.
-     *
-     * @param  array $fields
-     * @return Model
+     * {@inheritdoc}
      */
     public function updateById(array $fields, $model_id)
     {
@@ -59,9 +51,7 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * Find user by the email token.
-     * @param  string $token
-     * @return User
+     * {@inheritdoc}
      */
     public function findByEmailToken($token)
     {

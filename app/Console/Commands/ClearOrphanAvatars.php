@@ -26,8 +26,6 @@ class ClearOrphanAvatars extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -36,8 +34,6 @@ class ClearOrphanAvatars extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -46,8 +42,6 @@ class ClearOrphanAvatars extends Command
 
     /**
      * Remove unused avatar files from disk.
-     *
-     * @return void
      */
     private function purgeOldAvatars()
     {

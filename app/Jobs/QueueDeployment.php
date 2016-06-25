@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
-use REBELinBLUE\Deployer\Jobs\DeployProject;
-use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\ServerLog;
 
@@ -19,16 +17,27 @@ class QueueDeployment extends Job
 {
     use DispatchesJobs;
 
+    /**
+     * @var Project
+     */
     private $project;
+
+    /**
+     * @var Deployment
+     */
     private $deployment;
+
+    /**
+     * @var array
+     */
     private $optional;
 
     /**
-     * Create a new command instance.
+     * QueueDeployment constructor.
      *
-     * @param  Project         $project
-     * @param  Deployment      $deployment
-     * @return QueueDeployment
+     * @param Project $project
+     * @param Deployment $deployment
+     * @param array $optional
      */
     public function __construct(Project $project, Deployment $deployment, array $optional = [])
     {
@@ -39,8 +48,7 @@ class QueueDeployment extends Job
 
     /**
      * Execute the command.
-     *
-     * @return void
+     * @dispatches DeployProject
      */
     public function handle()
     {
@@ -112,8 +120,6 @@ class QueueDeployment extends Job
 
     /**
      * Sets the deployment to pending.
-     *
-     * @return void
      */
     private function setDeploymentStatus()
     {
@@ -138,9 +144,8 @@ class QueueDeployment extends Job
     /**
      * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command.
      *
-     * @param  int     $stage
-     * @param  Command $command
-     * @return void
+     * @param int $stage
+     * @param Stage $command
      */
     private function createCommandStep($stage, Stage $command)
     {
@@ -161,8 +166,7 @@ class QueueDeployment extends Job
     /**
      * Create an instance of DeployStep and a ServerLog entry for each server which can have code deployed.
      *
-     * @param  int  $stage
-     * @return void
+     * @param int $stage
      */
     private function createDeployStep($stage)
     {

@@ -13,12 +13,15 @@ class JsonWebTokenExpired extends Login
 {
     use SerializesModels;
 
+    /**
+     * @var User
+     */
     public $user;
 
     /**
-     * Create a new event instance.
+     * JsonWebTokenExpired constructor.
      *
-     * @return void
+     * @param User $user
      */
     public function __construct(User $user)
     {

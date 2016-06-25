@@ -29,8 +29,6 @@ class UpdateApp extends InstallApp
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -80,8 +78,6 @@ class UpdateApp extends InstallApp
 
     /**
      * Backup the database.
-     *
-     * @return void
      */
     protected function backupDatabase()
     {
@@ -97,8 +93,6 @@ class UpdateApp extends InstallApp
 
     /**
      * Checks for new configuration values in .env.example and copy them to .env.
-     *
-     * @return void
      */
     protected function updateConfiguration()
     {
@@ -145,8 +139,6 @@ class UpdateApp extends InstallApp
 
     /**
      * Restarts the queues.
-     *
-     * @return void
      */
     protected function restartQueue()
     {
@@ -160,7 +152,7 @@ class UpdateApp extends InstallApp
     /**
      * Restarts the socket server.
      *
-     * @return void
+     * @fires RestartSocketServer
      */
     protected function restartSocket()
     {

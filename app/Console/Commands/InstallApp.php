@@ -45,6 +45,8 @@ class InstallApp extends Command
 
     /**
      * Create a new command instance.
+     *
+     * @param UserRepositoryInterface $repository
      */
     public function __construct(UserRepositoryInterface $repository = null)
     {
@@ -283,9 +285,8 @@ class InstallApp extends Command
 
         $connectionVerified = false;
 
+        $database = [];
         while (!$connectionVerified) {
-            $database = [];
-
             // Should we just skip this step if only one driver is available?
             $type = $this->choice('Type', $this->getDatabaseDrivers(), 0);
 

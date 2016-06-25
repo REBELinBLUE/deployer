@@ -24,16 +24,15 @@ class DeploymentController extends Controller
     /**
      * The deployment repository.
      *
-     * @var deploymentRepository
+     * @var DeploymentRepositoryInterface
      */
     private $deploymentRepository;
 
     /**
-     * Class constructor.
+     * DeploymentController constructor.
      *
-     * @param  ProjectRepositoryInterface    $projectRepository
-     * @param  DeploymentRepositoryInterface $projectRepository
-     * @return void
+     * @param ProjectRepositoryInterface $projectRepository
+     * @param DeploymentRepositoryInterface $deploymentRepository
      */
     public function __construct(
         ProjectRepositoryInterface $projectRepository,
@@ -46,9 +45,8 @@ class DeploymentController extends Controller
     /**
      * The details of an individual project.
      *
-     * @param  int                           $project_id
-     * @param  DeploymentRepositoryInterface $deploymentRepository
-     * @return View
+     * @param int $project_id
+     * @return \Illuminate\View\View
      */
     public function project($project_id)
     {
@@ -82,8 +80,8 @@ class DeploymentController extends Controller
     /**
      * Show the deployment details.
      *
-     * @param  int      $deployment
-     * @return Response
+     * @param int $deployment_id
+     * @return \Illuminate\View\View
      */
     public function show($deployment_id)
     {
@@ -118,9 +116,9 @@ class DeploymentController extends Controller
     /**
      * Adds a deployment for the specified project to the queue.
      *
-     * @param  Request  $request
-     * @param  int      $project
-     * @return Response
+     * @param Request $request
+     * @param int $project_id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function deploy(Request $request, $project_id)
     {
@@ -161,9 +159,9 @@ class DeploymentController extends Controller
     /**
      * Loads a previous deployment and then creates a new deployment based on it.
      *
-     * @param  Request  $request
-     * @param  int      $deployment_id
-     * @return Response
+     * @param Request $request
+     * @param int $deployment_id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function rollback(Request $request, $deployment_id)
     {
@@ -186,8 +184,8 @@ class DeploymentController extends Controller
     /**
      * Abort a deployment.
      *
-     * @param  int      $deployment_id
-     * @return Response
+     * @param int $deployment_id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function abort($deployment_id)
     {
@@ -201,7 +199,7 @@ class DeploymentController extends Controller
     /**
      * Gets the log output of a particular deployment step.
      *
-     * @param  ServerLog $log
+     * @param ServerLog $log
      * @return ServerLog
      */
     public function log(ServerLog $log)

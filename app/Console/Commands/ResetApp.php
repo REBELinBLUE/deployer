@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 
 /**
  * A console command for clearing all data and setting up again.
+ * @property \Illuminate\Contracts\Foundation\Application app
  */
 class ResetApp extends UpdateApp
 {
@@ -27,8 +28,6 @@ class ResetApp extends UpdateApp
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -61,8 +60,6 @@ class ResetApp extends UpdateApp
 
     /**
      * Resets the database.
-     *
-     * @return void
      */
     protected function resetDB()
     {
@@ -74,8 +71,6 @@ class ResetApp extends UpdateApp
 
     /**
      * Removes the log files.
-     *
-     * @return void
      */
     protected function clearLogs()
     {

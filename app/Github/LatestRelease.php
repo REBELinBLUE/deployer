@@ -18,13 +18,16 @@ class LatestRelease implements LatestReleaseInterface
      **/
     private $github_url = 'https://api.github.com/repos/REBELinBLUE/deployer/releases/latest';
 
+    /**
+     * @var CacheRepository
+     */
     private $cache;
 
     /**
-     * Class constructor.
+     * LatestRelease constructor.
      *
      * @param CacheRepository $cache
-     **/
+     */
     public function __construct(CacheRepository $cache)
     {
         $this->cache = $cache;
@@ -33,7 +36,7 @@ class LatestRelease implements LatestReleaseInterface
     /**
      * Get the latest release from Github.
      *
-     * @return string
+     * @return false|string
      */
     public function latest()
     {

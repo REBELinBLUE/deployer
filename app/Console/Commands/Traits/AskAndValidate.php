@@ -12,11 +12,11 @@ trait AskAndValidate
     /**
      * Asks a question and validates the response.
      *
-     * @param  string   $question
-     * @param  array    $choices
-     * @param  function $validator
-     * @param  mixed    $default
-     * @param  bool     $secret
+     * @param string $question
+     * @param array $choices
+     * @param callback $validator
+     * @param mixed $default
+     * @param bool $secret
      * @return string
      */
     public function askAndValidate($question, array $choices, $validator, $default = null, $secret = false)
@@ -38,10 +38,11 @@ trait AskAndValidate
 
     /**
      * Asks a question and validates the secret response.
-     * @param  string   $question
-     * @param  array    $choices
-     * @param  function $validator
-     * @param  mixed    $default
+     *
+     * @param string $question
+     * @param array $choices
+     * @param callback $validator
+     * @param mixed $default
      * @return string
      */
     public function askSecretAndValidate($question, array $choices, $validator, $default = null)

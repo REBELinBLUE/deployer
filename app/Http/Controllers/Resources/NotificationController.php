@@ -11,10 +11,9 @@ use REBELinBLUE\Deployer\Http\Requests\StoreNotificationRequest;
 class NotificationController extends ResourceController
 {
     /**
-     * Class constructor.
+     * NotificationController constructor.
      *
-     * @param  NotificationRepositoryInterface $repository
-     * @return void
+     * @param NotificationRepositoryInterface $repository
      */
     public function __construct(NotificationRepositoryInterface $repository)
     {
@@ -24,8 +23,8 @@ class NotificationController extends ResourceController
     /**
      * Store a newly created notification in storage.
      *
-     * @param  StoreNotificationRequest $request
-     * @return Response
+     * @param StoreNotificationRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreNotificationRequest $request)
     {
@@ -42,9 +41,9 @@ class NotificationController extends ResourceController
     /**
      * Update the specified notification in storage.
      *
-     * @param  int                      $notification_id
-     * @param  StoreNotificationRequest $request
-     * @return Response
+     * @param $notification_id
+     * @param StoreNotificationRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($notification_id, StoreNotificationRequest $request)
     {

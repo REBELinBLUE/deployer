@@ -8,6 +8,15 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Email list for a deployment notification.
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $email
+ * @property integer $project_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property-read Project $project
  */
 class NotifyEmail extends Model
 {
@@ -40,7 +49,7 @@ class NotifyEmail extends Model
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
