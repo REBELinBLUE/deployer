@@ -10,7 +10,19 @@ use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
- * The application's  url store for health check.
+ * The application's url store for health check.
+ *
+ * @property integer $id
+ * @property string $title
+ * @property string $url
+ * @property integer $project_id
+ * @property integer $period
+ * @property boolean $is_report
+ * @property boolean $last_status
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property-read Project $project
  */
 class CheckUrl extends Model
 {

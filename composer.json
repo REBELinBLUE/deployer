@@ -82,7 +82,7 @@
         ],
         "post-update-cmd": [
             "php artisan ide-helper:generate",
-            "php artisan ide-helper:models --ignore='REBELinBLUE\\Deployer\\ProjectRelation' -n",
+            "php artisan ide-helper:meta",
             "php artisan optimize",
             "php artisan js-localization:refresh"
         ]

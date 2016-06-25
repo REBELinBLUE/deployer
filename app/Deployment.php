@@ -13,6 +13,35 @@ use Robbo\Presenter\PresentableInterface;
 
 /**
  * Deployment model.
+ *
+ * @property integer $id
+ * @property string $committer
+ * @property string $committer_email
+ * @property string $commit
+ * @property integer $project_id
+ * @property integer $user_id
+ * @property string $status
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property \Carbon\Carbon $started_at
+ * @property \Carbon\Carbon $finished_at
+ * @property string $reason
+ * @property string $branch
+ * @property boolean $is_webhook
+ * @property string $source
+ * @property string $build_url
+ * @property-read Project $project
+ * @property-read User $user
+ * @property-read Command[] $commands
+ * @property-read DeployStep[] $steps
+ * @property-read mixed $commit_url
+ * @property-read mixed $short_commit
+ * @property-read mixed $branch_url
+ * @property-read mixed $project_name
+ * @property-read mixed $deployer_name
+ * @property-read mixed $repo_failure
+ * @property-read mixed $release_id
  */
 class Deployment extends Model implements PresentableInterface, RuntimeInterface
 {

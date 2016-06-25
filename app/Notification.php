@@ -11,6 +11,18 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Notification model.
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $webhook
+ * @property string $channel
+ * @property string $icon
+ * @property integer $project_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property boolean $failure_only
+ * @property-read Project $project
  */
 class Notification extends Model
 {

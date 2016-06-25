@@ -12,6 +12,44 @@ use Version\Compare as VersionCompare;
 
 /**
  * Project model.
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $repository
+ * @property string $hash
+ * @property string $branch
+ * @property string $private_key
+ * @property string $public_key
+ * @property integer $group_id
+ * @property integer $builds_to_keep
+ * @property string $url
+ * @property string $build_url
+ * @property string $status
+ * @property \Carbon\Carbon $last_run
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property boolean $is_template
+ * @property \Carbon\Carbon $last_mirrored
+ * @property boolean $allow_other_branch
+ * @property boolean $include_dev
+ * @property-read mixed $repository_path
+ * @property-read mixed $repository_url
+ * @property-read mixed $branch_url
+ * @property-read mixed $group_name
+ * @property-read mixed $webhook_url
+ * @property-read Group $group
+ * @property-read Server[] $servers
+ * @property-read Heartbeat[] $heartbeats
+ * @property-read Notification[] $notifications
+ * @property-read Deployment[] $deployments
+ * @property-read Command[] $commands
+ * @property-read Variable[] $variables
+ * @property-read SharedFile[] $sharedFiles
+ * @property-read rojectFile[] $projectFiles
+ * @property-read NotifyEmail[] $notifyEmails
+ * @property-read CheckUrl[] $checkUrls
+ * @property-read Ref[] $refs
  */
 class Project extends ProjectRelation implements PresentableInterface
 {

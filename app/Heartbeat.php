@@ -10,6 +10,20 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Heartbeat model.
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $hash
+ * @property integer $interval
+ * @property integer $project_id
+ * @property integer $missed
+ * @property string $status
+ * @property \Carbon\Carbon $last_activity
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property-read Project $project
+ * @property-read mixed $callback_url
  */
 class Heartbeat extends Model
 {

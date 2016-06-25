@@ -8,6 +8,22 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Server model.
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $ip_address
+ * @property string $user
+ * @property string $path
+ * @property integer $project_id
+ * @property string $status
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property boolean $deploy_code
+ * @property integer $port
+ * @property integer $order
+ * @property-read Project $project
+ * @property-read mixed $clean_path
  */
 class Server extends Model
 {

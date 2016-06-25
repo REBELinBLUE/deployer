@@ -8,6 +8,15 @@ use Robbo\Presenter\PresentableInterface;
 
 /**
  * The deployment step model.
+ *
+ * @property integer $id
+ * @property integer $deployment_id
+ * @property integer $stage
+ * @property integer $command_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read ServerLog[] $servers
+ * @property-read Command $command
  */
 class DeployStep extends Model implements PresentableInterface
 {
