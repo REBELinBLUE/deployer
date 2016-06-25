@@ -133,7 +133,7 @@ toastr.options.extendedTimeOut = 7000;
                 }
             }
 
-            status.attr('class', 'label label-' + label_class)
+            status.attr('class', 'label label-' + label_class);
             $('i', status).attr('class', 'fa fa-' + icon_class);
             $('span', status).text(label);
         } else if ($('#timeline').length === 0) { // Don't show on dashboard
@@ -191,7 +191,7 @@ toastr.options.extendedTimeOut = 7000;
 
             $('td:first a', project).text(data.model.name);
             $('td:nth-child(2)', project).text(moment(data.model.last_run).format('Do MMMM YYYY h:mm:ss A'));
-            status.attr('class', 'label label-' + label_class)
+            status.attr('class', 'label label-' + label_class);
             $('i', status).attr('class', 'fa fa-' + icon_class);
             $('span', status).text(label);
         }
