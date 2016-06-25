@@ -44,7 +44,7 @@ class Notification extends Model
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
@@ -53,8 +53,6 @@ class Notification extends Model
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
      */
     public static function boot()
     {

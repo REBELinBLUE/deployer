@@ -97,7 +97,7 @@ class ProfileController extends Controller
     /**
      * Send email to change a new email.
      *
-     * @return \Illuminate\View\View
+     * @return string
      */
     public function requestEmail()
     {
@@ -143,7 +143,7 @@ class ProfileController extends Controller
      * Upload file.
      *
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return array|string
      */
     public function upload(Request $request)
     {
@@ -172,7 +172,7 @@ class ProfileController extends Controller
     /**
      * Reset the user's avatar to gravatar.
      *
-     * @return \Illuminate\View\View
+     * @return array
      */
     public function gravatar()
     {
@@ -190,7 +190,7 @@ class ProfileController extends Controller
      * Set and crop the avatar.
      *
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return array
      */
     public function avatar(Request $request)
     {

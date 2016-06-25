@@ -34,7 +34,7 @@ class DeployStep extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return ServerLog
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function servers()
     {
@@ -44,7 +44,7 @@ class DeployStep extends Model implements PresentableInterface
     /**
      * Belong to relationship.
      *
-     * @return Command
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function command()
     {

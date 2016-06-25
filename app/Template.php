@@ -57,8 +57,6 @@ class Template extends Model implements PresentableInterface
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
      */
     public static function boot()
     {
@@ -82,6 +80,7 @@ class Template extends Model implements PresentableInterface
      *
      * @param  object $query
      * @return object
+     * @todo figure out the docblock here
      */
     public function scopeTemplates($query)
     {
@@ -135,7 +134,7 @@ class Template extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return Command
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function commands()
     {
@@ -145,7 +144,7 @@ class Template extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return SharedFile
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function sharedFiles()
     {
@@ -155,7 +154,7 @@ class Template extends Model implements PresentableInterface
     /**
      * Has many relationship to project file.
      *
-     * @return ProjectFile
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function projectFiles()
     {
@@ -165,7 +164,7 @@ class Template extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return Variable
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function variables()
     {
@@ -175,7 +174,7 @@ class Template extends Model implements PresentableInterface
     /**
      * Gets the view presenter.
      *
-     * @return ProjectPresenter
+     * @return CommandPresenter
      */
     public function getPresenter()
     {

@@ -11,10 +11,9 @@ use REBELinBLUE\Deployer\Http\Requests\StoreNotifyEmailRequest;
 class NotifyEmailController extends ResourceController
 {
     /**
-     * Class constructor.
+     * NotifyEmailController constructor.
      *
-     * @param  NotifyEmailRepositoryInterface $repository
-     * @return void
+     * @param NotifyEmailRepositoryInterface $repository
      */
     public function __construct(NotifyEmailRepositoryInterface $repository)
     {
@@ -24,8 +23,8 @@ class NotifyEmailController extends ResourceController
     /**
      * Store a newly created NotifyEmail in storage.
      *
-     * @param  StoreNotifyEmailRequest $request
-     * @return \Illuminate\View\View
+     * @param StoreNotifyEmailRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreNotifyEmailRequest $request)
     {
@@ -39,9 +38,9 @@ class NotifyEmailController extends ResourceController
     /**
      * Update the specified NotifyEmail in storage.
      *
-     * @param  int                     $email_id
-     * @param  StoreNotifyEmailRequest $request
-     * @return \Illuminate\View\View
+     * @param $email_id
+     * @param StoreNotifyEmailRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($email_id, StoreNotifyEmailRequest $request)
     {

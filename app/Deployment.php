@@ -74,8 +74,6 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
      */
     public static function boot()
     {
@@ -89,7 +87,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
@@ -99,7 +97,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Belongs to relationship.
      *
-     * @return User
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -110,7 +108,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Define a command attribute to be able to access to commands relationship.
      *
-     * @return Command
+     * @return \Illuminate\Support\Collection
      */
     public function getCommandsAttribute()
     {
@@ -128,7 +126,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Query the DB and load the HasMany relationship for commands.
      *
-     * @return Deployment
+     * @return $this
      */
     private function loadCommands()
     {
@@ -148,7 +146,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Has many relationship.
      *
-     * @return DeployStep
+     * @return HasMany
      */
     public function steps()
     {
@@ -239,7 +237,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Determines how long the deploy took.
      *
-     * @return false|int False if the deploy is still running, otherwise the runtime in seconds
+     * @return null|int Null if the deploy is still running, otherwise the runtime in seconds
+     * @todo should this be null or false?
      */
     public function runtime()
     {
@@ -290,7 +289,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * Gets the HTTP URL to the branch.
      *
      * @return string|false
-     * @see \REBELinBLUE\Deployer\Project::accessDetails()
+     * @see Project::accessDetails()
      */
     public function getBranchURLAttribute()
     {

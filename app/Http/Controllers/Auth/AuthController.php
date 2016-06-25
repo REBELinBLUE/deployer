@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
-use REBELinBLUE\Deployer\User;
 
 /**
  * Authentication controller.
@@ -26,13 +25,15 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/';
 
+    /**
+     * @var Google2FA
+     */
     private $google2fa;
 
     /**
-     * Class constructor.
+     * AuthController constructor.
      *
-     * @param  Google2FA $google2fa
-     * @return void
+     * @param Google2FA $google2fa
      */
     public function __construct(Google2FA $google2fa)
     {
@@ -42,7 +43,7 @@ class AuthController extends Controller
     /**
      * Show the application login form.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function getLogin()
     {
@@ -56,8 +57,8 @@ class AuthController extends Controller
     /**
      * Handle a login request to the application.
      *
-     * @param  Request  $request
-     * @return \Illuminate\View\View
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function postLogin(Request $request)
     {
@@ -109,8 +110,8 @@ class AuthController extends Controller
     /**
      * Validates the 2FA code.
      *
-     * @param  Request  $request
-     * @return \Illuminate\View\View
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postTwoFactorAuthentication(Request $request)
     {

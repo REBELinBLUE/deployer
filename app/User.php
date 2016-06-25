@@ -81,7 +81,7 @@ class User extends Model implements
     /**
      * A hack to allow avatar_url to be called on the result of Auth::user().
      *
-     * @param  string $key The variable to get
+     * @param string $key
      * @return mixed
      */
     public function __get($key)

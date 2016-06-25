@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -65,7 +64,7 @@ class Heartbeat extends Model
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
@@ -74,8 +73,6 @@ class Heartbeat extends Model
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
      */
     public static function boot()
     {
@@ -91,8 +88,6 @@ class Heartbeat extends Model
 
     /**
      * Generates a hash for use in the webhook URL.
-     *
-     * @return void
      */
     public function generateHash()
     {

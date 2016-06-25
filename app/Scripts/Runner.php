@@ -45,7 +45,7 @@ class Runner
     private $is_local = true;
 
     /**
-     * Class constructor.
+     * Runner constructor.
      *
      * @param string $input
      * @param array $tokens
@@ -67,7 +67,7 @@ class Runner
      * Prepend commands to the beginning of the script.
      *
      * @param string $script
-     * @return self
+     * @return $this
      */
     public function prependScript($script)
     {
@@ -80,7 +80,7 @@ class Runner
      * Append commands to the end of the script.
      *
      * @param string $script
-     * @return self
+     * @return $this
      */
     public function appendScript($script)
     {
@@ -110,7 +110,7 @@ class Runner
      * @param Server $server
      * @param string $private_key
      * @param string $alternative_user
-     * @return self
+     * @return $this
      */
     public function setServer(Server $server, $private_key, $alternative_user = null)
     {
@@ -155,10 +155,10 @@ class Runner
     /**
      * Overloading call to undefined methods to pass them to the process object.
      *
-     * @param  string $method
-     * @param  array $arguments
+     * @param string $method
+     * @param array $arguments
      * @return mixed
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function __call($method, array $arguments = [])
     {

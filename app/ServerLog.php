@@ -48,8 +48,6 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
      */
     public static function boot()
     {
@@ -66,9 +64,9 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     }
 
     /**
-     * Belongs to assocation.
+     * Belongs to association.
      *
-     * @return Server
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function server()
     {

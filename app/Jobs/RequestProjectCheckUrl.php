@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Jobs\Job;
+use REBELinBLUE\Deployer\CheckUrl;
 
 /**
  * Request the urls.
@@ -17,12 +17,15 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
+    /**
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
     private $links;
 
     /**
-     * Create a new command instance.
+     * RequestProjectCheckUrl constructor.
      *
-     * @return void
+     * @param CheckUrl[] $links
      */
     public function __construct($links)
     {
@@ -31,14 +34,10 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
 
     /**
      * Execute the command.
-     *
-     * @return void
      */
     public function handle()
     {
         foreach ($this->links as $link) {
-            $has_error = false;
-
             try {
                 $response = Request::get($link->url)->send();
 

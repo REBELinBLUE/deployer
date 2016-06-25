@@ -6,7 +6,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Ref;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
@@ -18,13 +17,15 @@ class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    /**
+     * @var Project
+     */
     private $project;
 
     /**
-     * Create a new job instance.
+     * UpdateGitReferences constructor.
      *
-     * @param  Project $project The project to update
-     * @return void
+     * @param Project $project
      */
     public function __construct(Project $project)
     {
@@ -33,8 +34,6 @@ class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

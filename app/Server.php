@@ -49,7 +49,7 @@ class Server extends Model
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
@@ -70,8 +70,7 @@ class Server extends Model
      * Define a mutator for the user, if it has changed or has
      * not previously been set also set the status to untested.
      *
-     * @param  string $value
-     * @return void
+     * @param string $value
      */
     public function setUserAttribute($value)
     {
@@ -82,8 +81,7 @@ class Server extends Model
      * Define a mutator for the path, if it has changed or has
      * not previously been set also set the status to untested.
      *
-     * @param  string $value
-     * @return void
+     * @param string $value
      */
     public function setPathAttribute($value)
     {
@@ -94,8 +92,7 @@ class Server extends Model
      * Define a mutator for the IP Address, if it has changed or
      * has not previously been set also set the status to untested.
      *
-     * @param  string $value
-     * @return void
+     * @param string $value
      */
     public function setIpAddressAttribute($value)
     {
@@ -106,8 +103,7 @@ class Server extends Model
      * Define a mutator for the port, if it has changed or
      * has not previously been set also set the status to untested.
      *
-     * @param  string $value
-     * @return void
+     * @param string $value
      */
     public function setPortAttribute($value)
     {
@@ -118,8 +114,7 @@ class Server extends Model
      * Updates the attribute value and if it has changed set the server status to untested.
      *
      * @param string $attribute
-     * @param mixed  $value
-     * @param void
+     * @param mixed $value
      */
     private function setAttributeStatusUntested($attribute, $value)
     {

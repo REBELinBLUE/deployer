@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\ProjectFile;
 use REBELinBLUE\Deployer\SharedFile;
@@ -14,15 +13,21 @@ use REBELinBLUE\Deployer\Variable;
  */
 class SetupProject extends Job
 {
+    /**
+     * @var Project
+     */
     private $project;
+
+    /**
+     * @var int
+     */
     private $template_id;
 
     /**
-     * Create a new command instance.
+     * SetupProject constructor.
      *
-     * @param  Project      $project
-     * @param  int          $template_id
-     * @return SetupProject
+     * @param Project $project
+     * @param int $template_id
      */
     public function __construct(Project $project, $template_id)
     {
@@ -32,8 +37,6 @@ class SetupProject extends Job
 
     /**
      * Execute the command.
-     *
-     * @return void
      */
     public function handle()
     {

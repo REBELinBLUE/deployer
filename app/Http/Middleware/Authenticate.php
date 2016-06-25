@@ -13,10 +13,10 @@ class Authenticate
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
-     * @param  string|null              $guard
-     * @return mixed
+     * @param \Illuminate\Http\Request $request
+     * @param Closure $next
+     * @param string|null $guard
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next, $guard = null)
     {

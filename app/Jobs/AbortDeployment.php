@@ -4,21 +4,23 @@ namespace REBELinBLUE\Deployer\Jobs;
 
 use Illuminate\Support\Facades\Cache;
 use REBELinBLUE\Deployer\Deployment;
-use REBELinBLUE\Deployer\Jobs\Job;
 
 /**
  * A class to handle caching the abort request.
  */
 class AbortDeployment extends Job
 {
-    private $deployment;
-
     const CACHE_KEY_PREFIX = 'deployer:cancel-deploy:';
 
     /**
-     * Create a new job instance.
+     * @var Deployment
+     */
+    private $deployment;
+
+    /**
+     * AbortDeployment constructor.
      *
-     * @return void
+     * @param Deployment $deployment
      */
     public function __construct(Deployment $deployment)
     {
@@ -27,8 +29,6 @@ class AbortDeployment extends Job
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

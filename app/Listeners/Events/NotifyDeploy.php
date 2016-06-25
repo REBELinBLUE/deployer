@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Listeners\Events;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Jobs\MailDeployNotification;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
@@ -19,9 +18,7 @@ class NotifyDeploy extends Event implements ShouldQueue
     use InteractsWithQueue, DispatchesJobs;
 
     /**
-     * Create the event handler.
-     *
-     * @return void
+     * NotifyDeploy constructor.
      */
     public function __construct()
     {
@@ -31,8 +28,7 @@ class NotifyDeploy extends Event implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  DeployFinished $event
-     * @return void
+     * @param DeployFinished $event
      */
     public function handle(DeployFinished $event)
     {

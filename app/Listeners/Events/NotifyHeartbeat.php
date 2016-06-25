@@ -15,8 +15,6 @@ class NotifyHeartbeat extends Event
 
     /**
      * Create the event listener.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -26,8 +24,7 @@ class NotifyHeartbeat extends Event
     /**
      * Handle the event.
      *
-     * @param  Event $event
-     * @return void
+     * @param HasSlackPayloadInterface $event
      */
     public function handle(HasSlackPayloadInterface $event)
     {

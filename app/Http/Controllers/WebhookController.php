@@ -19,6 +19,7 @@ class WebhookController extends Controller
 {
     /**
      * List of supported service classes.
+     *
      * @var array
      */
     private $services = [
@@ -38,7 +39,7 @@ class WebhookController extends Controller
     /**
      * The deployment repository.
      *
-     * @var deploymentRepository
+     * @var DeploymentRepositoryInterface
      */
     private $deploymentRepository;
 
@@ -92,7 +93,7 @@ class WebhookController extends Controller
      *
      * @param Request $request
      * @param Project $project
-     * @return mixed Either an array of parameters for the deployment config, or false if it is invalid.
+     * @return array|false Either an array of parameters for the deployment config, or false if it is invalid.
      */
     private function parseWebhookRequest(Request $request, Project $project)
     {
@@ -111,10 +112,10 @@ class WebhookController extends Controller
      * Takes the data returned from the webhook request and then adds deployers own data, such as project ID
      * and runs any checks such as checks the branch is allowed to be deployed.
      *
-     * @param mixed $payload
+     * @param array $payload
      * @param Request $request
      * @param Project $project
-     * @return mixed Either an array of the complete deployment config, or false if it is invalid.
+     * @return array|false Either an array of the complete deployment config, or false if it is invalid.
      */
     private function appendProjectSettings($payload, Request $request, Project $project)
     {

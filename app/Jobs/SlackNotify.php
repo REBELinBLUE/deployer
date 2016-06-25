@@ -7,7 +7,6 @@ use Httpful\Request;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Notification;
 
 /**
@@ -17,16 +16,27 @@ class SlackNotify extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    /**
+     * @var array
+     */
     private $payload;
+
+    /**
+     * @var Notification
+     */
     private $notification;
+
+    /**
+     * @var int
+     */
     private $timeout;
 
     /**
-     * Create a new command instance.
+     * SlackNotify constructor.
      *
-     * @param  Notification $notification
-     * @param  array        $payload
-     * @return Notify
+     * @param Notification $notification
+     * @param array $payload
+     * @param int $timeout
      */
     public function __construct(Notification $notification, array $payload, $timeout = 60)
     {
@@ -37,8 +47,6 @@ class SlackNotify extends Job implements ShouldQueue
 
     /**
      * Execute the command.
-     *
-     * @return void
      */
     public function handle()
     {

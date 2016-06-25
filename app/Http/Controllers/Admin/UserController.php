@@ -14,10 +14,9 @@ use REBELinBLUE\Deployer\Http\Requests\StoreUserRequest;
 class UserController extends Controller
 {
     /**
-     * Class constructor.
+     * UserController constructor.
      *
-     * @param  UserRepositoryInterface $repository
-     * @return void
+     * @param UserRepositoryInterface $repository
      */
     public function __construct(UserRepositoryInterface $repository)
     {
@@ -40,7 +39,7 @@ class UserController extends Controller
     /**
      * Store a newly created user in storage.
      *
-     * @param  StoreUserRequest $request
+     * @param StoreUserRequest $request
      * @return \Illuminate\View\View
      */
     public function store(StoreUserRequest $request)
@@ -59,8 +58,8 @@ class UserController extends Controller
     /**
      * Update the specified user in storage.
      *
-     * @param  int              $user_id
-     * @param  StoreUserRequest $request
+     * @param int $user_id
+     * @param StoreUserRequest $request
      * @return \Illuminate\View\View
      */
     public function update($user_id, StoreUserRequest $request)

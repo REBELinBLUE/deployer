@@ -17,9 +17,7 @@ class SendSignupEmail extends Event implements ShouldQueue
     use InteractsWithQueue;
 
     /**
-     * Create the event handler.
-     *
-     * @return SendSignupEmail
+     * SendSignupEmail constructor.
      */
     public function __construct()
     {
@@ -29,8 +27,7 @@ class SendSignupEmail extends Event implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  UserWasCreated $event
-     * @return void
+     * @param UserWasCreated $event
      */
     public function handle(UserWasCreated $event)
     {

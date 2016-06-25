@@ -24,7 +24,7 @@ class DeploymentController extends Controller
     /**
      * The deployment repository.
      *
-     * @var deploymentRepository
+     * @var DeploymentRepositoryInterface
      */
     private $deploymentRepository;
 
@@ -45,8 +45,8 @@ class DeploymentController extends Controller
     /**
      * The details of an individual project.
      *
-     * @param  int                           $project_id
-     * @return View
+     * @param int $project_id
+     * @return \Illuminate\View\View
      */
     public function project($project_id)
     {
@@ -199,7 +199,7 @@ class DeploymentController extends Controller
     /**
      * Gets the log output of a particular deployment step.
      *
-     * @param  ServerLog $log
+     * @param ServerLog $log
      * @return ServerLog
      */
     public function log(ServerLog $log)

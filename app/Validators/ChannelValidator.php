@@ -10,9 +10,9 @@ class ChannelValidator
     /**
      * Validate the the channel name is valid for slack, i.e. starts with # or @.
      *
-     * @param  string $attribute
-     * @param  mixed  $value
-     * @param  mixed  $parameters
+     * @param string $attribute
+     * @param string $value
+     * @param array $parameters
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

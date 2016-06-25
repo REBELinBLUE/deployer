@@ -13,10 +13,9 @@ use REBELinBLUE\Deployer\Http\Requests\StoreTemplateRequest;
 class TemplateController extends Controller
 {
     /**
-     * Class constructor.
+     * TemplateController constructor.
      *
-     * @param  TemplateRepositoryInterface $repository
-     * @return void
+     * @param TemplateRepositoryInterface $repository
      */
     public function __construct(TemplateRepositoryInterface $repository)
     {
@@ -41,7 +40,7 @@ class TemplateController extends Controller
     /**
      * Show the template configuration.
      *
-     * @param  int      $template_id
+     * @param int $template_id
      * @return \Illuminate\View\View
      */
     public function show($template_id)
@@ -64,8 +63,8 @@ class TemplateController extends Controller
     /**
      * Store a newly created template in storage.
      *
-     * @param  StoreTemplateRequest $request
-     * @return \Illuminate\View\View
+     * @param StoreTemplateRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreTemplateRequest $request)
     {
@@ -77,9 +76,9 @@ class TemplateController extends Controller
     /**
      * Update the specified template in storage.
      *
-     * @param  int                  $template_id
-     * @param  StoreTemplateRequest $request
-     * @return \Illuminate\View\View
+     * @param int $template_id
+     * @param StoreTemplateRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($template_id, StoreTemplateRequest $request)
     {

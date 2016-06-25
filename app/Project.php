@@ -74,20 +74,20 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * The heart beats status count.
+     *
      * @var array
      */
     protected $heartbeatStatus = [];
 
     /**
      * The check url's status count.
+     *
      * @var array
      */
     protected $checkurlStatus = [];
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
      */
     public static function boot()
     {
@@ -121,8 +121,6 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Generates a hash for use in the webhook URL.
-     *
-     * @return void
      */
     public function generateHash()
     {
@@ -159,7 +157,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the repository path.
      *
      * @return string|false
-     * @see \REBELinBLUE\Deployer\Project::accessDetails()
+     * @see Project::accessDetails()
      */
     public function getRepositoryPathAttribute()
     {
@@ -176,7 +174,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the HTTP URL to the repository.
      *
      * @return string|false
-     * @see \REBELinBLUE\Deployer\Project::accessDetails()
+     * @see Project::accessDetails()
      */
     public function getRepositoryUrlAttribute()
     {
@@ -202,9 +200,9 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Gets the HTTP URL to the branch.
      *
-     * @param  string       $alternative
+     * @param string $alternative
      * @return string|false
-     * @see \REBELinBLUE\Deployer\Project::accessDetails()
+     * @see Project::accessDetails()
      */
     public function getBranchUrlAttribute($alternative = null)
     {
@@ -273,7 +271,7 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Define a accessor for the group name.
      *
-     * @return int
+     * @return string
      */
     public function getGroupNameAttribute()
     {
@@ -293,8 +291,9 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Query scope to not show templates.
      *
-     * @param  object $query
+     * @param object $query
      * @return object
+     * @todo figure out the docblock here
      */
     public function scopeNotTemplates($query)
     {
@@ -303,8 +302,6 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Generates an SSH key and sets the private/public key properties.
-     *
-     * @return void
      */
     protected function generateSSHKey()
     {
@@ -329,8 +326,6 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Generates an SSH key and sets the private/public key properties.
-     *
-     * @return void
      */
     protected function regeneratePublicKey()
     {
@@ -355,7 +350,7 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Gets the list of all tags for the project.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function tags()
     {
@@ -373,7 +368,7 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Gets the list of all branches for the project which are not the default.
      *
-     * @return Collection
+     * @return array
      */
     public function branches()
     {

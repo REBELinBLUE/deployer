@@ -46,7 +46,7 @@ class Group extends Model
     /**
      * Has many relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function projects()
     {

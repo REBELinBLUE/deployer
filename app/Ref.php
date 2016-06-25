@@ -35,10 +35,10 @@ class Ref extends Model
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\Project');
+        return $this->belongsTo(Project::class);
     }
 }
