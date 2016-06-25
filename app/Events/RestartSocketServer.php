@@ -3,19 +3,19 @@
 namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use REBELinBLUE\Deployer\Events\Event;
 
 /**
  * An event to restart the socket server.
  */
 class RestartSocketServer extends Event implements ShouldBroadcast
 {
+    /**
+     * @var string
+     */
     public $message;
 
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * RestartSocketServer constructor.
      */
     public function __construct()
     {

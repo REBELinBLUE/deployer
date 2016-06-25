@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Contracts\Repositories\CheckUrlRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The notification email repository.
@@ -12,10 +11,9 @@ use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 class EloquentCheckUrlRepository extends EloquentRepository implements CheckUrlRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentCheckUrlRepository constructor.
      *
-     * @param  CheckUrl                   $model
-     * @return EloquentCheckUrlRepository
+     * @param CheckUrl $model
      */
     public function __construct(CheckUrl $model)
     {

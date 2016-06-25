@@ -36,7 +36,7 @@ class LatestRelease implements LatestReleaseInterface
     /**
      * Get the latest release from Github.
      *
-     * @return mixed
+     * @return false|string
      */
     public function latest()
     {

@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Contracts\Repositories\NotifyEmailRepositoryInterface;
 use REBELinBLUE\Deployer\NotifyEmail;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The notification email repository.
@@ -12,10 +11,9 @@ use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 class EloquentNotifyEmailRepository extends EloquentRepository implements NotifyEmailRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentNotifyEmailRepository constructor.
      *
-     * @param  NotifyEmail                   $model
-     * @return EloquentNotifyEmailRepository
+     * @param NotifyEmail $model
      */
     public function __construct(NotifyEmail $model)
     {

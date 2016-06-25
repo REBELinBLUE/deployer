@@ -8,7 +8,6 @@ use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The deployment repository.
@@ -18,10 +17,9 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     use DispatchesJobs;
 
     /**
-     * Class constructor.
+     * EloquentDeploymentRepository constructor.
      *
-     * @param  Deployment                   $model
-     * @return EloquentDeploymentRepository
+     * @param Deployment $model
      */
     public function __construct(Deployment $model)
     {
@@ -29,10 +27,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Creates a new instance of the server.
-     *
-     * @param  array $fields
-     * @return Model
+     * {@inheritdoc}
      */
     public function create(array $fields)
     {
@@ -54,10 +49,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Sets a deployment to abort.
-     *
-     * @param  int  $model_id
-     * @return void
+     * {@inheritdoc}
      */
     public function abort($model_id)
     {
@@ -74,8 +66,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * Gets all pending and running deployments for a project and aborts them.
      *
-     * @param  int  $project_id
-     * @return void
+     * {@inheritdoc}
      */
     public function abortQueued($project_id)
     {
@@ -99,9 +90,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * Creates a new deployment based on a previous one.
      *
-     * @param  int   $model_id
-     * @param  array $optional
-     * @return void
+     * {@inheritdoc}
      */
     public function rollback($model_id, array $optional = [])
     {
@@ -113,17 +102,12 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
             'commit'          => $previous->commit,
             'project_id'      => $previous->project_id,
             'branch'          => $previous->branch,
-            'project_id'      => $previous->project_id,
             'optional'        => $optional,
         ]);
     }
 
     /**
-     * Gets the latest deployments for a project.
-     *
-     * @param  int   $project_id
-     * @param  int   $paginate
-     * @return array
+     * {@inheritdoc}
      */
     public function getLatest($project_id, $paginate = 15)
     {
@@ -135,10 +119,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Get the latest successful deployment for a project.
-     *
-     * @param  int   $project_id
-     * @return array
+     * {@inheritdoc}
      */
     public function getLatestSuccessful($project_id)
     {
@@ -150,9 +131,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Gets the latest deployments for all projects.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getTimeline()
     {
@@ -167,9 +146,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Gets pending deployments.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getPending()
     {
@@ -177,9 +154,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Gets running deployments.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getRunning()
     {
@@ -187,10 +162,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Gets the number of times a project has been deployed today.
-     *
-     * @param  int $project_id
-     * @return int
+     * {@inheritdoc}
      * @see DeploymentRepository::getBetweenDates()
      */
     public function getTodayCount($project_id)
@@ -201,10 +173,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Gets the number of times a project has been deployed in the last week.
-     *
-     * @param  int $project_id
-     * @return int
+     * {@inheritdoc}
      * @see DeploymentRepository::getBetweenDates()
      */
     public function getLastWeekCount($project_id)
@@ -216,11 +185,9 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Gets the number of times a project has been deployed between the specified dates.
-     *
-     * @param  int    $project_id
-     * @param  Carbon $startDate
-     * @param  Carbon $endDate
+     * @param int $project_id
+     * @param Carbon $startDate
+     * @param Carbon $endDate
      * @return int
      */
     private function getBetweenDates($project_id, Carbon $startDate, Carbon $endDate)
@@ -232,10 +199,8 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Gets deployments with a supplied status.
-     *
-     * @param  int   $status
-     * @return array
+     * @param $status
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     private function getStatus($status)
     {

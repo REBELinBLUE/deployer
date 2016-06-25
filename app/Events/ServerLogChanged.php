@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\ServerLog;
 
 /**
@@ -14,17 +13,40 @@ class ServerLogChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
+    /**
+     * @var int
+     */
     public $log_id;
+
+    /**
+     * @var null|string
+     */
     public $output;
+
+    /**
+     * @var string|null
+     */
     public $runtime;
+
+    /**
+     * @var int
+     */
     public $status;
+
+    /**
+     * @var string|null
+     */
     public $started_at;
+
+    /**
+     * @var string|null
+     */
     public $finished_at;
 
     /**
-     * Create a new event instance.
+     * ServerLogChanged constructor.
      *
-     * @return void
+     * @param ServerLog $log
      */
     public function __construct(ServerLog $log)
     {

@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Repositories;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Contracts\Repositories\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Server;
 
 /**
@@ -16,10 +15,9 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     use DispatchesJobs;
 
     /**
-     * Class constructor.
+     * EloquentServerRepository constructor.
      *
-     * @param  Server                   $model
-     * @return EloquentServerRepository
+     * @param Server $model
      */
     public function __construct(Server $model)
     {
@@ -27,9 +25,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * Gets all servers.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAll()
     {
@@ -39,10 +35,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * Creates a new instance of the server.
-     *
-     * @param  array $fields
-     * @return Model
+     * {@inheritdoc}
      */
     public function create(array $fields)
     {
@@ -77,11 +70,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * Updates a server instance by it's ID and queues it for testing.
-     *
-     * @param  array $fields
-     * @param  int   $model_id
-     * @return Model
+     * {@inheritdoc}
      */
     public function queueForTesting($server_id)
     {

@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Contracts\Repositories\SharedFileRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\SharedFile;
 
 /**
@@ -12,10 +11,9 @@ use REBELinBLUE\Deployer\SharedFile;
 class EloquentSharedFileRepository extends EloquentRepository implements SharedFileRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentSharedFileRepository constructor.
      *
-     * @param  SharedFile                    $model
-     * @return SharedFileRepositoryInterface
+     * @param SharedFile $model
      */
     public function __construct(SharedFile $model)
     {

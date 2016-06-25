@@ -4,8 +4,6 @@ namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Deployment;
-use REBELinBLUE\Deployer\Events\Event;
-use REBELinBLUE\Deployer\Project;
 
 /**
  * Deploy finished event.
@@ -14,12 +12,15 @@ class DeployFinished extends Event
 {
     use SerializesModels;
 
+    /**
+     * @var Deployment
+     */
     public $deployment;
 
     /**
-     * Create a new event instance.
+     * DeployFinished constructor.
      *
-     * @return void
+     * @param Deployment $deployment
      */
     public function __construct(Deployment $deployment)
     {

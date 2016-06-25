@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Events\Event;
 use REBELinBLUE\Deployer\Project;
 
 /**
@@ -14,12 +13,15 @@ class ProjectStatusChanged extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
+    /**
+     * @var Project
+     */
     public $project;
 
     /**
-     * Create a new event instance.
+     * ProjectStatusChanged constructor.
      *
-     * @return void
+     * @param Project $project
      */
     public function __construct(Project $project)
     {

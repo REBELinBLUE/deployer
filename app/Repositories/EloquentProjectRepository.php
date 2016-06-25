@@ -15,10 +15,9 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     use DispatchesJobs;
 
     /**
-     * Class constructor.
+     * EloquentProjectRepository constructor.
      *
-     * @param  Project                   $model
-     * @return EloquentProjectRepository
+     * @param Project $model
      */
     public function __construct(Project $model)
     {
@@ -26,9 +25,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
-     * Gets all projects.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAll()
     {
@@ -39,10 +36,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
-     * Creates a new instance of project.
-     *
-     * @param  array $fields
-     * @return Model
+     * {@inheritdoc}
      */
     public function create(array $fields)
     {
@@ -70,10 +64,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
-     * Update an instance of the project.
-     *
-     * @param  array $fields
-     * @return Model
+     * {@inheritdoc}
      */
     public function updateById(array $fields, $model_id)
     {
@@ -93,10 +84,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
-     * Gets a project by it's hash.
-     *
-     * @param  string    $hash
-     * @return Heartbeat
+     * {@inheritdoc}
      */
     public function getByHash($hash)
     {
