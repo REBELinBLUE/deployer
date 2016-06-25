@@ -42,11 +42,11 @@ class InstallApp extends Command
      * @var UserRepositoryInterface
      */
     private $repository;
-
+    
     /**
-     * Create a new command instance.
+     * InstallApp constructor.
      *
-     * @param UserRepositoryInterface $repository
+     * @param UserRepositoryInterface|null $repository
      */
     public function __construct(UserRepositoryInterface $repository = null)
     {
@@ -130,7 +130,6 @@ class InstallApp extends Command
      * Writes the configuration data to the config file.
      *
      * @param array $input The config data to write
-     *
      * @return bool
      */
     protected function writeEnvFile(array $input)
@@ -510,7 +509,6 @@ class InstallApp extends Command
      * Verifies that the database connection details are correct.
      *
      * @param array $database The connection details
-     *
      * @return bool
      */
     private function verifyDatabaseDetails(array $database)
@@ -721,7 +719,6 @@ class InstallApp extends Command
      * Gets a list of available locations in the supplied region.
      *
      * @param int $region The region constant
-     *
      * @return array
      *
      * @see DateTimeZone

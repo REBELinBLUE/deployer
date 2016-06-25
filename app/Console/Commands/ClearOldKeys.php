@@ -24,14 +24,6 @@ class ClearOldKeys extends Command
     protected $description = 'Clears out any temp SSH key files and wrapper scripts.';
 
     /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed

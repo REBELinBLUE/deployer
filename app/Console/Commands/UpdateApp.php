@@ -28,14 +28,6 @@ class UpdateApp extends InstallApp
     protected $description = 'Executes any updates needed for the application.';
 
     /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed

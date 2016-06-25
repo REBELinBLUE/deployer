@@ -29,14 +29,6 @@ class ClearStalledDeployment extends Command
     protected $description = 'Cancels any stalled deployments so new deployments can be run';
 
     /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      */
     public function handle()

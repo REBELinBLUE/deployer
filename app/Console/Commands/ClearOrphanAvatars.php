@@ -23,15 +23,7 @@ class ClearOrphanAvatars extends Command
      * @var string
      */
     protected $description = 'Purges out avatar images which are no longer in use by an account';
-
-    /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+    
     /**
      * Execute the console command.
      */

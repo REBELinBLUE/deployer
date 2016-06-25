@@ -25,15 +25,7 @@ class ResetApp extends UpdateApp
      * @var string
      */
     protected $description = 'Used during development to clear the database and logs';
-
-    /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+    
     /**
      * Execute the console command.
      *

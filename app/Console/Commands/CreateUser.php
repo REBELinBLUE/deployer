@@ -33,6 +33,8 @@ class CreateUser extends Command
 
     /**
      * The user repository.
+     *
+     * @var UserRepositoryInterface
      */
     private $repository;
 

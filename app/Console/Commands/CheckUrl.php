@@ -31,14 +31,6 @@ class CheckUrl extends Command
     protected $description = 'Request the project check URL and notify when failed.';
 
     /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return bool

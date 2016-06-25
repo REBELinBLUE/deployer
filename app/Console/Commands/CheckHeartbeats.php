@@ -25,15 +25,7 @@ class CheckHeartbeats extends Command
      * @var string
      */
     protected $description = 'Checks that any expected heartbeats have checked-in';
-
-    /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+    
     /**
      * Execute the console command.
      *
