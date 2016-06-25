@@ -61,12 +61,12 @@ class CheckUrl extends Command
             }
         }
 
-        if (empty($period)) {
-            return true;
+        if (!empty($period)) {
+            CheckUrlModel::whereIn('period', $period)->chunk(self::URLS_TO_CHECK, function ($urls) {
+                $this->dispatch(new RequestProjectCheckUrl($urls));
+            });
         }
 
-        CheckUrlModel::whereIn('period', $period)->chunk(self::URLS_TO_CHECK, function ($urls) {
-            $this->dispatch(new RequestProjectCheckUrl($urls));
-        });
+        return true;
     }
 }
