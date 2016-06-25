@@ -7,6 +7,7 @@ use Robbo\Presenter\Presenter;
 
 /**
  * The view presenter for a user class.
+ * @property string avatar_url
  */
 class UserPresenter extends Presenter
 {

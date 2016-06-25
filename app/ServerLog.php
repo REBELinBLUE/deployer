@@ -17,6 +17,7 @@ use Robbo\Presenter\PresentableInterface;
  * @property integer $deploy_step_id
  * @property string $status
  * @property string $output
+ * @property null|string runtime
  * @property \Carbon\Carbon $started_at
  * @property \Carbon\Carbon $finished_at
  * @property \Carbon\Carbon $created_at

@@ -110,7 +110,7 @@ class DeployProject extends Job implements ShouldQueue
                 $this->deployment->status = Deployment::ABORTED;
             }
 
-            $this->cancelPendingSteps($this->deployment->steps);
+            $this->cancelPendingSteps();
 
             if (isset($step)) {
                 // Cleanup the release if it has not been activated
@@ -247,15 +247,14 @@ class DeployProject extends Job implements ShouldQueue
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
 
-            try {
-                $server = $log->server;
+            $server    = $log->server;
+            $failed    = false;
+            $cancelled = false;
 
+            try {
                 $this->sendFilesForStep($step, $log);
 
                 $process = $this->buildScript($step, $server);
-
-                $failed    = false;
-                $cancelled = false;
 
                 if (!empty($process)) {
                     $output = '';

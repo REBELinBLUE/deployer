@@ -39,8 +39,9 @@ class ProjectFileController extends ResourceController
     /**
      * Update the specified resource in storage.
      *
-     * @param  int      $file_id
-     * @return \Illuminate\View\View
+     * @param int $file_id
+     * @param StoreProjectFileRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($file_id, StoreProjectFileRequest $request)
     {

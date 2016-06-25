@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -13,7 +12,7 @@ use REBELinBLUE\Deployer\Scripts\Runner as Process;
 /**
  * Updates the list of tags and branches in a project.
  */
-class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
+class UpdateGitReferences extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

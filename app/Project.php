@@ -46,7 +46,7 @@ use Version\Compare as VersionCompare;
  * @property-read Command[] $commands
  * @property-read Variable[] $variables
  * @property-read SharedFile[] $sharedFiles
- * @property-read rojectFile[] $projectFiles
+ * @property-read ProjectFile[] $projectFiles
  * @property-read NotifyEmail[] $notifyEmails
  * @property-read CheckUrl[] $checkUrls
  * @property-read Ref[] $refs

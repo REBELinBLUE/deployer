@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -13,7 +12,7 @@ use REBELinBLUE\Deployer\Scripts\Runner as Process;
 /**
  * Updates the git mirror for a project.
  */
-class UpdateGitMirror extends Job implements SelfHandling
+class UpdateGitMirror extends Job
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 

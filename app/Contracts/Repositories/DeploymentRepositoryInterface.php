@@ -2,6 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Contracts\Repositories;
 
+use REBELinBLUE\Deployer\Deployment;
+
 interface DeploymentRepositoryInterface
 {
     /**
@@ -45,7 +47,7 @@ interface DeploymentRepositoryInterface
 
     /**
      * @param int $project_id
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Deployment
      */
     public function getLatestSuccessful($project_id);
 

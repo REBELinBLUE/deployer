@@ -14,7 +14,7 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
  * @property string $user
  * @property string $script
  * @property integer $project_id
- * @property string $step
+ * @property integer $step
  * @property integer $order
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at

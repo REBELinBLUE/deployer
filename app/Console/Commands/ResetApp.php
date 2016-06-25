@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 
 /**
  * A console command for clearing all data and setting up again.
+ * @property \Illuminate\Contracts\Foundation\Application app
  */
 class ResetApp extends UpdateApp
 {

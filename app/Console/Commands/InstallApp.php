@@ -285,9 +285,8 @@ class InstallApp extends Command
 
         $connectionVerified = false;
 
+        $database = [];
         while (!$connectionVerified) {
-            $database = [];
-
             // Should we just skip this step if only one driver is available?
             $type = $this->choice('Type', $this->getDatabaseDrivers(), 0);
 
