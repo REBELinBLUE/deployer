@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Http\Requests;
 
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\Http\Requests\Request;
 
 /**
  * Request for validating commands.

@@ -2,8 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
-use REBELinBLUE\Deployer\Http\Requests\Request;
-
 /**
  * Request for validating heartbeats.
  */
