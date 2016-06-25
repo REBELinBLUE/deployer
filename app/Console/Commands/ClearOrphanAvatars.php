@@ -34,8 +34,6 @@ class ClearOrphanAvatars extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle()
     {
@@ -44,8 +42,6 @@ class ClearOrphanAvatars extends Command
 
     /**
      * Remove unused avatar files from disk.
-     *
-     * @return void
      */
     private function purgeOldAvatars()
     {

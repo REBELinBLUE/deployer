@@ -44,6 +44,7 @@ class UpdateGitMirrors extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @dispatches UpdateGitMirror
      */
     public function handle()
     {

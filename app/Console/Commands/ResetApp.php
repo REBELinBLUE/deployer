@@ -59,8 +59,6 @@ class ResetApp extends UpdateApp
 
     /**
      * Resets the database.
-     *
-     * @return void
      */
     protected function resetDB()
     {
@@ -72,8 +70,6 @@ class ResetApp extends UpdateApp
 
     /**
      * Removes the log files.
-     *
-     * @return void
      */
     protected function clearLogs()
     {

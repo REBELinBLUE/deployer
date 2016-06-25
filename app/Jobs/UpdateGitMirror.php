@@ -34,6 +34,8 @@ class UpdateGitMirror extends Job implements SelfHandling
 
     /**
      * Execute the job.
+     * @throws \RuntimeException
+     * @dispatches UpdateGitReferences
      */
     public function handle()
     {

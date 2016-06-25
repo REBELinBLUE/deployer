@@ -34,6 +34,7 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
 
     /**
      * Execute the command.
+     * @dispatches SlackNotify
      */
     public function handle()
     {

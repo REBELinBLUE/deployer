@@ -53,6 +53,7 @@ class Notification extends Model
 
     /**
      * Override the boot method to bind model event listeners.
+     * @dispatches SlackNotify
      */
     public static function boot()
     {

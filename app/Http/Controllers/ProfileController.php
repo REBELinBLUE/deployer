@@ -98,6 +98,7 @@ class ProfileController extends Controller
      * Send email to change a new email.
      *
      * @return string
+     * @fires EmailChangeRequested
      */
     public function requestEmail()
     {

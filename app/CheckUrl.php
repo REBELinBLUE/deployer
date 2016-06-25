@@ -44,6 +44,7 @@ class CheckUrl extends Model
 
     /**
      * Override the boot method to bind model event listeners.
+     * @dispatches RequestProjectCheckUrl
      */
     public static function boot()
     {
@@ -61,7 +62,6 @@ class CheckUrl extends Model
      * Define a mutator to set the status to untested if the URL changes.
      *
      * @param string $value
-     * @return void
      */
     public function setUrlAttribute($value)
     {

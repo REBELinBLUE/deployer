@@ -37,6 +37,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
 
     /**
      * {@inheritdoc}
+     * @dispatches SetupProject
      */
     public function create(array $fields)
     {

@@ -29,6 +29,9 @@ class NotifyDeploy extends Event implements ShouldQueue
      * Handle the event.
      *
      * @param DeployFinished $event
+     * @dispatches SlackNotify
+     * @dispatches MailDeployNotification
+     * @dispatches RequestProjectCheckUrl
      */
     public function handle(DeployFinished $event)
     {

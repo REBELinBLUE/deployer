@@ -41,7 +41,8 @@ class CheckUrl extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return bool
+     * @dispatches RequestProjectCheckUrl
      */
     public function handle()
     {

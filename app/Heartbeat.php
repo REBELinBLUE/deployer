@@ -108,6 +108,7 @@ class Heartbeat extends Model
      * Updates the last_activity timestamp.
      *
      * @return bool
+     * @fires HeartbeatRecovered
      */
     public function pinged()
     {

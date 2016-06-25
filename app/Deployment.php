@@ -74,6 +74,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
 
     /**
      * Override the boot method to bind model event listeners.
+     * @fires ModelChanged
      */
     public static function boot()
     {

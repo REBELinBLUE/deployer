@@ -40,7 +40,8 @@ class UserController extends Controller
      * Store a newly created user in storage.
      *
      * @param StoreUserRequest $request
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Database\Eloquent\Model
+     * @fires UserWasCreated
      */
     public function store(StoreUserRequest $request)
     {
@@ -60,7 +61,7 @@ class UserController extends Controller
      *
      * @param int $user_id
      * @param StoreUserRequest $request
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($user_id, StoreUserRequest $request)
     {

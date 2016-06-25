@@ -71,6 +71,8 @@ class DeployProject extends Job implements ShouldQueue
 
     /**
      * Execute the command.
+     * @fires DeploymentFinished
+     * @dispatches UpdateGitMirror
      */
     public function handle()
     {
