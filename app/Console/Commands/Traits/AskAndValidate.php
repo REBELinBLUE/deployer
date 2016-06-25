@@ -33,7 +33,7 @@ trait AskAndValidate
 
         $question->setValidator($validator);
 
-        return $this->output->askQuestion($question);
+        return $this->getOutput()->askQuestion($question);
     }
 
     /**
