@@ -267,13 +267,12 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Determines how long the deploy took.
      *
-     * @return null|int Null if the deploy is still running, otherwise the runtime in seconds
-     * @todo should this be null or false?
+     * @return false|int False if the deploy is still running, otherwise the runtime in seconds
      */
     public function runtime()
     {
         if (!$this->finished_at) {
-            return;
+            return false;
         }
 
         return $this->started_at->diffInSeconds($this->finished_at);

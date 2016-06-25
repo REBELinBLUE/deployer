@@ -329,9 +329,8 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Query scope to not show templates.
      *
-     * @param object $query
-     * @return object
-     * @todo figure out the docblock here
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNotTemplates($query)
     {

@@ -107,9 +107,8 @@ class Template extends Model implements PresentableInterface
     /**
      * Query scope to only show templates.
      *
-     * @param  object $query
-     * @return object
-     * @todo figure out the docblock here
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeTemplates($query)
     {

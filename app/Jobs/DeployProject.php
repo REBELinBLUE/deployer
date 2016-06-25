@@ -341,8 +341,7 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param DeployStep $step
      * @param Server $server
-     * @return mixed
-     * @todo check the return type here
+     * @return Process
      */
     private function buildScript(DeployStep $step, Server $server)
     {

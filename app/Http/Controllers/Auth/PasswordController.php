@@ -8,11 +8,15 @@ use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
 /**
  * Password reset controller.
- * @property string subject
  */
 class PasswordController extends Controller
 {
     use ResetsPasswords;
+
+    /**
+     * @var string
+     */
+    protected $subject;
 
     /**
      * Where to redirect to once the password has been reset.
@@ -26,7 +30,7 @@ class PasswordController extends Controller
      */
     public function __construct()
     {
-        $this->subject = Lang::get('emails.reset_subject'); // TODO: Is this right?
+        $this->subject = Lang::get('emails.reset_subject');
 
         $this->middleware('guest');
     }
