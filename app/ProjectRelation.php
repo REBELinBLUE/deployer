@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Abstract class to hold the relationships for projects to stop PHPMD complaning
  * This seems like such a hacky way to structure it.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class ProjectRelation extends Model
 {
