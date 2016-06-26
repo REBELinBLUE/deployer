@@ -6,6 +6,7 @@ interface CommandRepositoryInterface
 {
     /**
      * @param array $fields
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields);
@@ -13,6 +14,7 @@ interface CommandRepositoryInterface
     /**
      * @param array $fields
      * @param int $model_id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
@@ -20,6 +22,7 @@ interface CommandRepositoryInterface
 
     /**
      * @param int $model_id
+     *
      * @return bool
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
@@ -28,6 +31,7 @@ interface CommandRepositoryInterface
     /**
      * @param int $project_id
      * @param int $step
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getForDeployStep($project_id, $step);

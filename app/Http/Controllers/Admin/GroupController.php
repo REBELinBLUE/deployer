@@ -28,7 +28,6 @@ class GroupController extends Controller
      *
      * @return \Illuminate\View\View
      */
-
     public function index()
     {
         return view('admin.groups.listing', [
@@ -41,6 +40,7 @@ class GroupController extends Controller
      * Store a newly created group in storage.
      *
      * @param  StoreGroupRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreGroupRequest $request)
@@ -55,6 +55,7 @@ class GroupController extends Controller
      *
      * @param $group_id
      * @param StoreGroupRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($group_id, StoreGroupRequest $request)
@@ -68,6 +69,7 @@ class GroupController extends Controller
      * Re-generates the order for the supplied groups.
      *
      * @param Request $request
+     *
      * @return array
      */
     public function reorder(Request $request)

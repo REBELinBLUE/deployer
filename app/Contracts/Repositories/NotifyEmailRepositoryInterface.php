@@ -6,12 +6,14 @@ interface NotifyEmailRepositoryInterface
 {
     /**
      * @param array $fields
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields);
 
     /**
      * @param array $fields
+     *
      * @param int $model_id
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
@@ -20,6 +22,7 @@ interface NotifyEmailRepositoryInterface
 
     /**
      * @param int $model_id
+     *
      * @return bool
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */

@@ -6,6 +6,7 @@ interface ProjectRepositoryInterface
 {
     /**
      * @param string $hash
+     *
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
@@ -18,6 +19,7 @@ interface ProjectRepositoryInterface
 
     /**
      * @param array $fields
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields);
@@ -25,6 +27,7 @@ interface ProjectRepositoryInterface
     /**
      * @param array $fields
      * @param int $model_id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
@@ -32,6 +35,7 @@ interface ProjectRepositoryInterface
 
     /**
      * @param int $model_id
+     *
      * @return bool
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */

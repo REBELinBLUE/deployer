@@ -66,6 +66,7 @@ class ProfileController extends Controller
      * Update user's basic profile.
      *
      * @param StoreProfileRequest $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StoreProfileRequest $request)
@@ -82,6 +83,7 @@ class ProfileController extends Controller
      * Update user's settings.
      *
      * @param StoreSettingsRequest $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function settings(StoreSettingsRequest $request)
@@ -98,6 +100,7 @@ class ProfileController extends Controller
      * Send email to change a new email.
      *
      * @return string
+     *
      * @fires EmailChangeRequested
      */
     public function requestEmail()
@@ -111,6 +114,7 @@ class ProfileController extends Controller
      * Show the page to input the new email.
      *
      * @param string $token
+     *
      * @return \Illuminate\View\View
      */
     public function email($token)
@@ -124,6 +128,7 @@ class ProfileController extends Controller
      * Change the user's email.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function changeEmail(Request $request)
@@ -144,6 +149,7 @@ class ProfileController extends Controller
      * Upload file.
      *
      * @param Request $request
+     *
      * @return array|string
      */
     public function upload(Request $request)
@@ -191,6 +197,7 @@ class ProfileController extends Controller
      * Set and crop the avatar.
      *
      * @param Request $request
+     *
      * @return array
      */
     public function avatar(Request $request)
@@ -227,6 +234,7 @@ class ProfileController extends Controller
      * Activates two factor authentication.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function twoFactor(Request $request)

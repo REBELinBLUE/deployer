@@ -58,6 +58,7 @@ class AuthController extends Controller
      * Handle a login request to the application.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function postLogin(Request $request)
@@ -111,6 +112,7 @@ class AuthController extends Controller
      * Validates the 2FA code.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postTwoFactorAuthentication(Request $request)

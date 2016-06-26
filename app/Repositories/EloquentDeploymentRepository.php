@@ -190,6 +190,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      * @param int $project_id
      * @param Carbon $startDate
      * @param Carbon $endDate
+     *
      * @return int
      */
     private function getBetweenDates($project_id, Carbon $startDate, Carbon $endDate)
@@ -201,7 +202,8 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * @param $status
+     * @param int $status
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     private function getStatus($status)

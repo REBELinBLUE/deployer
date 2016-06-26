@@ -45,6 +45,7 @@ class Handler extends ExceptionHandler
      *
      * @param \Illuminate\Http\Request $request
      * @param \Exception $exception
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
@@ -67,6 +68,7 @@ class Handler extends ExceptionHandler
      *
      * @param \Illuminate\Http\Request $request
      * @param \Exception $exception
+     *
      * @return \Illuminate\Http\Response
      */
     protected function renderExceptionWithWhoops($request, Exception $exception)
@@ -91,6 +93,7 @@ class Handler extends ExceptionHandler
      * GrahamCampbell/Laravel-Exceptions unfortunately doesn't return JSON for whoops pages which are from AJAX.
      *
      * @param \Exception $exception
+     *
      * @return bool
      */
     protected function isSafeToWhoops(Exception $exception)

@@ -24,6 +24,7 @@ class ProjectFileController extends ResourceController
      * Store a newly created resource in storage.
      *
      * @param StoreProjectFileRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreProjectFileRequest $request)
@@ -41,6 +42,7 @@ class ProjectFileController extends ResourceController
      *
      * @param int $file_id
      * @param StoreProjectFileRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($file_id, StoreProjectFileRequest $request)

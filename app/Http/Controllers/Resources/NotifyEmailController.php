@@ -24,6 +24,7 @@ class NotifyEmailController extends ResourceController
      * Store a newly created NotifyEmail in storage.
      *
      * @param StoreNotifyEmailRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreNotifyEmailRequest $request)
@@ -40,6 +41,7 @@ class NotifyEmailController extends ResourceController
      *
      * @param $email_id
      * @param StoreNotifyEmailRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($email_id, StoreNotifyEmailRequest $request)

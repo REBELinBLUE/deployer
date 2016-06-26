@@ -67,6 +67,7 @@ class Runner
      * Prepend commands to the beginning of the script.
      *
      * @param string $script
+     *
      * @return $this
      */
     public function prependScript($script)
@@ -80,6 +81,7 @@ class Runner
      * Append commands to the end of the script.
      *
      * @param string $script
+     *
      * @return $this
      */
     public function appendScript($script)
@@ -93,6 +95,7 @@ class Runner
      * Runs a script locally.
      *
      * @param callable|null $callback
+     *
      * @return int
      */
     public function run($callback = null)
@@ -110,6 +113,7 @@ class Runner
      * @param Server $server
      * @param string $private_key
      * @param string $alternative_user
+     *
      * @return $this
      */
     public function setServer(Server $server, $private_key, $alternative_user = null)
@@ -126,6 +130,7 @@ class Runner
      * Wraps the command in either local or remote wrappers.
      *
      * @param  string $script
+     *
      * @return string
      */
     private function wrapCommand($script)
@@ -157,6 +162,7 @@ class Runner
      *
      * @param string $method
      * @param array $arguments
+     *
      * @return mixed
      * @throws \RuntimeException
      */

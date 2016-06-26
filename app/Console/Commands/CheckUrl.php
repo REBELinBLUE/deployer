@@ -34,6 +34,7 @@ class CheckUrl extends Command
      * Execute the console command.
      *
      * @return bool
+     *
      * @dispatches RequestProjectCheckUrl
      */
     public function handle()

@@ -20,6 +20,7 @@ abstract class ResourceController extends Controller
      * Remove the specified model from storage.
      *
      * @param int $model_id
+     *
      * @return array
      */
     public function destroy($model_id)

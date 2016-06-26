@@ -341,6 +341,7 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param DeployStep $step
      * @param Server $server
+     *
      * @return Process
      */
     private function buildScript(DeployStep $step, Server $server)
@@ -371,6 +372,7 @@ class DeployProject extends Job implements ShouldQueue
      * Generates an error string to log to the DB.
      *
      * @param string $message
+     *
      * @return string
      */
     private function logError($message)
@@ -382,6 +384,7 @@ class DeployProject extends Job implements ShouldQueue
      * Generates an general output string to log to the DB.
      *
      * @param string $message
+     *
      * @return string
      */
     private function logSuccess($message)
@@ -394,6 +397,7 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param DeployStep $step
      * @param array $tokens
+     *
      * @return Process
      */
     private function getScriptForStep(DeployStep $step, array $tokens = [])
@@ -424,6 +428,7 @@ class DeployProject extends Job implements ShouldQueue
      * @param string $local_file
      * @param string $remote_file
      * @param ServerLog $log
+     *
      * @throws \RuntimeException
      */
     private function sendFile($local_file, $remote_file, ServerLog $log)
@@ -481,6 +486,7 @@ class DeployProject extends Job implements ShouldQueue
      * create the command for sending uploaded files.
      *
      * @param string $release_dir
+     *
      * @return string
      */
     private function configurationFileCommands($release_dir)
@@ -507,6 +513,7 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param string $release_dir
      * @param string $shared_dir
+     *
      * @return string
      */
     private function shareFileCommands($release_dir, $shared_dir)
@@ -554,6 +561,7 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param DeployStep $step
      * @param Server $server
+     *
      * @return array
      */
     private function getTokenList(DeployStep $step, Server $server)

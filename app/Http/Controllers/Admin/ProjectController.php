@@ -31,6 +31,7 @@ class ProjectController extends Controller
      * @param TemplateRepositoryInterface $templateRepository
      * @param GroupRepositoryInterface $groupRepository
      * @param Request $request
+     *
      * @return \Illuminate\View\View
      */
     public function index(
@@ -53,6 +54,7 @@ class ProjectController extends Controller
      * Store a newly created project in storage.
      *
      * @param StoreProjectRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreProjectRequest $request)
@@ -77,6 +79,7 @@ class ProjectController extends Controller
      *
      * @param int $project_id
      * @param StoreProjectRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($project_id, StoreProjectRequest $request)

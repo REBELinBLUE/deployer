@@ -13,7 +13,9 @@ class HostValidator
      * @param string $attribute
      * @param string $value
      * @param array $parameters
+     *
      * @return bool
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function validate($attribute, $value, $parameters)

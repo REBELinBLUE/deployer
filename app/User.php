@@ -98,6 +98,7 @@ class User extends Model implements
      * A hack to allow avatar_url to be called on the result of Auth::user().
      *
      * @param string $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -113,6 +114,7 @@ class User extends Model implements
      * Determines whether the user has Google 2FA enabled.
      *
      * @return bool
+     *
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getHasTwoFactorAuthenticationAttribute()

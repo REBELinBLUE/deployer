@@ -195,6 +195,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the repository path.
      *
      * @return string|false
+     *
      * @see Project::accessDetails()
      */
     public function getRepositoryPathAttribute()
@@ -212,6 +213,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the HTTP URL to the repository.
      *
      * @return string|false
+     *
      * @see Project::accessDetails()
      */
     public function getRepositoryUrlAttribute()
@@ -239,7 +241,9 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the HTTP URL to the branch.
      *
      * @param string $alternative
+     *
      * @return string|false
+     *
      * @see Project::accessDetails()
      */
     public function getBranchUrlAttribute($alternative = null)
@@ -330,6 +334,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * Query scope to not show templates.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNotTemplates($query)

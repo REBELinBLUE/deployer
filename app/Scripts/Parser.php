@@ -12,6 +12,7 @@ class Parser
      *
      * @param string $script
      * @param array $tokens
+     *
      * @return string
      */
     public function parseString($script, array $tokens = [])
@@ -32,6 +33,7 @@ class Parser
      *
      * @param string $file
      * @param array $tokens
+     *
      * @return string
      */
     public function parseFile($file, array $tokens = [])
@@ -50,6 +52,7 @@ class Parser
      * need to be sent to the server, i.e. comments.
      *
      * @param string $script
+     *
      * @return string
      */
     private function tidyScript($script)

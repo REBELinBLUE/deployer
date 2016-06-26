@@ -64,6 +64,7 @@ class WebhookController extends Controller
      *
      * @param Request $request
      * @param string $hash The webhook hash
+     *
      * @return \Illuminate\View\View
      */
     public function webhook(Request $request, $hash)
@@ -93,6 +94,7 @@ class WebhookController extends Controller
      *
      * @param Request $request
      * @param Project $project
+     *
      * @return array|false Either an array of parameters for the deployment config, or false if it is invalid.
      */
     private function parseWebhookRequest(Request $request, Project $project)
@@ -115,6 +117,7 @@ class WebhookController extends Controller
      * @param array $payload
      * @param Request $request
      * @param Project $project
+     *
      * @return array|false Either an array of the complete deployment config, or false if it is invalid.
      */
     private function appendProjectSettings($payload, Request $request, Project $project)
@@ -165,6 +168,7 @@ class WebhookController extends Controller
      * Generates a new webhook URL.
      *
      * @param int $project_id
+     *
      * @return \Illuminate\View\View
      */
     public function refresh($project_id)

@@ -318,6 +318,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * Gets the HTTP URL to the branch.
      *
      * @return string|false
+     *
      * @see Project::accessDetails()
      */
     public function getBranchURLAttribute()
@@ -426,6 +427,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * Checks whether the repository failed to load.
      *
      * @return bool
+     *
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getRepoFailureAttribute()

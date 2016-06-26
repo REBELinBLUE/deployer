@@ -15,6 +15,7 @@ class CommandPresenter extends Presenter
      * Gets the readable list of before clone commands.
      *
      * @return string
+     *
      * @see CommandPresenter::commandNames()
      */
     public function presentBeforeClone()
@@ -26,6 +27,7 @@ class CommandPresenter extends Presenter
      * Gets the readable list of after clone commands.
      *
      * @return string
+     *
      * @see CommandPresenter::commandNames()
      */
     public function presentAfterClone()
@@ -37,6 +39,7 @@ class CommandPresenter extends Presenter
      * Gets the readable list of before install commands.
      *
      * @return string
+     *
      * @see CommandPresenter::commandNames()
      */
     public function presentBeforeInstall()
@@ -48,6 +51,7 @@ class CommandPresenter extends Presenter
      * Gets the readable list of after install commands.
      *
      * @return string
+     *
      * @see CommandPresenter::commandNames()
      */
     public function presentAfterInstall()
@@ -59,6 +63,7 @@ class CommandPresenter extends Presenter
      * Gets the readable list of before activate commands.
      *
      * @return string
+     *
      * @see CommandPresenter::commandNames()
      */
     public function presentBeforeActivate()
@@ -70,6 +75,7 @@ class CommandPresenter extends Presenter
      * Gets the readable list of after activate commands.
      *
      * @return string
+     *
      * @see CommandPresenter::commandNames()
      */
     public function presentAfterActivate()
@@ -81,6 +87,7 @@ class CommandPresenter extends Presenter
      * Gets the readable list of before purge commands.
      *
      * @return string
+     *
      * @see CommandPresenter::commandNames()
      */
     public function presentBeforePurge()
@@ -92,6 +99,7 @@ class CommandPresenter extends Presenter
      * Gets the readable list of after purge commands.
      *
      * @return string
+     *
      * @see CommandPresenter::commandNames()
      */
     public function presentAfterPurge()
@@ -103,6 +111,7 @@ class CommandPresenter extends Presenter
      * Gets the readable list of commands.
      *
      * @param int $stage
+     *
      * @return string
      */
     private function commandNames($stage)

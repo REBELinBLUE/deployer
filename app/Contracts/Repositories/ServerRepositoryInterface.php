@@ -6,6 +6,7 @@ interface ServerRepositoryInterface
 {
     /**
      * @param int $model_id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
@@ -13,6 +14,7 @@ interface ServerRepositoryInterface
 
     /**
      * @param array $fields
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields);
@@ -20,6 +22,7 @@ interface ServerRepositoryInterface
     /**
      * @param array $fields
      * @param int $model_id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
@@ -27,6 +30,7 @@ interface ServerRepositoryInterface
 
     /**
      * @param int $model_id
+     *
      * @return bool
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
@@ -34,7 +38,8 @@ interface ServerRepositoryInterface
 
     /**
      * @param int $model_id
-     * @return mixed
+     *
+     * @return array
      */
     public function queueForTesting($model_id);
 }

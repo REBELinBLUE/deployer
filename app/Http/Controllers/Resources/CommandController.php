@@ -40,6 +40,7 @@ class CommandController extends ResourceController
      *
      * @param int $project_id
      * @param int $action
+     *
      * @return \Illuminate\View\View
      */
     public function listing($project_id, $action)
@@ -78,6 +79,7 @@ class CommandController extends ResourceController
      * Store a newly created command in storage.
      *
      * @param StoreCommandRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreCommandRequest $request)
@@ -99,6 +101,7 @@ class CommandController extends ResourceController
      *
      * @param int $command_id
      * @param StoreCommandRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($command_id, StoreCommandRequest $request)
@@ -117,6 +120,7 @@ class CommandController extends ResourceController
      * Re-generates the order for the supplied commands.
      *
      * @param Request $request
+     *
      * @return array
      */
     public function reorder(Request $request)

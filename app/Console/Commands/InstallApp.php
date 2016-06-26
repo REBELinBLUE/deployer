@@ -42,7 +42,7 @@ class InstallApp extends Command
      * @var UserRepositoryInterface
      */
     private $repository;
-    
+
     /**
      * InstallApp constructor.
      *
@@ -130,6 +130,7 @@ class InstallApp extends Command
      * Writes the configuration data to the config file.
      *
      * @param array $input The config data to write
+     *
      * @return bool
      */
     protected function writeEnvFile(array $input)
@@ -509,6 +510,7 @@ class InstallApp extends Command
      * Verifies that the database connection details are correct.
      *
      * @param array $database The connection details
+     *
      * @return bool
      */
     private function verifyDatabaseDetails(array $database)
@@ -719,6 +721,7 @@ class InstallApp extends Command
      * Gets a list of available locations in the supplied region.
      *
      * @param int $region The region constant
+     *
      * @return array
      *
      * @see DateTimeZone
@@ -755,7 +758,7 @@ class InstallApp extends Command
      * A wrapper around symfony's formatter helper to output a block.
      *
      * @param string|array $messages Messages to output
-     * @param string       $type     The type of message to output
+     * @param string $type The type of message to output
      */
     protected function block($messages, $type = 'error')
     {

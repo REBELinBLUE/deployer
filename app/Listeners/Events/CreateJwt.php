@@ -32,7 +32,6 @@ class CreateJwt extends Event
      *
      * @param Login|\REBELinBLUE\Deployer\Events\JsonWebTokenExpired $event
      */
-
     public function handle(Login $event)
     {
         $tokenId    = base64_encode(str_random(32));

@@ -46,6 +46,7 @@ class DeploymentController extends Controller
      * The details of an individual project.
      *
      * @param int $project_id
+     *
      * @return \Illuminate\View\View
      */
     public function project($project_id)
@@ -81,6 +82,7 @@ class DeploymentController extends Controller
      * Show the deployment details.
      *
      * @param int $deployment_id
+     *
      * @return \Illuminate\View\View
      */
     public function show($deployment_id)
@@ -118,6 +120,7 @@ class DeploymentController extends Controller
      *
      * @param Request $request
      * @param int $project_id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function deploy(Request $request, $project_id)
@@ -161,6 +164,7 @@ class DeploymentController extends Controller
      *
      * @param Request $request
      * @param int $deployment_id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function rollback(Request $request, $deployment_id)
@@ -185,6 +189,7 @@ class DeploymentController extends Controller
      * Abort a deployment.
      *
      * @param int $deployment_id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function abort($deployment_id)
@@ -200,6 +205,7 @@ class DeploymentController extends Controller
      * Gets the log output of a particular deployment step.
      *
      * @param ServerLog $log
+     *
      * @return ServerLog
      */
     public function log(ServerLog $log)

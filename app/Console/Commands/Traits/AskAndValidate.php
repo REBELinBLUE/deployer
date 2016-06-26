@@ -17,6 +17,7 @@ trait AskAndValidate
      * @param callback $validator
      * @param mixed $default
      * @param bool $secret
+     *
      * @return string
      */
     public function askAndValidate($question, array $choices, $validator, $default = null, $secret = false)
@@ -43,6 +44,7 @@ trait AskAndValidate
      * @param array $choices
      * @param callback $validator
      * @param mixed $default
+     *
      * @return string
      */
     public function askSecretAndValidate($question, array $choices, $validator, $default = null)

@@ -35,7 +35,9 @@ class RefreshJsonWebToken
      * @param \Illuminate\Http\Request $request
      * @param Closure $next
      * @param string|null $guard
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @fires JsonWebTokenExpired
      */
     public function handle($request, Closure $next, $guard = null)

@@ -24,6 +24,7 @@ class SharedFilesController extends ResourceController
      * Store a newly created file in storage.
      *
      * @param StoreSharedFileRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreSharedFileRequest $request)
@@ -40,6 +41,7 @@ class SharedFilesController extends ResourceController
      *
      * @param int $file_id
      * @param StoreSharedFileRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($file_id, StoreSharedFileRequest $request)

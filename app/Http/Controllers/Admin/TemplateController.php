@@ -41,6 +41,7 @@ class TemplateController extends Controller
      * Show the template configuration.
      *
      * @param int $template_id
+     *
      * @return \Illuminate\View\View
      */
     public function show($template_id)
@@ -64,6 +65,7 @@ class TemplateController extends Controller
      * Store a newly created template in storage.
      *
      * @param StoreTemplateRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreTemplateRequest $request)
@@ -78,6 +80,7 @@ class TemplateController extends Controller
      *
      * @param int $template_id
      * @param StoreTemplateRequest $request
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($template_id, StoreTemplateRequest $request)

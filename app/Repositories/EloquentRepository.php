@@ -28,6 +28,7 @@ abstract class EloquentRepository
      * Get's an item from the repository.
      *
      * @param int $model_id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
@@ -40,6 +41,7 @@ abstract class EloquentRepository
      * Creates a new instance of the model.
      *
      * @param array $fields
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields)
@@ -52,6 +54,7 @@ abstract class EloquentRepository
      *
      * @param array $fields
      * @param int $model_id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(array $fields, $model_id)
@@ -67,6 +70,7 @@ abstract class EloquentRepository
      * Delete an instance by it's ID.
      *
      * @param int $model_id
+     *
      * @return bool
      * @throws \Exception
      */

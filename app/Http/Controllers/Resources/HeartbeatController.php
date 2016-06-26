@@ -24,6 +24,7 @@ class HeartbeatController extends ResourceController
      * Handles the callback URL for the heartbeat.
      *
      * @param string $hash
+     *
      * @return \Illuminate\View\View
      */
     public function ping($hash)
@@ -41,6 +42,7 @@ class HeartbeatController extends ResourceController
      * Store a newly created heartbeat in storage.
      *
      * @param StoreHeartbeatRequest $request
+     *
      * @return \Illuminate\View\View
      */
     public function store(StoreHeartbeatRequest $request)
@@ -57,6 +59,7 @@ class HeartbeatController extends ResourceController
      *
      * @param int $heartbeat_id
      * @param StoreHeartbeatRequest $request
+     *
      * @return \Illuminate\View\View
      */
     public function update($heartbeat_id, StoreHeartbeatRequest $request)
