@@ -17,11 +17,11 @@ trait RuntimePresenter
      */
     public function presentReadableRuntime()
     {
-        if (!$this->object instanceof RuntimeInterface) {
+        if (!$this->getObject() instanceof RuntimeInterface) {
             throw new \RuntimeException('Model must implement RuntimeInterface');
         }
 
-        $seconds = $this->object->runtime();
+        $seconds = $this->getObject()->runtime();
 
         $units = [
             'week'   => 7 * 24 * 3600,

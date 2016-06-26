@@ -66,7 +66,7 @@ class DeploymentPresenter extends Presenter
      */
     public function presentOptionalCommandsUsed()
     {
-        return $this->object->commands->filter(function (Command $command) {
+        return $this->getObject()->commands->filter(function (Command $command) {
             return $command->optional;
         })->implode('id', ',');
     }

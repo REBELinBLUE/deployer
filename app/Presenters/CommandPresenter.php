@@ -109,7 +109,7 @@ class CommandPresenter extends Presenter
     {
         $commands = [];
 
-        foreach ($this->object->commands as $command) {
+        foreach ($this->getObject()->commands as $command) {
             if ($command->step === $stage) {
                 $commands[] = $command->name;
             }

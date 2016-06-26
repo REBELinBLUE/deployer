@@ -18,10 +18,10 @@ class UserPresenter extends Presenter
      */
     public function presentAvatarUrl()
     {
-        if ($this->object->avatar) {
-            return url($this->object->avatar);
+        if ($this->getObject()->avatar) {
+            return url($this->getObject()->avatar);
         }
 
-        return Gravatar::get($this->object->email);
+        return Gravatar::get($this->getObject()->email);
     }
 }

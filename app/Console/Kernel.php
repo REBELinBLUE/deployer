@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Bootstrap\ConfigureLogging;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as ConsoleLogging;
 use REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats;
@@ -28,7 +29,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $customBooters = [
-        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => ConsoleLogging::class,
+        ConfigureLogging::class => ConsoleLogging::class,
     ];
 
     /**
@@ -101,7 +102,7 @@ class Kernel extends ConsoleKernel
         parent::bootstrap();
 
         // Only register the reset command on the local environment
-        if ($this->app->environment('local')) {
+        if ($this->app->environment() === 'local') {
             $this->commands[] = ResetApp::class;
         }
     }
