@@ -1,7 +1,6 @@
 const Elixir = require('laravel-elixir');
 const gulp   = require('gulp');
 const shell  = require('gulp-shell');
-const bower  = require('gulp-bower');
                require('laravel-elixir-remove');
 
 Elixir.extend('lang', function () {
@@ -10,43 +9,38 @@ Elixir.extend('lang', function () {
     });
 });
 
-Elixir.extend('bower', function() {
-    new Elixir.Task('bower', function() {
-        return bower();
-    });
-});
 
-const bower_path = 'bower_components';
+const node_path = 'node_modules';
 
 const paths = {
-    'admin_lte'       : bower_path + '/admin-lte',
-    'ace'             : bower_path + '/ace-min-noconflict',
-    'backbone'        : bower_path + '/backbone',
-    'underscore'      : bower_path + '/underscore',
-    'moment'          : bower_path + '/moment',
-    'jquery'          : bower_path + '/jquery',
-    'jquery_sortable' : bower_path + '/jquery-sortable',
-    'fontawesome'     : bower_path + '/fontawesome',
-    'socketio_client' : bower_path + '/socket.io-client',
-    'ionicons'        : bower_path + '/ionicons',
-    'html5shiv'       : bower_path + '/html5shiv',
-    'respond'         : bower_path + '/respond',
-    'cropper'         : bower_path + '/cropper',
-    'toastr'          : bower_path + '/toastr',
-    'select2'         : bower_path + '/admin-lte/plugins/select2',
-    'localization'    : 'vendor/andywer/js-localization'
+    'admin_lte'       : node_path + '/admin-lte',
+    'ace'             : node_path + '/ace-min-noconflict',
+    'backbone'        : node_path + '/backbone',
+    'underscore'      : node_path + '/underscore',
+    'moment'          : node_path + '/moment',
+    'jquery'          : node_path + '/jquery',
+    'jquery_sortable' : node_path + '/jquery-sortable',
+    'fontawesome'     : node_path + '/font-awesome',
+    'socketio_client' : node_path + '/socket.io-client',
+    'ionicons'        : node_path + '/ionicons',
+    'html5shiv'       : node_path + '/html5shiv',
+    'respond'         : node_path + '/respond.js',
+    'cropper'         : node_path + '/cropper',
+    'toastr'          : node_path + '/toastr',
+    'select2'         : node_path + '/admin-lte/plugins/select2',
+    'localization'    : './vendor/andywer/js-localization'
 };
 
 Elixir(function(mix) {
-    mix.bower()
+    mix.lang()
     .styles([
         paths.admin_lte   + '/bootstrap/css/bootstrap.css',
         paths.select2     + '/select2.css',
         paths.fontawesome + '/css/font-awesome.css',
-        paths.ionicons    + '/css/ionicons.css',
+        paths.ionicons    + '/dist/css/ionicons.css',
         paths.admin_lte   + '/dist/css/AdminLTE.css',
         paths.admin_lte   + '/dist/css/skins/_all-skins.css',
-        paths.toastr      + '/toastr.css',
+        paths.toastr      + '/build/toastr.css',
         paths.cropper     + '/dist/cropper.css'
     ], 'public/css/vendor.css', './')
     .styles([
@@ -56,8 +50,7 @@ Elixir(function(mix) {
     .scripts([
         paths.html5shiv + '/dist/html5shiv.js',
         paths.respond   + '/dest/respond.src.js'
-    ], 'public/js/ie.js', bower_path)
-    .copy(paths.localization    + '/resources/js/localization.js', bower_path)
+    ], 'public/js/ie.js', node_path)
     .scripts([
         paths.jquery          + '/dist/jquery.js',
         paths.jquery_sortable + '/source/js/jquery-sortable.js',
@@ -68,7 +61,7 @@ Elixir(function(mix) {
         paths.admin_lte       + '/dist/js/app.js',
         paths.backbone        + '/backbone.js',
         paths.socketio_client + '/socket.io.js',
-        bower_path            + '/localization.js',
+        paths.localization    + '/resources/js/localization.js',
         paths.toastr          + '/toastr.js',
         paths.cropper         + '/dist/cropper.js',
         paths.ace             + '/ace.js',
@@ -76,10 +69,10 @@ Elixir(function(mix) {
         paths.ace             + '/mode-php.js',
         paths.ace             + '/mode-yaml.js',
         paths.ace             + '/mode-ini.js'
-    ], 'public/js/vendor.js', bower_path)
+    ], 'public/js/vendor.js', node_path)
     .babel([
-        'script.js'
-    ])
+        'app.jsx'
+    ], 'public/js/app.js', 'resources/assets/js')
     // .scripts([
     //     'app.js',
     //     'projects.js',
@@ -112,9 +105,7 @@ Elixir(function(mix) {
     .copy('public/fonts', 'public/build/fonts')
     .remove([
         'public/css',
-        //'public/js',
+        'public/js',
         'public/fonts'
-        //bower_path + '/localization.js' // removing this breaks watch
-    ])
-    .lang();
+    ]);
 });
