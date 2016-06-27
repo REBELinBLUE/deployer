@@ -77,25 +77,28 @@ Elixir(function(mix) {
         paths.ace             + '/mode-yaml.js',
         paths.ace             + '/mode-ini.js'
     ], 'public/js/vendor.js', bower_path)
-    .scripts([
-        'app.js',
-        'projects.js',
-        'templates.js',
-        'servers.js',
-        'heartbeats.js',
-        'notifications.js',
-        'notifyEmails.js',
-        'shareFiles.js',
-        'projectFiles.js',
-        'checkUrls.js',
-        'variables.js',
-        'deployment.js',
-        'commands.js',
-        'users.js',
-        'groups.js',
-        'uploader.js',
-        'profile.js'
-    ], 'public/js/app.js', 'resources/assets/js')
+    .babel([
+        'script.js'
+    ])
+    // .scripts([
+    //     'app.js',
+    //     'projects.js',
+    //     'templates.js',
+    //     'servers.js',
+    //     'heartbeats.js',
+    //     'notifications.js',
+    //     'notifyEmails.js',
+    //     'shareFiles.js',
+    //     'projectFiles.js',
+    //     'checkUrls.js',
+    //     'variables.js',
+    //     'deployment.js',
+    //     'commands.js',
+    //     'users.js',
+    //     'groups.js',
+    //     'uploader.js',
+    //     'profile.js'
+    // ], 'public/js/app.js', 'resources/assets/js')
     .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
     .copy(paths.ionicons    + '/fonts/**',           'public/fonts')
@@ -109,7 +112,7 @@ Elixir(function(mix) {
     .copy('public/fonts', 'public/build/fonts')
     .remove([
         'public/css',
-        'public/js',
+        //'public/js',
         'public/fonts'
         //bower_path + '/localization.js' // removing this breaks watch
     ])
