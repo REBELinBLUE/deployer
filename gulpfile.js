@@ -5,10 +5,10 @@ const shell  = require('gulp-shell');
 
 Elixir.extend('lang', function () {
     new Elixir.Task('lang', function () {
-        return gulp.src('').pipe(shell('php artisan js-localization:refresh'));
+        return gulp.src('')
+                   .pipe(shell('php artisan js-localization:refresh --quiet'));
     });
 });
-
 
 const node_path = 'node_modules';
 
@@ -92,9 +92,14 @@ Elixir(function(mix) {
     //     'uploader.js',
     //     'profile.js'
     // ], 'public/js/app.js', 'resources/assets/js')
-    .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
-    .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
-    .copy(paths.ionicons    + '/fonts/**',           'public/fonts')
+    // .copy(paths.admin_lte   + '/bootstrap/fonts/**', 'public/fonts')
+    // .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
+    // .copy(paths.ionicons    + '/fonts/**',           'public/fonts')
+    .copy([
+        paths.admin_lte   + '/bootstrap/fonts/**',
+        paths.fontawesome + '/fonts/**',
+        paths.ionicons    + '/fonts/**'
+    ], 'public/build/fonts')
     .version([
         'public/css/app.css',
         'public/css/vendor.css',
@@ -102,10 +107,8 @@ Elixir(function(mix) {
         'public/js/ie.js',
         'public/js/vendor.js'
     ])
-    .copy('public/fonts', 'public/build/fonts')
     .remove([
         'public/css',
-        'public/js',
-        'public/fonts'
+        'public/js'
     ]);
 });
