@@ -1,104 +1,89 @@
-var jwt = require('jsonwebtoken');
-var fs = require('fs');
+/* eslint-disable no-console, global-require */
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
-require('dotenv').load();
+const Redis = require('ioredis');
+const SocketServer = require('socket.io');
 
-var debug = (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === true);
+require('dotenv').config();
 
-var Redis = require('ioredis');
-var redis = new Redis({
-    port: process.env.REDIS_PORT || 6379,
-    host: process.env.REDIS_HOST || '127.0.0.1',
-    db: process.env.REDIS_DATABASE || 0,
-    password: process.env.REDIS_PASSWORD || null
-});
+const DEBUG = (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === true);
+const SOCKET_PORT = parseInt(process.env.SOCKET_PORT, 10);
+const SOCKET_URL = process.env.SOCKET_URL;
 
-if (/^https/i.test(process.env.SOCKET_URL)) {
-    var ssl_conf = {
-        key:  (process.env.SOCKET_SSL_KEY_FILE  ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE)  : null),
-        cert: (process.env.SOCKET_SSL_CERT_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CERT_FILE) : null),
-        ca:   (process.env.SOCKET_SSL_CA_FILE   ? fs.readFileSync(process.env.SOCKET_SSL_CA_FILE)   : null)
-    };
+const requestHandler = (request, response) => {
+  response.writeHead(200);
+  response.end('');
+};
 
-    var app = require('https').createServer(ssl_conf, handler);
+const debugMessage = (message) => {
+  if (DEBUG) {
+    console.log(message);
+  }
+};
+
+let httpServer;
+if (/^https/i.test(SOCKET_URL)) {
+  const sslConfiguration = {
+    key: (process.env.SOCKET_SSL_KEY_FILE ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE) : null),
+    cert: (process.env.SOCKET_SSL_CERT_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CERT_FILE) : null),
+    ca: (process.env.SOCKET_SSL_CA_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CA_FILE) : null),
+  };
+
+  httpServer = require('https').createServer(sslConfiguration, requestHandler);
 } else {
-    var app = require('http').createServer(handler);
+  httpServer = require('http').createServer(requestHandler);
 }
 
-var io  = require('socket.io')(app);
+const socketServer = new SocketServer(httpServer, { });
 
-app.listen(parseInt(process.env.SOCKET_PORT), function() {
-    if (debug) {
-        console.log('Server is running!');
-    }
+const queue = new Redis({
+  port: process.env.REDIS_PORT || 6379,
+  host: process.env.REDIS_HOST || '127.0.0.1',
+  db: process.env.REDIS_DATABASE || 0,
+  password: process.env.REDIS_PASSWORD || null,
 });
 
-function handler(req, res) {
-    res.writeHead(200);
-    res.end('');
-}
+httpServer.listen(SOCKET_PORT, () => debugMessage('Server is running!'));
+socketServer.on('connection', () => debugMessage('connection'));
+queue.psubscribe('*', () => debugMessage('psubscribe'));
 
 // Middleware to check the JWT
-io.use(function(socket, next) {
-    var decoded;
+socketServer.use((socket, next) => {
+  if (!socket.handshake.query.jwt) {
+    next(new Error('No token!'));
+  }
 
-    if (debug) {
-        console.log('Token - ' + socket.handshake.query.jwt);
+  try {
+    debugMessage(`Token - ${socket.handshake.query.jwt}`);
+
+    const decoded = jwt.verify(socket.handshake.query.jwt, process.env.JWT_SECRET);
+
+    if (!decoded) {
+      throw new Error('Not decoded');
     }
 
-    try {
-        decoded = jwt.verify(socket.handshake.query.jwt, process.env.JWT_SECRET);
-
-        if (debug) {
-            console.log(decoded);
-        }
-    } catch (err) {
-        if (debug) {
-            console.error(err);
-        }
-
-        next(new Error('Invalid token!'));
-    }
-
-    if (decoded) {
-        // everything went fine - save userId as property of given connection instance
-        socket.userId = decoded.data.userId;
-        next();
-    } else {
-        // invalid token - terminate the connection
-        next(new Error('Invalid token!'));
-    }
+    // everything went fine - save userId as property of given connection instance
+    // socket.userId = decoded.data.userId;
+    debugMessage(decoded);
+    next();
+  } catch (err) {
+    debugMessage(err);
+    next(new Error('Invalid token!'));
+  }
 });
 
-io.on('connection', function(socket) {
-    if (debug) {
-        console.log('connection');
-    }
-});
+// When a pmessage event occurs on the redis queue, emit it to the socket.io server
+queue.on('pmessage', (subscribed, channel, message) => {
+  const parsed = JSON.parse(message);
 
-redis.psubscribe('*', function(err, count) {
-    if (debug) {
-        console.log('psubscribe');
-    }
-});
+  if (parsed.event.indexOf('RestartSocketServer') !== -1) {
+    debugMessage('Restart command received');
 
-redis.on('pmessage', function(subscribed, channel, message) {
-    message = JSON.parse(message);
+    process.exit();
+    return;
+  }
 
-
-    if (message.event.indexOf('RestartSocketServer') !== -1) {
-
-        if (debug) {
-            console.log('Restart command received');
-        }
-
-        process.exit();
-        return;
-    }
-
-    if (debug) {
-        console.log('Message received from event ' + message.event + ' to channel ' + channel);
-    }
-
-    io.emit(channel + ':' + message.event, message.data);
+  debugMessage(`Message received from event ${parsed.event} to channel ${channel}`);
+  socketServer.emit(`${channel}: ${parsed.event}`, parsed.data);
 });
