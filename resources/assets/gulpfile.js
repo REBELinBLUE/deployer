@@ -1,7 +1,7 @@
 const Elixir = require('laravel-elixir');
-const join   = require('path').join;
-const gulp   = require('gulp');
-const del    = require('del');
+const join = require('path').join;
+const gulp = require('gulp');
+const del = require('del');
 
 Elixir.extend('remove', (path) => {
     // const src = new Elixir.GulpPaths()
