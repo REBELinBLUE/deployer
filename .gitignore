@@ -16,3 +16,7 @@ auth.json
 # Dependencies
 node_modules
 vendor
+
+# Build assets
+resources/assets/public/
+resources/assets/js/localization.js

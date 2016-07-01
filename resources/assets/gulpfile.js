@@ -1,16 +1,25 @@
 const Elixir = require('laravel-elixir');
+const join   = require('path').join;
 const gulp   = require('gulp');
 const shell  = require('gulp-shell');
-               require('laravel-elixir-remove');
+const del    = require('del');
 
-Elixir.extend('lang', function () {
-    new Elixir.Task('lang', function () {
-        return gulp.src('')
-                   .pipe(shell('php artisan js-localization:refresh --quiet'));
-    });
+Elixir.extend('remove', (path) => {
+    // const src = new Elixir.GulpPaths()
+    //     .src(path);
+
+
+    new Elixir.Task('remove', function() {
+        this.recordStep('Removing Files');
+
+        return del(path);
+    }/*, src*/).watch(Elixir.config.assetsPath + '/**');
 });
 
-const node_path = 'node_modules';
+const node_path   = 'node_modules';
+const public_path = join(__dirname, '../../public');
+const source_path = join(__dirname, '../../');
+const artisan_cmd = `php ${source_path}/artisan js-localization:refresh --quiet`
 
 const paths = {
     'admin_lte'       : node_path + '/admin-lte',
@@ -28,11 +37,12 @@ const paths = {
     'cropper'         : node_path + '/cropper',
     'toastr'          : node_path + '/toastr',
     'select2'         : node_path + '/admin-lte/plugins/select2',
-    'localization'    : './vendor/andywer/js-localization'
+    'localization'    : 'js'
 };
 
 Elixir(function(mix) {
-    mix.lang()
+    mix
+    .exec(artisan_cmd)
     .styles([
         paths.admin_lte   + '/bootstrap/css/bootstrap.css',
         paths.select2     + '/select2.css',
@@ -44,14 +54,15 @@ Elixir(function(mix) {
         paths.cropper     + '/dist/cropper.css'
     ], 'public/css/vendor.css', './')
     .styles([
-        'resources/assets/css/app.css',
-        'resources/assets/css/console.css'
-    ], 'public/css/app.css', './')
+        'app.css',
+        'console.css'
+    ], 'public/css/app.css', './css/')
     .scripts([
         paths.html5shiv + '/dist/html5shiv.js',
         paths.respond   + '/dest/respond.src.js'
-    ], 'public/js/ie.js', node_path)
+    ], 'public/js/ie.js', './')
     .scripts([
+        paths.localization    + '/localization.js',
         paths.jquery          + '/dist/jquery.js',
         paths.jquery_sortable + '/source/js/jquery-sortable.js',
         paths.underscore      + '/underscore.js',
@@ -61,7 +72,6 @@ Elixir(function(mix) {
         paths.admin_lte       + '/dist/js/app.js',
         paths.backbone        + '/backbone.js',
         paths.socketio_client + '/socket.io.js',
-        paths.localization    + '/resources/js/localization.js',
         paths.toastr          + '/toastr.js',
         paths.cropper         + '/dist/cropper.js',
         paths.ace             + '/ace.js',
@@ -69,46 +79,21 @@ Elixir(function(mix) {
         paths.ace             + '/mode-php.js',
         paths.ace             + '/mode-yaml.js',
         paths.ace             + '/mode-ini.js'
-    ], 'public/js/vendor.js', node_path)
-    .babel([
+    ], 'public/js/vendor.js', './')
+    .webpack([
         'app.jsx'
-    ], 'public/js/app.js', 'resources/assets/js')
-    // .scripts([
-    //     'app.js',
-    //     'projects.js',
-    //     'templates.js',
-    //     'servers.js',
-    //     'heartbeats.js',
-    //     'notifications.js',
-    //     'notifyEmails.js',
-    //     'shareFiles.js',
-    //     'projectFiles.js',
-    //     'checkUrls.js',
-    //     'variables.js',
-    //     'deployment.js',
-    //     'commands.js',
-    //     'users.js',
-    //     'groups.js',
-    //     'uploader.js',
-    //     'profile.js'
-    // ], 'public/js/app.js', 'resources/assets/js')
-    // .copy(paths.admin_lte   + '/bootstrap/fonts/**', 'public/fonts')
-    // .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
-    // .copy(paths.ionicons    + '/fonts/**',           'public/fonts')
+    ], 'public/js/app.js', './js/')
     .copy([
         paths.admin_lte   + '/bootstrap/fonts/**',
         paths.fontawesome + '/fonts/**',
         paths.ionicons    + '/fonts/**'
-    ], 'public/build/fonts')
+    ], public_path + '/build/fonts')
     .version([
-        'public/css/app.css',
-        'public/css/vendor.css',
-        'public/js/app.js',
-        'public/js/ie.js',
-        'public/js/vendor.js'
-    ])
-    .remove([
-        'public/css',
-        'public/js'
-    ]);
+        'css/app.css',
+        'css/vendor.css',
+        'js/app.js',
+        'js/ie.js',
+        'js/vendor.js'
+    ], public_path + '/build');
+    //.remove('public');
 });
