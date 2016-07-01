@@ -1,6 +1,5 @@
 const Elixir = require('laravel-elixir');
 const join = require('path').join;
-const gulp = require('gulp');
 const del = require('del');
 
 Elixir.extend('remove', (path) => {
@@ -18,7 +17,7 @@ Elixir.extend('remove', (path) => {
 const node_path   = 'node_modules';
 const public_path = join(__dirname, '../../public');
 const source_path = join(__dirname, '../../');
-const artisan_cmd = `php ${source_path}/artisan js-localization:refresh --quiet`
+const artisan_cmd = `php ${source_path}/artisan js-localization:refresh --quiet`;
 
 const paths = {
     'admin_lte'       : node_path + '/admin-lte',

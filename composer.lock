@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1952ffb3d095cfbddf9f3085e6d29393",
+    "hash": "54b1015b06a8ca721b890358106e0621",
     "content-hash": "20fd68f46e489d5356a1c1ead662f13f",
     "packages": [
         {
@@ -17,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andywer/laravel-js-localization/zipball/ff9f32ca7f72449cded00b1e413ca42ec0b4d40b",
+                "url": "https://api.github.com/repos/andywer/laravel-js-localization/zipball/f13c7af3fbbe9cc01ea91a85dbce194ef87c5631",
                 "reference": "ff9f32ca7f72449cded00b1e413ca42ec0b4d40b",
                 "shasum": ""
             },
@@ -4092,6 +4092,7 @@
                 "rest",
                 "web service"
             ],
+            "abandoned": "guzzlehttp/guzzle",
             "time": "2014-01-28 22:29:15"
         },
         {

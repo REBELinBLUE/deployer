@@ -1,11 +1,14 @@
 {
-    "extends": "airbnb",
-    "rules": {
-        "max-len": [1, { "code": 120, "tabWidth": 2 } ]
-    },
-    "parserOptions": {
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true
-        }
+  "extends": "airbnb",
+  "rules": {
+    "max-len": [1, {
+      "code": 120,
+      "tabWidth": 2
+    }]
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
     }
+  }
 }

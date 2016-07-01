@@ -1,68 +1,68 @@
 build_settings:
-    clone_depth: 1
-    verbose: false
-    ignore:
-        - "bootstrap"
-        - "database"
-        - "node_modules"
-        - "public"
-        - "resources"
-        - "storage"
-        - "tests"
-        - "vendor"
-        - "create-release"
+  clone_depth: 1
+  verbose: false
+  ignore:
+    - "bootstrap"
+    - "database"
+    - "node_modules"
+    - "public"
+    - "resources"
+    - "storage"
+    - "tests"
+    - "vendor"
+    - "create-release"
 
 setup:
-    wipe:
-        directory: "/var/www/coverage/deployer/"
-    composer:
-        action: "install"
-        prefer_dist: true
-    env:
-        APP_ENV: "testing"
-        APP_DEBUG: "true"
-        APP_KEY: "cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy"
-        CACHE_DRIVER: "array"
-        SESSION_DRIVER: "array"
-        QUEUE_DRIVER: "sync"
-        BROADCAST_DRIVER: "log"
+  wipe:
+    directory: "/var/www/coverage/deployer/"
+  composer:
+    action: "install"
+    prefer_dist: true
+  env:
+    APP_ENV: "testing"
+    APP_DEBUG: "true"
+    APP_KEY: "cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy"
+    CACHE_DRIVER: "array"
+    SESSION_DRIVER: "array"
+    QUEUE_DRIVER: "sync"
+    BROADCAST_DRIVER: "log"
 
 test:
-    lint:
-        directory: "app/"
-    php_unit:
-        config:
-            - "phpunit.xml.dist"
-        directory:
-            - "tests/"
-        args: "--no-coverage"
-    php_mess_detector:
-        allowed_warnings: 0
-        path: "app/"
-        rules:
-            - "design"
-            - "naming"
-            - "unusedcode"
-    php_code_sniffer:
-        path: "app/"
-        standard: "PSR2"
-        allowed_warnings: 0
-        allowed_errors: 0
-    php_cpd:
-    php_loc:
-    php_docblock_checker:
-    technical_debt:
-        allowed_errors: -1
+  lint:
+    directory: "app/"
+  php_unit:
+    config:
+      - "phpunit.xml.dist"
+    directory:
+        - "tests/"
+    args: "--no-coverage"
+  php_mess_detector:
+    allowed_warnings: 0
+    path: "app/"
+    rules:
+      - "design"
+      - "naming"
+      - "unusedcode"
+  php_code_sniffer:
+    path: "app/"
+    standard: "PSR2"
+    allowed_warnings: 0
+    allowed_errors: 0
+  php_cpd:
+  php_loc:
+  php_docblock_checker:
+  technical_debt:
+    allowed_errors: -1
 
 failure:
-    email:
-        committer: true
+  email:
+    committer: true
 
 complete:
-    env:
-       CODECLIMATE_REPO_TOKEN: "f5222770741fef12c55315f61a267c8a615908e511241618ce171129e8217e63"
-    shell:
-       - "php -dzend_extension=xdebug.so /var/www/PHPCI/latest/vendor/bin/phpunit --coverage-text=/dev/null --coverage-html=/var/www/coverage/deployer --coverage-clover %BUILD_PATH%/storage/logs/clover.xml -c %BUILD_PATH%/phpunit.xml.dist %BUILD_PATH%/tests"
-       - "php /var/www/PHPCI/latest/vendor/bin/test-reporter --coverage-report=%BUILD_PATH%/storage/logs/clover.xml"
+  env:
+   CODECLIMATE_REPO_TOKEN: "f5222770741fef12c55315f61a267c8a615908e511241618ce171129e8217e63"
+  shell:
+   - "php -dzend_extension=xdebug.so /var/www/PHPCI/latest/vendor/bin/phpunit --coverage-text=/dev/null --coverage-html=/var/www/coverage/deployer --coverage-clover %BUILD_PATH%/storage/logs/clover.xml -c %BUILD_PATH%/phpunit.xml.dist %BUILD_PATH%/tests"
+   - "php /var/www/PHPCI/latest/vendor/bin/test-reporter --coverage-report=%BUILD_PATH%/storage/logs/clover.xml"
 
 success:
