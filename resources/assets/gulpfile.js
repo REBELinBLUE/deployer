@@ -1,7 +1,6 @@
 const Elixir = require('laravel-elixir');
 const join   = require('path').join;
 const gulp   = require('gulp');
-const shell  = require('gulp-shell');
 const del    = require('del');
 
 Elixir.extend('remove', (path) => {
