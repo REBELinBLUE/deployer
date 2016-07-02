@@ -143,7 +143,7 @@ div#reason div.radio label {
 
 #socket_offline {
     margin-top: 15px;
-    display: none;
+    /*display: none;*/
 }
 
 #update-available {

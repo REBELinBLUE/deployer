@@ -8,6 +8,7 @@
 
         <!-- Style -->
         <link href="{{ elixir('css/vendor.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ elixir('css/app.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -20,10 +21,15 @@
         <meta name="locale" content="{{ App::getLocale() }}" />
     </head>
     <body class="skin-{{ $theme }}">
+        <script type="text/javascript">
+            const LOGGED_IN_USER = {!! $logged_in_user->toJson() !!};
+        </script>
+
         <div id="content"></div>
 
         <script src="{{ elixir('js/vendor.js') }}"></script>
         <script src="/js-localization/messages"></script>
         <script src="{{ elixir('js/app.js') }}"></script>
+
     </body>
 </html>

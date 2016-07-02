@@ -17,6 +17,9 @@ class ActiveUserComposer
      */
     public function compose(View $view)
     {
-        $view->with('logged_in_user', Auth::user());
+        $user = Auth::user();
+        $user->avatar_url = $user->getPresenter()->avatar_url;
+
+        $view->with('logged_in_user', $user);
     }
 }

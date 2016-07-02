@@ -62,6 +62,7 @@ const paths = {
 recipe((mix) => {
   mix
   .exec(artisanCommand)
+  //.exec(`rm -rf ${publicPath}/build`)
   .styles([
     `${paths.admin_lte}/bootstrap/css/bootstrap.css`,
     // `${paths.select2}/select2.css`,
@@ -108,7 +109,7 @@ recipe((mix) => {
     `${paths.ionicons}/fonts/**`,
   ], `${publicPath}/build/fonts`)
   .version([
-    // 'css/app.css',
+    'css/app.css',
     'css/vendor.css',
     'js/app.js',
     'js/ie.js',

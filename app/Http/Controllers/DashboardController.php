@@ -13,18 +13,42 @@ use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 class DashboardController extends Controller
 {
     /**
-     * The main page of the dashboard.
-     *
+     * @var DeploymentRepositoryInterface
+     */
+    private $deploymentRepository;
+
+    /**
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
      * @param DeploymentRepositoryInterface $deploymentRepository
      * @param ProjectRepositoryInterface $projectRepository
-     *
-     * @return \Illuminate\View\View
      */
-    public function index(
+    public function __construct(
         DeploymentRepositoryInterface $deploymentRepository,
         ProjectRepositoryInterface $projectRepository
     ) {
-        $projects = $projectRepository->getAll();
+        $this->deploymentRepository = $deploymentRepository;
+        $this->projectRepository = $projectRepository;
+    }
+    /**
+     * The main page of the dashboard.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('app');
+    }
+
+    /**
+     * @return array
+     */
+    public function projects()
+    {
+        $projects = $this->projectRepository->getAll();
 
         $projects_by_group = [];
         foreach ($projects as $project) {
@@ -37,37 +61,33 @@ class DashboardController extends Controller
 
         ksort($projects_by_group);
 
-        return view('app', [
+        return [
             'title'     => Lang::get('dashboard.title'),
-            'latest'    => $this->buildTimelineData($deploymentRepository),
+            'latest'    => $this->buildTimelineData(),
             'projects'  => $projects_by_group,
-        ]); // dashboard.index
+        ];  // dashboard.index
     }
 
     /**
      * Returns the timeline.
      *
-     * @param DeploymentRepositoryInterface $deploymentRepository
-     *
      * @return \Illuminate\View\View
      */
-    public function timeline(DeploymentRepositoryInterface $deploymentRepository)
+    public function timeline()
     {
         return view('dashboard.timeline', [
-            'latest' => $this->buildTimelineData($deploymentRepository),
+            'latest' => $this->buildTimelineData(),
         ]);
     }
 
     /**
      * Builds the data for the timeline.
      *
-     * @param DeploymentRepositoryInterface $deploymentRepository
-     *
      * @return array
      */
-    private function buildTimelineData(DeploymentRepositoryInterface $deploymentRepository)
+    private function buildTimelineData()
     {
-        $deployments = $deploymentRepository->getTimeline();
+        $deployments = $this->deploymentRepository->getTimeline();
 
         $deploys_by_date = [];
         foreach ($deployments as $deployment) {
@@ -86,13 +106,11 @@ class DashboardController extends Controller
     /**
      * Generates an XML file for CCTray.
      *
-     * @param ProjectRepositoryInterface $projectRepository
-     *
      * @return \Illuminate\View\View
      */
-    public function cctray(ProjectRepositoryInterface $projectRepository)
+    public function cctray()
     {
-        $projects = $projectRepository->getAll();
+        $projects = $this->projectRepository->getAll();
 
         foreach ($projects as $project) {
             $project->latest_deployment = $project->deployments->first();

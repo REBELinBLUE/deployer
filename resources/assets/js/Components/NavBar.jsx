@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
-const NavBar = () => {
+const NavBar = (props) => {
+  const { user } = props;
+
   const strings = {
     title: Lang.get('app.name'),
     toggle: Lang.get('app.toggle_nav'),
@@ -18,7 +21,6 @@ const NavBar = () => {
         </a>
         <div className="navbar-custom-menu">
           <ul className="nav navbar-nav">
-
             <li className="dropdown messages-menu" id="pending_menu">
               <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                 <i className="fa fa-clock-o"></i>
@@ -51,20 +53,20 @@ const NavBar = () => {
 
             <li className="dropdown user user-menu">
               <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                <img src="{{ $logged_in_user->avatar_url }}" className="user-image"/>
-                <span className="hidden-xs">logged_in_user->name</span>
+                <img src={user.avatar_url} className="user-image" alt="" />
+                <span className="hidden-xs">{user.name}</span>
               </a>
               <ul className="dropdown-menu">
                 <li className="user-header">
-                  <img src="logged_in_user->avatar_url" className="img-circle"/>
-                  <p>logged_in_user->name</p>
+                  <img src={user.avatar_url} className="img-circle" alt="" />
+                  <p>{user.name}</p>
                 </li>
                 <li className="user-footer">
                   <div className="pull-left">
                     <Link to="profile.index" className="btn btn-default btn-flat">{strings.profile}</Link>
                   </div>
                   <div className="pull-right">
-                    <Link to="auth.logout" className="btn btn-default btn-flat">{strings.signout}</Link>
+                    <a href="/logout" className="btn btn-default btn-flat">{strings.signout}</a>
                   </div>
                 </li>
               </ul>
@@ -76,7 +78,17 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+
+const mapStateToProps = (state) => ({
+  user: state.app.user
+});
+
+const mapDispatchToProps = (dispatch) => ({ });
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavBar);
 
 // @foreach ($pending as $deployment)
 // <li id="deployment_info_{{ $deployment->id }}">

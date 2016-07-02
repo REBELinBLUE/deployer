@@ -8,7 +8,7 @@ import Dispatcher from 'redux-devtools-dispatch';
 import MultipleMonitors from 'redux-devtools-multiple-monitors';
 import Inspector from 'redux-devtools-inspector';
 
-//import * as AppActions from './actions';
+import * as AppActions from '../../actions';
 
 const tooltipOptions = {
   style: {
@@ -23,7 +23,7 @@ const ReduxDevTools = createDevTools(
   <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-p" changeMonitorKey="ctrl-m" defaultSize={0.2}>
     <MultipleMonitors>
       <LogMonitor theme="tomorrow" preserveScrollTop={false} />
-      <Dispatcher theme="tomorrow" />
+      <Dispatcher theme="tomorrow" actionCreators={AppActions} />
     </MultipleMonitors>
     <SliderMonitor theme="tomorrow" />
     <ChartMonitor theme="tomorrow" tooltipOptions={tooltipOptions} invertTheme />

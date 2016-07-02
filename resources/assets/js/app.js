@@ -15,7 +15,12 @@ import Tools from './Containers/DevTools';
 import configureStore from './store';
 
 // Setup the app
-const store = configureStore();
+const store = configureStore({
+  app: {
+    user: LOGGED_IN_USER, // FIXME:Current comes from the HTML, not sure if this is right
+  },
+});
+
 const history = syncHistoryWithStore(hashHistory, store);
 
 injectTapEventPlugin();

@@ -16,10 +16,10 @@ use REBELinBLUE\Deployer\Composers\VersionComposer;
 class ViewServiceProvider extends ServiceProvider
 {
     public $composers = [
-        ActiveUserComposer::class => ['_partials.nav', 'commands.dialog', 'user.profile', 'deployment.log'],
+        ActiveUserComposer::class => ['app'], //'_partials.nav', 'commands.dialog', 'user.profile', 'deployment.log'],
         HeaderComposer::class     => ['_partials.nav'],
         NavigationComposer::class => ['_partials.sidebar'],
-        ThemeComposer::class      => ['app', 'layout', 'user.profile'],
+        ThemeComposer::class      => ['app'], //'layout', 'user.profile'],
         VersionComposer::class    => ['_partials.update'],
     ];
 
