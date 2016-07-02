@@ -25,7 +25,7 @@ const ReduxDevTools = createDevTools(
     changePositionKey="ctrl-p"
     changeMonitorKey="ctrl-m"
     defaultSize={0.2}
-    defaultIsVisible={false}
+    defaultIsVisible
   >
     <MultipleMonitors>
       <LogMonitor theme="tomorrow" preserveScrollTop={false} />

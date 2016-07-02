@@ -34,7 +34,6 @@ export default function (state = initialState, action) {
           ...state.socket,
           online: false,
         },
-        socketOnline: false,
       };
     case SOCKET_CONNECTION_ONLINE_ACTION:
       return {
@@ -43,7 +42,6 @@ export default function (state = initialState, action) {
           ...state.socket,
           online: true,
         },
-        socketOnline: true,
       };
     default:
       return state;

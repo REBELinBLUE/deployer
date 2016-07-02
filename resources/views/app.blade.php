@@ -26,7 +26,6 @@
                     server: '{{ config('deployer.socket_url') }}',
                     jwt: '{{ Session::get('jwt') }}'
                 },
-                jwt: '{{ Session::get('jwt') }}',
                 locale: '{{ App::getLocale() }}',
                 user: {!! $logged_in_user->toJson() !!},
                 outdated: {{ $is_outdated ? 'true' : 'false' }},

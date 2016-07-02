@@ -1,17 +1,20 @@
-const project = {
-  id: 1,
-  name: 'My project',
-  branch: 'Master',
-  started_at: '10pm'
-};
+import {
+  RECEIVED_RUNNING_PROJECTS_ACTION,
+} from '../constants/actionTypes';
 
 const initialState = {
-  running: [project, project],
-  pending: [project, project, project, project, project],
+  running: [],
+  pending: [],
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case RECEIVED_RUNNING_PROJECTS_ACTION:
+      return {
+        ...state,
+        running: action.running,
+        pending: action.pending,
+      };
     default:
       return state;
   }

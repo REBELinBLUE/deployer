@@ -24,6 +24,10 @@ const webpackConfig = {
     extensions: ['.js', '.jsx'],
     fallback: [nodePath],
   },
+  externals: {
+    jquery: 'jQuery',
+    //localization: 'Lang',
+  },
   module: {
     loaders: [
       {
@@ -62,7 +66,6 @@ const paths = {
 recipe((mix) => {
   mix
   .exec(artisanCommand)
-  //.exec(`rm -rf ${publicPath}/build`)
   .styles([
     `${paths.admin_lte}/bootstrap/css/bootstrap.css`,
     // `${paths.select2}/select2.css`,
