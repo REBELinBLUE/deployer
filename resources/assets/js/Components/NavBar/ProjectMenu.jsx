@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+
+import ProjectMenuItem from './ProjectMenuItem';
 
 const ProjectMenu = (props) => {
   const {
@@ -21,6 +22,10 @@ const ProjectMenu = (props) => {
 
   const label = Lang.choice(translation, projects.length, { count: projects.length });
 
+  if (!projects.length) {
+    return null;
+  }
+
   return (
     <li className="dropdown messages-menu" id={id}>
       <a href="#" className="dropdown-toggle" data-toggle="dropdown">
@@ -33,12 +38,7 @@ const ProjectMenu = (props) => {
           <ul className="menu">
             {
               projects.map((project, index) => (
-                <li id="deployment_info_id" key={index}>
-                  <Link to="url">
-                    <h4>project_name <small className="pull-right">started: time</small></h4>
-                    <p>branch: branch</p>
-                  </Link>
-                </li>
+                <ProjectMenuItem key={index} project={project} />
               ))
             }
           </ul>

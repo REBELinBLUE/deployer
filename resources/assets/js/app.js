@@ -17,39 +17,43 @@ import configureStore from './store';
 
 import { socketOffline, socketOnline } from './Actions/app';
 
-// Setup the app
-const store = configureStore({
-  app: appConfig
-});
-
-Lang.setLocale(appConfig.locale);
-
-const socket = client.connect(appConfig.socket.server, {
-  query: `jwt=${appConfig.socket.jwt}`,
-});
-
-socket.on('connect_error', (error) => store.dispatch(socketOffline(error)));
-socket.on('connect', () => store.dispatch(socketOnline()));
-socket.on('reconnect', () => store.dispatch(socketOnline()));
-
-const history = syncHistoryWithStore(browserHistory, store);
-
 injectTapEventPlugin();
 
-render((
-  <Provider store={store}>
-    <div>
-      <Router history={history}>
-        <Route path="/" component={App}>
-          <IndexRoute component={indexRoute.component} />
-          {
-            routes.map((route, index) => (
-              <Route path={route.url} component={route.component} key={index} />
-            ))
-          }
-        </Route>
-      </Router>
-      <Tools />
-    </div>
-  </Provider>
-), document.getElementById('content'));
+function Deployer(config, mountNode) {
+  const store = configureStore({
+    app: config
+  });
+
+  Lang.setLocale(config.locale);
+
+  const socket = client.connect(config.socket.server, {
+    query: `jwt=${config.socket.jwt}`,
+  });
+
+  socket.on('connect_error', (error) => store.dispatch(socketOffline(error)));
+  socket.on('connect', () => store.dispatch(socketOnline()));
+  socket.on('reconnect', () => store.dispatch(socketOnline()));
+
+  const history = syncHistoryWithStore(browserHistory, store);
+
+  render((
+    <Provider store={store}>
+      <div>
+        <Router history={history}>
+          <Route path="/" component={App}>
+            <IndexRoute component={indexRoute.component}/>
+            {
+              routes.map((route, index) => (
+                <Route path={route.url} component={route.component} key={index}/>
+              ))
+            }
+          </Route>
+        </Router>
+        <Tools />
+      </div>
+    </Provider>
+  ), mountNode);
+};
+
+// FIXME: How do I do this properly from the HTML file?
+Deployer(appConfig, document.getElementById('content'));
