@@ -1,5 +1,5 @@
-import { userLoggedIn } from './Actions/app';
+import * as AppActions from './Actions/app';
 
 export {
-  userLoggedIn,
+  AppActions,
 };

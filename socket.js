@@ -11,42 +11,39 @@ const DEBUG = (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === tru
 const SOCKET_PORT = parseInt(process.env.SOCKET_PORT, 10);
 const SOCKET_URL = process.env.SOCKET_URL;
 
-const requestHandler = (request, response) => {
-  response.writeHead(200);
-  response.end('');
-};
-
 const debugMessage = (message) => {
   if (DEBUG) {
     console.log(message);
   }
 };
 
-let httpServer;
-if (/^https/i.test(SOCKET_URL)) {
-  const sslConfiguration = {
-    key: (process.env.SOCKET_SSL_KEY_FILE ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE) : null),
-    cert: (process.env.SOCKET_SSL_CERT_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CERT_FILE) : null),
-    ca: (process.env.SOCKET_SSL_CA_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CA_FILE) : null),
+const startServer = () => {
+  var httpServer;
+
+  const requestHandler = (request, response) => {
+    response.writeHead(200);
+    response.end('');
   };
 
-  httpServer = require('https').createServer(sslConfiguration, requestHandler);
-} else {
-  httpServer = require('http').createServer(requestHandler);
-}
+  if (/^https/i.test(SOCKET_URL)) {
+    const sslConfiguration = {
+      key: (process.env.SOCKET_SSL_KEY_FILE ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE) : null),
+      cert: (process.env.SOCKET_SSL_CERT_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CERT_FILE) : null),
+      ca: (process.env.SOCKET_SSL_CA_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CA_FILE) : null),
+    };
 
-const socketServer = new SocketServer(httpServer, { });
+    httpServer = require('https').createServer(sslConfiguration, requestHandler);
+  } else {
+    httpServer = require('http').createServer(requestHandler);
+  }
 
-const queue = new Redis({
-  port: process.env.REDIS_PORT || 6379,
-  host: process.env.REDIS_HOST || '127.0.0.1',
-  db: process.env.REDIS_DATABASE || 0,
-  password: process.env.REDIS_PASSWORD || null,
-});
+  httpServer.listen(SOCKET_PORT, () => debugMessage('Server is running!'));
 
-httpServer.listen(SOCKET_PORT, () => debugMessage('Server is running!'));
+  return new SocketServer(httpServer, { });
+};
+
+const socketServer = startServer();
 socketServer.on('connection', () => debugMessage('connection'));
-queue.psubscribe('*', () => debugMessage('psubscribe'));
 
 // Middleware to check the JWT
 socketServer.use((socket, next) => {
@@ -72,6 +69,15 @@ socketServer.use((socket, next) => {
     next(new Error('Invalid token!'));
   }
 });
+
+const queue = new Redis({
+  port: process.env.REDIS_PORT || 6379,
+  host: process.env.REDIS_HOST || '127.0.0.1',
+  db: process.env.REDIS_DATABASE || 0,
+  password: process.env.REDIS_PASSWORD || null,
+});
+
+queue.psubscribe('*', () => debugMessage('psubscribe'));
 
 // When a pmessage event occurs on the redis queue, emit it to the socket.io server
 queue.on('pmessage', (subscribed, channel, message) => {

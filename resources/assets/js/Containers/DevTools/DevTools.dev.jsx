@@ -20,7 +20,13 @@ const tooltipOptions = {
 };
 
 const ReduxDevTools = createDevTools(
-  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-p" changeMonitorKey="ctrl-m" defaultSize={0.2}>
+  <DockMonitor
+    toggleVisibilityKey="ctrl-h"
+    changePositionKey="ctrl-p"
+    changeMonitorKey="ctrl-m"
+    defaultSize={0.2}
+    defaultIsVisible={false}
+  >
     <MultipleMonitors>
       <LogMonitor theme="tomorrow" preserveScrollTop={false} />
       <Dispatcher theme="tomorrow" actionCreators={AppActions} />

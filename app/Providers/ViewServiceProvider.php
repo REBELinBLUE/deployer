@@ -20,7 +20,7 @@ class ViewServiceProvider extends ServiceProvider
         HeaderComposer::class     => ['_partials.nav'],
         NavigationComposer::class => ['_partials.sidebar'],
         ThemeComposer::class      => ['app'], //'layout', 'user.profile'],
-        VersionComposer::class    => ['_partials.update'],
+        VersionComposer::class    => ['app'], //'_partials.update'],
     ];
 
     /**

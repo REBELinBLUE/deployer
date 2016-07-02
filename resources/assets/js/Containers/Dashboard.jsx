@@ -1,7 +1,12 @@
 import React from 'react';
 
+import UpdateAlert from '../Components/Update';
+
 const Dashboard = () => (
-  <div>Dashboard!</div>
+  <div>
+    <UpdateAlert />
+    <div>Dashboard!</div>
+  </div>
 );
 
 export default Dashboard;

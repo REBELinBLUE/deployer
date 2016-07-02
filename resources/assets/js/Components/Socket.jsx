@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 const Socket = (props) => {
+  const { online } = props;
+
   const strings = {
     title: Lang.get('app.socket_error'),
     message: Lang.get('app.socket_error_info'),
   };
+
+  if (online) {
+    return null;
+  }
 
   return (
     <div className="alert alert-danger" id="socket_offline">
@@ -14,4 +21,12 @@ const Socket = (props) => {
   );
 };
 
-export default Socket;
+Socket.propTypes = {
+  online: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  online: state.app.socket.online,
+});
+
+export default connect(mapStateToProps)(Socket);

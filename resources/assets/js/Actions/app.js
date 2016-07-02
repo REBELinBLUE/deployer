@@ -1,9 +1,26 @@
-import { LOGGED_IN_ACTION } from '../constants/actionTypes';
+import {
+  SET_PAGE_TITLE_ACTION,
+  SOCKET_CONNECTION_OFFLINE_ACTION,
+  SOCKET_CONNECTION_ONLINE_ACTION,
+} from '../constants/actionTypes';
 
-export function userLoggedIn() {
+export function setPageTitle(title, subtitle) {
   return {
-    type: LOGGED_IN_ACTION,
-    user: LOGGED_IN_USER,
+    type: SET_PAGE_TITLE_ACTION,
+    title,
+    subtitle,
   };
 }
 
+export function socketOffline(error) {
+  return {
+    type: SOCKET_CONNECTION_OFFLINE_ACTION,
+    error,
+  };
+}
+
+export function socketOnline() {
+  return {
+    type: SOCKET_CONNECTION_ONLINE_ACTION,
+  };
+}

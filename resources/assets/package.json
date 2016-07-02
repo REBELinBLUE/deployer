@@ -6,7 +6,6 @@
     "cropper": "^2.3.2",
     "jquery-sortable": "^0.9.13",
     "moment": "^2.13.0",
-    "socket.io-client": "^1.4.8",
     "toastr": "^2.1.2"
   },
   "dependencies": {
@@ -23,7 +22,8 @@
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
     "redux-form": "^5.2.5",
-    "respond.js": "^1.4.2"
+    "respond.js": "^1.4.2",
+    "socket.io-client": "^1.4.8"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",

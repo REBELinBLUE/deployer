@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -63,7 +63,7 @@ const NavBar = (props) => {
                 </li>
                 <li className="user-footer">
                   <div className="pull-left">
-                    <Link to="profile.index" className="btn btn-default btn-flat">{strings.profile}</Link>
+                    <Link to="/profile" className="btn btn-default btn-flat">{strings.profile}</Link>
                   </div>
                   <div className="pull-right">
                     <a href="/logout" className="btn btn-default btn-flat">{strings.signout}</a>
@@ -78,17 +78,15 @@ const NavBar = (props) => {
   );
 };
 
+NavBar.propTypes = {
+  user: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => ({
-  user: state.app.user
+  user: state.app.user,
 });
 
-const mapDispatchToProps = (dispatch) => ({ });
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavBar);
+export default connect(mapStateToProps)(NavBar);
 
 // @foreach ($pending as $deployment)
 // <li id="deployment_info_{{ $deployment->id }}">

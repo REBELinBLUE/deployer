@@ -16,13 +16,23 @@
         <![endif]-->
 
         <meta name="token" content="{{ Session::token() }}" />
-        <meta name="socket_url" content="{{ config('deployer.socket_url') }}" />
-        <meta name="jwt" content="{{ Session::get('jwt') }}" />
-        <meta name="locale" content="{{ App::getLocale() }}" />
     </head>
     <body class="skin-{{ $theme }}">
         <script type="text/javascript">
-            const LOGGED_IN_USER = {!! $logged_in_user->toJson() !!};
+            const appConfig = {
+                socket: {
+                    online: true,
+                    server: '{{ config('deployer.socket_url') }}',
+                    jwt: '{{ Session::get('jwt') }}'
+                },
+                jwt: '{{ Session::get('jwt') }}',
+                locale: '{{ App::getLocale() }}',
+                user: {!! $logged_in_user->toJson() !!}, // FIXME:Current comes from the HTML, not sure if this is right
+                outdated: {{ $is_outdated ? 'true' : 'false' }},
+                title: 'testing',
+                latest: '{{ $current_version }}',
+                version: '{{ $latest_version }}',
+            };
         </script>
 
         <div id="content"></div>
