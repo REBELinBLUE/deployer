@@ -19,6 +19,27 @@ const publicPath = join(__dirname, '../../public');
 const sourcePath = join(__dirname, '../../');
 const artisanCommand = `php ${sourcePath}/artisan js-localization:refresh --quiet`;
 
+const webpackConfig = {
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    fallback: [nodePath],
+  },
+  module: {
+    loaders: [
+      {
+        test: /.jsx?$/,
+        loader: 'babel',
+        exclude: /node_modules/,
+        include: __dirname,
+        query: {
+          presets: ['es2015', 'react', 'stage-2'],
+          comments: false,
+        },
+      },
+    ],
+  },
+};
+
 const paths = {
   admin_lte: `${nodePath}/admin-lte`,
   ace: `${nodePath}/ace-min-noconflict`,
@@ -43,13 +64,13 @@ recipe((mix) => {
   .exec(artisanCommand)
   .styles([
     `${paths.admin_lte}/bootstrap/css/bootstrap.css`,
-    `${paths.select2}/select2.css`,
+    // `${paths.select2}/select2.css`,
     `${paths.fontawesome}/css/font-awesome.css`,
     `${paths.ionicons}/dist/css/ionicons.css`,
     `${paths.admin_lte}/dist/css/AdminLTE.css`,
     `${paths.admin_lte}/dist/css/skins/_all-skins.css`,
-    `${paths.toastr}/build/toastr.css`,
-    `${paths.cropper}/dist/cropper.css`,
+    // `${paths.toastr}/build/toastr.css`,
+    // `${paths.cropper}/dist/cropper.css`,
   ], 'public/css/vendor.css', './')
   .styles([
     'app.css',
@@ -62,32 +83,32 @@ recipe((mix) => {
   .scripts([
     `${paths.localization}/localization.js`,
     `${paths.jquery}/dist/jquery.js`,
-    `${paths.jquery_sortable}/source/js/jquery-sortable.js`,
-    `${paths.underscore}/underscore.js`,
-    `${paths.moment}/moment.js`,
+  //   `${paths.jquery_sortable}/source/js/jquery-sortable.js`,
+  //   `${paths.underscore}/underscore.js`,
+  //   `${paths.moment}/moment.js`,
     `${paths.admin_lte}/bootstrap/js/bootstrap.js`,
-    `${paths.select2}/select2.js`,
+  //   `${paths.select2}/select2.js`,
     `${paths.admin_lte}/dist/js/app.js`,
-    `${paths.backbone}/backbone.js`,
-    `${paths.socketio_client}/socket.io.js`,
-    `${paths.toastr}/toastr.js`,
-    `${paths.cropper}/dist/cropper.js`,
-    `${paths.ace}/ace.js`,
-    `${paths.ace}/mode-sh.js`,
-    `${paths.ace}/mode-php.js`,
-    `${paths.ace}/mode-yaml.js`,
-    `${paths.ace}/mode-ini.js`,
+  //   `${paths.backbone}/backbone.js`,
+  //   `${paths.socketio_client}/socket.io.js`,
+  //   `${paths.toastr}/toastr.js`,
+  //   `${paths.cropper}/dist/cropper.js`,
+  //   `${paths.ace}/ace.js`,
+  //   `${paths.ace}/mode-sh.js`,
+  //   `${paths.ace}/mode-php.js`,
+  //   `${paths.ace}/mode-yaml.js`,
+  //   `${paths.ace}/mode-ini.js`,
   ], 'public/js/vendor.js', './')
   .webpack([
-    'app.jsx',
-  ], 'public/js/app.js', './js/')
+    'app.js',
+  ], 'public/js/app.js', './js/', webpackConfig)
   .copy([
     `${paths.admin_lte}/bootstrap/fonts/**`,
     `${paths.fontawesome}/fonts/**`,
     `${paths.ionicons}/fonts/**`,
   ], `${publicPath}/build/fonts`)
   .version([
-    'css/app.css',
+    // 'css/app.css',
     'css/vendor.css',
     'js/app.js',
     'js/ie.js',
@@ -95,3 +116,6 @@ recipe((mix) => {
   ], `${publicPath}/build`);
   // .remove('public');
 });
+
+
+/*  ,*/

@@ -37,11 +37,11 @@ class DashboardController extends Controller
 
         ksort($projects_by_group);
 
-        return view('dashboard.index', [
+        return view('app', [
             'title'     => Lang::get('dashboard.title'),
             'latest'    => $this->buildTimelineData($deploymentRepository),
             'projects'  => $projects_by_group,
-        ]);
+        ]); // dashboard.index
     }
 
     /**
