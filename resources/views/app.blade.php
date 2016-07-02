@@ -19,6 +19,7 @@
     </head>
     <body class="skin-{{ $theme }}">
         <script type="text/javascript">
+            // FIXME: Not sure if this is right
             const appConfig = {
                 socket: {
                     online: true,
@@ -27,9 +28,9 @@
                 },
                 jwt: '{{ Session::get('jwt') }}',
                 locale: '{{ App::getLocale() }}',
-                user: {!! $logged_in_user->toJson() !!}, // FIXME:Current comes from the HTML, not sure if this is right
+                user: {!! $logged_in_user->toJson() !!},
                 outdated: {{ $is_outdated ? 'true' : 'false' }},
-                title: 'testing',
+                title: '{{ Lang::get('app.name') }}',
                 latest: '{{ $current_version }}',
                 version: '{{ $latest_version }}',
             };
@@ -40,6 +41,5 @@
         <script src="{{ elixir('js/vendor.js') }}"></script>
         <script src="/js-localization/messages"></script>
         <script src="{{ elixir('js/app.js') }}"></script>
-
     </body>
 </html>

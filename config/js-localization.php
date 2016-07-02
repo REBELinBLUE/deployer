@@ -29,7 +29,7 @@ return [
     */
 
     'messages' => [
-        'app', 'users'
+        'app', 'users', 'dashboard'
     ],
 
 //    'messages' => [

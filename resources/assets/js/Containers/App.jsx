@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import NavBar from '../Components/NavBar';
+import NavBar from '../Components/NavBar/NavBar';
 import SideBar from '../Components/SideBar';
 import Title from '../Components/Title';
 import SocketError from '../Components/Socket';

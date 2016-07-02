@@ -16,7 +16,7 @@ const Socket = (props) => {
   return (
     <div className="alert alert-danger" id="socket_offline">
       <h4><i className="icon fa fa-ban"></i> {strings.title}</h4>
-      {strings.message}
+      <span dangerouslySetInnerHTML={{ __html: strings.message }} />
     </div>
   );
 };

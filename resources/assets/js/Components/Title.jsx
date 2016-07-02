@@ -2,7 +2,10 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 const Title = (props) => {
-  const { title, subtitle } = props;
+  const {
+    title,
+    subtitle,
+  } = props;
 
   return (
     <section className="content-header">

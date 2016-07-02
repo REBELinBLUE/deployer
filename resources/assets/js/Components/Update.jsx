@@ -2,7 +2,11 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 const Update = (props) => {
-  const { outdated, latest, version } = props;
+  const {
+    outdated,
+    latest,
+    version,
+  } = props;
 
   const strings = {
     title: Lang.get('app.update_available'),
@@ -20,7 +24,7 @@ const Update = (props) => {
   return (
     <div className="alert alert-info" id="update-available">
       <h4><i className="icon fa fa-cloud-download"></i> {strings.title}</h4>
-      <strong>{strings.output}</strong>
+      <strong dangerouslySetInnerHTML={{ __html: strings.output }} />
     </div>
   );
 };

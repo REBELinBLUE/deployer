@@ -29,10 +29,10 @@ const SideBar = () => {
               <i className="fa fa-angle-left pull-right"></i>
             </a>
             <ul className="treeview-menu">
-              <li className="Request::is('admin/projects') ? 'active' : null"><Link to="route('admin.projects.index')">{strings.projects}</Link></li>
-              <li className="Request::is('admin/templates*') ? 'active' : null"><Link to="route('admin.templates.index')">{strings.templates}</Link></li>
-              <li className="Request::is('admin/groups') ? 'active' : null"><Link to="route('admin.groups.index')">{strings.groups}</Link></li>
-              <li className="Request::is('admin/users') ? 'active' : null"><Link to="route('admin.users.index')">{strings.users}</Link></li>
+              <li className="Request::is('admin/projects') ? 'active' : null"><Link to="/admin/projects">{strings.projects}</Link></li>
+              <li className="Request::is('admin/templates*') ? 'active' : null"><Link to="/admin/templates">{strings.templates}</Link></li>
+              <li className="Request::is('admin/groups') ? 'active' : null"><Link to="/admin/groups">{strings.groups}</Link></li>
+              <li className="Request::is('admin/users') ? 'active' : null"><Link to="/admin/users">{strings.users}</Link></li>
             </ul>
           </li>
         </ul>
