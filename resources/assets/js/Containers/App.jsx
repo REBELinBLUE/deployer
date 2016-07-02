@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
+import Tools from './DevTools';
 import NavBar from '../Components/NavBar/NavBar';
 import SideBar from '../Components/SideBar';
 import Title from '../Components/Title';
@@ -11,18 +10,22 @@ const App = (props) => {
   const { children } = props;
 
   return (
-    <div className="wrapper">
-      <NavBar />
+    <div>
+      <div className="wrapper">
+        <NavBar />
 
-      <SideBar />
+        <SideBar />
 
-      <div className="content-wrapper">
-        <Title />
-        <section className="content" id="app">
-          <SocketError />
-          {children}
-        </section>
+        <div className="content-wrapper">
+          <Title />
+          <section className="content" id="app">
+            <SocketError />
+            {children}
+          </section>
+        </div>
       </div>
+
+      <Tools />
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import App from './Containers/App';
 import Dashboard from './Containers/Dashboard';
 import Profile from './Containers/Profile';
 
@@ -6,17 +7,17 @@ import GroupAdmin from './Containers/Admin/Groups';
 import TemplateAdmin from './Containers/Admin/Templates';
 import ProjectAdmin from './Containers/Admin/Projects';
 
-const indexRoute = { url: '/', component: Dashboard };
-
-const routes = [
-  { url: '/profile', component: Profile },
-  { url: '/admin/users', component: UserAdmin },
-  { url: '/admin/groups', component: GroupAdmin },
-  { url: '/admin/templates', component: TemplateAdmin },
-  { url: '/admin/projects', component: ProjectAdmin },
-];
-
-export {
-  indexRoute,
-  routes,
+const routes = {
+  path: '/',
+  component: App,
+  indexRoute: { component: Dashboard },
+  childRoutes: [
+    { path: 'profile', component: Profile },
+    { path: 'admin/users', component: UserAdmin },
+    { path: 'admin/groups', component: GroupAdmin },
+    { path: 'admin/templates', component: TemplateAdmin },
+    { path: 'admin/projects', component: ProjectAdmin },
+  ],
 };
+
+export default routes;
