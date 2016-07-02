@@ -7,17 +7,27 @@ import GroupAdmin from './Containers/Admin/Groups';
 import TemplateAdmin from './Containers/Admin/Templates';
 import ProjectAdmin from './Containers/Admin/Projects';
 
-const routes = {
-  path: '/',
-  component: App,
-  indexRoute: { component: Dashboard },
-  childRoutes: [
-    { path: 'profile', component: Profile },
-    { path: 'admin/users', component: UserAdmin },
-    { path: 'admin/groups', component: GroupAdmin },
-    { path: 'admin/templates', component: TemplateAdmin },
-    { path: 'admin/projects', component: ProjectAdmin },
-  ],
-};
+import { setPageTitle } from './Actions/app';
 
-export default routes;
+export default function (store) {
+  // TODO: Is this really the best way to do this?
+  const updateTitle = (currentState, nextState) => {
+    const title = nextState.routes[nextState.routes.length - 1].title;
+
+    store.dispatch(setPageTitle(title || 'No title set'));
+  };
+
+  return {
+    path: '/',
+    component: App,
+    indexRoute: { component: Dashboard, title: 'Dashboard' },
+    onChange: updateTitle,
+    childRoutes: [
+      { onChange: updateTitle, title: 'Update Profile', path: 'profile', component: Profile },
+      { onChange: updateTitle, title: 'Manage users', path: 'admin/users', component: UserAdmin },
+      { onChange: updateTitle, title: 'Manage groups', path: 'admin/groups', component: GroupAdmin },
+      { onChange: updateTitle, title: 'Manage deployment templates', path: 'admin/templates', component: TemplateAdmin },
+      { onChange: updateTitle, title: 'Manage projects', path: 'admin/projects', component: ProjectAdmin },
+    ],
+  };
+};

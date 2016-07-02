@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import NavBarMenu from './NavBarMenu';
 
@@ -10,7 +11,7 @@ const NavBar = () => {
 
   return (
     <header className="main-header">
-      <a href="/" className="logo"><b>{strings.title}</b></a>
+      <Link to="/" className="logo"><b>{strings.title}</b></Link>
 
       <nav className="navbar navbar-static-top" role="navigation">
         <a href="#" className="sidebar-toggle" data-toggle="offcanvas" role="button">

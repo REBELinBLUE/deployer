@@ -6,7 +6,7 @@ import jQuery from 'jquery';
 import PendingMenu from './PendingMenu';
 import RunningMenu from './RunningMenu';
 
-import { receivedProjects } from '../../Actions/app';
+import { receivedProjects } from '../../Actions/navigation';
 
 class NavBarMenu extends React.Component {
   componentDidMount() {

@@ -1,5 +1,6 @@
 import {
   SET_PAGE_TITLE_ACTION,
+  SET_PAGE_SUBTITLE_ACTION,
   SOCKET_CONNECTION_OFFLINE_ACTION,
   SOCKET_CONNECTION_ONLINE_ACTION,
 } from '../constants/actionTypes';
@@ -25,6 +26,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         title: action.title,
+        subtitle: action.subtitle,
+      };
+    case SET_PAGE_SUBTITLE_ACTION:
+      return {
+        ...state,
         subtitle: action.subtitle,
       };
     case SOCKET_CONNECTION_OFFLINE_ACTION:

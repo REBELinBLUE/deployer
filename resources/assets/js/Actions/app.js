@@ -1,14 +1,21 @@
 import {
   SET_PAGE_TITLE_ACTION,
+  SET_PAGE_SUBTITLE_ACTION,
   SOCKET_CONNECTION_OFFLINE_ACTION,
   SOCKET_CONNECTION_ONLINE_ACTION,
-  RECEIVED_RUNNING_PROJECTS_ACTION,
 } from '../constants/actionTypes';
 
 export function setPageTitle(title, subtitle) {
   return {
     type: SET_PAGE_TITLE_ACTION,
     title,
+    subtitle,
+  };
+}
+
+export function setSubTitle(subtitle) {
+  return {
+    type: SET_PAGE_SUBTITLE_ACTION,
     subtitle,
   };
 }
@@ -26,9 +33,3 @@ export function socketOnline() {
   };
 }
 
-export function receivedProjects(response) {
-  return {
-    type: RECEIVED_RUNNING_PROJECTS_ACTION,
-    ...response,
-  };
-}
