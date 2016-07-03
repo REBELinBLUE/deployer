@@ -6,6 +6,7 @@ import UserAdmin from './Containers/Admin/Users';
 import GroupAdmin from './Containers/Admin/Groups';
 import TemplateAdmin from './Containers/Admin/Templates';
 import ProjectAdmin from './Containers/Admin/Projects';
+import ProjectDetails from './Containers/ProjectDetails';
 
 import { setPageTitle } from './actions/app';
 
@@ -19,13 +20,14 @@ export default function (store) {
     { title: 'Manage groups', path: 'admin/groups', component: GroupAdmin },
     { title: 'Manage deployment templates', path: 'admin/templates', component: TemplateAdmin },
     { title: 'Manage projects', path: 'admin/projects', component: ProjectAdmin },
+    { path: 'projects/:id', component: ProjectDetails },
   ];
 
   // TODO: Is this really the best way to do this?
   const updateTitle = (currentState, nextState) => {
     const title = nextState.routes[nextState.routes.length - 1].title;
 
-    store.dispatch(setPageTitle(title || 'No title set'));
+    store.dispatch(setPageTitle(title || null));
   };
 
   childRoutes.map((route) => {
