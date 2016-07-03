@@ -13,7 +13,7 @@ function receivedProjects(response) {
 
 export function getRunningProjects() {
   return dispatch => (
-    fetch('/api/deployment/running', { credentials: 'same-origin' })
+    fetch('/app/running', { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json =>
         dispatch(receivedProjects(json))

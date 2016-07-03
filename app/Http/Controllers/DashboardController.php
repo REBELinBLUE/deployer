@@ -33,39 +33,44 @@ class DashboardController extends Controller
         $this->deploymentRepository = $deploymentRepository;
         $this->projectRepository = $projectRepository;
     }
+    
     /**
-     * The main page of the dashboard.
+     * Get all projects grouped by group
      *
-     * @return \Illuminate\View\View
-     */
-    public function index()
-    {
-        return view('app');
-    }
-
-    /**
      * @return array
      */
     public function projects()
     {
-        sleep(5);
         $projects = $this->projectRepository->getAll();
 
         $projects_by_group = [];
         foreach ($projects as $project) {
             if (!isset($projects_by_group[$project->group->name])) {
-                $projects_by_group[$project->group->name] = [
-                    'group' => $project->group->name,
+                $projects_by_group[$project->group->id] = [
+                    'group' => $project->group,
                     'projects' => []
                 ];
             }
 
-            $projects_by_group[$project->group->name]['projects'] = $project;
+            $projects_by_group[$project->group->id]['projects'][] = $project;
         }
 
         ksort($projects_by_group);
 
         return array_values($projects_by_group);
+    }
+
+    /**
+     * Gets the list of running and pending deployments.
+     *
+     * @return array
+     */
+    public function running()
+    {
+        return [
+            'pending' => $this->deploymentRepository->getPending(),
+            'running' => $this->deploymentRepository->getRunning()
+        ];
     }
 
     /**

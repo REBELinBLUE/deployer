@@ -1,4 +1,5 @@
 import {
+  APP_PRELOAD_COMPLETE_ACTION,
   SET_PAGE_TITLE_ACTION,
   SET_PAGE_SUBTITLE_ACTION,
   SOCKET_CONNECTION_OFFLINE_ACTION,
@@ -6,6 +7,7 @@ import {
 } from '../constants/actionTypes';
 
 const initialState = {
+  loaded: false,
   locale: 'en',
   outdated: false,
   version: null,
@@ -22,6 +24,11 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case APP_PRELOAD_COMPLETE_ACTION:
+      return {
+        ...state,
+        loaded: true,
+      };
     case SET_PAGE_TITLE_ACTION:
       return {
         ...state,

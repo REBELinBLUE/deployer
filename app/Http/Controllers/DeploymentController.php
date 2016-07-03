@@ -41,20 +41,7 @@ class DeploymentController extends Controller
         $this->projectRepository    = $projectRepository;
         $this->deploymentRepository = $deploymentRepository;
     }
-
-    /**
-     * Gets the list of running and pending deployments.
-     *
-     * @return array
-     */
-    public function running()
-    {
-        return [
-            'pending' => $this->deploymentRepository->getPending(),
-            'running' => $this->deploymentRepository->getRunning()
-        ];
-    }
-
+    
     /**
      * The details of an individual project.
      *

@@ -21,8 +21,8 @@ Projects.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  projects: state.dashboard.projects.data,
-  fetching: state.dashboard.projects.fetching,
+  projects: state.navigation.projects.data,
+  fetching: state.navigation.projects.fetching,
 });
 
 export default connect(mapStateToProps)(Projects);

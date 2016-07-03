@@ -1,10 +1,16 @@
 import {
+  APP_PRELOAD_COMPLETE_ACTION,
   SET_PAGE_TITLE_ACTION,
   SET_PAGE_SUBTITLE_ACTION,
   SOCKET_CONNECTION_OFFLINE_ACTION,
   SOCKET_CONNECTION_ONLINE_ACTION,
 } from '../constants/actionTypes';
 
+export function appHasLoaded() {
+  return {
+    type: APP_PRELOAD_COMPLETE_ACTION,
+  };
+}
 export function setPageTitle(title, subtitle) {
   return {
     type: SET_PAGE_TITLE_ACTION,

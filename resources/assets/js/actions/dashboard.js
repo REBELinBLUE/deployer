@@ -1,18 +1,18 @@
 import {
-  LOADING_DASHBOARD_PROJECT_LIST_ACTION,
-  POPULATE_DASHBOARD_PROJECT_LIST_ACTION,
+  LOADING_GROUPED_PROJECT_LIST_ACTION,
+  RECEIVED_GROUPED_PROJECT_LIST_ACTION,
 } from '../constants/actionTypes';
-
-function loadingProjectList() {
-  return {
-    type: LOADING_DASHBOARD_PROJECT_LIST_ACTION,
-  };
-}
 
 function receivedProjects(projects) {
   return {
-    type: POPULATE_DASHBOARD_PROJECT_LIST_ACTION,
+    type: RECEIVED_GROUPED_PROJECT_LIST_ACTION,
     projects,
+  };
+}
+
+function loadingProjectList() {
+  return {
+    type: LOADING_GROUPED_PROJECT_LIST_ACTION,
   };
 }
 
@@ -20,7 +20,7 @@ export function getProjectList() {
   return (dispatch) => {
     dispatch(loadingProjectList());
 
-    return fetch('/api/projects', { credentials: 'same-origin' })
+    return fetch('/app/dashboard', { credentials: 'same-origin' })
       .then(response => response.json())
       .then(json =>
         dispatch(receivedProjects(json))

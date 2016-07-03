@@ -93,7 +93,7 @@ class Project extends ProjectRelation implements PresentableInterface
      *
      * @var array
      */
-    protected $appends = ['group_name', 'webhook_url', 'repository_path', 'repository_url', 'branch_url'];
+    protected $appends = [/*'group_name', */'webhook_url', 'repository_path', 'repository_url', 'branch_url'];
 
     /**
      * The attributes that should be casted to native types.

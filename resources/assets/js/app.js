@@ -3,7 +3,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import client from 'socket.io-client';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, hashHistory } from 'react-router'; // TODO: Replace hashHistory with browserHistory if possible
+import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import 'babel-polyfill';
 
@@ -15,7 +15,10 @@ injectTapEventPlugin();
 
 function deployer(config, mountNode) {
   const store = configureStore({
-    app: config,
+    app: {
+      ...config,
+      loaded: false
+    },
   });
 
   Lang.setLocale(config.locale);
@@ -29,7 +32,7 @@ function deployer(config, mountNode) {
   socket.on('reconnect', () => store.dispatch(socketOnline()));
 
   const routes = attachStoreToRoutes(store);
-  const history = syncHistoryWithStore(hashHistory, store);
+  const history = syncHistoryWithStore(browserHistory, store);
   // history.listen(location => console.log(location););
 
   render(
