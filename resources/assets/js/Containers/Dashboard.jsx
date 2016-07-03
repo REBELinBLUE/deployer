@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GroupedProjectList from '../Components/Projects';
+import GroupedProjectList from './Projects';
 import Timeline from '../Components/Timeline';
 import UpdateAlert from '../Components/Update';
 

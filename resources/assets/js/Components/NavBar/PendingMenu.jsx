@@ -16,7 +16,10 @@ PendingMenu.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  projects: state.projects.pending,
+  projects: state.navigation.pending,
 });
 
 export default connect(mapStateToProps)(PendingMenu);
+
+
+//FIXME: This should be a component

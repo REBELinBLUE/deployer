@@ -48,24 +48,24 @@ class DashboardController extends Controller
      */
     public function projects()
     {
+        sleep(5);
         $projects = $this->projectRepository->getAll();
 
         $projects_by_group = [];
         foreach ($projects as $project) {
             if (!isset($projects_by_group[$project->group->name])) {
-                $projects_by_group[$project->group->name] = [];
+                $projects_by_group[$project->group->name] = [
+                    'group' => $project->group->name,
+                    'projects' => []
+                ];
             }
 
-            $projects_by_group[$project->group->name][] = $project;
+            $projects_by_group[$project->group->name]['projects'] = $project;
         }
 
         ksort($projects_by_group);
 
-        return [
-            'title'     => Lang::get('dashboard.title'),
-            'latest'    => $this->buildTimelineData(),
-            'projects'  => $projects_by_group,
-        ];  // dashboard.index
+        return array_values($projects_by_group);
     }
 
     /**

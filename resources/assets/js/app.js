@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, hashHistory } from 'react-router'; // TODO: Replace hashHistory with browserHistory if possible
 import { syncHistoryWithStore } from 'react-router-redux';
+import 'babel-polyfill';
 
 import attachStoreToRoutes from './routes';
 import configureStore from './store';

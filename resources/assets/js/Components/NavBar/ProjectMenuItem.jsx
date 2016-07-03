@@ -15,7 +15,7 @@ const ProjectMenuItem = (props) => {
   return (
     <li id={id}>
       <Link to={url}>
-        <h4>{project.name} <small className="pull-right">{strings.started}: {project.started_at}</small></h4>
+        <h4>{project.project_name} <small className="pull-right">{strings.started}: {project.started_at}</small></h4>
         <p>{strings.branch}: {project.branch}</p>
       </Link>
     </li>

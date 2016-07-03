@@ -13,6 +13,7 @@
     "font-awesome": "^4.6.3",
     "html5shiv": "^3.7.3",
     "ionicons": "^3.0.0",
+    "isomorphic-fetch": "^2.2.1",
     "jquery": "^2.2.4",
     "react": "^15.1.0",
     "react-dom": "^15.2.0",
@@ -22,6 +23,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
     "redux-form": "^5.2.5",
+    "redux-thunk": "^2.1.0",
     "respond.js": "^1.4.2",
     "socket.io-client": "^1.4.8"
   },
@@ -52,6 +54,6 @@
   },
   "scripts": {
     "lint": "node ./node_modules/.bin/eslint --ignore-pattern localization.js js/",
-    "clean": "rm -rf public/*"
+    "clean": "rm -rf public/* npm-debug.log"
   }
 }

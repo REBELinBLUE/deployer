@@ -13,4 +13,6 @@ Route::group([
         'as'   => 'dashboard.timeline',
         'uses' => 'DashboardController@timeline',
     ]);
+
+    Route::get('api/projects', 'DashboardController@projects');
 });

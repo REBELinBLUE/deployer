@@ -3,13 +3,15 @@ import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 
 import appReducer from './Reducers/app';
-import projects from './Reducers/projects';
+import navigation from './Reducers/navigation';
+import dashboard from './Reducers/dashboard';
 
 const rootReducer = combineReducers({
   app: appReducer,
   form: formReducer,
   routing: routerReducer,
-  projects,
+  navigation,
+  dashboard,
 });
 
 export default rootReducer;

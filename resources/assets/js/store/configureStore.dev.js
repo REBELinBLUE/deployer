@@ -2,6 +2,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { persistState } from 'redux-devtools';
 import { routerMiddleware } from 'react-router-redux';
 import { hashHistory } from 'react-router';
+import thunk from 'redux-thunk';
 
 import rootReducers from '../rootReducer';
 import { ReduxDevTools } from '../Containers/DevTools';
@@ -16,7 +17,7 @@ const getDebugSessionKey = () => {
 
 const enhancer = compose(
   // Apply middleware first
-  applyMiddleware(router),
+  applyMiddleware(router, thunk),
   // Enable Redux DevTools with the monitors
   window.devToolsExtension ? window.devToolsExtension() : ReduxDevTools.instrument(),
   // Lets you write ?debug_session=<key> in address bar to persist debug sessions

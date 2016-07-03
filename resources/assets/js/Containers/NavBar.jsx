@@ -1,23 +1,13 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import jQuery from 'jquery';
+import 'whatwg-fetch';
 
 import NavBarComponent from '../Components/NavBar/NavBar';
-import { receivedProjects } from '../actions/navigation';
+import { getRunningProjects } from '../actions/navigation';
 
-class NavBar extends React.Component {
+class NavBar extends Component {
   componentDidMount() {
-    this.loadData();
-  }
-
-  loadData() {
-    const { dispatch } = this.props;
-
-    jQuery.get('/api/deployment/running').done((response) => {
-      dispatch(receivedProjects(response));
-    }).fail((error) => {
-      console.log(error);
-    });
+    this.props.dispatch(getRunningProjects());
   }
 
   render() {

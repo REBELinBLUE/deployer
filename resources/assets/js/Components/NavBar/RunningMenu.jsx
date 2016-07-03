@@ -16,8 +16,9 @@ RunningMenu.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  projects: state.projects.running,
+  projects: state.navigation.running,
 });
 
 export default connect(mapStateToProps)(RunningMenu);
 
+//FIXME: This should be a component

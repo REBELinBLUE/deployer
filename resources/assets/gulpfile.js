@@ -26,7 +26,6 @@ const webpackConfig = {
   },
   externals: {
     jquery: 'jQuery',
-    //localization: 'Lang',
   },
   module: {
     loaders: [
