@@ -16,6 +16,7 @@ auth.json
 # Dependencies
 node_modules
 vendor
+npm-debug.log
 
 # Build assets
 resources/assets/public/

@@ -53,11 +53,5 @@
   "scripts": {
     "lint": "node ./node_modules/.bin/eslint --ignore-pattern localization.js js/",
     "clean": "rm -rf public/*"
-  },
-  "eslintConfig": {
-    "extends": "../../.eslintrc",
-    "env": {
-      "browser": true
-    }
   }
 }
