@@ -43,6 +43,7 @@
     "eslint-plugin-react": "^5.2.2",
     "gulp": "^3.9.1",
     "laravel-elixir": "^6.0.0-7",
+    "laravel-elixir-webpack-official": "^1.0.1",
     "redux-devtools": "^3.3.1",
     "redux-devtools-chart-monitor": "^1.4.1",
     "redux-devtools-dispatch": "^2.2.0",

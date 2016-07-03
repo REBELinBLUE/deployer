@@ -17,7 +17,7 @@ function deployer(config, mountNode) {
   const store = configureStore({
     app: {
       ...config,
-      loaded: false
+      loaded: false,
     },
   });
 
