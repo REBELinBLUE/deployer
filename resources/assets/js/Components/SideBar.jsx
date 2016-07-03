@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, IndexLink } from 'react-router';
 
 const SideBar = () => {
   const strings = {
@@ -16,10 +16,10 @@ const SideBar = () => {
       <section className="sidebar">
         <ul className="sidebar-menu">
           <li className="Request::is('/') ? 'active' : null">
-            <Link to="/">
+            <IndexLink to="/">
               <i className="fa fa-dashboard"></i>
               <span>{strings.title}</span>
-            </Link>
+            </IndexLink>
           </li>
 
           <li className="treeview Request::is('admin/*') ? 'active' : null">

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import Tools from './DevTools';
-import NavBar from '../Components/NavBar/NavBar';
+import NavBar from '../Containers/NavBar';
 import SideBar from '../Components/SideBar';
 import Title from '../Components/Title';
 import SocketError from '../Components/Socket';
@@ -31,7 +31,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  children: React.PropTypes.any,
+  children: PropTypes.any,
 };
 
 export default App;

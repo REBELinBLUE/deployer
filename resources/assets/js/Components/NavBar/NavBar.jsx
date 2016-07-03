@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { IndexLink } from 'react-router';
 
 import NavBarMenu from './NavBarMenu';
 
@@ -11,7 +11,7 @@ const NavBar = () => {
 
   return (
     <header className="main-header">
-      <Link to="/" className="logo"><b>{strings.title}</b></Link>
+      <IndexLink to="/" className="logo"><b>{strings.title}</b></IndexLink>
 
       <nav className="navbar navbar-static-top" role="navigation">
         <a href="#" className="sidebar-toggle" data-toggle="offcanvas" role="button">

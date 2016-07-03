@@ -80,14 +80,6 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function running()
-    {
-        return [
-            'pending' => $this->deploymentRepository->getPending(),
-            'running' => $this->deploymentRepository->getRunning()
-        ];
-    }
-
     /**
      * Builds the data for the timeline.
      *

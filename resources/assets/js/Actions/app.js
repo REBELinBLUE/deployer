@@ -9,7 +9,7 @@ export function setPageTitle(title, subtitle) {
   return {
     type: SET_PAGE_TITLE_ACTION,
     title,
-    subtitle,
+    subtitle: subtitle || null,
   };
 }
 

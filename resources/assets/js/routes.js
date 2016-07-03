@@ -7,9 +7,20 @@ import GroupAdmin from './Containers/Admin/Groups';
 import TemplateAdmin from './Containers/Admin/Templates';
 import ProjectAdmin from './Containers/Admin/Projects';
 
-import { setPageTitle } from './Actions/app';
+import { setPageTitle } from './actions/app';
 
+// FIXME: Clean this up
 export default function (store) {
+  const indexRoute = { component: Dashboard, title: Lang.get('dashboard.title') };
+
+  const childRoutes = [
+    { title: 'Update profile', path: 'profile', component: Profile },
+    { title: 'Manage users', path: 'admin/users', component: UserAdmin },
+    { title: 'Manage groups', path: 'admin/groups', component: GroupAdmin },
+    { title: 'Manage deployment templates', path: 'admin/templates', component: TemplateAdmin },
+    { title: 'Manage projects', path: 'admin/projects', component: ProjectAdmin },
+  ];
+
   // TODO: Is this really the best way to do this?
   const updateTitle = (currentState, nextState) => {
     const title = nextState.routes[nextState.routes.length - 1].title;
@@ -17,17 +28,19 @@ export default function (store) {
     store.dispatch(setPageTitle(title || 'No title set'));
   };
 
+  childRoutes.map((route) => {
+    const localRoute = route;
+
+    localRoute.onChange = updateTitle;
+
+    return localRoute;
+  });
+
   return {
     path: '/',
     component: App,
-    indexRoute: { component: Dashboard, title: 'Dashboard' },
+    indexRoute,
     onChange: updateTitle,
-    childRoutes: [
-      { onChange: updateTitle, title: 'Update Profile', path: 'profile', component: Profile },
-      { onChange: updateTitle, title: 'Manage users', path: 'admin/users', component: UserAdmin },
-      { onChange: updateTitle, title: 'Manage groups', path: 'admin/groups', component: GroupAdmin },
-      { onChange: updateTitle, title: 'Manage deployment templates', path: 'admin/templates', component: TemplateAdmin },
-      { onChange: updateTitle, title: 'Manage projects', path: 'admin/projects', component: ProjectAdmin },
-    ],
+    childRoutes,
   };
-};
+}

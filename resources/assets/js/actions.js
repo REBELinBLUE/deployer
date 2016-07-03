@@ -1,5 +1,5 @@
-import * as App from './Actions/app';
-import * as Navigation from './Actions/navigation';
+import * as App from './actions/app';
+import * as Navigation from './actions/navigation';
 
 export {
   App,

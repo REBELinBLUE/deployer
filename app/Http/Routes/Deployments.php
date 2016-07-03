@@ -18,6 +18,8 @@ Route::group([
         'as'   => 'projects.deploy',
         'uses' => 'DeploymentController@deploy',
     ]);
+    
+    Route::get('api/deployment/running', 'DeploymentController@running');
 
     Route::post('deployment/{id}/rollback', [
         'as'   => 'deployments.rollback',

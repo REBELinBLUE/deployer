@@ -8,7 +8,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 
 import attachStoreToRoutes from './routes';
 import configureStore from './store';
-import { socketOffline, socketOnline } from './Actions/app';
+import { socketOffline, socketOnline } from './actions/app';
 
 injectTapEventPlugin();
 
