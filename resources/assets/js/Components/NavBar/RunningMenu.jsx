@@ -15,9 +15,12 @@ RunningMenu.propTypes = {
   projects: PropTypes.array.isRequired,
 };
 
+
+// FIXME: The component should not be using state, move to a container!
 const mapStateToProps = (state) => ({
-  projects: state.navigation.running,
+  projects: state.get('navigation').get('running').toJS(),
 });
+
 
 export default connect(mapStateToProps)(RunningMenu);
 

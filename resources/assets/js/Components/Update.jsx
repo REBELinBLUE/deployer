@@ -35,10 +35,11 @@ Update.propTypes = {
   version: PropTypes.string.isRequired,
 };
 
+// fixme: again, should be container
 const mapStateToProps = (state) => ({
-  outdated: state.app.outdated,
-  latest: state.app.latest,
-  version: state.app.version,
+  outdated: state.get('app').get('outdated'),
+  latest: state.get('app').get('latest'),
+  version: state.get('app').get('version'),
 });
 
 export default connect(mapStateToProps)(Update);

@@ -84,8 +84,7 @@
       "php artisan ide-helper:generate",
       "php artisan ide-helper:meta",
       "php artisan optimize",
-      "php artisan js-localization:refresh",
-      "cp vendor/andywer/js-localization/resources/js/localization.js resources/assets/js/localization.js"
+      "php artisan js-localization:refresh"
     ]
   },
   "config": {

@@ -1,13 +1,20 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import { persistState } from 'redux-devtools';
 import { routerMiddleware } from 'react-router-redux';
-import { hashHistory } from 'react-router';
+import reduxUnhandledAction from 'redux-unhandled-action';
+import { browserHistory } from 'react-router';
 import thunk from 'redux-thunk';
+import Immutable from 'immutable';
 
 import rootReducers from '../rootReducer';
 import { ReduxDevTools } from '../Containers/DevTools';
 
-const router = routerMiddleware(hashHistory);
+const router = routerMiddleware(browserHistory);
+const unhandledAction = reduxUnhandledAction((action) => {
+  console.group(`"${action.type}" did not lead to creation of a new state object`);
+  console.error(action);
+  console.groupEnd();
+});
 
 // Read the key from ?debug_session=<key> in the address bar
 const getDebugSessionKey = () => {
@@ -17,11 +24,11 @@ const getDebugSessionKey = () => {
 
 const enhancer = compose(
   // Apply middleware first
-  applyMiddleware(router, thunk),
+  applyMiddleware(router, thunk, unhandledAction),
   // Enable Redux DevTools with the monitors
   window.devToolsExtension ? window.devToolsExtension() : ReduxDevTools.instrument(),
   // Lets you write ?debug_session=<key> in address bar to persist debug sessions
   persistState(getDebugSessionKey())
 );
 
-export default (initialState) => createStore(rootReducers, initialState, enhancer);
+export default (initialState) => createStore(rootReducers, Immutable.fromJS(initialState), enhancer);

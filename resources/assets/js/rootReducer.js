@@ -1,15 +1,15 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import { reducer as formReducer } from 'redux-form';
-import { routerReducer } from 'react-router-redux';
 
 import appReducer from './Reducers/app';
+import routing from './Reducers/routing';
 import navigation from './Reducers/navigation';
 import dashboard from './Reducers/dashboard';
 
 const rootReducer = combineReducers({
   app: appReducer,
   form: formReducer,
-  routing: routerReducer,
+  routing,
   navigation,
   dashboard,
 });

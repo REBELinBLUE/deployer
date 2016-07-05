@@ -2,6 +2,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import { hashHistory } from 'react-router';
 import thunk from 'redux-thunk';
+import Immutable from 'immutable';
 
 import rootReducers from '../rootReducer';
 
@@ -12,4 +13,4 @@ const enhancer = compose(
   applyMiddleware(router, thunk)
 );
 
-export default (initialState) => createStore(rootReducers, initialState, enhancer);
+export default (initialState) => createStore(rootReducers, Immutable.fromJS(initialState), enhancer);

@@ -32,7 +32,12 @@ function deployer(config, mountNode) {
   socket.on('reconnect', () => store.dispatch(socketOnline()));
 
   const routes = attachStoreToRoutes(store);
-  const history = syncHistoryWithStore(browserHistory, store);
+  const history = syncHistoryWithStore(browserHistory, store, {
+    selectLocationState(state) {
+      return state.get('routing').toObject();
+    },
+  });
+
   // history.listen(location => console.log(location););
 
   render(

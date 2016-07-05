@@ -15,11 +15,9 @@ PendingMenu.propTypes = {
   projects: PropTypes.array.isRequired,
 };
 
+// FIXME: The component should not be using state, move to a container!
 const mapStateToProps = (state) => ({
-  projects: state.navigation.pending,
+  projects: state.get('navigation').get('pending').toJS(),
 });
 
 export default connect(mapStateToProps)(PendingMenu);
-
-
-//FIXME: This should be a component

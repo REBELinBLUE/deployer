@@ -25,8 +25,9 @@ Socket.propTypes = {
   online: PropTypes.bool.isRequired,
 };
 
+// fixme: should be a container!
 const mapStateToProps = (state) => ({
-  online: state.app.socket.online,
+  online: state.get('app').get('socket').get('online'),
 });
 
 export default connect(mapStateToProps)(Socket);

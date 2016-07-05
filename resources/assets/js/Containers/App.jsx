@@ -71,7 +71,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  loaded: state.app.loaded,
+  loaded: state.get('app').get('loaded'),
 });
 
 export default connect(mapStateToProps)(App);

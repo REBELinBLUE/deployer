@@ -22,9 +22,10 @@ Title.propTypes = {
   subtitle: PropTypes.string,
 };
 
+// FIXME:this should be in a component
 const mapStateToProps = (state) => ({
-  title: state.app.title,
-  subtitle: state.app.subtitle,
+  title: state.get('app').get('title'),
+  subtitle: state.get('app').get('subtitle'),
 });
 
 export default connect(mapStateToProps)(Title);
