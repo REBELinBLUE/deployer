@@ -48,6 +48,7 @@
     "gulp-util": "^3.0.7",
     "laravel-elixir": "^6.0.0-7",
     "laravel-elixir-browsersync-official": "^1.0.0",
+    "laravel-elixir-eslint": "^3.0.0",
     "laravel-elixir-webpack-official": "^1.0.1",
     "redux-devtools": "^3.3.1",
     "redux-devtools-chart-monitor": "^1.4.1",
@@ -61,7 +62,6 @@
   },
   "scripts": {
     "postinstall": "cp ../../vendor/andywer/js-localization/resources/js/localization.js js/localization.js",
-    "lint": "node ./node_modules/.bin/eslint --ignore-pattern localization.js js/**/*.js js/**/*.jsx",
     "clean-build": "rm -rf public/* npm-debug.log"
   }
 }

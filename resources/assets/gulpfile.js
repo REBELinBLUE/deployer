@@ -2,6 +2,7 @@ const Elixir = require('laravel-elixir');
 const join = require('path').join;
 const removeFiles = require('gulp-remove-files');
 const recipe = Elixir;
+require('laravel-elixir-eslint');
 
 // Stop standard gulp output
 //const gutil = require('gulp-util');
@@ -26,7 +27,7 @@ Elixir.extend('remove', (path) => {
 
   new Elixir.Task('remove', () => {
     //this.recordStep('Removing Files');
-    
+
     return gulp.src([path])
       .pipe(removeFiles());
   }/* , src*/); //.watch(`${Elixir.config.assetsPath}/**`);
@@ -80,6 +81,14 @@ const paths = {
 };
 
 recipe((mix) => {
+  // Lint files
+  mix.eslint([
+    'gulpfile.js',
+    'js/**/*.js',
+    'js/**/*.jsx',
+    '!js/localizations.js',
+  ]);
+
   // Update the language cache
   mix.exec(`php ${sourcePath}/artisan js-localization:refresh --quiet`);
 
