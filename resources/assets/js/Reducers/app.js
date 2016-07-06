@@ -40,7 +40,7 @@ export default function (state = initialState, action) {
         subtitle: action.subtitle,
       });
     case SOCKET_CONNECTION_OFFLINE_ACTION:
-      return state.merge({
+      return state.merge({ // FIXME: Check this work, looks like I might want to use updateIn
         socket: {
           ...state.socket,
           online: false,

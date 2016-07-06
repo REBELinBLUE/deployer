@@ -51,7 +51,7 @@ NavBarMenu.propTypes = {
 
 // FIXME: The component should not be using state, move to a container!
 const mapStateToProps = (state) => ({
-  user: state.get('app').get('user'),
+  user: state.getIn(['app', 'user']),
 });
 
 export default connect(mapStateToProps)(NavBarMenu);

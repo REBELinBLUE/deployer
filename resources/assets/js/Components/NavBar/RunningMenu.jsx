@@ -18,7 +18,7 @@ RunningMenu.propTypes = {
 
 // FIXME: The component should not be using state, move to a container!
 const mapStateToProps = (state) => ({
-  projects: state.get('navigation').get('running').toJS(),
+  projects: state.getIn(['navigation', 'running']).toJS(),
 });
 
 

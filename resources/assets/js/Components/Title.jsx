@@ -24,8 +24,8 @@ Title.propTypes = {
 
 // FIXME:this should be in a component
 const mapStateToProps = (state) => ({
-  title: state.get('app').get('title'),
-  subtitle: state.get('app').get('subtitle'),
+  title: state.getIn(['app', 'title']),
+  subtitle: state.getIn(['app', 'subtitle']),
 });
 
 export default connect(mapStateToProps)(Title);

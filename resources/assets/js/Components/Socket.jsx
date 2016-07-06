@@ -27,7 +27,7 @@ Socket.propTypes = {
 
 // fixme: should be a container!
 const mapStateToProps = (state) => ({
-  online: state.get('app').get('socket').get('online'),
+  online: state.getIn(['app', 'socket', 'online']),
 });
 
 export default connect(mapStateToProps)(Socket);

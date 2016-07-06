@@ -17,7 +17,7 @@ PendingMenu.propTypes = {
 
 // FIXME: The component should not be using state, move to a container!
 const mapStateToProps = (state) => ({
-  projects: state.get('navigation').get('pending').toJS(),
+  projects: state.getIn(['navigation', 'pending']).toJS(),
 });
 
 export default connect(mapStateToProps)(PendingMenu);
