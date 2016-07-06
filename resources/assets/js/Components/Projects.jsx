@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import Loading from './Loading';
+import Box from './Box';
 
 const Projects = (props) => {
   const {
@@ -22,17 +23,10 @@ const Projects = (props) => {
 
   if (!projects.length) {
     return (
-      <div className="box">
-        <div className="box-header">
-          <h3 className="box-title">{strings.title}</h3>
-        </div>
-
-        <div className="box-body">
-          <p>{fetching ? 'Loading...' : strings.none}</p>
-        </div>
-
+      <Box title={strings.title} id="projects">
+        <p>{fetching ? 'Loading...' : strings.none}</p>
         <Loading visible={fetching} />
-      </div>
+      </Box>
     );
   }
 
@@ -64,25 +58,19 @@ const Projects = (props) => {
     // <span class="label label-{{ $group_project->css_class }}"><i class="fa fa-{{ $group_project->icon }}"></i> <span>{{ $group_project->readable_status }}</span></span>
 
     groups.push(
-      <div className="box" key={index}>
-        <div className="box-header">
-          <h3 className="box-title">{group.group.name}</h3>
-        </div>
-
-        <div className="box-body table-responsive">
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th>{strings.name}</th>
-                <th>{strings.latest}</th>
-                <th>{strings.status}</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>{groupProjects}</tbody>
-          </table>
-        </div>
-      </div>
+      <Box title={group.group.name} key={index}>
+        <table className="table table-responsive table-hover">
+          <thead>
+            <tr>
+              <th>{strings.name}</th>
+              <th>{strings.latest}</th>
+              <th>{strings.status}</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>{groupProjects}</tbody>
+        </table>
+      </Box>
     );
   });
 
