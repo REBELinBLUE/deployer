@@ -26,7 +26,7 @@ Elixir.extend('remove', (path) => {
 
   new Elixir.Task('remove', () => {
     //this.recordStep('Removing Files');
-console.log(path);
+    
     return gulp.src([path])
       .pipe(removeFiles());
   }/* , src*/); //.watch(`${Elixir.config.assetsPath}/**`);

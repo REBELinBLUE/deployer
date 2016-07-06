@@ -2,10 +2,10 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Tools from './DevTools';
-import NavBar from '../Containers/NavBar';
-import SideBar from '../Components/NavBar/SideBar';
-import Title from '../Components/Title';
-import SocketError from '../Components/Socket';
+import NavBar from './Navigation/NavBar';
+import SideBar from '../Components/Navigation/SideBar';
+import Title from './Title';
+import SocketError from './Socket';
 import Loading from '../Components/Loading';
 
 import { appHasLoaded } from '../actions/app';
@@ -17,7 +17,7 @@ class App extends Component {
 
     setTimeout(() => {
       dispatch(appHasLoaded());
-    }, 10000);
+    }, 2000);
   }
 
   render() {

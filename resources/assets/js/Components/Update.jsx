@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 
 const Update = (props) => {
   const {
@@ -12,7 +11,7 @@ const Update = (props) => {
     title: Lang.get('app.update_available'),
     output: Lang.get('app.outdated', {
       current: version,
-      latest: latest,
+      latest,
       link: 'https://github.com/REBELinBLUE/deployer/releases/latest',
     }),
   };
@@ -35,12 +34,4 @@ Update.propTypes = {
   version: PropTypes.string.isRequired,
 };
 
-// fixme: again, should be container
-const mapStateToProps = (state) => ({
-  outdated: state.getIn(['app', 'outdated']),
-  latest: state.getIn(['app', 'latest']),
-  version: state.getIn(['app', 'version']),
-});
-
-export default connect(mapStateToProps)(Update);
-
+export default Update;

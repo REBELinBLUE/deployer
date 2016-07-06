@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import 'whatwg-fetch';
 
-import GroupedProjectList from '../Components/Projects';
+import ProjectListComponent from '../Components/Projects';
 import { getProjectList } from '../actions/dashboard';
 
 class Projects extends Component {
@@ -11,13 +11,12 @@ class Projects extends Component {
   }
 
   render() {
-    return (<GroupedProjectList {...this.props} />);
+    return (<ProjectListComponent {...this.props} />);
   }
 }
 
 Projects.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  ...GroupedProjectList.propTypes,
 };
 
 const mapStateToProps = (state) => ({

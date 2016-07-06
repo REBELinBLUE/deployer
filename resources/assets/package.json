@@ -61,7 +61,7 @@
   },
   "scripts": {
     "postinstall": "cp ../../vendor/andywer/js-localization/resources/js/localization.js js/localization.js",
-    "lint": "node ./node_modules/.bin/eslint --ignore-pattern localization.js js/",
+    "lint": "node ./node_modules/.bin/eslint --ignore-pattern localization.js js/**/*.js js/**/*.jsx",
     "clean-build": "rm -rf public/* npm-debug.log"
   }
 }
