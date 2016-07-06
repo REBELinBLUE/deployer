@@ -1,28 +1,45 @@
 const Elixir = require('laravel-elixir');
 const join = require('path').join;
-const del = require('del');
+const removeFiles = require('gulp-remove-files');
 const recipe = Elixir;
+
+// Stop standard gulp output
+//const gutil = require('gulp-util');
+//gutil.log =  gutil.noop;
+
+// Just because I am really anal and the mix.exec task is outputting some blank lines
+// console.log = () => {
+//   if (arguments.length && arguments[0].length) {
+//     console.info.apply(this, arguments);
+//   }
+// };
+
+// Elixir.config.assetsPath = __dirname;
+// Elixir.config.publicPath = join(__dirname, '../../public');
+// Elixir.config.appPath = join(__dirname, '../../app');
+// Elixir.config.viewPath = join(__dirname, '../views');
+// Elixir.config.versioning.buildFolder = 'build';
 
 Elixir.extend('remove', (path) => {
   // const src = new Elixir.GulpPaths()
   //     .src(path);
 
   new Elixir.Task('remove', () => {
-    this.recordStep('Removing Files');
-
-    return del(path);
-  }/* , src*/).watch(`${Elixir.config.assetsPath}/**`);
+    //this.recordStep('Removing Files');
+console.log(path);
+    return gulp.src([path])
+      .pipe(removeFiles());
+  }/* , src*/); //.watch(`${Elixir.config.assetsPath}/**`);
 });
 
-const nodePath = 'node_modules';
+const nodePath = 'node_modules'; // This needs to be relative
 const publicPath = join(__dirname, '../../public');
 const sourcePath = join(__dirname, '../../');
-const artisanCommand = `php ${sourcePath}/artisan js-localization:refresh --quiet`;
 
 const webpackConfig = {
   resolve: {
     extensions: ['.js', '.jsx'],
-    fallback: [nodePath],
+    fallback: [join(__dirname, '/node_modules/')],
   },
   externals: {
     jquery: 'jQuery',
@@ -63,9 +80,11 @@ const paths = {
 };
 
 recipe((mix) => {
-  mix
-  .exec(artisanCommand)
-  .styles([
+  // Update the language cache
+  mix.exec(`php ${sourcePath}/artisan js-localization:refresh --quiet`);
+
+  // Merge the CSS from the various vendor packages
+  mix.styles([
     `${paths.admin_lte}/bootstrap/css/bootstrap.css`,
     // `${paths.select2}/select2.css`,
     `${paths.fontawesome}/css/font-awesome.css`,
@@ -74,51 +93,67 @@ recipe((mix) => {
     `${paths.admin_lte}/dist/css/skins/_all-skins.css`,
     // `${paths.toastr}/build/toastr.css`,
     // `${paths.cropper}/dist/cropper.css`,
-  ], 'public/css/vendor.css', './')
-  .styles([
+  ], 'public/css/vendor.css', './');
+
+  // Merge the CSS from deployer
+  mix.styles([
     'app.css',
     'console.css',
-  ], 'public/css/app.css', './css/')
-  .scripts([
+  ], 'public/css/app.css', './css/');
+
+  // Merge the JS needed for IE
+  mix.scripts([
     `${paths.html5shiv}/dist/html5shiv.js`,
     `${paths.respond}/dest/respond.src.js`,
-  ], 'public/js/ie.js', './')
-  .scripts([
+  ], 'public/js/ie.js', './');
+
+  // Merge the JS from the various vendor packages
+  mix.scripts([
     `${paths.localization}/localization.js`,
     `${paths.jquery}/dist/jquery.js`,
-  //   `${paths.jquery_sortable}/source/js/jquery-sortable.js`,
-  //   `${paths.underscore}/underscore.js`,
-  //   `${paths.moment}/moment.js`,
+    // `${paths.jquery_sortable}/source/js/jquery-sortable.js`,
+    // `${paths.underscore}/underscore.js`,
+    // `${paths.moment}/moment.js`,
     `${paths.admin_lte}/bootstrap/js/bootstrap.js`,
-  //   `${paths.select2}/select2.js`,
+    // `${paths.select2}/select2.js`,
     `${paths.admin_lte}/dist/js/app.js`,
-  //   `${paths.backbone}/backbone.js`,
-  //   `${paths.socketio_client}/socket.io.js`,
-  //   `${paths.toastr}/toastr.js`,
-  //   `${paths.cropper}/dist/cropper.js`,
-  //   `${paths.ace}/ace.js`,
-  //   `${paths.ace}/mode-sh.js`,
-  //   `${paths.ace}/mode-php.js`,
-  //   `${paths.ace}/mode-yaml.js`,
-  //   `${paths.ace}/mode-ini.js`,
-  ], 'public/js/vendor.js', './')
-  .webpack([
+    // `${paths.backbone}/backbone.js`,
+    // `${paths.socketio_client}/socket.io.js`,
+    // `${paths.toastr}/toastr.js`,
+    // `${paths.cropper}/dist/cropper.js`,
+    // `${paths.ace}/ace.js`,
+    // `${paths.ace}/mode-sh.js`,
+    // `${paths.ace}/mode-php.js`,
+    // `${paths.ace}/mode-yaml.js`,
+    // `${paths.ace}/mode-ini.js`,
+  ], 'public/js/vendor.js', './');
+
+  // Run webpack on the deployer JS
+  mix.webpack([
     'app.js',
-  ], 'public/js/app.js', './js/', webpackConfig)
-  .copy([
+  ], 'public/js/app.js', './js/', webpackConfig);
+
+  // Copy the fonts needed by AdminLTE
+  mix.copy([
     `${paths.admin_lte}/bootstrap/fonts/**`,
     `${paths.fontawesome}/fonts/**`,
     `${paths.ionicons}/fonts/**`,
-  ], `${publicPath}/build/fonts`)
-  .version([
+  ], `${publicPath}/build/fonts`);
+
+  // Version the files to enable cache busting
+  mix.version([
     'css/app.css',
     'css/vendor.css',
     'js/app.js',
     'js/ie.js',
     'js/vendor.js',
   ], `${publicPath}/build`);
-  // .remove('public');
+
+  // Browsersync
+  // mix.browserSync({
+  //   proxy: 'deployer.app'
+  // });
+
+  // Remove left over artifacts
+  // mix.remove(`${__dirname}/public/**/*`);
 });
-
-
-/*  ,*/

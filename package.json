@@ -10,6 +10,6 @@
   "scripts": {
     "postinstall": "touch ./node_modules/.install",
     "clean-build": "rm -rf public/build/ resources/assets/public/",
-    "clean-deps": "rm -rf public/build/ vendor/ node_modules/ resources/assets/public/ resources/assets/node_modules _ide_helper.php .phpstorm.meta.php"
+    "clean-deps": "ls public/build/ vendor/ node_modules/ resources/assets/public/ resources/assets/node_modules _ide_helper.php .phpstorm.meta.php"
   }
 }
