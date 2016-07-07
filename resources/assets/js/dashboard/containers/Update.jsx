@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import UpdateComponent from '../Components/Update';
+import UpdateComponent from '../components/Update';
 
 const Update = (props) => (<UpdateComponent {...props} />);
 

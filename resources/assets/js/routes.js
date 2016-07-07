@@ -1,14 +1,14 @@
-import App from './Containers/App';
-import Dashboard from './Components/Dashboard';
-import Profile from './Components/Profile';
+import App from './app/containers/App';
+import Dashboard from './dashboard/containers/Dashboard';
+import Profile from './profile/Profile';
 
-import UserAdmin from './Components/Admin/Users';
-import GroupAdmin from './Components/Admin/Groups';
-import TemplateAdmin from './Components/Admin/Templates';
-import ProjectAdmin from './Components/Admin/Projects';
-import ProjectDetails from './Components/ProjectDetails';
+import UserAdmin from './admin/Users';
+import GroupAdmin from './admin/Groups';
+import TemplateAdmin from './admin/Templates';
+import ProjectAdmin from './admin/Projects';
+import ProjectDetails from './project/ProjectDetails';
 
-import { setPageTitle } from './actions/app';
+import { setPageTitle } from './app/actions';
 
 // FIXME: Clean this up
 export default function (store) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import NavBarMenuComponent from '../../Components/Navigation/NavBarMenu';
+import NavBarMenuComponent from '../components/NavBarMenu';
 
 const NavBarMenu = (props) => (<NavBarMenuComponent {...props} />);
 

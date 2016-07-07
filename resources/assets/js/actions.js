@@ -1,6 +1,6 @@
-import * as App from './actions/app';
-import * as Navigation from './actions/navigation';
-import * as Dashboard from './actions/dashboard';
+import * as App from './app/actions';
+import * as Navigation from './navigation/actions';
+import * as Dashboard from './dashboard/actions';
 
 export {
   App,

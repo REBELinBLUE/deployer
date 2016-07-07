@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 
 import {
   RECEIVED_RUNNING_PROJECTS_ACTION,
-} from '../constants/actionTypes';
+} from './actionTypes';
 
 function receivedProjects(response) {
   return {

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import ProjectMenuComponent from '../../Components/Navigation/ProjectMenu';
+import ProjectMenuComponent from '../components/ProjectMenu';
 
 const PendingMenu = (props) => (<ProjectMenuComponent type="pending" {...props} />);
 

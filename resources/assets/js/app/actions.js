@@ -4,7 +4,7 @@ import {
   SET_PAGE_SUBTITLE_ACTION,
   SOCKET_CONNECTION_OFFLINE_ACTION,
   SOCKET_CONNECTION_ONLINE_ACTION,
-} from '../constants/actionTypes';
+} from './actionTypes';
 
 export function appHasLoaded() {
   return {

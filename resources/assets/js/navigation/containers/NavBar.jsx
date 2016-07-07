@@ -2,8 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import 'whatwg-fetch';
 
-import NavBarComponent from '../../Components/Navigation/NavBar';
-import { getRunningProjects } from '../../actions/navigation';
+import NavBarComponent from '../components/NavBar';
+import { getRunningProjects } from '../actions';
 
 class NavBar extends Component {
   componentDidMount() {

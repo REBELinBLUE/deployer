@@ -1,7 +1,7 @@
 import {
   LOADING_GROUPED_PROJECT_LIST_ACTION,
   RECEIVED_GROUPED_PROJECT_LIST_ACTION,
-} from '../constants/actionTypes';
+} from '../app/actionTypes';
 
 function receivedProjects(projects) {
   return {

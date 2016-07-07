@@ -4,7 +4,7 @@ import {
 RECEIVED_RUNNING_PROJECTS_ACTION,
 LOADING_GROUPED_PROJECT_LIST_ACTION,
 RECEIVED_GROUPED_PROJECT_LIST_ACTION,
-} from '../constants/actionTypes';
+} from './actionTypes';
 
 const initialState = Immutable.fromJS({
   running: [],

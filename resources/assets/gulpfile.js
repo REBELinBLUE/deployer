@@ -82,12 +82,12 @@ const paths = {
 
 recipe((mix) => {
   // Lint files
-  mix.eslint([
-    'gulpfile.js',
-    'js/**/*.js',
-    'js/**/*.jsx',
-    '!js/localizations.js',
-  ]);
+  // mix.eslint([
+  //   'gulpfile.js',
+  //   'js/**/*.js',
+  //   'js/**/*.jsx',
+  //   '!js/localizations.js',
+  // ]);
 
   // Update the language cache
   mix.exec(`php ${sourcePath}/artisan js-localization:refresh --quiet`);

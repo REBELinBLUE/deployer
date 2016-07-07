@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Box from './Box';
+import Box from '../../app/components/Box';
 
 const Timeline = () => {
   const strings = {

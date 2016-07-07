@@ -2,13 +2,13 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Tools from './DevTools';
-import NavBar from './Navigation/NavBar';
-import SideBar from '../Components/Navigation/SideBar';
+import NavBar from '../../navigation/containers/NavBar';
+import SideBar from '../../navigation/components/SideBar';
 import Title from './Title';
 import SocketError from './Socket';
-import Loading from '../Components/Loading';
+import Loading from '../components/Loading';
 
-import { appHasLoaded } from '../actions/app';
+import { appHasLoaded } from '../actions';
 
 // Most of this is presentational so should be in a component!
 class App extends Component {

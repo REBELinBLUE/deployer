@@ -2,8 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import 'whatwg-fetch';
 
-import ProjectListComponent from '../Components/Projects';
-import { getProjectList } from '../actions/dashboard';
+import ProjectListComponent from '../components/Projects';
+import { getProjectList } from '../actions';
 
 class Projects extends Component {
   componentDidMount() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import TitleComponent from '../Components/Title';
+import TitleComponent from '../components/Title';
 
 const Title = (props) => (<TitleComponent {...props} />);
 

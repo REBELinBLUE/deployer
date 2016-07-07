@@ -1,7 +1,7 @@
 import React from 'react';
 import { IndexLink } from 'react-router';
 
-import NavBarMenu from '../../Containers/Navigation/NavBarMenu';
+import NavBarMenu from '../containers/NavBarMenu';
 
 const NavBar = () => {
   const strings = {

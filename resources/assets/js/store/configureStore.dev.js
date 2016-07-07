@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 
 import rootReducers from '../rootReducer';
-import { ReduxDevTools } from '../Containers/DevTools';
+import { ReduxDevTools } from '../app/containers/DevTools';
 
 const router = routerMiddleware(browserHistory);
 const unhandledAction = reduxUnhandledAction((action) => {

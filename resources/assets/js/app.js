@@ -9,9 +9,12 @@ import 'babel-polyfill';
 
 import attachStoreToRoutes from './routes';
 import configureStore from './store';
-import { socketOffline, socketOnline } from './actions/app';
+import { socketOffline, socketOnline } from './app/actions';
 
 injectTapEventPlugin();
+
+// TODO: Add index.js files to each component and names - http://jaysoo.ca/2016/02/28/organizing-redux-application/
+
 
 function deployer(config, mountNode) {
   const store = configureStore({

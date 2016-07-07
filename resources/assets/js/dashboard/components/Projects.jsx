@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import Loading from './Loading';
-import Box from './Box';
+import Loading from '../../app/components/Loading';
+import Box from '../../app/components/Box';
 
 const Projects = (props) => {
   const {

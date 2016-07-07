@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import PendingMenu from '../../Containers/Navigation/PendingMenu';
-import RunningMenu from '../../Containers/Navigation/RunningMenu';
+import PendingMenu from '../containers/PendingMenu';
+import RunningMenu from '../containers/RunningMenu';
 
 const NavBarMenu = (props) => {
   const { user } = props;
