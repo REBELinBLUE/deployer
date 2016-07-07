@@ -1,10 +1,6 @@
 import Immutable from 'immutable';
 
-import {
-RECEIVED_RUNNING_PROJECTS_ACTION,
-LOADING_GROUPED_PROJECT_LIST_ACTION,
-RECEIVED_GROUPED_PROJECT_LIST_ACTION,
-} from './actionTypes';
+import * as actions from './actionTypes';
 
 const initialState = Immutable.fromJS({
   running: [],
@@ -17,22 +13,21 @@ const initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch (action.type) {
-
-    case LOADING_GROUPED_PROJECT_LIST_ACTION:
+    case actions.LOADING_GROUPED_PROJECT_LIST:
       return state.merge({
         projects: {
           data: [],
           fetching: true,
         },
       });
-    case RECEIVED_GROUPED_PROJECT_LIST_ACTION:
+    case actions.RECEIVED_GROUPED_PROJECT_LIST:
       return state.merge({
         projects: {
           data: action.projects,
           fetching: false,
         },
       });
-    case RECEIVED_RUNNING_PROJECTS_ACTION:
+    case actions.RECEIVED_RUNNING_PROJECTS:
       return state.merge({
         running: action.running,
         pending: action.pending,

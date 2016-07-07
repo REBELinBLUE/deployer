@@ -1,5 +1,4 @@
 import React from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import client from 'socket.io-client';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -7,46 +6,39 @@ import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import 'babel-polyfill';
 
-import attachStoreToRoutes from './routes';
+import attachStoreToRoutes from './router/routes';
 import configureStore from './store';
 import { socketOffline, socketOnline } from './app/actions';
 
-injectTapEventPlugin();
+// FIXME: Clean this up, it still seems messy
 
-// TODO: Add index.js files to each component and names - http://jaysoo.ca/2016/02/28/organizing-redux-application/
+const store = configureStore({
+  app: {
+    ...appConfig,
+    loaded: false,
+  },
+});
 
+Lang.setLocale(appConfig.locale);
 
-function deployer(config, mountNode) {
-  const store = configureStore({
-    app: {
-      ...config,
-      loaded: false,
-    },
-  });
+const socket = client.connect(appConfig.socket.server, {
+  query: `jwt=${appConfig.socket.jwt}`,
+});
 
-  Lang.setLocale(config.locale);
+socket.on('connect_error', (error) => store.dispatch(socketOffline(error)));
+socket.on('connect', () => store.dispatch(socketOnline()));
+socket.on('reconnect', () => store.dispatch(socketOnline()));
 
-  const socket = client.connect(config.socket.server, {
-    query: `jwt=${config.socket.jwt}`,
-  });
+const routes = attachStoreToRoutes(store);
+const selectLocationState = {
+  selectLocationState(state) {
+    return state.get('routing').toObject();
+  },
+};
 
-  socket.on('connect_error', (error) => store.dispatch(socketOffline(error)));
-  socket.on('connect', () => store.dispatch(socketOnline()));
-  socket.on('reconnect', () => store.dispatch(socketOnline()));
+const history = syncHistoryWithStore(browserHistory, store, selectLocationState);
 
-  const routes = attachStoreToRoutes(store);
-  const history = syncHistoryWithStore(browserHistory, store, {
-    selectLocationState(state) {
-      return state.get('routing').toObject();
-    },
-  });
-
-  // history.listen(location => console.log(location););
-
-  render(
-    <Provider store={store}>
-      <Router history={history} routes={routes} />
-    </Provider>, mountNode);
-}
-
-deployer(appConfig, document.getElementById('content'));
+render(
+  <Provider store={store}>
+    <Router history={history} routes={routes} />
+  </Provider>, document.getElementById('content'));

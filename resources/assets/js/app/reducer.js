@@ -1,12 +1,6 @@
 import Immutable from 'immutable';
 
-import {
-  APP_PRELOAD_COMPLETE_ACTION,
-  SET_PAGE_TITLE_ACTION,
-  SET_PAGE_SUBTITLE_ACTION,
-  SOCKET_CONNECTION_OFFLINE_ACTION,
-  SOCKET_CONNECTION_ONLINE_ACTION,
-} from './actionTypes';
+import * as actions from './actionTypes';
 
 const initialState = Immutable.fromJS({
   loaded: false,
@@ -26,22 +20,22 @@ const initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case APP_PRELOAD_COMPLETE_ACTION:
+    case actions.APP_PRELOAD_COMPLETE:
       return state.merge({
         loaded: true,
       });
-    case SET_PAGE_TITLE_ACTION:
+    case actions.SET_PAGE_TITLE:
       return state.merge({
         title: action.title,
         subtitle: action.subtitle,
       });
-    case SET_PAGE_SUBTITLE_ACTION:
+    case actions.SET_PAGE_SUBTITLE:
       return state.merge({
         subtitle: action.subtitle,
       });
-    case SOCKET_CONNECTION_OFFLINE_ACTION:
+    case actions.SOCKET_CONNECTION_OFFLINE:
       return state.setIn(['socket', 'online'], false);
-    case SOCKET_CONNECTION_ONLINE_ACTION:
+    case actions.SOCKET_CONNECTION_ONLINE:
       return state.setIn(['socket', 'online'], true);
     default:
       return state;

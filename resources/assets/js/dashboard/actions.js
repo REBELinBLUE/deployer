@@ -1,18 +1,15 @@
-import {
-  LOADING_GROUPED_PROJECT_LIST_ACTION,
-  RECEIVED_GROUPED_PROJECT_LIST_ACTION,
-} from '../app/actionTypes';
+import * as actions from '../navigation/actionTypes'; // FIXME: Shouldn't be loading actions from another module
 
 function receivedProjects(projects) {
   return {
-    type: RECEIVED_GROUPED_PROJECT_LIST_ACTION,
+    type: actions.RECEIVED_GROUPED_PROJECT_LIST,
     projects,
   };
 }
 
 function loadingProjectList() {
   return {
-    type: LOADING_GROUPED_PROJECT_LIST_ACTION,
+    type: actions.LOADING_GROUPED_PROJECT_LIST,
   };
 }
 

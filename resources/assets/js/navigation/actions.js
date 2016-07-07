@@ -1,12 +1,10 @@
 import fetch from 'isomorphic-fetch';
 
-import {
-  RECEIVED_RUNNING_PROJECTS_ACTION,
-} from './actionTypes';
+import * as actions from './actionTypes';
 
 function receivedProjects(response) {
   return {
-    type: RECEIVED_RUNNING_PROJECTS_ACTION,
+    type: actions.RECEIVED_RUNNING_PROJECTS,
     ...response,
   };
 }

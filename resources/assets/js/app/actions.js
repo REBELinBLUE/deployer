@@ -1,19 +1,13 @@
-import {
-  APP_PRELOAD_COMPLETE_ACTION,
-  SET_PAGE_TITLE_ACTION,
-  SET_PAGE_SUBTITLE_ACTION,
-  SOCKET_CONNECTION_OFFLINE_ACTION,
-  SOCKET_CONNECTION_ONLINE_ACTION,
-} from './actionTypes';
+import * as actions from './actionTypes';
 
 export function appHasLoaded() {
   return {
-    type: APP_PRELOAD_COMPLETE_ACTION,
+    type: actions.APP_PRELOAD_COMPLETE,
   };
 }
 export function setPageTitle(title, subtitle) {
   return {
-    type: SET_PAGE_TITLE_ACTION,
+    type: actions.SET_PAGE_TITLE,
     title,
     subtitle: subtitle || null,
   };
@@ -21,21 +15,21 @@ export function setPageTitle(title, subtitle) {
 
 export function setSubTitle(subtitle) {
   return {
-    type: SET_PAGE_SUBTITLE_ACTION,
+    type: actions.SET_PAGE_SUBTITLE,
     subtitle,
   };
 }
 
 export function socketOffline(error) {
   return {
-    type: SOCKET_CONNECTION_OFFLINE_ACTION,
+    type: actions.SOCKET_CONNECTION_OFFLINE,
     error,
   };
 }
 
 export function socketOnline() {
   return {
-    type: SOCKET_CONNECTION_ONLINE_ACTION,
+    type: actions.SOCKET_CONNECTION_ONLINE,
   };
 }
 

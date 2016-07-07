@@ -2,13 +2,14 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Tools from './DevTools';
-import NavBar from '../../navigation/containers/NavBar';
+import NavBar from '../../navigation/containers/NavBar'; // fixme: should not be accessing other module
 import SideBar from '../../navigation/components/SideBar';
 import Title from './Title';
 import SocketError from './Socket';
 import Loading from '../components/Loading';
+import NAME from '../constants';
 
-import { appHasLoaded } from '../actions';
+import * as actions from '../actions';
 
 // Most of this is presentational so should be in a component!
 class App extends Component {
@@ -16,7 +17,7 @@ class App extends Component {
     const dispatch = this.props.dispatch;
 
     setTimeout(() => {
-      dispatch(appHasLoaded());
+      dispatch(actions.appHasLoaded());
     }, 2000);
   }
 
@@ -71,7 +72,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  loaded: state.getIn(['app', 'loaded']),
+  loaded: state.getIn([NAME, 'loaded']),
 });
 
 export default connect(mapStateToProps)(App);
