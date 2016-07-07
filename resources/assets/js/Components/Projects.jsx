@@ -37,6 +37,7 @@ const Projects = (props) => {
     group.projects.forEach((project) => {
       const id = `project_${project.id}`;
 
+      // FIXME: Add icon component and button component, use https://github.com/JedWatson/classnames for className
       groupProjects.push(
         <tr id={id} key={id}>
           <td><Link to={`/projects/${project.id}`} title={strings.view}>{project.name}</Link></td>
@@ -79,7 +80,7 @@ const Projects = (props) => {
 
 Projects.propTypes = {
   fetching: PropTypes.bool.isRequired,
-  projects: PropTypes.array.isRequired,
+  projects: PropTypes.array.isRequired, // FIXME: Should be a shape object?
 };
 
 export default Projects;

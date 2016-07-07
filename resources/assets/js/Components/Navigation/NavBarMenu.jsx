@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { connect } from 'react-redux';
 
-import PendingMenu from './PendingMenu';
-import RunningMenu from './RunningMenu';
+import PendingMenu from '../../Containers/Navigation/PendingMenu';
+import RunningMenu from '../../Containers/Navigation/RunningMenu';
 
 const NavBarMenu = (props) => {
   const { user } = props;
@@ -49,9 +48,4 @@ NavBarMenu.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-// FIXME: The component should not be using state, move to a container!
-const mapStateToProps = (state) => ({
-  user: state.get('app').get('user'),
-});
-
-export default connect(mapStateToProps)(NavBarMenu);
+export default NavBarMenu;

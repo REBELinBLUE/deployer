@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 
 const Socket = (props) => {
   const { online } = props;
@@ -25,9 +24,4 @@ Socket.propTypes = {
   online: PropTypes.bool.isRequired,
 };
 
-// fixme: should be a container!
-const mapStateToProps = (state) => ({
-  online: state.get('app').get('socket').get('online'),
-});
-
-export default connect(mapStateToProps)(Socket);
+export default Socket;

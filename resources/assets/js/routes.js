@@ -1,12 +1,12 @@
 import App from './Containers/App';
-import Dashboard from './Containers/Dashboard';
-import Profile from './Containers/Profile';
+import Dashboard from './Components/Dashboard';
+import Profile from './Components/Profile';
 
-import UserAdmin from './Containers/Admin/Users';
-import GroupAdmin from './Containers/Admin/Groups';
-import TemplateAdmin from './Containers/Admin/Templates';
-import ProjectAdmin from './Containers/Admin/Projects';
-import ProjectDetails from './Containers/ProjectDetails';
+import UserAdmin from './Components/Admin/Users';
+import GroupAdmin from './Components/Admin/Groups';
+import TemplateAdmin from './Components/Admin/Templates';
+import ProjectAdmin from './Components/Admin/Projects';
+import ProjectDetails from './Components/ProjectDetails';
 
 import { setPageTitle } from './actions/app';
 

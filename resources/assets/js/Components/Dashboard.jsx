@@ -1,8 +1,8 @@
 import React from 'react';
 
-import GroupedProjectList from './Projects';
-import Timeline from '../Components/Timeline';
-import UpdateAlert from '../Components/Update';
+import GroupedProjectList from '../Containers/Projects';
+import Timeline from './Timeline';
+import UpdateAlert from '../Containers/Update';
 
 const Dashboard = () => (
   <div>

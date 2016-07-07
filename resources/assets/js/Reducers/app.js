@@ -40,19 +40,9 @@ export default function (state = initialState, action) {
         subtitle: action.subtitle,
       });
     case SOCKET_CONNECTION_OFFLINE_ACTION:
-      return state.merge({
-        socket: {
-          ...state.socket,
-          online: false,
-        },
-      });
+      return state.setIn(['socket', 'online'], false);
     case SOCKET_CONNECTION_ONLINE_ACTION:
-      return state.merge({
-        socket: {
-          ...state.socket,
-          online: true,
-        },
-      });
+      return state.setIn(['socket', 'online'], true);
     default:
       return state;
   }

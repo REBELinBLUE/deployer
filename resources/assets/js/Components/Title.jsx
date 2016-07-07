@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 
 const Title = (props) => {
   const {
@@ -22,10 +21,4 @@ Title.propTypes = {
   subtitle: PropTypes.string,
 };
 
-// FIXME:this should be in a component
-const mapStateToProps = (state) => ({
-  title: state.get('app').get('title'),
-  subtitle: state.get('app').get('subtitle'),
-});
-
-export default connect(mapStateToProps)(Title);
+export default Title;
