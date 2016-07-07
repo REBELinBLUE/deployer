@@ -20,14 +20,14 @@ const NavBarMenu = (props) => {
 
         <li className="dropdown user user-menu">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-            <img src={user.avatar_url} className="user-image" alt=""/>
-            <span className="hidden-xs">{user.name}</span>
+            <img src="{user.avatar_url}" className="user-image" alt="" />
+            <span className="hidden-xs">user.name</span>
           </a>
 
           <ul className="dropdown-menu">
             <li className="user-header">
-              <img src={user.avatar_url} className="img-circle" alt=""/>
-              <p>{user.name}</p>
+              <img src="{user.avatar_url}" className="img-circle" alt="" />
+              <p>user.name</p>
             </li>
             <li className="user-footer">
               <div className="pull-left">
@@ -45,7 +45,7 @@ const NavBarMenu = (props) => {
 };
 
 NavBarMenu.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object //.isRequired,
 };
 
 export default NavBarMenu;

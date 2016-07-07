@@ -8,7 +8,7 @@ import TemplateAdmin from '../admin/Templates';
 import ProjectAdmin from '../admin/Projects';
 import ProjectDetails from '../project/ProjectDetails';
 
-import { setPageTitle } from '../app/actions';
+import * as actions from '../app/actions';
 
 // FIXME: Clean this up
 export default function (store) {
@@ -27,7 +27,7 @@ export default function (store) {
   const updateTitle = (currentState, nextState) => {
     const title = nextState.routes[nextState.routes.length - 1].title;
 
-    store.dispatch(setPageTitle(title || null));
+    store.dispatch(actions.setPageTitle(title || null));
   };
 
   childRoutes.map((route) => {

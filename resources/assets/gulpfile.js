@@ -139,7 +139,7 @@ recipe((mix) => {
 
   // Run webpack on the deployer JS
   mix.webpack([
-    'app.js',
+    'index.js',
   ], 'public/js/app.js', './js/', webpackConfig);
 
   // Copy the fonts needed by AdminLTE

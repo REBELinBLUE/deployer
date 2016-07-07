@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 
-import rootReducers from '../reducer';
+import rootReducers from '../reducers';
 import { ReduxDevTools } from '../app/containers/DevTools';
 
 const router = routerMiddleware(browserHistory);

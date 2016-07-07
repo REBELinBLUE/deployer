@@ -19,17 +19,3 @@ export function setSubTitle(subtitle) {
     subtitle,
   };
 }
-
-export function socketOffline(error) {
-  return {
-    type: actions.SOCKET_CONNECTION_OFFLINE,
-    error,
-  };
-}
-
-export function socketOnline() {
-  return {
-    type: actions.SOCKET_CONNECTION_ONLINE,
-  };
-}
-

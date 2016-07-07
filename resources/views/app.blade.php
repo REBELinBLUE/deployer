@@ -18,18 +18,17 @@
         <meta name="token" content="{{ Session::token() }}" />
     </head>
     <body class="skin-{{ $theme }}">
+    <!--socket: {
+    online: true,
+    server: '{{ config('deployer.socket_url') }}',
+    jwt: '{{ Session::get('jwt') }}'
+    },-->
         <script type="text/javascript">
             // FIXME: Not sure if this is right
             const appConfig = {
-                socket: {
-                    online: true,
-                    server: '{{ config('deployer.socket_url') }}',
-                    jwt: '{{ Session::get('jwt') }}'
-                },
                 locale: '{{ App::getLocale() }}',
                 user: {!! $logged_in_user->toJson() !!},
                 outdated: {{ $is_outdated ? 'true' : 'false' }},
-                title: '{{ Lang::get('app.name') }}',
                 latest: '{{ $current_version }}',
                 version: '{{ $latest_version }}',
             };

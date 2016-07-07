@@ -8,7 +8,7 @@ import Dispatcher from 'redux-devtools-dispatch';
 import MultipleMonitors from 'redux-devtools-multiple-monitors';
 import Inspector from 'redux-devtools-inspector';
 
-import * as AppActions from './actions';
+import * as AppActions from '../../../actions';
 
 const tooltipOptions = {
   style: {

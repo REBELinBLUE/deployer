@@ -5,10 +5,10 @@ import Tools from './DevTools';
 import NavBar from '../../navigation/containers/NavBar'; // fixme: should not be accessing other module
 import SideBar from '../../navigation/components/SideBar';
 import Title from './Title';
-import SocketError from './Socket';
+import SocketError from '../../socket/SocketContainer';
 import Loading from '../components/Loading';
-import NAME from '../constants';
 
+import * as constants from '../constants';
 import * as actions from '../actions';
 
 // Most of this is presentational so should be in a component!
@@ -72,7 +72,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  loaded: state.getIn([NAME, 'loaded']),
+  loaded: state.getIn([constants.NAME, 'loaded']),
 });
 
 export default connect(mapStateToProps)(App);

@@ -8,14 +8,9 @@ const initialState = Immutable.fromJS({
   outdated: false,
   version: null,
   latest: null,
-  title: null,
+  title: '',
   subtitle: null,
   user: null,
-  socket: {
-    server: null,
-    online: false,
-    jwt: null,
-  },
 });
 
 export default function (state = initialState, action) {
@@ -33,10 +28,6 @@ export default function (state = initialState, action) {
       return state.merge({
         subtitle: action.subtitle,
       });
-    case actions.SOCKET_CONNECTION_OFFLINE:
-      return state.setIn(['socket', 'online'], false);
-    case actions.SOCKET_CONNECTION_ONLINE:
-      return state.setIn(['socket', 'online'], true);
     default:
       return state;
   }
