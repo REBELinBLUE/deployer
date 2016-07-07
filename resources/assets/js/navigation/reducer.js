@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 const initialState = Immutable.fromJS({
   running: [],
   pending: [],
-  projects: [],
+  projects: [], // FIXME: Move this to a projects element? add a group element
 });
 
 export default function (state = initialState, action) {
