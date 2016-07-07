@@ -7,7 +7,6 @@ import Box from '../../app/components/Box';
 const Projects = (props) => {
   const {
     projects,
-    fetching,
   } = props;
 
   const strings = {
@@ -24,8 +23,7 @@ const Projects = (props) => {
   if (!projects.length) {
     return (
       <Box title={strings.title} id="projects">
-        <p>{fetching ? 'Loading...' : strings.none}</p>
-        <Loading visible={fetching} />
+        <p>{strings.none}</p>
       </Box>
     );
   }
@@ -79,7 +77,6 @@ const Projects = (props) => {
 };
 
 Projects.propTypes = {
-  fetching: PropTypes.bool.isRequired,
   projects: PropTypes.array.isRequired, // FIXME: Should be a shape object?
 };
 

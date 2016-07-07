@@ -10,15 +10,15 @@ const Box = (props) => (
       {props.children}
     </div>
   </div>
-)
+);
 
 Box.propTypes = {
   id: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
-  ]),
+  ]).isRequired,
 };
 
 export default Box;

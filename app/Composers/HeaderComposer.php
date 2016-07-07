@@ -35,11 +35,11 @@ class HeaderComposer
         $pending = $this->deploymentRepository->getPending();
 
         $view->with('pending', $pending);
-        $view->with('pending_count', count($pending));
+        //$view->with('pending_count', count($pending));
 
         $deploying = $this->deploymentRepository->getRunning();
 
         $view->with('deploying', $deploying);
-        $view->with('deploying_count', count($deploying));
+        //$view->with('deploying_count', count($deploying));
     }
 }

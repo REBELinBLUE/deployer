@@ -4,7 +4,7 @@ import ProjectMenuItem from './ProjectMenuItem';
 
 const ProjectMenu = (props) => {
   const {
-    //projects,
+    projects,
     type,
   } = props;
 
@@ -19,8 +19,6 @@ const ProjectMenu = (props) => {
     id = 'deploying_menu';
     translation = 'dashboard.running';
   }
-
-  const projects = [];
 
   const label = Lang.choice(translation, projects.length, { count: projects.length });
 
@@ -52,7 +50,7 @@ const ProjectMenu = (props) => {
 
 ProjectMenu.propTypes = {
   type: PropTypes.oneOf(['pending', 'running']).isRequired,
-  projects: PropTypes.array //.isRequired,
+  projects: PropTypes.array.isRequired,
 };
 
 export default ProjectMenu;

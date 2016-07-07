@@ -1,5 +1,5 @@
 {
-  "extends": "../../../.eslintrc",
+  "extends": "../../.eslintrc",
   "env": {
     "browser": true
   },

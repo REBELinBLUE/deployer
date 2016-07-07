@@ -17,8 +17,8 @@ class ViewServiceProvider extends ServiceProvider
 {
     public $composers = [
         ActiveUserComposer::class => ['app'], //'_partials.nav', 'commands.dialog', 'user.profile', 'deployment.log'],
-        //HeaderComposer::class     => ['_partials.nav'],
-        NavigationComposer::class => ['_partials.sidebar'],
+        HeaderComposer::class     => ['app'], //_partials.nav'],
+        NavigationComposer::class => ['app'], //_partials.sidebar'],
         ThemeComposer::class      => ['app'], //'layout', 'user.profile'],
         VersionComposer::class    => ['app'], //'_partials.update'],
     ];

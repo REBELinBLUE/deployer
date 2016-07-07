@@ -1,27 +1,12 @@
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import 'whatwg-fetch';
 
 import ProjectListComponent from '../components/Projects';
-import { getProjectList } from '../actions';
 
-class Projects extends Component {
-  componentDidMount() {
-    this.props.dispatch(getProjectList());
-  }
-
-  render() {
-    return (<ProjectListComponent {...this.props} />);
-  }
-}
-
-Projects.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
+const Projects = (props) => (<ProjectListComponent {...props} />);
 
 const mapStateToProps = (state) => ({
-  projects: state.getIn(['navigation', 'projects', 'data']).toJS(),
-  fetching: state.getIn(['navigation', 'projects', 'fetching']),
+  projects: state.getIn(['navigation', 'projects']).toJS(),
 });
 
 export default connect(mapStateToProps)(Projects);

@@ -15,10 +15,6 @@ const initialState = Immutable.fromJS({
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case actions.APP_PRELOAD_COMPLETE:
-      return state.merge({
-        loaded: true,
-      });
     case actions.SET_PAGE_TITLE:
       return state.merge({
         title: action.title,

@@ -1,4 +1,4 @@
-import App from '../app/containers/App';
+import App from '../app/components/App';
 import Dashboard from '../dashboard/containers/Dashboard';
 import Profile from '../profile/Profile';
 

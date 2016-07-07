@@ -33,13 +33,8 @@ class DashboardController extends Controller
         $this->deploymentRepository = $deploymentRepository;
         $this->projectRepository = $projectRepository;
     }
-    
-    /**
-     * Get all projects grouped by group
-     *
-     * @return array
-     */
-    public function projects()
+
+    public function index()
     {
         $projects = $this->projectRepository->getAll();
 
@@ -57,22 +52,11 @@ class DashboardController extends Controller
 
         ksort($projects_by_group);
 
-        return array_values($projects_by_group);
+        return view('app', [
+            'projects' => array_values($projects_by_group)
+        ]);
     }
-
-    /**
-     * Gets the list of running and pending deployments.
-     *
-     * @return array
-     */
-    public function running()
-    {
-        return [
-            'pending' => $this->deploymentRepository->getPending(),
-            'running' => $this->deploymentRepository->getRunning()
-        ];
-    }
-
+    
     /**
      * Returns the timeline.
      *

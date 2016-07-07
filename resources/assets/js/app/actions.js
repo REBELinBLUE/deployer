@@ -1,10 +1,5 @@
 import * as actions from './actionTypes';
 
-export function appHasLoaded() {
-  return {
-    type: actions.APP_PRELOAD_COMPLETE,
-  };
-}
 export function setPageTitle(title, subtitle) {
   return {
     type: actions.SET_PAGE_TITLE,
