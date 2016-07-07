@@ -21,7 +21,6 @@ const store = configureStore({
   deployer: {
     ...PRELOADED.deployer,
     title: Lang.get('app.name'),
-    loaded: false,
   },
   socket: {
     ...PRELOADED.socket,

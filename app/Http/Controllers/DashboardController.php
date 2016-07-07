@@ -36,6 +36,17 @@ class DashboardController extends Controller
 
     public function index()
     {
+        return view('app', [
+            'projects' => $this->buildProjectData(),
+            'latest' => $this->buildTimelineData(),
+        ]);
+    }
+
+    // FIXME: Maybe remove this and just return the groups and projects?
+    // The fact that they are displayed in a group is the responsibility of the display code
+    // not the controller
+    private function buildProjectData()
+    {
         $projects = $this->projectRepository->getAll();
 
         $projects_by_group = [];
@@ -52,17 +63,15 @@ class DashboardController extends Controller
 
         ksort($projects_by_group);
 
-        return view('app', [
-            'projects' => array_values($projects_by_group)
-        ]);
+        return array_values($projects_by_group);
     }
-    
+
     /**
      * Returns the timeline.
      *
      * @return \Illuminate\View\View
      */
-    public function timeline()
+    public function timeline() // TODO: Remove this
     {
         return view('dashboard.timeline', [
             'latest' => $this->buildTimelineData(),
