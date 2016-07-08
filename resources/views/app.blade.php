@@ -19,19 +19,23 @@
     </head>
     <body class="skin-{{ $theme }}">
         <script type="text/javascript">
-            // FIXME: Not sure if this is right
-            const appConfig = {
+            window.__PRELOADED_STATE__ = {
+                deployer: {
+                    locale: '{{ App::getLocale() }}',
+                    user: {!! $logged_in_user->toJson() !!},
+                    outdated: {{ $is_outdated ? 'true' : 'false' }},
+                    latest: '{{ $current_version }}',
+                    version: '{{ $latest_version }}',
+                },
                 socket: {
-                    online: true,
                     server: '{{ config('deployer.socket_url') }}',
                     jwt: '{{ Session::get('jwt') }}'
                 },
-                locale: '{{ App::getLocale() }}',
-                user: {!! $logged_in_user->toJson() !!},
-                outdated: {{ $is_outdated ? 'true' : 'false' }},
-                title: '{{ Lang::get('app.name') }}',
-                latest: '{{ $current_version }}',
-                version: '{{ $latest_version }}',
+                navigation: {
+                    running: {!! $deploying->toJson() !!},
+                    pending: {!! $pending->toJson() !!},
+                    projects: {!! json_encode($projects) !!}
+                }
             };
         </script>
 

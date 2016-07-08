@@ -4,7 +4,7 @@ import { hashHistory } from 'react-router';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 
-import rootReducers from '../rootReducer';
+import rootReducers from '../reducers';
 
 const router = routerMiddleware(hashHistory);
 

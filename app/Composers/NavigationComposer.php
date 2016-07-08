@@ -42,6 +42,6 @@ class NavigationComposer
 
         $view->with('active_group', $active_group);
         $view->with('active_project', $active_project);
-        $view->with('groups', $this->groupRepository->getAll());
+        //$view->with('groups', $this->groupRepository->getAll());
     }
 }

@@ -33,13 +33,19 @@ class DashboardController extends Controller
         $this->deploymentRepository = $deploymentRepository;
         $this->projectRepository = $projectRepository;
     }
-    
-    /**
-     * Get all projects grouped by group
-     *
-     * @return array
-     */
-    public function projects()
+
+    public function index()
+    {
+        return view('app', [
+            'projects' => $this->buildProjectData(),
+            'latest' => $this->buildTimelineData(),
+        ]);
+    }
+
+    // FIXME: Maybe remove this and just return the groups and projects?
+    // The fact that they are displayed in a group is the responsibility of the display code
+    // not the controller
+    private function buildProjectData()
     {
         $projects = $this->projectRepository->getAll();
 
@@ -61,24 +67,11 @@ class DashboardController extends Controller
     }
 
     /**
-     * Gets the list of running and pending deployments.
-     *
-     * @return array
-     */
-    public function running()
-    {
-        return [
-            'pending' => $this->deploymentRepository->getPending(),
-            'running' => $this->deploymentRepository->getRunning()
-        ];
-    }
-
-    /**
      * Returns the timeline.
      *
      * @return \Illuminate\View\View
      */
-    public function timeline()
+    public function timeline() // TODO: Remove this
     {
         return view('dashboard.timeline', [
             'latest' => $this->buildTimelineData(),

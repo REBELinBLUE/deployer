@@ -1,0 +1,15 @@
+{
+  "extends": "../../.eslintrc",
+  "env": {
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "globals": {
+    "Lang": true,
+    "appConfig": true
+  }
+}
