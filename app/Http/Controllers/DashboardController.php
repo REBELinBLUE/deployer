@@ -38,7 +38,7 @@ class DashboardController extends Controller
     {
         return view('app', [
             'projects' => $this->buildProjectData(),
-            'latest' => $this->buildTimelineData(),
+            'latest' => json_encode( $this->buildTimelineData() ),
         ]);
     }
 

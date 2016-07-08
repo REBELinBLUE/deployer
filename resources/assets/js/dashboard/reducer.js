@@ -1,10 +1,7 @@
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
-  timeline: {
-    fetching: false,
-    data: [],
-  },
+  timeline: {},
 });
 
 export default function (state = initialState, action) {
