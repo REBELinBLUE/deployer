@@ -29,6 +29,9 @@ const store = configureStore({
   navigation: {
     ...PRELOADED.navigation,
   },
+  dashboard: {
+    ...PRELOADED.dashboard,
+  },
 });
 
 // FIXME: Really don't like all this here, should be somewhere else and the variables should be coming from state

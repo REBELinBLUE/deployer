@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 
 import Loading from '../../app/components/Loading';
 import Box from '../../app/components/Box';
+import Icon from '../../app/components/Icon';
 
 const Projects = (props) => {
   const {
@@ -35,7 +36,7 @@ const Projects = (props) => {
     group.projects.forEach((project) => {
       const id = `project_${project.id}`;
 
-      // FIXME: Add icon component and button component, use https://github.com/JedWatson/classnames for className
+      // FIXME: Add button component, use https://github.com/JedWatson/classnames for className
       groupProjects.push(
         <tr id={id} key={id}>
           <td><Link to={`/projects/${project.id}`} title={strings.view}>{project.name}</Link></td>
@@ -45,8 +46,8 @@ const Projects = (props) => {
           </td>
           <td>
             <div className="btn-group pull-right">
-              {project.url ? <a href={project.url} className="btn btn-default" title={strings.site} target="_blank"><i className="fa fa-globe"></i></a> : null}
-              <Link to={`/projects/${project.id}`} className="btn btn-default" title={strings.view}><i className="fa fa-info-circle"></i></Link>
+              {project.url ? <a href={project.url} className="btn btn-default" title={strings.site} target="_blank"><Icon fa="globe" /></a> : null}
+              <Link to={`/projects/${project.id}`} className="btn btn-default" title={strings.view}><Icon fa="info-circle" /></Link>
             </div>
           </td>
         </tr>

@@ -35,6 +35,9 @@
                     running: {!! $deploying->toJson() !!},
                     pending: {!! $pending->toJson() !!},
                     projects: {!! json_encode($projects) !!}
+                },
+                dashboard: {
+                    timeline: {!! $latest !!}
                 }
             };
         </script>

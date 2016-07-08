@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
 
+import Icon from '../../app/components/Icon';
+
 const SideBar = () => {
   const strings = {
     title: Lang.get('app.dashboard'),
@@ -17,16 +19,16 @@ const SideBar = () => {
         <ul className="sidebar-menu">
           <li className="Request::is('/') ? 'active' : null">
             <IndexLink to="/">
-              <i className="fa fa-dashboard"></i>
+              <Icon fa="dashboard" />
               <span>{strings.title}</span>
             </IndexLink>
           </li>
 
           <li className="treeview Request::is('admin/*') ? 'active' : null">
             <a href="#">
-              <i className="fa fa-gear"></i>
+              <Icon fa="gear" />
               <span>{strings.admin}</span>
-              <i className="fa fa-angle-left pull-right"></i>
+              <Icon fa="angle-left" className="pull-right" />
             </a>
             <ul className="treeview-menu">
               <li className="Request::is('admin/projects') ? 'active' : null"><Link to="/admin/projects">{strings.projects}</Link></li>

@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import Icon from './Icon';
+
 const Loading = (props) => {
   if (!props.visible) {
     return null;
@@ -7,7 +9,7 @@ const Loading = (props) => {
 
   return (
     <div className="overlay">
-      <i className="fa fa-refresh fa-spin"></i>
+      <Icon fa={['refresh', 'spin']} />
     </div>
   );
 };

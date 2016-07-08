@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import Icon from '../../app/components/Icon';
+
 const Update = (props) => {
   const {
     outdated,
@@ -22,7 +24,7 @@ const Update = (props) => {
 
   return (
     <div className="alert alert-info" id="update-available">
-      <h4><i className="icon fa fa-cloud-download"></i> {strings.title}</h4>
+      <h4><Icon fa="cloud-download" className="icon" /> {strings.title}</h4>
       <strong dangerouslySetInnerHTML={{ __html: strings.output }} />
     </div>
   );

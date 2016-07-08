@@ -1,7 +1,7 @@
 import React from 'react';
 
 import GroupedProjectList from './Projects';
-import Timeline from '../components/Timeline';
+import Timeline from './Timeline';
 import UpdateAlert from './Update';
 
 const Dashboard = () => (

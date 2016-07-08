@@ -9,6 +9,7 @@ return [
     'running'           => ':count running deployment|:count running deployments',
     'no_projects'       => 'You have not yet setup any projects',
     'no_deployments'    => 'There have not been any deployments yet.',
+    'no_timeline'       => 'No recent activity to show.',
     'status'            => 'Status',
     'site'              => 'View the site',
     'view'              => 'View the deployment details',
