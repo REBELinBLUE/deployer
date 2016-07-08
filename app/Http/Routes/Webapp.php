@@ -1,10 +1,7 @@
 <?php
 
 // Webapp
-Route::group([
+Route::get('{any?}', [
     'middleware' => ['web', 'auth', 'jwt'],
-], function () {
-
-    Route::get('{any?}', 'DashboardController@index')->where('any', '.*');
-
-});
+    'uses' => 'DashboardController@index'
+])->where('any', '.*');

@@ -38,7 +38,7 @@ class DashboardController extends Controller
     {
         return view('app', [
             'projects' => $this->buildProjectData(),
-            'latest' => json_encode( $this->buildTimelineData() ),
+            'latest' => json_encode($this->buildTimelineData()),
         ]);
     }
 
@@ -65,19 +65,7 @@ class DashboardController extends Controller
 
         return array_values($projects_by_group);
     }
-
-    /**
-     * Returns the timeline.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function timeline() // TODO: Remove this
-    {
-        return view('dashboard.timeline', [
-            'latest' => $this->buildTimelineData(),
-        ]);
-    }
-
+    
     /**
      * Builds the data for the timeline.
      *
