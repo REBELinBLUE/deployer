@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import ProjectMenuItem from './ProjectMenuItem';
+import Icon from '../../app/components/Icon';
 
 const ProjectMenu = (props) => {
   const {
@@ -8,13 +9,13 @@ const ProjectMenu = (props) => {
     type,
   } = props;
 
-  let icon = 'fa fa-clock-o';
+  let icon = 'clock-o';
   let colour = 'label label-info';
   let id = 'pending_menu';
   let translation = 'dashboard.pending';
 
   if (type === 'running') {
-    icon = 'fa fa-spinner';
+    icon = 'spinner';
     colour = 'label label-warning';
     id = 'deploying_menu';
     translation = 'dashboard.running';
@@ -29,7 +30,7 @@ const ProjectMenu = (props) => {
   return (
     <li className="dropdown messages-menu" id={id}>
       <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-        <i className={icon}></i>
+        <Icon fa={icon} />
         <span className={colour}>{projects.length}</span>
       </a>
       <ul className="dropdown-menu">
