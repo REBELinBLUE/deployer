@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Github;
 
+use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
@@ -43,7 +44,9 @@ class LatestRelease implements LatestReleaseInterface
         $cache_for = self::CACHE_TIME_IN_HOURS * 60;
 
         $release = $this->cache->remember('latest_version', $cache_for, function () {
+
             $request = Request::get($this->github_url)
+                              ->timeoutIn(5)
                               ->expectsJson()
                               ->withAccept('application/vnd.github.v3+json');
 
@@ -51,8 +54,12 @@ class LatestRelease implements LatestReleaseInterface
                 $request->withAuthorization('token ' . config('deployer.github_oauth_token'));
             }
 
-            $response = $request->send();
-
+            try {
+                $response = $request->send();
+            } catch (ConnectionErrorException $exception) {
+                return false;
+            }
+            
             if ($response->hasErrors()) {
                 return false;
             }
