@@ -1,12 +1,12 @@
 import App from '../app/containers/App';
-import Dashboard from '../dashboard/containers/Dashboard';
+import Dashboard from '../dashboard/components/Dashboard';
 import Profile from '../profile/Profile';
 
 import UserAdmin from '../admin/Users';
 import GroupAdmin from '../admin/Groups';
 import TemplateAdmin from '../admin/Templates';
 import ProjectAdmin from '../admin/Projects';
-import ProjectDetails from '../project/ProjectDetails';
+import ProjectDetails from '../project/Container';
 
 import * as actions from '../app/actions';
 
@@ -18,11 +18,16 @@ export default function (store) {
 
   const childRoutes = [
     { title: 'Update profile', path: 'profile', component: Profile },
-    { title: 'Manage users', path: 'admin/users', component: UserAdmin },
-    { title: 'Manage groups', path: 'admin/groups', component: GroupAdmin },
-    { title: 'Manage deployment templates', path: 'admin/templates', component: TemplateAdmin },
-    { title: 'Manage projects', path: 'admin/projects', component: ProjectAdmin },
     { path: 'projects/:id', component: ProjectDetails },
+    {
+      path: 'admin',
+      childRoutes: [
+        { title: 'Manage users', path: 'users', component: UserAdmin },
+        { title: 'Manage groups', path: 'groups', component: GroupAdmin },
+        { title: 'Manage deployment templates', path: 'templates', component: TemplateAdmin },
+        { title: 'Manage projects', path: 'projects', component: ProjectAdmin },
+      ],
+    },
   ];
 
   // TODO: Is this really the best way to do this?
