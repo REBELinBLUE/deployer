@@ -15,7 +15,10 @@ const DeploymentMenuItem = (props) => {
   return (
     <li id={id}>
       <Link to={url}>
-        <h4>{deployment.project_name} <small className="pull-right">{strings.started}: {deployment.started_at}</small></h4>
+        <h4>
+          {deployment.project_name}
+          <small className="pull-right">{strings.started}: {deployment.started_at}</small>
+        </h4>
         <p>{strings.branch}: {deployment.branch}</p>
       </Link>
     </li>

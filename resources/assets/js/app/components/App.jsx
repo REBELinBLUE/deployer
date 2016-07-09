@@ -4,7 +4,7 @@ import Tools from '../containers/DevTools';
 import NavBar from '../../navigation/components/NavBar';
 import SideBar from '../../navigation/containers/SideBar';
 import Title from '../containers/Title';
-import SocketError from '../../socket/SocketContainer';
+import SocketError from '../../socket/Container';
 
 const App = (props) => {
   const {

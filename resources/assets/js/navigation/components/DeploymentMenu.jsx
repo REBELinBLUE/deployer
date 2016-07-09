@@ -31,7 +31,7 @@ const DeploymentMenu = (props) => {
     <li className="dropdown messages-menu" id={id}>
       <a href="#" className="dropdown-toggle" data-toggle="dropdown">
         <Icon fa={icon} />
-        <span className={colour}>{projects.length}</span>
+        <span className={colour}>{deployments.length}</span>
       </a>
       <ul className="dropdown-menu">
         <li className="header">{label}</li>

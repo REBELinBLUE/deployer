@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createStore, compose, applyMiddleware } from 'redux';
 import { persistState } from 'redux-devtools';
 import { routerMiddleware } from 'react-router-redux';

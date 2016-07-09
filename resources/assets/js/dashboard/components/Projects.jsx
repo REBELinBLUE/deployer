@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import Loading from '../../app/components/Loading';
 import Box from '../../app/components/Box';
 import Icon from '../../app/components/Icon';
 
@@ -46,8 +45,20 @@ const Projects = (props) => {
           </td>
           <td>
             <div className="btn-group pull-right">
-              {project.url ? <a href={project.url} className="btn btn-default" title={strings.site} target="_blank"><Icon fa="globe" /></a> : null}
-              <Link to={`/projects/${project.id}`} className="btn btn-default" title={strings.view}><Icon fa="info-circle" /></Link>
+              {
+                project.url ?
+                  <a
+                    href={project.url}
+                    className="btn btn-default"
+                    title={strings.site}
+                    target="_blank"
+                  ><Icon fa="globe" /></a>
+                  :
+                  null
+              }
+              <Link to={`/projects/${project.id}`} className="btn btn-default" title={strings.view}>
+                <Icon fa="info-circle" />
+              </Link>
             </div>
           </td>
         </tr>
@@ -55,7 +66,8 @@ const Projects = (props) => {
     });
 
     // {{ $group_project->last_run ? $group_project->last_run->format('jS F Y g:i:s A') : 'Never' }}
-    // <span class="label label-{{ $group_project->css_class }}"><i class="fa fa-{{ $group_project->icon }}"></i> <span>{{ $group_project->readable_status }}</span></span>
+    // <span class="label label-{{ $group_project->css_class }}"><i class="fa fa-{{ $group_project->icon }}"></i>
+    // <span>{{ $group_project->readable_status }}</span></span>
 
     groups.push(
       <Box title={group.group.name} key={index}>
