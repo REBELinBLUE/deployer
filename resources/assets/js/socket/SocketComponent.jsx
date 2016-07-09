@@ -21,7 +21,11 @@ const Socket = (props) => {
 };
 
 Socket.propTypes = {
-  online: PropTypes.bool.isRequired,
+  online: PropTypes.bool,
+};
+
+Socket.defaultProps = {
+  online: false,
 };
 
 export default Socket;

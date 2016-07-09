@@ -1,4 +1,4 @@
-import App from '../app/components/App';
+import App from '../app/containers/App';
 import Dashboard from '../dashboard/containers/Dashboard';
 import Profile from '../profile/Profile';
 
@@ -13,6 +13,8 @@ import * as actions from '../app/actions';
 // FIXME: Clean this up
 export default function (store) {
   const indexRoute = { component: Dashboard, title: Lang.get('dashboard.title') };
+
+  store.dispatch(actions.setPageTitle(indexRoute.title));
 
   const childRoutes = [
     { title: 'Update profile', path: 'profile', component: Profile },

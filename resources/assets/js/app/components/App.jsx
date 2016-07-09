@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import Tools from '../containers/DevTools';
-import NavBar from '../../navigation/components/NavBar'; // fixme: should not be accessing other module
+import NavBar from '../../navigation/components/NavBar';
 import SideBar from '../../navigation/components/SideBar';
 import Title from '../containers/Title';
 import SocketError from '../../socket/SocketContainer';

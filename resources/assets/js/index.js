@@ -1,55 +1,31 @@
 import React from 'react';
-import client from 'socket.io-client';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import 'babel-polyfill';
 
-import attachStoreToRoutes from './router/routes';
-import configureStore from './store';
-import * as actions from './socket/actions';
+import * as app from './app/constants';
+import * as dashboard from './dashboard/constants';
+import * as navigation from './navigation/constants';
+import * as socket from './socket/constants';
 
-// FIXME: Clean this up, it still seems messy
+import attachStoreToRoutes from './router/routes';
+import { selectLocationState } from './router/reducer';
+import configureStore from './store';
 
 const PRELOADED = window.__PRELOADED_STATE__; // eslint-ignore-line no-underscore-dangle
 
-Lang.setLocale(PRELOADED.deployer.locale);
+Lang.setLocale(PRELOADED[app.NAME].locale);
 
-// FIXME: deployer/socket should come from the constants, is there a better place for all of this? and so we don't have to key redefining everything!
 const store = configureStore({
-  deployer: {
-    ...PRELOADED.deployer,
-    title: Lang.get('app.name'),
-  },
-  socket: {
-    ...PRELOADED.socket,
-    online: false,
-  },
-  navigation: {
-    ...PRELOADED.navigation,
-  },
-  dashboard: {
-    ...PRELOADED.dashboard,
-  },
+  [app.NAME]: PRELOADED[app.NAME],
+  [dashboard.NAME]: PRELOADED[dashboard.NAME],
+  [navigation.NAME]: PRELOADED[navigation.NAME],
+  [socket.NAME]: PRELOADED[socket.NAME],
 });
-
-// FIXME: Really don't like all this here, should be somewhere else and the variables should be coming from state
-const socket = client.connect(PRELOADED.socket.server, {
-  query: `jwt=${PRELOADED.socket.jwt}`,
-});
-
-socket.on('connect_error', (error) => store.dispatch(actions.offline(error)));
-socket.on('connect', () => store.dispatch(actions.online()));
-socket.on('reconnect', () => store.dispatch(actions.online()));
 
 const routes = attachStoreToRoutes(store);
-const selectLocationState = {
-  selectLocationState(state) {
-    return state.get('routing').toObject(); // FIXME: Use the NAME from routing, maybe move this there?
-  },
-};
-
 const history = syncHistoryWithStore(browserHistory, store, selectLocationState);
 
 render(
