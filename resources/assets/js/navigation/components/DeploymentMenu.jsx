@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 
-import ProjectMenuItem from './ProjectMenuItem';
+import DeploymentMenuItem from './DeploymentMenuItem';
 import Icon from '../../app/components/Icon';
 
-const ProjectMenu = (props) => {
+const DeploymentMenu = (props) => {
   const {
-    projects,
+    deployments,
     type,
   } = props;
 
@@ -21,9 +21,9 @@ const ProjectMenu = (props) => {
     translation = 'dashboard.running';
   }
 
-  const label = Lang.choice(translation, projects.length, { count: projects.length });
+  const label = Lang.choice(translation, deployments.length, { count: deployments.length });
 
-  if (!projects.length) {
+  if (!deployments.length) {
     return null;
   }
 
@@ -38,8 +38,8 @@ const ProjectMenu = (props) => {
         <li>
           <ul className="menu">
             {
-              projects.map((project, index) => (
-                <ProjectMenuItem key={index} project={project} />
+              deployments.map((deployment, index) => (
+                <DeploymentMenuItem key={index} deployment={deployment} />
               ))
             }
           </ul>
@@ -49,9 +49,9 @@ const ProjectMenu = (props) => {
   );
 };
 
-ProjectMenu.propTypes = {
+DeploymentMenu.propTypes = {
   type: PropTypes.oneOf(['pending', 'running']).isRequired,
-  projects: PropTypes.array.isRequired,
+  deployments: PropTypes.array.isRequired,
 };
 
-export default ProjectMenu;
+export default DeploymentMenu;

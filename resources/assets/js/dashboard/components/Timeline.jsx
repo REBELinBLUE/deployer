@@ -12,6 +12,7 @@ const Timeline = (props) => {
     timeline: Lang.choice('dashboard.latest', 2),
     view: Lang.get('dashboard.view'),
   };
+  
   const {
     timeline,
   } = props;
