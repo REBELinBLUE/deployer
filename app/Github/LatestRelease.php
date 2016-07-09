@@ -44,7 +44,6 @@ class LatestRelease implements LatestReleaseInterface
         $cache_for = self::CACHE_TIME_IN_HOURS * 60;
 
         $release = $this->cache->remember('latest_version', $cache_for, function () {
-
             $request = Request::get($this->github_url)
                               ->timeoutIn(5)
                               ->expectsJson()
@@ -59,7 +58,7 @@ class LatestRelease implements LatestReleaseInterface
             } catch (ConnectionErrorException $exception) {
                 return false;
             }
-            
+
             if ($response->hasErrors()) {
                 return false;
             }
