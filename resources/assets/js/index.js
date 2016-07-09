@@ -1,30 +1,18 @@
+/* eslint-disable no-underscore-dangle */
+import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import 'babel-polyfill';
-
-import * as app from './app/constants';
-import * as dashboard from './dashboard/constants';
-import * as navigation from './navigation/constants';
-import * as socket from './socket/constants';
 
 import attachStoreToRoutes from './router/routes';
-import { selectLocationState } from './router/reducer';
+import selectLocationState from './router/actions';
 import configureStore from './store';
+import preloadState from './store/preloader';
 
-const PRELOADED = window.__PRELOADED_STATE__; // eslint-disable-line no-underscore-dangle
-
-Lang.setLocale(PRELOADED[app.NAME].locale);
-
-const store = configureStore({
-  [app.NAME]: PRELOADED[app.NAME],
-  [dashboard.NAME]: PRELOADED[dashboard.NAME],
-  [navigation.NAME]: PRELOADED[navigation.NAME],
-  [socket.NAME]: PRELOADED[socket.NAME],
-});
-
+const initialState = preloadState(window.__PRELOADED_STATE__);
+const store = configureStore(initialState);
 const routes = attachStoreToRoutes(store);
 const history = syncHistoryWithStore(browserHistory, store, selectLocationState);
 

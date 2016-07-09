@@ -13,9 +13,3 @@ export default function (state = initialState, action) {
 
   return state;
 }
-
-export const selectLocationState = {
-  selectLocationState(state) {
-    return state.get('routing').toObject();
-  },
-};
