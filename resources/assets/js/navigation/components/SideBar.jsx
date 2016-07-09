@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 
 import Icon from '../../app/components/Icon';
 
-const SideBar = () => {
+const SideBar = (props) => {
+  const { projects } = props;
+
   const strings = {
     title: Lang.get('app.dashboard'),
     admin: Lang.get('app.admin'),
@@ -13,53 +15,67 @@ const SideBar = () => {
     users: Lang.get('app.users'),
   };
 
+  let navigation = [];
+  projects.forEach((nav) => {
+    const subNavigation = [];
+
+    const group = nav.group;
+    const groupProjects = nav.group.projects;
+
+    groupProjects.forEach((project) => {
+      let id = `sidebar_project_${project.id}`;
+      subNavigation.push(
+        <li key={id}><Link to={`/projects/${project.id}`} id={id}>{project.name}</Link></li>
+      );
+    });
+
+    let id = `sidebar_group_${group.id}`;
+    navigation.push(
+      <li className="treeview" key={id}>
+        <a href="#">
+          <Icon fa="book" />
+          <span id={id}>{group.name}</span>
+          <Icon fa="angle-left" className="pull-right" />
+        </a>
+        <ul className="treeview-menu" id={`group_${group.id}_projects`}>{subNavigation}</ul>
+      </li>
+    );
+  });
+
   return (
     <aside className="main-sidebar">
       <section className="sidebar">
         <ul className="sidebar-menu">
-          <li className="Request::is('/') ? 'active' : null">
+          <li>
             <IndexLink to="/">
               <Icon fa="dashboard" />
               <span>{strings.title}</span>
             </IndexLink>
           </li>
 
-          <li className="treeview Request::is('admin/*') ? 'active' : null">
+          {navigation}
+
+          <li className="treeview">
             <a href="#">
               <Icon fa="gear" />
               <span>{strings.admin}</span>
               <Icon fa="angle-left" className="pull-right" />
             </a>
             <ul className="treeview-menu">
-              <li className="Request::is('admin/projects') ? 'active' : null"><Link to="/admin/projects">{strings.projects}</Link></li>
-              <li className="Request::is('admin/templates*') ? 'active' : null"><Link to="/admin/templates">{strings.templates}</Link></li>
-              <li className="Request::is('admin/groups') ? 'active' : null"><Link to="/admin/groups">{strings.groups}</Link></li>
-              <li className="Request::is('admin/users') ? 'active' : null"><Link to="/admin/users">{strings.users}</Link></li>
+              <li><Link to="/admin/projects">{strings.projects}</Link></li>
+              <li><Link to="/admin/templates">{strings.templates}</Link></li>
+              <li><Link to="/admin/groups">{strings.groups}</Link></li>
+              <li><Link to="/admin/users">{strings.users}</Link></li>
             </ul>
           </li>
         </ul>
       </section>
     </aside>
-
   );
 };
 
+SideBar.propTypes = {
+  projects: PropTypes.array.isRequired, // FIXME: Should be a shape object?
+};
+
 export default SideBar;
-
-/*
-
- @foreach($groups as $group)
- <li className="treeview $active_group === $group->id ? 'active' : null">
- <a href="#">
- <i className="fa fa-book"></i>
- <span id="sidebar_group_$group->id">$group->name</span>
- <i className="fa fa-angle-left pull-right"></i>
- </a>
- <ul className="treeview-menu" id="group_$group->id_projects">
- @foreach($group->projects as $project)
- <li className="$active_project === $project->id ? 'active' : null"><a href="route('projects', ['id' => $project->id])" id="sidebar_project_$project->id">$project->name</a></li>
- @endforeach
- </ul>
- </li>
- @endforeach
- */

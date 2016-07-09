@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import * as constants from '../../navigation/constants';
-import ProjectListComponent from '../components/Projects';
+import SideBarComponent from '../components/SideBar';
 
-const Projects = (props) => {
+const SideBar = (props) => {
   const {
     projects,
     groups,
@@ -23,10 +23,10 @@ const Projects = (props) => {
     groupedProjects[project.group_id].projects.push(project);
   });
 
-  return (<ProjectListComponent projects={groupedProjects} />);
+  return (<SideBarComponent projects={groupedProjects} />);
 };
 
-Projects.propTypes = {
+SideBar.propTypes = {
   projects: PropTypes.array.isRequired,
   groups: PropTypes.array.isRequired,
 };
@@ -36,4 +36,4 @@ const mapStateToProps = (state) => ({
   groups: state.getIn([constants.NAME, 'groups']).toJS(),
 });
 
-export default connect(mapStateToProps)(Projects);
+export default connect(mapStateToProps)(SideBar);

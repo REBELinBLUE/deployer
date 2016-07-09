@@ -34,7 +34,8 @@
                 navigation: {
                     running: {!! $deploying->toJson() !!},
                     pending: {!! $pending->toJson() !!},
-                    projects: {!! json_encode($projects) !!}
+                    projects: {!! $projects !!},
+                    groups: {!! $groups !!}
                 },
                 dashboard: {
                     timeline: {!! $latest !!}

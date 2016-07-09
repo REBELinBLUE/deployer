@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import PendingMenu from '../containers/PendingMenu';
 import RunningMenu from '../containers/RunningMenu';
 
-const NavBarMenu = (props) => {
+const UserMenu = (props) => {
   const { user } = props;
 
   const strings = {
@@ -44,8 +44,8 @@ const NavBarMenu = (props) => {
   );
 };
 
-NavBarMenu.propTypes = {
+UserMenu.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-export default NavBarMenu;
+export default UserMenu;

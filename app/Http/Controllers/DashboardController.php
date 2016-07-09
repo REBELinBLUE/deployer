@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Response;
 use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 
 /**
@@ -23,49 +23,34 @@ class DashboardController extends Controller
     private $projectRepository;
 
     /**
+     * @var GroupRepositoryInterface
+     */
+    private $groupRepository;
+
+    /**
      * @param DeploymentRepositoryInterface $deploymentRepository
      * @param ProjectRepositoryInterface $projectRepository
+     * @param GroupRepositoryInterface $groupRepository
      */
     public function __construct(
         DeploymentRepositoryInterface $deploymentRepository,
-        ProjectRepositoryInterface $projectRepository
+        ProjectRepositoryInterface $projectRepository,
+        GroupRepositoryInterface $groupRepository
     ) {
         $this->deploymentRepository = $deploymentRepository;
         $this->projectRepository = $projectRepository;
+        $this->groupRepository = $groupRepository;
     }
 
     public function index()
     {
         return view('app', [
-            'projects' => $this->buildProjectData(),
             'latest' => json_encode($this->buildTimelineData(), JSON_FORCE_OBJECT),
+            'projects' => json_encode($this->projectRepository->getAll()),
+            'groups' => json_encode($this->groupRepository->getAll()),
         ]);
     }
 
-    // FIXME: Maybe remove this and just return the groups and projects?
-    // The fact that they are displayed in a group is the responsibility of the display code
-    // not the controller
-    private function buildProjectData()
-    {
-        $projects = $this->projectRepository->getAll();
-
-        $projects_by_group = [];
-        foreach ($projects as $project) {
-            if (!isset($projects_by_group[$project->group->name])) {
-                $projects_by_group[$project->group->id] = [
-                    'group' => $project->group,
-                    'projects' => []
-                ];
-            }
-
-            $projects_by_group[$project->group->id]['projects'][] = $project;
-        }
-
-        ksort($projects_by_group);
-
-        return array_values($projects_by_group);
-    }
-    
     /**
      * Builds the data for the timeline.
      *

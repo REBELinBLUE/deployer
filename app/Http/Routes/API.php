@@ -6,5 +6,4 @@ Route::group([
 ], function () {
     Route::get('api/projects', 'APIController@projects');
     Route::get('api/groups', 'APIController@groups');
-
 });

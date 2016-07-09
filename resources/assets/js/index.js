@@ -14,7 +14,7 @@ import attachStoreToRoutes from './router/routes';
 import { selectLocationState } from './router/reducer';
 import configureStore from './store';
 
-const PRELOADED = window.__PRELOADED_STATE__; // eslint-ignore-line no-underscore-dangle
+const PRELOADED = window.__PRELOADED_STATE__; // eslint-disable-line no-underscore-dangle
 
 Lang.setLocale(PRELOADED[app.NAME].locale);
 
