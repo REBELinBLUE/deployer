@@ -17,22 +17,19 @@ class ProjectDetails extends Component {
     this.setProject = props.actions.setProject;
     this.fetchProject = props.actions.fetchProject;
     this.setButtons = props.actions.setButtons;
-    
-// <div class="pull-right">
-//   <button type="button" class="btn btn-default" title="{{ Lang::get('projects.view_ssh_key') }}" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> {{ Lang::get('projects.ssh_key') }}</button>
-//   <button id="deploy_project" data-toggle="modal" data-backdrop="static" data-target="#reason" type="button" class="btn btn-danger" title="{{ Lang::get('projects.deploy_project') }}" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></span> {{ Lang::get('projects.deploy') }}</button>
-// </div>
-// [
-//   { id: 'ssh', type: 'primary', title: 'blah', fa: 'sd', text: 'blah'}
-// ]
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.setupProject();
   }
 
-  componentDidUpdate() {
-    this.setupProject();
+  // componentDidUpdate() {
+  //   this.setupProject();
+  // }
+
+  componentWillUnmount() {
+    this.setButtons([]);
+    this.setProject(null);
   }
 
   setupProject() {
@@ -40,8 +37,20 @@ class ProjectDetails extends Component {
     this.setProject(this.activeProject);
 
     this.setButtons([
-      { id: 'ssh', type: 'primary', title: 'blah', fa: 'sd', text: 'blah'},
-      { id: 'ssh', type: 'primary', title: 'blah', fa: 'sd', text: 'blah'}
+      {
+        id: 'ssh',
+        type: 'default',
+        title: Lang.get('projects.view_ssh_key'),
+        fa: 'key',
+        text: Lang.get('projects.ssh_key')
+      },
+      {
+        id: 'deploy_project',
+        type: 'danger',
+        title: Lang.get('projects.deploy_project'),
+        fa: 'cloud-upload',
+        text: Lang.get('projects.deploy')
+      },
     ]);
   }
 

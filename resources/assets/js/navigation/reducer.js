@@ -13,8 +13,7 @@ const initialState = Immutable.fromJS({
 export default function (state = initialState, action) {
   switch (action.type) {
     case actions.SET_BUTTONS:
-          console.log(action);
-      // state.set('buttons', action.buttons);
+      return state.set('buttons', action.buttons);
     default:
       return state;
   }

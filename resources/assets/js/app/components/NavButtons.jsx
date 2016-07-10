@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
-
 import { ButtonToolbar, Button } from 'react-bootstrap';
+
+import Icon from './Icon';
 
 const NavButtons = (props) => {
   const { buttons } = props;
@@ -10,11 +11,10 @@ const NavButtons = (props) => {
   }
 
   const buttonInstances = [];
-  buttons.forEach((button) => {
+  buttons.forEach((button, key) => {
     buttonInstances.push(
-      <Button id={button.id} bsStyle={button.type} title={button.title}>
-        <span className="fa fa-key"></span>
-        {button.text}
+      <Button key={key} id={button.id} bsStyle={button.type} title={button.title}>
+        <Icon fa={button.fa} /> {button.text}
       </Button>
     );
   });
@@ -25,7 +25,7 @@ const NavButtons = (props) => {
 };
 
 NavButtons.propTypes = {
-  buttons: PropTypes.array.isRequired, // array of shape
+  buttons: PropTypes.array.isRequired, // FIXME array of shape
 };
 
 export default NavButtons;

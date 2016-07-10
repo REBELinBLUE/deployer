@@ -11,13 +11,9 @@ const initialState = Immutable.fromJS({
 export default function (state = initialState, action) {
   switch (action.type) {
     case actions.SOCKET_CONNECTION_OFFLINE:
-      return state.merge({
-        online: false,
-      });
+      return state.set('online', false);
     case actions.SOCKET_CONNECTION_ONLINE:
-      return state.merge({
-        online: true,
-      });
+      return state.set('online', true);
     default:
       return state;
   }

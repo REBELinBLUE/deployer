@@ -18,7 +18,10 @@ export default function (state) {
     preloadedState[type] = state[type];
   });
 
+  // FIXME: There has to be a nicer way to do this, surely?
   preloadedState[navigation.NAME].buttons = [];
+  preloadedState[app.NAME].title = '';
+  preloadedState[app.NAME].subtitle = null;
 
   return preloadedState;
 }
