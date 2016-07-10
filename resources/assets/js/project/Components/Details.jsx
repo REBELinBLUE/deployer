@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Nav } from 'react-bootstrap';
+import { Nav, Modal, ModalHeader, ModalBody, ModalTitle } from 'react-bootstrap';
 
 import Header from './Header';
 import NavItem from '../../app/components/NavItem';
@@ -31,10 +31,21 @@ const ProjectDetails = (props) => {
           </div>
         </div>
       </div>
+
+
     </div>
   );
 };
+/*
+ <Modal show={true} onHide={false}>
+ <ModalHeader closeButton>
+ <ModalTitle>Modal heading</ModalTitle>
+ </ModalHeader>
+ <ModalBody>
 
+ </ModalBody>
+ </Modal>
+ */
 ProjectDetails.propTypes = {
   project: PropTypes.object.isRequired,
   children: PropTypes.oneOfType([
