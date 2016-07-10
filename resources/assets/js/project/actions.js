@@ -13,3 +13,15 @@ export function fetchProject(project) {
     project,
   };
 }
+
+export function showKey() {
+  return {
+    type: actions.SHOW_SSH_KEY,
+  };
+}
+
+export function hideKey() {
+  return {
+    type: actions.HIDE_SSH_KEY,
+  };
+}

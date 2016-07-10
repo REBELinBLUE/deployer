@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
-import { Nav, Modal, ModalHeader, ModalBody, ModalTitle } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 
 import Header from './Header';
+import Dialog from '../containers/KeyDialog';
 import NavItem from '../../app/components/NavItem';
 
 const ProjectDetails = (props) => {
@@ -32,20 +33,11 @@ const ProjectDetails = (props) => {
         </div>
       </div>
 
-
+      <Dialog project={project} />
     </div>
   );
 };
-/*
- <Modal show={true} onHide={false}>
- <ModalHeader closeButton>
- <ModalTitle>Modal heading</ModalTitle>
- </ModalHeader>
- <ModalBody>
 
- </ModalBody>
- </Modal>
- */
 ProjectDetails.propTypes = {
   project: PropTypes.object.isRequired,
   children: PropTypes.oneOfType([
@@ -55,17 +47,3 @@ ProjectDetails.propTypes = {
 };
 
 export default ProjectDetails;
-
-
-/*
-
-
- @section('right-buttons')
- <div className="pull-right">
- <button type="button" className="btn btn-default" title="{{ Lang::get('projects.view_ssh_key') }}" data-toggle="modal" data-target="#key"><span className="fa fa-key"></span> {{ Lang::get('projects.ssh_key') }}</button>
- <button id="deploy_project" data-toggle="modal" data-backdrop="static" data-target="#reason" type="button" className="btn btn-danger" title="{{ Lang::get('projects.deploy_project') }}" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span className="fa fa-cloud-upload"></span> {{ Lang::get('projects.deploy') }}</button>
- </div>
- @stop
- @endpush
-
- */

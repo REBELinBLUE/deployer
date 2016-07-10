@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { setPageTitle } from '../app/actions';
-import { setProject, fetchProject } from './actions';
+import { setProject, fetchProject, showKey } from './actions';
 import { setButtons } from '../navigation/actions';
 import * as constants from '../navigation/constants';
 import ProjectDetailsComponent from './Components/Details';
@@ -17,6 +17,7 @@ class ProjectDetails extends Component {
     this.setProject = props.actions.setProject;
     this.fetchProject = props.actions.fetchProject;
     this.setButtons = props.actions.setButtons;
+    this.showKey = props.actions.showKey;
   }
 
   componentWillMount() {
@@ -43,6 +44,7 @@ class ProjectDetails extends Component {
         title: Lang.get('projects.view_ssh_key'),
         fa: 'key',
         text: Lang.get('projects.ssh_key'),
+        action: this.showKey,
       },
       {
         id: 'deploy_project',
@@ -81,6 +83,7 @@ const mapDispatchToProps = (dispatch) => ({
     setProject,
     fetchProject,
     setButtons,
+    showKey,
   }, dispatch),
 });
 
