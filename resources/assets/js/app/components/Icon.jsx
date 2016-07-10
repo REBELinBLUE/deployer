@@ -8,6 +8,10 @@ const Icon = (props) => {
     iconClasses = [props.fa];
   }
 
+  if (props.spin) {
+    iconClasses.push('spin');
+  }
+
   return (
     <i className={`fa ${iconClasses.map((icon) => (`fa-${icon}`))} ${props.className}`} />
   );
@@ -19,6 +23,7 @@ Icon.propTypes = {
     PropTypes.array,
   ]).isRequired,
   className: PropTypes.string,
+  spin: PropTypes.boolean,
 };
 
 export default Icon;
