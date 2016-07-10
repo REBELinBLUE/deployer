@@ -7,12 +7,10 @@ const Title = (props) => {
   } = props;
 
   return (
-    <section className="content-header">
-      <h1>
-        <span>{title}</span>
-        {subtitle ? <small>{subtitle}</small> : null}
-      </h1>
-    </section>
+    <h1>
+      <span>{title}</span>
+      {subtitle ? <small>{subtitle}</small> : null}
+    </h1>
   );
 };
 

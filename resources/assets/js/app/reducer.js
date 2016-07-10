@@ -20,9 +20,7 @@ export default function (state = initialState, action) {
         subtitle: action.subtitle,
       });
     case actions.SET_PAGE_SUBTITLE:
-      return state.merge({
-        subtitle: action.subtitle,
-      });
+      return state.set('subtitle', action.subtitle);
     default:
       return state;
   }

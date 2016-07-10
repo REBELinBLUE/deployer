@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import client from 'socket.io-client';
 
 import { online, offline } from '../../socket/actions';
-import * as constants from '../../socket/constants';
+import * as socket from '../../socket/constants';
 import AppComponent from '../components/App';
 
 class App extends Component {
@@ -38,11 +38,7 @@ class App extends Component {
   render() {
     const children = this.props.children;
 
-    return (
-      <AppComponent>
-        {children}
-      </AppComponent>
-    );
+    return (<AppComponent>{children}</AppComponent>);
   }
 }
 
@@ -61,8 +57,8 @@ App.childContextTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  server: state.getIn([constants.NAME, 'server']),
-  jwt: state.getIn([constants.NAME, 'jwt']),
+  server: state.getIn([socket.NAME, 'server']),
+  jwt: state.getIn([socket.NAME, 'jwt']),
 });
 
 const mapDispatchToProps = (dispatch) => ({

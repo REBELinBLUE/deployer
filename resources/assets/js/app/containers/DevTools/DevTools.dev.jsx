@@ -34,7 +34,7 @@ const ReduxDevTools = createDevTools(
     </MultipleMonitors>
     <SliderMonitor theme="tomorrow" />
     <ChartMonitor theme="tomorrow" tooltipOptions={tooltipOptions} invertTheme />
-    <Inspector theme="tomorrow" isLightTheme={false} />
+    <Inspector theme="tomorrow" isLightTheme={false} supportImmutable />
   </DockMonitor>
 );
 

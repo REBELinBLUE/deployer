@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 
 import Tools from '../containers/DevTools';
 import NavBar from '../../navigation/components/NavBar';
-import SideBar from '../../navigation/containers/SideBar';
-import Title from '../containers/Title';
 import SocketError from '../../socket/Container';
+import SideBar from '../../navigation/containers/SideBar';
+import Header from './Header';
 
 const App = (props) => {
   const {
@@ -19,7 +19,7 @@ const App = (props) => {
         <SideBar />
 
         <div className="content-wrapper">
-          <Title />
+          <Header />
           <section className="content" id="app">
             <SocketError />
             {children}

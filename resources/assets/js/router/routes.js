@@ -8,6 +8,13 @@ import TemplateAdmin from '../admin/Templates';
 import ProjectAdmin from '../admin/Projects';
 import ProjectDetails from '../project/Container';
 
+import Deployments from '../project/subpages/Deployments';
+import Servers from '../project/subpages/Servers';
+import Commands from '../project/subpages/Commands';
+import Files from '../project/subpages/Files';
+import Health from '../project/subpages/Health';
+import Notifications from '../project/subpages/Notifications';
+
 import * as actions from '../app/actions';
 import decorateRoutes from './decorator';
 
@@ -18,7 +25,18 @@ const indexRoute = {
 
 const childRoutes = [
   { path: 'profile', component: Profile, title: 'users.update_profile' },
-  { path: 'projects/:id', component: ProjectDetails },
+  {
+    path: 'projects/:id',
+    component: ProjectDetails,
+    indexRoute: { component: Deployments },
+    childRoutes: [
+      { path: 'servers', component: Servers },
+      { path: 'commands', component: Commands },
+      { path: 'files', component: Files },
+      { path: 'notifications', component: Notifications },
+      { path: 'health', component: Health },
+    ],
+  },
   {
     path: 'admin',
     childRoutes: [
@@ -44,8 +62,10 @@ export default function (store) {
   return {
     path: '/',
     component: App,
-    onEnter: updateTitle,
-    indexRoute,
+    indexRoute: {
+      ...indexRoute,
+      onEnter: updateTitle,
+    },
     childRoutes,
   };
 }

@@ -3,8 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { setPageTitle } from '../app/actions';
+import { setProject, fetchProject } from './actions';
+import { setButtons } from '../navigation/actions';
 import * as constants from '../navigation/constants';
-import ProjectDetailsComponent from './Component';
+import ProjectDetailsComponent from './Components/Details';
 
 class ProjectDetails extends Component {
   constructor(props) {
@@ -12,22 +14,50 @@ class ProjectDetails extends Component {
 
     this.activeProject = props.projects.find((project) => (project.id === parseInt(props.params.id, 10)));
     this.setPageTitle = props.actions.setPageTitle;
+    this.setProject = props.actions.setProject;
+    this.fetchProject = props.actions.fetchProject;
+    this.setButtons = props.actions.setButtons;
   }
 
-  componentDidMount() {
-    this.setTitle();
+  componentWillMount() {
+    this.setupProject();
   }
 
-  componentDidUpdate() {
-    this.setTitle();
+  // componentDidUpdate() {
+  //   this.setupProject();
+  // }
+
+  componentWillUnmount() {
+    this.setButtons([]);
+    this.setProject(null);
   }
 
-  setTitle() {
+  setupProject() {
     this.setPageTitle(this.activeProject.name);
+    this.setProject(this.activeProject);
+
+    this.setButtons([
+      {
+        id: 'ssh',
+        type: 'default',
+        title: Lang.get('projects.view_ssh_key'),
+        fa: 'key',
+        text: Lang.get('projects.ssh_key'),
+      },
+      {
+        id: 'deploy_project',
+        type: 'danger',
+        title: Lang.get('projects.deploy_project'),
+        fa: 'cloud-upload',
+        text: Lang.get('projects.deploy'),
+      },
+    ]);
   }
 
   render() {
-    return (<ProjectDetailsComponent project={this.activeProject} />);
+    return (
+      <ProjectDetailsComponent project={this.activeProject}>{this.props.children}</ProjectDetailsComponent>
+    );
   }
 }
 
@@ -35,6 +65,10 @@ ProjectDetails.propTypes = {
   projects: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -44,6 +78,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     setPageTitle,
+    setProject,
+    fetchProject,
+    setButtons,
   }, dispatch),
 });
 

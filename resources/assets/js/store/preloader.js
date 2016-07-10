@@ -9,8 +9,6 @@ export default function (state) {
 
   const preloadedState = {};
 
-  // TODO: This may not be needed anymore, state
-  // is the exact same as preloadedState now
   [
     app.NAME,
     dashboard.NAME,
@@ -19,6 +17,11 @@ export default function (state) {
   ].forEach((type) => {
     preloadedState[type] = state[type];
   });
+
+  // FIXME: There has to be a nicer way to do this, surely?
+  preloadedState[navigation.NAME].buttons = [];
+  preloadedState[app.NAME].title = '';
+  preloadedState[app.NAME].subtitle = null;
 
   return preloadedState;
 }
