@@ -1,4 +1,4 @@
-// This is only used by DevTools to popular a list of actions
+// This is only used by DevTools to populate a list of actions
 
 import * as App from './app/actions';
 import * as Navigation from './navigation/actions';
