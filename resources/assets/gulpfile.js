@@ -2,11 +2,10 @@ const Elixir = require('laravel-elixir');
 const join = require('path').join;
 const removeFiles = require('gulp-remove-files');
 const recipe = Elixir;
-require('laravel-elixir-eslint');
 
 // Stop standard gulp output
-//const gutil = require('gulp-util');
-//gutil.log =  gutil.noop;
+// const gutil = require('gulp-util');
+// gutil.log =  gutil.noop;
 
 // Just because I am really anal and the mix.exec task is outputting some blank lines
 // console.log = () => {
@@ -81,14 +80,6 @@ const paths = {
 };
 
 recipe((mix) => {
-  // Lint files
-  // mix.eslint([
-  //   'gulpfile.js',
-  //   'js/**/*.js',
-  //   'js/**/*.jsx',
-  //   '!js/localizations.js',
-  // ]);
-
   // Update the language cache
   mix.exec(`php ${sourcePath}/artisan js-localization:refresh --quiet`);
 

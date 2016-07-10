@@ -30,9 +30,7 @@
     "redux-immutable": "^3.0.6",
     "redux-thunk": "^2.1.0",
     "respond.js": "^1.4.2",
-    "socket.io-client": "^1.4.8"
-  },
-  "devDependencies": {
+    "socket.io-client": "^1.4.8",
     "babel-core": "^6.10.4",
     "babel-loader": "^6.2.4",
     "babel-polyfill": "^6.9.1",
@@ -40,18 +38,23 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-2": "^6.11.0",
     "es6-arrow-function": "^0.6.6",
-    "eslint": "^2.13.1",
-    "eslint-config-airbnb": "^9.0.1",
-    "eslint-plugin-import": "^1.9.2",
-    "eslint-plugin-jsx-a11y": "^1.5.3 ",
-    "eslint-plugin-react": "^5.2.2",
     "gulp": "^3.9.1",
     "gulp-remove-files": "0.0.3",
     "gulp-util": "^3.0.7",
-    "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-browsersync-official": "^1.0.0",
-    "laravel-elixir-eslint": "^3.0.0",
-    "laravel-elixir-webpack-official": "^1.0.1",
+    "laravel-elixir-webpack-official": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-enzyme": "^0.5.0",
+    "enzyme": "^2.4.1",
+    "eslint": "^2.13.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-chai-expect": "^1.1.1",
+    "eslint-plugin-import": "^1.9.2",
+    "eslint-plugin-jsx-a11y": "^1.5.3 ",
+    "eslint-plugin-react": "^5.2.2",
+    "mocha": "^2.5.3",
     "redux-devtools": "^3.3.1",
     "redux-devtools-chart-monitor": "^1.4.1",
     "redux-devtools-dispatch": "^2.2.0",
@@ -60,7 +63,8 @@
     "redux-devtools-log-monitor": "^1.0.11",
     "redux-devtools-multiple-monitors": "^1.0.1",
     "redux-slider-monitor": "^1.0.6",
-    "redux-unhandled-action": "^1.1.0"
+    "redux-unhandled-action": "^1.1.0",
+    "sinon": "^1.17.4"
   },
   "scripts": {
     "postinstall": "cp ../../vendor/andywer/js-localization/resources/js/localization.js js/localization.js",
