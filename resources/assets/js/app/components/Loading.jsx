@@ -9,7 +9,7 @@ const Loading = (props) => {
 
   return (
     <div className="overlay">
-      <Icon fa={['refresh', 'spin']} />
+      <Icon fa="refresh" spin />
     </div>
   );
 };
