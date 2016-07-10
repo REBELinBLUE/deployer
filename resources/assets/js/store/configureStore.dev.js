@@ -12,7 +12,7 @@ import { ReduxDevTools } from '../app/containers/DevTools';
 
 const router = routerMiddleware(browserHistory);
 const unhandledAction = reduxUnhandledAction((action) => {
-  console.group(`"${action.type}" did not lead to creation of a new state object`);
+  console.groupCollapsed(`"${action.type}" did not lead to creation of a new state object`);
   console.error(action);
   console.groupEnd();
 });

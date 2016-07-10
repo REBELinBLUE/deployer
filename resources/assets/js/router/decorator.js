@@ -6,7 +6,9 @@ const decorateRoutes = (routes, onEnterCallback) => {
 
     const localRoute = route;
 
-    localRoute.onEnter = onEnterCallback;
+    if (typeof localRoute.title !== 'undefined') {
+      localRoute.onEnter = onEnterCallback;
+    }
 
     return localRoute;
   });
