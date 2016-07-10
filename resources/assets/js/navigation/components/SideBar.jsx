@@ -25,7 +25,7 @@ const SideBar = (props) => {
     groupProjects.forEach((project) => {
       let id = `sidebar_project_${project.id}`;
       subNavigation.push(
-        <li key={id}><Link to={`/projects/${project.id}`} id={id}>{project.name}</Link></li>
+        <li key={id}><Link activeClassName="active" to={`/projects/${project.id}`} id={id}>{project.name}</Link></li>
       );
     });
 
@@ -62,10 +62,10 @@ const SideBar = (props) => {
               <Icon fa="angle-left" className="pull-right" />
             </a>
             <ul className="treeview-menu">
-              <li><Link to="/admin/projects">{strings.projects}</Link></li>
-              <li><Link to="/admin/templates">{strings.templates}</Link></li>
-              <li><Link to="/admin/groups">{strings.groups}</Link></li>
-              <li><Link to="/admin/users">{strings.users}</Link></li>
+              <li><Link activeClassName="active" to="/admin/projects">{strings.projects}</Link></li>
+              <li><Link activeClassName="active" to="/admin/templates">{strings.templates}</Link></li>
+              <li><Link activeClassName="active" to="/admin/groups">{strings.groups}</Link></li>
+              <li><Link activeClassName="active" to="/admin/users">{strings.users}</Link></li>
             </ul>
           </li>
         </ul>

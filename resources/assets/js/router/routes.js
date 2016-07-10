@@ -1,50 +1,51 @@
 import App from '../app/containers/App';
-import Dashboard from '../dashboard/containers/Dashboard';
+import Dashboard from '../dashboard/components/Dashboard';
 import Profile from '../profile/Profile';
 
 import UserAdmin from '../admin/Users';
 import GroupAdmin from '../admin/Groups';
 import TemplateAdmin from '../admin/Templates';
 import ProjectAdmin from '../admin/Projects';
-import ProjectDetails from '../project/ProjectDetails';
+import ProjectDetails from '../project/Container';
 
 import * as actions from '../app/actions';
+import decorateRoutes from './decorator';
 
-// FIXME: Clean this up
+const indexRoute = {
+  component: Dashboard,
+  title: 'dashboard.title',
+};
+
+const childRoutes = [
+  { path: 'profile', component: Profile, title: 'users.update_profile' },
+  { path: 'projects/:id', component: ProjectDetails },
+  {
+    path: 'admin',
+    childRoutes: [
+      { path: 'users', component: UserAdmin, title: 'users.manage' },
+      { path: 'groups', component: GroupAdmin, title: 'groups.manage' },
+      { path: 'templates', component: TemplateAdmin, title: 'templates.manage' },
+      { path: 'projects', component: ProjectAdmin, title: 'projects.manage' },
+    ],
+  },
+];
+
 export default function (store) {
-  const indexRoute = { component: Dashboard, title: Lang.get('dashboard.title') };
+  const updateTitle = (nextState) => {
+    const routes = nextState.routes;
+    const string = routes[routes.length - 1].title;
+    const title = string ? Lang.get(string) : '';
 
-  store.dispatch(actions.setPageTitle(indexRoute.title));
-
-  const childRoutes = [
-    { title: 'Update profile', path: 'profile', component: Profile },
-    { title: 'Manage users', path: 'admin/users', component: UserAdmin },
-    { title: 'Manage groups', path: 'admin/groups', component: GroupAdmin },
-    { title: 'Manage deployment templates', path: 'admin/templates', component: TemplateAdmin },
-    { title: 'Manage projects', path: 'admin/projects', component: ProjectAdmin },
-    { path: 'projects/:id', component: ProjectDetails },
-  ];
-
-  // TODO: Is this really the best way to do this?
-  const updateTitle = (currentState, nextState) => {
-    const title = nextState.routes[nextState.routes.length - 1].title;
-
-    store.dispatch(actions.setPageTitle(title || null));
+    store.dispatch(actions.setPageTitle(title));
   };
 
-  childRoutes.map((route) => {
-    const localRoute = route;
-
-    localRoute.onChange = updateTitle;
-
-    return localRoute;
-  });
+  decorateRoutes(childRoutes, updateTitle);
 
   return {
     path: '/',
     component: App,
+    onEnter: updateTitle,
     indexRoute,
-    onChange: updateTitle,
     childRoutes,
   };
 }

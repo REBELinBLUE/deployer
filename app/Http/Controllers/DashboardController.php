@@ -42,6 +42,9 @@ class DashboardController extends Controller
         $this->groupRepository = $groupRepository;
     }
 
+    /**
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('app', [
