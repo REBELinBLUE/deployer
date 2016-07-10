@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 
-import NavButtons from '../containers/NavButtons';
-
 const Title = (props) => {
   const {
     title,

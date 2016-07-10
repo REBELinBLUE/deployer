@@ -13,7 +13,7 @@ const ProjectDetails = (props) => {
   return (
     <div>
       <Header project={project} />
- 
+
       <div className="row project-status">
         <div className="col-md-12">
           <div className="nav-tabs-custom">

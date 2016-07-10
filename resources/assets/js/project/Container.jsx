@@ -42,14 +42,14 @@ class ProjectDetails extends Component {
         type: 'default',
         title: Lang.get('projects.view_ssh_key'),
         fa: 'key',
-        text: Lang.get('projects.ssh_key')
+        text: Lang.get('projects.ssh_key'),
       },
       {
         id: 'deploy_project',
         type: 'danger',
         title: Lang.get('projects.deploy_project'),
         fa: 'cloud-upload',
-        text: Lang.get('projects.deploy')
+        text: Lang.get('projects.deploy'),
       },
     ]);
   }
