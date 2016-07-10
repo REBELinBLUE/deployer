@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import Tools from '../containers/DevTools';
 import NavBar from '../../navigation/components/NavBar';
-import SocketError from '../../socket/Container';
+import SocketError from '../../socket/containers/Socket';
 import SideBar from '../../navigation/containers/SideBar';
 import Header from './Header';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import SocketComponent from './Component';
-import * as constants from './constants';
+import SocketComponent from '../components/Socket';
+import * as constants from '../constants';
 
 const Socket = (props) => (<SocketComponent {...props} />);
 
