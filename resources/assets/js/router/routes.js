@@ -6,7 +6,7 @@ import UserAdmin from '../admin/Users';
 import GroupAdmin from '../admin/Groups';
 import TemplateAdmin from '../admin/Templates';
 import ProjectAdmin from '../admin/Projects';
-import ProjectDetails from '../project/Container';
+import ProjectDetails from '../project/containers/Details';
 
 import Deployments from '../project/subpages/Deployments';
 import Servers from '../project/subpages/Servers';

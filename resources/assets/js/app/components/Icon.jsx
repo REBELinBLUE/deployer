@@ -23,7 +23,11 @@ Icon.propTypes = {
     PropTypes.array,
   ]).isRequired,
   className: PropTypes.string,
-  spin: PropTypes.boolean,
+  spin: PropTypes.bool,
+};
+
+Icon.defaultProps = {
+  spin: false,
 };
 
 export default Icon;

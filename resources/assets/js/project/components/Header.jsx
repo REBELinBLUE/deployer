@@ -45,14 +45,14 @@ const Header = (props) => {
               </li>
               {
                 project.url ?
-                <li>
-                  <a href={project.url} target="_blank">
-                    {strings.url}
-                    <span className="pull-right text-blue">{project.url}</span>
-                  </a>
-                </li>
+                  <li>
+                    <a href={project.url} target="_blank">
+                      {strings.url}
+                      <span className="pull-right text-blue">{project.url}</span>
+                    </a>
+                  </li>
                 :
-                null
+                  null
               }
             </ul>
           </div>

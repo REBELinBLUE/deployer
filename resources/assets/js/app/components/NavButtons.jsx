@@ -13,7 +13,13 @@ const NavButtons = (props) => {
   const buttonInstances = [];
   buttons.forEach((button, key) => {
     buttonInstances.push(
-      <Button key={key} id={button.id} bsStyle={button.type} title={button.title} onClick={button.action ? button.action : null}>
+      <Button
+        key={key}
+        id={button.id}
+        bsStyle={button.type}
+        title={button.title}
+        onClick={button.action ? button.action : null}
+      >
         <Icon fa={button.fa} /> {button.text}
       </Button>
     );

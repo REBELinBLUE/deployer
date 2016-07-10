@@ -48,4 +48,4 @@ Dialog.defaultProps = {
   visible: false,
 };
 
-export default Dialog
+export default Dialog;

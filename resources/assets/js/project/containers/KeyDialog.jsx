@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as constants from '../constants';
-import Dialog from '../Components/KeyDialog';
+import Dialog from '../components/KeyDialog';
 import { hideKey } from '../actions';
 
 const KeyDialog = (props) => {

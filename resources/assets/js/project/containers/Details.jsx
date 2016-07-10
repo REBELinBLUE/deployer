@@ -2,11 +2,11 @@ import React, { PropTypes, Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { setPageTitle } from '../app/actions';
-import { setProject, fetchProject, showKey } from './actions';
-import { setButtons } from '../navigation/actions';
-import * as constants from '../navigation/constants';
-import ProjectDetailsComponent from './Components/Details';
+import { setPageTitle } from '../../app/actions';
+import { setProject, fetchProject, showKey } from '../actions';
+import { setButtons } from '../../navigation/actions';
+import * as constants from '../../navigation/constants';
+import ProjectDetailsComponent from '../components/Details';
 
 class ProjectDetails extends Component {
   constructor(props) {
