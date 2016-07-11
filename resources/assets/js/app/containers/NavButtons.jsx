@@ -11,7 +11,7 @@ NavButtons.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  buttons: state.getIn([constants.NAME, 'buttons']), // .toJS(),
+  buttons: state.getIn([constants.NAME, 'buttons']).toJS(),
 });
 
 export default connect(mapStateToProps)(NavButtons);
