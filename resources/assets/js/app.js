@@ -39,7 +39,8 @@ toastr.options.extendedTimeOut = 7000;
     app.project_id = app.project_id || null;
 
     app.listener = io.connect($('meta[name="socket_url"]').attr('content'), {
-        query: 'jwt=' + $('meta[name="jwt"]').attr('content')
+        query: 'jwt=' + $('meta[name="jwt"]').attr('content'),
+        transports: ['websocket', 'polling']
     });
 
     app.connection_error = false;
