@@ -288,7 +288,7 @@ class InstallApp extends Command
         $database = [];
         while (!$connectionVerified) {
             // Should we just skip this step if only one driver is available?
-            $type = $this->choice('Type', $this->getDatabaseDrivers(), 0);
+            $type = $this->choice('Type', $this->getDatabaseDrivers(), null);
 
             $database['type'] = $type;
 
@@ -342,12 +342,12 @@ class InstallApp extends Command
         };
 
         $url    = $this->askAndValidate('Application URL ("http://deployer.app" for example)', [], $url_callback);
-        $region = $this->choice('Timezone region', array_keys($regions), 0);
+        $region = $this->choice('Timezone region', array_keys($regions), null);
 
         if ($region !== 'UTC') {
             $locations = $this->getTimezoneLocations($regions[$region]);
 
-            $region .= '/' . $this->choice('Timezone location', $locations, 0);
+            $region .= '/' . $this->choice('Timezone location', $locations, null);
         }
 
         $socket = $this->askAndValidate('Socket URL', [], $url_callback, $url);
@@ -417,7 +417,7 @@ class InstallApp extends Command
 
         $email = [];
 
-        $driver = $this->choice('Type', ['smtp', 'sendmail', 'mail'], 0);
+        $driver = $this->choice('Type', ['smtp', 'sendmail', 'mail'], null);
 
         if ($driver === 'smtp') {
             $host = $this->ask('Host', 'localhost');
