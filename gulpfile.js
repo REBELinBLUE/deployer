@@ -96,7 +96,7 @@ Elixir(function(mix) {
         'uploader.js',
         'profile.js'
     ], 'public/js/app.js', 'resources/assets/js')
-    .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
+    .copy(paths.admin_lte   + '/bootstrap/fonts/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
     .copy(paths.ionicons    + '/fonts/**',           'public/fonts')
     .version([
@@ -107,11 +107,11 @@ Elixir(function(mix) {
         'public/js/vendor.js'
     ])
     .copy('public/fonts', 'public/build/fonts')
-    .remove([
-        'public/css',
-        'public/js',
-        'public/fonts'
-        //bower_path + '/localization.js' // removing this breaks watch
-    ])
+    // .remove([
+    //     'public/css',
+    //     'public/js',
+    //     'public/fonts'
+    //     //bower_path + '/localization.js' // removing this breaks watch
+    // ])
     .lang();
 });
