@@ -8,6 +8,7 @@ use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
+use UnexpectedValueException;
 use Version\Compare as VersionCompare;
 
 /**
@@ -402,7 +403,15 @@ class Project extends ProjectRelation implements PresentableInterface
                      ->toArray();
 
         $compare = new VersionCompare;
-        usort($tags, [$compare, 'compare']);
+
+        // Sort the tags, if compare throws an exception it isn't a value version string so just do a strnatcmp
+        usort($tags, function ($first, $second) use ($compare) {
+            try {
+                return $compare->compare($first, $second);
+            } catch (UnexpectedValueException $error) {
+                return strnatcmp($first, $second);
+            }
+        });
 
         return collect($tags);
     }
