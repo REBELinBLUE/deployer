@@ -3,7 +3,7 @@
   "name": "deployer",
   "dependencies": {
     "dotenv": "^2.0.0",
-    "ioredis": "^1.15.1",
+    "ioredis": "^2.2.0",
     "socket.io": "^1.4.5",
     "jsonwebtoken": "^7.0.0"
   },
