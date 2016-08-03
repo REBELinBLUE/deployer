@@ -56,7 +56,7 @@ or the following on the page
 ErrorException (E_ERROR) file_get_contents(/var/www/deployer/public/build/rev-manifest.json): failed to open stream: No such file or directory
 ```
 
-it means you are not using a production build you either need to checkout the `release` branch or a specific release, or install the additional development dependencies
+it means you are not using a production build. You either need to checkout the `release` branch or a specific release, or install the additional development dependencies
 
 ```shell
 $ composer install
