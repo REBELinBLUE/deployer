@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.0.36](https://github.com/REBELinBLUE/deployer/tree/0.0.36) (2016-08-06)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.36...0.0.36)
+## [0.0.37](https://github.com/REBELinBLUE/deployer/tree/0.0.37) (2016-08-06)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.36...0.0.37)
 
 **Implemented enhancements:**
 
