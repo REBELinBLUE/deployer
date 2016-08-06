@@ -1,7 +1,37 @@
 # Change Log
 
-## [0.0.37](https://github.com/REBELinBLUE/deployer/tree/0.0.37) (2016-05-30)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.35...0.0.37)
+## [0.0.37](https://github.com/REBELinBLUE/deployer/tree/0.0.37) (2016-08-06)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.36...0.0.37)
+
+**Implemented enhancements:**
+
+- Update the log when viewing it [\#232](https://github.com/REBELinBLUE/deployer/issues/232)
+- \[IMPROVEMENT\] Ignore suggestions when installing Composer deps [\#252](https://github.com/REBELinBLUE/deployer/pull/252) ([jbrooksuk](https://github.com/jbrooksuk))
+- \[IMPROVEMENT\] Priority WS for optimal transport browser [\#250](https://github.com/REBELinBLUE/deployer/pull/250) ([denji](https://github.com/denji))
+
+**Fixed bugs:**
+
+- Options don't exist on all versions of tar [\#257](https://github.com/REBELinBLUE/deployer/issues/257)
+- Fatal error if git tags contain a string which is not a valid version [\#256](https://github.com/REBELinBLUE/deployer/issues/256)
+- Installer should check for node or nodejs [\#230](https://github.com/REBELinBLUE/deployer/issues/230)
+- Installer gets into an infinite loop if there are PDO drivers loaded before MySQL [\#254](https://github.com/REBELinBLUE/deployer/pull/254) ([moxx](https://github.com/moxx))
+- \*\*\[FIX\]\*\* Incorrect Lang variables [\#239](https://github.com/REBELinBLUE/deployer/pull/239) ([uLow](https://github.com/uLow))
+
+**Closed issues:**
+
+- Acting strange [\#233](https://github.com/REBELinBLUE/deployer/issues/233)
+- Custom deployment templates [\#174](https://github.com/REBELinBLUE/deployer/issues/174)
+
+**Merged pull requests:**
+
+- Possible fix for toJS issue in NavButtons [\#249](https://github.com/REBELinBLUE/deployer/pull/249) ([tizz66](https://github.com/tizz66))
+- Make spin a boolean prop of Icon instead of passing classname [\#247](https://github.com/REBELinBLUE/deployer/pull/247) ([tizz66](https://github.com/tizz66))
+- Fixes an error thrown by timeline component if there's no timeline data [\#246](https://github.com/REBELinBLUE/deployer/pull/246) ([tizz66](https://github.com/tizz66))
+- Refactors dashboard timeline and adds associated components [\#243](https://github.com/REBELinBLUE/deployer/pull/243) ([tizz66](https://github.com/tizz66))
+- Box component [\#241](https://github.com/REBELinBLUE/deployer/pull/241) ([tizz66](https://github.com/tizz66))
+
+## [0.0.36](https://github.com/REBELinBLUE/deployer/tree/0.0.36) (2016-05-30)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.35...0.0.36)
 
 **Fixed bugs:**
 
