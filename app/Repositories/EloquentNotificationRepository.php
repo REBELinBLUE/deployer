@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Contracts\Repositories\NotificationRepositoryInterface;
 use REBELinBLUE\Deployer\Notification;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The notification repository.
@@ -12,10 +11,9 @@ use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 class EloquentNotificationRepository extends EloquentRepository implements NotificationRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentNotificationRepository constructor.
      *
-     * @param  Notification                   $model
-     * @return EloquentNotificationRepository
+     * @param Notification $model
      */
     public function __construct(Notification $model)
     {

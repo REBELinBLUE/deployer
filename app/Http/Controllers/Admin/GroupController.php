@@ -14,10 +14,9 @@ use REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest;
 class GroupController extends Controller
 {
     /**
-     * Class constructor.
+     * GroupController constructor.
      *
-     * @param  GroupRepositoryInterface $repository
-     * @return void
+     * @param GroupRepositoryInterface $repository
      */
     public function __construct(GroupRepositoryInterface $repository)
     {
@@ -27,7 +26,7 @@ class GroupController extends Controller
     /**
      * Display a listing of the groups.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -41,7 +40,8 @@ class GroupController extends Controller
      * Store a newly created group in storage.
      *
      * @param  StoreGroupRequest $request
-     * @return Response
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreGroupRequest $request)
     {
@@ -53,9 +53,10 @@ class GroupController extends Controller
     /**
      * Update the specified group in storage.
      *
-     * @param  int               $group_id
-     * @param  StoreGroupRequest $request
-     * @return Response
+     * @param $group_id
+     * @param StoreGroupRequest $request
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($group_id, StoreGroupRequest $request)
     {
@@ -67,8 +68,9 @@ class GroupController extends Controller
     /**
      * Re-generates the order for the supplied groups.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param Request $request
+     *
+     * @return array
      */
     public function reorder(Request $request)
     {

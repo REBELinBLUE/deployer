@@ -33,19 +33,11 @@ class UpdateGitMirrors extends Command
     protected $description = 'Pulls in updates for git mirrors';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
+     *
+     * @dispatches UpdateGitMirror
      */
     public function handle()
     {

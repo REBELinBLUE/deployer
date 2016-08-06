@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Contracts\Repositories\ProjectFileRepositoryInterface;
 use REBELinBLUE\Deployer\ProjectFile;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 
 /**
  * The project file repository.
@@ -12,10 +11,9 @@ use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 class EloquentProjectFileRepository extends EloquentRepository implements ProjectFileRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentProjectFileRepository constructor.
      *
-     * @param  ProjectFile                    $model
-     * @return ProjectFileRepositoryInterface
+     * @param ProjectFile $model
      */
     public function __construct(ProjectFile $model)
     {

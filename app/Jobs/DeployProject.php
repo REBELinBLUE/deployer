@@ -12,8 +12,6 @@ use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeployFinished;
-use REBELinBLUE\Deployer\Jobs\Job;
-use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
@@ -29,16 +27,30 @@ class DeployProject extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
+    /**
+     * @var Deployment
+     */
     private $deployment;
+
+    /**
+     * @var string
+     */
     private $private_key;
+
+    /**
+     * @var string
+     */
     private $cache_key;
+
+    /**
+     * @var string
+     */
     private $release_archive;
 
     /**
-     * Create a new command instance.
+     * DeployProject constructor.
      *
-     * @param  Deployment    $deployment
-     * @return DeployProject
+     * @param Deployment $deployment
      */
     public function __construct(Deployment $deployment)
     {
@@ -49,9 +61,8 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Overwrite the queue method to push to a different queue.
      *
-     * @param  Queue         $queue
-     * @param  DeployProject $command
-     * @return void
+     * @param Queue $queue
+     * @param Job $command
      */
     public function queue(Queue $queue, $command)
     {
@@ -60,8 +71,8 @@ class DeployProject extends Job implements ShouldQueue
 
     /**
      * Execute the command.
-     *
-     * @return void
+     * @fires DeploymentFinished
+     * @dispatches UpdateGitMirror
      */
     public function handle()
     {
@@ -81,9 +92,7 @@ class DeployProject extends Job implements ShouldQueue
             $this->dispatch(new UpdateGitMirror($this->deployment->project));
 
             // If the build has been manually triggered get the committer info from the repo
-            if ($this->deployment->commit === Deployment::LOADING) {
-                $this->updateRepoInfo();
-            }
+            $this->updateRepoInfo();
 
             $this->createReleaseArchive();
 
@@ -101,7 +110,7 @@ class DeployProject extends Job implements ShouldQueue
                 $this->deployment->status = Deployment::ABORTED;
             }
 
-            $this->cancelPendingSteps($this->deployment->steps);
+            $this->cancelPendingSteps();
 
             if (isset($step)) {
                 // Cleanup the release if it has not been activated
@@ -136,14 +145,14 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Clones the repository locally to get the latest log entry and updates
      * the deployment model.
-     *
-     * @return void
      */
     private function updateRepoInfo()
     {
+        $commit = ($this->deployment->commit === Deployment::LOADING ? null : $this->deployment->commit);
+
         $process = new Process('tools.GetCommitDetails', [
             'mirror_path'   => $this->deployment->project->mirrorPath(),
-            'git_reference' => $this->deployment->branch,
+            'git_reference' => $commit ?: $this->deployment->branch,
         ]);
         $process->run();
 
@@ -173,7 +182,7 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Creates the archive for the commit to deploy.
      *
-     * @return void
+     * @throws \RuntimeException
      */
     private function createReleaseArchive()
     {
@@ -191,8 +200,6 @@ class DeployProject extends Job implements ShouldQueue
 
     /**
      * Remove left over artifacts from a failed deploy on each server.
-     *
-     * @return void
      */
     private function cleanupDeployment()
     {
@@ -214,8 +221,6 @@ class DeployProject extends Job implements ShouldQueue
 
     /**
      * Finds all pending steps and marks them as cancelled.
-     *
-     * @return void
      */
     private function cancelPendingSteps()
     {
@@ -232,9 +237,8 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Executes the commands for a step.
      *
-     * @param  DeployStep        $step
+     * @param DeployStep $step
      * @throws \RuntimeException
-     * @return void
      */
     private function runStep(DeployStep $step)
     {
@@ -243,15 +247,14 @@ class DeployProject extends Job implements ShouldQueue
             $log->started_at = date('Y-m-d H:i:s');
             $log->save();
 
-            try {
-                $server = $log->server;
+            $server    = $log->server;
+            $failed    = false;
+            $cancelled = false;
 
+            try {
                 $this->sendFilesForStep($step, $log);
 
                 $process = $this->buildScript($step, $server);
-
-                $failed    = false;
-                $cancelled = false;
 
                 if (!empty($process)) {
                     $output = '';
@@ -315,9 +318,8 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Sends the files needed to the server.
      *
-     * @param  DeployStep $step
-     * @param  ServerLog  $log
-     * @return void
+     * @param DeployStep $step
+     * @param ServerLog $log
      */
     private function sendFilesForStep(DeployStep $step, ServerLog $log)
     {
@@ -337,9 +339,10 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Generates the actual bash commands to run on the server.
      *
-     * @param  DeployStep $step
-     * @param  Server     $server
-     * @return string
+     * @param DeployStep $step
+     * @param Server $server
+     *
+     * @return Process
      */
     private function buildScript(DeployStep $step, Server $server)
     {
@@ -368,7 +371,8 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Generates an error string to log to the DB.
      *
-     * @param  string $message
+     * @param string $message
+     *
      * @return string
      */
     private function logError($message)
@@ -379,7 +383,8 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Generates an general output string to log to the DB.
      *
-     * @param  string $message
+     * @param string $message
+     *
      * @return string
      */
     private function logSuccess($message)
@@ -388,11 +393,12 @@ class DeployProject extends Job implements ShouldQueue
     }
 
     /**
-     * Gets the script which is used for the supplied step.
+     * Gets the process which is used for the supplied step.
      *
-     * @param  DeployStep $step
-     * @param  array      $tokens
-     * @return string
+     * @param DeployStep $step
+     * @param array $tokens
+     *
+     * @return Process
      */
     private function getScriptForStep(DeployStep $step, array $tokens = [])
     {
@@ -419,11 +425,11 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Sends a file to a remote server.
      *
-     * @param  string           $local_file
-     * @param  string           $remote_file
-     * @param  ServerLog        $log
-     * @throws RuntimeException
-     * @return void
+     * @param string $local_file
+     * @param string $remote_file
+     * @param ServerLog $log
+     *
+     * @throws \RuntimeException
      */
     private function sendFile($local_file, $remote_file, ServerLog $log)
     {
@@ -461,10 +467,9 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Send a string to server.
      *
-     * @param  string    $remote_path
-     * @param  string    $content
-     * @param  ServerLog $log
-     * @return void
+     * @param string $remote_path
+     * @param string $content
+     * @param ServerLog $log
      */
     private function sendFileFromString($remote_path, $content, ServerLog $log)
     {
@@ -480,7 +485,8 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * create the command for sending uploaded files.
      *
-     * @param  string $release_dir
+     * @param string $release_dir
+     *
      * @return string
      */
     private function configurationFileCommands($release_dir)
@@ -503,10 +509,11 @@ class DeployProject extends Job implements ShouldQueue
     }
 
     /**
-     * create the command for share files.
+     * Create the script for shared files.
      *
-     * @param  string $release_dir
-     * @param  string $shared_dir
+     * @param string $release_dir
+     * @param string $shared_dir
+     *
      * @return string
      */
     private function shareFileCommands($release_dir, $shared_dir)
@@ -552,8 +559,9 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Generates the list of tokens for the scripts.
      *
-     * @param  DeployStep $step
-     * @param  Server     $server
+     * @param DeployStep $step
+     * @param Server $server
+     *
      * @return array
      */
     private function getTokenList(DeployStep $step, Server $server)

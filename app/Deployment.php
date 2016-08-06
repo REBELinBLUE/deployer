@@ -13,6 +13,35 @@ use Robbo\Presenter\PresentableInterface;
 
 /**
  * Deployment model.
+ *
+ * @property integer $id
+ * @property string $committer
+ * @property string $committer_email
+ * @property string $commit
+ * @property integer $project_id
+ * @property integer $user_id
+ * @property string $status
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property \Carbon\Carbon $started_at
+ * @property \Carbon\Carbon $finished_at
+ * @property string $reason
+ * @property string $branch
+ * @property boolean $is_webhook
+ * @property string $source
+ * @property string $build_url
+ * @property-read Project $project
+ * @property-read User $user
+ * @property-read Command[] $commands
+ * @property-read DeployStep[] $steps
+ * @property-read mixed $commit_url
+ * @property-read mixed $short_commit
+ * @property-read mixed $branch_url
+ * @property-read mixed $project_name
+ * @property-read mixed $deployer_name
+ * @property-read mixed $repo_failure
+ * @property-read mixed $release_id
  */
 class Deployment extends Model implements PresentableInterface, RuntimeInterface
 {
@@ -74,8 +103,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
+     * @fires ModelChanged
      */
     public static function boot()
     {
@@ -89,7 +117,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
@@ -99,7 +127,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Belongs to relationship.
      *
-     * @return User
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -110,7 +138,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Define a command attribute to be able to access to commands relationship.
      *
-     * @return Command
+     * @return \Illuminate\Support\Collection
      */
     public function getCommandsAttribute()
     {
@@ -128,7 +156,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Query the DB and load the HasMany relationship for commands.
      *
-     * @return Deployment
+     * @return $this
      */
     private function loadCommands()
     {
@@ -148,7 +176,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     /**
      * Has many relationship.
      *
-     * @return DeployStep
+     * @return HasMany
      */
     public function steps()
     {
@@ -244,7 +272,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function runtime()
     {
         if (!$this->finished_at) {
-            return;
+            return false;
         }
 
         return $this->started_at->diffInSeconds($this->finished_at);
@@ -290,7 +318,8 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * Gets the HTTP URL to the branch.
      *
      * @return string|false
-     * @see \REBELinBLUE\Deployer\Project::accessDetails()
+     *
+     * @see Project::accessDetails()
      */
     public function getBranchURLAttribute()
     {
@@ -398,6 +427,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      * Checks whether the repository failed to load.
      *
      * @return bool
+     *
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getRepoFailureAttribute()

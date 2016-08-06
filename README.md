@@ -42,6 +42,33 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 
 The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. It is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](/.github/CONTRIBUTING.md).
 
+### Common Error
+
+If you see an error like the following in the logs
+
+```
+'ErrorException' with message 'file_get_contents(/var/www/deployer/public/build/rev-manifest.json): failed to open stream: No such file or directory' in /var/www/deployer/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:343
+```
+
+or the following on the page
+
+```
+ErrorException (E_ERROR) file_get_contents(/var/www/deployer/public/build/rev-manifest.json): failed to open stream: No such file or directory
+```
+
+it means you are not using a production build. You either need to checkout the `release` branch or a specific release, or install the additional development dependencies
+
+```shell
+$ composer install
+$ npm install
+```
+
+and then build the assets
+
+```shell
+$ gulp
+```
+
 ## Requirements
 
 - [PHP](http://www.php.net) 5.5.9+ or newer
@@ -49,12 +76,12 @@ The `master` branch of this repository is a development branch and **should not*
 - [Composer](https://getcomposer.org)
 - [Redis](http://redis.io)
 - [Node.js](https://nodejs.org/)
-- A suitable [queue](http://laravel.com/docs/5.1/queues) for Laravel, [Beanstalkd](http://kr.github.io/beanstalkd/) is recommended but Redis can also be used
+- [Beanstalkd](http://kr.github.io/beanstalkd/) for queuing jobs. Although Laravel can use redis there is currently [an issue when using more than 1 queue worker](https://github.com/laravel/framework/issues/8577), the default in Deployer is 3.
 
 ### Optional extras
 
 - [Supervisor](http://supervisord.org) to keep the queue listener and Node.js socket server running
-- A [caching server](http://laravel.com/docs/5.1/cache), unless you expect a lot of traffic the default `file` cache is probably enough
+- A [caching server](http://laravel.com/docs/5.2/cache), unless you expect a lot of traffic the default `file` cache is probably enough
 
 ## Installation
 
@@ -67,7 +94,7 @@ $ git clone https://github.com/REBELinBLUE/deployer.git
 2. Checkout the latest release
 
 ```shell
-$ git checkout 0.0.36
+$ git checkout 0.0.37
 ```
 
 3. Install dependencies
@@ -108,7 +135,7 @@ $ editor .env
 
 ```shell
 $ git fetch --all
-$ git checkout 0.0.36
+$ git checkout 0.0.37
  ```
 
 2. Update the dependencies

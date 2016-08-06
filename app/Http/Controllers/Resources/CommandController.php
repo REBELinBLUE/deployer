@@ -22,10 +22,10 @@ class CommandController extends ResourceController
     private $projectRepository;
 
     /**
-     * Class constructor.
+     * CommandController constructor.
      *
-     * @param  CommandRepositoryInterface $commandRepository
-     * @return void
+     * @param CommandRepositoryInterface $commandRepository
+     * @param ProjectRepositoryInterface $projectRepository
      */
     public function __construct(
         CommandRepositoryInterface $commandRepository,
@@ -38,9 +38,10 @@ class CommandController extends ResourceController
     /**
      * Display a listing of before/after commands for the supplied stage.
      *
-     * @param  int      $project_id
-     * @param  string   $action     Either clone, install, activate or purge
-     * @return Response
+     * @param int $project_id
+     * @param int $action
+     *
+     * @return \Illuminate\View\View
      */
     public function listing($project_id, $action)
     {
@@ -77,8 +78,9 @@ class CommandController extends ResourceController
     /**
      * Store a newly created command in storage.
      *
-     * @param  StoreCommandRequest $request
-     * @return Response
+     * @param StoreCommandRequest $request
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreCommandRequest $request)
     {
@@ -97,9 +99,10 @@ class CommandController extends ResourceController
     /**
      * Update the specified command in storage.
      *
-     * @param  int                 $command_id
-     * @param  StoreCommandRequest $request
-     * @return Response
+     * @param int $command_id
+     * @param StoreCommandRequest $request
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($command_id, StoreCommandRequest $request)
     {
@@ -116,8 +119,9 @@ class CommandController extends ResourceController
     /**
      * Re-generates the order for the supplied commands.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param Request $request
+     *
+     * @return array
      */
     public function reorder(Request $request)
     {

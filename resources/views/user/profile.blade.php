@@ -31,17 +31,25 @@
 
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">{{ Lang::get('users.settings') }}</h3>
+                <h3 class="box-title">{{ Lang::get('users.theme') }}</h3>
             </div>
             <div class="box-body">
                 <form action="{{ route('profile.settings') }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <div class="form-group">
-                        <label for="skin">{{ Lang::get('users.theme') }}</label>
+                        <label for="skin">{{ Lang::get('users.skin') }}</label>
                         <select name="skin" id="skin" class="form-control">
                             @foreach (['yellow', 'red', 'green', 'purple', 'blue'] as $colour)
-                                <option value="{{ $colour }}" @if ($colour === $theme) selected @endif>{{ Lang::get('users.' . $colour )}}</option>
-                                <option value="{{ $colour }}-light" @if ($colour . '-light' === $theme) selected @endif>{{ Lang::get('users.with_sidebar', ['colour' => Lang::get('users.' . $colour)])}}</option>
+                                <option value="{{ $colour }}" @if ($colour === $theme) selected @endif>{{ Lang::get('users.' . $colour ) }}</option>
+                                <option value="{{ $colour }}-light" @if ($colour . '-light' === $theme) selected @endif>{{ Lang::get('users.with_sidebar', ['colour' => Lang::get('users.' . $colour)]) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="scheme">{{ Lang::get('users.console') }}</label>
+                        <select name="scheme" id="scheme" class="form-control">
+                            @foreach (['default', 'afterglow', 'monokai','dawn', 'solarized-dark', 'solarized-light'] as $scheme)
+                                <option value="{{ $scheme }}" @if ($scheme === $logged_in_user->scheme) selected @endif>{{ ucwords(str_replace('-', ' ', $scheme)) }}</option>
                             @endforeach
                         </select>
                     </div>

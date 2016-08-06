@@ -11,12 +11,13 @@ abstract class Webhook
 {
     /**
      * The HTTP request object.
+     *
      * @var Request
      */
     protected $request;
 
     /**
-     * Class constructor.
+     * Webhook constructor.
      *
      * @param Request $request
      */

@@ -20,7 +20,7 @@ class RefreshJsonWebToken
     protected $auth;
 
     /**
-     * Create a new middleware instance.
+     * RefreshJsonWebToken constructor.
      *
      * @param JWTAuth $auth
      */
@@ -32,10 +32,13 @@ class RefreshJsonWebToken
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
-     * @param  string|null              $guard
-     * @return mixed
+     * @param \Illuminate\Http\Request $request
+     * @param Closure $next
+     * @param string|null $guard
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @fires JsonWebTokenExpired
      */
     public function handle($request, Closure $next, $guard = null)
     {

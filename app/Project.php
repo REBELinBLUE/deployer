@@ -8,10 +8,49 @@ use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use Robbo\Presenter\PresentableInterface;
+use UnexpectedValueException;
 use Version\Compare as VersionCompare;
 
 /**
  * Project model.
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $repository
+ * @property string $hash
+ * @property string $branch
+ * @property string $private_key
+ * @property string $public_key
+ * @property integer $group_id
+ * @property integer $builds_to_keep
+ * @property string $url
+ * @property string $build_url
+ * @property string $status
+ * @property \Carbon\Carbon $last_run
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property boolean $is_template
+ * @property \Carbon\Carbon $last_mirrored
+ * @property boolean $allow_other_branch
+ * @property boolean $include_dev
+ * @property-read mixed $repository_path
+ * @property-read mixed $repository_url
+ * @property-read mixed $branch_url
+ * @property-read mixed $group_name
+ * @property-read mixed $webhook_url
+ * @property-read Group $group
+ * @property-read Server[] $servers
+ * @property-read Heartbeat[] $heartbeats
+ * @property-read Notification[] $notifications
+ * @property-read Deployment[] $deployments
+ * @property-read Command[] $commands
+ * @property-read Variable[] $variables
+ * @property-read SharedFile[] $sharedFiles
+ * @property-read ProjectFile[] $projectFiles
+ * @property-read NotifyEmail[] $notifyEmails
+ * @property-read CheckUrl[] $checkUrls
+ * @property-read Ref[] $refs
  */
 class Project extends ProjectRelation implements PresentableInterface
 {
@@ -74,20 +113,20 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * The heart beats status count.
+     *
      * @var array
      */
     protected $heartbeatStatus = [];
 
     /**
      * The check url's status count.
+     *
      * @var array
      */
     protected $checkurlStatus = [];
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
      */
     public static function boot()
     {
@@ -121,8 +160,6 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Generates a hash for use in the webhook URL.
-     *
-     * @return void
      */
     public function generateHash()
     {
@@ -159,7 +196,8 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the repository path.
      *
      * @return string|false
-     * @see \REBELinBLUE\Deployer\Project::accessDetails()
+     *
+     * @see Project::accessDetails()
      */
     public function getRepositoryPathAttribute()
     {
@@ -176,7 +214,8 @@ class Project extends ProjectRelation implements PresentableInterface
      * Gets the HTTP URL to the repository.
      *
      * @return string|false
-     * @see \REBELinBLUE\Deployer\Project::accessDetails()
+     *
+     * @see Project::accessDetails()
      */
     public function getRepositoryUrlAttribute()
     {
@@ -202,9 +241,11 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Gets the HTTP URL to the branch.
      *
-     * @param  string       $alternative
+     * @param string $alternative
+     *
      * @return string|false
-     * @see \REBELinBLUE\Deployer\Project::accessDetails()
+     *
+     * @see Project::accessDetails()
      */
     public function getBranchUrlAttribute($alternative = null)
     {
@@ -273,7 +314,7 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Define a accessor for the group name.
      *
-     * @return int
+     * @return string
      */
     public function getGroupNameAttribute()
     {
@@ -293,8 +334,9 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Query scope to not show templates.
      *
-     * @param  object $query
-     * @return object
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNotTemplates($query)
     {
@@ -303,8 +345,6 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Generates an SSH key and sets the private/public key properties.
-     *
-     * @return void
      */
     protected function generateSSHKey()
     {
@@ -329,8 +369,6 @@ class Project extends ProjectRelation implements PresentableInterface
 
     /**
      * Generates an SSH key and sets the private/public key properties.
-     *
-     * @return void
      */
     protected function regeneratePublicKey()
     {
@@ -355,7 +393,7 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Gets the list of all tags for the project.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function tags()
     {
@@ -365,7 +403,15 @@ class Project extends ProjectRelation implements PresentableInterface
                      ->toArray();
 
         $compare = new VersionCompare;
-        usort($tags, [$compare, 'compare']);
+
+        // Sort the tags, if compare throws an exception it isn't a value version string so just do a strnatcmp
+        usort($tags, function ($first, $second) use ($compare) {
+            try {
+                return $compare->compare($first, $second);
+            } catch (UnexpectedValueException $error) {
+                return strnatcmp($first, $second);
+            }
+        });
 
         return collect($tags);
     }
@@ -373,7 +419,7 @@ class Project extends ProjectRelation implements PresentableInterface
     /**
      * Gets the list of all branches for the project which are not the default.
      *
-     * @return Collection
+     * @return array
      */
     public function branches()
     {

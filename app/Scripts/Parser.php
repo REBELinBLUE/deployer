@@ -10,8 +10,9 @@ class Parser
     /**
      * Parse a string to replace the tokens.
      *
-     * @param  string $script
-     * @param  array  $tokens
+     * @param string $script
+     * @param array $tokens
+     *
      * @return string
      */
     public function parseString($script, array $tokens = [])
@@ -30,8 +31,9 @@ class Parser
     /**
      * Load a file and parse the the content.
      *
-     * @param  string $file
-     * @param  array  $tokens
+     * @param string $file
+     * @param array $tokens
+     *
      * @return string
      */
     public function parseFile($file, array $tokens = [])
@@ -49,7 +51,8 @@ class Parser
      * Cleans up things which are only in the script to make it easy to read but don't
      * need to be sent to the server, i.e. comments.
      *
-     * @param  string $script
+     * @param string $script
+     *
      * @return string
      */
     private function tidyScript($script)

@@ -5,7 +5,7 @@
     "type": "project",
     "keywords": ["php", "deployer", "deploy", "deployment"],
     "homepage": "http://phpdeployment.org/",
-    "license": "BSD-2-Clause",
+    "license": "MIT",
     "authors": [
         {
             "name": "Stephen Ball",
@@ -33,7 +33,7 @@
         "graham-campbell/binput": "~3.3",
         "itsgoingd/clockwork": "~1.9",
         "tymon/jwt-auth": "~0.5",
-        "pragmarx/google2fa": "^0.7.1",
+        "pragmarx/google2fa": "^1.0.0",
         "version/version": "^2.2",
         "andywer/js-localization": "dev-laravel-5",
         "backup-manager/laravel": "^1.1",
@@ -42,7 +42,7 @@
     "require-dev": {
         "fzaninotto/faker": "~1.5",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.3",
+        "phpunit/phpunit": "5.3.5",
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "block8/php-docblock-checker": "^1.0",
@@ -54,15 +54,8 @@
         "codeclimate/php-test-reporter": "^0.3.0",
         "barryvdh/laravel-ide-helper": "^2.1",
         "themsaid/laravel-langman": "^1.1",
-        "diablomedia/phpunit-pretty-printer": "dev-master",
         "friendsofphp/php-cs-fixer": "^1.11"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/REBELinBLUE/phpunit-pretty-printer"
-        }
-    ],
     "autoload": {
         "classmap": [
             "database"
@@ -89,7 +82,7 @@
         ],
         "post-update-cmd": [
             "php artisan ide-helper:generate",
-            "php artisan ide-helper:models --ignore='REBELinBLUE\\Deployer\\ProjectRelation' -n",
+            "php artisan ide-helper:meta",
             "php artisan optimize",
             "php artisan js-localization:refresh"
         ]

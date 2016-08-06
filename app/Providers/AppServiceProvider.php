@@ -10,7 +10,9 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * @var array Additional service providers to register for the environment.
+     * Additional service providers to register for the environment.
+     *
+     * @var array
      */
     private $providers = [
         'production' => [
@@ -24,7 +26,9 @@ class AppServiceProvider extends ServiceProvider
     ];
 
     /**
-     * @var array Additional web middleware to register for the environment.
+     * Additional web middleware to register for the environment.
+     *
+     * @var array
      */
     private $middleware = [
         'production' => [
@@ -37,8 +41,6 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -46,14 +48,12 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register service providers and middleware dependent upon the enviroment.
-     *
-     * @return void
+     * Register service providers and middleware dependent upon the environment.
      */
     public function register()
     {
         $env = 'production';
-        if ($this->app->environment('local')) {
+        if ($this->app->environment() === 'local') {
             $env = 'local';
         }
 
@@ -64,8 +64,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register additional service providers.
      *
-     * @param  array $providers
-     * @return void
+     * @param array $providers
      */
     private function registerAdditionalProviders(array $providers)
     {
@@ -79,8 +78,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register additional middleware.
      *
-     * @param  array $middlewares
-     * @return void
+     * @param array $middlewares
      */
     private function registerAdditionalMiddleware(array $middlewares)
     {

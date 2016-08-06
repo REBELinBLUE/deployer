@@ -1,16 +1,20 @@
 {
-    "private": true,
-    "dependencies": {
-        "dotenv": "^2.0.0",
-        "ioredis": "^1.15.1",
-        "socket.io": "^1.4.5",
-        "jsonwebtoken": "^7.0.0"
-    },
-    "devDependencies": {
-        "gulp": "^3.9.1",
-        "gulp-shell": "^0.5.2",
-        "laravel-elixir": "^6.0.0-1",
-        "laravel-elixir-bower-io": "^0.1.1",
-        "laravel-elixir-remove": "^0.2.0"
-    }
+  "private": true,
+  "name": "deployer",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "ioredis": "^2.2.0",
+    "socket.io": "^1.4.5",
+    "jsonwebtoken": "^7.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-bower": "0.0.13",
+    "gulp-shell": "^0.5.2",
+    "laravel-elixir": "^6.0.0-1",
+    "laravel-elixir-remove": "^0.2.0"
+  },
+  "scripts": {
+    "postinstall": "touch ./node_modules/.install"
+  }
 }

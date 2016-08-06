@@ -10,7 +10,19 @@ use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
- * The application's  url store for health check.
+ * The application's url store for health check.
+ *
+ * @property integer $id
+ * @property string $title
+ * @property string $url
+ * @property integer $project_id
+ * @property integer $period
+ * @property boolean $is_report
+ * @property boolean $last_status
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property-read Project $project
  */
 class CheckUrl extends Model
 {
@@ -44,8 +56,7 @@ class CheckUrl extends Model
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
+     * @dispatches RequestProjectCheckUrl
      */
     public static function boot()
     {
@@ -62,8 +73,7 @@ class CheckUrl extends Model
     /**
      * Define a mutator to set the status to untested if the URL changes.
      *
-     * @param  string $value
-     * @return void
+     * @param string $value
      */
     public function setUrlAttribute($value)
     {
@@ -77,7 +87,7 @@ class CheckUrl extends Model
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {

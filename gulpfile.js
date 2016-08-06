@@ -1,20 +1,24 @@
-var elixir = require('laravel-elixir');
-             require('laravel-elixir-remove');
-             require('laravel-elixir-bower-io');
+const Elixir = require('laravel-elixir');
+const gulp   = require('gulp');
+const shell  = require('gulp-shell');
+const bower  = require('gulp-bower');
+               require('laravel-elixir-remove');
 
-var gulp   = require('gulp');
-var shell  = require('gulp-shell');
-
-var Task = elixir.Task;
-elixir.extend('lang', function() {
-    new Task('lang', function(){
+Elixir.extend('lang', function () {
+    new Elixir.Task('lang', function () {
         return gulp.src('').pipe(shell('php artisan js-localization:refresh'));
     });
 });
 
-var bower_path = 'vendor/bower_components';
+Elixir.extend('bower', function() {
+    new Elixir.Task('bower', function() {
+        return bower();
+    });
+});
 
-var paths = {
+const bower_path = 'bower_components';
+
+const paths = {
     'admin_lte'       : bower_path + '/admin-lte',
     'ace'             : bower_path + '/ace-min-noconflict',
     'backbone'        : bower_path + '/backbone',
@@ -33,8 +37,8 @@ var paths = {
     'localization'    : 'vendor/andywer/js-localization'
 };
 
-elixir(function(mix) {
-    mix.Bower()
+Elixir(function(mix) {
+    mix.bower()
     .styles([
         paths.admin_lte   + '/bootstrap/css/bootstrap.css',
         paths.select2     + '/select2.css',
@@ -43,10 +47,11 @@ elixir(function(mix) {
         paths.admin_lte   + '/dist/css/AdminLTE.css',
         paths.admin_lte   + '/dist/css/skins/_all-skins.css',
         paths.toastr      + '/toastr.css',
-        paths.cropper     + '/dist/cropper.css',
+        paths.cropper     + '/dist/cropper.css'
     ], 'public/css/vendor.css', './')
     .styles([
-        'resources/assets/css/app.css'
+        'resources/assets/css/app.css',
+        'resources/assets/css/console.css'
     ], 'public/css/app.css', './')
     .scripts([
         paths.html5shiv + '/dist/html5shiv.js',
@@ -91,7 +96,7 @@ elixir(function(mix) {
         'uploader.js',
         'profile.js'
     ], 'public/js/app.js', 'resources/assets/js')
-    .copy(paths.bootstrap   + '/fonts/bootstrap/**', 'public/fonts')
+    .copy(paths.admin_lte   + '/bootstrap/fonts/**', 'public/fonts')
     .copy(paths.fontawesome + '/fonts/**',           'public/fonts')
     .copy(paths.ionicons    + '/fonts/**',           'public/fonts')
     .version([
@@ -102,11 +107,11 @@ elixir(function(mix) {
         'public/js/vendor.js'
     ])
     .copy('public/fonts', 'public/build/fonts')
-    .remove([
-        'public/css',
-        'public/js',
-        'public/fonts',
-        bower_path + '/localization.js'
-    ])
+    // .remove([
+    //     'public/css',
+    //     'public/js',
+    //     'public/fonts'
+    //     //bower_path + '/localization.js' // removing this breaks watch
+    // ])
     .lang();
 });

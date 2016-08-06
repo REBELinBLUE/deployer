@@ -29,19 +29,7 @@ class ClearStalledDeployment extends Command
     protected $description = 'Cancels any stalled deployments so new deployments can be run';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle()
     {
@@ -71,8 +59,7 @@ class ClearStalledDeployment extends Command
     /**
      * Cleans up any stalled deployments in the database.
      *
-     * @tpdp Maybe readd pending to the queue if possible?
-     * @return void
+     * @todo Maybe readd pending to the queue if possible?
      */
     public function cleanupDeployments()
     {

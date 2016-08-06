@@ -28,16 +28,6 @@ class UpdateApp extends InstallApp
     protected $description = 'Executes any updates needed for the application.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -47,6 +37,7 @@ class UpdateApp extends InstallApp
         if (!$this->verifyInstalled() ||
             $this->hasRunningDeployments() ||
             $this->composerOutdated() ||
+            $this->nodeOutdated() ||
             !$this->checkRequirements()) {
             return;
         }
@@ -80,8 +71,6 @@ class UpdateApp extends InstallApp
 
     /**
      * Backup the database.
-     *
-     * @return void
      */
     protected function backupDatabase()
     {
@@ -97,8 +86,6 @@ class UpdateApp extends InstallApp
 
     /**
      * Checks for new configuration values in .env.example and copy them to .env.
-     *
-     * @return void
      */
     protected function updateConfiguration()
     {
@@ -145,8 +132,6 @@ class UpdateApp extends InstallApp
 
     /**
      * Restarts the queues.
-     *
-     * @return void
      */
     protected function restartQueue()
     {
@@ -160,7 +145,7 @@ class UpdateApp extends InstallApp
     /**
      * Restarts the socket server.
      *
-     * @return void
+     * @fires RestartSocketServer
      */
     protected function restartSocket()
     {
@@ -203,7 +188,28 @@ class UpdateApp extends InstallApp
             $this->block([
                 'Update not complete!',
                 PHP_EOL,
-                'Please run "composer install --no-dev -o" and "npm install --production" before you continue.',
+                'Please run "composer install --no-dev -o" before you continue.',
+            ]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the a .install file in the node_modules folder has been updated in the last 10 minutes,
+     * if not we assume npm install has not been run recently as it is touched by "postinstall"
+     *
+     * @return bool
+     */
+    protected function nodeOutdated()
+    {
+        if (filemtime(base_path('node_modules/.install')) < strtotime('-10 minutes')) {
+            $this->block([
+                'Update not complete!',
+                PHP_EOL,
+                'Please run "npm install --production" before you continue.',
             ]);
 
             return true;

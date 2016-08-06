@@ -31,19 +31,11 @@ class CheckUrl extends Command
     protected $description = 'Request the project check URL and notify when failed.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return bool
+     *
+     * @dispatches RequestProjectCheckUrl
      */
     public function handle()
     {
@@ -62,12 +54,12 @@ class CheckUrl extends Command
             }
         }
 
-        if (empty($period)) {
-            return true;
+        if (!empty($period)) {
+            CheckUrlModel::whereIn('period', $period)->chunk(self::URLS_TO_CHECK, function ($urls) {
+                $this->dispatch(new RequestProjectCheckUrl($urls));
+            });
         }
 
-        CheckUrlModel::whereIn('period', $period)->chunk(self::URLS_TO_CHECK, function ($urls) {
-            $this->dispatch(new RequestProjectCheckUrl($urls));
-        });
+        return true;
     }
 }

@@ -11,10 +11,13 @@ use Version\Version;
  */
 class VersionComposer
 {
+    /**
+     * @var LatestReleaseInterface
+     */
     private $release;
 
     /**
-     * Class constructor.
+     * VersionComposer constructor.
      *
      * @param LatestReleaseInterface $release
      */
@@ -26,8 +29,7 @@ class VersionComposer
     /**
      * Determines if the update prompt should show.
      *
-     * @param  \Illuminate\Contracts\View\View $view
-     * @return void
+     * @param View $view
      */
     public function compose(View $view)
     {

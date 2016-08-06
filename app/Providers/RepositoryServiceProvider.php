@@ -57,8 +57,6 @@ class RepositoryServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -67,8 +65,6 @@ class RepositoryServiceProvider extends ServiceProvider
 
     /**
      * Bind the repository interface to the implementations.
-     *
-     * @return void
      */
     public function register()
     {

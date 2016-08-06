@@ -13,8 +13,7 @@ class ActiveUserComposer
     /**
      * Sets the logged in user into a view variable.
      *
-     * @param  \Illuminate\Contracts\View\View $view
-     * @return void
+     * @param View $view
      */
     public function compose(View $view)
     {

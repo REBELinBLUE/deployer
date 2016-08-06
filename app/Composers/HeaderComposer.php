@@ -10,12 +10,15 @@ use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
  */
 class HeaderComposer
 {
+    /**
+     * @var DeploymentRepositoryInterface
+     */
     private $deploymentRepository;
 
     /**
-     * Class constructor.
+     * HeaderComposer constructor.
      *
-     * @param DeploymentRepositoryInterface $user
+     * @param DeploymentRepositoryInterface $deploymentRepository
      */
     public function __construct(DeploymentRepositoryInterface $deploymentRepository)
     {
@@ -25,8 +28,7 @@ class HeaderComposer
     /**
      * Generates the pending and deploying projects for the view.
      *
-     * @param  \Illuminate\Contracts\View\View $view
-     * @return void
+     * @param View $view
      */
     public function compose(View $view)
     {

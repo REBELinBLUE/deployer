@@ -33,14 +33,15 @@ class CreateUser extends Command
 
     /**
      * The user repository.
+     *
+     * @var UserRepositoryInterface
      */
     private $repository;
 
     /**
      * Create a new command instance..
      *
-     * @param  UserRepositoryInterface $repository
-     * @return void
+     * @param UserRepositoryInterface $repository
      */
     public function __construct(UserRepositoryInterface $repository)
     {
@@ -52,7 +53,8 @@ class CreateUser extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @throws \RuntimeException
+     * @fires UserWasCreated
      */
     public function handle()
     {

@@ -44,7 +44,9 @@ class InstallApp extends Command
     private $repository;
 
     /**
-     * Create a new command instance.
+     * InstallApp constructor.
+     *
+     * @param UserRepositoryInterface|null $repository
      */
     public function __construct(UserRepositoryInterface $repository = null)
     {
@@ -283,9 +285,8 @@ class InstallApp extends Command
 
         $connectionVerified = false;
 
+        $database = [];
         while (!$connectionVerified) {
-            $database = [];
-
             // Should we just skip this step if only one driver is available?
             $type = $this->choice('Type', $this->getDatabaseDrivers(), 0);
 
@@ -609,7 +610,7 @@ class InstallApp extends Command
         }
 
         // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash', 'node'];
+        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash'];
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);
@@ -620,6 +621,23 @@ class InstallApp extends Command
                 $this->error('Program not found in path: ' . $command);
                 $errors = true;
             }
+        }
+
+        $required_one = ['nodejs', 'node'];
+        $found = true;
+        foreach ($required_one as $command) {
+            $process = new Process('which ' . $command);
+            $process->setTimeout(null);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                $found = false;
+                $errors = true;
+            }
+        }
+
+        if (!$found) {
+            $this->error('node.js was not found');
         }
 
         // Files and directories which need to be writable
@@ -674,8 +692,8 @@ class InstallApp extends Command
     {
         $available = collect(PDO::getAvailableDrivers());
 
-        return $available->intersect(['mysql', 'sqlite', 'pgsql', 'sqlsrv'])
-                         ->all();
+        return array_values($available->intersect(['mysql', 'sqlite', 'pgsql', 'sqlsrv'])
+                         ->all());
     }
 
     /**
@@ -740,7 +758,7 @@ class InstallApp extends Command
      * A wrapper around symfony's formatter helper to output a block.
      *
      * @param string|array $messages Messages to output
-     * @param string       $type     The type of message to output
+     * @param string $type The type of message to output
      */
     protected function block($messages, $type = 'error')
     {

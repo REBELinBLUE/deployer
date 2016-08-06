@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -11,6 +10,20 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Heartbeat model.
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $hash
+ * @property integer $interval
+ * @property integer $project_id
+ * @property integer $missed
+ * @property string $status
+ * @property \Carbon\Carbon $last_activity
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property-read Project $project
+ * @property-read mixed $callback_url
  */
 class Heartbeat extends Model
 {
@@ -65,7 +78,7 @@ class Heartbeat extends Model
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
@@ -74,8 +87,6 @@ class Heartbeat extends Model
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
      */
     public static function boot()
     {
@@ -91,8 +102,6 @@ class Heartbeat extends Model
 
     /**
      * Generates a hash for use in the webhook URL.
-     *
-     * @return void
      */
     public function generateHash()
     {
@@ -113,6 +122,8 @@ class Heartbeat extends Model
      * Updates the last_activity timestamp.
      *
      * @return bool
+     *
+     * @fires HeartbeatRecovered
      */
     public function pinged()
     {

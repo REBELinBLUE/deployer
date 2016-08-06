@@ -3,15 +3,15 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class DropScriptColumn extends Migration
+class AddUserConsoleTheme extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::table('server_logs', function (Blueprint $table) {
-            $table->dropColumn('script');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('scheme')->nullable();
         });
     }
 
@@ -20,8 +20,8 @@ class DropScriptColumn extends Migration
      */
     public function down()
     {
-        Schema::table('server_logs', function (Blueprint $table) {
-            $table->text('script')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('scheme');
         });
     }
 }

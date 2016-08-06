@@ -24,24 +24,17 @@ class ClearOldKeys extends Command
     protected $description = 'Clears out any temp SSH key files and wrapper scripts.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function handle()
     {
-        // Clear out old SSH key files
-        $files   = glob(storage_path('app/') . '*ssh*'); // sshkey and gitssh
+        // Clear out old SSH key files and archives
+        $keys = glob(storage_path('app/') . '*ssh*');
+        $archives = glob(storage_path('app/') . '*.tar.gz');
+
+        $files   = array_merge($keys, $archives);
         $folders = glob(storage_path('app/') . '*clone*'); // cloned copies of code
 
         $this->info('Found ' . count($files) . ' files and ' . count($folders) . ' folders to purge');

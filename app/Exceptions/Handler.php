@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Foundation\Validation\ValidationException;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -33,8 +33,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception $exception
-     * @return void
+     * @param \Exception $exception
      */
     public function report(Exception $exception)
     {
@@ -44,8 +43,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception                $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception $exception
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
@@ -66,8 +66,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception using Whoops.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception                $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception $exception
+     *
      * @return \Illuminate\Http\Response
      */
     protected function renderExceptionWithWhoops($request, Exception $exception)
@@ -91,7 +92,8 @@ class Handler extends ExceptionHandler
      * This is horrible though, see if we can find a better way to do it.
      * GrahamCampbell/Laravel-Exceptions unfortunately doesn't return JSON for whoops pages which are from AJAX.
      *
-     * @param  \Exception $exception
+     * @param \Exception $exception
+     *
      * @return bool
      */
     protected function isSafeToWhoops(Exception $exception)

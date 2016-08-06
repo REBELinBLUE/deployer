@@ -10,10 +10,12 @@ class HostValidator
     /**
      * Validate that the host is either a hostname or IP valid.
      *
-     * @param  string $attribute
-     * @param  mixed  $value
-     * @param  mixed  $parameters
+     * @param string $attribute
+     * @param string $value
+     * @param array $parameters
+     *
      * @return bool
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function validate($attribute, $value, $parameters)

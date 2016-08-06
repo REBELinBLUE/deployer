@@ -2,11 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Jobs\Job;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Ref;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
@@ -14,17 +12,19 @@ use REBELinBLUE\Deployer\Scripts\Runner as Process;
 /**
  * Updates the list of tags and branches in a project.
  */
-class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
+class UpdateGitReferences extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    /**
+     * @var Project
+     */
     private $project;
 
     /**
-     * Create a new job instance.
+     * UpdateGitReferences constructor.
      *
-     * @param  Project $project The project to update
-     * @return void
+     * @param Project $project
      */
     public function __construct(Project $project)
     {
@@ -33,8 +33,6 @@ class UpdateGitReferences extends Job implements SelfHandling, ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

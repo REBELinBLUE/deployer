@@ -9,6 +9,10 @@ use Robbo\Presenter\Presenter;
 
 /**
  * The view presenter for a project class.
+ * @property string committer_name
+ * @property integer status
+ * @property string short_commit
+ * @property string committer
  */
 class DeploymentPresenter extends Presenter
 {
@@ -62,7 +66,7 @@ class DeploymentPresenter extends Presenter
      */
     public function presentOptionalCommandsUsed()
     {
-        return $this->object->commands->filter(function (Command $command) {
+        return $this->getObject()->commands->filter(function (Command $command) {
             return $command->optional;
         })->implode('id', ',');
     }

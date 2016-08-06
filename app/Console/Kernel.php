@@ -3,9 +3,20 @@
 namespace REBELinBLUE\Deployer\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Bootstrap\ConfigureLogging;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging;
 use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as ConsoleLogging;
+use REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats;
+use REBELinBLUE\Deployer\Console\Commands\CheckUrl;
+use REBELinBLUE\Deployer\Console\Commands\ClearOldKeys;
+use REBELinBLUE\Deployer\Console\Commands\ClearOrphanAvatars;
+use REBELinBLUE\Deployer\Console\Commands\ClearOrphanMirrors;
+use REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment;
+use REBELinBLUE\Deployer\Console\Commands\CreateUser;
+use REBELinBLUE\Deployer\Console\Commands\InstallApp;
+use REBELinBLUE\Deployer\Console\Commands\ResetApp;
+use REBELinBLUE\Deployer\Console\Commands\UpdateApp;
+use REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors;
 
 /**
  * Kernel class.
@@ -14,14 +25,16 @@ class Kernel extends ConsoleKernel
 {
     /**
      * The custom bootstrappers like Logging or Environment detector.
+     *
      * @var array
      */
     protected $customBooters = [
-        \Illuminate\Foundation\Bootstrap\ConfigureLogging::class => ConsoleLogging::class,
+        ConfigureLogging::class => ConsoleLogging::class,
     ];
 
     /**
      * Disable bootstrapper list.
+     *
      * @var array
      */
     protected $disabledBooters = [
@@ -34,23 +47,22 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats::class,
-        \REBELinBLUE\Deployer\Console\Commands\CheckUrl::class,
-        \REBELinBLUE\Deployer\Console\Commands\CreateUser::class,
-        \REBELinBLUE\Deployer\Console\Commands\ClearOrphanAvatars::class,
-        \REBELinBLUE\Deployer\Console\Commands\ClearOrphanMirrors::class,
-        \REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment::class,
-        \REBELinBLUE\Deployer\Console\Commands\ClearOldKeys::class,
-        \REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors::class,
-        \REBELinBLUE\Deployer\Console\Commands\InstallApp::class,
-        \REBELinBLUE\Deployer\Console\Commands\UpdateApp::class,
+        CheckHeartbeats::class,
+        CheckUrl::class,
+        CreateUser::class,
+        ClearOrphanAvatars::class,
+        ClearOrphanMirrors::class,
+        ClearStalledDeployment::class,
+        ClearOldKeys::class,
+        UpdateGitMirrors::class,
+        InstallApp::class,
+        UpdateApp::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
-     * @return void
+     * @param Schedule $schedule
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function schedule(Schedule $schedule)
@@ -84,16 +96,14 @@ class Kernel extends ConsoleKernel
 
     /**
      * Bootstrap the application for artisan commands.
-     *
-     * @return void
      */
     public function bootstrap()
     {
         parent::bootstrap();
 
         // Only register the reset command on the local environment
-        if ($this->app->environment('local')) {
-            $this->commands[] = \REBELinBLUE\Deployer\Console\Commands\ResetApp::class;
+        if ($this->app->environment() === 'local') {
+            $this->commands[] = ResetApp::class;
         }
     }
 

@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Contracts\Repositories\VariableRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Variable;
 
 /**
@@ -12,10 +11,9 @@ use REBELinBLUE\Deployer\Variable;
 class EloquentVariableRepository extends EloquentRepository implements VariableRepositoryInterface
 {
     /**
-     * Class constructor.
+     * EloquentVariableRepository constructor.
      *
-     * @param  Variable                   $model
-     * @return EloquentVariableRepository
+     * @param Variable $model
      */
     public function __construct(Variable $model)
     {

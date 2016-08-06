@@ -2,8 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
-use REBELinBLUE\Deployer\Http\Requests\Request;
-
 /**
  * Validate the user settings.
  */
@@ -17,7 +15,8 @@ class StoreSettingsRequest extends Request
     public function rules()
     {
         return [
-            'skin' => 'required',
+            'skin'   => 'required',
+            'scheme' => 'required',
         ];
     }
 }

@@ -16,6 +16,22 @@ use Robbo\Presenter\PresentableInterface;
 
 /**
  * User model.
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $remember_token
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property string $email_token
+ * @property string $avatar
+ * @property string $language
+ * @property string $skin
+ * @property string $google2fa_secret
+ * @property string $scheme
+ * @property-read mixed $has_two_factor_authentication
  */
 class User extends Model implements
     AuthenticatableContract,
@@ -30,7 +46,7 @@ class User extends Model implements
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'skin', 'language'];
+    protected $fillable = ['name', 'email', 'password', 'skin', 'language', 'scheme'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -81,7 +97,8 @@ class User extends Model implements
     /**
      * A hack to allow avatar_url to be called on the result of Auth::user().
      *
-     * @param  string $key The variable to get
+     * @param string $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -97,6 +114,7 @@ class User extends Model implements
      * Determines whether the user has Google 2FA enabled.
      *
      * @return bool
+     *
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getHasTwoFactorAuthenticationAttribute()

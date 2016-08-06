@@ -5,11 +5,24 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ServerLogChanged;
+use REBELinBLUE\Deployer\Events\ServerOutputChanged;
 use REBELinBLUE\Deployer\Presenters\ServerLogPresenter;
 use Robbo\Presenter\PresentableInterface;
 
 /**
  * Server log model.
+ *
+ * @property integer $id
+ * @property integer $server_id
+ * @property integer $deploy_step_id
+ * @property string $status
+ * @property string $output
+ * @property null|string runtime
+ * @property \Carbon\Carbon $started_at
+ * @property \Carbon\Carbon $finished_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read Server $server
  */
 class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 {
@@ -47,8 +60,8 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 
     /**
      * Override the boot method to bind model event listeners.
-     *
-     * @return void
+     * @fires ServerLogChanged
+     * @fires ServerOutputChanged
      */
     public static function boot()
     {
@@ -56,13 +69,18 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 
         static::updated(function (ServerLog $model) {
             event(new ServerLogChanged($model));
+
+            // FIXME: Only throw this is the content has changed
+            if (!empty($model->output)) {
+                event(new ServerOutputChanged($model));
+            }
         });
     }
 
     /**
-     * Belongs to assocation.
+     * Belongs to association.
      *
-     * @return Server
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function server()
     {

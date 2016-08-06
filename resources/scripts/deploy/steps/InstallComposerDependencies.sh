@@ -24,11 +24,11 @@ if [ -f {{ release_path }}/composer.json ]; then
     cd {{ release_path }}
 
     if [ -n "{{ include_dev }}" ]; then
-        $composer install --no-interaction --optimize-autoloader \
-                          --prefer-dist --no-ansi --working-dir "{{ release_path }}"
+        ${composer} install --no-interaction --optimize-autoloader \
+                          --prefer-dist --no-suggest --no-ansi --working-dir "{{ release_path }}"
     else
-        $composer install --no-interaction --optimize-autoloader \
-                          --no-dev --prefer-dist --no-ansi --working-dir "{{ release_path }}"
+        ${composer} install --no-interaction --optimize-autoloader \
+                          --no-dev --prefer-dist --no-suggest --no-ansi --working-dir "{{ release_path }}"
     fi
 fi
 

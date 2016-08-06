@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Events\Event;
 
 /**
  * Event which fires when the server status has changed.
@@ -13,13 +12,21 @@ class ModelTrashed extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
+    /**
+     * @var \Illuminate\Database\Eloquent\Model
+     */
     public $model;
+
+    /**
+     * @var string
+     */
     private $channel;
 
     /**
-     * Create a new event instance.
+     * ModelTrashed constructor.
      *
-     * @return void
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param string $channel
      */
     public function __construct($model, $channel)
     {

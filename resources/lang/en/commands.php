@@ -16,6 +16,7 @@ return [
     'webhook_commands'     => 'A comma seperated list of optional command IDs to run',
     'webhook_optional'     => 'Optional Command IDs',
     'webhook_curl'         => 'Example cURL command',
+    'webhook_commit'       => 'The SHA hash of the commit which should be deployed, if blank it defaults to HEAD',
     'reason_example'       => 'Testing the deployment webhook',
     'generate_webhook'     => 'Generate a new webhook URL (old URL will stop working)',
     'step'                 => 'Step',

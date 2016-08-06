@@ -18,10 +18,9 @@ class CheckUrlController extends ResourceController
     protected $repository;
 
     /**
-     * Class constructor.
+     * CheckUrlController constructor.
      *
-     * @param  CheckUrlRepositoryInterface $repository
-     * @return void
+     * @param CheckUrlRepositoryInterface $repository
      */
     public function __construct(CheckUrlRepositoryInterface $repository)
     {
@@ -31,8 +30,9 @@ class CheckUrlController extends ResourceController
     /**
      * Store a newly created URL in storage.
      *
-     * @param  StoreCheckUrlRequest $request
-     * @return Response
+     * @param StoreCheckUrlRequest $request
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(StoreCheckUrlRequest $request)
     {
@@ -48,9 +48,10 @@ class CheckUrlController extends ResourceController
     /**
      * Update the specified URL in storage.
      *
-     * @param  int                  $url_id
-     * @param  StoreCheckUrlRequest $request
-     * @return Response
+     * @param int $url_id
+     * @param StoreCheckUrlRequest $request
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($url_id, StoreCheckUrlRequest $request)
     {

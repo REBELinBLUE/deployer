@@ -13,8 +13,7 @@ class ThemeComposer
     /**
      * Generates the pending and deploying projects for the view.
      *
-     * @param  \Illuminate\Contracts\View\View $view
-     * @return void
+     * @param View $view
      */
     public function compose(View $view)
     {

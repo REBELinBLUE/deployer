@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
-use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\ServiceProvider;
 use REBELinBLUE\Deployer\Composers\ActiveUserComposer;
 use REBELinBLUE\Deployer\Composers\HeaderComposer;
@@ -16,7 +16,7 @@ use REBELinBLUE\Deployer\Composers\VersionComposer;
 class ViewServiceProvider extends ServiceProvider
 {
     public $composers = [
-        ActiveUserComposer::class => ['_partials.nav', 'commands.dialog', 'user.profile'],
+        ActiveUserComposer::class => ['_partials.nav', 'commands.dialog', 'user.profile', 'deployment.log'],
         HeaderComposer::class     => ['_partials.nav'],
         NavigationComposer::class => ['_partials.sidebar'],
         ThemeComposer::class      => ['layout', 'user.profile'],
@@ -26,10 +26,9 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      *
-     * @param  \Illuminate\Contracts\View\Factory $factory
-     * @return void
+     * @param ViewFactory $factory
      */
-    public function boot(Factory $factory)
+    public function boot(ViewFactory $factory)
     {
         foreach ($this->composers as $composer => $views) {
             $factory->composer($views, $composer);
@@ -38,8 +37,6 @@ class ViewServiceProvider extends ServiceProvider
 
     /**
      * Register the application services.
-     *
-     * @return void
      */
     public function register()
     {

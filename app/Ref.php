@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Git Ref model.
+ *
+ * @property integer $id
+ * @property string $name
+ * @property boolean $is_tag
+ * @property integer $project_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read Project $project
  */
 class Ref extends Model
 {
@@ -35,10 +43,10 @@ class Ref extends Model
     /**
      * Belongs to relationship.
      *
-     * @return Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
-        return $this->belongsTo('REBELinBLUE\Deployer\Project');
+        return $this->belongsTo(Project::class);
     }
 }

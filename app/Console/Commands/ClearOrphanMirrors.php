@@ -24,17 +24,7 @@ class ClearOrphanMirrors extends Command
      * @var string
      */
     protected $description = 'Purges git mirrors which are no longer in use by projects';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+    
     /**
      * Execute the console command.
      *

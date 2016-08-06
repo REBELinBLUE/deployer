@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Github;
 
+use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
@@ -18,13 +19,16 @@ class LatestRelease implements LatestReleaseInterface
      **/
     private $github_url = 'https://api.github.com/repos/REBELinBLUE/deployer/releases/latest';
 
+    /**
+     * @var CacheRepository
+     */
     private $cache;
 
     /**
-     * Class constructor.
+     * LatestRelease constructor.
      *
      * @param CacheRepository $cache
-     **/
+     */
     public function __construct(CacheRepository $cache)
     {
         $this->cache = $cache;
@@ -33,7 +37,7 @@ class LatestRelease implements LatestReleaseInterface
     /**
      * Get the latest release from Github.
      *
-     * @return string
+     * @return false|string
      */
     public function latest()
     {
@@ -41,6 +45,7 @@ class LatestRelease implements LatestReleaseInterface
 
         $release = $this->cache->remember('latest_version', $cache_for, function () {
             $request = Request::get($this->github_url)
+                              ->timeoutIn(5)
                               ->expectsJson()
                               ->withAccept('application/vnd.github.v3+json');
 
@@ -48,7 +53,11 @@ class LatestRelease implements LatestReleaseInterface
                 $request->withAuthorization('token ' . config('deployer.github_oauth_token'));
             }
 
-            $response = $request->send();
+            try {
+                $response = $request->send();
+            } catch (ConnectionErrorException $exception) {
+                return false;
+            }
 
             if ($response->hasErrors()) {
                 return false;
