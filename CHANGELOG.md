@@ -17,14 +17,6 @@
 - Installer gets into an infinite loop if there are PDO drivers loaded before MySQL [\#254](https://github.com/REBELinBLUE/deployer/pull/254) ([moxx](https://github.com/moxx))
 - Incorrect Lang variables [\#239](https://github.com/REBELinBLUE/deployer/pull/239) ([uLow](https://github.com/uLow))
 
-**Merged pull requests:**
-
-- Possible fix for toJS issue in NavButtons [\#249](https://github.com/REBELinBLUE/deployer/pull/249) ([tizz66](https://github.com/tizz66))
-- Make spin a boolean prop of Icon instead of passing classname [\#247](https://github.com/REBELinBLUE/deployer/pull/247) ([tizz66](https://github.com/tizz66))
-- Fixes an error thrown by timeline component if there's no timeline data [\#246](https://github.com/REBELinBLUE/deployer/pull/246) ([tizz66](https://github.com/tizz66))
-- Refactors dashboard timeline and adds associated components [\#243](https://github.com/REBELinBLUE/deployer/pull/243) ([tizz66](https://github.com/tizz66))
-- Box component [\#241](https://github.com/REBELinBLUE/deployer/pull/241) ([tizz66](https://github.com/tizz66))
-
 ## [0.0.36](https://github.com/REBELinBLUE/deployer/tree/0.0.36) (2016-05-30)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.35...0.0.36)
 
