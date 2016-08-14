@@ -1386,16 +1386,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "5.2.41",
+            "version": "v5.2.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "29ba2e310cfeb42ab6545bcd81ff4c2ec1f6b5c2"
+                "reference": "5490b8f00564bb60839002f86828e27edd1e5610"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/29ba2e310cfeb42ab6545bcd81ff4c2ec1f6b5c2",
-                "reference": "29ba2e310cfeb42ab6545bcd81ff4c2ec1f6b5c2",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/5490b8f00564bb60839002f86828e27edd1e5610",
+                "reference": "5490b8f00564bb60839002f86828e27edd1e5610",
                 "shasum": ""
             },
             "require": {
@@ -1512,20 +1512,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-07-20 13:13:06"
+            "time": "2016-08-10 12:23:59"
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.25",
+            "version": "1.0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437"
+                "reference": "50e2045ed70a7e75a5e30bc3662904f3b67af8a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a76afa4035931be0c78ca8efc6abf3902362f437",
-                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/50e2045ed70a7e75a5e30bc3662904f3b67af8a9",
+                "reference": "50e2045ed70a7e75a5e30bc3662904f3b67af8a9",
                 "shasum": ""
             },
             "require": {
@@ -1595,7 +1595,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-07-18 12:22:57"
+            "time": "2016-08-10 08:55:11"
         },
         {
             "name": "monolog/monolog",
@@ -2271,16 +2271,16 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
-                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
                 "shasum": ""
             },
             "require": {
@@ -2308,6 +2308,7 @@
                 }
             ],
             "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
             "keywords": [
                 "http",
                 "http-message",
@@ -2316,7 +2317,7 @@
                 "request",
                 "response"
             ],
-            "time": "2015-05-04 20:22:00"
+            "time": "2016-08-06 14:39:51"
         },
         {
             "name": "psr/log",
@@ -6201,28 +6202,29 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "30eed06dd6bc88410a4ff7f77b6d22f3ce13dbde"
+                "reference": "bb2d123231c095735130cc8f6d31385a44c7b308"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/30eed06dd6bc88410a4ff7f77b6d22f3ce13dbde",
-                "reference": "30eed06dd6bc88410a4ff7f77b6d22f3ce13dbde",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/bb2d123231c095735130cc8f6d31385a44c7b308",
+                "reference": "bb2d123231c095735130cc8f6d31385a44c7b308",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^5.3.3|^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.6"
+                "phpunit/phpunit": "^4.6",
+                "sebastian/version": "^1.0.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -6246,7 +6248,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2015-08-24 13:29:44"
+            "time": "2016-08-09 15:02:57"
         }
     ],
     "aliases": [],
