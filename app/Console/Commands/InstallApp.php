@@ -623,21 +623,22 @@ class InstallApp extends Command
             }
         }
 
-        $required_one = ['nodejs', 'node'];
-        $found = true;
+        $required_one = ['node', 'nodejs'];
+        $found = false;
         foreach ($required_one as $command) {
             $process = new Process('which ' . $command);
             $process->setTimeout(null);
             $process->run();
 
-            if (!$process->isSuccessful()) {
-                $found = false;
-                $errors = true;
+            if ($process->isSuccessful()) {
+                $found = true;
+                break;
             }
         }
 
         if (!$found) {
             $this->error('node.js was not found');
+            $errors = true;
         }
 
         // Files and directories which need to be writable
