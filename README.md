@@ -94,7 +94,7 @@ $ git clone https://github.com/REBELinBLUE/deployer.git
 2. Checkout the latest release
 
 ```shell
-$ git checkout 0.0.38
+$ git checkout 0.0.37
 ```
 
 3. Install dependencies
@@ -135,7 +135,7 @@ $ editor .env
 
 ```shell
 $ git fetch --all
-$ git checkout 0.0.38
+$ git checkout 0.0.37
  ```
 
 2. Update the dependencies
