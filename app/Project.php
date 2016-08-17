@@ -405,7 +405,7 @@ class Project extends ProjectRelation implements PresentableInterface
         $compare = new VersionCompare;
 
         // Sort the tags, if compare throws an exception it isn't a value version string so just do a strnatcmp
-        usort($tags, function ($first, $second) use ($compare) {
+        @usort($tags, function ($first, $second) use ($compare) {
             try {
                 return $compare->compare($first, $second);
             } catch (UnexpectedValueException $error) {
