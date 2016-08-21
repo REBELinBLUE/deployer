@@ -79,7 +79,6 @@ phpmd.xml export-ignore
 phpunit.xml.dist export-ignore
 Vagrantfile export-ignore
 SCREENSHOTS.md export-ignore
-create-release export-ignore
 
 #
 ## Github config
