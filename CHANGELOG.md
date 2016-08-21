@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.0.38](https://github.com/REBELinBLUE/deployer/tree/0.0.38) (2016-08-21)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.37...0.0.38)
+
+**Fixed bugs:**
+
+- usort: Array was modified by the user comparison function [\#258](https://github.com/REBELinBLUE/deployer/issues/258)
+
 ## [0.0.37](https://github.com/REBELinBLUE/deployer/tree/0.0.37) (2016-08-06)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.36...0.0.37)
 
