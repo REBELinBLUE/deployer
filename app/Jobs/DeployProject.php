@@ -151,6 +151,7 @@ class DeployProject extends Job implements ShouldQueue
         $commit = ($this->deployment->commit === Deployment::LOADING ? null : $this->deployment->commit);
 
         $process = new Process('tools.GetCommitDetails', [
+            'deployment'    => $this->deployment->id,
             'mirror_path'   => $this->deployment->project->mirrorPath(),
             'git_reference' => $commit ?: $this->deployment->branch,
         ]);
@@ -187,6 +188,7 @@ class DeployProject extends Job implements ShouldQueue
     private function createReleaseArchive()
     {
         $process = new Process('deploy.CreateReleaseArchive', [
+            'deployment'      => $this->deployment->id,
             'mirror_path'     => $this->deployment->project->mirrorPath(),
             'sha'             => $this->deployment->commit,
             'release_archive' => storage_path('app/' . $this->release_archive),
@@ -209,6 +211,7 @@ class DeployProject extends Job implements ShouldQueue
             }
 
             $process = new Process('deploy.CleanupFailedRelease', [
+                'deployment'     => $this->deployment->id,
                 'project_path'   => $server->clean_path,
                 'release_path'   => $server->clean_path . '/releases/' . $this->deployment->release_id,
                 'remote_archive' => $server->clean_path . '/' . $this->release_archive,
@@ -419,7 +422,8 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         // Custom step
-        return new Process($step->command->script, $tokens, Process::DIRECT_INPUT);
+        $script = '### Custom script - {{ deployment }}' . PHP_EOL . $step->command->script;
+        return new Process($script, $tokens, Process::DIRECT_INPUT);
     }
 
     /**
@@ -434,6 +438,7 @@ class DeployProject extends Job implements ShouldQueue
     private function sendFile($local_file, $remote_file, ServerLog $log)
     {
         $process = new Process('deploy.SendFileToServer', [
+            'deployment'  => $this->deployment->id,
             'port'        => $log->server->port,
             'private_key' => $this->private_key,
             'local_file'  => $local_file,
@@ -501,7 +506,8 @@ class DeployProject extends Job implements ShouldQueue
 
         foreach ($this->deployment->project->projectFiles as $file) {
             $script .= $parser->parseFile('deploy.ConfigurationFile', [
-                'path' => $release_dir . '/' . $file->path,
+                'deployment' => $this->deployment->id,
+                'path'       => $release_dir . '/' . $file->path,
             ]);
         }
 
@@ -548,6 +554,7 @@ class DeployProject extends Job implements ShouldQueue
             }
 
             $script .= $parser->parseFile('deploy.Share' . $template, [
+                'deployment'  => $this->deployment->id,
                 'target_file' => $release_dir . '/' . $file,
                 'source_file' => $shared_dir . '/' . $filename,
             ]);
@@ -583,6 +590,7 @@ class DeployProject extends Job implements ShouldQueue
 
         $tokens = [
             'release'         => $this->deployment->release_id,
+            'deployment'      => $this->deployment->id,
             'release_path'    => $latest_release_dir,
             'project_path'    => $server->clean_path,
             'branch'          => $this->deployment->branch,

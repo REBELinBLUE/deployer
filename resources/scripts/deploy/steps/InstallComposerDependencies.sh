@@ -1,3 +1,4 @@
+### Install composer dependencies - {{ deployment }}
 cd {{ project_path }}
 
 # If there is no composer file, skip this step

@@ -1,3 +1,4 @@
+### Activate new release - {{ deployment }}
 cd {{ project_path }}
 
 # Remove the symlink if it already exists

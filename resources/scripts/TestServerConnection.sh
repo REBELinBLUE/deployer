@@ -1,3 +1,4 @@
+### Test server connection - {{ server_id }}
 # Ensure the directory exists and can be written to
 cd {{ project_path }}
 ls

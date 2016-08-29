@@ -1,3 +1,4 @@
+### Run script over SSH
 ssh -o CheckHostIP=no \
     -o IdentitiesOnly=yes \
     -o StrictHostKeyChecking=no \
