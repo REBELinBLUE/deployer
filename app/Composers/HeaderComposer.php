@@ -32,14 +32,7 @@ class HeaderComposer
      */
     public function compose(View $view)
     {
-        $pending = $this->deploymentRepository->getPending();
-
-        $view->with('pending', $pending);
-        $view->with('pending_count', count($pending));
-
-        $deploying = $this->deploymentRepository->getRunning();
-
-        $view->with('deploying', $deploying);
-        $view->with('deploying_count', count($deploying));
+        $view->with('pending', $this->deploymentRepository->getPending());
+        $view->with('deploying', $this->deploymentRepository->getRunning());
     }
 }

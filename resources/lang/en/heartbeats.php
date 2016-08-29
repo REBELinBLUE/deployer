@@ -2,8 +2,8 @@
 
 return [
 
-    'label'             => 'Heartbeats',
-    'tab_label'         => 'Health Checks',
+    'title'             => 'Heartbeats',
+    'label'             => 'Health Checks',
     'create'            => 'Add a new heartbeat',
     'edit'              => 'Edit the heartbeat',
     'url'               => 'Webhook URL',

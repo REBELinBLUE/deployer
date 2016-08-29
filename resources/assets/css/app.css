@@ -97,9 +97,9 @@ body.dragging * {
     cursor: pointer;
 }
 
-#pending_menu, #deploying_menu {
-    display: none;
-}
+/*#pending_menu, #deploying_menu {*/
+    /*display: none;*/
+/*}*/
 
 /* Make sure there is always a space between the icon and the label as HTMLMin removes it */
 span.label i.fa {
@@ -143,7 +143,7 @@ div#reason div.radio label {
 
 #socket_offline {
     margin-top: 15px;
-    display: none;
+    /*display: none;*/
 }
 
 #update-available {

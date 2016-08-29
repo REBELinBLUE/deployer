@@ -143,7 +143,7 @@ class WebhookController extends Controller
 
         // Check if the commands input is set, if so explode on comma and filter out any invalid commands
         if ($request->has('commands')) {
-            $valid     = $project->commands->lists('id');
+            $valid     = $project->commands->pluck('id');
             $requested = explode(',', $request->get('commands'));
 
             $payload['optional'] = collect($requested)->unique()

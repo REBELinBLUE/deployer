@@ -11,7 +11,7 @@ return [
     'url'                => 'URL',
     'frequency'          => 'Frequency',
     'is_report'          => 'Report when failed',
-    'length'             => 'Minutes',
+    'minutes'            => 'Minutes',
     'warning'            => 'The link could not be saved, please check the form below.',
     'last_status'        => 'Status',
     'successful'         => 'Online',

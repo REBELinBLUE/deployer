@@ -61,6 +61,13 @@ interface DeploymentRepositoryInterface
     /**
      * @param int $project_id
      *
+     * @return Deployment
+     */
+    public function getLatestFinished($project_id);
+
+    /**
+     * @param int $project_id
+     *
      * @return int
      */
     public function getTodayCount($project_id);

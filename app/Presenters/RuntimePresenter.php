@@ -14,6 +14,7 @@ trait RuntimePresenter
      * Converts a number of seconds into a more human readable format.
      *
      * @return string
+     * @deprecated
      */
     public function presentReadableRuntime()
     {

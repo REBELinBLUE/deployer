@@ -2,16 +2,12 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
-use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
-
 /**
  * A console command for clearing all data and setting up again.
  * @property \Illuminate\Contracts\Foundation\Application app
  */
 class ResetApp extends UpdateApp
 {
-    use MocksApplicationServices;
-
     /**
      * The name and signature of the console command.
      *
@@ -25,7 +21,7 @@ class ResetApp extends UpdateApp
      * @var string
      */
     protected $description = 'Used during development to clear the database and logs';
-    
+
     /**
      * Execute the console command.
      *
@@ -39,12 +35,11 @@ class ResetApp extends UpdateApp
 
         $this->app = $this->laravel;
 
-        $this->withoutEvents();
-
         $this->clearLogs();
         $this->updateConfiguration();
         $this->resetDB();
-        $this->migrate(true);
+        $this->migrate();
+        $this->seedDB();
         $this->clearCaches();
         $this->restartQueue();
         $this->restartSocket();
@@ -92,5 +87,18 @@ class ResetApp extends UpdateApp
         }
 
         return true;
+    }
+
+    /**
+     * Seeds the database
+     *
+     * @return void
+     */
+    private function seedDB()
+    {
+        $this->info('Seeding database');
+        $this->line('');
+        $this->call('db:seed', ['--force' => true]);
+        $this->line('');
     }
 }

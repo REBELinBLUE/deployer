@@ -7,14 +7,10 @@
     "socket.io": "^1.4.5",
     "jsonwebtoken": "^7.0.0"
   },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-bower": "0.0.13",
-    "gulp-shell": "^0.5.2",
-    "laravel-elixir": "^6.0.0-1",
-    "laravel-elixir-remove": "^0.2.0"
-  },
   "scripts": {
-    "postinstall": "touch ./node_modules/.install"
+    "postinstall": "touch ./node_modules/.install",
+    "clean-build": "rm -rf public/build/",
+    "clean-deps": "rm -rf vendor/ node_modules/ resources/assets/node_modules",
+    "install-deps": "composer install --no-suggest; npm install; cd resources/assets; npm install; cd ../.."
   }
 }

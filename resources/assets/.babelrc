@@ -1,0 +1,10 @@
+{
+  "presets": ["modern-browsers", "modern-browsers/webpack2", "modern-browsers/object-rest", "react"],
+  "plugins": ["transform-export-extensions", "transform-object-rest-spread"],
+  "comments": false,
+  "env": {
+    "start": {
+      "presets": ["react-hmre"]
+    }
+  }
+}

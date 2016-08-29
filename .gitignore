@@ -15,5 +15,11 @@ auth.json
 
 # Dependencies
 node_modules
-vendor
-bower_components
+vendor/
+npm-debug.log
+
+# Build assets
+resources/assets/stats.json
+
+# Include laravel vendor resources
+!*/**/vendor/

@@ -8,6 +8,8 @@ use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Bootstrap\ConfigureLogging;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode;
+use Illuminate\Auth\Middleware\Authorize;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -64,9 +66,11 @@ class Kernel extends HttpKernel
             StartSession::class,
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
+            SubstituteBindings::class,
         ],
         'api' => [
             'throttle:60,1',
+            'bindings',
         ],
     ];
 
@@ -80,6 +84,8 @@ class Kernel extends HttpKernel
         'jwt'        => RefreshJsonWebToken::class,
         'auth'       => Authenticate::class,
         'auth.basic' => AuthenticateWithBasicAuth::class,
+        'bindings'   => SubstituteBindings::class,
+        'can'        => Authorize::class,
         'guest'      => RedirectIfAuthenticated::class,
         'throttle'   => ThrottleRequests::class,
     ];

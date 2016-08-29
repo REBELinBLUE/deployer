@@ -136,6 +136,18 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * {@inheritdoc}
      */
+    public function getLatestFinished($project_id)
+    {
+        return $this->model->where('project_id', $project_id)
+            ->whereNotIn('status', [Deployment::PENDING, Deployment::DEPLOYING])
+            ->whereNotNull('finished_at')
+            ->orderBy('started_at', 'DESC')
+            ->first();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getTimeline()
     {
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';

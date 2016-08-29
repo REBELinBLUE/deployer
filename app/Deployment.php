@@ -71,15 +71,15 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'deleted_at', 'updated_at', 'user', 'commands'];
+    protected $hidden = ['created_at', 'deleted_at', 'updated_at', 'user', 'commands', 'project'];
 
     /**
      * Additional attributes to include in the JSON representation.
      *
      * @var array
      */
-    protected $appends = ['project_name', 'deployer_name', 'commit_url',
-                          'short_commit', 'branch_url', 'repo_failure', ];
+    protected $appends = ['project_name', 'deployer_name', 'commit_url', 'short_commit',
+                          'branch_url', 'repo_failure', 'is_successful', 'can_abort', ];
 
     /**
      * The fields which should be tried as Carbon instances.
@@ -443,5 +443,21 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function getReleaseIdAttribute()
     {
         return $this->started_at->format('YmdHis');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsSuccessfulAttribute()
+    {
+        return $this->isSuccessful();
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanAbortAttribute()
+    {
+        return ($this->isPending() || $this->isRunning());
     }
 }

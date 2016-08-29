@@ -1,17 +1,11 @@
-languages:
-    Ruby: false
-    JavaScript: false
-    PHP: true
-    Python: false
+engines:
+  eslint:
+    enabled: false
 exclude_paths:
-    - "vendor/*"
-    - "config/*"
-    - "bootstrap/*"
-    - "database/*"
-    - "storage/*"
-    - "resources/assets/css/skin-*.css"
-    - "resources/assets/js/AdminLTE.js"
-    - "resources/assets/css/AdminLTE.css"
-    - "resources/lang/en/*.php"
-    - "*.blade.php"
-    - "*.js"
+  - "vendor/*"
+  - "config/*"
+  - "bootstrap/*"
+  - "database/*"
+  - "storage/*"
+  - "resources/lang/en/*.php"
+  - "*.blade.php"
