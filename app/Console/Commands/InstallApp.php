@@ -574,8 +574,8 @@ class InstallApp extends Command
         $errors = false;
 
         // Check PHP version:
-        if (!version_compare(PHP_VERSION, '5.5.9', '>=')) {
-            $this->error('PHP 5.5.9 or higher is required');
+        if (!version_compare(PHP_VERSION, '5.6.4', '>=')) {
+            $this->error('PHP 5.6.4 or higher is required');
             $errors = true;
         }
 

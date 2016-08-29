@@ -72,7 +72,7 @@ $ gulp
 
 ## Requirements
 
-- [PHP](http://www.php.net) 5.5.9+ or newer
+- [PHP](http://www.php.net) 5.6.4+ or newer
 - A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) are recommended but [SQLite](https://www.sqlite.org) can be used
 - [Composer](https://getcomposer.org)
 - [Redis](http://redis.io)
