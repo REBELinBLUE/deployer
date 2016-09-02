@@ -15,5 +15,10 @@ $router->post('password/reset', 'Auth\ResetPasswordController@reset');
 $router->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('auth.reset-email');
 $router->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('auth.reset-confirm');
 
+// Include the API routes inside an app path and add the authentication middleware to protect them
+$router->group(['middleware' => ['web', 'auth', 'jwt'], 'prefix' => 'app'], function () use ($router) {
+    require base_path('routes/api.php');
+});
+
 // Web application route
 $router->get('{any?}', 'WebappController@index')->middleware(['auth', 'jwt'])->where('any', '.*');

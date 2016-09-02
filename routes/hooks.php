@@ -7,5 +7,5 @@ $router->get('heartbeat/{hash}', 'Resources\HeartbeatController@ping')->name('he
 
 $router->post('deploy/{hash}', [
     'middleware' => 'api',
-    'uses' => 'WebhookController@webhook',
+    'uses'       => 'WebhookController@webhook',
 ])->name('webhook.deploy');
