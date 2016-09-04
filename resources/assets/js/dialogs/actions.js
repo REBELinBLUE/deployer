@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 import * as actions from './actionTypes';
 import * as constants from './constants';
 
@@ -47,8 +49,9 @@ function getResource(dialog) {
 export function saveObject(dialog, data, dispatch) {
   const form = data;
   const token = form.token;
+  const project = form.project_id;
 
-  let uri = `/app/${getResource(dialog)}`;
+  let uri = `/app/projects/${project}/${getResource(dialog)}`;
   let method = 'POST';
   if (data.id) {
     uri = `${uri}/${data.id}`;
@@ -59,16 +62,17 @@ export function saveObject(dialog, data, dispatch) {
 
   return fetch(uri, {
     method,
-    credentials: 'same-origin',
+    credentials: 'include',
     body: JSON.stringify(form),
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': token,
     },
   })
   .then(response => response.json())
   .then(json => {
-    console.log(json);
+    console.log(json); // FIXME: Update object in store
     dispatch(hideDialog());
   })
   .catch(error => console.log(error));

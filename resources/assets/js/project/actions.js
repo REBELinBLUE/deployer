@@ -33,7 +33,11 @@ export function fetchProject(project) {
     dispatch(isFetching());
 
     return fetch(`/app/projects/${project.id}`, {
-      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
     })
     .then(response => response.json())
     .then(json => dispatch(receivedProjectData(json)))
