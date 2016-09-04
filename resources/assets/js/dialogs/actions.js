@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import * as constants from './constants';
 
 export function showDialog(dialog) {
   return {
@@ -34,12 +35,41 @@ export function editObject(dialog, instance) {
   };
 }
 
-// FIXME: Actually do something
-export function saveObject(data, dispatch) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      dispatch(hideDialog());
-      resolve();
-    }, 10000);
-  });
+function getResource(dialog) {
+  switch (dialog) {
+    case constants.SERVER_DIALOG:
+      return 'servers';
+    default:
+      throw new Error(`Unknown resource ${dialog}`);
+  }
+}
+
+export function saveObject(dialog, data, dispatch) {
+  const form = data;
+  const token = form.token;
+
+  let uri = `/app/${getResource(dialog)}`;
+  let method = 'POST';
+  if (data.id) {
+    uri = `${uri}/${data.id}`;
+    method = 'PUT';
+  }
+
+  delete form.token;
+
+  return fetch(uri, {
+    method,
+    credentials: 'same-origin',
+    body: JSON.stringify(form),
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': token,
+    },
+  })
+  .then(response => response.json())
+  .then(json => {
+    console.log(json);
+    dispatch(hideDialog());
+  })
+  .catch(error => console.log(error));
 }

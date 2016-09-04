@@ -33,7 +33,7 @@ export function fetchProject(project) {
     dispatch(isFetching());
 
     return fetch(`/app/projects/${project.id}`, {
-      credentials: 'same-origin', // FIXME: Add a helper function so we don't have to duplicate this
+      credentials: 'same-origin',
     })
     .then(response => response.json())
     .then(json => dispatch(receivedProjectData(json)))

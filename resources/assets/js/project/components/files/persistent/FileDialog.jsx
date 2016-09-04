@@ -19,7 +19,7 @@ const FileDialog = (props) => {
     name: Lang.get('sharedFiles.name'),
     cache: Lang.get('sharedFiles.cache'),
     file: Lang.get('sharedFiles.file'),
-    example: Lang.get('sharedFiles.example')
+    example: Lang.get('sharedFiles.example'),
   };
 
   return (

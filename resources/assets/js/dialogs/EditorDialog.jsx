@@ -38,6 +38,7 @@ const EditorDialog = (props) => {
       </ModalHeader>
       <form method="post" onSubmit={handleSubmit}>
         {isNew ? null : <input type="hidden" name="id" {...fields.id} />}
+        <input type="hidden" name="token" {...fields.token} />
         <input type="hidden" name="project_id" {...fields.project_id} />
         <ModalBody>
           {

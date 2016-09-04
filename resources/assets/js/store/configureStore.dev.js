@@ -17,7 +17,7 @@ const unhandledAction = reduxUnhandledAction((action) => {
   console.groupEnd();
 });
 
-// Read the key from ?debug_session=<key> in the address bar
+// Read the key from ?debug_session=[key] in the address bar
 const getDebugSessionKey = () => {
   const matches = window.location.href.match(/[?&]debug_session=([^&]+)\b/);
   return (matches && matches.length > 0) ? matches[1] : null;
@@ -28,7 +28,7 @@ const enhancer = compose(
   applyMiddleware(router, thunk, unhandledAction),
   // Enable Redux DevTools with the monitors
   window.devToolsExtension ? window.devToolsExtension() : ReduxDevTools.instrument(),
-  // Lets you write ?debug_session=<key> in address bar to persist debug sessions
+  // Lets you write ?debug_session=[key] in address bar to persist debug sessions
   persistState(getDebugSessionKey())
 );
 
@@ -37,6 +37,7 @@ export default (initialState) => {
 
   // Hot reload reducers
   if (module.hot) {
+    // eslint-disable-next-line global-require
     module.hot.accept('../reducers', () => store.replaceReducer(require('../reducers').default));
   }
 
