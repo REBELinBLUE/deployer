@@ -32,7 +32,7 @@ const EditorDialog = (props) => {
 
   return (
     <Modal show={visible} onHide={onHide} id={id}>
-      <ModalHeader closeButton>
+      <ModalHeader closeButton={!submitting}>
         <ModalTitle>
           <Icon fa={fa} /> {title}
         </ModalTitle>

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { FormGroup as BootstrapFormGroup } from 'react-bootstrap';
+import { FormGroup as BootstrapFormGroup, FormControl } from 'react-bootstrap';
 
 import FieldError from './FieldError';
 
@@ -15,6 +15,7 @@ const FormGroup = (props) => {
     <BootstrapFormGroup validationState={touched && error ? 'error' : null} {...others}>
       {children}
       <FieldError touched={touched} error={error} {...others} />
+      <FormControl.Feedback />
     </BootstrapFormGroup>
   );
 };
