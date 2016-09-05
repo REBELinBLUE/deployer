@@ -14,7 +14,8 @@ const EditorDialog = (props) => {
     id,
     fa,
     children,
-    error,
+    dirty,
+    invalid,
     handleSubmit,
     submitting,
     fields,
@@ -42,7 +43,7 @@ const EditorDialog = (props) => {
         <input type="hidden" name="project_id" {...fields.project_id} />
         <ModalBody>
           {
-            error ?
+            dirty && invalid ?
               <Alert bsStyle="danger">
                 <Icon className="icon" fa="warning" /> {strings.warning}
               </Alert>
@@ -84,15 +85,18 @@ EditorDialog.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  dirty: PropTypes.bool,
   visible: PropTypes.bool,
-  error: PropTypes.string,
+  invalid: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   fields: PropTypes.object.isRequired,
   submitting: PropTypes.bool.isRequired,
 };
 
 EditorDialog.defaultProps = {
+  dirty: false,
   visible: true,
+  invalid: false,
 };
 
 export default EditorDialog;

@@ -74,19 +74,21 @@ export function saveObject(dialog, data, dispatch) {
       },
     })
       .then(response => {
-        const json = response.json();
-        if (!response.ok) {
-          reject(json);
-          return false;
+        if (response.ok) {
+          // FIXME: Update object in store
+          dispatch(hideDialog());
+
+          return resolve(response.json());
         }
 
-        console.log(json); // FIXME: Update object in store
-        dispatch(hideDialog());
+        return response.json();
+      })
+      .then(json => {
+        const errors = {};
+        Object.keys(json).map(key => (errors[key] = json[key][0]));
 
-        resolve(json);
-        return true;
+        return reject(errors);
       })
       .catch(error => console.log(error));
   });
-
 }
