@@ -60,29 +60,33 @@ export function saveObject(dialog, data, dispatch) {
 
   delete form.token;
 
-  return fetch(uri, {
-    method,
-    credentials: 'include',
-    body: JSON.stringify(form),
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': token,
-    },
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(response);
-    }
+  // https://github.com/erikras/redux-form/issues/119
+  // http://redux-form.com/5.3.3/#/examples/submit-validation?_k=dpefhq
+  return new Promise((resolve, reject) => {
+    fetch(uri, {
+      method,
+      credentials: 'include',
+      body: JSON.stringify(form),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': token,
+      },
+    })
+      .then(response => {
+        const json = response.json();
+        if (!response.ok) {
+          reject(json);
+          return false;
+        }
 
-    return response.json();
-  })
-  .then(json => {
-    console.log(json); // FIXME: Update object in store
-    dispatch(hideDialog());
-  })
-  .catch(error => {
-    // FIXME: Handle errors
-    console.log(error);
+        console.log(json); // FIXME: Update object in store
+        dispatch(hideDialog());
+
+        resolve(json);
+        return true;
+      })
+      .catch(error => console.log(error));
   });
+
 }
