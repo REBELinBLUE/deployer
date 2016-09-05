@@ -70,10 +70,19 @@ export function saveObject(dialog, data, dispatch) {
       'X-CSRF-TOKEN': token,
     },
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(response);
+    }
+
+    return response.json();
+  })
   .then(json => {
     console.log(json); // FIXME: Update object in store
     dispatch(hideDialog());
   })
-  .catch(error => console.log(error));
+  .catch(error => {
+    // FIXME: Handle errors
+    console.log(error);
+  });
 }
