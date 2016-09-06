@@ -16,6 +16,47 @@ export function hideDialog() {
   };
 }
 
+function getResourcePath(dialog) {
+  switch (dialog) {
+    case constants.SERVER_DIALOG:
+      return 'servers';
+    default:
+      throw new Error(`Unknown resource ${dialog}`);
+  }
+}
+
+function makeSaveRequest(uri, method, data, token, dispatch) {
+  return new Promise((resolve, reject) => {
+    fetch(uri, {
+      method,
+      credentials: 'include',
+      body: JSON.stringify(data),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': token,
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          // FIXME: Update object in store - https://facebook.github.io/react/docs/update.html
+          dispatch(hideDialog());
+
+          return resolve(response.json());
+        }
+
+        return response.json();
+      })
+      .then(json => {
+        const errors = {};
+        Object.keys(json).map(key => (errors[key] = json[key][0]));
+
+        return reject(errors);
+      })
+      .catch(error => console.log(error));
+  });
+}
+
 export function addObject(dialog) {
   return (dispatch) => {
     // dispatch({
@@ -37,21 +78,12 @@ export function editObject(dialog, instance) {
   };
 }
 
-function getResource(dialog) {
-  switch (dialog) {
-    case constants.SERVER_DIALOG:
-      return 'servers';
-    default:
-      throw new Error(`Unknown resource ${dialog}`);
-  }
-}
-
 export function saveObject(dialog, data, dispatch) {
   const form = data;
-  const token = form.token;
   const project = form.project_id;
+  const token = form.token;
 
-  let uri = `/app/projects/${project}/${getResource(dialog)}`;
+  let uri = `/app/projects/${project}/${getResourcePath(dialog)}`;
   let method = 'POST';
   if (data.id) {
     uri = `${uri}/${data.id}`;
@@ -60,35 +92,5 @@ export function saveObject(dialog, data, dispatch) {
 
   delete form.token;
 
-  // https://github.com/erikras/redux-form/issues/119
-  // http://redux-form.com/5.3.3/#/examples/submit-validation?_k=dpefhq
-  return new Promise((resolve, reject) => {
-    fetch(uri, {
-      method,
-      credentials: 'include',
-      body: JSON.stringify(form),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': token,
-      },
-    })
-      .then(response => {
-        if (response.ok) {
-          // FIXME: Update object in store
-          dispatch(hideDialog());
-
-          return resolve(response.json());
-        }
-
-        return response.json();
-      })
-      .then(json => {
-        const errors = {};
-        Object.keys(json).map(key => (errors[key] = json[key][0]));
-
-        return reject(errors);
-      })
-      .catch(error => console.log(error));
-  });
+  return makeSaveRequest(url, method, data, token, dispath);
 }
