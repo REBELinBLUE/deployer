@@ -1,0 +1,63 @@
+sudo: false
+
+language: php
+
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+services:
+  - postgresql
+  - redis-server
+
+addons:
+  postgresql: "9.3"
+
+before_install:
+  - if [[ $TRAVIS_PHP_VERSION != 7.1 ]] ; then phpenv config-rm xdebug.ini; fi
+  - curl -L https://github.com/kr/beanstalkd/archive/v1.9.tar.gz | tar xz -C /tmp
+  - cd /tmp/beanstalkd-1.9/
+  - make
+  - ./beanstalkd &
+  - cd $TRAVIS_BUILD_DIR
+
+install:
+  - composer install --no-interaction --no-scripts --prefer-dist --no-suggest
+
+before_script:
+    - cp .env.example .env
+    - sed -i 's/DB_TYPE=mysql/DB_TYPE=pgsql/g' .env
+    - sed -i 's/DB_USERNAME=deployer/DB_USERNAME=postgres/g' .env
+    - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
+    - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
+    - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
+    - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
+    - sed -i 's/TRUSTED_PROXIES=//g' .env
+    - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
+    - sed -i '/^#/ d' .env
+    - sed -i '/^[[:blank:]]*$/d' .env
+    - php artisan key:generate
+    - php artisan jwt:generate
+    - cat .env
+    - psql -c 'CREATE DATABASE deployer;' -U postgres
+    - php artisan migrate --seed --env="testing"
+    - chmod -R 777 storage/
+    - chmod -R 777 bootstrap/
+    - chmod -R 777 public/upload/
+    - sleep 5
+    - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
+
+script:
+  - vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
+  - vendor/bin/phpcs -p --standard=PSR2 app/
+#  - vendor/bin/phpmd app text phpmd.xml
+  - vendor/bin/phpunit
+  - vendor/bin/phpdoccheck --directory=app
+
+after_script:
+  - cat $TRAVIS_BUILD_DIR/storage/logs/*.log

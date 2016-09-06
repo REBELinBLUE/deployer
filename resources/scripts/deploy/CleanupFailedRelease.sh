@@ -1,3 +1,4 @@
+### Cleanup failed releases - {{ deployment }}
 cd {{ project_path }}
 
 # Remove the archive

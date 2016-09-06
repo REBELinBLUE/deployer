@@ -10,7 +10,6 @@ build_settings:
         - "storage"
         - "tests"
         - "vendor"
-        - "create-release"
 
 setup:
     wipe:

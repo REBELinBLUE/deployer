@@ -9,6 +9,7 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 **Current Build Status**
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat)](https://styleci.io/repos/33559148)
+[![Build Status](https://travis-ci.org/REBELinBLUE/deployer.svg?branch=master)](https://travis-ci.org/REBELinBLUE/deployer)
 [![Build Status](http://ci.rebelinblue.com/build-status/image/3?branch=master&style=flat&label=PHPCI)](http://ci.rebelinblue.com/build-status/view/3?branch=master)
 [![Code Climate](https://codeclimate.com/github/REBELinBLUE/deployer/badges/gpa.svg)](https://codeclimate.com/github/REBELinBLUE/deployer)
 [![Test Coverage](https://codeclimate.com/github/REBELinBLUE/deployer/badges/coverage.svg)](https://codeclimate.com/github/REBELinBLUE/deployer)
