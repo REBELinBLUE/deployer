@@ -3,7 +3,9 @@ sudo: false
 language: php
 
 php:
+  - 5.6
   - 7.0
+  - 7.1
 
 cache:
   directories:
@@ -35,13 +37,13 @@ before_script:
     - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
-    - sed -i 's/ \# If using apache you will need to add the port :6001//g' .env
-    - sed -i 's/ \# Only needed for beanstalk//g' .env
-    - sed -i 's/TRUSTED_PROXIES= \# A comma seperated list of proxies to trust or \* for all/TRUSTED_PROXIES=*/g' .env
+    - sed -i 's/TRUSTED_PROXIES=//g' .env
     - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
+    - sed -i '/^#/ d' .env
     - sed -i '/^[[:blank:]]*$/d' .env
-    - cat .env
     - php artisan key:generate
+    - php artisan jwt:generate
+    - cat .env
     - psql -c 'CREATE DATABASE deployer;' -U postgres
     - php artisan migrate --seed --env="testing"
     - chmod -R 777 storage/
@@ -51,7 +53,10 @@ before_script:
     - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
 
 script:
+  - vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
   - vendor/bin/phpcs -p --standard=PSR2 app/
+#  - vendor/bin/phpmd app text phpmd.xml
+  - vendor/bin/phpunit
   - vendor/bin/phpdoccheck --directory=app
 
 after_script:
