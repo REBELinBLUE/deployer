@@ -20,7 +20,7 @@ before_install:
   - if [[ $TRAVIS_PHP_VERSION != 7.1 ]] ; then phpenv config-rm xdebug.ini; fi
 
 install:
-  - composer install --no-interaction --no-scripts --prefer-source --no-suggest
+  - composer install --no-interaction --no-scripts --prefer-dist --no-suggest
 
 before_script:
     - cp .env.example .env
