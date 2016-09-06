@@ -32,8 +32,9 @@ before_script:
     - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
     - sed -i 's/ \# If using apache you will need to add the port :6001//g' .env
     - sed -i 's/ \# Only needed for beanstalk//g' .env
-    - sed -i 's/TRUSTED_PROXIES= \# A comma seperated list of proxies to trust or * for all//g' .env
+    - sed -i 's/TRUSTED_PROXIES= \# A comma seperated list of proxies to trust or \* for all/TRUSTED_PROXIES=*/g' .env
     - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
+    - sed -i '/^[[:blank:]]*$/d' .env
     - cat .env
     - php artisan key:generate
     - psql -c 'CREATE DATABASE deployer;' -U postgres
