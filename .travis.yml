@@ -26,7 +26,7 @@ before_script:
     - php artisan migrate --seed --env="testing"
     - chmod -R 777 storage/
     - chmod -R 777 bootstrap/
-    - chmod -R 777 public/upload
+    - chmod -R 777 public/upload/
     - sleep 5
     - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
 
