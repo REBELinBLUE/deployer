@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.0.39](https://github.com/REBELinBLUE/deployer/tree/0.0.39) (2016-09-06)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.38...0.0.39)
+
+**Implemented enhancements:**
+
+- Automatically detect and restart php-fpm [\#238](https://github.com/REBELinBLUE/deployer/pull/238) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- Access control lists/User levels [\#236](https://github.com/REBELinBLUE/deployer/pull/236) ([REBELinBLUE](https://github.com/REBELinBLUE))
+
 ## [0.0.38](https://github.com/REBELinBLUE/deployer/tree/0.0.38) (2016-08-21)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.37...0.0.38)
 
