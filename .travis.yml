@@ -1,0 +1,38 @@
+language: php
+
+php:
+  - 7.0
+
+services:
+  - postgresql
+  - redis-server
+
+addons:
+  postgresql: "9.3"
+
+before_install:
+  - if [[ $TRAVIS_PHP_VERSION != 7.1 ]] ; then phpenv config-rm xdebug.ini; fi
+
+install:
+  - composer install --no-interaction --no-scripts --prefer-source --no-suggest
+
+before_script:
+    - cp .env.example .env
+    - sed -i 's/DB_TYPE=mysql/DB_TYPE=pgsql/g' .env
+    - sed -i 's/DB_USERNAME=deployer/DB_USERNAME=postgres/g' .env
+    - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
+    - php artisan key:generate
+    - psql -c 'CREATE DATABASE deployer;' -U postgres
+    - php artisan migrate --seed --env="testing"
+    - chmod -R 777 storage/
+    - chmod -R 777 bootstrap/
+    - chmod -R 777 public/upload
+    - sleep 5
+    - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
+
+script:
+  - vendor/bin/phpcs -p --standard=PSR2 app/
+  - vendor/bin/phpdoccheck --directory=app
+
+after_script:
+  - cat $TRAVIS_BUILD_DIR/storage/logs/*.log
