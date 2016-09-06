@@ -200,6 +200,9 @@ class InstallApp extends Command
             $config = preg_replace('/TRUSTED_PROXIES=(.*)[\n]/', '', $config);
         }
 
+        // Remove comments
+        $config = preg_replace('/#(.*)[\n]/', '', $config);
+
         return file_put_contents($path, trim($config) . PHP_EOL);
     }
 
