@@ -21,6 +21,13 @@ before_script:
     - sed -i 's/DB_TYPE=mysql/DB_TYPE=pgsql/g' .env
     - sed -i 's/DB_USERNAME=deployer/DB_USERNAME=postgres/g' .env
     - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
+    - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
+    - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
+    - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
+    - sed -i 's/ \# If using apache you will need to add the port :6001//g' .env
+    - sed -i 's/ \# Only needed for beanstalk//g' .env
+    - sed -i 's/TRUSTED_PROXIES= \# A comma seperated list of proxies to trust or * for all//g' .env
+    - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
     - php artisan key:generate
     - psql -c 'CREATE DATABASE deployer;' -U postgres
     - php artisan migrate --seed --env="testing"
