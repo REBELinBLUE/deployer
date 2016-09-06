@@ -101,6 +101,10 @@ class UpdateApp extends InstallApp
 
             $parts = explode('=', $line);
 
+            if (count($parts) < 2) {
+                continue;
+            }
+
             $env   = strtolower($parts[0]);
             $value = trim($parts[1]);
 
