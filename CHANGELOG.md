@@ -1,12 +1,5 @@
 # Change Log
 
-## [0.0.39](https://github.com/REBELinBLUE/deployer/tree/0.0.39) (2016-09-06)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.38...0.0.39)
-
-**Closed issues:**
-
-- Install Composer Dependencies fails with Rsync error when running deployment [\#260](https://github.com/REBELinBLUE/deployer/issues/260)
-
 ## [0.0.38](https://github.com/REBELinBLUE/deployer/tree/0.0.38) (2016-08-21)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.37...0.0.38)
 
