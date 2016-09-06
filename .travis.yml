@@ -18,6 +18,11 @@ addons:
 
 before_install:
   - if [[ $TRAVIS_PHP_VERSION != 7.1 ]] ; then phpenv config-rm xdebug.ini; fi
+  - curl -L https://github.com/kr/beanstalkd/archive/v1.9.tar.gz | tar xz -C /tmp
+  - cd /tmp/beanstalkd-1.9/
+  - make
+  - ./beanstalkd &
+  - cd $TRAVIS_BUILD_DIR
 
 install:
   - composer install --no-interaction --no-scripts --prefer-dist --no-suggest
