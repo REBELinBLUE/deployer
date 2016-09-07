@@ -2,7 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Template;
 
 /**
  * The application service provider.
@@ -44,7 +47,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Set up the morph map for the polymorphic relationships
+        Relation::morphMap([
+            'project' => Project::class,
+            'template' => Template::class,
+        ]);
     }
 
     /**

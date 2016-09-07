@@ -7,7 +7,8 @@
             </div>
             <form role="form">
                 <input type="hidden" id="file_id" name="id" />
-                <input type="hidden" name="project_id" value="{{ $project->id }}" />
+                <input type="hidden" name="target_type" value="{{ $target_type }}" />
+                <input type="hidden" name="target_id" value="{{ $target_id }}" />
                 <div class="modal-body">
 
                     <div class="callout callout-danger">
@@ -21,7 +22,7 @@
                     <div class="form-group">
                         <label for="file">{{ Lang::get('sharedFiles.file') }}</label>
                         <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('sharedFiles.example') }}"></i>
-                        <input type="text" class="form-control" id="file" name="file" placeholder="/storage/" />
+                        <input type="text" class="form-control" id="file" name="file" placeholder="storage/" />
                     </div>
                 </div>
                 <div class="modal-footer">

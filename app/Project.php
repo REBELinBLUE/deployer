@@ -2,11 +2,13 @@
 
 namespace REBELinBLUE\Deployer;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\ProjectRelations;
 use Robbo\Presenter\PresentableInterface;
 use UnexpectedValueException;
 use Version\Compare as VersionCompare;
@@ -30,7 +32,6 @@ use Version\Compare as VersionCompare;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
- * @property boolean $is_template
  * @property \Carbon\Carbon $last_mirrored
  * @property boolean $allow_other_branch
  * @property boolean $include_dev
@@ -52,9 +53,9 @@ use Version\Compare as VersionCompare;
  * @property-read CheckUrl[] $checkUrls
  * @property-read Ref[] $refs
  */
-class Project extends ProjectRelation implements PresentableInterface
+class Project extends Model implements PresentableInterface
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, ProjectRelations;
 
     const FINISHED     = 0;
     const PENDING      = 1;
@@ -70,8 +71,7 @@ class Project extends ProjectRelation implements PresentableInterface
     protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
                          'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
                          'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-                         'notifications', 'deployments', 'shareFiles', 'projectFiles',
-                         'is_template', 'last_mirrored', ];
+                         'notifications', 'deployments', 'shareFiles', 'projectFiles', 'last_mirrored', ];
 
     /**
      * The attributes that are mass assignable.
@@ -79,7 +79,7 @@ class Project extends ProjectRelation implements PresentableInterface
      * @var array
      */
     protected $fillable = ['name', 'repository', 'branch', 'group_id', 'include_dev',
-                           'builds_to_keep', 'url', 'build_url', 'is_template', 'allow_other_branch',
+                           'builds_to_keep', 'url', 'build_url', 'allow_other_branch',
                            'private_key', ];
 
     /**
@@ -106,7 +106,6 @@ class Project extends ProjectRelation implements PresentableInterface
         'group_id'           => 'integer',
         'status'             => 'integer',
         'builds_to_keep'     => 'integer',
-        'is_template'        => 'boolean',
         'allow_other_branch' => 'boolean',
         'include_dev'        => 'boolean',
     ];
@@ -332,18 +331,6 @@ class Project extends ProjectRelation implements PresentableInterface
     }
 
     /**
-     * Query scope to not show templates.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeNotTemplates($query)
-    {
-        return $query->where('is_template', '=', false);
-    }
-
-    /**
      * Generates an SSH key and sets the private/public key properties.
      */
     protected function generateSSHKey()
@@ -440,5 +427,92 @@ class Project extends ProjectRelation implements PresentableInterface
     public function mirrorPath()
     {
         return storage_path('app/mirrors/' . preg_replace('/[^_\-.\-a-zA-Z0-9\s]/u', '_', $this->repository));
+    }
+
+    /**
+     * Belongs to relationship.
+     *
+     * @return Group
+     */
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    /**
+     * Has many relationship.
+     *
+     * @return Server
+     */
+    public function servers()
+    {
+        return $this->hasMany(Server::class)
+                    ->orderBy('order', 'ASC');
+    }
+
+    /**
+     * Has many relationship.
+     *
+     * @return Heartbeat
+     */
+    public function heartbeats()
+    {
+        return $this->hasMany(Heartbeat::class)
+                    ->orderBy('name');
+    }
+
+    /**
+     * Has many relationship.
+     *
+     * @return Notification
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class)
+                    ->orderBy('name');
+    }
+
+    /**
+     * Has many relationship.
+     *
+     * @return Deployment
+     */
+    public function deployments()
+    {
+        return $this->hasMany(Deployment::class)
+                    ->orderBy('started_at', 'DESC');
+    }
+
+    /**
+     * Has many relationship.
+     *
+     * @return SharedFile
+     */
+    public function notifyEmails()
+    {
+        return $this->hasMany(NotifyEmail::class);
+    }
+
+    /**
+     * Has many urls to check.
+     *
+     * @return CheckUrl
+     */
+    public function checkUrls()
+    {
+        return $this->hasMany(CheckUrl::class);
+    }
+
+    /**
+     * Has many relationship for git references.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @see Project::tags()
+     * @see Project::branches()
+     */
+    public function refs()
+    {
+        return $this->hasMany(Ref::class);
     }
 }

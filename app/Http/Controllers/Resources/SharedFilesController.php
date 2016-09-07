@@ -32,7 +32,8 @@ class SharedFilesController extends ResourceController
         return $this->repository->create($request->only(
             'name',
             'file',
-            'project_id'
+            'target_type',
+            'target_id'
         ));
     }
 

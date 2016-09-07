@@ -7,7 +7,8 @@
             </div>
             <form role="form">
                 <input type="hidden" id="command_id" name="id" />
-                <input type="hidden" name="project_id" value="{{ $project->id }}" />
+                <input type="hidden" name="target_type" value="{{ $target_type }}" />
+                <input type="hidden" name="target_id" value="{{ $target_id }}" />
                 <input type="hidden" id="command_step" name="step" value="After" />
                 <div class="modal-body">
 

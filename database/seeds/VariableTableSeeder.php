@@ -10,9 +10,10 @@ class VariableTableSeeder extends Seeder
         DB::table('variables')->delete();
 
         Variable::create([
-            'project_id'     => 1,
-            'name'           => 'COMPOSER_PROCESS_TIMEOUT',
-            'value'          => '3000',
+            'name'        => 'COMPOSER_PROCESS_TIMEOUT',
+            'value'       => '3000',
+            'target_type' => 'project',
+            'target_id'   => 1,
         ]);
     }
 }

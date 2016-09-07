@@ -38,12 +38,12 @@ class CommandController extends ResourceController
     /**
      * Display a listing of before/after commands for the supplied stage.
      *
-     * @param int $project_id
+     * @param int $target_id
      * @param int $action
      *
      * @return \Illuminate\View\View
      */
-    public function listing($project_id, $action)
+    public function listing($target_id, $action)
     {
         $types = [
             'clone'    => Command::DO_CLONE,
@@ -52,26 +52,22 @@ class CommandController extends ResourceController
             'purge'    => Command::DO_PURGE,
         ];
 
-        $project = $this->projectRepository->getById($project_id);
+        $project = $this->projectRepository->getById($target_id);
+        $target = 'project';
 
         $breadcrumb = [
             ['url' => route('projects', ['id' => $project->id]), 'label' => $project->name],
         ];
 
-        if ($project->is_template) {
-            $breadcrumb = [
-                ['url' => route('admin.templates.index'), 'label' => Lang::get('templates.label')],
-                ['url' => route('admin.templates.show', ['templates' => $project->id]), 'label' => $project->name],
-            ];
-        }
-
         return view('commands.listing', [
-            'breadcrumb' => $breadcrumb,
-            'title'      => Lang::get('commands.' . strtolower($action)),
-            'subtitle'   => $project->name,
-            'project'    => $project,
-            'action'     => $types[$action],
-            'commands'   => $this->repository->getForDeployStep($project->id, $types[$action]),
+            'breadcrumb'  => $breadcrumb,
+            'title'       => Lang::get('commands.' . strtolower($action)),
+            'subtitle'    => $project->name,
+            'project'     => $project,
+            'target_type' => $target,
+            'target_id'   => $project->id,
+            'action'      => $types[$action],
+            'commands'    => $this->repository->getForDeployStep($project->id, $target, $types[$action]),
         ]);
     }
 
@@ -87,7 +83,8 @@ class CommandController extends ResourceController
         return $this->repository->create($request->only(
             'name',
             'user',
-            'project_id',
+            'target_type',
+            'target_id',
             'script',
             'step',
             'optional',
