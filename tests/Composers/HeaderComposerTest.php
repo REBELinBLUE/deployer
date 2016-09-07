@@ -18,9 +18,7 @@ class HeaderComposerTest extends TestCase
              ->method('with')
              ->withConsecutive(
                  [$this->equalTo('pending'), $this->equalTo($items)],
-                 [$this->equalTo('pending_count'), $this->equalTo(3)],
-                 [$this->equalTo('deploying'), $this->equalTo($items)],
-                 [$this->equalTo('deploying_count'), $this->equalTo(3)]
+                 [$this->equalTo('deploying'), $this->equalTo($items)]
              );
 
         $repository = $this->getMockBuilder(DeploymentRepositoryInterface::class)
