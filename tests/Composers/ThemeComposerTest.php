@@ -37,5 +37,4 @@ class ThemeComposerTest extends TestCase
 
         $composer->compose($view);
     }
-
 }
