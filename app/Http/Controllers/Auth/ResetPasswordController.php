@@ -5,6 +5,9 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
+/**
+ * Controller for handling password resets
+ */
 class ResetPasswordController extends Controller
 {
     use ResetsPasswords;

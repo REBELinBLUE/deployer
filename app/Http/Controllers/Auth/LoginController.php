@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Session;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
+/**
+ * Controller for handling user login
+ */
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
