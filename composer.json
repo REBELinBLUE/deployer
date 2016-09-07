@@ -55,7 +55,8 @@
     "themsaid/laravel-langman": "^1.1",
     "friendsofphp/php-cs-fixer": "^1.11",
     "jakub-onderka/php-parallel-lint": "^0.9.2",
-    "jakub-onderka/php-console-highlighter": "^0.3.2"
+    "jakub-onderka/php-console-highlighter": "^0.3.2",
+    "block8/php-docblock-checker": "^1.1"
   },
   "old": {
     "block8/php-docblock-checker": "^1.0",
