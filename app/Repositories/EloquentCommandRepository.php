@@ -26,7 +26,8 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     public function create(array $fields)
     {
         // Get the current highest command order
-        $max = $this->model->where('project_id', $fields['project_id'])
+        $max = $this->model->where('target_type', $fields['target_type'])
+                           ->where('target_id', $fields['target_id'])
                            ->where('step', $fields['step'])
                            ->orderBy('order', 'DESC')
                            ->first();
@@ -82,9 +83,10 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     /**
      * {@inheritdoc}
      */
-    public function getForDeployStep($project_id, $step)
+    public function getForDeployStep($target_id, $target, $step)
     {
-        return $this->model->where('project_id', $project_id)
+        return $this->model->where('target_type', $target)
+                           ->where('target_id', $target_id)
                            ->with('servers')
                            ->whereIn('step', [$step - 1, $step + 1])
                            ->orderBy('order')

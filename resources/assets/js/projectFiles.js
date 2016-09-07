@@ -109,10 +109,11 @@ var app = app || {};
         }
 
         file.save({
-            name:       $('#project-file-name').val(),
-            path:       $('#project-file-path').val(),
-            content:    editor.getValue(),
-            project_id: $('input[name="project_id"]').val()
+            name:        $('#project-file-name').val(),
+            path:        $('#project-file-path').val(),
+            content:     editor.getValue(),
+            target_type: $('input[name="target_type"]').val(),
+            target_id:   $('input[name="target_id"]').val()
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -192,7 +193,9 @@ var app = app || {};
             });
 
             app.listener.on('projectfile:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
-                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                var target_type = $('input[name="target_type"]').val();
+                var target_id = $('input[name="target_id"]').val();
+                if (target_type == data.model.target_type && parseInt(data.model.target_id) === parseInt(target_id)) {
                     app.ProjectFiles.add(data.model);
                 }
             });

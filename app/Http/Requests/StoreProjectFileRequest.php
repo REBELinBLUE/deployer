@@ -15,10 +15,11 @@ class StoreProjectFileRequest extends Request
     public function rules()
     {
         return [
-            'name'       => 'required|max:255',
-            'path'       => 'required',
-            'content'    => 'required',
-            'project_id' => 'required|integer|exists:projects,id',
+            'name'        => 'required|max:255',
+            'path'        => 'required',
+            'content'     => 'required',
+            'target_type' => 'required|in:project,template',
+            'target_id'   => 'required|integer|exists:' . $this->get('target_type') . 's,id'
         ];
     }
 }

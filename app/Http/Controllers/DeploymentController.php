@@ -75,6 +75,8 @@ class DeploymentController extends Controller
             'tags'          => $project->tags()->reverse(),
             'branches'      => $project->branches(),
             'route'         => 'commands.step',
+            'target_type'   => 'project',
+            'target_id'     => $project->id,
         ]);
     }
 

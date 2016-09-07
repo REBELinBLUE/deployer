@@ -33,7 +33,8 @@ class ProjectFileController extends ResourceController
             'name',
             'path',
             'content',
-            'project_id'
+            'target_type',
+            'target_id'
         ));
     }
 

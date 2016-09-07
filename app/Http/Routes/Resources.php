@@ -38,9 +38,4 @@ Route::group([
     Route::resource('project-file', 'ProjectFileController', $actions);
     Route::resource('notify-email', 'NotifyEmailController', $actions);
     Route::resource('check-url', 'CheckUrlController', $actions);
-
-    Route::get('admin/templates/{id}/commands/{step}', [
-        'as'   => 'admin.templates.commands.step',
-        'uses' => 'CommandController@listing',
-    ]);
 });

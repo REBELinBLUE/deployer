@@ -26,4 +26,9 @@ Route::group([
         'as'    => 'admin.groups.reorder',
         'uses'  => 'GroupController@reorder',
     ]);
+
+    Route::get('admin/templates/{id}/commands/{step}', [
+        'as'   => 'admin.templates.commands.step',
+        'uses' => 'TemplateController@listing',
+    ]);
 });

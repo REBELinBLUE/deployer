@@ -28,7 +28,7 @@ class ProjectFile extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'path', 'content', 'project_id'];
+    protected $fillable = ['name', 'path', 'content', 'target_type', 'target_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -43,17 +43,16 @@ class ProjectFile extends Model
      * @var array
      */
     protected $casts = [
-        'id'         => 'integer',
-        'project_id' => 'integer',
+        'id' => 'integer',
     ];
 
     /**
-     * Belongs to relationship.
+     * One-to-one to polymorphic relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function project()
+    public function target()
     {
-        return $this->belongsTo(Project::class);
+        return $this->morphTo();
     }
 }

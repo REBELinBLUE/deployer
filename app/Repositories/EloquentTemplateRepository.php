@@ -26,7 +26,6 @@ class EloquentTemplateRepository extends EloquentRepository implements TemplateR
     public function getAll()
     {
         return $this->model
-                    ->templates()
                     ->orderBy('name')
                     ->get();
     }

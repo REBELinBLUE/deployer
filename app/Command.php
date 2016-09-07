@@ -46,14 +46,15 @@ class Command extends Model
      *
      * @var array
      */
-    protected $hidden = ['project', 'created_at', 'deleted_at', 'updated_at'];
+    protected $hidden = ['created_at', 'deleted_at', 'updated_at'];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'user', 'script', 'project_id', 'step', 'order', 'optional', 'default_on'];
+    protected $fillable = ['name', 'user', 'script', 'target_type', 'target_id',
+                           'step', 'order', 'optional', 'default_on', ];
 
     /**
      * The attributes that should be casted to native types.
@@ -62,22 +63,11 @@ class Command extends Model
      */
     protected $casts = [
         'id'         => 'integer',
-        'project_id' => 'integer',
         'step'       => 'integer',
         'optional'   => 'boolean',
         'default_on' => 'boolean',
         'order'      => 'integer',
     ];
-
-    /**
-     * Belongs to relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
 
     /**
      * Belongs to many relationship.
@@ -88,5 +78,15 @@ class Command extends Model
     {
         return $this->belongsToMany(Server::class)
                     ->orderBy('order', 'ASC');
+    }
+
+    /**
+     * One-to-one to polymorphic relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function target()
+    {
+        return $this->morphTo();
     }
 }

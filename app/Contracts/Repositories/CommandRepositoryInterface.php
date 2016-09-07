@@ -29,10 +29,11 @@ interface CommandRepositoryInterface
     public function deleteById($model_id);
 
     /**
-     * @param int $project_id
+     * @param int $target_id
+     * @param string $target
      * @param int $step
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getForDeployStep($project_id, $step);
+    public function getForDeployStep($target_id, $target, $step);
 }
