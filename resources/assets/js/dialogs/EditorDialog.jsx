@@ -6,6 +6,8 @@ import {
 
 import Icon from '../app/components/Icon';
 
+// https://github.com/erikras/redux-form/issues/1441
+
 const EditorDialog = (props) => {
   const {
     translations,

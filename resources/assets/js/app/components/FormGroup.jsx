@@ -21,12 +21,17 @@ const FormGroup = (props) => {
 };
 
 FormGroup.propTypes = {
-  touched: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
+  touched: PropTypes.bool,
+  error: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+};
+
+FormGroup.defaultProps = {
+  touched: false,
+  error: '',
 };
 
 export default FormGroup;

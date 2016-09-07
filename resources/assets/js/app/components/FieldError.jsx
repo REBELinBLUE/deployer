@@ -15,8 +15,13 @@ const FieldError = (props) => {
 };
 
 FieldError.propTypes = {
-  touched: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
+  touched: PropTypes.bool,
+  error: PropTypes.string,
+};
+
+FieldError.defaultProps = {
+  touched: false,
+  error: '',
 };
 
 export default FieldError;

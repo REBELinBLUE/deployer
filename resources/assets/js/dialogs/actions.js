@@ -25,7 +25,7 @@ function getResourcePath(dialog) {
   }
 }
 
-function makeSaveRequest(uri, method, data, token, dispatch) {
+function makeSaveRequest({ uri, method, data, token }, dispatch) {
   return new Promise((resolve, reject) => {
     fetch(uri, {
       method,
@@ -83,14 +83,19 @@ export function saveObject(dialog, data, dispatch) {
   const project = form.project_id;
   const token = form.token;
 
-  let uri = `/app/projects/${project}/${getResourcePath(dialog)}`;
+  let url = `/app/projects/${project}/${getResourcePath(dialog)}`;
   let method = 'POST';
   if (data.id) {
-    uri = `${uri}/${data.id}`;
+    url = `${url}/${data.id}`;
     method = 'PUT';
   }
 
   delete form.token;
 
-  return makeSaveRequest(url, method, data, token, dispath);
+  return makeSaveRequest({
+    url,
+    method,
+    data,
+    token,
+  }, dispatch);
 }
