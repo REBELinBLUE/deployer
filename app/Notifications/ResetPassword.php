@@ -9,6 +9,9 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\User;
 
+/**
+ * Notification which is sent when passwords are reset
+ */
 class ResetPassword extends Notification implements ShouldQueue
 {
     use Queueable;

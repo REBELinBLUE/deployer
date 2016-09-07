@@ -5,6 +5,9 @@ namespace REBELinBLUE\Deployer\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;
 
+/**
+ * The broadcast service provider.
+ */
 class BroadcastServiceProvider extends ServiceProvider
 {
     /**
