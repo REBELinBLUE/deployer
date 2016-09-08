@@ -23,7 +23,7 @@ before_install:
   - curl -L https://github.com/kr/beanstalkd/archive/v1.9.tar.gz | tar xz -C /tmp
   - cd /tmp/beanstalkd-1.9/
   - make
-  - ./beanstalkd &
+  - ./beanstalkd 2>&1 >/dev/null &
   - cd $TRAVIS_BUILD_DIR
 
 install:
