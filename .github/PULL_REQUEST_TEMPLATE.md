@@ -5,7 +5,7 @@ Please prefix your pull request with one of the following: **[FEATURE]** **[FIX]
 - [ ] I have read and understood the [contributing guidelines](https://github.com/REBElinBLUE/deployer/.github/CONTRIBUTING.md)?
 - [ ] I have checked that another pull request for this purpose does not exist.
 - [ ] I have considered, and confirmed that this submission will be valuable to others.
-- [ ] Do the PHPCI tests pass?
+- [ ] Do the TravisCI tests pass?
 - [ ] Does the StyleCI test pass?
 
 _NOTE: The last 2 are not required to open a PR and can be done afterwards /
