@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\HasTarget;
 
 /**
  * Model for environmental variables.
@@ -20,7 +21,7 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
  */
 class Variable extends Model
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, HasTarget;
 
     /**
      * The attributes that are mass assignable.
@@ -44,14 +45,4 @@ class Variable extends Model
     protected $casts = [
         'id' => 'integer',
     ];
-
-    /**
-     * One-to-one to polymorphic relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
-    public function target()
-    {
-        return $this->morphTo();
-    }
 }

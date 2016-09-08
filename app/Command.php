@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\HasTarget;
 
 /**
  * The command model.
@@ -26,7 +27,7 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
  */
 class Command extends Model
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, HasTarget;
 
     const BEFORE_CLONE    = 1;
     const DO_CLONE        = 2;
@@ -78,15 +79,5 @@ class Command extends Model
     {
         return $this->belongsToMany(Server::class)
                     ->orderBy('order', 'ASC');
-    }
-
-    /**
-     * One-to-one to polymorphic relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
-    public function target()
-    {
-        return $this->morphTo();
     }
 }
