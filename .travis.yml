@@ -20,6 +20,7 @@ addons:
   postgresql: "9.3"
 
 before_install:
+  - if [[ $TRAVIS_PHP_VERSION != 7.0 ]] ; then phpenv config-rm xdebug.ini; fi
   - curl -L https://github.com/kr/beanstalkd/archive/v1.9.tar.gz | tar xz -C /tmp
   - cd /tmp/beanstalkd-1.9/
   - make
