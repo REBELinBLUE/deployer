@@ -61,3 +61,4 @@ script:
 
 after_script:
   - cat $TRAVIS_BUILD_DIR/storage/logs/*.log
+  - vendor/bin/test-reporter --coverage-report=$TRAVIS_BUILD_DIR/storage/logs/clover.xml
