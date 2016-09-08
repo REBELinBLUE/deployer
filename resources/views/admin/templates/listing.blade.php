@@ -15,7 +15,7 @@
                         <th>{{ Lang::get('commands.label') }}</th>
                         <th>{{ Lang::get('variables.label') }}</th>
                         <th>{{ Lang::get('sharedFiles.label') }}</th>
-                        <th>{{ Lang::get('projectFiles.label') }}</th>
+                        <th>{{ Lang::get('configFiles.label') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>

@@ -35,7 +35,7 @@ Route::group([
     Route::resource('heartbeats', 'HeartbeatController', $actions);
     Route::resource('notifications', 'NotificationController', $actions);
     Route::resource('shared-files', 'SharedFilesController', $actions);
-    Route::resource('project-file', 'ProjectFileController', $actions);
+    Route::resource('config-file', 'ConfigFileController', $actions);
     Route::resource('notify-email', 'NotifyEmailController', $actions);
     Route::resource('check-url', 'CheckUrlController', $actions);
 });

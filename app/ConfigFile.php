@@ -20,7 +20,7 @@ use REBELinBLUE\Deployer\Traits\HasTarget;
  * @property string $deleted_at
  * @property-read Project $project
  */
-class ProjectFile extends Model
+class ConfigFile extends Model
 {
     use SoftDeletes, BroadcastChanges, HasTarget;
 

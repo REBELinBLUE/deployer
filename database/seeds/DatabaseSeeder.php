@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TemplateTableSeeder::class);
         $this->call(VariableTableSeeder::class);
         $this->call(SharedFileTableSeeder::class);
-        $this->call(ProjectFileTableSeeder::class);
+        $this->call(ConfigFileTableSeeder::class);
     }
 }

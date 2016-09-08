@@ -76,7 +76,7 @@
                     </div>
                     <div class="tab-pane" id="files">
                         @include('projects._partials.shared_files')
-                        @include('projects._partials.project_files')
+                        @include('projects._partials.config_files')
                     </div>
                     <div class="tab-pane" id="notifications">
                         @include('projects._partials.notifications')
@@ -92,7 +92,7 @@
 
     @include('projects.dialogs.server')
     @include('projects.dialogs.shared_files')
-    @include('projects.dialogs.project_files')
+    @include('projects.dialogs.config_files')
     @include('projects.dialogs.channel')
     @include('projects.dialogs.webhook')
     @include('projects.dialogs.variable')
@@ -115,7 +115,7 @@
     <script type="text/javascript">
         new app.ServersTab();
         new app.SharedFilesTab();
-        new app.ProjectFilesTab();
+        new app.ConfigFilesTab();
         new app.NotificationsTab();
         new app.NotifyEmailsTab();
         new app.HeartbeatsTab();
@@ -124,7 +124,7 @@
 
         app.Servers.add({!! $servers->toJson() !!});
         app.SharedFiles.add({!! $sharedFiles->toJson() !!});
-        app.ProjectFiles.add({!! $projectFiles->toJson() !!});
+        app.ConfigFiles.add({!! $configFiles->toJson() !!});
         app.Notifications.add({!! $notifications->toJson() !!});
         app.NotifyEmails.add({!! $notifyEmails->toJson() !!});
         app.Heartbeats.add({!! $heartbeats->toJson() !!});

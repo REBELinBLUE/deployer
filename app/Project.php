@@ -48,7 +48,7 @@ use Version\Compare as VersionCompare;
  * @property-read Command[] $commands
  * @property-read Variable[] $variables
  * @property-read SharedFile[] $sharedFiles
- * @property-read ProjectFile[] $projectFiles
+ * @property-read ConfigFile[] $configFiles
  * @property-read NotifyEmail[] $notifyEmails
  * @property-read CheckUrl[] $checkUrls
  * @property-read Ref[] $refs
@@ -71,7 +71,7 @@ class Project extends Model implements PresentableInterface
     protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
                          'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
                          'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-                         'notifications', 'deployments', 'shareFiles', 'projectFiles', 'last_mirrored', ];
+                         'notifications', 'deployments', 'shareFiles', 'configFiles', 'last_mirrored', ];
 
     /**
      * The attributes that are mass assignable.

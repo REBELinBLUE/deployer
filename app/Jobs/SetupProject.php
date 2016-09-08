@@ -57,10 +57,10 @@ class SetupProject extends Job
             $this->project->sharedFiles()->create($data);
         }
 
-        foreach ($template->projectFiles as $file) {
+        foreach ($template->configFiles as $file) {
             $data = $file->toArray();
 
-            $this->project->projectFiles()->create($data);
+            $this->project->configFiles()->create($data);
         }
     }
 }

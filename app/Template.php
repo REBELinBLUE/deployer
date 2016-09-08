@@ -36,7 +36,7 @@ use Robbo\Presenter\PresentableInterface;
  * @property-read mixed $variable_count
  * @property-read Command[] $commands
  * @property-read SharedFile[] $sharedFiles
- * @property-read ProjectFile[] $projectFiles
+ * @property-read ConfigFile[] $configFiles
  * @property-read Variable[] $variables
  */
 class Template extends Model implements PresentableInterface
@@ -114,7 +114,7 @@ class Template extends Model implements PresentableInterface
      */
     public function getConfigCountAttribute()
     {
-        return $this->projectFiles()
+        return $this->configFiles()
                     ->count();
     }
 

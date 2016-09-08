@@ -1,15 +1,15 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use REBELinBLUE\Deployer\ProjectFile;
+use REBELinBLUE\Deployer\ConfigFile;
 
-class ProjectFileTableSeeder extends Seeder
+class ConfigFileTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('project_files')->delete();
+        DB::table('config_files')->delete();
 
-        ProjectFile::create([
+        ConfigFile::create([
             'name'        => 'Configuration',
             'path'        => '.env',
             'target_type' => 'project',

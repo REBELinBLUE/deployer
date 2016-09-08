@@ -8,7 +8,7 @@ use REBELinBLUE\Deployer\Template;
 
 class AddTargetableAttributes extends Migration
 {
-    private $relations = ['Command', 'Variable', 'ProjectFile', 'SharedFile'];
+    private $relations = ['Command', 'Variable', 'ConfigFile', 'SharedFile'];
 
     /**
      * Run the migrations.

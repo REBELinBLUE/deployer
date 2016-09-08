@@ -333,7 +333,7 @@ class DeployProject extends Job implements ShouldQueue
         if ($step->stage === Stage::DO_CLONE) {
             $this->sendFile($local_archive, $remote_archive, $log);
         } elseif ($step->stage === Stage::DO_INSTALL) {
-            foreach ($this->deployment->project->projectFiles as $file) {
+            foreach ($this->deployment->project->configFiles as $file) {
                 $this->sendFileFromString($latest_release_dir . '/' . $file->path, $file->content, $log);
             }
         }
@@ -496,7 +496,7 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function configurationFileCommands($release_dir)
     {
-        if (!$this->deployment->project->projectFiles->count()) {
+        if (!$this->deployment->project->configFiles->count()) {
             return '';
         }
 
@@ -504,7 +504,7 @@ class DeployProject extends Job implements ShouldQueue
 
         $script = '';
 
-        foreach ($this->deployment->project->projectFiles as $file) {
+        foreach ($this->deployment->project->configFiles as $file) {
             $script .= $parser->parseFile('deploy.ConfigurationFile', [
                 'deployment' => $this->deployment->id,
                 'path'       => $release_dir . '/' . $file->path,

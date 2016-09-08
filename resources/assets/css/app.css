@@ -112,7 +112,7 @@ div.deployment-source-container {
 }
 
 #command_script,
-#project-file-content {
+#config-file-content {
     height: 250px;
 }
 

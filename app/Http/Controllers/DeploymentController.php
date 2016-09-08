@@ -68,7 +68,7 @@ class DeploymentController extends Controller
             'notifyEmails'  => $project->notifyEmails,
             'heartbeats'    => $project->heartbeats,
             'sharedFiles'   => $project->sharedFiles,
-            'projectFiles'  => $project->projectFiles,
+            'configFiles'   => $project->configFiles,
             'checkUrls'     => $project->checkUrls,
             'variables'     => $project->variables,
             'optional'      => $optional,

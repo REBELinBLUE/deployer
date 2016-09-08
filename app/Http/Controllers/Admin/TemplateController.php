@@ -111,7 +111,7 @@ class TemplateController extends Controller
             ],
             'title'        => $template->name,
             'sharedFiles'  => $template->sharedFiles,
-            'projectFiles' => $template->projectFiles,
+            'configFiles'  => $template->configFiles,
             'variables'    => $template->variables,
             'project'      => $template,
             'target_type'  => 'template',

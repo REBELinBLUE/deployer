@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Contracts\Repositories;
 
-interface ProjectFileRepositoryInterface
+interface ConfigFileRepositoryInterface
 {
     /**
      * @param array $fields

@@ -3,9 +3,9 @@
 namespace REBELinBLUE\Deployer\Http\Requests;
 
 /**
- * Request for validating servers.
+ * Request for validating config files.
  */
-class StoreProjectFileRequest extends Request
+class StoreConfigFileRequest extends Request
 {
     /**
      * Get the validation rules that apply to the request.

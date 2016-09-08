@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Traits;
 
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\ProjectFile;
+use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\SharedFile;
 use REBELinBLUE\Deployer\Variable;
 
@@ -13,7 +13,7 @@ use REBELinBLUE\Deployer\Variable;
 trait ProjectRelations
 {
     /**
-     * Has many relationship.
+     * Has many relationship to commands.
      *
      * @return Command
      */
@@ -22,8 +22,9 @@ trait ProjectRelations
         return $this->morphMany(Command::class, 'target')
                     ->orderBy('order', 'ASC');
     }
+
     /**
-     * Has many relationship.
+     * Has many relationship to variables.
      *
      * @return Variable
      */
@@ -31,8 +32,9 @@ trait ProjectRelations
     {
         return $this->morphMany(Variable::class, 'target');
     }
+
     /**
-     * Has many relationship.
+     * Has many relationship to shared files.
      *
      * @return SharedFile
      */
@@ -40,13 +42,14 @@ trait ProjectRelations
     {
         return $this->morphMany(SharedFile::class, 'target');
     }
+
     /**
-     * Has many relationship to project file.
+     * Has many relationship to config files.
      *
-     * @return ProjectFile
+     * @return ConfigFile
      */
-    public function projectFiles()
+    public function configFiles()
     {
-        return $this->morphMany(ProjectFile::class, 'target');
+        return $this->morphMany(ConfigFile::class, 'target');
     }
 }
