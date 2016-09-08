@@ -17,7 +17,7 @@ class RemoveEnumFields extends Migration
      */
     public function up()
     {
-        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] === 'mysql') {
+        if (isset($_ENV['DB_CONNECTION']) && $_ENV['DB_CONNECTION'] === 'mysql') {
             DB::transaction(function () {
                 $this->removeEnum('projects', 'status', Project::NOT_DEPLOYED);
                 $this->removeEnum('servers', 'status', Server::UNTESTED);

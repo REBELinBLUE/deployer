@@ -80,6 +80,7 @@
       "php artisan clear-compiled"
     ],
     "post-install-cmd": [
+      "([ -f .env ] && sed -i 's/DB_TYPE=/DB_CONNECTION=/g' .env) || exit 0",
       "([ -f .env ] && php artisan optimize) || exit 0",
       "([ -f .env ] && php artisan js-localization:refresh) || exit 0"
     ],

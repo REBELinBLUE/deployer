@@ -175,7 +175,7 @@ class InstallApp extends Command
         }
 
         // Remove keys not needed for sqlite
-        if ($input['db']['type'] === 'sqlite') {
+        if ($input['db']['connection'] === 'sqlite') {
             foreach (['host', 'database', 'username', 'password'] as $key) {
                 $key = strtoupper($key);
 

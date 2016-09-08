@@ -35,6 +35,7 @@ class UpdateApp extends InstallApp
     public function handle()
     {
         if (!$this->verifyInstalled() ||
+            $this->hasDeprecatedConfig() ||
             $this->hasRunningDeployments() ||
             $this->composerOutdated() ||
             $this->nodeOutdated() ||
@@ -240,5 +241,26 @@ class UpdateApp extends InstallApp
         }
 
         return true;
+    }
+
+    /**
+     * Ensures the config file has been updated.
+     *
+     * @return bool
+     */
+    private function hasDeprecatedConfig()
+    {
+        // FIXME: Check if we can do this automatically without causing problems
+        if (preg_match('/DB_TYPE=/', file_get_contents(base_path('.env')))) {
+            $this->block([
+                'Update not complete!',
+                PHP_EOL,
+                'Your .env file has a DB_TYPE key, please rename this to DB_CONNECTION and try again',
+            ]);
+
+            return true;
+        }
+
+        return false;
     }
 }

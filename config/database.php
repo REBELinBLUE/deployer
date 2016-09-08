@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_TYPE', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------
