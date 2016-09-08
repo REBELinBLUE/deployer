@@ -47,9 +47,7 @@ class PopulatePermissionsTable extends Migration
             'label' => 'View all projects',
         ]);
 
-        $projects = Project::notTemplates()
-                           ->get()
-                           ->lists('id');
+        $projects = Project::all()->lists('id');
 
         foreach ($projects as $project) {
             Permission::create([
