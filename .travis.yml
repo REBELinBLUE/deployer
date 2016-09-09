@@ -51,8 +51,9 @@ before_script:
     - php artisan key:generate
     - php artisan jwt:generate
     - cat .env
-    - mysql -e 'CREATE DATABASE deployer;'
-    - psql -c 'CREATE DATABASE deployer;' -U postgres
+    - if [[ $DB_TYPE == "mysql" ]] ; mysql -e 'CREATE DATABASE deployer;'; fi
+    - if [[ $DB_TYPE == "pgsql" ]] ; psql -c 'CREATE DATABASE deployer;' -U postgres; fi
+    - if [[ $DB_TYPE == "sqlite" ]] ; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
     - php artisan migrate --seed --env="testing"
     - chmod -R 777 storage/
     - chmod -R 777 bootstrap/
