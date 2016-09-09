@@ -8,7 +8,7 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 
 **Current Build Status**
 
-[![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square)](https://styleci.io/repos/33559148)
+[![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square&branch=master)](https://styleci.io/repos/33559148)
 [![Build Status](https://img.shields.io/travis/REBELinBLUE/deployer.svg?style=flat-square&branch=master)](https://travis-ci.org/REBELinBLUE/deployer)
 [![Code Climate](https://img.shields.io/codeclimate/github/REBELinBLUE/deployer.svg?style=flat-square)](https://codeclimate.com/github/REBELinBLUE/deployer)
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/github/REBELinBLUE/deployer.svg?style=flat-square)](https://codeclimate.com/github/REBELinBLUE/deployer)
@@ -154,4 +154,4 @@ $ php artisan app:update
 
 ## License
 
-Deployer is licensed under [The MIT License (MIT)](LICENSE.md).
+Deployer is licensed under [The MIT License (MIT)](/LICENSE.md).
