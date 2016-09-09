@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use REBELinBLUE\Deployer\Server;
 
-// FIXME: This migration will be dropped
+// FIXME: This will be removed
 class AddServerStatusFailedFpm extends Migration
 {
     /**
@@ -13,14 +13,16 @@ class AddServerStatusFailedFpm extends Migration
      */
     public function up()
     {
-//        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
-//            DB::statement("ALTER TABLE servers CHANGE status status ENUM('"
-//                . Server::SUCCESSFUL . "', '"
-//                . Server::TESTING . "', '"
-//                . Server::FAILED . "', '"
-//                . Server::UNTESTED . "', '"
-//                . Server::FAILED_FPM . "') DEFAULT '" . Server::UNTESTED . "'");
-//        }
+        /*
+        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
+            DB::statement("ALTER TABLE servers CHANGE status status ENUM('"
+                . Server::SUCCESSFUL . "', '"
+                . Server::TESTING . "', '"
+                . Server::FAILED . "', '"
+                . Server::UNTESTED . "', '"
+                . Server::FAILED_FPM . "') DEFAULT '" . Server::UNTESTED . "'");
+        }
+        */
     }
 
     /**
@@ -30,12 +32,14 @@ class AddServerStatusFailedFpm extends Migration
      */
     public function down()
     {
-//        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
-//            DB::statement("ALTER TABLE servers CHANGE status status ENUM('"
-//                . Server::SUCCESSFUL . "', '"
-//                . Server::TESTING . "', '"
-//                . Server::FAILED . "', '"
-//                . Server::UNTESTED . "') DEFAULT '" . Server::UNTESTED . "'");
-//        }
+        /*
+        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
+            DB::statement("ALTER TABLE servers CHANGE status status ENUM('"
+                . Server::SUCCESSFUL . "', '"
+                . Server::TESTING . "', '"
+                . Server::FAILED . "', '"
+                . Server::UNTESTED . "') DEFAULT '" . Server::UNTESTED . "'");
+        }
+        */
     }
 }
