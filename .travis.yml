@@ -12,11 +12,13 @@ cache:
     - $HOME/.composer/cache
 
 services:
+  - mysql
   - postgresql
   - redis-server
 
 addons:
   postgresql: "9.3"
+  mariadb: "10.1"
 
 before_install:
   - if [[ $TRAVIS_PHP_VERSION == 5.6 ]] ; then phpenv config-rm xdebug.ini; fi
@@ -29,14 +31,19 @@ before_install:
 install:
   - composer install --no-interaction --no-scripts --prefer-dist --no-suggest
 
+env:
+  - DB_TYPE=mysql DB_CONNECTION=mysql DB_USERNAME=travis
+  - DB_TYPE=pgsql DB_CONNECTION=pgsql DB_USERNAME=postgres
+  - DB_TYPE=sqlite DB_CONNECTION=sqlite
+
 before_script:
     - cp .env.example .env
-    - sed -i 's/DB_TYPE=mysql/DB_TYPE=pgsql/g' .env
-    - sed -i 's/DB_USERNAME=deployer/DB_USERNAME=postgres/g' .env
+    - sed -i 's/DB_USERNAME=deployer/DB_USERNAME=${DB_USERNAME}/g' .env
     - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
     - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
+    - sed -i 's/DB_TYPE=mysql//g' .env
     - sed -i 's/TRUSTED_PROXIES=//g' .env
     - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
     - sed -i '/^#/ d' .env
@@ -44,6 +51,7 @@ before_script:
     - php artisan key:generate
     - php artisan jwt:generate
     - cat .env
+    - mysql -e 'CREATE DATABASE deployer;'
     - psql -c 'CREATE DATABASE deployer;' -U postgres
     - php artisan migrate --seed --env="testing"
     - chmod -R 777 storage/
