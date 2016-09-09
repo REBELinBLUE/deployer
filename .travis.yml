@@ -32,18 +32,18 @@ install:
   - composer install --no-interaction --no-scripts --prefer-dist --no-suggest
 
 env:
-  - DB_TYPE=mysql DB_CONNECTION=mysql DB_USERNAME=travis
-  - DB_TYPE=pgsql DB_CONNECTION=pgsql DB_USERNAME=postgres
-  - DB_TYPE=sqlite DB_CONNECTION=sqlite
+  - DB=mysql DB_USERNAME=travis
+  - DB=pgsql DB_USERNAME=postgres
+  - DB=sqlite
 
 before_script:
     - cp .env.example .env
+    - sed -i 's/DB_TYPE=mysql/DB_TYPE=${DB}/g' .env
     - sed -i 's/DB_USERNAME=deployer/DB_USERNAME=${DB_USERNAME}/g' .env
     - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
     - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
-    - sed -i 's/DB_TYPE=mysql//g' .env
     - sed -i 's/TRUSTED_PROXIES=//g' .env
     - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
     - sed -i '/^#/ d' .env
@@ -51,9 +51,9 @@ before_script:
     - php artisan key:generate
     - php artisan jwt:generate
     - cat .env
-    - if [[ $DB_TYPE == "mysql" ]] ; mysql -e 'CREATE DATABASE deployer;'; fi
-    - if [[ $DB_TYPE == "pgsql" ]] ; psql -c 'CREATE DATABASE deployer;' -U postgres; fi
-    - if [[ $DB_TYPE == "sqlite" ]] ; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
+    - if [[ "$DB" == "mysql" ]] ; then mysql -e 'CREATE DATABASE deployer;'; fi
+    - if [[ "$DB" == "pgsql" ]] ; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
+    - if [[ "$DB" == "sqlite" ]] ; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
     - php artisan migrate --seed --env="testing"
     - chmod -R 777 storage/
     - chmod -R 777 bootstrap/
