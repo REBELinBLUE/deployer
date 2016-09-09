@@ -47,7 +47,7 @@ before_script:
     - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
     - sed -i 's/TRUSTED_PROXIES=//g' .env
     - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
-    - sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(date | md5sum)/g" .env
+    - sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32 ; echo)/g" .env
     - sed -i '/^#/ d' .env
     - sed -i '/^[[:blank:]]*$/d' .env
     - php artisan key:generate
