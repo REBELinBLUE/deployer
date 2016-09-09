@@ -50,7 +50,7 @@ before_script:
     - sed -i '/^#/ d' .env
     - sed -i '/^[[:blank:]]*$/d' .env
     - php artisan key:generate
-    - php artisan jwt:generate
+    - php artisan jwt:generate --force
     - cat .env
     - if [[ "$DB" == "mysql" ]] ; then mysql -e 'CREATE DATABASE deployer;'; fi
     - if [[ "$DB" == "pgsql" ]] ; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
@@ -73,4 +73,4 @@ script:
 
 after_script:
   - cat $TRAVIS_BUILD_DIR/storage/logs/*.log
-  - vendor/bin/test-reporter --coverage-report=$TRAVIS_BUILD_DIR/storage/logs/clover.xml
+  - vendor/bin/test-reporter
