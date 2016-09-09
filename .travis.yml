@@ -34,11 +34,11 @@ install:
 env:
   - DB=mysql DB_USERNAME=travis
   - DB=pgsql DB_USERNAME=postgres
-  - DB=sqlite
+#  - DB=sqlite - SQLite is currently broken
 
 before_script:
-    - cp .env.example .env
     - sed -i 's/DB_TYPE=mysql/DB_TYPE=${DB}/g' .env
+    - sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=${DB}/g' .env
     - sed -i 's/DB_USERNAME=deployer/DB_USERNAME=${DB_USERNAME}/g' .env
     - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
     - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
@@ -54,6 +54,8 @@ before_script:
     - if [[ "$DB" == "mysql" ]] ; then mysql -e 'CREATE DATABASE deployer;'; fi
     - if [[ "$DB" == "pgsql" ]] ; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
     - if [[ "$DB" == "sqlite" ]] ; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
+    - php artisan optimize
+    - php artisan js-localization:refresh
     - php artisan migrate --seed --env="testing"
     - chmod -R 777 storage/
     - chmod -R 777 bootstrap/
