@@ -10,6 +10,7 @@
   "scripts": {
     "postinstall": "touch ./node_modules/.install",
     "clean-build": "rm -rf public/build/",
+    "clean": "npm run clean-build; npm run clean-deps",
     "clean-deps": "rm -rf vendor/ node_modules/ resources/assets/node_modules",
     "install-deps": "composer install --no-suggest; npm install; cd resources/assets; npm install; cd ../.."
   }
