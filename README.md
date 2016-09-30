@@ -1,3 +1,10 @@
+```
+# AFK
+
+**Between 3rd and 18th October I will not have access to a computer or an Internet connection. Please rest assured that I am not ignore issues, I will answer them on my return**
+```
+
+
 # Deployer
 
 Deployer is a PHP Application deployment system powered by [Laravel 5.2](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
@@ -5,10 +12,6 @@ Deployer is a PHP Application deployment system powered by [Laravel 5.2](http://
 Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](/SCREENSHOTS.md), and [contribution guidelines](/.github/CONTRIBUTING.md).
 
 [![Gitter](https://img.shields.io/badge/chat-on%20gitter-brightgreen.svg?style=flat-square)](https://gitter.im/REBELinBLUE/deployer)
-
-# AFK
-
-**Between 3rd and 18th October I will not have access to a computer or an Internet connection. Please rest assured that I am not ignore issues, I will answer them on my return**
 
 **Current Build Status**
 
