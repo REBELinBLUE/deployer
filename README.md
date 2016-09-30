@@ -6,6 +6,10 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 
 [![Gitter](https://img.shields.io/badge/chat-on%20gitter-brightgreen.svg?style=flat-square)](https://gitter.im/REBELinBLUE/deployer)
 
+# AFK
+
+**Between 3rd and 18th October I will not have access to a computer or an Internet connection. Please rest assured that I am not ignore issues, I will answer them on my return**
+
 **Current Build Status**
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square&branch=master)](https://styleci.io/repos/33559148)
