@@ -1,9 +1,6 @@
-```
-# AFK
-
-**Between 3rd and 18th October I will not have access to a computer or an Internet connection. Please rest assured that I am not ignore issues, I will answer them on my return**
-```
-
+> # AFK
+> 
+> **Between 3rd and 18th October I will not have access to a computer or an Internet connection. Please rest assured that I am not ignore issues, I will answer them on my return**
 
 # Deployer
 
