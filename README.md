@@ -1,7 +1,3 @@
-> # AFK
-> 
-> **Between 3rd and 18th October I will not have access to a computer or an Internet connection. Please rest assured that I am not ignoring issues, I will answer them on my return**
-
 # Deployer
 
 Deployer is a PHP Application deployment system powered by [Laravel 5.2](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
