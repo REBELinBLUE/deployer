@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "eba925f18d449cb9f185bcafc1fafee5",
-    "content-hash": "ffc2dc1cafdecc6afb7393a9c3cd9d44",
+    "hash": "22309d8020696c68371a5214ae1e2dd1",
+    "content-hash": "a60c5240b91a7f39e2a5aa88fd943165",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -3730,6 +3730,59 @@
                 }
             ],
             "time": "2016-06-13 19:28:20"
+        },
+        {
+            "name": "block8/php-docblock-checker",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Block8/php-docblock-checker.git",
+                "reference": "e1c2e1c6294a25cf91feb4d0c4dee0152ef4e112"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Block8/php-docblock-checker/zipball/e1c2e1c6294a25cf91feb4d0c4dee0152ef4e112",
+                "reference": "e1c2e1c6294a25cf91feb4d0c4dee0152ef4e112",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "phpunit/php-token-stream": "1.*",
+                "symfony/console": "3.*"
+            },
+            "require-dev": {
+                "phploc/phploc": "~2.0",
+                "phpmd/phpmd": "~2.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "bin": [
+                "phpdoccheck"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Cryer",
+                    "email": "dan.cryer@block8.co.uk",
+                    "homepage": "http://www.block8.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple tool for checking that your PHP classes and methods use docblocks.",
+            "homepage": "https://www.phptesting.org/",
+            "keywords": [
+                "checker",
+                "code quality",
+                "comment",
+                "docblock",
+                "php",
+                "phpci",
+                "testing"
+            ],
+            "time": "2016-08-25 13:11:15"
         },
         {
             "name": "codeclimate/php-test-reporter",
