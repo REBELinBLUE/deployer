@@ -65,7 +65,6 @@
     "redux-devtools-chart-monitor": "^1.4.1",
     "redux-devtools-dispatch": "^2.2.0",
     "redux-devtools-dock-monitor": "^1.1.1",
-    "redux-devtools-inspector": "^0.6.1",
     "redux-devtools-log-monitor": "^1.0.11",
     "redux-devtools-multiple-monitors": "^1.0.1",
     "redux-slider-monitor": "^1.0.6",
@@ -79,6 +78,9 @@
     "webpack-merge": "^0.14.1",
     "webpack-shell-plugin": "^0.4.2",
     "webpack-validator": "^2.2.3"
+  },
+  "broken": {
+    "redux-devtools-inspector": "^0.6.1"
   },
   "scripts": {
     "start": "webpack-dashboard -- webpack-dev-server",
