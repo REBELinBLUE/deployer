@@ -33,7 +33,7 @@ install:
 
 env:
   - DB=mysql DB_USERNAME=travis
-# - DB=pgsql DB_USERNAME=postgres
+  - DB=pgsql DB_USERNAME=postgres
 #  - DB=sqlite - SQLite is currently broken
 
 before_script:
