@@ -180,7 +180,7 @@ class DeploymentController extends Controller
             }, $request->get('optional')));
         }
 
-        $deployment = $this->deploymentRepository->rollback($deployment_id, $optional);
+        $deployment = $this->deploymentRepository->rollback($deployment_id, $request->get('reason'), $optional);
 
         return redirect()->route('deployments', [
             'id' => $deployment->id,
