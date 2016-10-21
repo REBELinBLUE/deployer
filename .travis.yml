@@ -45,6 +45,8 @@ before_script:
     - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
+    - sed -i 's/SOCKET_SSL_KEY_PASSPHRASE=//g' .env
+    - sed -i 's/REDIS_PASSWORD=null//g' .env
     - sed -i 's/TRUSTED_PROXIES=//g' .env
     - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
     - sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32 ; echo)/g" .env
