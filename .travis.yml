@@ -72,7 +72,9 @@ script:
   - vendor/bin/phpcs -p --standard=PSR2 app/
 #  - vendor/bin/phpmd app text phpmd.xml
   - vendor/bin/phpunit
+  - echo -en 'travis_fold:start:phpdoccheck\\r'
   - vendor/bin/phpdoccheck --directory=app
+  - echo -en 'travis_fold:end:phpdoccheck\\r'
 
 after_script:
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
