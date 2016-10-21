@@ -75,5 +75,5 @@ script:
   - vendor/bin/phpdoccheck --directory=app
 
 after_script:
-  - cat $TRAVIS_BUILD_DIR/storage/logs/*.log
+  - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
   - vendor/bin/test-reporter
