@@ -12,13 +12,13 @@ class RenameProjectFilesTable extends Migration
      */
     public function up()
     {
-        Schema::table('project_files', function ($table) {
+        Schema::table('project_files', function (Blueprint $table) {
             $table->dropForeign(['project_id']);
         });
 
         Schema::rename('project_files', 'config_files');
 
-        Schema::table('config_files', function ($table) {
+        Schema::table('config_files', function (Blueprint $table) {
             $table->foreign('project_id')->references('id')->on('projects');
         });
     }

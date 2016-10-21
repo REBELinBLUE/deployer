@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use REBELinBLUE\Deployer\Group;
-use REBELinBLUE\Deployer\Template;
 
 class AddGroupOrdering extends Migration
 {

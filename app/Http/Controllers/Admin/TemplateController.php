@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Lang;
+use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Contracts\Repositories\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Contracts\Repositories\TemplateRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
