@@ -63,7 +63,7 @@ class InstallApp extends Command
     public function handle()
     {
         if (!$this->verifyNotInstalled()) {
-            return;
+            return -1;
         }
 
         $this->clearCaches();
@@ -82,7 +82,7 @@ class InstallApp extends Command
         $this->line('');
 
         if (!$this->checkRequirements()) {
-            return;
+            return -1;
         }
 
         $this->line('Please answer the following questions:');

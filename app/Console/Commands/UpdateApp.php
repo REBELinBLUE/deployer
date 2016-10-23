@@ -39,7 +39,7 @@ class UpdateApp extends InstallApp
             $this->composerOutdated() ||
             $this->nodeOutdated() ||
             !$this->checkRequirements()) {
-            return;
+            return -1;
         }
 
         $bring_back_up = false;
