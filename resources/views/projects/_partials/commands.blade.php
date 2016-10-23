@@ -1,4 +1,4 @@
-@if (!$project->is_template)
+@if ($target_type === 'project')
 <div class="callout">
     <h4>{{ Lang::get('commands.deploy_webhook') }} <i class="fa fa-question-circle" id="show_help" data-toggle="modal" data-backdrop="static" data-target="#help"></i></h4>
     <code id="webhook">{{ $project->webhook_url }}</code><button class="btn btn-xs btn-link" id="new_webhook" title="{{ Lang::get('commands.generate_webhook') }}" data-project-id="{{ $project->id }}"><i class="fa fa-refresh"></i></button>

@@ -4,22 +4,22 @@ Deployer is a PHP Application deployment system powered by [Laravel 5.2](http://
 
 Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](/SCREENSHOTS.md), and [contribution guidelines](/.github/CONTRIBUTING.md).
 
-[![Gitter](https://img.shields.io/badge/chat-on%20gitter-green.svg)](https://gitter.im/REBELinBLUE/deployer)
+[![Gitter](https://img.shields.io/badge/chat-on%20gitter-brightgreen.svg?style=flat-square)](https://gitter.im/REBELinBLUE/deployer)
 
 **Current Build Status**
 
-[![StyleCI](https://styleci.io/repos/33559148/shield?style=flat)](https://styleci.io/repos/33559148)
-[![Build Status](https://travis-ci.org/REBELinBLUE/deployer.svg?branch=master)](https://travis-ci.org/REBELinBLUE/deployer)
-[![Build Status](http://ci.rebelinblue.com/build-status/image/3?branch=master&style=flat&label=PHPCI)](http://ci.rebelinblue.com/build-status/view/3?branch=master)
-[![Code Climate](https://codeclimate.com/github/REBELinBLUE/deployer/badges/gpa.svg)](https://codeclimate.com/github/REBELinBLUE/deployer)
-[![Test Coverage](https://codeclimate.com/github/REBELinBLUE/deployer/badges/coverage.svg)](https://codeclimate.com/github/REBELinBLUE/deployer)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/686dd98b-c0e5-465b-8f14-29b1cab47f3b.svg)](https://insight.sensiolabs.com/projects/686dd98b-c0e5-465b-8f14-29b1cab47f3b)
+[![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square&branch=master)](https://styleci.io/repos/33559148)
+[![Build Status](https://img.shields.io/travis/REBELinBLUE/deployer.svg?style=flat-square&branch=master)](https://travis-ci.org/REBELinBLUE/deployer)
+[![Code Climate](https://img.shields.io/codeclimate/github/REBELinBLUE/deployer.svg?style=flat-square)](https://codeclimate.com/github/REBELinBLUE/deployer)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/github/REBELinBLUE/deployer.svg?style=flat-square)](https://codeclimate.com/github/REBELinBLUE/deployer)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/686dd98b-c0e5-465b-8f14-29b1cab47f3b.svg?style=flat-square)](https://insight.sensiolabs.com/projects/686dd98b-c0e5-465b-8f14-29b1cab47f3b)
 
 **Release Status**
 
-[![PHP Dependency Status](https://www.versioneye.com/user/projects/5531329410e7141211000f29/badge.svg)](https://www.versioneye.com/user/projects/5531329410e7141211000f29)
-[![Node Dependency Status](https://www.versioneye.com/user/projects/5531329610e714f9e500109c/badge.svg)](https://www.versioneye.com/user/projects/5531329610e714f9e500109c)
-[![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg)](https://github.com/REBELinBLUE/deployer/releases)
+[![PHP Dependency Status](https://www.versioneye.com/user/projects/5531329410e7141211000f29/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5531329410e7141211000f29)
+[![Node Dependency Status](https://www.versioneye.com/user/projects/5531329610e714f9e500109c/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5531329610e714f9e500109c)
+[![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg?style=flat-square)](https://github.com/REBELinBLUE/deployer/releases)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](/LICENSE.md)
 
 ## What it does
 
@@ -95,7 +95,7 @@ $ git clone https://github.com/REBELinBLUE/deployer.git
 2. Checkout the latest release
 
 ```shell
-$ git checkout 0.0.38
+$ git checkout 0.0.39
 ```
 
 3. Install dependencies
@@ -136,7 +136,7 @@ $ editor .env
 
 ```shell
 $ git fetch --all
-$ git checkout 0.0.38
+$ git checkout 0.0.39
  ```
 
 2. Update the dependencies
@@ -154,4 +154,4 @@ $ php artisan app:update
 
 ## License
 
-Deployer is licensed under [The MIT License (MIT)](LICENSE.md).
+Deployer is licensed under [The MIT License (MIT)](/LICENSE.md).

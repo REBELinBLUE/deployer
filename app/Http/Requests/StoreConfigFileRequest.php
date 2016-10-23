@@ -3,9 +3,9 @@
 namespace REBELinBLUE\Deployer\Http\Requests;
 
 /**
- * Request for validating variables.
+ * Request for validating config files.
  */
-class StoreVariableRequest extends Request
+class StoreConfigFileRequest extends Request
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,7 +16,8 @@ class StoreVariableRequest extends Request
     {
         return [
             'name'        => 'required|max:255',
-            'value'       => 'required',
+            'path'        => 'required',
+            'content'     => 'required',
             'target_type' => 'required|in:project,template',
             'target_id'   => 'required|integer|exists:' . $this->get('target_type') . 's,id'
         ];

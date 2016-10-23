@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\HasTarget;
 
 /**
  * The command model.
@@ -26,7 +27,7 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
  */
 class Command extends Model
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, HasTarget;
 
     const BEFORE_CLONE    = 1;
     const DO_CLONE        = 2;
@@ -46,14 +47,15 @@ class Command extends Model
      *
      * @var array
      */
-    protected $hidden = ['project', 'created_at', 'deleted_at', 'updated_at'];
+    protected $hidden = ['created_at', 'deleted_at', 'updated_at'];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'user', 'script', 'project_id', 'step', 'order', 'optional', 'default_on'];
+    protected $fillable = ['name', 'user', 'script', 'target_type', 'target_id',
+                           'step', 'order', 'optional', 'default_on', ];
 
     /**
      * The attributes that should be casted to native types.
@@ -62,22 +64,11 @@ class Command extends Model
      */
     protected $casts = [
         'id'         => 'integer',
-        'project_id' => 'integer',
         'step'       => 'integer',
         'optional'   => 'boolean',
         'default_on' => 'boolean',
         'order'      => 'integer',
     ];
-
-    /**
-     * Belongs to relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
 
     /**
      * Belongs to many relationship.

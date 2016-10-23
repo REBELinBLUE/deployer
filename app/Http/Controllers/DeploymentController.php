@@ -68,13 +68,15 @@ class DeploymentController extends Controller
             'notifyEmails'  => $project->notifyEmails,
             'heartbeats'    => $project->heartbeats,
             'sharedFiles'   => $project->sharedFiles,
-            'projectFiles'  => $project->projectFiles,
+            'configFiles'   => $project->configFiles,
             'checkUrls'     => $project->checkUrls,
             'variables'     => $project->variables,
             'optional'      => $optional,
             'tags'          => $project->tags()->reverse(),
             'branches'      => $project->branches(),
             'route'         => 'commands.step',
+            'target_type'   => 'project',
+            'target_id'     => $project->id,
         ]);
     }
 
@@ -178,7 +180,7 @@ class DeploymentController extends Controller
             }, $request->get('optional')));
         }
 
-        $deployment = $this->deploymentRepository->rollback($deployment_id, $optional);
+        $deployment = $this->deploymentRepository->rollback($deployment_id, $request->get('reason'), $optional);
 
         return redirect()->route('deployments', [
             'id' => $deployment->id,

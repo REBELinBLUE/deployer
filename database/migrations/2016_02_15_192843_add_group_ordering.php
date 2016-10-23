@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use REBELinBLUE\Deployer\Group;
-use REBELinBLUE\Deployer\Template;
 
 class AddGroupOrdering extends Migration
 {
@@ -16,7 +15,7 @@ class AddGroupOrdering extends Migration
             $table->unsignedInteger('order')->default(0);
         });
 
-        $groups = Group::where('id', '<>', Template::GROUP_ID)
+        $groups = Group::where('id', '<>', 1)
                        ->orderBy('name')
                        ->get();
 

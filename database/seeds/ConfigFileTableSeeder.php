@@ -1,18 +1,20 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use REBELinBLUE\Deployer\ProjectFile;
+use REBELinBLUE\Deployer\ConfigFile;
 
-class ProjectFileTableSeeder extends Seeder
+class ConfigFileTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('project_files')->delete();
+        DB::table('config_files')->delete();
 
-        ProjectFile::create([
-            'name'    => 'Configuration',
-            'path'    => '.env',
-            'content' => 'APP_ENV=local
+        ConfigFile::create([
+            'name'        => 'Configuration',
+            'path'        => '.env',
+            'target_type' => 'project',
+            'target_id'   => 1,
+            'content'     => 'APP_ENV=local
 APP_DEBUG=true
 APP_KEY=KkaOy5AZuzQ8ILAs6EwEYnK4VZVZJvNT
 APP_URL=http://deployer.app
@@ -46,7 +48,6 @@ CACHE_DRIVER=file
 SESSION_DRIVER=file
 IMAGE_DRIVER=gd
 ',
-            'project_id' => 1,
         ]);
     }
 }

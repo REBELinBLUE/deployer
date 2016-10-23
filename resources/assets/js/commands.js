@@ -127,14 +127,15 @@ var app = app || {};
         });
 
         command.save({
-            name:       $('#command_name').val(),
-            script:     editor.getValue(),
-            user:       $('#command_user').val(),
-            step:       $('#command_step').val(),
-            project_id: $('input[name="project_id"]').val(),
-            servers:    server_ids,
-            optional:   $('#command_optional').is(':checked'),
-            default_on: $('#command_default_on').is(':checked')
+            name:        $('#command_name').val(),
+            script:      editor.getValue(),
+            user:        $('#command_user').val(),
+            step:        $('#command_step').val(),
+            target_type: $('input[name="target_type"]').val(),
+            target_id:   $('input[name="target_id"]').val(),
+            servers:     server_ids,
+            optional:    $('#command_optional').is(':checked'),
+            default_on:  $('#command_default_on').is(':checked')
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -233,8 +234,9 @@ var app = app || {};
             });
 
             app.listener.on('command:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
-                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
-
+                var target_type = $('input[name="target_type"]').val();
+                var target_id = $('input[name="target_id"]').val();
+                if (target_type == data.model.target_type && parseInt(data.model.target_id) === parseInt(target_id)) {
                     // Make sure the command is for this action (clone, install, activate, purge)
                     if (parseInt(data.model.step) + 1 === parseInt(app.command_action) || parseInt(data.model.step) - 1 === parseInt(app.command_action)) {
                         app.Commands.add(data.model);

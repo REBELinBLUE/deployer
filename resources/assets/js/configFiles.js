@@ -5,11 +5,11 @@ var app = app || {};
     var editor;
     var previewfile;
 
-    $('#projectfile, #view-projectfile').on('hidden.bs.modal', function (event) {
+    $('#configfile, #view-configfile').on('hidden.bs.modal', function (event) {
         editor.destroy();
     });
 
-    $('#view-projectfile').on('show.bs.modal', function (event) {
+    $('#view-configfile').on('show.bs.modal', function (event) {
         editor = ace.edit('preview-content');
         editor.setReadOnly(true);
         editor.getSession().setUseWrapMode(true);
@@ -24,14 +24,14 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#projectfile').on('show.bs.modal', function (event) {
+    $('#configfile').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.get('projectFiles.create');
+        var title = Lang.get('configFiles.create');
 
-        editor = ace.edit('project-file-content');
+        editor = ace.edit('config-file-content');
 
-        var filename = $('#project-file-path').val();
+        var filename = $('#config-file-path').val();
         var extension = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
 
         if (extension === 'php' || extension === 'ini') {
@@ -46,12 +46,12 @@ var app = app || {};
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.get('projectFiles.edit');
+            title = Lang.get('configFiles.edit');
             $('.btn-danger', modal).show();
         } else {
-            $('#project_file_id').val('');
-            $('#project-file-name').val('');
-            $('#project-file-path').val('');
+            $('#config_file_id').val('');
+            $('#config-file-name').val('');
+            $('#config-file-path').val('');
             editor.setValue('');
             editor.gotoLine(1);
         }
@@ -61,7 +61,7 @@ var app = app || {};
 
 
     // FIXME: This seems very wrong
-    $('#projectfile button.btn-delete').on('click', function (event) {
+    $('#configfile button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -70,7 +70,7 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var file = app.ProjectFiles.get($('#project_file_id').val());
+        var file = app.ConfigFiles.get($('#config_file_id').val());
 
         file.destroy({
             wait: true,
@@ -91,7 +91,7 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#projectfile button.btn-save').on('click', function (event) {
+    $('#configfile button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -100,19 +100,20 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var project_file_id = $('#project_file_id').val();
+        var config_file_id = $('#config_file_id').val();
 
-        if (project_file_id) {
-            var file = app.ProjectFiles.get(project_file_id);
+        if (config_file_id) {
+            var file = app.ConfigFiles.get(config_file_id);
         } else {
-            var file = new app.ProjectFile();
+            var file = new app.ConfigFile();
         }
 
         file.save({
-            name:       $('#project-file-name').val(),
-            path:       $('#project-file-path').val(),
-            content:    editor.getValue(),
-            project_id: $('input[name="project_id"]').val()
+            name:        $('#config-file-name').val(),
+            path:        $('#config-file-path').val(),
+            content:     editor.getValue(),
+            target_type: $('input[name="target_type"]').val(),
+            target_id:   $('input[name="target_id"]').val()
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -123,8 +124,8 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
 
-                if (!project_file_id) {
-                    app.ProjectFiles.add(response);
+                if (!config_file_id) {
+                    app.ConfigFiles.add(response);
                 }
 
                 editor.setValue('');
@@ -157,66 +158,68 @@ var app = app || {};
         });
     });
 
-    app.ProjectFile = Backbone.Model.extend({
-        urlRoot: '/project-file'
+    app.ConfigFile = Backbone.Model.extend({
+        urlRoot: '/config-file'
     });
 
-    var ProjectFiles = Backbone.Collection.extend({
-        model: app.ProjectFile
+    var ConfigFiles = Backbone.Collection.extend({
+        model: app.ConfigFile
     });
 
-    app.ProjectFiles = new ProjectFiles();
+    app.ConfigFiles = new ConfigFiles();
 
-    app.ProjectFilesTab = Backbone.View.extend({
+    app.ConfigFilesTab = Backbone.View.extend({
         el: '#app',
         events: {
 
         },
         initialize: function() {
-            this.$list = $('#projectfile_list tbody');
+            this.$list = $('#configfile_list tbody');
 
-            $('#no_projectfiles').show();
-            $('#projectfile_list').hide();
+            $('#no_configfiles').show();
+            $('#configfile_list').hide();
 
-            this.listenTo(app.ProjectFiles, 'add', this.addOne);
-            this.listenTo(app.ProjectFiles, 'reset', this.addAll);
-            this.listenTo(app.ProjectFiles, 'remove', this.addAll);
-            this.listenTo(app.ProjectFiles, 'all', this.render);
+            this.listenTo(app.ConfigFiles, 'add', this.addOne);
+            this.listenTo(app.ConfigFiles, 'reset', this.addAll);
+            this.listenTo(app.ConfigFiles, 'remove', this.addAll);
+            this.listenTo(app.ConfigFiles, 'all', this.render);
 
-            app.listener.on('projectfile:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
-                var file = app.ProjectFiles.get(parseInt(data.model.id));
+            app.listener.on('configfile:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+                var file = app.ConfigFiles.get(parseInt(data.model.id));
 
                 if (file) {
                     file.set(data.model);
                 }
             });
 
-            app.listener.on('projectfile:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
-                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
-                    app.ProjectFiles.add(data.model);
+            app.listener.on('configfile:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
+                var target_type = $('input[name="target_type"]').val();
+                var target_id = $('input[name="target_id"]').val();
+                if (target_type == data.model.target_type && parseInt(data.model.target_id) === parseInt(target_id)) {
+                    app.ConfigFiles.add(data.model);
                 }
             });
 
-            app.listener.on('projectfile:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
-                var file = app.ProjectFiles.get(parseInt(data.model.id));
+            app.listener.on('configfile:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
+                var file = app.ConfigFiles.get(parseInt(data.model.id));
 
                 if (file) {
-                    app.ProjectFiles.remove(file);
+                    app.ConfigFiles.remove(file);
                 }
             });
         },
         render: function () {
-            if (app.ProjectFiles.length) {
-                $('#no_projectfiles').hide();
-                $('#projectfile_list').show();
+            if (app.ConfigFiles.length) {
+                $('#no_configfiles').hide();
+                $('#configfile_list').show();
             } else {
-                $('#no_projectfiles').show();
-                $('#projectfile_list').hide();
+                $('#no_configfiles').show();
+                $('#configfile_list').hide();
             }
         },
         addOne: function (file) {
 
-            var view = new app.ProjectFileView({
+            var view = new app.ConfigFileView({
                 model: file
             });
 
@@ -224,11 +227,11 @@ var app = app || {};
         },
         addAll: function () {
             this.$list.html('');
-            app.ProjectFiles.each(this.addOne, this);
+            app.ConfigFiles.each(this.addOne, this);
         }
     });
 
-    app.ProjectFileView = Backbone.View.extend({
+    app.ConfigFileView = Backbone.View.extend({
         tagName:  'tr',
         events: {
             'click .btn-edit': 'editFile',
@@ -238,7 +241,7 @@ var app = app || {};
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'destroy', this.remove);
 
-            this.template = _.template($('#project-files-template').html());
+            this.template = _.template($('#config-files-template').html());
         },
         render: function () {
             var data = this.model.toJSON();
@@ -253,10 +256,10 @@ var app = app || {};
         },
         editFile: function() {
             // FIXME: Sure this is wrong?
-            $('#project_file_id').val(this.model.id);
-            $('#project-file-name').val(this.model.get('name'));
-            $('#project-file-path').val(this.model.get('path'));
-            $('#project-file-content').text(this.model.get('content'));
+            $('#config_file_id').val(this.model.id);
+            $('#config-file-name').val(this.model.get('name'));
+            $('#config-file-path').val(this.model.get('path'));
+            $('#config-file-content').text(this.model.get('content'));
         }
     });
 

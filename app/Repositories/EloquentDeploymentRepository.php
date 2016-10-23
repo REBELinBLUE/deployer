@@ -94,7 +94,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      *
      * {@inheritdoc}
      */
-    public function rollback($model_id, array $optional = [])
+    public function rollback($model_id, $reason = '', array $optional = [])
     {
         $previous = $this->getById($model_id);
 
@@ -104,6 +104,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
             'commit'          => $previous->commit,
             'project_id'      => $previous->project_id,
             'branch'          => $previous->branch,
+            'reason'          => $reason,
             'optional'        => $optional,
         ]);
     }

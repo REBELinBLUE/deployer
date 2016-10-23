@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Group;
-use REBELinBLUE\Deployer\Template;
 
 /**
  * The group repository.
@@ -27,7 +26,6 @@ class EloquentGroupRepository extends EloquentRepository implements GroupReposit
     public function getAll()
     {
         return $this->model
-                    ->where('id', '<>', Template::GROUP_ID)
                     ->orderBy('order')
                     ->get();
     }

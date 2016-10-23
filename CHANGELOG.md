@@ -1,12 +1,19 @@
 # Change Log
 
-## [0.0.39](https://github.com/REBELinBLUE/deployer/tree/0.0.39) (2016-09-06)
+## [0.0.39](https://github.com/REBELinBLUE/deployer/tree/0.0.39) (2016-10-23)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.38...0.0.39)
 
-**Implemented enhancements:**
+**Fixed bugs:**
 
-- Automatically detect and restart php-fpm [\#238](https://github.com/REBELinBLUE/deployer/pull/238) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Access control lists/User levels [\#236](https://github.com/REBELinBLUE/deployer/pull/236) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- node socket.js doesn't work with SSL when key has a passphrase [\#276](https://github.com/REBELinBLUE/deployer/issues/276)
+- Install dev dependencies does not work with older versions of composer due to using a 1.2+ flag [\#275](https://github.com/REBELinBLUE/deployer/issues/275)
+- Persistent Folder creating multiple folders [\#273](https://github.com/REBELinBLUE/deployer/issues/273)
+
+**Merged pull requests:**
+
+- Fixed missing reason of rollback [\#270](https://github.com/REBELinBLUE/deployer/pull/270) ([phecho](https://github.com/phecho))
+- Added target trait [\#269](https://github.com/REBELinBLUE/deployer/pull/269) ([phecho](https://github.com/phecho))
+- Cleaning up polymorphic relationships \(projects/templates\) [\#265](https://github.com/REBELinBLUE/deployer/pull/265) ([REBELinBLUE](https://github.com/REBELinBLUE))
 
 ## [0.0.38](https://github.com/REBELinBLUE/deployer/tree/0.0.38) (2016-08-21)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.37...0.0.38)
@@ -16,7 +23,19 @@
 - usort: Array was modified by the user comparison function [\#258](https://github.com/REBELinBLUE/deployer/issues/258)
 
 ## [0.0.37](https://github.com/REBELinBLUE/deployer/tree/0.0.37) (2016-08-06)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.36...0.0.37)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/blah-blah-blah-blah...0.0.37)
+
+**Fixed bugs:**
+
+- --warning option don't exist on all versions of tar [\#257](https://github.com/REBELinBLUE/deployer/issues/257)
+- Fatal error if git tags contain a string which is not a valid version [\#256](https://github.com/REBELinBLUE/deployer/issues/256)
+- Installer gets into an infinite loop if there are PDO drivers loaded before MySQL [\#254](https://github.com/REBELinBLUE/deployer/pull/254) ([moxx](https://github.com/moxx))
+
+## [blah-blah-blah-blah](https://github.com/REBELinBLUE/deployer/tree/blah-blah-blah-blah) (2016-08-02)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/test...blah-blah-blah-blah)
+
+## [test](https://github.com/REBELinBLUE/deployer/tree/test) (2016-08-02)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.36...test)
 
 **Implemented enhancements:**
 
@@ -26,10 +45,7 @@
 
 **Fixed bugs:**
 
-- --warning option don't exist on all versions of tar [\#257](https://github.com/REBELinBLUE/deployer/issues/257)
-- Fatal error if git tags contain a string which is not a valid version [\#256](https://github.com/REBELinBLUE/deployer/issues/256)
 - Installer should check for node or nodejs [\#230](https://github.com/REBELinBLUE/deployer/issues/230)
-- Installer gets into an infinite loop if there are PDO drivers loaded before MySQL [\#254](https://github.com/REBELinBLUE/deployer/pull/254) ([moxx](https://github.com/moxx))
 - Incorrect Lang variables [\#239](https://github.com/REBELinBLUE/deployer/pull/239) ([uLow](https://github.com/uLow))
 
 ## [0.0.36](https://github.com/REBELinBLUE/deployer/tree/0.0.36) (2016-05-30)
@@ -113,6 +129,7 @@
 - Remove need for mcrypt [\#183](https://github.com/REBELinBLUE/deployer/issues/183)
 - Have the update process backup the DB [\#177](https://github.com/REBELinBLUE/deployer/issues/177)
 - Re-ordering groups [\#176](https://github.com/REBELinBLUE/deployer/issues/176)
+- Checking if composer exists [\#103](https://github.com/REBELinBLUE/deployer/issues/103)
 - Mirroring repositories locally to deployer [\#129](https://github.com/REBELinBLUE/deployer/pull/129) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Checking if composer is installed [\#104](https://github.com/REBELinBLUE/deployer/pull/104) ([REBELinBLUE](https://github.com/REBELinBLUE))
 

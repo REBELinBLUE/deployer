@@ -2,20 +2,20 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectFileRepositoryInterface;
-use REBELinBLUE\Deployer\Http\Requests\StoreProjectFileRequest;
+use REBELinBLUE\Deployer\Contracts\Repositories\ConfigFileRepositoryInterface;
+use REBELinBLUE\Deployer\Http\Requests\StoreConfigFileRequest;
 
 /**
- * Manage the project global file like some environment files.
+ * Manage the configuration files for a project.
  */
-class ProjectFileController extends ResourceController
+class ConfigFileController extends ResourceController
 {
     /**
-     * ProjectFileController constructor.
+     * ConfigFileController constructor.
      *
-     * @param ProjectFileRepositoryInterface $repository
+     * @param ConfigFileRepositoryInterface $repository
      */
-    public function __construct(ProjectFileRepositoryInterface $repository)
+    public function __construct(ConfigFileRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -23,17 +23,18 @@ class ProjectFileController extends ResourceController
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreProjectFileRequest $request
+     * @param StoreConfigFileRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function store(StoreProjectFileRequest $request)
+    public function store(StoreConfigFileRequest $request)
     {
         return $this->repository->create($request->only(
             'name',
             'path',
             'content',
-            'project_id'
+            'target_type',
+            'target_id'
         ));
     }
 
@@ -41,11 +42,11 @@ class ProjectFileController extends ResourceController
      * Update the specified resource in storage.
      *
      * @param int $file_id
-     * @param StoreProjectFileRequest $request
+     * @param StoreConfigFileRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function update($file_id, StoreProjectFileRequest $request)
+    public function update($file_id, StoreConfigFileRequest $request)
     {
         return $this->repository->updateById($request->only(
             'name',

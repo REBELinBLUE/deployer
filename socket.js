@@ -15,9 +15,10 @@ var redis = new Redis({
 
 if (/^https/i.test(process.env.SOCKET_URL)) {
     var ssl_conf = {
-        key:  (process.env.SOCKET_SSL_KEY_FILE  ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE)  : null),
-        cert: (process.env.SOCKET_SSL_CERT_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CERT_FILE) : null),
-        ca:   (process.env.SOCKET_SSL_CA_FILE   ? fs.readFileSync(process.env.SOCKET_SSL_CA_FILE)   : null)
+        key:        (process.env.SOCKET_SSL_KEY_FILE  ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE)  : null),
+        cert:       (process.env.SOCKET_SSL_CERT_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CERT_FILE) : null),
+        ca:         (process.env.SOCKET_SSL_CA_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CA_FILE) : null),
+        passphrase: (process.env.SOCKET_SSL_KEY_PASSPHRASE ? process.env.SOCKET_SSL_KEY_PASSPHRASE : null)
     };
 
     var app = require('https').createServer(ssl_conf, handler);

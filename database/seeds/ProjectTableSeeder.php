@@ -48,7 +48,7 @@ i5vkNY4OZdOuEV9boFOFYa58WRNK7vthHkZJj++Amu3dZ6RHBlLQ
                                     '6TdICaigeQX6n/Xgwm2rRkr0qNIZsd/IoyLYS6/CWUUJjX16qxXt1wwMiwwpRbZ2IULnZ0lI74QXjucD+Ow0OKw' .
                                     'WwgLsN55VUGXVOlpX1GJ2p5mZ3H6YX0B deploy@deployer',
             'last_run'           => null,
-            'build_url'          => 'http://ci.rebelinblue.com/build-status/image/3?branch=master',
+            'build_url'          => 'https://img.shields.io/travis/REBELinBLUE/deployer.svg?branch=master',
             'allow_other_branch' => true,
             'include_dev'        => false,
         ]);

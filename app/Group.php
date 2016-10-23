@@ -60,7 +60,6 @@ class Group extends Model
     public function projects()
     {
         return $this->hasMany(Project::class)
-                    ->notTemplates()
                     ->orderBy('name');
     }
 

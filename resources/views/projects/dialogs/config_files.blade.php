@@ -1,30 +1,31 @@
-<div class="modal fade" id="projectfile">
+<div class="modal fade" id="configfile">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-file-code-o"></i> <span>{{ Lang::get('projectFiles.create') }}</span></h4>
+                <h4 class="modal-title"><i class="fa fa-file-code-o"></i> <span>{{ Lang::get('configFiles.create') }}</span></h4>
             </div>
             <form role="form">
-                <input type="hidden" id="project_file_id" name="id" />
-                <input type="hidden" name="project_id" value="{{ $project->id }}" />
+                <input type="hidden" id="config_file_id" name="id" />
+                <input type="hidden" name="target_type" value="{{ $target_type }}" />
+                <input type="hidden" name="target_id" value="{{ $target_id }}" />
                 <div class="modal-body">
 
                     <div class="callout callout-danger">
-                        <i class="icon fa fa-warning"></i> {{ Lang::get('projectFiles.warning') }}
+                        <i class="icon fa fa-warning"></i> {{ Lang::get('configFiles.warning') }}
                     </div>
 
                     <div class="form-group">
-                        <label for="project-file-name">{{ Lang::get('projectFiles.name') }}</label>
-                        <input type="text" class="form-control" id="project-file-name" name="project-file-name" placeholder="{{ Lang::get('projectFiles.config') }}" />
+                        <label for="config-file-name">{{ Lang::get('configFiles.name') }}</label>
+                        <input type="text" class="form-control" id="config-file-name" name="config-file-name" placeholder="{{ Lang::get('configFiles.config') }}" />
                     </div>
                     <div class="form-group">
-                        <label for="project-file-path">{{ Lang::get('projectFiles.path') }}</label>
-                        <input type="text" class="form-control" id="project-file-path" name="path" placeholder="config/app.php" />
+                        <label for="config-file-path">{{ Lang::get('configFiles.path') }}</label>
+                        <input type="text" class="form-control" id="config-file-path" name="path" placeholder="config/app.php" />
                     </div>
                     <div class="form-group">
-                        <label for="project-file-content">{{ Lang::get('projectFiles.content') }}</label>
-                        <div id="project-file-content" class="form-control"></div>
+                        <label for="config-file-content">{{ Lang::get('configFiles.content') }}</label>
+                        <div id="config-file-content" class="form-control"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -36,12 +37,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="view-projectfile">
+<div class="modal fade" id="view-configfile">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-eye"></i> <span>{{ Lang::get('projectFiles.view') }}</span></h4>
+                <h4 class="modal-title"><i class="fa fa-eye"></i> <span>{{ Lang::get('configFiles.view') }}</span></h4>
             </div>
             <div class="modal-body" id="preview-content">
             </div>

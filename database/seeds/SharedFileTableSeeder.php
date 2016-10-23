@@ -10,27 +10,31 @@ class SharedFileTableSeeder extends Seeder
         DB::table('shared_files')->delete();
 
         SharedFile::create([
-            'name'       => 'Storage',
-            'file'       => 'storage/',
-            'project_id' => 1,
+            'name'        => 'Storage',
+            'file'        => 'storage/',
+            'target_type' => 'project',
+            'target_id'   => 1,
         ]);
 
         SharedFile::create([
-            'name'       => 'Uploads',
-            'file'       => '/public/upload/',
-            'project_id' => 1,
+            'name'        => 'Uploads',
+            'file'        => '/public/upload/',
+            'target_type' => 'project',
+            'target_id'   => 1,
         ]);
 
         SharedFile::create([
-            'name'       => 'README',
-            'file'       => 'README.md',
-            'project_id' => 1,
+            'name'        => 'README',
+            'file'        => 'README.md',
+            'target_type' => 'project',
+            'target_id'   => 1,
         ]);
 
         SharedFile::create([
-            'name'       => 'LICENSE',
-            'file'       => '/LICENSE.md',
-            'project_id' => 1,
+            'name'        => 'LICENSE',
+            'file'        => '/LICENSE.md',
+            'target_type' => 'project',
+            'target_id'   => 1,
         ]);
     }
 }

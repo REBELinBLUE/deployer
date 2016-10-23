@@ -41,7 +41,7 @@ return [
         'users'         => ['create', 'edit'],
         'templates'     => ['create', 'edit'],
         'sharedFiles'   => ['create', 'edit'],
-        'projectFiles'  => ['create', 'edit'],
+        'configFiles'   => ['create', 'edit'],
         'notifications' => ['create', 'edit'],
         'notifyEmails'  => ['create', 'edit'],
         'servers'       => ['create', 'edit', 'successful', 'testing', 'failed', 'untested'],

@@ -33,7 +33,8 @@ class VariableController extends ResourceController
         return $this->repository->create($request->only(
             'name',
             'value',
-            'project_id'
+            'target_type',
+            'target_id'
         ));
     }
 
@@ -49,8 +50,7 @@ class VariableController extends ResourceController
     {
         return $this->repository->updateById($request->only(
             'name',
-            'value',
-            'project_id'
+            'value'
         ), $variable_id);
     }
 }

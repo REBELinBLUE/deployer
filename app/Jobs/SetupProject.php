@@ -2,11 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\ProjectFile;
-use REBELinBLUE\Deployer\SharedFile;
-use REBELinBLUE\Deployer\Variable;
+use REBELinBLUE\Deployer\Template;
 
 /**
  * A class to handle cloning the command templates for the project.
@@ -40,34 +37,30 @@ class SetupProject extends Job
      */
     public function handle()
     {
-        $template = Project::findOrFail($this->template_id);
+        $template = Template::findOrFail($this->template_id);
 
         foreach ($template->commands as $command) {
-            $data               = $command->toArray();
-            $data['project_id'] = $this->project->id;
+            $data = $command->toArray();
 
-            Command::create($data);
+            $this->project->commands()->create($data);
         }
 
         foreach ($template->variables as $variable) {
-            $data               = $variable->toArray();
-            $data['project_id'] = $variable->project->id;
+            $data = $variable->toArray();
 
-            Variable::create($data);
+            $this->project->variables()->create($data);
         }
 
         foreach ($template->sharedFiles as $file) {
-            $data               = $file->toArray();
-            $data['project_id'] = $this->project->id;
+            $data = $file->toArray();
 
-            SharedFile::create($data);
+            $this->project->sharedFiles()->create($data);
         }
 
-        foreach ($template->projectFiles as $file) {
-            $data               = $file->toArray();
-            $data['project_id'] = $this->project->id;
+        foreach ($template->configFiles as $file) {
+            $data = $file->toArray();
 
-            ProjectFile::create($data);
+            $this->project->configFiles()->create($data);
         }
     }
 }

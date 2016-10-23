@@ -35,12 +35,13 @@ interface DeploymentRepositoryInterface
 
     /**
      * @param int $model_id
+     * @param string $reason
      * @param array $optional
      *
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function rollback($model_id, array $optional = []);
+    public function rollback($model_id, $reason = '', array $optional = []);
 
     /**
      * @param int $project_id

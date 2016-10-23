@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\HasTarget;
 
 /**
  * Shared files or directories for a project.
@@ -20,14 +21,14 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
  */
 class SharedFile extends Model
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, HasTarget;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'file', 'project_id'];
+    protected $fillable = ['name', 'file', 'target_type', 'target_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -42,17 +43,6 @@ class SharedFile extends Model
      * @var array
      */
     protected $casts = [
-        'id'         => 'integer',
-        'project_id' => 'integer',
+        'id' => 'integer',
     ];
-
-    /**
-     * Belongs to relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
 }

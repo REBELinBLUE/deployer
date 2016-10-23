@@ -170,6 +170,8 @@ class InstallApp extends Command
 
                 $config = preg_replace('/SOCKET_SSL_' . $key . '_FILE=(.*)[\n]/', '', $config);
             }
+
+            $config = preg_replace('/SOCKET_SSL_KEY_PASSPHRASE=(.*)[\n]/', '', $config);
         }
 
         // Remove keys not needed for sqlite
@@ -189,6 +191,9 @@ class InstallApp extends Command
                 $config = preg_replace('/MAIL_' . $key . '=(.*)[\n]/', '', $config);
             }
         }
+
+        // Remove redis password if null
+        $config = preg_replace('/REDIS_PASSWORD=null[\n]/', '', $config);
 
         // Remove github keys if not needed, only really exists on my dev copy
         if (!isset($input['github']) || empty($input['github']['oauth_token'])) {

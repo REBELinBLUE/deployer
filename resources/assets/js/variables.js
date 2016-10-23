@@ -73,9 +73,10 @@ var app = app || {};
         }
 
         variable.save({
-            name:       $('#variable_name').val(),
-            value:      $('#variable_value').val(),
-            project_id: $('input[name="project_id"]').val()
+            name:        $('#variable_name').val(),
+            value:       $('#variable_value').val(),
+            target_type: $('input[name="target_type"]').val(),
+            target_id:   $('input[name="target_id"]').val()
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -156,7 +157,11 @@ var app = app || {};
             });
 
             app.listener.on('variable:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
-                app.Variables.add(data.model);
+                var target_type = $('input[name="target_type"]').val();
+                var target_id = $('input[name="target_id"]').val();
+                if (target_type == data.model.target_type && parseInt(data.model.target_id) === parseInt(target_id)) {
+                    app.Variables.add(data.model);
+                }
             });
 
             app.listener.on('variable:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {

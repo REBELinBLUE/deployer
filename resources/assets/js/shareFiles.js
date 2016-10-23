@@ -73,9 +73,10 @@ var app = app || {};
         }
 
         file.save({
-            name:       $('#name').val(),
-            file:       $('#file').val(),
-            project_id: $('input[name="project_id"]').val()
+            name:        $('#name').val(),
+            file:        $('#file').val(),
+            target_type: $('input[name="target_type"]').val(),
+            target_id:   $('input[name="target_id"]').val()
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -152,10 +153,13 @@ var app = app || {};
             });
 
             app.listener.on('sharedfile:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
-                if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
+                var target_type = $('input[name="target_type"]').val();
+                var target_id = $('input[name="target_id"]').val();
+                if (target_type == data.model.target_type && parseInt(data.model.target_id) === parseInt(target_id)) {
                     app.SharedFiles.add(data.model);
                 }
             });
+
 
             app.listener.on('sharedfile:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var share = app.SharedFiles.get(parseInt(data.model.id));

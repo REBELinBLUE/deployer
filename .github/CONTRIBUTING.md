@@ -30,7 +30,7 @@ PHPDoc blocks can be checked with
 
 ### Automated testing
 
-Coding standards are checked using [StyleCI](http://styleci.io); mess, duplication, PHPDoc blocks and PHP syntax are checked using [PHPCI](https://www.phptesting.org)
+Coding standards are checked using [StyleCI](https://styleci.io/repos/33559148); mess, duplication, PHPDoc blocks and PHP syntax are checked using [TravisCI](https://travis-ci.org/REBELinBLUE/deployer)
 
 ## .editorconfig
 

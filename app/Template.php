@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use REBELinBLUE\Deployer\Presenters\CommandPresenter;
+use REBELinBLUE\Deployer\Traits\ProjectRelations;
 use Robbo\Presenter\PresentableInterface;
 
 /**
@@ -35,15 +36,12 @@ use Robbo\Presenter\PresentableInterface;
  * @property-read mixed $variable_count
  * @property-read Command[] $commands
  * @property-read SharedFile[] $sharedFiles
- * @property-read ProjectFile[] $projectFiles
+ * @property-read ConfigFile[] $configFiles
  * @property-read Variable[] $variables
  */
 class Template extends Model implements PresentableInterface
 {
-    /**
-     * All templates belong in group 1.
-     */
-    const GROUP_ID = 1;
+    use ProjectRelations;
 
     /**
      * Fields to show in the JSON presentation.
@@ -57,14 +55,7 @@ class Template extends Model implements PresentableInterface
      *
      * @var array
      */
-    protected $fillable = ['name', 'is_template', 'group_id'];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'projects';
+    protected $fillable = ['name'];
 
     /**
      * Additional attributes to include in the JSON representation.
@@ -79,30 +70,8 @@ class Template extends Model implements PresentableInterface
      * @var array
      */
     protected $casts = [
-        'id'          => 'integer',
-        'group_id'    => 'integer',
-        'is_template' => 'boolean',
+        'id' => 'integer',
     ];
-
-    /**
-     * Override the boot method to bind model event listeners.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        // Set the required fields to empty values
-        static::creating(function (Template $model) {
-            $model->group_id = static::GROUP_ID;
-            $model->is_template = true;
-            $model->repository = '';
-            $model->hash = '';
-            $model->private_key = '';
-            $model->public_key = '';
-
-            return true;
-        });
-    }
 
     /**
      * Query scope to only show templates.
@@ -145,7 +114,7 @@ class Template extends Model implements PresentableInterface
      */
     public function getConfigCountAttribute()
     {
-        return $this->projectFiles()
+        return $this->configFiles()
                     ->count();
     }
 
@@ -158,46 +127,6 @@ class Template extends Model implements PresentableInterface
     {
         return $this->variables()
                     ->count();
-    }
-
-    /**
-     * Has many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function commands()
-    {
-        return $this->hasMany(Command::class, 'project_id');
-    }
-
-    /**
-     * Has many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function sharedFiles()
-    {
-        return $this->hasMany(SharedFile::class, 'project_id');
-    }
-
-    /**
-     * Has many relationship to project file.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function projectFiles()
-    {
-        return $this->hasMany(ProjectFile::class, 'project_id');
-    }
-
-    /**
-     * Has many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function variables()
-    {
-        return $this->hasMany(Variable::class, 'project_id');
     }
 
     /**

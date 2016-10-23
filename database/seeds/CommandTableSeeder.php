@@ -27,69 +27,77 @@ EOD;
         DB::table('commands')->delete();
 
         Command::create([
-            'name'       => 'Before Create New Release',
-            'script'     => $this->getScript(),
-            'project_id' => 1,
-            'user'       => '',
-            'step'       => Command::BEFORE_CLONE,
-            'optional'   => true,
+            'name'        => 'Before Create New Release',
+            'script'      => $this->getScript(),
+            'user'        => '',
+            'step'        => Command::BEFORE_CLONE,
+            'optional'    => true,
+            'target_type' => 'project',
+            'target_id'   => 1,
         ])->servers()->attach([1, 2]);
 
         Command::create([
-            'name'       => 'After Create New Release',
-            'script'     => $this->getScript(),
-            'project_id' => 1,
-            'user'       => '',
-            'step'       => Command::AFTER_CLONE,
+            'name'        => 'After Create New Release',
+            'script'      => $this->getScript(),
+            'user'        => '',
+            'step'        => Command::AFTER_CLONE,
+            'target_type' => 'project',
+            'target_id'   => 1,
         ])->servers()->attach([1, 2]);
 
         Command::create([
-            'name'       => 'Before Install',
-            'script'     => $this->getScript(),
-            'project_id' => 1,
-            'user'       => 'deploy',
-            'step'       => Command::BEFORE_INSTALL,
+            'name'        => 'Before Install',
+            'script'      => $this->getScript(),
+            'user'        => 'deploy',
+            'step'        => Command::BEFORE_INSTALL,
+            'target_type' => 'project',
+            'target_id'   => 1,
         ])->servers()->attach([1, 2]);
 
         Command::create([
-            'name'       => 'After Install',
-            'script'     => $this->getScript(),
-            'project_id' => 1,
-            'user'       => 'deploy',
-            'step'       => Command::AFTER_INSTALL,
+            'name'        => 'After Install',
+            'script'      => $this->getScript(),
+            'user'        => 'deploy',
+            'step'        => Command::AFTER_INSTALL,
+            'target_type' => 'project',
+            'target_id'   => 1,
         ])->servers()->attach([1, 2]);
 
         Command::create([
-            'name'       => 'Before Activate',
-            'script'     => $this->getScript(),
-            'project_id' => 1,
-            'user'       => 'deploy',
-            'step'       => Command::BEFORE_ACTIVATE,
+            'name'        => 'Before Activate',
+            'script'      => $this->getScript(),
+            'user'        => 'deploy',
+            'step'        => Command::BEFORE_ACTIVATE,
+            'target_type' => 'project',
+            'target_id'   => 1,
         ])->servers()->attach([1, 2]);
 
         Command::create([
-            'name'       => 'After Activate',
-            'script'     => $this->getScript(),
-            'project_id' => 1,
-            'user'       => 'deploy',
-            'step'       => Command::AFTER_ACTIVATE,
+            'name'        => 'After Activate',
+            'script'      => $this->getScript(),
+            'user'        => 'deploy',
+            'step'        => Command::AFTER_ACTIVATE,
+            'target_type' => 'project',
+            'target_id'   => 1,
         ])->servers()->attach([1, 2]);
 
         Command::create([
-            'name'       => 'Before Purge',
-            'script'     => $this->getScript(),
-            'project_id' => 1,
-            'user'       => 'deploy',
-            'step'       => Command::BEFORE_PURGE,
+            'name'        => 'Before Purge',
+            'script'      => $this->getScript(),
+            'user'        => 'deploy',
+            'step'        => Command::BEFORE_PURGE,
+            'target_type' => 'project',
+            'target_id'   => 1,
         ])->servers()->attach([1, 2]);
 
         Command::create([
-            'name'       => 'After Purge',
-            'script'     => $this->getScript(),
-            'project_id' => 1,
-            'user'       => 'deploy',
-            'step'       => Command::AFTER_PURGE,
-            'optional'   => true,
+            'name'        => 'After Purge',
+            'script'      => $this->getScript(),
+            'user'        => 'deploy',
+            'step'        => Command::AFTER_PURGE,
+            'optional'    => true,
+            'target_type' => 'project',
+            'target_id'   => 1,
         ])->servers()->attach([1, 2]);
     }
 }
