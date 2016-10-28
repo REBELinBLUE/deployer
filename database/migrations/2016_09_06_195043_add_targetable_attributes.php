@@ -82,14 +82,14 @@ class AddTargetableAttributes extends Migration
             $table = $instance->getTable();
 
             // You can't drop a column in SQLite
-            if ($_ENV['DB_TYPE'] !== 'sqlite') {
+            if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
                 DB::statement("ALTER TABLE {$table} DROP COLUMN project_id");
             }
 
-            if ($_ENV['DB_TYPE'] === 'mysql') {
+            if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] === 'mysql') {
                 DB::statement("ALTER TABLE {$table} MODIFY target_id INT(11) NOT NULL");
                 DB::statement("ALTER TABLE {$table} MODIFY target_type VARCHAR(255) NOT NULL");
-            } elseif ($_ENV['DB_TYPE'] === 'pgsql') {
+            } elseif (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] === 'pgsql') {
                 DB::statement("ALTER TABLE {$table} ALTER COLUMN target_id SET NOT NULL");
                 DB::statement("ALTER TABLE {$table} ALTER COLUMN target_type SET NOT NULL");
             }
