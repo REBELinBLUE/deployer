@@ -6,7 +6,7 @@ import SliderMonitor from 'redux-slider-monitor';
 import ChartMonitor from 'redux-devtools-chart-monitor';
 import Dispatcher from 'redux-devtools-dispatch';
 import MultipleMonitors from 'redux-devtools-multiple-monitors';
-import Inspector from 'redux-devtools-inspector';
+//import Inspector from 'redux-devtools-inspector';
 
 import * as AppActions from '../../../actions';
 
@@ -34,9 +34,10 @@ const ReduxDevTools = createDevTools(
     </MultipleMonitors>
     <SliderMonitor theme="tomorrow" />
     <ChartMonitor theme="tomorrow" tooltipOptions={tooltipOptions} invertTheme />
-    <Inspector theme="tomorrow" isLightTheme={false} supportImmutable />
   </DockMonitor>
 );
+
+//<Inspector theme="tomorrow" isLightTheme={false} supportImmutable />
 
 const DevTools = () => (!window.devToolsExtension ? <ReduxDevTools /> : null);
 
