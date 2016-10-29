@@ -58,6 +58,7 @@ class UpdateApp extends InstallApp
 
         $this->backupDatabase();
         $this->updateConfiguration();
+        $this->clearCaches();
         $this->migrate();
         $this->optimize();
         $this->restartQueue();
