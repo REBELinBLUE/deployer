@@ -39,6 +39,8 @@ env:
 
 before_script:
     - cp .env.example .env
+    - sed -i 's/APP_ENV=production/APP_ENV=local/g' .env
+    - sed -i 's/APP_DEBUG=false/APP_DEBUG=true/g' .env
     - sed -i "s/DB_TYPE=mysql/DB_TYPE=$DB/g" .env
     - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
     - sed -i "s/DB_USERNAME=deployer/DB_USERNAME=$DB_USERNAME/g" .env
@@ -59,7 +61,7 @@ before_script:
     - if [[ "$DB" == "mysql" ]] ; then mysql -e 'CREATE DATABASE deployer;'; fi
     - if [[ "$DB" == "pgsql" ]] ; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
     - if [[ "$DB" == "sqlite" ]] ; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
-    - php artisan optimize
+    #- php artisan optimize
     - php artisan js-localization:refresh
     - php artisan migrate --seed --env="testing"
     - chmod -R 777 storage/
