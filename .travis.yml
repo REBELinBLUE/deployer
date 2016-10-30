@@ -22,7 +22,6 @@ addons:
 
 before_install:
   - if [[ $TRAVIS_PHP_VERSION == 5.6 ]] ; then phpenv config-rm xdebug.ini; fi
-  - if [[ $TRAVIS_PHP_VERSION == 7.0 ]] ; then phpenv config-rm xdebug.ini; fi
   - curl -L https://github.com/kr/beanstalkd/archive/v1.9.tar.gz | tar xz -C /tmp
   - cd /tmp/beanstalkd-1.9/
   - make
@@ -35,11 +34,12 @@ install:
 env:
   - DB=mysql DB_USERNAME=travis
   - DB=pgsql DB_USERNAME=postgres
-#  - DB=sqlite - SQLite is currently broken
+  # - DB=sqlite - SQLite is currently broken
 
 before_script:
-    - cp .env.example .env
-    - sed -i 's/APP_ENV=production/APP_ENV=local/g' .env
+    - cp -f .env.example .env
+    - php artisan key:generate
+    - sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
     - sed -i 's/APP_DEBUG=false/APP_DEBUG=true/g' .env
     - sed -i "s/DB_TYPE=mysql/DB_TYPE=$DB/g" .env
     - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
@@ -55,13 +55,12 @@ before_script:
     - sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32 ; echo)/g" .env
     - sed -i '/^#/ d' .env
     - sed -i '/^[[:blank:]]*$/d' .env
-    - php artisan key:generate
-    #- php artisan jwt:generate --force
+    # - php artisan jwt:generate --force
     - cat .env
     - if [[ "$DB" == "mysql" ]] ; then mysql -e 'CREATE DATABASE deployer;'; fi
     - if [[ "$DB" == "pgsql" ]] ; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
     - if [[ "$DB" == "sqlite" ]] ; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
-    #- php artisan optimize
+    # - php artisan optimize
     - php artisan js-localization:refresh
     - php artisan migrate --seed --env="testing"
     - chmod -R 777 storage/
@@ -73,7 +72,7 @@ before_script:
 script:
   - vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
   - vendor/bin/phpcs -p --standard=PSR2 app/
-#  - vendor/bin/phpmd app text phpmd.xml
+  # - vendor/bin/phpmd app text phpmd.xml
   - vendor/bin/phpunit
   - vendor/bin/phpdoccheck --directory=app
 
