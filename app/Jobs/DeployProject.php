@@ -187,9 +187,13 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function createReleaseArchive()
     {
+        $tmp_dir = $this->deployment->project_id . '_' . $this->deployment->release_id;
+
         $process = new Process('deploy.CreateReleaseArchive', [
             'deployment'      => $this->deployment->id,
             'mirror_path'     => $this->deployment->project->mirrorPath(),
+            'scripts_path'    => resource_path('scripts/'),
+            'tmp_path'        => storage_path('app/tmp/' . $tmp_dir),
             'sha'             => $this->deployment->commit,
             'release_archive' => storage_path('app/' . $this->release_archive),
         ]);
