@@ -40,6 +40,7 @@ class UpdateGitMirror extends Job
     {
         $private_key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($private_key, $this->project->private_key);
+        chmod($private_key, 0600);
 
         $wrapper = with(new ScriptParser)->parseFile('tools.SSHWrapperScript', [
             'private_key' => $private_key,
