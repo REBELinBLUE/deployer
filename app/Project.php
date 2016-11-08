@@ -374,6 +374,7 @@ class Project extends ProjectRelation implements PresentableInterface
     {
         $key = tempnam(storage_path('app/'), 'sshkey');
         file_put_contents($key, $this->private_key);
+        chmod($key, 0600);
 
         $process = new Process('tools.RegeneratePublicSSHKey', [
             'key_file' => $key,
