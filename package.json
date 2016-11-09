@@ -16,6 +16,7 @@
     "laravel-elixir-remove": "^0.2.0"
   },
   "scripts": {
+    "start": "node socket.js",
     "postinstall": "touch ./node_modules/.install"
   }
 }
