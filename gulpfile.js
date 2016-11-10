@@ -4,11 +4,11 @@ const shell  = require('gulp-shell');
 const bower  = require('gulp-bower');
                require('laravel-elixir-remove');
 
-Elixir.extend('lang', function () {
-    new Elixir.Task('lang', function () {
-        return gulp.src('').pipe(shell('php artisan js-localization:refresh'));
-    });
-});
+// Elixir.extend('lang', function () {
+//    new Elixir.Task('lang', function () {
+//        return gulp.src('').pipe(shell('php artisan js-localization:refresh'));
+//    });
+// });
 
 Elixir.extend('bower', function() {
     new Elixir.Task('bower', function() {
@@ -38,7 +38,8 @@ const paths = {
 };
 
 Elixir(function(mix) {
-    mix.bower()
+    mix
+    .bower()
     .styles([
         paths.admin_lte   + '/bootstrap/css/bootstrap.css',
         paths.select2     + '/select2.css',
@@ -106,12 +107,12 @@ Elixir(function(mix) {
         'public/js/ie.js',
         'public/js/vendor.js'
     ])
-    .copy('public/fonts', 'public/build/fonts')
+    .copy('public/fonts', 'public/build/fonts');
     // .remove([
     //     'public/css',
     //     'public/js',
     //     'public/fonts'
     //     //bower_path + '/localization.js' // removing this breaks watch
     // ])
-    .lang();
+    //.lang();
 });
