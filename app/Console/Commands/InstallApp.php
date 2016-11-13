@@ -63,7 +63,7 @@ class InstallApp extends Command
     public function handle()
     {
         if (!$this->verifyNotInstalled()) {
-            return;
+            return -1;
         }
 
         $this->clearCaches();
@@ -82,7 +82,7 @@ class InstallApp extends Command
         $this->line('');
 
         if (!$this->checkRequirements()) {
-            return;
+            return -1;
         }
 
         $this->line('Please answer the following questions:');
@@ -650,7 +650,7 @@ class InstallApp extends Command
         }
 
         // Files and directories which need to be writable
-        $writable = ['.env', 'storage', 'storage/logs', 'storage/app', 'storage/app/mirrors',
+        $writable = ['.env', 'storage', 'storage/logs', 'storage/app', 'storage/app/mirrors', 'storage/app/tmp',
                      'storage/framework', 'storage/framework/cache', 'storage/framework/sessions',
                      'storage/framework/views', 'bootstrap/cache', 'public/upload',
                     ];

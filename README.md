@@ -124,7 +124,7 @@ $ php artisan app:install
 $ editor .env
 ```
 
-7. Configure your web server to point to `public/`, see `examples/` for Apache and nginx sample configuration files.
+7. Configure your web server to point to `public/`, see `examples/` for Apache and nginx sample configuration files. If you use Apache you will need to ensure you have the `mod_rewrite` module enabled.
 
 8. Start socket server and setup cron jobs.
     If you are not configuring `supervisor` you will need to manually start the socket server with `node socket.js` (listens on port 6001 by default) and setup cron jobs, see `examples/crontab`.
