@@ -335,7 +335,7 @@ class Project extends Model implements PresentableInterface
      */
     protected function generateSSHKey()
     {
-        $key = tempnam(storage_path('app/'), 'sshkey');
+        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
         unlink($key);
 
         $process = new Process('tools.GenerateSSHKey', [
@@ -359,8 +359,9 @@ class Project extends Model implements PresentableInterface
      */
     protected function regeneratePublicKey()
     {
-        $key = tempnam(storage_path('app/'), 'sshkey');
+        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
         file_put_contents($key, $this->private_key);
+        chmod($key, 0600);
 
         $process = new Process('tools.RegeneratePublicSSHKey', [
             'key_file' => $key,

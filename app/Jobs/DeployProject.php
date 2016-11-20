@@ -83,8 +83,9 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->project->status = Project::DEPLOYING;
         $this->deployment->project->save();
 
-        $this->private_key = tempnam(storage_path('app/'), 'sshkey');
+        $this->private_key = tempnam(storage_path('app/tmp/'), 'sshkey');
         file_put_contents($this->private_key, $this->deployment->project->private_key);
+        chmod($this->private_key, 0600);
 
         $this->release_archive = $this->deployment->project_id . '_' . $this->deployment->release_id . '.tar.gz';
 
@@ -187,7 +188,7 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function createReleaseArchive()
     {
-        $tmp_dir = $this->deployment->project_id . '_' . $this->deployment->release_id;
+        $tmp_dir = 'clone_' . $this->deployment->project_id . '_' . $this->deployment->release_id;
 
         $process = new Process('deploy.CreateReleaseArchive', [
             'deployment'      => $this->deployment->id,
