@@ -3,12 +3,12 @@
 namespace REBELinBLUE\Deployer\Http\Webhooks;
 
 /**
- * Class to handle integration with Github webhooks.
+ * Class to handle integration with Gogs/Gitea webhooks.
  */
 class Gogs extends Webhook
 {
     /**
-     * Determines whether the request was from Github.
+     * Determines whether the request was from Gogs/Gitea.
      *
      * @return bool
      */
@@ -31,12 +31,13 @@ class Gogs extends Webhook
 
         $payload = $this->request->json();
 
-        $commits    = $payload->get('commits');
-        if (! is_array($commits) || count($commits) == 0) {
+        $commits = $payload->get('commits');
+        if (!is_array($commits) || count($commits) == 0) {
             return false;
         }
-        $head       = array_shift($commits);
-        $branch     = preg_replace('#refs/(tags|heads)/#', '', $payload->get('ref'));
+
+        $head   = array_shift($commits);
+        $branch = preg_replace('#refs/(tags|heads)/#', '', $payload->get('ref'));
 
         return [
             'reason'          => trim($head['message']),

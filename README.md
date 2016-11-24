@@ -61,7 +61,7 @@ it means you are not using a production build. You either need to checkout the `
 
 ```shell
 $ composer install
-$ npm install
+$ npm install (or yarn install)
 ```
 
 and then build the assets
@@ -83,6 +83,7 @@ $ gulp
 
 - [Supervisor](http://supervisord.org) to keep the queue listener and Node.js socket server running
 - A [caching server](http://laravel.com/docs/5.2/cache), unless you expect a lot of traffic the default `file` cache is probably enough
+- [Yarn](https://yarnpkg.com/) an improved package manager for Node.js
 
 ## Installation
 
