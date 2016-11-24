@@ -3,12 +3,12 @@
 namespace REBELinBLUE\Deployer\Http\Webhooks;
 
 /**
- * Class to handle integration with Github webhooks.
+ * Class to handle integration with Gogs/Gitea webhooks.
  */
 class Gogs extends Webhook
 {
     /**
-     * Determines whether the request was from Github.
+     * Determines whether the request was from Gogs/Gitea.
      *
      * @return bool
      */
