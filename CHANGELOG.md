@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.0.41](https://github.com/REBELinBLUE/deployer/tree/0.0.41) (2016-11-24)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.39...0.0.41)
+## [0.0.40](https://github.com/REBELinBLUE/deployer/tree/0.0.40) (2016-11-24)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.39...0.0.40)
 
 **Implemented enhancements:**
 
