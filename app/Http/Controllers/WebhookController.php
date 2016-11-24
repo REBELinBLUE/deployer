@@ -10,6 +10,7 @@ use REBELinBLUE\Deployer\Http\Webhooks\Bitbucket;
 use REBELinBLUE\Deployer\Http\Webhooks\Custom;
 use REBELinBLUE\Deployer\Http\Webhooks\Github;
 use REBELinBLUE\Deployer\Http\Webhooks\Gitlab;
+use REBELinBLUE\Deployer\Http\Webhooks\Gogs;
 use REBELinBLUE\Deployer\Project;
 
 /**
@@ -27,6 +28,7 @@ class WebhookController extends Controller
         Bitbucket::class,
         Github::class,
         Gitlab::class,
+        Gogs::class
     ];
 
     /**

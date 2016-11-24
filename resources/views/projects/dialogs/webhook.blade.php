@@ -43,7 +43,7 @@
 
                 <hr />
 
-                <h5><strong>{{ Lang::get('commands.services') }} - <i class="fa fa-github"></i> Github, <i class="fa fa-gitlab"></i> Gitlab, <i class="fa fa-bitbucket"></i> Bitbucket &amp; Beanstalk</strong></h5>
+                <h5><strong>{{ Lang::get('commands.services') }} - <i class="fa fa-github"></i> Github, <i class="fa fa-gitlab"></i> Gitlab, <i class="fa fa-bitbucket"></i> Bitbucket, Beanstalk &amp; Gogs/Gitea</strong></h5>
                 <p>{!! Lang::get('commands.services_description') !!}</p>
             </div>
             <div class="modal-footer">
