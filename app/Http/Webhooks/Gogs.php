@@ -35,7 +35,7 @@ class Gogs extends Webhook
         if (! is_array($commits) || count($commits) == 0) {
             return false;
         }
-        $head       = array_shift($commits); 
+        $head       = array_shift($commits);
         $branch     = preg_replace('#refs/(tags|heads)/#', '', $payload->get('ref'));
 
         return [
