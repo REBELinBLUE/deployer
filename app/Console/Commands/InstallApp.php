@@ -105,6 +105,7 @@ class InstallApp extends Command
 
         $this->repository->updateById($admin, 1);
 
+        $this->clearCaches();
         $this->optimize();
 
         $this->line('');
@@ -273,8 +274,6 @@ class InstallApp extends Command
      */
     protected function optimize()
     {
-        $this->clearCaches();
-
         if ($this->getLaravel()->environment() !== 'local') {
             $this->call('optimize', ['--force' => true]);
             $this->call('config:cache');
@@ -670,7 +669,7 @@ class InstallApp extends Command
             $errors = true;
         }
 
-        if (isset($_ENV['QUEUE_DRIVER']) && $_ENV['QUEUE_DRIVER'] === 'beanstalkd') {
+        if (config('queue.default') === 'beanstalkd') {
             $connected = Queue::connection()->getPheanstalk()
                                             ->getConnection()
                                             ->isServiceListening();

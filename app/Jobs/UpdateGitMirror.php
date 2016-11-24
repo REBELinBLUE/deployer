@@ -38,15 +38,17 @@ class UpdateGitMirror extends Job
      */
     public function handle()
     {
-        $private_key = tempnam(storage_path('app/'), 'sshkey');
+        $private_key = tempnam(storage_path('app/tmp/'), 'sshkey');
         file_put_contents($private_key, $this->project->private_key);
+        chmod($private_key, 0600);
 
         $wrapper = with(new ScriptParser)->parseFile('tools.SSHWrapperScript', [
             'private_key' => $private_key,
         ]);
 
-        $wrapper_file = tempnam(storage_path('app/'), 'gitssh');
+        $wrapper_file = tempnam(storage_path('app/tmp/'), 'gitssh');
         file_put_contents($wrapper_file, $wrapper);
+        chmod($wrapper_file, 0755);
 
         $process = new Process('tools.MirrorGitRepository', [
             'wrapper_file' => $wrapper_file,

@@ -29,8 +29,8 @@ class AddTargetableAttributes extends Migration
                 $table->string('target_type')->nullable();
             });
 
-            if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] !== 'sqlite') {
-                $drop = $_ENV['DB_TYPE'] === 'mysql' ? 'FOREIGN KEY' : 'CONSTRAINT';
+            if (config('database.default') !== 'sqlite') {
+                $drop = config('database.default') === 'mysql' ? 'FOREIGN KEY' : 'CONSTRAINT';
 
                 DB::statement("ALTER TABLE {$table} DROP {$drop} {$table}_project_id_foreign");
             }
@@ -82,14 +82,14 @@ class AddTargetableAttributes extends Migration
             $table = $instance->getTable();
 
             // You can't drop a column in SQLite
-            if ($_ENV['DB_TYPE'] !== 'sqlite') {
+            if (config('database.default') !== 'sqlite') {
                 DB::statement("ALTER TABLE {$table} DROP COLUMN project_id");
             }
 
-            if ($_ENV['DB_TYPE'] === 'mysql') {
+            if (config('database.default') === 'mysql') {
                 DB::statement("ALTER TABLE {$table} MODIFY target_id INT(11) NOT NULL");
                 DB::statement("ALTER TABLE {$table} MODIFY target_type VARCHAR(255) NOT NULL");
-            } elseif ($_ENV['DB_TYPE'] === 'pgsql') {
+            } elseif (config('database.default') === 'pgsql') {
                 DB::statement("ALTER TABLE {$table} ALTER COLUMN target_id SET NOT NULL");
                 DB::statement("ALTER TABLE {$table} ALTER COLUMN target_type SET NOT NULL");
             }

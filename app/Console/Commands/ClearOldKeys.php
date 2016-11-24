@@ -31,11 +31,11 @@ class ClearOldKeys extends Command
     public function handle()
     {
         // Clear out old SSH key files and archives
-        $keys = glob(storage_path('app/') . '*ssh*');
+        $keys = glob(storage_path('app/tmp/') . '*ssh*');
         $archives = glob(storage_path('app/') . '*.tar.gz');
 
         $files   = array_merge($keys, $archives);
-        $folders = glob(storage_path('app/') . '*clone*'); // cloned copies of code
+        $folders = glob(storage_path('app/tmp/') . 'clone_*'); // cloned copies of code
 
         $this->info('Found ' . count($files) . ' files and ' . count($folders) . ' folders to purge');
 

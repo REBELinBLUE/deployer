@@ -9,7 +9,7 @@ class ChangeOutputColumn extends Migration
      */
     public function up()
     {
-        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] === 'mysql') {
+        if (config('database.default') === 'mysql') {
             DB::statement('ALTER TABLE server_logs CHANGE output output longtext');
         }
     }
@@ -19,7 +19,7 @@ class ChangeOutputColumn extends Migration
      */
     public function down()
     {
-        if (isset($_ENV['DB_TYPE']) && $_ENV['DB_TYPE'] === 'mysql') {
+        if (config('database.default') === 'mysql') {
             DB::statement('ALTER TABLE server_logs CHANGE output output text');
         }
     }

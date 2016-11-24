@@ -86,18 +86,20 @@ redis.psubscribe('*', function(err, count) {
 redis.on('pmessage', function(subscribed, channel, message) {
     message = JSON.parse(message);
 
-    if (message.event.indexOf('RestartSocketServer') !== -1) {
-        if (debug) {
-            console.log('Restart command received');
+    if (message.event) {
+        if (message.event.indexOf('RestartSocketServer') !== -1) {
+            if (debug) {
+                console.log('Restart command received');
+            }
+
+            process.exit();
+            return;
         }
 
-        process.exit();
-        return;
-    }
+        if (debug) {
+            console.log('Message received from event ' + message.event + ' to channel ' + channel);
+        }
 
-    if (debug) {
-        console.log('Message received from event ' + message.event + ' to channel ' + channel);
+        io.emit(channel + ':' + message.event, message.data);
     }
-
-    io.emit(channel + ':' + message.event, message.data);
 });
