@@ -58,8 +58,6 @@ class ClearStalledDeployment extends Command
 
     /**
      * Cleans up any stalled deployments in the database.
-     *
-     * @todo Maybe readd pending to the queue if possible?
      */
     public function cleanupDeployments()
     {

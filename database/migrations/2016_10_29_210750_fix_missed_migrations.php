@@ -6,8 +6,6 @@ use REBELinBLUE\Deployer\Deployment;
 
 class FixMissedMigrations extends Migration
 {
-    private $relations = ['Command', 'Variable', 'ConfigFile', 'SharedFile'];
-
     /**
      * Run the migrations.
      *
