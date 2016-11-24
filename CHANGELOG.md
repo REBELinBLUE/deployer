@@ -1,11 +1,15 @@
 # Change Log
 
-## [0.0.40](https://github.com/REBELinBLUE/deployer/tree/0.0.40) (2016-11-13)
+## [0.0.40](https://github.com/REBELinBLUE/deployer/tree/0.0.40) (2016-11-24)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.39...0.0.40)
+
+**Implemented enhancements:**
+
+- Add support to webhook for Gogs & Gitea services [\#289](https://github.com/REBELinBLUE/deployer/pull/289) ([axeloz](https://github.com/axeloz))
 
 **Fixed bugs:**
 
-- Cant set QUEUE\_PORT [\#280](https://github.com/REBELinBLUE/deployer/issues/280)
+- Undefined index: DB\_TYPE [\#278](https://github.com/REBELinBLUE/deployer/issues/278)
 - Projects using git submodules are not supported  [\#264](https://github.com/REBELinBLUE/deployer/issues/264)
 - Allow the beanstalkd port to be supplied [\#281](https://github.com/REBELinBLUE/deployer/pull/281) ([uLow](https://github.com/uLow))
 
