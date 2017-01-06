@@ -23,6 +23,6 @@ return [
     'committer'           => '提交者',
     'failure_only'        => '仅失败',
     'notify_failure_only' => '仅失败时通知',
-    'failure_description' => '失败时仅通知此 channel',
+    'failure_description' => '仅失败时通知此 channel',
 
 ];
