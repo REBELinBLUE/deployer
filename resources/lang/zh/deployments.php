@@ -13,9 +13,9 @@ return [
     'webhook'               => 'Webhook',
     'rollback'              => '回滚',
     'rollback_title'        => '回滚到上一个部署',
-    'expert'                => '你不应该回滚到上一个部署，除非你确信可以完成任何可能需要的额外清理工作',
-    'rollback_warning'      => '当回滚到上一个部署，你可能需要手动连接到服务器并运行数据库回滚或相似操作，' .
-                               '这些无法自动完成',
+    'expert'                => '除非你确信可以完成任何可能需要的额外清理工作，否则你不应该回滚到上一个部署。',
+    'rollback_warning'      => '当回滚到上一个部署，你可能需要手动连接到服务器并运行数据库回滚或者相似操作，' .
+                               '这些操作无法自动完成',
     'caution'               => '警告!',
     'cancel'                => '取消',
     'loading'               => '加载',
@@ -38,7 +38,7 @@ return [
     'running'               => '正在运行',
     'cancelled'             => '已取消',
     'reason'                => '部署原因',
-    'source'                => 'Source',
+    'source'                => '来源',
     'default'               => '默认 branch (:branch)',
     'different_branch'      => '不同的 branch',
     'tag'                   => 'A tag',
