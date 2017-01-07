@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Contracts\Repositories\ServerRepositoryInterface;
-use REBELinBLUE\Deployer\Http\Requests;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
 
 /**
@@ -102,5 +101,24 @@ class ServerController extends ResourceController
         return [
             'success' => true,
         ];
+    }
+
+    /**
+     * Get server suggestions by name from the existed servers.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function autoComplete(Request $request)
+    {
+        $q = $request->get('query');
+        $servers = [];
+        if ($q) {
+            $servers = $this->repository->queryByName($q)->get();
+        }
+
+        $data = ['query' => $q, 'suggestions' => $servers];
+        return $data;
     }
 }

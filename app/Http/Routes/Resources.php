@@ -25,6 +25,11 @@ Route::group([
         'uses'  => 'ServerController@test',
     ]);
 
+    Route::get('servers/autocomplete', [
+        'as'    => 'servers.autocomplete',
+        'uses'  => 'ServerController@autoComplete',
+    ]);
+
     $actions = [
         'only' => ['store', 'update', 'destroy'],
     ];

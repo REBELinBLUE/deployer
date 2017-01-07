@@ -60,6 +60,31 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
+    $('#server #server_name').autocomplete({
+        serviceUrl: '/servers/autocomplete',
+        dataType: 'json',
+        noCache: true,
+        preserveInput: true,
+        transformResult: function (response) {
+            return {
+                suggestions: $.map(response.suggestions, function (dataItem) {
+                    var value = dataItem.user + '@' + dataItem.name + '(' + dataItem.ip_address + ')';
+                    return {value: value, data: dataItem};
+                })
+            };
+        },
+        onSelect: function (suggestion) {
+            var server = suggestion.data;
+            $('#server_name').val(server.name);
+            $('#server_address').val(server.ip_address);
+            $('#server_port').val(server.port);
+            $('#server_user').val(server.user);
+            $('#server_path').val(server.path);
+            $('#server_deploy_code').prop('checked', server.deploy_code);
+        }
+    });
+
+    // FIXME: This seems very wrong
     $('#server button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');

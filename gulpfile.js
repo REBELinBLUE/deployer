@@ -26,6 +26,7 @@ const paths = {
     'moment'          : bower_path + '/moment',
     'jquery'          : bower_path + '/jquery',
     'jquery_sortable' : bower_path + '/jquery-sortable',
+    'jquery_complete' : bower_path + '/devbridge-autocomplete',
     'fontawesome'     : bower_path + '/fontawesome',
     'socketio_client' : bower_path + '/socket.io-client',
     'ionicons'        : bower_path + '/ionicons',
@@ -62,6 +63,7 @@ Elixir(function(mix) {
     .scripts([
         paths.jquery          + '/dist/jquery.js',
         paths.jquery_sortable + '/source/js/jquery-sortable.js',
+        paths.jquery_complete + '/dist/jquery.autocomplete.js',
         paths.underscore      + '/underscore.js',
         paths.moment          + '/moment.js',
         paths.admin_lte       + '/bootstrap/js/bootstrap.js',
