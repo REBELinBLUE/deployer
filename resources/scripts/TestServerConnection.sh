@@ -1,5 +1,9 @@
 ### Test server connection - {{ server_id }}
 # Ensure the directory exists and can be written to
+if [ ! -d {{ project_path }} ]; then
+    mkdir -p {{ project_path }}
+fi
+
 cd {{ project_path }}
 ls
 
