@@ -10,8 +10,6 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square&branch=master)](https://styleci.io/repos/33559148)
 [![Build Status](https://img.shields.io/travis/REBELinBLUE/deployer.svg?style=flat-square&branch=master)](https://travis-ci.org/REBELinBLUE/deployer)
-[![Code Climate](https://img.shields.io/codeclimate/github/REBELinBLUE/deployer.svg?style=flat-square)](https://codeclimate.com/github/REBELinBLUE/deployer)
-[![Test Coverage](https://img.shields.io/codeclimate/coverage/github/REBELinBLUE/deployer.svg?style=flat-square)](https://codeclimate.com/github/REBELinBLUE/deployer)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/686dd98b-c0e5-465b-8f14-29b1cab47f3b.svg?style=flat-square)](https://insight.sensiolabs.com/projects/686dd98b-c0e5-465b-8f14-29b1cab47f3b)
 
 **Release Status**
