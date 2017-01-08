@@ -38,5 +38,8 @@ return [
     // Others
     'welcome'            => 'Hello :name',
     'whoops'             => 'Whoops!',
+    'regards'            => 'Regards,',
+    'action'             => 'If you’re having trouble clicking the ":action" button, copy and paste the URL ' .
+                            'below into your web browser:'
 
 ];

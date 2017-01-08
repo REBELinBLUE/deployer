@@ -1,24 +1,23 @@
 <?php
 
-// FIXME: Translate this
-
-if (! empty($greeting)) {
-    echo $greeting, "\n\n";
+if (!empty($greeting)) {
+    echo $greeting;
 } else {
-    echo $level == 'error' ? 'Whoops!' : 'Hello!', "\n\n";
+    echo $level == 'error' ? trans('emails.whoops') : trans('emails.welcome', ['name' => $name]);
 }
 
-if (! empty($introLines)) {
-    echo implode("\n", $introLines), "\n\n";
+echo "\n\n";
+
+if (!empty($introLines)) {
+    echo implode("\n", $introLines) . "\n\n";
 }
 
 if (isset($actionText)) {
-    echo "{$actionText}: {$actionUrl}", "\n\n";
+    echo "{$actionText}: {$actionUrl}\n\n";
 }
 
-if (! empty($outroLines)) {
-    echo implode("\n", $outroLines), "\n\n";
+if (!empty($outroLines)) {
+    echo implode("\n", $outroLines) . "\n\n";
 }
 
-echo 'Regards,', "\n";
-echo config('app.name'), "\n";
+echo trans('emails.regards') . "\n" . config('app.name') . "\n";
