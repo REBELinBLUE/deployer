@@ -251,7 +251,6 @@ class UpdateApp extends InstallApp
      */
     private function hasDeprecatedConfig()
     {
-        // FIXME: Check if we can do this automatically without causing problems
         if (preg_match('/DB_TYPE=/', file_get_contents(base_path('.env')))) {
             $this->block([
                 'Update not complete!',

@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Jobs;
 
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Notifications\DeploymentFinished;
+use REBELinBLUE\Deployer\NotifyEmail;
 use REBELinBLUE\Deployer\Project;
 
 /**
@@ -38,7 +39,7 @@ class MailDeployNotification extends Job
      */
     public function handle()
     {
-        $this->project->notifyEmails->each(function ($email) {
+        $this->project->notifyEmails->each(function (NotifyEmail $email) {
             $email->notify(new DeploymentFinished($this->project, $this->deployment));
         });
     }
