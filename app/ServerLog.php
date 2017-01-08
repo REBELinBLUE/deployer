@@ -56,10 +56,11 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
         parent::boot();
 
         static::updated(function (ServerLog $model) {
+            $outputChanged = $model->isDirty('output');
+
             event(new ServerLogChanged($model));
 
-            // FIXME: Only throw this is the content has changed
-            if (!empty($model->output)) {
+            if ($outputChanged) {
                 event(new ServerOutputChanged($model));
             }
         });
