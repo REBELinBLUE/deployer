@@ -7,8 +7,8 @@ interface HeartbeatRepositoryInterface
     /**
      * @param string $hash
      *
-     * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getByHash($hash);
 
@@ -21,18 +21,18 @@ interface HeartbeatRepositoryInterface
 
     /**
      * @param array $fields
-     * @param int $model_id
+     * @param int   $model_id
      *
-     * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(array $fields, $model_id);
 
     /**
      * @param int $model_id
      *
-     * @return bool
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return bool
      */
     public function deleteById($model_id);
 }

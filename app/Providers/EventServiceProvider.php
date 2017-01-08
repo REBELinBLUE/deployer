@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
-use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use REBELinBLUE\Deployer\Events\DeployFinished;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
@@ -42,11 +41,9 @@ class EventServiceProvider extends ServiceProvider
 
     /**
      * Register any other events for your application.
-     *
-     * @param DispatcherContract $events
      */
-    public function boot(DispatcherContract $events)
+    public function boot()
     {
-        parent::boot($events);
+        parent::boot();
     }
 }

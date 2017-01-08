@@ -35,9 +35,9 @@ class QueueDeployment extends Job
     /**
      * QueueDeployment constructor.
      *
-     * @param Project $project
+     * @param Project    $project
      * @param Deployment $deployment
-     * @param array $optional
+     * @param array      $optional
      */
     public function __construct(Project $project, Deployment $deployment, array $optional = [])
     {
@@ -144,7 +144,7 @@ class QueueDeployment extends Job
     /**
      * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command.
      *
-     * @param int $stage
+     * @param int   $stage
      * @param Stage $command
      */
     private function createCommandStep($stage, Stage $command)

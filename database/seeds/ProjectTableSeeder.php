@@ -14,7 +14,7 @@ class ProjectTableSeeder extends Seeder
             'hash'              => str_random(60),
             'repository'        => 'https://github.com/REBELinBLUE/deployer.git',
             'url'               => 'http://deployer.app',
-            'group_id'          => 2,
+            'group_id'          => 1,
             'private_key'       => '-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAmrMjtajVvmd99T8xwUNrIFbrzSmZ6VCM89hfm4Ut9atv29gG
 l2HFPJY7VtslXDJVL67w5EUMspy82tkAX7F03iaarSsbo6nC16UTfbfNTi44Snm0
@@ -43,12 +43,12 @@ ulR2AVTGi6STEgzXf6UP5CAVhYRw9irCAQYpceL0GVzfZPQsXyLuMCnJ8UD6CBRn
 i5vkNY4OZdOuEV9boFOFYa58WRNK7vthHkZJj++Amu3dZ6RHBlLQ
 -----END RSA PRIVATE KEY-----',
             'public_key'         => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCasyO1qNW+Z331PzHBQ2sgVuvNKZnpUIzz2F+bhS31q2/b2Aa' .
-                                    'XYcU8ljtW2yVcMlUvrvDkRQyynLza2QBfsXTeJpqtKxujqcLXpRN9t81OLjhKebRP/lExq9I6c4xEnwFBx/OqB7' .
-                                    'ighDNUZc6zRi80V1K3iloGn12ywpL7vI/+EO+ABXP4sTchwh47bppcBNy4HjOre+NqpLNZkZ02E4lngSaOCY6r3' .
-                                    '6TdICaigeQX6n/Xgwm2rRkr0qNIZsd/IoyLYS6/CWUUJjX16qxXt1wwMiwwpRbZ2IULnZ0lI74QXjucD+Ow0OKw' .
-                                    'WwgLsN55VUGXVOlpX1GJ2p5mZ3H6YX0B deploy@deployer',
+                'XYcU8ljtW2yVcMlUvrvDkRQyynLza2QBfsXTeJpqtKxujqcLXpRN9t81OLjhKebRP/lExq9I6c4xEnwFBx/OqB7' .
+                'ighDNUZc6zRi80V1K3iloGn12ywpL7vI/+EO+ABXP4sTchwh47bppcBNy4HjOre+NqpLNZkZ02E4lngSaOCY6r3' .
+                '6TdICaigeQX6n/Xgwm2rRkr0qNIZsd/IoyLYS6/CWUUJjX16qxXt1wwMiwwpRbZ2IULnZ0lI74QXjucD+Ow0OKw' .
+                'WwgLsN55VUGXVOlpX1GJ2p5mZ3H6YX0B deploy@deployer',
             'last_run'           => null,
-            'build_url'          => 'https://img.shields.io/travis/REBELinBLUE/deployer.svg?branch=master',
+            'build_url'          => 'https://travis-ci.org/REBELinBLUE/deployer.svg?branch=master',
             'allow_other_branch' => true,
             'include_dev'        => false,
         ]);

@@ -62,7 +62,7 @@ class DeployProject extends Job implements ShouldQueue
      * Overwrite the queue method to push to a different queue.
      *
      * @param Queue $queue
-     * @param Job $command
+     * @param Job   $command
      */
     public function queue(Queue $queue, $command)
     {
@@ -245,7 +245,7 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Executes the commands for a step.
      *
-     * @param DeployStep $step
+     * @param  DeployStep        $step
      * @throws \RuntimeException
      */
     private function runStep(DeployStep $step)
@@ -327,7 +327,7 @@ class DeployProject extends Job implements ShouldQueue
      * Sends the files needed to the server.
      *
      * @param DeployStep $step
-     * @param ServerLog $log
+     * @param ServerLog  $log
      */
     private function sendFilesForStep(DeployStep $step, ServerLog $log)
     {
@@ -348,7 +348,7 @@ class DeployProject extends Job implements ShouldQueue
      * Generates the actual bash commands to run on the server.
      *
      * @param DeployStep $step
-     * @param Server $server
+     * @param Server     $server
      *
      * @return Process
      */
@@ -404,7 +404,7 @@ class DeployProject extends Job implements ShouldQueue
      * Gets the process which is used for the supplied step.
      *
      * @param DeployStep $step
-     * @param array $tokens
+     * @param array      $tokens
      *
      * @return Process
      */
@@ -428,14 +428,15 @@ class DeployProject extends Job implements ShouldQueue
 
         // Custom step
         $script = '### Custom script - {{ deployment }}' . PHP_EOL . $step->command->script;
+
         return new Process($script, $tokens, Process::DIRECT_INPUT);
     }
 
     /**
      * Sends a file to a remote server.
      *
-     * @param string $local_file
-     * @param string $remote_file
+     * @param string    $local_file
+     * @param string    $remote_file
      * @param ServerLog $log
      *
      * @throws \RuntimeException
@@ -477,8 +478,8 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Send a string to server.
      *
-     * @param string $remote_path
-     * @param string $content
+     * @param string    $remote_path
+     * @param string    $content
      * @param ServerLog $log
      */
     private function sendFileFromString($remote_path, $content, ServerLog $log)
@@ -572,7 +573,7 @@ class DeployProject extends Job implements ShouldQueue
      * Generates the list of tokens for the scripts.
      *
      * @param DeployStep $step
-     * @param Server $server
+     * @param Server     $server
      *
      * @return array
      */

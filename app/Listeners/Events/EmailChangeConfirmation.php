@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
+use REBELinBLUE\Deployer\Notifications\ChangeEmail;
 
 /**
  * Request email change handler.
@@ -31,22 +32,8 @@ class EmailChangeConfirmation extends Event implements ShouldQueue
      */
     public function handle(EmailChangeRequested $event)
     {
-        $user = $event->user;
+        $token = $event->user->requestEmailToken();
 
-        $data = [
-            'email' => $user->email,
-            'name'  => $user->name,
-            'token' => $user->requestEmailToken(),
-        ];
-
-        Mail::queueOn(
-            'deployer-low',
-            'emails.change_email',
-            $data,
-            function (Message $message) use ($user) {
-                $message->to($user->email, $user->name)
-                        ->subject(Lang::get('emails.confirm_email'));
-            }
-        );
+        $event->user->notify(new ChangeEmail($token));
     }
 }

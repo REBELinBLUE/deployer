@@ -11,8 +11,7 @@ return [
     | API, giving you convenient access to each back-end using the same
     | syntax for each one. Here you may set the default queue driver.
     |
-    | Supported: "null", "sync", "database", "beanstalkd",
-    |            "sqs", "redis"
+    | Supported: "sync", "database", "beanstalkd", "sqs", "redis", "null"
     |
     */
 
@@ -37,9 +36,9 @@ return [
 
         'database' => [
             'driver' => 'database',
-            'table'  => 'jobs',
-            'queue'  => 'deployer-default',
-            'expire' => 60,
+            'table' => 'jobs',
+            'queue' => 'deployer-default',
+            'retry_after' => 90,
         ],
 
         'beanstalkd' => [
@@ -47,23 +46,23 @@ return [
             'host'   => env('QUEUE_HOST', 'localhost'),
             'port'   => env('QUEUE_PORT', 11300),
             'queue'  => 'deployer-default',
-            'ttr'    => 60,
+            'retry_after' => 90,
         ],
 
         'sqs' => [
             'driver' => 'sqs',
-            'key'    => 'your-public-key',
+            'key' => 'your-public-key',
             'secret' => 'your-secret-key',
             'prefix' => 'https://sqs.us-east-1.amazonaws.com/your-account-id',
-            'queue'  => 'your-queue-name',
+            'queue' => 'your-queue-name',
             'region' => 'us-east-1',
         ],
 
         'redis' => [
-            'driver'     => 'redis',
+            'driver' => 'redis',
             'connection' => 'default',
-            'queue'      => 'deployer-default',
-            'expire'     => 60,
+            'queue' => 'deployer-default',
+            'retry_after' => 90,
         ],
 
     ],
@@ -80,7 +79,8 @@ return [
     */
 
     'failed' => [
-        'database' => env('DB_TYPE', 'sqlite'),
+        'database' => env('DB_CONNECTION', 'sqlite'),
         'table' => 'failed_jobs',
-     ],
+    ],
+
 ];

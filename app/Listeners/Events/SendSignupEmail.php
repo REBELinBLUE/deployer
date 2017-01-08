@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
+use REBELinBLUE\Deployer\Notifications\NewAccount;
 
 /**
  * Sends an email when the user has been created.
@@ -31,21 +32,6 @@ class SendSignupEmail extends Event implements ShouldQueue
      */
     public function handle(UserWasCreated $event)
     {
-        $user = $event->user;
-
-        $data = [
-            'password' => $event->password,
-            'email'    => $user->email,
-        ];
-
-        Mail::queueOn(
-            'deployer-low',
-            'emails.account',
-            $data,
-            function (Message $message) use ($user) {
-                $message->to($user->email, $user->name)
-                        ->subject(Lang::get('emails.creation_subject'));
-            }
-        );
+        $event->user->notify(new NewAccount($event->password));
     }
 }

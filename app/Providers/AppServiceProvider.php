@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Set up the morph map for the polymorphic relationships
         Relation::morphMap([
-            'project' => Project::class,
+            'project'  => Project::class,
             'template' => Template::class,
         ]);
     }

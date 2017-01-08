@@ -298,13 +298,13 @@ var app = app || {};
             var that = this;
             $.ajax({
                 type: 'GET',
+                //url: '/projects/' + this.model.get('project_id') + this.model.urlRoot + '/' + this.model.id + '/test'
                 url: this.model.urlRoot + '/' + this.model.id + '/test'
             }).fail(function (response) {
                 that.model.set({
                     status: FAILED
                 });
             });
-
         }
     });
 })(jQuery);

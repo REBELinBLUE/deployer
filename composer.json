@@ -20,8 +20,8 @@
         "source": "https://github.com/REBELinBLUE/deployer"
     },
     "require": {
-        "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
+        "php": ">=5.6.4",
+        "laravel/framework": "5.3.*",
         "predis/predis": "~1.0",
         "graham-campbell/htmlmin": "~4.2",
         "pda/pheanstalk": "~3.1",
@@ -45,18 +45,15 @@
         "phpunit/phpunit": "5.3.5",
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
-        "block8/php-docblock-checker": "^1.0",
+        "block8/php-docblock-checker": "^1.1",
         "squizlabs/php_codesniffer": "~2.5",
         "phpmd/phpmd" : "~2.4",
         "phploc/phploc": "~3.0",
-        "sebastian/phpcpd": "2.0.2",
         "filp/whoops": "^2.0",
-        "codeclimate/php-test-reporter": "^0.3.0",
         "barryvdh/laravel-ide-helper": "^2.1",
         "themsaid/laravel-langman": "^1.1",
         "friendsofphp/php-cs-fixer": "^1.11",
-        "jakub-onderka/php-parallel-lint": "^0.9.2",
-        "jakub-onderka/php-console-highlighter": "^0.3.2"
+        "jakub-onderka/php-parallel-lint": "^0.9.2"
     },
     "autoload": {
         "classmap": [
@@ -76,6 +73,7 @@
             "php artisan clear-compiled"
         ],
         "post-install-cmd": [
+            "([ -f .env ] && sed -i 's/DB_TYPE=/DB_CONNECTION=/g' .env) || exit 0",
             "([ -f .env ] && php artisan optimize) || exit 0",
             "([ -f .env ] && php artisan js-localization:refresh) || exit 0"
         ],
@@ -85,6 +83,7 @@
         "post-update-cmd": [
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta",
+            "php artisan ide-helper:models --nowrite",
             "php artisan optimize",
             "php artisan js-localization:refresh"
         ]

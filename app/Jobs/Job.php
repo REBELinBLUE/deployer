@@ -27,7 +27,7 @@ abstract class Job
      * Overwrite the queue method to push to a different queue.
      *
      * @param Queue $queue
-     * @param Job $command
+     * @param Job   $command
      */
     public function queue(Queue $queue, $command)
     {

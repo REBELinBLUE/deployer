@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use REBELinBLUE\Deployer\Group;
 
 class CreateGroupsTable extends Migration
 {
@@ -16,6 +17,10 @@ class CreateGroupsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Group::create([
+            'name' => 'Projects',
+        ]);
     }
 
     /**

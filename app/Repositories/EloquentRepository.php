@@ -29,8 +29,8 @@ abstract class EloquentRepository
      *
      * @param int $model_id
      *
-     * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getById($model_id)
     {
@@ -53,7 +53,7 @@ abstract class EloquentRepository
      * Updates an instance by it's ID.
      *
      * @param array $fields
-     * @param int $model_id
+     * @param int   $model_id
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
@@ -71,8 +71,8 @@ abstract class EloquentRepository
      *
      * @param int $model_id
      *
-     * @return bool
      * @throws \Exception
+     * @return bool
      */
     public function deleteById($model_id)
     {

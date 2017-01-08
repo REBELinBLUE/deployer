@@ -9,21 +9,6 @@ use REBELinBLUE\Deployer\Traits\HasTarget;
 
 /**
  * The command model.
- *
- * @property integer $id
- * @property string $name
- * @property string $user
- * @property string $script
- * @property integer $project_id
- * @property integer $step
- * @property integer $order
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $deleted_at
- * @property boolean $optional
- * @property boolean $default_on
- * @property-read Project $project
- * @property-read Server[] $servers
  */
 class Command extends Model
 {

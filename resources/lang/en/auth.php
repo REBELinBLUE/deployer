@@ -16,8 +16,8 @@ return [
     'enter_password'        => 'Please enter your new password below',
     'send_link'             => 'Send Password Reset Link',
     'reset'                 => 'Reset Password',
-    'throttle'              => 'Too many login attempts. Please try again in :seconds seconds.',
     'failed'                => 'These credentials do not match our records.',
+    'throttle'              => 'Too many login attempts. Please try again in :seconds seconds.',
     'invalid_code'          => 'The authentication code was incorrect.',
     'remember'              => 'Remember Me',
 

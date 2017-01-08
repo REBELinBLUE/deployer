@@ -40,7 +40,7 @@ class SharedFilesController extends ResourceController
     /**
      * Update the specified file in storage.
      *
-     * @param int $file_id
+     * @param int                    $file_id
      * @param StoreSharedFileRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

@@ -16,7 +16,7 @@ class DashboardController extends Controller
      * The main page of the dashboard.
      *
      * @param DeploymentRepositoryInterface $deploymentRepository
-     * @param ProjectRepositoryInterface $projectRepository
+     * @param ProjectRepositoryInterface    $projectRepository
      *
      * @return \Illuminate\View\View
      */

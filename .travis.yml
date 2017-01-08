@@ -41,7 +41,6 @@ before_script:
     - php artisan key:generate
     - sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
     - sed -i 's/APP_DEBUG=false/APP_DEBUG=true/g' .env
-    - sed -i "s/DB_TYPE=mysql/DB_TYPE=$DB/g" .env
     - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
     - sed -i "s/DB_USERNAME=deployer/DB_USERNAME=$DB_USERNAME/g" .env
     - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
@@ -78,4 +77,3 @@ script:
 
 after_script:
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
-  - vendor/bin/test-reporter

@@ -12,7 +12,7 @@ class ChannelValidator
      *
      * @param string $attribute
      * @param string $value
-     * @param array $parameters
+     * @param array  $parameters
      *
      * @return bool
      *
