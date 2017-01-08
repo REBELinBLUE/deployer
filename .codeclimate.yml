@@ -7,5 +7,5 @@ exclude_paths:
   - "bootstrap/*"
   - "database/*"
   - "storage/*"
-  - "resources/lang/en/*.php"
+  - "resources/lang/**/*.php"
   - "*.blade.php"
