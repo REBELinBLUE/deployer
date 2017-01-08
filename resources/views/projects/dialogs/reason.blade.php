@@ -9,7 +9,6 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <div class="modal-body">
-
                     <div class="callout callout-danger">
                         <i class="icon fa fa-warning"></i> {{ Lang::get('deployments.warning') }}
                     </div>
@@ -37,7 +36,7 @@
                                                 @foreach ($branches as $branch)
                                                     <option value="{{ $branch }}">{{ $branch }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> <button type="button" class="btn btn-default btn-refresh-branches" data-project-id="{{ $project->id }}" title="{{ Lang::get('deployments.refresh_branches') }}" id="refresh_branches"><i class="fa fa-refresh"></i></button>
                                         </div>
                                     </label>
                                 </div>
@@ -55,7 +54,7 @@
                                                 @foreach ($tags as $tag)
                                                     <option value="{{ $tag }}">{{ $tag }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> <button type="button" class="btn btn-default btn-refresh-branches" data-project-id="{{ $project->id }}" title="{{ Lang::get('deployments.refresh_tags') }}" id="refresh_tags"><i class="fa fa-refresh"></i></button>
                                         </div>
                                     </label>
                                 </div>

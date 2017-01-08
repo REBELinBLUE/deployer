@@ -16,6 +16,7 @@ $router->get('webhook/{id}/refresh', 'WebhookController@refresh')->name('webhook
 
 $router->get('projects/{id}', 'DeploymentController@project')->name('projects');
 $router->post('projects/{id}/deploy', 'DeploymentController@deploy')->name('projects.deploy');
+$router->post('projects/{id}/refresh', 'DeploymentController@refresh')->name('projects.refresh');
 
 $router->get('deployment/{id}', 'DeploymentController@show')->name('deployments');
 $router->post('deployment/{id}/rollback', 'DeploymentController@rollback')->name('deployments.rollback');
