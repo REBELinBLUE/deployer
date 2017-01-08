@@ -48,8 +48,8 @@ class Runner
      * Runner constructor.
      *
      * @param string $input
-     * @param array $tokens
-     * @param bool $script_source
+     * @param array  $tokens
+     * @param bool   $script_source
      */
     public function __construct($input, array $tokens = [], $script_source = self::TEMPLATE_INPUT)
     {
@@ -129,7 +129,7 @@ class Runner
     /**
      * Wraps the command in either local or remote wrappers.
      *
-     * @param  string $script
+     * @param string $script
      *
      * @return string
      */
@@ -161,10 +161,10 @@ class Runner
      * Overloading call to undefined methods to pass them to the process object.
      *
      * @param string $method
-     * @param array $arguments
+     * @param array  $arguments
      *
-     * @return mixed
      * @throws \RuntimeException
+     * @return mixed
      */
     public function __call($method, array $arguments = [])
     {

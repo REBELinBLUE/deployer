@@ -61,7 +61,7 @@ class UserController extends Controller
     /**
      * Update the specified user in storage.
      *
-     * @param int $user_id
+     * @param int              $user_id
      * @param StoreUserRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

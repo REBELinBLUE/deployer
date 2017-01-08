@@ -41,7 +41,7 @@ class VariableController extends ResourceController
     /**
      * Update the specified variable in storage.
      *
-     * @param int $variable_id
+     * @param int                  $variable_id
      * @param StoreVariableRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

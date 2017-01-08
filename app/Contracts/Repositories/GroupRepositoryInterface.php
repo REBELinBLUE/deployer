@@ -18,10 +18,10 @@ interface GroupRepositoryInterface
 
     /**
      * @param array $fields
-     * @param int $model_id
+     * @param int   $model_id
      *
-     * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(array $fields, $model_id);
 }

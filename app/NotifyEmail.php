@@ -4,23 +4,15 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Email list for a deployment notification.
- *
- * @property integer $id
- * @property string $name
- * @property string $email
- * @property integer $project_id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $deleted_at
- * @property-read Project $project
  */
 class NotifyEmail extends Model
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, Notifiable;
 
     /**
      * The attributes that are mass assignable.

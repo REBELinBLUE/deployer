@@ -101,7 +101,7 @@ class InstallApp extends Command
         $this->writeEnvFile($config);
 
         $this->generateKey();
-        $this->migrate(($this->getLaravel()->environment() === 'local'));
+        $this->migrate();
 
         $this->repository->updateById($admin, 1);
 
@@ -176,7 +176,7 @@ class InstallApp extends Command
         }
 
         // Remove keys not needed for sqlite
-        if ($input['db']['type'] === 'sqlite') {
+        if ($input['db']['connection'] === 'sqlite') {
             foreach (['host', 'database', 'username', 'password'] as $key) {
                 $key = strtoupper($key);
 
@@ -237,24 +237,14 @@ class InstallApp extends Command
     }
 
     /**
-     * Calls the artisan migrate to set up the database
-     * in development mode it also seeds the DB.
-     *
-     * @param bool $seed Whether or not to seed the database
+     * Calls the artisan migrate to set up the database.
      */
-    protected function migrate($seed = false)
+    protected function migrate()
     {
         $this->info('Running database migrations');
         $this->line('');
         $this->call('migrate', ['--force' => true]);
         $this->line('');
-
-        if ($seed) {
-            $this->info('Seeding database');
-            $this->line('');
-            $this->call('db:seed', ['--force' => true]);
-            $this->line('');
-        }
     }
 
     /**
@@ -582,8 +572,8 @@ class InstallApp extends Command
         $errors = false;
 
         // Check PHP version:
-        if (!version_compare(PHP_VERSION, '5.5.9', '>=')) {
-            $this->error('PHP 5.5.9 or higher is required');
+        if (!version_compare(PHP_VERSION, '5.6.4', '>=')) {
+            $this->error('PHP 5.6.4 or higher is required');
             $errors = true;
         }
 
@@ -601,7 +591,7 @@ class InstallApp extends Command
 
         if (!count($this->getDatabaseDrivers())) {
             $this->error(
-                'At least 1 PDO driver is required. Either sqlite, mysql, pgsql or sqlsrv, check your php.ini file'
+                'At least 1 PDO driver is required. Either sqlite, mysql or pgsql, check your php.ini file'
             );
             $errors = true;
         }
@@ -631,7 +621,7 @@ class InstallApp extends Command
         }
 
         $required_one = ['node', 'nodejs'];
-        $found = false;
+        $found        = false;
         foreach ($required_one as $command) {
             $process = new Process('which ' . $command);
             $process->setTimeout(null);
@@ -700,8 +690,7 @@ class InstallApp extends Command
     {
         $available = collect(PDO::getAvailableDrivers());
 
-        return array_values($available->intersect(['mysql', 'sqlite', 'pgsql', 'sqlsrv'])
-                         ->all());
+        return array_values($available->intersect(['mysql', 'sqlite', 'pgsql'])->all());
     }
 
     /**
@@ -766,7 +755,7 @@ class InstallApp extends Command
      * A wrapper around symfony's formatter helper to output a block.
      *
      * @param string|array $messages Messages to output
-     * @param string $type The type of message to output
+     * @param string       $type     The type of message to output
      */
     protected function block($messages, $type = 'error')
     {

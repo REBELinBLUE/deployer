@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Template;
@@ -19,7 +20,7 @@ class AddTargetableAttributes extends Migration
     {
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance = new $className;
+            $instance  = new $className;
 
             $table = $instance->getTable();
 
@@ -48,14 +49,14 @@ class AddTargetableAttributes extends Migration
         // Now loop through the relations and set the target details
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance = new $className;
+            $instance  = new $className;
 
             foreach ($instance->all() as $row) {
-                $row->target_id = $row->project_id;
+                $row->target_id   = $row->project_id;
                 $row->target_type = 'project';
 
                 if (isset($templates[$row->project_id])) {
-                    $row->target_id = $templates[$row->project_id]->id;
+                    $row->target_id   = $templates[$row->project_id]->id;
                     $row->target_type = 'template';
                 }
 
@@ -64,20 +65,22 @@ class AddTargetableAttributes extends Migration
         };
 
         // Remove any deleted non templates from group 1 to group 2
-        $project = new Project;
-        $project->where('is_template', false)
-                ->where('group_id', 1)
-                ->withTrashed()
-                ->update(['group_id' => 2]);
+        Project::where('is_template', false)
+               ->where('group_id', 1)
+               ->withTrashed()
+               ->update(['group_id' => 2]);
 
         // Remove the left over fake templates and the containing group
-        Project::where('is_template', true)->forceDelete();
-        Group::find(1)->forceDelete();
+        Project::where('is_template', true)->withTrashed()->forceDelete();
+        Group::where('id', 1)
+             ->where('name', 'Templates')
+             ->withTrashed()
+             ->forceDelete();
 
         // Remove the unneeded project ID column
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance = new $className;
+            $instance  = new $className;
 
             $table = $instance->getTable();
 
@@ -105,7 +108,7 @@ class AddTargetableAttributes extends Migration
     {
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance = new $className;
+            $instance  = new $className;
 
             $table = $instance->getTable();
 

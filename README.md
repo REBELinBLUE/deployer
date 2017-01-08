@@ -1,6 +1,6 @@
 # Deployer
 
-Deployer is a PHP Application deployment system powered by [Laravel 5.2](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
+Deployer is a PHP Application deployment system powered by [Laravel 5.3](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
 
 Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](/SCREENSHOTS.md), and [contribution guidelines](/.github/CONTRIBUTING.md).
 
@@ -72,7 +72,7 @@ $ gulp
 
 ## Requirements
 
-- [PHP](http://www.php.net) 5.5.9+ or newer
+- [PHP](http://www.php.net) 5.6.4+ or newer
 - A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) are recommended but [SQLite](https://www.sqlite.org) can be used
 - [Composer](https://getcomposer.org)
 - [Redis](http://redis.io)

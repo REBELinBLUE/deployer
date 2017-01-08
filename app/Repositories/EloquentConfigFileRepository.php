@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\ConfigFileRepositoryInterface;
 use REBELinBLUE\Deployer\ConfigFile;
+use REBELinBLUE\Deployer\Contracts\Repositories\ConfigFileRepositoryInterface;
 
 /**
  * The project file repository.

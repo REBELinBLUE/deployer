@@ -39,7 +39,7 @@ class GroupController extends Controller
     /**
      * Store a newly created group in storage.
      *
-     * @param  StoreGroupRequest $request
+     * @param StoreGroupRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model
      */

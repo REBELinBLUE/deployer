@@ -25,7 +25,7 @@
 
         <div class="login-box-body">
             <p class="login-box-msg">{{ Lang::get('auth.enter_email') }}</p>
-            <form action="{{ route('auth.request-password-reset') }}" method="post">
+            <form action="{{ route('auth.reset-email') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div class="form-group has-feedback">
                     <input type="email" class="form-control" placeholder="{{ Lang::get('auth.email') }}" name="email"  value="{{ old('email') }}" required />

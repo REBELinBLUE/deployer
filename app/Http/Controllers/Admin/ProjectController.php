@@ -29,8 +29,8 @@ class ProjectController extends Controller
      * Shows all projects.
      *
      * @param TemplateRepositoryInterface $templateRepository
-     * @param GroupRepositoryInterface $groupRepository
-     * @param Request $request
+     * @param GroupRepositoryInterface    $groupRepository
+     * @param Request                     $request
      *
      * @return \Illuminate\View\View
      */
@@ -77,7 +77,7 @@ class ProjectController extends Controller
     /**
      * Update the specified project in storage.
      *
-     * @param int $project_id
+     * @param int                 $project_id
      * @param StoreProjectRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

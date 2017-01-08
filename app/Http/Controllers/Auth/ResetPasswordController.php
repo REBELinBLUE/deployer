@@ -3,20 +3,14 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
 /**
- * Password reset controller.
+ * Controller for handling password resets.
  */
-class PasswordController extends Controller
+class ResetPasswordController extends Controller
 {
     use ResetsPasswords;
-
-    /**
-     * @var string
-     */
-    protected $subject;
 
     /**
      * Where to redirect to once the password has been reset.
@@ -30,8 +24,6 @@ class PasswordController extends Controller
      */
     public function __construct()
     {
-        $this->subject = Lang::get('emails.reset_subject');
-
         $this->middleware('guest');
     }
 }

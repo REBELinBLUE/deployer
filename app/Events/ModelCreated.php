@@ -26,7 +26,7 @@ class ModelCreated extends Event implements ShouldBroadcast
      * ModelCreated constructor.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string $channel
+     * @param string                              $channel
      */
     public function __construct($model, $channel)
     {

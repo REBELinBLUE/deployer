@@ -31,7 +31,7 @@ class ClearOldKeys extends Command
     public function handle()
     {
         // Clear out old SSH key files and archives
-        $keys = glob(storage_path('app/tmp/') . '*ssh*');
+        $keys     = glob(storage_path('app/tmp/') . '*ssh*');
         $archives = glob(storage_path('app/') . '*.tar.gz');
 
         $files   = array_merge($keys, $archives);

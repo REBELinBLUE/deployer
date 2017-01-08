@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 
 /**
@@ -31,7 +32,7 @@ class DeploymentController extends Controller
     /**
      * DeploymentController constructor.
      *
-     * @param ProjectRepositoryInterface $projectRepository
+     * @param ProjectRepositoryInterface    $projectRepository
      * @param DeploymentRepositoryInterface $deploymentRepository
      */
     public function __construct(
@@ -121,7 +122,7 @@ class DeploymentController extends Controller
      * Adds a deployment for the specified project to the queue.
      *
      * @param Request $request
-     * @param int $project_id
+     * @param int     $project_id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -165,7 +166,7 @@ class DeploymentController extends Controller
      * Loads a previous deployment and then creates a new deployment based on it.
      *
      * @param Request $request
-     * @param int $deployment_id
+     * @param int     $deployment_id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -206,12 +207,13 @@ class DeploymentController extends Controller
     /**
      * Gets the log output of a particular deployment step.
      *
-     * @param ServerLog $log
+     * @param int $log_id
      *
      * @return ServerLog
      */
-    public function log(ServerLog $log)
+    public function log($log_id)
     {
+        $log          = ServerLog::findOrFail($log_id);
         $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
 
         return $log;

@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use REBELinBLUE\Deployer\Deployment;
 
 class FixMissedMigrations extends Migration
@@ -26,7 +27,7 @@ class FixMissedMigrations extends Migration
         }
 
         if (config('database.default') !== 'sqlite') {
-            DB::statement("ALTER TABLE projects DROP COLUMN is_template");
+            DB::statement('ALTER TABLE projects DROP COLUMN is_template');
         }
     }
 

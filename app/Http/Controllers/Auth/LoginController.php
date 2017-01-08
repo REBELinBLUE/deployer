@@ -3,20 +3,18 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
 /**
- * Authentication controller.
+ * Controller for handling user login.
  */
-class AuthController extends Controller
+class LoginController extends Controller
 {
-    use AuthenticatesUsers, ThrottlesLogins;
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect to once the login has been successful.
@@ -38,6 +36,8 @@ class AuthController extends Controller
     public function __construct(Google2FA $google2fa)
     {
         $this->google2fa  = $google2fa;
+
+        $this->middleware('guest', ['except' => 'logout']);
     }
 
     /**
@@ -45,9 +45,9 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function getLogin()
+    public function showLoginForm()
     {
-        if (Auth::guard($this->getGuard())->viaRemember()) {
+        if ($this->guard()->viaRemember()) {
             return redirect()->route('dashboard');
         }
 
@@ -61,20 +61,19 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function postLogin(Request $request)
+    public function login(Request $request)
     {
-        // $this->validate($request, [
-        //     'email'    => 'required|email',
-        //     'password' => 'required',
-        // ]);
+        $this->validateLogin($request);
 
-        if ($this->hasTooManyLoginAttempts($request)) {
+        if ($lockedOut = $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
             return $this->sendLockoutResponse($request);
         }
 
-        $auth = Auth::guard($this->getGuard());
+        $auth = $this->guard();
 
-        $credentials = $this->getCredentials($request);
+        $credentials = $this->credentials($request);
 
         if ($auth->validate($credentials)) {
             $auth->once($credentials);
@@ -90,10 +89,12 @@ class AuthController extends Controller
 
             $auth->attempt($credentials, $request->has('remember'));
 
-            return $this->handleUserWasAuthenticated($request, true);
+            return $this->sendLoginResponse($request, true);
         }
 
-        $this->incrementLoginAttempts($request);
+        if (!$lockedOut) {
+            $this->incrementLoginAttempts($request);
+        }
 
         return $this->sendFailedLoginResponse($request);
     }
@@ -103,7 +104,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function getTwoFactorAuthentication()
+    public function showTwoFactorAuthenticationForm()
     {
         return view('auth.twofactor');
     }
@@ -115,18 +116,18 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postTwoFactorAuthentication(Request $request)
+    public function twoFactorAuthenticate(Request $request)
     {
         $user_id  = Session::pull('2fa_user_id');
         $remember = Session::pull('2fa_login_remember');
 
         if ($user_id) {
-            $auth = Auth::guard($this->getGuard());
+            $auth = $this->guard();
 
             $auth->loginUsingId($user_id, $remember);
 
             if ($this->google2fa->verifyKey($auth->user()->google2fa_secret, $request->get('2fa_code'))) {
-                return $this->handleUserWasAuthenticated($request, true);
+                return $this->sendLoginResponse($request, true);
             }
 
             $auth->logout();

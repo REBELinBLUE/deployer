@@ -1,8 +1,12 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use REBELinBLUE\Deployer\Group;
 
+// use REBELinBLUE\Deployer\Group;
+
+/**
+ * @deprecated No long need to ever create the template group on fresh installs
+ */
 class SeperateTemplateGroup extends Migration
 {
     /**
@@ -10,6 +14,7 @@ class SeperateTemplateGroup extends Migration
      */
     public function up()
     {
+        /*
         $group = Group::find(1);
 
         // Had to move this from the previous migration due to
@@ -34,6 +39,7 @@ class SeperateTemplateGroup extends Migration
 
         $group->name = 'Templates';
         $group->save();
+        */
     }
 
     /**
@@ -41,7 +47,9 @@ class SeperateTemplateGroup extends Migration
      */
     public function down()
     {
+        /*
         $group = Group::findOrFail(1);
         $group->delete();
+        */
     }
 }

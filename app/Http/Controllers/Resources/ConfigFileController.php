@@ -41,7 +41,7 @@ class ConfigFileController extends ResourceController
     /**
      * Update the specified resource in storage.
      *
-     * @param int $file_id
+     * @param int                    $file_id
      * @param StoreConfigFileRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

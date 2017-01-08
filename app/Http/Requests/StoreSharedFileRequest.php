@@ -18,7 +18,7 @@ class StoreSharedFileRequest extends Request
             'name'        => 'required|max:255',
             'file'        => 'required',
             'target_type' => 'required|in:project,template',
-            'target_id'   => 'required|integer|exists:' . $this->get('target_type') . 's,id'
+            'target_id'   => 'required|integer|exists:' . $this->get('target_type') . 's,id',
         ];
     }
 }

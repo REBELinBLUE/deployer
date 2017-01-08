@@ -53,7 +53,7 @@ class CommandController extends ResourceController
         ];
 
         $project = $this->projectRepository->getById($target_id);
-        $target = 'project';
+        $target  = 'project';
 
         $breadcrumb = [
             ['url' => route('projects', ['id' => $project->id]), 'label' => $project->name],
@@ -96,7 +96,7 @@ class CommandController extends ResourceController
     /**
      * Update the specified command in storage.
      *
-     * @param int $command_id
+     * @param int                 $command_id
      * @param StoreCommandRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

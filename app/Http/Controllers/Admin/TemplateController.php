@@ -31,7 +31,7 @@ class TemplateController extends Controller
     /**
      * TemplateController constructor.
      *
-     * @param CommandRepositoryInterface $commandRepository
+     * @param CommandRepositoryInterface  $commandRepository
      * @param TemplateRepositoryInterface $templateRepository
      */
     public function __construct(
@@ -41,7 +41,6 @@ class TemplateController extends Controller
         $this->repository         = $commandRepository;
         $this->templateRepository = $templateRepository;
     }
-
 
     /**
      * Display a listing of before/after commands for the supplied stage.
@@ -61,7 +60,7 @@ class TemplateController extends Controller
         ];
 
         $template = $this->templateRepository->getById($target_id);
-        $target = 'template';
+        $target   = 'template';
 
         $breadcrumb = [
             ['url' => route('admin.templates.index'), 'label' => Lang::get('templates.label')],
@@ -138,7 +137,7 @@ class TemplateController extends Controller
     /**
      * Update the specified template in storage.
      *
-     * @param int $template_id
+     * @param int                  $template_id
      * @param StoreTemplateRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

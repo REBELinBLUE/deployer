@@ -16,8 +16,8 @@ interface DeploymentRepositoryInterface
     /**
      * @param int $model_id
      *
-     * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getById($model_id);
 
@@ -34,12 +34,12 @@ interface DeploymentRepositoryInterface
     public function abortQueued($project_id);
 
     /**
-     * @param int $model_id
+     * @param int    $model_id
      * @param string $reason
-     * @param array $optional
+     * @param array  $optional
      *
-     * @return \Illuminate\Database\Eloquent\Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function rollback($model_id, $reason = '', array $optional = []);
 

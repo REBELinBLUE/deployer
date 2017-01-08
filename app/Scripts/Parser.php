@@ -11,7 +11,7 @@ class Parser
      * Parse a string to replace the tokens.
      *
      * @param string $script
-     * @param array $tokens
+     * @param array  $tokens
      *
      * @return string
      */
@@ -32,7 +32,7 @@ class Parser
      * Load a file and parse the the content.
      *
      * @param string $file
-     * @param array $tokens
+     * @param array  $tokens
      *
      * @return string
      */

@@ -15,7 +15,7 @@ class ConfigureLogging extends BaseLoggingConfiguration
      * Configure the Monolog handlers for the application.
      *
      * @param Application $app
-     * @param Writer $log
+     * @param Writer      $log
      */
     protected function configureSingleHandler(Application $app, Writer $log)
     {
@@ -27,7 +27,7 @@ class ConfigureLogging extends BaseLoggingConfiguration
      * Configure the Monolog handlers for the application.
      *
      * @param Application $app
-     * @param Writer $log
+     * @param Writer      $log
      */
     protected function configureDailyHandler(Application $app, Writer $log)
     {

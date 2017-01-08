@@ -9,35 +9,6 @@ use Robbo\Presenter\PresentableInterface;
 
 /**
  * Model for templates.
- *
- * @property integer $id
- * @property string $name
- * @property string $repository
- * @property string $hash
- * @property string $branch
- * @property string $private_key
- * @property string $public_key
- * @property integer $group_id
- * @property integer $builds_to_keep
- * @property string $url
- * @property string $build_url
- * @property string $status
- * @property string $last_run
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $deleted_at
- * @property boolean $is_template
- * @property string $last_mirrored
- * @property boolean $allow_other_branch
- * @property boolean $include_dev
- * @property-read mixed $command_count
- * @property-read mixed $file_count
- * @property-read mixed $config_count
- * @property-read mixed $variable_count
- * @property-read Command[] $commands
- * @property-read SharedFile[] $sharedFiles
- * @property-read ConfigFile[] $configFiles
- * @property-read Variable[] $variables
  */
 class Template extends Model implements PresentableInterface
 {
@@ -92,7 +63,7 @@ class Template extends Model implements PresentableInterface
      */
     public function getCommandCountAttribute()
     {
-        return $this->commands()
+        return $this->commands
                     ->count();
     }
 
@@ -103,7 +74,7 @@ class Template extends Model implements PresentableInterface
      */
     public function getFileCountAttribute()
     {
-        return $this->sharedFiles()
+        return $this->sharedFiles
                     ->count();
     }
 
@@ -114,7 +85,7 @@ class Template extends Model implements PresentableInterface
      */
     public function getConfigCountAttribute()
     {
-        return $this->configFiles()
+        return $this->configFiles
                     ->count();
     }
 
@@ -125,7 +96,7 @@ class Template extends Model implements PresentableInterface
      */
     public function getVariableCountAttribute()
     {
-        return $this->variables()
+        return $this->variables
                     ->count();
     }
 

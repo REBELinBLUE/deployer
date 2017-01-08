@@ -25,7 +25,7 @@ class CheckHeartbeats extends Command
      * @var string
      */
     protected $description = 'Checks that any expected heartbeats have checked-in';
-    
+
     /**
      * Execute the console command.
      *

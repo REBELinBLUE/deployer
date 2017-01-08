@@ -36,7 +36,7 @@
         <env name="APP_URL" value="http://localhost" />
         <env name="APP_DEBUG" value="true" />
         <env name="APP_KEY" value="cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy" />
-        <env name="DB_DRIVER" value="sqlite" />
+        <env name="DB_CONNECTION" value="sqlite" />
         <env name="DB_DATABASE" value=":memory:" />
         <env name="CACHE_DRIVER" value="array" />
         <env name="SESSION_DRIVER" value="array" />
