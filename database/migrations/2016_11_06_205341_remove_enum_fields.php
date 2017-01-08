@@ -42,7 +42,6 @@ class RemoveEnumFields extends Migration
         DB::statement("ALTER TABLE {$table} ADD COLUMN tmp INT");
         DB::statement("UPDATE {$table} SET tmp = CAST(CAST({$column} AS CHAR) AS SIGNED)");
         DB::statement("ALTER TABLE {$table} DROP COLUMN {$column}");
-        #DB::statement("ALTER TABLE {$table} CHANGE COLUMN {$column} {$column}_old INT(10) NOT NULL DEFAULT {$default}");
         DB::statement("ALTER TABLE {$table} CHANGE COLUMN tmp {$column} INT(10) NOT NULL DEFAULT {$default}");
     }
 }
