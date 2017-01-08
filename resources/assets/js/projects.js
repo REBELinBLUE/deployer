@@ -233,6 +233,11 @@ var app = app || {};
         });
     });
 
+    $('#project_group_id').select2({
+        width: '100%',
+        minimumResultsForSearch: Infinity
+    });
+
     app.Project = Backbone.Model.extend({
         urlRoot: '/admin/projects'
     });
