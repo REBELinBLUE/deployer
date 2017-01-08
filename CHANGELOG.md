@@ -21,12 +21,12 @@
 - node socket.js doesn't work with SSL when key has a passphrase [\#276](https://github.com/REBELinBLUE/deployer/issues/276)
 - Install dev dependencies does not work with older versions of composer due to using a 1.2+ flag [\#275](https://github.com/REBELinBLUE/deployer/issues/275)
 - Persistent Folder creating multiple folders [\#273](https://github.com/REBELinBLUE/deployer/issues/273)
-- Fixed missing reason of rollback [\#270](https://github.com/REBELinBLUE/deployer/pull/270) ([phecho](https://github.com/phecho))
+- Fixed missing reason of rollback [\#270](https://github.com/REBELinBLUE/deployer/pull/270) ([lianguan](https://github.com/lianguan))
 
 **Merged pull requests:**
 
 - Cleaning up polymorphic relationships \(projects/templates\) [\#265](https://github.com/REBELinBLUE/deployer/pull/265) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- Added target trait [\#269](https://github.com/REBELinBLUE/deployer/pull/269) ([phecho](https://github.com/phecho))
+- Added target trait [\#269](https://github.com/REBELinBLUE/deployer/pull/269) ([lianguan](https://github.com/lianguan))
 
 ## [0.0.38](https://github.com/REBELinBLUE/deployer/tree/0.0.38) (2016-08-21)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.37...0.0.38)
