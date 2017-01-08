@@ -42,6 +42,8 @@ return [
     'source'                => 'Source',
     'default'               => 'The default branch (:branch)',
     'different_branch'      => 'A different branch',
+    'refresh_branches'      => 'Check for new branches',
+    'refresh_tags'          => 'Check for new tags',
     'tag'                   => 'A tag',
     'branch'                => 'Branch',
     'warning'               => 'The deployment could not be started, please make sure you have entered all required values.',

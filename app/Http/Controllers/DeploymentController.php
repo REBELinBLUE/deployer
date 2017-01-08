@@ -73,8 +73,8 @@ class DeploymentController extends Controller
             'checkUrls'     => $project->checkUrls,
             'variables'     => $project->variables,
             'optional'      => $optional,
-            'tags'          => $project->tags()->reverse(),
-            'branches'      => $project->branches(),
+            'tags'          => $project->tags,
+            'branches'      => $project->branches,
             'route'         => 'commands.step',
             'target_type'   => 'project',
             'target_id'     => $project->id,
@@ -160,6 +160,22 @@ class DeploymentController extends Controller
         return redirect()->route('deployments', [
             'id' => $deployment->id,
         ]);
+    }
+
+    /**
+     * Queue a project to have the git mirror updated.
+     *
+     * @param $project_id
+     *
+     * @return array
+     */
+    public function refresh($project_id)
+    {
+        $this->projectRepository->refreshBranches($project_id);
+
+        return [
+            'success' => true,
+        ];
     }
 
     /**

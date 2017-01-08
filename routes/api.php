@@ -8,7 +8,7 @@ $router->group(['namespace' => 'Resources'/*, 'prefix' => 'projects/{project}'*/
     ];
 
     // Server management
-    $router->get('servers/{server}/test', 'ServerController@test')->name('servers.test');
+    $router->post('servers/{server}/test', 'ServerController@test')->name('servers.test');
     $router->post('servers/reorder', 'ServerController@reorder')->name('servers.reorder');
     $router->resource('servers', 'ServerController', $actions);
 

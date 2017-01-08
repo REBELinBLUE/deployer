@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Repositories;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Jobs\SetupProject;
+use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 
 /**
@@ -89,5 +90,16 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     public function getByHash($hash)
     {
         return $this->model->where('hash', $hash)->firstOrFail();
+    }
+
+    /**
+     * {@inheritdoc}
+     * @dispatches TestServerConnection
+     */
+    public function refreshBranches($model_id)
+    {
+        $project = $this->getById($model_id);
+
+        $this->dispatch(new UpdateGitMirror($project));
     }
 }
