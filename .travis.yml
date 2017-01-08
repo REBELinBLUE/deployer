@@ -77,4 +77,3 @@ script:
 
 after_script:
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
-  - vendor/bin/test-reporter

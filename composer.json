@@ -50,12 +50,10 @@
         "phpmd/phpmd" : "~2.4",
         "phploc/phploc": "~3.0",
         "filp/whoops": "^2.0",
-        "codeclimate/php-test-reporter": "^0.3.0",
         "barryvdh/laravel-ide-helper": "^2.1",
         "themsaid/laravel-langman": "^1.1",
         "friendsofphp/php-cs-fixer": "^1.11",
-        "jakub-onderka/php-parallel-lint": "^0.9.2",
-        "jakub-onderka/php-console-highlighter": "^0.3.2"
+        "jakub-onderka/php-parallel-lint": "^0.9.2"
     },
     "autoload": {
         "classmap": [
