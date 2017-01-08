@@ -31,7 +31,7 @@ class ProfileController extends Controller
      * ProfileController constructor.
      *
      * @param UserRepositoryInterface $repository
-     * @param Google2FA $google2fa
+     * @param Google2FA               $google2fa
      */
     public function __construct(UserRepositoryInterface $repository, Google2FA $google2fa)
     {

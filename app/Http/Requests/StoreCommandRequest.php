@@ -24,7 +24,7 @@ class StoreCommandRequest extends Request
             'default_on'  => 'boolean',
             'step'        => 'required|integer|min:' . Command::BEFORE_CLONE . '|max:' . Command::AFTER_PURGE,
             'target_type' => 'required|in:project,template',
-            'target_id'   => 'required|integer|exists:' . $this->get('target_type') . 's,id'
+            'target_id'   => 'required|integer|exists:' . $this->get('target_type') . 's,id',
         ];
 
         // On edit we don't require the step or the project_id

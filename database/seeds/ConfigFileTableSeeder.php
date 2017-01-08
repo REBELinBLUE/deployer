@@ -28,7 +28,7 @@ JWT_SECRET=zLBooByVMcfVWJYaSEKr7iKHIMluVBAl
 SOCKET_URL=http://deployer.app
 SOCKET_PORT=6001
 
-DB_TYPE=mysql
+DB_CONNECTION=mysql
 DB_HOST=localhost
 DB_DATABASE=deployer
 DB_USERNAME=homestead

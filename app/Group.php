@@ -8,15 +8,6 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
  * Group model.
- *
- * @property integer $id
- * @property string $name
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $deleted_at
- * @property integer $order
- * @property-read Project[] $projects
- * @property-read mixed $project_count
  */
 class Group extends Model
 {

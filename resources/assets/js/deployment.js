@@ -56,7 +56,7 @@ var app = app || {};
             type: 'GET',
             url: '/log/' + log_id
         }).done(function (data) {
-            var output = parseOutput(data.output);
+            var output = parseOutput(data.output ? data.output : '');
 
             log.html(output);
 
@@ -67,7 +67,7 @@ var app = app || {};
             app.listener.on('serverlog-' + log_id + ':REBELinBLUE\\Deployer\\Events\\ServerOutputChanged', function (data) {
 
                 if (data.id === parseInt(log_id)) {
-                    var output = parseOutput(data.output);
+                    var output = parseOutput(data.output ? data.output : '');
 
                     var atBottom = false;
                     if (log.scrollTop() + log.innerHeight() >= log.get(0).scrollHeight) {
@@ -95,7 +95,6 @@ var app = app || {};
                      .replace(/<error>/g, '<span class="text-red">')
                      .replace(/<info>/g, '<span class="text-default">');
     }
-
 
     app.ServerLog = Backbone.Model.extend({
         urlRoot: '/status'

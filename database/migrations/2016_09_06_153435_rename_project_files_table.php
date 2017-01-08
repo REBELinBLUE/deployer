@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 
 class RenameProjectFilesTable extends Migration
 {
@@ -12,6 +13,12 @@ class RenameProjectFilesTable extends Migration
      */
     public function up()
     {
+        if (config('database.default') === 'mysql') {
+            DB::statement("SET SESSION sql_mode='ALLOW_INVALID_DATES'");
+            DB::statement('ALTER TABLE project_files MODIFY COLUMN created_at timestamp NULL DEFAULT NULL');
+            DB::statement('ALTER TABLE project_files MODIFY COLUMN updated_at timestamp NULL DEFAULT NULL');
+        }
+
         Schema::table('project_files', function (Blueprint $table) {
             $table->dropForeign(['project_id']);
         });

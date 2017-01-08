@@ -26,7 +26,7 @@ class ModelTrashed extends Event implements ShouldBroadcast
      * ModelTrashed constructor.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string $channel
+     * @param string                              $channel
      */
     public function __construct($model, $channel)
     {

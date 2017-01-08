@@ -11,18 +11,6 @@ use Robbo\Presenter\PresentableInterface;
 
 /**
  * Server log model.
- *
- * @property integer $id
- * @property integer $server_id
- * @property integer $deploy_step_id
- * @property string $status
- * @property string $output
- * @property null|string runtime
- * @property \Carbon\Carbon $started_at
- * @property \Carbon\Carbon $finished_at
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property-read Server $server
  */
 class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 {
@@ -68,10 +56,11 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
         parent::boot();
 
         static::updated(function (ServerLog $model) {
+            $outputChanged = $model->isDirty('output');
+
             event(new ServerLogChanged($model));
 
-            // FIXME: Only throw this is the content has changed
-            if (!empty($model->output)) {
+            if ($outputChanged) {
                 event(new ServerOutputChanged($model));
             }
         });

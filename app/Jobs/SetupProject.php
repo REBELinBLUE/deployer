@@ -24,7 +24,7 @@ class SetupProject extends Job
      * SetupProject constructor.
      *
      * @param Project $project
-     * @param int $template_id
+     * @param int     $template_id
      */
     public function __construct(Project $project, $template_id)
     {

@@ -6,14 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Git Ref model.
- *
- * @property integer $id
- * @property string $name
- * @property boolean $is_tag
- * @property integer $project_id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property-read Project $project
  */
 class Ref extends Model
 {

@@ -45,7 +45,7 @@ class ServerController extends ResourceController
     /**
      * Update the specified server in storage.
      *
-     * @param int $server_id
+     * @param int                $server_id
      * @param StoreServerRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

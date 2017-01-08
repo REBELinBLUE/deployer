@@ -23,7 +23,7 @@ class ClearOrphanAvatars extends Command
      * @var string
      */
     protected $description = 'Purges out avatar images which are no longer in use by an account';
-    
+
     /**
      * Execute the console command.
      */
@@ -50,7 +50,7 @@ class ClearOrphanAvatars extends Command
         // Get all avatars currently assigned
         $current_avatars = DB::table('users')
                              ->whereNotNull('avatar')
-                             ->lists('avatar');
+                             ->pluck('avatar');
 
         // Compare the 2 collections get a list of avatars which are no longer assigned
         $orphan_avatars = $all_avatars->diff($current_avatars);

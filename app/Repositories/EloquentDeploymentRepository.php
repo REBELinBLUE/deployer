@@ -188,7 +188,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param Carbon $startDate
      * @param Carbon $endDate
      *

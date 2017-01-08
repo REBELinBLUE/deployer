@@ -28,7 +28,7 @@ class WebhookController extends Controller
         Bitbucket::class,
         Github::class,
         Gitlab::class,
-        Gogs::class
+        Gogs::class,
     ];
 
     /**
@@ -48,7 +48,7 @@ class WebhookController extends Controller
     /**
      * WebhookController constructor.
      *
-     * @param ProjectRepositoryInterface $projectRepository
+     * @param ProjectRepositoryInterface    $projectRepository
      * @param DeploymentRepositoryInterface $deploymentRepository
      */
     public function __construct(
@@ -65,7 +65,7 @@ class WebhookController extends Controller
      * Handles incoming requests to trigger deploy.
      *
      * @param Request $request
-     * @param string $hash The webhook hash
+     * @param string  $hash    The webhook hash
      *
      * @return \Illuminate\View\View
      */
@@ -116,7 +116,7 @@ class WebhookController extends Controller
      * Takes the data returned from the webhook request and then adds deployers own data, such as project ID
      * and runs any checks such as checks the branch is allowed to be deployed.
      *
-     * @param array $payload
+     * @param array   $payload
      * @param Request $request
      * @param Project $project
      *
@@ -145,7 +145,7 @@ class WebhookController extends Controller
 
         // Check if the commands input is set, if so explode on comma and filter out any invalid commands
         if ($request->has('commands')) {
-            $valid     = $project->commands->lists('id');
+            $valid     = $project->commands->pluck('id');
             $requested = explode(',', $request->get('commands'));
 
             $payload['optional'] = collect($requested)->unique()

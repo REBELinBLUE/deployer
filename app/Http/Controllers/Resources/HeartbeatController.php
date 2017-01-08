@@ -57,7 +57,7 @@ class HeartbeatController extends ResourceController
     /**
      * Update the specified heartbeat in storage.
      *
-     * @param int $heartbeat_id
+     * @param int                   $heartbeat_id
      * @param StoreHeartbeatRequest $request
      *
      * @return \Illuminate\View\View

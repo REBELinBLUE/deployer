@@ -8,7 +8,7 @@ use REBELinBLUE\Deployer\SharedFile;
 use REBELinBLUE\Deployer\Variable;
 
 /**
- * A trait for project relationships
+ * A trait for project relationships.
  */
 trait ProjectRelations
 {

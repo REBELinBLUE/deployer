@@ -8,9 +8,9 @@ use Robbo\Presenter\Presenter;
 
 /**
  * The view presenter for a deploy step class.
- * @property integer command_id
+ * @property int command_id
  * @property Command command
- * @property integer stage
+ * @property int stage
  */
 class DeployStepPresenter extends Presenter
 {

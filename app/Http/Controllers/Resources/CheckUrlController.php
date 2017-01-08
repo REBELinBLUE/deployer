@@ -48,7 +48,7 @@ class CheckUrlController extends ResourceController
     /**
      * Update the specified URL in storage.
      *
-     * @param int $url_id
+     * @param int                  $url_id
      * @param StoreCheckUrlRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

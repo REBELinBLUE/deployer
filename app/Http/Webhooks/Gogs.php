@@ -32,7 +32,7 @@ class Gogs extends Webhook
         $payload = $this->request->json();
 
         $commits = $payload->get('commits');
-        if (!is_array($commits) || count($commits) == 0) {
+        if (!is_array($commits) || count($commits) === 0) {
             return false;
         }
 
