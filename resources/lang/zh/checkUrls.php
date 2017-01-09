@@ -7,7 +7,7 @@ return [
     'edit'               => '编辑 URL',
     'none'               => '你可以添加部署完成后会定期请求的 URL',
     'title'              => '标题',
-    'titleTip'           => 'Admin Panel',
+    'titleTip'           => 'Admin 面板',
     'url'                => 'URL',
     'frequency'          => '频率',
     'is_report'          => '失败时报告',

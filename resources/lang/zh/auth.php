@@ -16,8 +16,8 @@ return [
     'enter_password'        => '请在下面输入新密码',
     'send_link'             => '发送密码重置链接',
     'reset'                 => '重置密码',
-    'throttle'              => '尝试登陆次数过多，请在 :seconds 秒后再试',
     'failed'                => '凭证与记录不符',
+    'throttle'              => '尝试登陆次数过多，请在 :seconds 秒后再试',
     'invalid_code'          => '验证码不正确.',
     'remember'              => '记住我',
 

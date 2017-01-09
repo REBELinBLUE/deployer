@@ -2,17 +2,6 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
-    |
-    */
-
     'accepted'             => ':attribute 必须接受。',
     'active_url'           => ':attribute 不是一个有效的网址。',
     'after'                => ':attribute 必须要晚于 :date。',
@@ -35,11 +24,15 @@ return [
     'different'            => ':attribute 和 :other 必须不同。',
     'digits'               => ':attribute 必须是 :digits 位的数字。',
     'digits_between'       => ':attribute 必须是介于 :min 和 :max 位的数字。',
+    'dimensions'           => ':attribute 图片尺寸不正确。',
+    'distinct'             => ':attribute 已经存在。',
     'email'                => ':attribute 不是一个合法的邮箱。',
-    'filled'               => ':attribute 不能为空。',
     'exists'               => ':attribute 不存在。',
+    'file'                 => ':attribute 必须是文件。',
+    'filled'               => ':attribute 不能为空。',
     'image'                => ':attribute 必须是图片。',
     'in'                   => '已选的属性 :attribute 非法。',
+    'in_array'             => ':attribute 没有在 :other 中。',
     'integer'              => ':attribute 必须是整数。',
     'ip'                   => ':attribute 必须是有效的 IP 地址。',
     'json'                 => ':attribute 必须是正确的 JSON 格式。',
@@ -60,9 +53,11 @@ return [
     ],
     'not_in'               => '已选的属性 :attribute 非法。',
     'numeric'              => ':attribute 必须是一个数字。',
+    'present'              => ':attribute 必须存在。',
     'regex'                => ':attribute 格式不正确。',
     'required'             => ':attribute 不能为空。',
     'required_if'          => '当 :other 为 :value 时 :attribute 不能为空。',
+    'required_unless'      => '当 :other 不为 :value 时 :attribute 不能为空。',
     'required_with'        => '当 :values 存在时 :attribute 不能为空。',
     'required_with_all'    => '当 :values 存在时 :attribute 不能为空。',
     'required_without'     => '当 :values 不存在时 :attribute 不能为空。',
@@ -75,10 +70,10 @@ return [
         'string'  => ':attribute 必须是 :size 个字符。',
         'array'   => ':attribute 必须为 :size 个单元。',
     ],
+    'string'               => ':attribute 必须是一个字符串。',
+    'timezone'             => ':attribute 必须是一个合法的时区值。',
     'unique'               => 'The :attribute 已经存在.',
     'url'                  => ':attribute 格式不正确。',
-    'timezone'             => ':attribute 必须是一个合法的时区值。',
-
 
     /*
     |--------------------------------------------------------------------------

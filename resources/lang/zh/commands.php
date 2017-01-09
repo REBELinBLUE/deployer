@@ -10,14 +10,14 @@ return [
     'webhook_reason'       => '运行部署的原因',
     'webhook_source'       => '一个用于标识 谁/为什么 触发部署的名称, 例如 "CI 服务器"',
     'webhook_branch'       => '部署的 branch，如果留空，默认会使用项目中配置的 branch ',
-    'webhook_update'       => '是否只在当前已部署的 branch 和需要部署的 branch 相同时才运行部署' .
-                              ' , 默认是 false',
+    'webhook_update'       => '是否只在当前已部署的 branch 和需要部署的 branch 相同时才运行部署，' .
+                              '默认是 false',
     'webhook_url'          => '链接到名称的 URL, 例如你的 CI 服务器 build 详情',
     'webhook_commands'     => '需要运行的命令 IDs 列表（逗号分隔）',
     'webhook_optional'     => '可选的命令 IDs',
     'webhook_curl'         => 'cURL 命令示例',
     'webhook_commit'       => '需要部署的 commit 版本号 （SHA hash）, 如果留空，默认是 HEAD',
-    'reason_example'       => '正在测试部署 webhook',
+    'reason_example'       => urlencode('正在测试部署 webhook'),
     'generate_webhook'     => '生成新 webhook URL (旧 URL 会失效)',
     'step'                 => '步骤',
     'before'               => '前',
