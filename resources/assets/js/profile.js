@@ -6,6 +6,14 @@ var app = app || {};
         return;
     }
 
+    $('#skin').select2({
+      minimumResultsForSearch: Infinity
+    });
+
+    $('#scheme').select2({
+      minimumResultsForSearch: Infinity
+    });
+
     $('#skin').on('change', function() {
         $('body').removeClass();
         $("body").addClass('skin-' + $(this).find(':selected').val());

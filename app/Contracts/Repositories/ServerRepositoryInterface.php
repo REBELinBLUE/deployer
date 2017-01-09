@@ -39,7 +39,7 @@ interface ServerRepositoryInterface
     /**
      * @param int $model_id
      *
-     * @return array
+     * @return void
      */
     public function queueForTesting($model_id);
 }

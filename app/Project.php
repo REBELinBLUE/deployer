@@ -34,7 +34,7 @@ class Project extends Model implements PresentableInterface
     protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
                          'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
                          'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-                         'notifications', 'deployments', 'shareFiles', 'configFiles', 'last_mirrored', ];
+                         'notifications', 'deployments', 'shareFiles', 'configFiles', ];
 
     /**
      * The attributes that are mass assignable.
@@ -57,7 +57,8 @@ class Project extends Model implements PresentableInterface
      *
      * @var array
      */
-    protected $appends = ['group_name', 'webhook_url', 'repository_path', 'repository_url', 'branch_url'];
+    protected $appends = ['group_name', 'webhook_url', 'repository_path', 'repository_url',
+                          'branch_url', 'tags', 'branches', ];
 
     /**
      * The attributes that should be casted to native types.
@@ -294,6 +295,46 @@ class Project extends Model implements PresentableInterface
     }
 
     /**
+     * Gets the list of all tags for the project.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getTagsAttribute()
+    {
+        $tags = $this->refs()
+                     ->where('is_tag', true)
+                     ->pluck('name')
+                     ->toArray();
+
+        $compare = new VersionCompare;
+
+        // Sort the tags, if compare throws an exception it isn't a value version string so just do a strnatcmp
+        @usort($tags, function ($first, $second) use ($compare) {
+            try {
+                return $compare->compare($first, $second);
+            } catch (UnexpectedValueException $error) {
+                return strnatcmp($first, $second);
+            }
+        });
+
+        return collect($tags)->reverse()->values();
+    }
+
+    /**
+     * Gets the list of all branches for the project which are not the default.
+     *
+     * @return array
+     */
+    public function getBranchesAttribute()
+    {
+        return $this->refs()
+                    ->where('is_tag', false)
+                    ->where('name', '<>', $this->branch)
+                    ->orderBy('name')
+                    ->pluck('name');
+    }
+
+    /**
      * Generates an SSH key and sets the private/public key properties.
      */
     protected function generateSSHKey()
@@ -339,46 +380,6 @@ class Project extends Model implements PresentableInterface
 
         unlink($key);
         unlink($key . '.pub');
-    }
-
-    /**
-     * Gets the list of all tags for the project.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function tags()
-    {
-        $tags = $this->refs()
-                     ->where('is_tag', true)
-                     ->pluck('name')
-                     ->toArray();
-
-        $compare = new VersionCompare;
-
-        // Sort the tags, if compare throws an exception it isn't a value version string so just do a strnatcmp
-        @usort($tags, function ($first, $second) use ($compare) {
-            try {
-                return $compare->compare($first, $second);
-            } catch (UnexpectedValueException $error) {
-                return strnatcmp($first, $second);
-            }
-        });
-
-        return collect($tags);
-    }
-
-    /**
-     * Gets the list of all branches for the project which are not the default.
-     *
-     * @return array
-     */
-    public function branches()
-    {
-        return $this->refs()
-                    ->where('is_tag', false)
-                    ->where('name', '<>', $this->branch)
-                    ->orderBy('name')
-                    ->pluck('name');
     }
 
     /**

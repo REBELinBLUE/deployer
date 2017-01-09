@@ -1,10 +1,62 @@
 var app = app || {};
 
 (function ($) {
-    $('select.deployment-source').select2({
-        width: '100%',
+    var selectOptions = {
+        width: '80%',
         minimumResultsForSearch: 6
+    };
+
+    $('select.deployment-source').select2(selectOptions);
+
+    app.listener.on('project:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+        if (parseInt(data.model.id) === parseInt(app.project_id)) {
+            resetOptions('select.deployment-source#deployment_branch', data.model.branches);
+            resetOptions('select.deployment-source#deployment_tag', data.model.tags.reverse());
+
+            var dialog = $('.modal#reason');
+            resetDialog(dialog);
+        }
     });
+
+    function resetOptions(selector, data) {
+        var options = selectOptions;
+        options.data = data;
+
+        $('option', selector).remove();
+
+        $(selector).select2('destroy');
+        $(selector).select2(options);
+    }
+
+    $('button.btn-refresh-branches').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var project_id = target.data('project-id');
+        var icon = $('i', target);
+        var dialog = target.parents('.modal');
+
+        if ($('.fa-spin', target).length > 0) {
+            return;
+        }
+
+        $(':input', dialog).not('.close').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+        icon.addClass('fa-spin');
+
+        $.ajax({
+            type: 'POST',
+            url: '/projects/' + project_id + '/refresh'
+        }).fail(function () {
+            // FIXME: Show error?
+            resetDialog(dialog);
+        });
+    });
+
+    function resetDialog(dialog) {
+        $(':input', dialog).not('.close').removeAttr('disabled');
+        $('button.close', dialog).show();
+        $('i.fa-spin', dialog).removeClass('fa-spin');
+    }
 
     $('.deployment-source:radio').on('change', function (event) {
         var target = $(event.currentTarget);
@@ -44,7 +96,7 @@ var app = app || {};
         $('button.close', dialog).hide();
     });
 
-   // FIXME: This seems very wrong
+    // FIXME: This seems very wrong
     $('#project').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
@@ -179,6 +231,11 @@ var app = app || {};
                 dialog.find('input').removeAttr('disabled');
             }
         });
+    });
+
+    $('#project_group_id').select2({
+        width: '100%',
+        minimumResultsForSearch: Infinity
     });
 
     app.Project = Backbone.Model.extend({
