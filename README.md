@@ -1,7 +1,7 @@
 # Deployer
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square&branch=master)](https://styleci.io/repos/33559148)
-[![Build Status](https://img.shields.io/travis/REBELinBLUE/deployer.svg?style=flat-square&branch=master)](https://travis-ci.org/REBELinBLUE/deployer)
+[![Build Status](https://img.shields.io/travis/REBELinBLUE/deployer/master.svg?style=flat-square)](https://travis-ci.org/REBELinBLUE/deployer)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/686dd98b-c0e5-465b-8f14-29b1cab47f3b.svg?style=flat-square)](https://insight.sensiolabs.com/projects/686dd98b-c0e5-465b-8f14-29b1cab47f3b)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](/LICENSE.md)
 [![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg?style=flat-square)](https://github.com/REBELinBLUE/deployer/releases)
