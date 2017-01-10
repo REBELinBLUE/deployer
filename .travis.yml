@@ -47,6 +47,7 @@ before_script:
     - if [[ "$DB" == "sqlite" ]] ; then sed -i 's/DB_DATABASE=deployer//g' .env; fi
     - if [[ "$DB" == "sqlite" ]] ; then sed -i 's/DB_USERNAME=//g' .env; fi
     - if [[ "$DB" == "sqlite" ]] ; then sed -i 's/DB_PASSWORD=//g' .env; fi
+    - if [[ "$DB" == "sqlite" ]] ; then sed -i 's/DB_HOST=localhost//g' .env; fi
     - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
