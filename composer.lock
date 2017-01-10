@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c2aaf3b679abe780bf62654ef6b8deef",
+    "content-hash": "256526c653662e2d5eb8a98b3e66fcb7",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -5492,21 +5492,21 @@
         },
         {
             "name": "spatie/laravel-migrate-fresh",
-            "version": "1.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spatie/laravel-migrate-fresh.git",
-                "reference": "290b9571deaca72ae642614c6510d8870e4f3980"
+                "url": "https://github.com/REBELinBLUE/laravel-migrate-fresh.git",
+                "reference": "35e86b2a1c183bc2ef41bb095595820a022dabd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-migrate-fresh/zipball/290b9571deaca72ae642614c6510d8870e4f3980",
-                "reference": "290b9571deaca72ae642614c6510d8870e4f3980",
+                "url": "https://api.github.com/repos/REBELinBLUE/laravel-migrate-fresh/zipball/35e86b2a1c183bc2ef41bb095595820a022dabd3",
+                "reference": "35e86b2a1c183bc2ef41bb095595820a022dabd3",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "^5.3",
-                "php": "^7.0"
+                "php": ">=5.6.4"
             },
             "require-dev": {
                 "orchestra/testbench": "^3.3",
@@ -5518,7 +5518,16 @@
                     "Spatie\\MigrateFresh\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Spatie\\MigrateFresh\\Test\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -5540,7 +5549,10 @@
                 "migrate",
                 "spatie"
             ],
-            "time": "2017-01-10T07:38:01+00:00"
+            "support": {
+                "source": "https://github.com/REBELinBLUE/laravel-migrate-fresh/tree/master"
+            },
+            "time": "2017-01-10T14:29:15+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -6206,7 +6218,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "andywer/js-localization": 20
+        "andywer/js-localization": 20,
+        "spatie/laravel-migrate-fresh": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
