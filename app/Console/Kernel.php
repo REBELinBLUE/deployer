@@ -114,6 +114,7 @@ class Kernel extends ConsoleKernel
         // Only register the reset command on the local environment
         if ($this->app->environment() === 'local') {
             $this->commands[] = ResetApp::class;
+            $this->commands[] = 'Spatie\MigrateFresh\Commands\MigrateFresh';
         }
     }
 
