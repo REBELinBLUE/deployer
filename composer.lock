@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "256526c653662e2d5eb8a98b3e66fcb7",
+    "content-hash": "ab49bf5ade3d7aae8d4722f14c3c2f28",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -5492,21 +5492,21 @@
         },
         {
             "name": "spatie/laravel-migrate-fresh",
-            "version": "dev-master",
+            "version": "dev-php56",
             "source": {
                 "type": "git",
                 "url": "https://github.com/REBELinBLUE/laravel-migrate-fresh.git",
-                "reference": "b2fd5a8e5c1683456f51769ac968ad49869f78e6"
+                "reference": "d429e6f535ad975ea54278866f8f91e9873daec0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/REBELinBLUE/laravel-migrate-fresh/zipball/b2fd5a8e5c1683456f51769ac968ad49869f78e6",
-                "reference": "b2fd5a8e5c1683456f51769ac968ad49869f78e6",
+                "url": "https://api.github.com/repos/REBELinBLUE/laravel-migrate-fresh/zipball/d429e6f535ad975ea54278866f8f91e9873daec0",
+                "reference": "d429e6f535ad975ea54278866f8f91e9873daec0",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "^5.3",
-                "php": "^7.0"
+                "php": ">=5.6.4"
             },
             "require-dev": {
                 "orchestra/testbench": "^3.3",
@@ -5550,9 +5550,9 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/REBELinBLUE/laravel-migrate-fresh/tree/master"
+                "source": "https://github.com/REBELinBLUE/laravel-migrate-fresh/tree/php56"
             },
-            "time": "2017-01-10T15:03:20+00:00"
+            "time": "2017-01-10T15:12:03+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
