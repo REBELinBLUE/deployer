@@ -5,9 +5,9 @@
 [![Code Coverage](https://img.shields.io/codecov/c/github/REBELinBLUE/deployer/master.svg?style=flat-square)](https://codecov.io/gh/REBELinBLUE/deployer)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/686dd98b-c0e5-465b-8f14-29b1cab47f3b.svg?style=flat-square)](https://insight.sensiolabs.com/projects/686dd98b-c0e5-465b-8f14-29b1cab47f3b)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](/LICENSE.md)
+[![Laravel Version](https://shield.with.social/cc/github/REBELinBLUE/deployer/master.svg?style=flat-square)](https://packagist.org/packages/laravel/framework)
 [![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg?style=flat-square)](https://github.com/REBELinBLUE/deployer/releases)
 [![Gitter](https://img.shields.io/badge/chat-on%20gitter-brightgreen.svg?style=flat-square)](https://gitter.im/REBELinBLUE/deployer)
-[![Laravel Version](https://shield.with.social/cc/github/REBELinBLUE/deployer/master.svg?style=flat-square)](https://packagist.org/packages/laravel/framework)
 
 
 
