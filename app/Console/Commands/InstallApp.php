@@ -690,7 +690,8 @@ class InstallApp extends Command
     {
         $available = collect(PDO::getAvailableDrivers());
 
-        return array_values($available->intersect(['mysql', 'sqlite', 'pgsql'])->all());
+        // 'sqlite' is also supported but not recommended
+        return array_values($available->intersect(['mysql', 'pgsql'])->all());
     }
 
     /**

@@ -34,7 +34,7 @@ install:
 env:
   - DB=mysql DB_USERNAME=travis
   - DB=pgsql DB_USERNAME=postgres
-  # - DB=sqlite - SQLite is currently broken
+  - DB=sqlite
 
 before_script:
     - cp -f .env.example .env

@@ -14,10 +14,14 @@ class CreateSharedFilesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('file');
-            $table->unsignedInteger('project_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('project_id')->references('id')->on('projects');
+
+            // Needed so that the sqlite tests continue to run
+            if (config('database.default') !== 'sqlite') {
+                $table->unsignedInteger('project_id');
+                $table->foreign('project_id')->references('id')->on('projects');
+            }
         });
     }
 
