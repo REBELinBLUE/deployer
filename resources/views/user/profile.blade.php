@@ -154,7 +154,7 @@
                         </label>
 
                         <span class="help-block">
-                            {!! Lang::get('users.2fa_help') !!}
+                            {!! Lang::get('users.2fa_help', ['url' => 'https://support.google.com/accounts/answer/1066447?hl=en']) !!}
                         </span>
                     </div>
 

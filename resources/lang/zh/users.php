@@ -22,9 +22,10 @@ return [
     '2fa'               => '安全',
     'enable_2fa'        => '开启双因子验证',
     '2fa_help'          => '开启双因子验证可以提高账户安全性。你需要使用 ' .
-                           '<a href="https://support.google.com/accounts/answer/1066447?hl=en" target="_blank">' .
+                           '<a href=":url" target="_blank">' .
                            'Google 验证器</a> 或者相似的 app。当你登录时，会被要求提供 app 生成的安全令牌',
-    'theme'             => '主题',
+    'language'          => '区域语言',
+    'settings'          => '設置',
     'skin'              => '皮肤',
     'console'           => 'Console/Log 方案',
     'change_email'      => 'Email 地址',
@@ -44,6 +45,5 @@ return [
     'purple'            => '紫',
     'blue'              => '蓝',
     'with_sidebar'      => ':colour （亮色边栏）',
-    'locale'            => '区域语言',
 
 ];
