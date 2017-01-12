@@ -68,7 +68,7 @@ var app = app || {};
         transformResult: function (response) {
             return {
                 suggestions: $.map(response.suggestions, function (dataItem) {
-                    var value = dataItem.user + '@' + dataItem.name + ' (' + dataItem.ip_address + ')';
+                    var value = dataItem.name + ' (' + dataItem.user + '@' + dataItem.ip_address + ')';
                     return {
                       value: value,
                       data: dataItem
