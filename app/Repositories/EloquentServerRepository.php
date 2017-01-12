@@ -86,12 +86,12 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * Query server by name
-     * @param $name server name
-     * @return mixed
+     * {@inheritdoc}
      */
     public function queryByName($name)
     {
-        return $this->model->where('name', 'LIKE', "%{$name}%");
+        return $this->model
+                    ->where('name', 'LIKE', "%{$name}%")
+                    ->get();
     }
 }

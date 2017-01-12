@@ -42,4 +42,12 @@ interface ServerRepositoryInterface
      * @return void
      */
     public function queueForTesting($model_id);
+
+    /**
+     * Query server by name
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function queryByName($name);
 }
