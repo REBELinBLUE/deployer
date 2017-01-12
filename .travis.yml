@@ -76,7 +76,7 @@ script:
   - vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
   - vendor/bin/phpcs -p --standard=PSR2 app/
   # - vendor/bin/phpmd app text phpmd.xml
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
   - vendor/bin/phpdoccheck --directory=app
 
 after_script:
