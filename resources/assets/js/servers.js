@@ -69,7 +69,10 @@ var app = app || {};
             return {
                 suggestions: $.map(response.suggestions, function (dataItem) {
                     var value = dataItem.user + '@' + dataItem.name + ' (' + dataItem.ip_address + ')';
-                    return {value: value, data: dataItem};
+                    return {
+                      value: value,
+                      data: dataItem
+                    };
                 })
             };
         },
