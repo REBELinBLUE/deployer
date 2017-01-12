@@ -20,7 +20,6 @@ class Locale
      */
     public function handle($request, Closure $next)
     {
-        // FIXME: Check it is a valid locale
         $user = Auth::user();
         if ($user && $user->language) {
             resolve('locale')->setLocale($user->language);
@@ -28,5 +27,4 @@ class Locale
 
         return $next($request);
     }
-
 }
