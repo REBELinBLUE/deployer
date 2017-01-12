@@ -31,7 +31,7 @@
 
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">{{ Lang::get('users.theme') }}</h3>
+                <h3 class="box-title">{{ Lang::get('users.settings') }}</h3>
             </div>
             <div class="box-body">
                 <form action="{{ route('profile.settings') }}" method="post">
@@ -50,6 +50,17 @@
                         <select name="scheme" id="scheme" class="form-control">
                             @foreach (['default', 'afterglow', 'monokai','dawn', 'solarized-dark', 'solarized-light'] as $scheme)
                                 <option value="{{ $scheme }}" @if ($scheme === $logged_in_user->scheme) selected @endif>{{ ucwords(str_replace('-', ' ', $scheme)) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="scheme">{{ Lang::get('users.language') }}</label>
+                        <select name="language" id="language" class="form-control">
+                            @foreach ($locales as $locale)
+                                <option value="{{ $locale }}" @if ($locale === $logged_in_user->language) selected @endif>
+                                    {{ locale_get_display_name($locale, $locale) }}
+                                    @if ($locale !== $logged_in_user->language) ({{ locale_get_display_name($locale, $logged_in_user->language) }}) @endif
+                                </option>
                             @endforeach
                         </select>
                     </div>

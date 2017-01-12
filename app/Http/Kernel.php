@@ -14,6 +14,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as HttpLogging;
 use REBELinBLUE\Deployer\Http\Middleware\Authenticate;
 use REBELinBLUE\Deployer\Http\Middleware\EncryptCookies;
+use REBELinBLUE\Deployer\Http\Middleware\Locale;
 use REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated;
 use REBELinBLUE\Deployer\Http\Middleware\RefreshJsonWebToken;
 use REBELinBLUE\Deployer\Http\Middleware\VerifyCsrfToken;
@@ -64,6 +65,7 @@ class Kernel extends HttpKernel
             StartSession::class,
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
+            Locale::class,
         ],
         'api' => [
             'throttle:60,1',

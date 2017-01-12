@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Intervention\Image\Facades\Image;
+use MicheleAngioni\MultiLanguage\LanguageManager;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
 use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
@@ -28,15 +29,24 @@ class ProfileController extends Controller
     private $google2fa;
 
     /**
+     * @var LanguageManager
+     */
+    private $languageManager;
+
+    /**
      * ProfileController constructor.
      *
      * @param UserRepositoryInterface $repository
      * @param Google2FA               $google2fa
      */
-    public function __construct(UserRepositoryInterface $repository, Google2FA $google2fa)
-    {
+    public function __construct(
+        UserRepositoryInterface $repository,
+        Google2FA $google2fa,
+        LanguageManager $languageManager
+    ) {
         $this->repository = $repository;
         $this->google2fa  = $google2fa;
+        $this->languageManager = $languageManager;
     }
 
     /**
@@ -59,6 +69,7 @@ class ProfileController extends Controller
             'google_2fa_url'  => $img,
             'google_2fa_code' => $code,
             'title'           => Lang::get('users.update_profile'),
+            'locales'         => $this->languageManager->getAvailableLanguages()
         ]);
     }
 
@@ -90,7 +101,8 @@ class ProfileController extends Controller
     {
         $this->repository->updateById($request->only(
             'skin',
-            'scheme'
+            'scheme',
+            'language'
         ), Auth::user()->id);
 
         return redirect()->to('/');

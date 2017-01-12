@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab49bf5ade3d7aae8d4722f14c3c2f28",
+    "content-hash": "ed84f59dc021b86006235073bf52286b",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -1133,16 +1133,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "2.3.8",
+            "version": "2.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "4064a980324f6c3bfa2bd981dfb247afa705ec3c"
+                "reference": "2bce9a59c43b868300b02a7d31a1e4aa67a200ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/4064a980324f6c3bfa2bd981dfb247afa705ec3c",
-                "reference": "4064a980324f6c3bfa2bd981dfb247afa705ec3c",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/2bce9a59c43b868300b02a7d31a1e4aa67a200ae",
+                "reference": "2bce9a59c43b868300b02a7d31a1e4aa67a200ae",
                 "shasum": ""
             },
             "require": {
@@ -1191,7 +1191,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2016-09-01T17:04:03+00:00"
+            "time": "2017-01-10T14:15:56+00:00"
         },
         {
             "name": "itsgoingd/clockwork",
@@ -1593,6 +1593,52 @@
                 "storage"
             ],
             "time": "2016-10-19T20:38:46+00:00"
+        },
+        {
+            "name": "michele-angioni/multi-language",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/micheleangioni/multi-language.git",
+                "reference": "00ae0a7379e4ddbdc4fa69d066dab2e4100fa7c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/micheleangioni/multi-language/zipball/00ae0a7379e4ddbdc4fa69d066dab2e4100fa7c4",
+                "reference": "00ae0a7379e4ddbdc4fa69d066dab2e4100fa7c4",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicheleAngioni\\MultiLanguage\\": "src/MicheleAngioni/MultiLanguage"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michele Angioni",
+                    "email": "michele.angioni@gmail.com"
+                }
+            ],
+            "description": "A Laravel package to handle multi language localization.",
+            "keywords": [
+                "language",
+                "laravel",
+                "localization"
+            ],
+            "time": "2015-02-16T21:48:46+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4153,16 +4199,16 @@
         },
         {
             "name": "pdepend/pdepend",
-            "version": "2.3.2",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "8d7ab8fe8c1f9de5056bb7ea2c0852f4ddd44f90"
+                "reference": "3acfa4fcadbb8b65b8b2ec077408c5ef0e112e68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/8d7ab8fe8c1f9de5056bb7ea2c0852f4ddd44f90",
-                "reference": "8d7ab8fe8c1f9de5056bb7ea2c0852f4ddd44f90",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/3acfa4fcadbb8b65b8b2ec077408c5ef0e112e68",
+                "reference": "3acfa4fcadbb8b65b8b2ec077408c5ef0e112e68",
                 "shasum": ""
             },
             "require": {
@@ -4189,7 +4235,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Official version of pdepend to be handled with Composer",
-            "time": "2016-11-23T20:25:02+00:00"
+            "time": "2017-01-11T16:15:35+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -6219,6 +6265,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "andywer/js-localization": 20,
+        "michele-angioni/multi-language": 20,
         "spatie/laravel-migrate-fresh": 20
     },
     "prefer-stable": false,

@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use MicheleAngioni\MultiLanguage\LanguageManager;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Template;
 
@@ -66,6 +67,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerAdditionalProviders($this->providers[$env]);
         $this->registerAdditionalMiddleware($this->middleware[$env]);
+        $this->registerLanguageManager();
     }
 
     /**
@@ -94,5 +96,17 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->router->pushMiddlewareToGroup('web', $middleware);
             }
         }
+    }
+
+    /**
+     * Registers the Language Manager to an alias.
+     *
+     * @return void
+     */
+    private function registerLanguageManager()
+    {
+        $this->app->singleton('locale', function ($app) {
+            return $app->make(LanguageManager::class);
+        });
     }
 }

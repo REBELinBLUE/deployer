@@ -14,9 +14,11 @@ class StoreSettingsRequest extends Request
      */
     public function rules()
     {
+        // FIXME: Validate valid values!
         return [
-            'skin'   => 'required',
-            'scheme' => 'required',
+            'skin'     => 'required',
+            'scheme'   => 'required',
+            'language' => 'required'
         ];
     }
 }

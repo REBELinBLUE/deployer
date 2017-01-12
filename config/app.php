@@ -176,6 +176,8 @@ return [
         BackupManager\Laravel\Laravel5ServiceProvider::class,
         JsLocalization\JsLocalizationServiceProvider::class,
         Fideloper\Proxy\TrustedProxyServiceProvider::class,
+        MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider::class,
+        MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider::class,
 
         /*
          * Application Service Providers...
