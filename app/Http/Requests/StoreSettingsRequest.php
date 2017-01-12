@@ -14,11 +14,12 @@ class StoreSettingsRequest extends Request
      */
     public function rules()
     {
-        // FIXME: Validate valid values!
+        // TODO: Maybe define these somewhere so they aren't duplicated
         return [
-            'skin'     => 'required',
-            'scheme'   => 'required',
-            'language' => 'required'
+            'skin'     => 'required|in:yellow,yellow-light,red,red-light,green,' .
+                          'green-light,purple,purple-light,blue,blue-light',
+            'scheme'   => 'required|in:default,afterglow,monokai,dawn,solarized-dark,solarized-light',
+            'language' => 'required|in:en,zh'
         ];
     }
 }

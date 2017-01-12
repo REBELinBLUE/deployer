@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use REBELinBLUE\Deployer\Project;
@@ -105,7 +106,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerLanguageManager()
     {
-        $this->app->singleton('locale', function ($app) {
+        $this->app->singleton('locale', function (Application $app) {
             return $app->make(LanguageManager::class);
         });
     }
