@@ -17,8 +17,7 @@ class StoreNotificationRequest extends Request
         return [
             'name'         => 'required|max:255',
             'channel'      => 'required|max:255|channel',
-            'webhook'      => 'required|regex:/^https:\/\/hooks.slack.com' .
-                              '\/services\/[a-z0-9]+\/[a-z0-9]+\/[a-z0-9]+$/i',
+            'webhook'      => 'required|url',
             'failure_only' => 'boolean',
             'project_id'   => 'required|integer|exists:projects,id',
         ];
