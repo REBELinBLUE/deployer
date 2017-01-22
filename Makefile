@@ -31,6 +31,7 @@ clean:
 	rm -rf ./storage/logs/*.log
 	rm -rf ./storage/framework/{cache,sessions,views}/*
 	rm -rf ./storage/clockwork/*
+	rm -rf ./bootstrap/cache/*.php
 	rm -rf ./public/{css,fonts,js}
 	rm -rf ./_ide_helper{_models,}.php
 	rm -rf ./.phpstorm.meta.php
