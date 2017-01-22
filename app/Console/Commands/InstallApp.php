@@ -234,9 +234,6 @@ class InstallApp extends Command
      */
     protected function generateJWTKey()
     {
-        //$this->info('Generating JWT key');
-        //$this->callSilent('jwt:generate', ['--force' => true]);
-
         return str_random(32);
     }
 
@@ -247,7 +244,6 @@ class InstallApp extends Command
     {
         $this->info('Running database migrations');
         $this->line('');
-        //$this->call('migrate', ['--force' => true]);
 
         $builder = new ProcessBuilder;
         $builder->setPrefix('php');
