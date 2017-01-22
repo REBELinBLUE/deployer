@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f9e8ca29ee66007ef55c50c8b204215",
+    "content-hash": "e5a5eb6103698d369d3d932d3e991b35",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -6528,14 +6528,7 @@
             "time": "2016-11-23T20:04:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "alias": "1.0",
-            "alias_normalized": "1.0.0.0",
-            "version": "9999999-dev",
-            "package": "michele-angioni/multi-language"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "andywer/js-localization": 20,

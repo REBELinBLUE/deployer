@@ -37,7 +37,7 @@
         "andywer/js-localization": "dev-laravel-5",
         "backup-manager/laravel": "^1.1",
         "fideloper/proxy": "^3.1",
-        "michele-angioni/multi-language": "dev-master as 1.0",
+        "michele-angioni/multi-language": "dev-master",
         "laravel-notification-channels/webhook": "^1.0",
         "laravel-notification-channels/hipchat": "^0.1.0",
         "guzzlehttp/guzzle": "^6.2",
