@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Bootstrap\ConfigureLogging;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as ConsoleLogging;
+use REBELinBLUE\Deployer\Console\Commands\AppVersion;
 use REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats;
 use REBELinBLUE\Deployer\Console\Commands\CheckUrls;
 use REBELinBLUE\Deployer\Console\Commands\ClearOldKeys;
@@ -57,6 +58,7 @@ class Kernel extends ConsoleKernel
         UpdateGitMirrors::class,
         InstallApp::class,
         UpdateApp::class,
+        AppVersion::class,
     ];
 
     /**
@@ -92,14 +94,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('deployer:purge-temp')
                  ->hourly()
                  ->withoutOverlapping();
-    }
-
-    /**
-     * Register the Closure based commands for the application.
-     */
-    protected function commands()
-    {
-        require base_path('routes/console.php');
     }
 
     /**

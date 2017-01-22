@@ -851,16 +851,12 @@ class InstallApp extends Command
             $messages = (array) $messages;
         }
 
-        $output[] = '';
-
         foreach ($messages as $message) {
             $output[] = trim($message);
         }
 
-        $output[] = '';
-
         $formatter = new FormatterHelper();
-        $this->line($formatter->formatBlock($output, $type));
+        $this->line($formatter->formatBlock($output, $type, true));
     }
 
     /**

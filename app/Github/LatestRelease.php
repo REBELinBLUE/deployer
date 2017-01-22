@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Github;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
+use Version\Version;
 
 /**
  * A class to get the latest release tag for Github.
@@ -74,5 +75,20 @@ class LatestRelease implements LatestReleaseInterface
         }
 
         return false;
+    }
+
+    /**
+     * Returns whether or not the install is up to date.
+     *
+     * @return bool
+     */
+    public function isUpToDate()
+    {
+        $latest_release = $this->latest();
+
+        $current = Version::parse(APP_VERSION);
+        $latest  = Version::parse($latest_release ?: $current);
+
+        return ($latest->compare($current) !== 1);
     }
 }

@@ -35,14 +35,10 @@ class VersionComposer
     {
         $latest_tag = $this->release->latest();
 
-        $current = Version::parse(APP_VERSION);
-        $latest  = Version::parse(APP_VERSION);
+        $current = APP_VERSION;
+        $latest  = $latest_tag ?: APP_VERSION;
 
-        if ($latest_tag) {
-            $latest = Version::parse($latest_tag);
-        }
-
-        $is_outdated = ($latest->compare($current) === 1);
+        $is_outdated = !($this->release->isUpToDate());
 
         $view->with('is_outdated', $is_outdated);
         $view->with('current_version', $current);
