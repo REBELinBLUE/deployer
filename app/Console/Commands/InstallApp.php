@@ -120,7 +120,7 @@ class InstallApp extends Command
             'Setup the cronjobs, see <options=bold>crontab</>',
             'Setup the socket server & queue runner, see <options=bold>supervisor.conf</> for an example setup',
             'Ensure that <options=bold>storage</> and <options=bold>public/upload</> are writable by the webserver',
-            'Visit ' . $config['app']['url'] . ' and login with the details you provided to get started',
+            'Visit <options=bold>' . $config['app']['url'] . '</> & login with the details you provided to get started',
         ];
 
         foreach ($instructions as $i => $instruction) {
