@@ -115,7 +115,7 @@ class InstallApp extends Command
         $this->line('');
 
         $instructions = [
-            'Example configuration files can be found in the <options=bold>docs/examples</> directory',
+            'Example configuration files can be found in the <options=bold>examples</> directory',
             'Set up your web server, see either <options=bold>nginx.conf</> or <options=bold>apache.conf</>',
             'Setup the cronjobs, see <options=bold>crontab</>',
             'Setup the socket server & queue runner, see <options=bold>supervisor.conf</> for an example setup',

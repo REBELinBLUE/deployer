@@ -12,7 +12,7 @@
 
 Deployer is a PHP Application deployment system powered by [Laravel 5.3](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
 
-Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](/docs/SCREENSHOTS.md), [FAQs](/docs/FAQ.md) and [contribution guidelines](/.github/CONTRIBUTING.md).
+Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](https://github.com/REBELinBLUE/deployer/wiki/Screenshots) and [contribution guidelines](/.github/CONTRIBUTING.md).
 
 ## What it does
 
@@ -38,87 +38,17 @@ The `master` branch of this repository is a development branch and **should not*
 
 ## Requirements
 
-- [PHP](http://www.php.net) 5.6.4+ or newer
-- A database, either [MySQL](https://www.mysql.com) or [PostgreSQL](http://www.postgresql.org) ([SQLite](https://www.sqlite.org) can also be used but is not recommended).
-- [Composer](https://getcomposer.org)
-- [Redis](http://redis.io)
-- [Node.js](https://nodejs.org/)
-- [Beanstalkd](http://kr.github.io/beanstalkd/) for queuing jobs. Although Laravel can use redis there is currently [an issue when using more than 1 queue worker](https://github.com/laravel/framework/issues/8577), the default in Deployer is 3.
-
-### Optional extras
-
-- [Supervisor](http://supervisord.org) to keep the queue listener and Node.js socket server running
-- A [caching server](http://laravel.com/docs/5.2/cache), unless you expect a lot of traffic the default `file` cache is probably enough
-- [Yarn](https://yarnpkg.com/) an improved package manager for Node.js
+See the [list of requirements](https://github.com/REBELinBLUE/deployer/wiki/System-Requirements).
 
 ## Installation
 
-1. Clone the repository
+See the [installation instructions](https://github.com/REBELinBLUE/deployer/wiki/Installation).
 
-```shell
-$ git clone https://github.com/REBELinBLUE/deployer.git
-```
+## Updating
 
-2. Checkout the latest release
-
-```shell
-$ git checkout 0.0.40
-```
-
-3. Install dependencies
-
-```shell
-$ composer install -o --no-dev
-$ npm install --production
-```
-
-4. Make sure the storage and upload directories are writable
-
-```shell
-$ chmod -R 777 storage
-$ chmod -R 777 public/upload
-```
-
-5. Run the installer and follow the instructions
-
-```shell
-$ php artisan app:install
-```
-
-6. (Optional) Make any additional configuration changes
-
-```shell
-$ editor .env
-```
-
-7. Configure your web server to point to `public/`, see `docs/examples/` for Apache and nginx sample configuration files. If you use Apache you will need to ensure you have the `mod_rewrite` module enabled.
-
-8. Start socket server and setup cron jobs.
-    If you are not configuring `supervisor` you will need to manually start the socket server with `node socket.js` (listens on port 6001 by default) and setup cron jobs, see `docs/examples/crontab`.
-    If you are configuring `supervisor` see `docs/examples/supervisor.conf`
-
-### Updating
-
-1. Get the latest code
-
-```shell
-$ git fetch --all
-$ git checkout 0.0.40
- ```
-
-2. Update the dependencies
-
-```shell
-$ composer install -o --no-dev
-$ npm install --production
-```
-
-3. Run the updater
-
-```shell
-$ php artisan app:update
-```
+See the [updating instructions](https://github.com/REBELinBLUE/deployer/wiki/Upgradingd).
 
 ## License
 
 Deployer is licensed under [The MIT License (MIT)](/LICENSE.md).
+
