@@ -26,7 +26,7 @@ env:
   - DB=sqlite
 
 before_install:
-  - if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then phpenv config-rm xdebug.ini; fi
+  - if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]] ; then phpenv config-rm xdebug.ini; fi
   - curl -L https://github.com/kr/beanstalkd/archive/v1.9.tar.gz | tar xz -C /tmp
   - cd /tmp/beanstalkd-1.9/
   - make
@@ -37,9 +37,9 @@ install:
   - composer install --no-interaction --no-scripts --prefer-dist --no-suggest
 
 before_script:
-    - if [[ "$DB" == "mysql" ]] ; then mysql -e 'CREATE DATABASE deployer;'; fi
-    - if [[ "$DB" == "pgsql" ]] ; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
-    - if [[ "$DB" == "sqlite" ]] ; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
+    - if [[ "$DB" = "mysql" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
+    - if [[ "$DB" = "pgsql" ]]; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
+    - if [[ "$DB" = "sqlite" ]]; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
     - cp -f .env.example .env
     - php artisan key:generate
     - sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
@@ -47,12 +47,12 @@ before_script:
     - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
     - sed -i "s/DB_USERNAME=deployer/DB_USERNAME=$DB_USERNAME/g" .env
     - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
-    - if [[ "$DB" == "pgsql" ]] ; then sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env; fi
-    - if [[ "$DB" == "sqlite" ]] ; then sed -i 's/DB_DATABASE=deployer//g' .env; fi
-    - if [[ "$DB" == "sqlite" ]] ; then sed -i 's/DB_USERNAME=//g' .env; fi
-    - if [[ "$DB" == "sqlite" ]] ; then sed -i 's/DB_PASSWORD=//g' .env; fi
-    - if [[ "$DB" == "sqlite" ]] ; then sed -i 's/DB_HOST=localhost//g' .env; fi
-    - if [[ "$DB" == "sqlite" ]] ; then sed -i 's/DB_PORT=3306//g' .env; fi
+    - if [[ "$DB" = "pgsql" ]]; then sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env; fi
+    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_DATABASE=deployer//g' .env; fi
+    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_USERNAME=//g' .env; fi
+    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_PASSWORD=//g' .env; fi
+    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_HOST=localhost//g' .env; fi
+    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_PORT=3306//g' .env; fi
     - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
     - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
@@ -75,7 +75,7 @@ script:
   - vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
   - vendor/bin/phpcs -p --standard=phpcs.xml
   # - vendor/bin/phpmd app,tests text phpmd.xml
-  - if [[ "$TRAVIS_PHP_VERSION" == "7.0" ]]; then vendor/bin/phpunit --coverage-clover=$TRAVIS_BUILD_DIR/coverage.xml; fi
+  - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then vendor/bin/phpunit --coverage-clover=$TRAVIS_BUILD_DIR/coverage.xml; fi
   - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then vendor/bin/phpunit; fi
   - vendor/bin/phpdoccheck --directory=app
 
@@ -84,4 +84,4 @@ after_script:
   - cat $TRAVIS_BUILD_DIR/.env
 
 after_success:
-  - if [[ "$TRAVIS_PHP_VERSION" == "7.0" ]]; then bash <(curl -s https://codecov.io/bash); fi
+  - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then bash <(curl -s https://codecov.io/bash); fi
