@@ -14,6 +14,8 @@ Deployer is a PHP Application deployment system powered by [Laravel 5.3](http://
 
 Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](https://github.com/REBELinBLUE/deployer/wiki/Screenshots) and [contribution guidelines](/.github/CONTRIBUTING.md).
 
+See the [wiki](https://github.com/REBELinBLUE/deployer/wiki) for information on system requirements, installation & upgrade instructions and answers to common questions.
+
 ## What it does
 
 * Deploys applications to multiple servers accessible via SSH
@@ -32,21 +34,9 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 * Configure the web server, database or other services
 * [Run a test suite or check code quality](http://phptesting.org)
 
-## Usage in production
+## Note about usage in production
 
 The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. It is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](/.github/CONTRIBUTING.md).
-
-## Requirements
-
-See the [list of requirements](https://github.com/REBELinBLUE/deployer/wiki/System-Requirements).
-
-## Installation
-
-See the [installation instructions](https://github.com/REBELinBLUE/deployer/wiki/Installation).
-
-## Updating
-
-See the [updating instructions](https://github.com/REBELinBLUE/deployer/wiki/Upgradingd).
 
 ## License
 
