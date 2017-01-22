@@ -84,4 +84,4 @@ after_script:
   - cat $TRAVIS_BUILD_DIR/.env
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then bash <(curl -s https://codecov.io/bash); fi
