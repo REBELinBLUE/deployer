@@ -22,6 +22,10 @@ class VersionComposerTest extends TestCase
                 ->method('latest')
                 ->willReturn(APP_VERSION);
 
+        $release->expects($this->once())
+                ->method('isUpToDate')
+                ->willReturn(true);
+
         $view = $this->getMockBuilder(View::class)
                      ->disableOriginalConstructor()
                      ->getMock();
