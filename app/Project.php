@@ -309,6 +309,7 @@ class Project extends Model implements PresentableInterface
         $compare = new VersionCompare;
 
         // Sort the tags, if compare throws an exception it isn't a value version string so just do a strnatcmp
+        // See #258 - Can remove the @ when dropping PHP 5 support
         @usort($tags, function ($first, $second) use ($compare) {
             try {
                 return $compare->compare($first, $second);
