@@ -20,10 +20,6 @@ Mess can be checked with
 
     $ ./vendor/bin/phpmd app text phpmd.xml
 
-Duplication can be checked with
-
-    $ ./vendor/bin/phpcpd app
-
 PHPDoc blocks can be checked with
 
     $ ./vendor/bin/phpdoccheck --directory=app
