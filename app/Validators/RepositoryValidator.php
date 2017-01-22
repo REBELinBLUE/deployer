@@ -10,16 +10,14 @@ class RepositoryValidator
     /**
      * Validate that the repository URL looks valid.
      *
-     * @param string $attribute
-     * @param string $value
-     * @param array  $parameters
+     * @param array $args
      *
      * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function validate($attribute, $value, $parameters)
+    public function validate(...$args)
     {
+        $value = $args[1];
+
         // Plain old git repo
         if (preg_match('/^(ssh|git|https?):\/\//', $value)) {
             return true;
