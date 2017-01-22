@@ -60,7 +60,4 @@ return [
     // Hipchat
     'room'                       => 'Room',
 
-    // Email
-    // Custom
-
 ];

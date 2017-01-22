@@ -56,4 +56,8 @@ return [
     'repo_failure'          => '获取 repository 信息出错，请检查 URL 是否正确、 SSH key 是否已经添加',
     'repo_failure_head'     => 'repository 问题',
 
+    // Notifications
+    'success_slack_message' => '部署 %s 成功! :smile:',
+    'failed_slack_message'  => '部署 %s 失败! :cry:',
+
 ];

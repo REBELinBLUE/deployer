@@ -16,6 +16,8 @@ return [
     'successful'         => '在线',
     'failed'             => '离线',
     'untested'           => '未知',
-    'message'            => ':link 似乎已经挂掉',
+
+    // Notifications
+    'down_message'       => ':link 似乎已经挂掉',
 
 ];

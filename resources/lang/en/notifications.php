@@ -27,4 +27,5 @@ return [
     'last_committer'          => 'Last committer',
     'last_commit'             => 'Last commit',
     'reason'                  => 'Deployment reason - :reason',
+
 ];
