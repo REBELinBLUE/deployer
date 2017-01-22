@@ -5,29 +5,19 @@ use Illuminate\Support\Facades\DB;
 
 class FixTimestampDefaults extends Migration
 {
-    private $relations = ['CheckUrl', 'Command', 'ConfigFile', 'Deployment', 'DeployStep', 'Group', 'Heartbeat',
-    'Notification', 'NotifyEmail', 'Project', 'Ref', 'ServerLog', 'Server', 'SharedFile', 'User', 'Template', 'Variable', ];
+    private $tables = ['notifications', 'notify_emails', 'check_urls', 'commands', 'config_files', 'deployments',
+                       'deploy_steps', 'groups', 'heartbeats', 'projects', 'refs', 'server_logs', 'servers',
+                       'shared_files', 'users', 'templates', 'variables', ];
 
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
         if (config('database.default') === 'mysql') {
             DB::statement("SET SESSION sql_mode='ALLOW_INVALID_DATES'");
 
-            foreach ($this->relations as $relation) {
-                $className = "REBELinBLUE\\Deployer\\$relation";
-                $instance  = new $className;
-
-                $table = $instance->getTable();
-
-                if ($table === 'channels') {
-                    $table = 'notifications';
-                }
-
+            foreach ($this->tables as $table) {
                 DB::statement("ALTER TABLE {$table} MODIFY COLUMN created_at timestamp NULL DEFAULT NULL");
                 DB::statement("ALTER TABLE {$table} MODIFY COLUMN updated_at timestamp NULL DEFAULT NULL");
             }
@@ -39,8 +29,6 @@ class FixTimestampDefaults extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

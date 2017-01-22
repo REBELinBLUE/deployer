@@ -2,28 +2,29 @@
 
 return [
 
-    'label'               => 'Notifications',
-    'slack'               => 'Slack Notifications',
-    'create'              => 'Add a new slack notification',
-    'edit'                => 'Edit the slack notification',
-    'none'                => 'The project does not currently have any slack notifications setup',
-    'name'                => 'Name',
-    'channel'             => 'Channel',
-    'warning'             => 'The notification could not be saved, please check the form below.',
-    'icon'                => 'Icon',
-    'bot'                 => 'Bot',
-    'icon_info'           => 'Either an emoji, for example :ghost: or the URL to an image',
-    'webhook'             => 'Webhook URL',
-    'test_message'        => 'This is a test to ensure the notification is setup correctly, if you ' .
-                             'can see this it means it is! :+1:',
-    'success_message'     => 'Deployment %s successful! :smile:',
-    'failed_message'      => 'Deployment %s failed! :cry:',
-    'branch'              => 'Branch',
-    'project'             => 'Project',
-    'commit'              => 'Commit',
-    'committer'           => 'Committer',
-    'failure_only'        => 'Failure Only',
-    'notify_failure_only' => 'Notify only on Failure',
-    'failure_description' => 'Only notify this channel on failure',
+    // Slack
+    'test_slack_message'      => 'This is a test to ensure the notification is setup correctly, if you ' .
+                                 'can see this it means it is! :+1:',
+    'test_message'            => 'This is a test to ensure the notification is setup correctly, if you have ' .
+                                 'received this it means it is!',
+    'test_hipchat_message'    => 'This is a test to ensure the notification is setup correctly, if you ' .
+                                 'can see this it means it is! (corpsethumb)',
+    'test_subject'            => 'Test Notification',
 
+    // Slack & Hipchat
+    'branch'                  => 'Branch',
+    'project'                 => 'Project',
+    'commit'                  => 'Commit',
+    'committer'               => 'Committer',
+
+    // Email
+    'project_name'            => 'Project name',
+    'deployed_branch'         => 'Deployed branch',
+    'deployment_details'      => 'View the deployment',
+    'project_details'         => 'View the project',
+    'started_at'              => 'Started at',
+    'finished_at'             => 'Finished at',
+    'last_committer'          => 'Last committer',
+    'last_commit'             => 'Last commit',
+    'reason'                  => 'Deployment reason - :reason',
 ];

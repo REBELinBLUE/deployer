@@ -18,11 +18,17 @@
 
                     <div class="form-group">
                         <label for="command_name">{{ Lang::get('commands.name') }}</label>
-                        <input type="text" class="form-control" name="name" id="command_name" placeholder="{{ Lang::get('commands.migrations') }}" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                            <input type="text" class="form-control" name="name" id="command_name" placeholder="{{ Lang::get('commands.migrations') }}" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="command_user">{{ Lang::get('commands.run_as') }}</label>
-                        <input type="text" class="form-control" name="user" id="command_user" placeholder="{{ Lang::get('commands.default') }}" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                            <input type="text" class="form-control" name="user" id="command_user" placeholder="{{ Lang::get('commands.default') }}" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="command_script">{{ Lang::get('commands.bash') }}</label>

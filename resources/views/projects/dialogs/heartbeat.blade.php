@@ -16,7 +16,10 @@
 
                     <div class="form-group">
                         <label for="heartbeat_name">{{ Lang::get('heartbeats.name') }}</label>
-                        <input type="text" class="form-control" id="heartbeat_name" name="name" placeholder="{{ Lang::get('heartbeats.my_cronjob') }}" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                            <input type="text" class="form-control" id="heartbeat_name" name="name" placeholder="{{ Lang::get('heartbeats.my_cronjob') }}" />
+                        </div>
                     </div>
 
                     <div class="form-group">

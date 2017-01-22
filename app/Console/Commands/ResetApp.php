@@ -38,7 +38,7 @@ class ResetApp extends UpdateApp
         $this->clearLogs();
         $this->updateConfiguration();
         $this->resetDB();
-        $this->clearCaches();
+        $this->clearCaches(false);
         $this->restartQueue();
         $this->restartSocket();
     }
@@ -62,7 +62,7 @@ class ResetApp extends UpdateApp
         $this->info('Removing log files');
         $this->line('');
 
-        foreach (glob(storage_path('logs/') . '*.log*') as $file) {
+        foreach (glob(storage_path('logs/') . '*.log') as $file) {
             unlink($file);
         }
     }

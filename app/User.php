@@ -5,9 +5,9 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use REBELinBLUE\Deployer\Notifications\ResetPassword as ResetPasswordNotification;
-use REBELinBLUE\Deployer\Presenters\UserPresenter;
+use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
 use Robbo\Presenter\PresentableInterface;
 
 /**
@@ -105,6 +105,6 @@ class User extends Authenticatable implements PresentableInterface
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new ResetPasswordNotification($token));
+        $this->notify(new ResetPassword($token));
     }
 }

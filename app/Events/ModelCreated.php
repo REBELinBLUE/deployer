@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Event which fires when the server status has changed.
  */
-class ModelCreated extends Event implements ShouldBroadcast
+class ModelCreated implements ShouldBroadcast
 {
     use SerializesModels;
 

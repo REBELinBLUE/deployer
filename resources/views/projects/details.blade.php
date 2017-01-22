@@ -60,7 +60,7 @@
                     <li><a href="#servers" data-toggle="tab"><span class="fa fa-tasks"></span> {{ Lang::get('servers.label') }}</a></li>
                     <li><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ Lang::get('commands.label') }}</a></li>
                     <li><a href="#files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ Lang::get('sharedFiles.tab_label') }}</a></li>
-                    <li><a href="#notifications" data-toggle="tab"><span class="fa fa-bullhorn"></span> {{ Lang::get('notifications.label') }}</a></li>
+                    <li><a href="#notifications" data-toggle="tab"><span class="fa fa-bullhorn"></span> {{ Lang::get('channels.label') }}</a></li>
                     <li><a href="#health" data-toggle="tab"><span class="fa fa-heartbeat"></span> {{ Lang::get('heartbeats.tab_label') }}</a></li>
                 </ul>
                 <div class="tab-content">
@@ -96,7 +96,6 @@
     @include('projects.dialogs.channel')
     @include('projects.dialogs.webhook')
     @include('projects.dialogs.variable')
-    @include('projects.dialogs.notify_email')
     @include('projects.dialogs.heartbeat')
     @include('projects.dialogs.check_urls')
     @include('projects.dialogs.key')
@@ -117,7 +116,6 @@
         new app.SharedFilesTab();
         new app.ConfigFilesTab();
         new app.NotificationsTab();
-        new app.NotifyEmailsTab();
         new app.HeartbeatsTab();
         new app.VariablesTab();
         new app.CheckUrlsTab();
@@ -125,8 +123,7 @@
         app.Servers.add({!! $servers->toJson() !!});
         app.SharedFiles.add({!! $sharedFiles->toJson() !!});
         app.ConfigFiles.add({!! $configFiles->toJson() !!});
-        app.Notifications.add({!! $notifications->toJson() !!});
-        app.NotifyEmails.add({!! $notifyEmails->toJson() !!});
+        app.Notifications.add({!! $channels->toJson() !!});
         app.Heartbeats.add({!! $heartbeats->toJson() !!});
         app.CheckUrls.add({!! $checkUrls->toJson() !!});
         app.Variables.add({!! $variables->toJson() !!});

@@ -2,12 +2,16 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use GuzzleHttp\Client as HttpClient;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Application;
+use Illuminate\Notifications\Channels\SlackWebhookChannel;
 use Illuminate\Support\ServiceProvider;
 use MicheleAngioni\MultiLanguage\LanguageManager;
+use NotificationChannels\Webhook\WebhookChannel;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Template;
+use function GuzzleHttp\default_user_agent;
 
 /**
  * The application service provider.
@@ -68,7 +72,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerAdditionalProviders($this->providers[$env]);
         $this->registerAdditionalMiddleware($this->middleware[$env]);
-        $this->registerLanguageManager();
+        $this->registerDependencies();
     }
 
     /**
@@ -100,14 +104,40 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Registers the Language Manager to an alias.
-     *
-     * @return void
+     * Registers the Language Manager and guzzle.
      */
-    private function registerLanguageManager()
+    private function registerDependencies()
     {
         $this->app->singleton('locale', function (Application $app) {
             return $app->make(LanguageManager::class);
         });
+
+        $this->registerGuzzleClientOptions();
+    }
+
+    /**
+     * Registers the guzzle client with options defined in config.
+     */
+    private function registerGuzzleClientOptions()
+    {
+        $this->app->alias(HttpClient::class, 'HttpClient');
+        $this->app->when(SlackWebhookChannel::class)->needs(HttpClient::class)->give('HttpClient');
+
+        $this->app->bind('HttpClient', function (Application $app, array $additional = []) {
+            $config = array_merge($app->make('config')->get('deployer.guzzle') ?: [], [
+                'headers' => ['User-Agent' => 'Deployer/' . APP_VERSION . ' ' . default_user_agent()],
+            ]);
+
+            return new HttpClient(array_merge_recursive($config, $additional));
+        });
+
+        // Inject the Guzzle client for the Webhook channel so that we can set some defaults
+        $this->app->when(WebhookChannel::class)
+                  ->needs(HttpClient::class)
+                  ->give(function (Application $app) {
+                      return $app->make('HttpClient', [
+                          'headers' => ['Content-Type' => 'application/json'],
+                      ]);
+                  });
     }
 }

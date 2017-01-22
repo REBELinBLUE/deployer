@@ -27,9 +27,7 @@
     </filter>
     <logging>
         <log type="coverage-text" target="php://stdout" lowUpperBound="50" highLowerBound="80" />
-        <!--log type="coverage-html" target="storage/logs/coverage" charset="UTF-8" highlight="true" lowUpperBound="50" highLowerBound="80" /-->
         <log type="coverage-clover" target="clover.xml" />
-        <!--log type="tap" target="storage/logs/tap.log" logIncompleteSkipped="false" /-->
     </logging>
     <php>
         <env name="APP_ENV" value="testing" />

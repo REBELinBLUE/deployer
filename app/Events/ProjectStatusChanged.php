@@ -9,7 +9,7 @@ use REBELinBLUE\Deployer\Project;
 /**
  * Event which fires when the project status has changed.
  */
-class ProjectStatusChanged extends Event implements ShouldBroadcast
+class ProjectStatusChanged implements ShouldBroadcast
 {
     use SerializesModels;
 

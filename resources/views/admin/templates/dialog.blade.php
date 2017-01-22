@@ -15,7 +15,10 @@
 
                     <div class="form-group">
                         <label for="template_name">{{ Lang::get('templates.name') }}</label>
-                        <input type="text" class="form-control" name="name" id="template_name" placeholder="{{ Lang::get('templates.example') }}" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                            <input type="text" class="form-control" name="name" id="template_name" placeholder="{{ Lang::get('templates.example') }}" />
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -12,6 +12,7 @@ use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
 use REBELinBLUE\Deployer\Http\Requests\StoreSettingsRequest;
+use REBELinBLUE\Deployer\Settings;
 
 /**
  * The use profile controller.
@@ -34,6 +35,11 @@ class ProfileController extends Controller
     private $languageManager;
 
     /**
+     * @var Settings
+     */
+    private $settings;
+
+    /**
      * ProfileController constructor.
      *
      * @param UserRepositoryInterface $repository
@@ -42,11 +48,13 @@ class ProfileController extends Controller
     public function __construct(
         UserRepositoryInterface $repository,
         Google2FA $google2fa,
-        LanguageManager $languageManager
+        LanguageManager $languageManager,
+        Settings $settings
     ) {
-        $this->repository = $repository;
-        $this->google2fa  = $google2fa;
+        $this->repository      = $repository;
+        $this->google2fa       = $google2fa;
         $this->languageManager = $languageManager;
+        $this->settings        = $settings;
     }
 
     /**
@@ -69,7 +77,8 @@ class ProfileController extends Controller
             'google_2fa_url'  => $img,
             'google_2fa_code' => $code,
             'title'           => Lang::get('users.update_profile'),
-            'locales'         => $this->languageManager->getAvailableLanguages()
+            'locales'         => $this->languageManager->getAvailableLanguages(),
+            'settings'        => $this->settings,
         ]);
     }
 

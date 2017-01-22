@@ -9,7 +9,6 @@ var app = app || {};
 
     $('#redeploy').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
-
         var deployment = button.data('deployment-id');
 
         var tmp = button.data('optional-commands') + '';
@@ -35,6 +34,13 @@ var app = app || {};
                 input.prop('checked', true);
             }
         });
+    });
+
+    $('.btn-cancel').on('click', function (event) {
+        var button = $(event.currentTarget);
+        var deployment = button.data('deployment-id');
+
+        $('form#abort_' + deployment).trigger('submit');
     });
 
     $('#log').on('show.bs.modal', function (event) {

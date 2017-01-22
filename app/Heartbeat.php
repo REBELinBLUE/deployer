@@ -20,13 +20,6 @@ class Heartbeat extends Model
     const MISSING  = 2;
 
     /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -34,11 +27,11 @@ class Heartbeat extends Model
     protected $fillable = ['name', 'interval', 'project_id'];
 
     /**
-     * The fields which should be tried as Carbon instances.
+     * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $dates = ['last_activity'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
 
     /**
      * Additional attributes to include in the JSON representation.
@@ -60,6 +53,13 @@ class Heartbeat extends Model
         'status'      => 'integer',
         'deploy_code' => 'boolean',
     ];
+
+    /**
+     * The fields which should be treated as Carbon instances.
+     *
+     * @var array
+     */
+    protected $dates = ['last_activity'];
 
     /**
      * Belongs to relationship.
@@ -91,7 +91,7 @@ class Heartbeat extends Model
      */
     public function generateHash()
     {
-        $this->attributes['hash'] = Str::quickRandom(30);
+        $this->attributes['hash'] = Str::random(30);
     }
 
     /**
@@ -113,13 +113,13 @@ class Heartbeat extends Model
      */
     public function pinged()
     {
-        $isHealthy = ($this->status === self::UNTESTED || $this->isHealthy());
+        $isCurrentlyHealthy  = ($this->status === self::UNTESTED || $this->isHealthy());
 
         $this->status        = self::OK;
         $this->missed        = 0;
         $this->last_activity = $this->freshTimestamp();
 
-        if (!$isHealthy) {
+        if (!$isCurrentlyHealthy) {
             event(new HeartbeatRecovered($this));
         }
 

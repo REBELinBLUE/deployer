@@ -17,11 +17,17 @@
 
                     <div class="form-group">
                         <label for="config-file-name">{{ Lang::get('configFiles.name') }}</label>
-                        <input type="text" class="form-control" id="config-file-name" name="config-file-name" placeholder="{{ Lang::get('configFiles.config') }}" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                            <input type="text" class="form-control" id="config-file-name" name="config-file-name" placeholder="{{ Lang::get('configFiles.config') }}" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="config-file-path">{{ Lang::get('configFiles.path') }}</label>
-                        <input type="text" class="form-control" id="config-file-path" name="path" placeholder="config/app.php" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-file-text-o"></i></div>
+                            <input type="text" class="form-control" id="config-file-path" name="path" placeholder="config/app.php" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="config-file-content">{{ Lang::get('configFiles.content') }}</label>

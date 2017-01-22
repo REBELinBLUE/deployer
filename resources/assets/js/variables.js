@@ -76,7 +76,7 @@ var app = app || {};
             name:        $('#variable_name').val(),
             value:       $('#variable_value').val(),
             target_type: $('input[name="target_type"]').val(),
-            target_id:   $('input[name="target_id"]').val()
+            target_id:   parseInt($('input[name="target_id"]').val())
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -105,7 +105,7 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        var parent = element.parent('div');
+                        var parent = element.parents('div.form-group');
                         parent.addClass('has-error');
                         parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }

@@ -15,10 +15,9 @@ class StoreCheckUrlRequest extends Request
     public function rules()
     {
         return [
-            'title'      => 'required|max:255',
+            'name'       => 'required|max:255',
             'url'        => 'required|url',
             'period'     => 'required',
-            'is_report'  => 'required|boolean',
             'project_id' => 'required|integer|exists:projects,id',
         ];
     }

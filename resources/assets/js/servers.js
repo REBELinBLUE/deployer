@@ -142,7 +142,7 @@ var app = app || {};
             user:         $('#server_user').val(),
             path:         $('#server_path').val(),
             deploy_code:  $('#server_deploy_code').is(':checked'),
-            project_id:   $('input[name="project_id"]').val(),
+            project_id:   parseInt($('input[name="project_id"]').val()),
             add_commands: $('#server_commands').is(':checked')
         }, {
             wait: true,
@@ -172,7 +172,7 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        var parent = element.parent('div');
+                        var parent = element.parents('div.form-group');
                         parent.addClass('has-error');
                         parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }

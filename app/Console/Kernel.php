@@ -7,7 +7,7 @@ use Illuminate\Foundation\Bootstrap\ConfigureLogging;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as ConsoleLogging;
 use REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats;
-use REBELinBLUE\Deployer\Console\Commands\CheckUrl;
+use REBELinBLUE\Deployer\Console\Commands\CheckUrls;
 use REBELinBLUE\Deployer\Console\Commands\ClearOldKeys;
 use REBELinBLUE\Deployer\Console\Commands\ClearOrphanAvatars;
 use REBELinBLUE\Deployer\Console\Commands\ClearOrphanMirrors;
@@ -48,7 +48,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         CheckHeartbeats::class,
-        CheckUrl::class,
+        CheckUrls::class,
         CreateUser::class,
         ClearOrphanAvatars::class,
         ClearOrphanMirrors::class,
@@ -96,8 +96,6 @@ class Kernel extends ConsoleKernel
 
     /**
      * Register the Closure based commands for the application.
-     *
-     * @return void
      */
     protected function commands()
     {
@@ -111,10 +109,12 @@ class Kernel extends ConsoleKernel
     {
         parent::bootstrap();
 
+        $fresh = '\Spatie\MigrateFresh\Commands\MigrateFresh';
+
         // Only register the reset command on the local environment when dev dependencies are installed
-        if ($this->app->environment() === 'local' && class_exists('\Spatie\MigrateFresh\Commands\MigrateFresh', true)) {
+        if ($this->app->environment() === 'local' && class_exists($fresh, true)) {
             $this->commands[] = ResetApp::class;
-            $this->commands[] = '\Spatie\MigrateFresh\Commands\MigrateFresh';
+            $this->commands[] = $fresh;
         }
     }
 
