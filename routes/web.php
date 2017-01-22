@@ -20,7 +20,7 @@ $router->post('projects/{id}/refresh', 'DeploymentController@refresh')->name('pr
 
 $router->get('deployment/{id}', 'DeploymentController@show')->name('deployments');
 $router->post('deployment/{id}/rollback', 'DeploymentController@rollback')->name('deployments.rollback');
-$router->get('deployment/{id}/abort', 'DeploymentController@abort')->name('deployments.abort');
+$router->post('deployment/{id}/abort', 'DeploymentController@abort')->name('deployments.abort');
 
 $router->get('log/{id}', 'DeploymentController@log')->name('deployments.log');
 

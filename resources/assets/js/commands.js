@@ -132,7 +132,7 @@ var app = app || {};
             user:        $('#command_user').val(),
             step:        $('#command_step').val(),
             target_type: $('input[name="target_type"]').val(),
-            target_id:   $('input[name="target_id"]').val(),
+            target_id:   parseInt($('input[name="target_id"]').val()),
             servers:     server_ids,
             optional:    $('#command_optional').is(':checked'),
             default_on:  $('#command_default_on').is(':checked')
@@ -167,7 +167,7 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        var parent = element.parent('div');
+                        var parent = element.parents('div.form-group');
                         parent.addClass('has-error');
                         parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }

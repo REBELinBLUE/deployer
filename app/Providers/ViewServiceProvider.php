@@ -4,11 +4,11 @@ namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\ServiceProvider;
-use REBELinBLUE\Deployer\Composers\ActiveUserComposer;
-use REBELinBLUE\Deployer\Composers\HeaderComposer;
-use REBELinBLUE\Deployer\Composers\NavigationComposer;
-use REBELinBLUE\Deployer\Composers\ThemeComposer;
-use REBELinBLUE\Deployer\Composers\VersionComposer;
+use REBELinBLUE\Deployer\View\Composers\ActiveUserComposer;
+use REBELinBLUE\Deployer\View\Composers\HeaderComposer;
+use REBELinBLUE\Deployer\View\Composers\NavigationComposer;
+use REBELinBLUE\Deployer\View\Composers\ThemeComposer;
+use REBELinBLUE\Deployer\View\Composers\VersionComposer;
 
 /**
  * The view service provider.

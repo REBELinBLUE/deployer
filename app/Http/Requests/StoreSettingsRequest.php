@@ -2,6 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
+use MicheleAngioni\MultiLanguage\LanguageManager;
+use REBELinBLUE\Deployer\Settings;
+
 /**
  * Validate the user settings.
  */
@@ -10,16 +13,16 @@ class StoreSettingsRequest extends Request
     /**
      * Get the validation rules that apply to the request.
      *
+     * @param  Settings        $settings
+     * @param  LanguageManager $languageManager
      * @return array
      */
-    public function rules()
+    public function rules(Settings $settings, LanguageManager $languageManager)
     {
-        // TODO: Maybe define these somewhere so they aren't duplicated
         return [
-            'skin'     => 'required|in:yellow,yellow-light,red,red-light,green,' .
-                          'green-light,purple,purple-light,blue,blue-light',
-            'scheme'   => 'required|in:default,afterglow,monokai,dawn,solarized-dark,solarized-light',
-            'language' => 'required|in:en,zh'
+            'skin'     => 'required|in:' . implode(',', $settings->themes()),
+            'scheme'   => 'string|nullable|in:' . implode(',', $settings->schemes()),
+            'language' => 'required|in:' . implode(',', $languageManager->getAvailableLanguages()),
         ];
     }
 }

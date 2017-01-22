@@ -46,5 +46,6 @@ return [
     'purple'            => 'Purple',
     'blue'              => 'Blue',
     'with_sidebar'      => ':colour with light sidebar',
+    'default'           => 'Default',
 
 ];

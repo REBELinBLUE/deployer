@@ -7,7 +7,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 /**
  * An event to restart the socket server.
  */
-class RestartSocketServer extends Event implements ShouldBroadcast
+class RestartSocketServer implements ShouldBroadcast
 {
     /**
      * @var string

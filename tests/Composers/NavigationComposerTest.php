@@ -1,6 +1,6 @@
 <?php
 
-use REBELinBLUE\Deployer\Composers\NavigationComposer;
+use REBELinBLUE\Deployer\View\Composers\NavigationComposer;
 use Illuminate\Contracts\View\View;
 use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
 

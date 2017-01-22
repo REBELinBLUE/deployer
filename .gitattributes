@@ -63,7 +63,7 @@ VERSION text
 #
 
 tests/ export-ignore
-examples/dev/ export-ignore
+docs/examples/dev/ export-ignore
 .github/ export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore

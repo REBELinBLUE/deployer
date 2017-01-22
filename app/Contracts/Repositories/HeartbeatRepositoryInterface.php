@@ -2,13 +2,15 @@
 
 namespace REBELinBLUE\Deployer\Contracts\Repositories;
 
+use REBELinBLUE\Deployer\Heartbeat;
+
 interface HeartbeatRepositoryInterface
 {
     /**
      * @param string $hash
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Heartbeat
      */
     public function getByHash($hash);
 

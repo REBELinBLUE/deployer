@@ -26,7 +26,6 @@
         "graham-campbell/htmlmin": "~4.2",
         "pda/pheanstalk": "~3.1",
         "creativeorange/gravatar": "~1.0",
-        "nategood/httpful": "~0.2",
         "robclancy/presenter": "1.3.*",
         "doctrine/dbal": "~2.5",
         "intervention/image": "^2.3",
@@ -38,7 +37,11 @@
         "andywer/js-localization": "dev-laravel-5",
         "backup-manager/laravel": "^1.1",
         "fideloper/proxy": "^3.1",
-        "michele-angioni/multi-language": "dev-master"
+        "michele-angioni/multi-language": "dev-master",
+        "laravel-notification-channels/webhook": "^1.0",
+        "laravel-notification-channels/hipchat": "^0.1.0",
+        "guzzlehttp/guzzle": "^6.2",
+        "laravel-notification-channels/twilio": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.5",
@@ -81,6 +84,7 @@
             "php artisan clear-compiled"
         ],
         "post-install-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "([ -f .env ] && sed -i 's/DB_TYPE=/DB_CONNECTION=/g' .env) || exit 0",
             "([ -f .env ] && php artisan optimize) || exit 0",
             "([ -f .env ] && php artisan js-localization:refresh) || exit 0"
@@ -89,6 +93,7 @@
             "php artisan clear-compiled"
         ],
         "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta",
             "php artisan ide-helper:models --nowrite",

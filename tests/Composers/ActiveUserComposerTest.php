@@ -1,6 +1,6 @@
 <?php
 
-use REBELinBLUE\Deployer\Composers\ActiveUserComposer;
+use REBELinBLUE\Deployer\View\Composers\ActiveUserComposer;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 

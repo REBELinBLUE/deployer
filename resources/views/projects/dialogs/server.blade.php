@@ -16,24 +16,39 @@
 
                     <div class="form-group">
                         <label for="server_name">{{ Lang::get('servers.name') }}</label>
-                        <input type="text" class="form-control" id="server_name" name="name" placeholder="{{ Lang::get('servers.web') }}" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                            <input type="text" class="form-control" id="server_name" name="name" placeholder="{{ Lang::get('servers.web') }}" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="server_user">{{ Lang::get('servers.connect_as') }}</label>
-                        <input type="text" class="form-control" id="server_user" name="user" placeholder="deploy" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                            <input type="text" class="form-control" id="server_user" name="user" placeholder="deploy" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="server_address">{{ Lang::get('servers.ip_address') }}</label>
-                        <input type="text" class="form-control" id="server_address" name="ip_address" placeholder="192.168.0.1" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-laptop"></i></div>
+                            <input type="text" class="form-control" id="server_address" name="ip_address" placeholder="192.168.0.1" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="server_port">{{ Lang::get('servers.port') }}</label>
-                        <input type="number" class="form-control" id="server_port" name="port" placeholder="22" value="22" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-plug"></i></div>
+                            <input type="number" class="form-control" id="server_port" name="port" placeholder="22" value="22" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="server_path">{{ Lang::get('servers.path') }}</label>
                         <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('servers.example') }}"></i>
-                        <input type="text" class="form-control" id="server_path" name="path" placeholder="/var/www/project" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-folder-o"></i></div>
+                            <input type="text" class="form-control" id="server_path" name="path" placeholder="/var/www/project" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>{{ Lang::get('servers.options') }}</label>

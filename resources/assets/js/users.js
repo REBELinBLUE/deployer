@@ -14,7 +14,6 @@ var app = app || {};
         $('.has-error', modal).removeClass('has-error');
         $('.label-danger', modal).remove();
 
-
         if (button.hasClass('btn-edit')) {
             title = Lang.get('users.edit');
             $('.btn-danger', modal).show();
@@ -113,7 +112,7 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        var parent = element.parent('div');
+                        var parent = element.parents('div.form-group');
                         parent.addClass('has-error');
                         parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }

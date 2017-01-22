@@ -12,7 +12,7 @@
 
 Deployer is a PHP Application deployment system powered by [Laravel 5.3](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
 
-Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](/SCREENSHOTS.md), and [contribution guidelines](/.github/CONTRIBUTING.md).
+Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](/docs/SCREENSHOTS.md), [FAQs](/docs/FAQ.md) and [contribution guidelines](/.github/CONTRIBUTING.md).
 
 ## What it does
 
@@ -35,33 +35,6 @@ Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [lic
 ## Usage in production
 
 The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. It is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](/.github/CONTRIBUTING.md).
-
-### Common Error
-
-If you see an error like the following in the logs
-
-```
-'ErrorException' with message 'file_get_contents(/var/www/deployer/public/build/rev-manifest.json): failed to open stream: No such file or directory' in /var/www/deployer/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:343
-```
-
-or the following on the page
-
-```
-ErrorException (E_ERROR) file_get_contents(/var/www/deployer/public/build/rev-manifest.json): failed to open stream: No such file or directory
-```
-
-it means you are not using a production build. You either need to checkout the `release` branch or a specific release, or install the additional development dependencies
-
-```shell
-$ composer install
-$ npm install (or yarn install)
-```
-
-and then build the assets
-
-```shell
-$ gulp
-```
 
 ## Requirements
 
@@ -118,11 +91,11 @@ $ php artisan app:install
 $ editor .env
 ```
 
-7. Configure your web server to point to `public/`, see `examples/` for Apache and nginx sample configuration files. If you use Apache you will need to ensure you have the `mod_rewrite` module enabled.
+7. Configure your web server to point to `public/`, see `docs/examples/` for Apache and nginx sample configuration files. If you use Apache you will need to ensure you have the `mod_rewrite` module enabled.
 
 8. Start socket server and setup cron jobs.
-    If you are not configuring `supervisor` you will need to manually start the socket server with `node socket.js` (listens on port 6001 by default) and setup cron jobs, see `examples/crontab`.
-    If you are configuring `supervisor` see `examples/supervisor.conf`
+    If you are not configuring `supervisor` you will need to manually start the socket server with `node socket.js` (listens on port 6001 by default) and setup cron jobs, see `docs/examples/crontab`.
+    If you are configuring `supervisor` see `docs/examples/supervisor.conf`
 
 ### Updating
 

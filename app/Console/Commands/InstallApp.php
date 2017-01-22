@@ -3,16 +3,16 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use DateTimeZone;
+use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use PDO;
 use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
-use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * A console command for prompting for install details.
@@ -36,22 +36,20 @@ class InstallApp extends Command
     protected $description = 'Installs the application and configures the settings';
 
     /**
-     * The user repository.
-     *
-     * @var UserRepositoryInterface
+     * @var ConfigRepository
      */
-    private $repository;
+    private $config;
 
     /**
      * InstallApp constructor.
      *
-     * @param UserRepositoryInterface|null $repository
+     * @param ConfigRepository $config
      */
-    public function __construct(UserRepositoryInterface $repository = null)
+    public function __construct(ConfigRepository $config = null)
     {
         parent::__construct();
 
-        $this->repository = $repository;
+        $this->config = $config;
     }
 
     /**
@@ -71,13 +69,11 @@ class InstallApp extends Command
 
         if (!file_exists($config)) {
             copy(base_path('.env.example'), $config);
-            Config::set('app.key', 'SomeRandomString');
+            $this->config->set('app.key', 'SomeRandomString');
         }
 
         $this->line('');
-        $this->info('***********************');
-        $this->info('  Welcome to Deployer  ');
-        $this->info('***********************');
+        $this->block(' -- Welcome to Deployer -- ', 'fg=black;bg=green;options=bold');
         $this->line('');
 
         if (!$this->checkRequirements()) {
@@ -88,9 +84,11 @@ class InstallApp extends Command
         $this->line('');
 
         $config = [
-            'db'   => $this->getDatabaseInformation(),
-            'app'  => $this->getInstallInformation(),
-            'mail' => $this->getEmailInformation(),
+            'db'      => $this->getDatabaseInformation(),
+            'app'     => $this->getInstallInformation(),
+            'hipchat' => $this->getHipchatInformation(),
+            'twilio'  => $this->getTwilioInformation(),
+            'mail'    => $this->getEmailInformation(),
         ];
 
         $admin = $this->getAdminInformation();
@@ -99,31 +97,40 @@ class InstallApp extends Command
 
         $this->writeEnvFile($config);
 
+        $this->info('Generating JWT key');
         $this->generateKey();
         $this->migrate();
 
-        $this->repository->updateById($admin, 1);
+        $this->createAdminUser($admin['name'], $admin['email'], $admin['password']);
 
         $this->clearCaches();
         $this->optimize();
 
         $this->line('');
-        $this->info('Success! Deployer is now installed');
+        $this->line('');
+
+        $this->block('Success! Deployer is now installed', 'fg=black;bg=green');
         $this->line('');
         $this->header('Next steps');
         $this->line('');
-        $this->line('Example configuration files can be found in the "examples" directory');
-        $this->line('');
-        $this->comment('1. Set up your web server, see either "nginx.conf" or "apache.conf"');
-        $this->line('');
-        $this->comment('2. Setup the cronjobs, see "crontab"');
-        $this->line('');
-        $this->comment('3. Setup the socket server & queue runner, see "supervisor.conf" for an example commands');
-        $this->line('');
-        $this->comment('4. Ensure that "storage" and "public/upload" are writable by the webserver');
-        $this->line('');
-        $this->comment('5. Visit ' . $config['app']['url'] . ' and login with the details you provided to get started');
-        $this->line('');
+
+        $instructions = [
+            'Example configuration files can be found in the <options=bold>docs/examples</> directory',
+            'Set up your web server, see either <options=bold>nginx.conf</> or <options=bold>apache.conf</>',
+            'Setup the cronjobs, see <options=bold>crontab</>',
+            'Setup the socket server & queue runner, see <options=bold>supervisor.conf</> for an example setup',
+            'Ensure that <options=bold>storage</> and <options=bold>public/upload</> are writable by the webserver',
+            'Visit ' . $config['app']['url'] . ' and login with the details you provided to get started',
+        ];
+
+        foreach ($instructions as $i => $instruction) {
+            if ($i !== 0) {
+                $instruction = $i . '. ' . $instruction;
+            }
+
+            $this->comment($instruction);
+            $this->line('');
+        }
     }
 
     /**
@@ -136,7 +143,6 @@ class InstallApp extends Command
     protected function writeEnvFile(array $input)
     {
         $this->info('Writing configuration file');
-        $this->line('');
 
         $path   = base_path('.env');
         $config = file_get_contents($path);
@@ -207,6 +213,7 @@ class InstallApp extends Command
 
         // Remove comments
         $config = preg_replace('/#(.*)[\n]/', '', $config);
+        $config = preg_replace('/[\n]{3,}/m', PHP_EOL . PHP_EOL, $config);
 
         return file_put_contents($path, trim($config) . PHP_EOL);
     }
@@ -217,8 +224,7 @@ class InstallApp extends Command
     private function generateKey()
     {
         $this->info('Generating application key');
-        $this->line('');
-        $this->call('key:generate');
+        $this->callSilent('key:generate');
     }
 
     /**
@@ -228,9 +234,8 @@ class InstallApp extends Command
      */
     protected function generateJWTKey()
     {
-        $this->info('Generating JWT key');
-        $this->line('');
-        //$this->call('jwt:generate'); This does not update .ENV so do it manually for now
+        //$this->info('Generating JWT key');
+        //$this->callSilent('jwt:generate', ['--force' => true]);
 
         return str_random(32);
     }
@@ -242,20 +247,68 @@ class InstallApp extends Command
     {
         $this->info('Running database migrations');
         $this->line('');
-        $this->call('migrate', ['--force' => true]);
+        //$this->call('migrate', ['--force' => true]);
+
+        $builder = new ProcessBuilder;
+        $builder->setPrefix('php');
+
+        // Something has changed in laravel 5.3 which means calling the migrate command with call() isn't working
+        $process = $builder->setArguments([
+            base_path('artisan'), 'migrate', '--force',
+        ])->setWorkingDirectory(base_path('artisan'))
+          ->getProcess()
+          ->setTty(true)
+          ->setTimeout(null);
+
+        $process->run(function ($type, $buffer) {
+            if ($type === Process::OUT) {
+                echo $buffer;
+            }
+        });
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process);
+        }
+
         $this->line('');
     }
 
     /**
-     * Clears all Laravel caches.
+     * Forks a process to create the admin user.
+     *
+     * @param string $name
+     * @param string $email
+     * @param string $password
      */
-    protected function clearCaches()
+    private function createAdminUser($name, $email, $password)
     {
-        $this->call('clear-compiled');
-        $this->call('cache:clear');
-        $this->call('route:clear');
-        $this->call('config:clear');
-        $this->call('view:clear');
+        $builder = new ProcessBuilder;
+        $builder->setPrefix('php');
+
+        $process = $builder->setArguments([
+            base_path('artisan'), 'deployer:create-user', $name, $email, $password,
+        ])->setWorkingDirectory(base_path('artisan'))
+          ->getProcess()
+          ->setTimeout(null);
+
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process);
+        }
+    }
+
+    /**
+     * Clears all Laravel caches.
+     * @param bool $silent
+     */
+    protected function clearCaches($silent = true)
+    {
+        $this->callCommand('clear-compiled', [], $silent);
+        $this->callCommand('cache:clear', [], $silent);
+        $this->callCommand('route:clear', [], $silent);
+        $this->callCommand('config:clear', [], $silent);
+        $this->callCommand('view:clear', [], $silent);
     }
 
     /**
@@ -286,25 +339,22 @@ class InstallApp extends Command
             // Should we just skip this step if only one driver is available?
             $type = $this->choice('Type', $this->getDatabaseDrivers(), 0);
 
-            $database['type'] = $type;
-
-            Config::set('database.default', $type);
+            $database['connection'] = $type;
 
             if ($type !== 'sqlite') {
-                $host = $this->ask('Host', 'localhost');
-                $name = $this->ask('Name', 'deployer');
+                $defaultPort = $type === 'mysql' ? 3306 : 5432;
+
+                $host = $this->anticipate('Host', ['localhost'], 'localhost');
+                $port = $this->anticipate('Port', [$defaultPort], $defaultPort);
+                $name = $this->anticipate('Name', ['deployer'], 'deployer');
                 $user = $this->ask('Username', 'deployer');
                 $pass = $this->secret('Password');
 
                 $database['host']     = $host;
+                $database['port']     = $port;
                 $database['database'] = $name;
                 $database['username'] = $user;
                 $database['password'] = $pass;
-
-                Config::set('database.connections.' . $type . '.host', $host);
-                Config::set('database.connections.' . $type . '.database', $name);
-                Config::set('database.connections.' . $type . '.username', $user);
-                Config::set('database.connections.' . $type . '.password', $pass);
             }
 
             $connectionVerified = $this->verifyDatabaseDetails($database);
@@ -326,15 +376,7 @@ class InstallApp extends Command
         $locales = $this->getLocales();
 
         $url_callback = function ($answer) {
-            $validator = Validator::make(['url' => $answer], [
-                'url' => 'url',
-            ]);
-
-            if (!$validator->passes()) {
-                throw new \RuntimeException($validator->errors()->first('url'));
-            }
-
-            return preg_replace('#/$#', '', $answer);
+            return $this->validateUrl($answer);
         };
 
         $url    = $this->askAndValidate('Application URL ("http://deployer.app" for example)', [], $url_callback);
@@ -379,9 +421,10 @@ class InstallApp extends Command
         $ssl = null;
         if (substr($socket, 0, 5) === 'https') {
             $ssl = [
-                'key_file'  => $this->askAndValidate('SSL key File', [], $path_callback),
-                'cert_file' => $this->askAndValidate('SSL certificate File', [], $path_callback),
-                'ca_file'   => $this->askAndValidate('SSL certificate authority file', [], $path_callback),
+                'key_file'     => $this->askAndValidate('SSL key File', [], $path_callback),
+                'key_password' => $this->secret('SSL key password'),
+                'cert_file'    => $this->askAndValidate('SSL certificate File', [], $path_callback),
+                'ca_file'      => $this->askAndValidate('SSL certificate authority file', [], $path_callback),
             ];
         };
 
@@ -389,7 +432,7 @@ class InstallApp extends Command
         if (count($locales) === 1) {
             $locale = $locales[0];
         } else {
-            $default = array_search(Config::get('app.fallback_locale'), $locales, true);
+            $default = array_search($this->config->get('app.fallback_locale'), $locales, true);
             $locale  = $this->choice('Language', $locales, $default);
         }
 
@@ -503,6 +546,55 @@ class InstallApp extends Command
     }
 
     /**
+     * Prompts for the twilio API details.
+     *
+     * @return array
+     */
+    public function getTwilioInformation()
+    {
+        $this->header('Twilio setup');
+
+        $twilio =  [
+            'account_sid' => '',
+            'auth_token'  => '',
+            'from'        => '',
+        ];
+
+        if ($this->confirm('Do you wish to be able to send notifications using Twilio?')) {
+            $twilio['account_sid'] = $this->ask('Account SID');
+            $twilio['auth_token']  = $this->ask('Auth token');
+            $twilio['from']        = $this->ask('Twilio phone number');
+        }
+
+        return $twilio;
+    }
+
+    /**
+     * Prompts for the hipchat API details.
+     *
+     * @return array
+     */
+    public function getHipchatInformation()
+    {
+        $this->header('Hipchat setup');
+
+        $hipchat = [
+            'token' => '',
+            'url'   => '',
+        ];
+
+        if ($this->confirm('Do you wish to be able to send notifications to Hipchat?')) {
+            $hipchat['url'] = $this->askAndValidate('Webhook URL', [], function ($answer) {
+                return $this->validateUrl($answer);
+            });
+
+            $hipchat['token'] = $this->ask('Token');
+        }
+
+        return $hipchat;
+    }
+
+    /**
      * Verifies that the database connection details are correct.
      *
      * @param array $database The connection details
@@ -511,13 +603,17 @@ class InstallApp extends Command
      */
     private function verifyDatabaseDetails(array $database)
     {
-        if ($database['type'] === 'sqlite') {
+        if ($database['connection'] === 'sqlite') {
             return touch(database_path('database.sqlite'));
         }
 
         try {
+            $dsn = $database['connection'] . ':host=' . $database['host'] .
+                                             ';port=' . $database['port'] .
+                                             ';dbname=' . $database['database'];
+
             $connection = new PDO(
-                $database['type'] . ':host=' . $database['host'] . ';dbname=' . $database['database'],
+                $dsn,
                 $database['username'],
                 $database['password'],
                 [
@@ -606,7 +702,7 @@ class InstallApp extends Command
         }
 
         // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash'];
+        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash', 'php'];
 
         foreach ($required_commands as $command) {
             $process = new Process('which ' . $command);
@@ -645,7 +741,7 @@ class InstallApp extends Command
 
         foreach ($writable as $path) {
             if (!is_writeable(base_path($path))) {
-                $this->error($path . ' is not writeable');
+                $this->error($path . ' is not writable');
                 $errors = true;
             }
         }
@@ -689,8 +785,7 @@ class InstallApp extends Command
     {
         $available = collect(PDO::getAvailableDrivers());
 
-        // 'sqlite' is also supported but not recommended
-        return array_values($available->intersect(['mysql', 'pgsql'])->all());
+        return array_values($available->intersect(['mysql', 'pgsql', 'sqlite'])->all());
     }
 
     /**
@@ -780,5 +875,43 @@ class InstallApp extends Command
     protected function header($header)
     {
         $this->block($header, 'question');
+    }
+
+    /**
+     * Calls an artisan command and optionally silences the output.
+     *
+     * @param string $command
+     * @param array  $arguments
+     * @param bool   $silent
+     */
+    protected function callCommand($command, array $arguments = [], $silent = false)
+    {
+        if ($silent) {
+            $this->callSilent($command, $arguments);
+
+            return;
+        }
+
+        $this->call($command, $arguments);
+    }
+
+    /**
+     * Validates the answer is a URL.
+     *
+     * @param string $answer
+     *
+     * @return mixed
+     */
+    protected function validateUrl($answer)
+    {
+        $validator = Validator::make(['url' => $answer], [
+            'url' => 'url',
+        ]);
+
+        if (!$validator->passes()) {
+            throw new \RuntimeException($validator->errors()->first('url'));
+        }
+
+        return preg_replace('#/$#', '', $answer);
     }
 }

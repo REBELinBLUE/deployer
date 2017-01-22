@@ -6,7 +6,7 @@ use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Contracts\Repositories\CheckUrlRepositoryInterface;
 
 /**
- * The notification email repository.
+ * The check url repository.
  */
 class EloquentCheckUrlRepository extends EloquentRepository implements CheckUrlRepositoryInterface
 {

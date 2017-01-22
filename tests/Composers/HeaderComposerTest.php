@@ -1,6 +1,6 @@
 <?php
 
-use REBELinBLUE\Deployer\Composers\HeaderComposer;
+use REBELinBLUE\Deployer\View\Composers\HeaderComposer;
 use Illuminate\Contracts\View\View;
 use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
 

@@ -15,22 +15,35 @@
 
                     <div class="form-group">
                         <label for="user_name">{{ Lang::get('users.name') }}</label>
-                        <input type="text" class="form-control" name="name" id="user_name" placeholder="John Smith" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                            <input type="text" class="form-control" name="name" id="user_name" placeholder="John Smith" />
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="user_email">{{ Lang::get('users.email') }}</label>
-                        <input type="email" class="form-control" name="email" id="user_email" placeholder="john.smith@example.net" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
+                            <input type="email" class="form-control" name="email" id="user_email" placeholder="john.smith@example.net" />
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="user_password" class="user_password existing-only">{{ Lang::get('users.password_existing') }}</label>
                         <label for="user_password" class="new-only">{{ Lang::get('users.password') }}</label>
-                        <input type="password" class="form-control" name="password" id="user_password" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-unlock"></i></div>
+                            <input type="password" class="form-control" name="password" id="user_password" />
+                        </div>
                     </div>
 
                     <div class="form-group new-only">
                         <label for="user_password_confirmation">{{ Lang::get('users.password_confirm') }}</label>
-                        <input type="password" class="form-control" name="password_confirmation" id="user_password_confirmation" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                            <input type="password" class="form-control" name="password_confirmation" id="user_password_confirmation" />
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

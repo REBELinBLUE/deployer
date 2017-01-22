@@ -39,16 +39,19 @@
                     <div class="form-group">
                         <label for="skin">{{ Lang::get('users.skin') }}</label>
                         <select name="skin" id="skin" class="form-control">
-                            @foreach (['yellow', 'red', 'green', 'purple', 'blue'] as $colour)
-                                <option value="{{ $colour }}" @if ($colour === $theme) selected @endif>{{ Lang::get('users.' . $colour ) }}</option>
-                                <option value="{{ $colour }}-light" @if ($colour . '-light' === $theme) selected @endif>{{ Lang::get('users.with_sidebar', ['colour' => Lang::get('users.' . $colour)]) }}</option>
+                            @foreach ($settings->themes() as $colour)
+                                @if (!str_contains($colour, '-light'))
+                                    <option value="{{ $colour }}" @if ($colour === $theme) selected @endif>{{ Lang::get('users.' . $colour ) }}</option>
+                                    <option value="{{ $colour }}-light" @if ($colour . '-light' === $theme) selected @endif>{{ Lang::get('users.with_sidebar', ['colour' => Lang::get('users.' . $colour)]) }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="scheme">{{ Lang::get('users.console') }}</label>
                         <select name="scheme" id="scheme" class="form-control">
-                            @foreach (['default', 'afterglow', 'monokai','dawn', 'solarized-dark', 'solarized-light'] as $scheme)
+                            <option value="" @if ($logged_in_user->scheme === null) selected @endif>{{ Lang::get('users.default' ) }}</option>
+                            @foreach ($settings->schemes() as $scheme)
                                 <option value="{{ $scheme }}" @if ($scheme === $logged_in_user->scheme) selected @endif>{{ ucwords(str_replace('-', ' ', $scheme)) }}</option>
                             @endforeach
                         </select>

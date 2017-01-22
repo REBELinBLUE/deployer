@@ -1,6 +1,6 @@
 <?php
 
-use REBELinBLUE\Deployer\Composers\VersionComposer;
+use REBELinBLUE\Deployer\View\Composers\VersionComposer;
 use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
 use Illuminate\Contracts\View\View;
 use Version\Version;

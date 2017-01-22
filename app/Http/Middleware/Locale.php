@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Sets the applications locale based on the user's language
+ * Sets the applications locale based on the user's language.
  */
 class Locale
 {
@@ -14,7 +14,7 @@ class Locale
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param \Closure                 $next
      *
      * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */

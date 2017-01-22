@@ -20,24 +20,15 @@ class RepositoryValidator
      */
     public function validate($attribute, $value, $parameters)
     {
-        if (preg_match('/^(ssh|git|https?):\/\//', $value)) { // Plain old git repo
+        // Plain old git repo
+        if (preg_match('/^(ssh|git|https?):\/\//', $value)) {
             return true;
         }
 
-        if (preg_match('/^(.*)@(.*):(.*)\/(.*)\.git/', $value)) { // Gitlab
+        // Gitlab/Github
+        if (preg_match('/^(.*)@(.*):(.*)\/(.*)\.git/', $value)) {
             return true;
         }
-
-        /*
-        TODO: improve these regexs, using the following stolen from PHPCI (sorry Dan!)
-        'ssh': /git\@github\.com\:([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
-        'git': /git\:\/\/github.com\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
-        'http': /https\:\/\/github\.com\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)(\.git)?/
-
-        'ssh': /git\@bitbucket\.org\:([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
-        'http': /https\:\/\/[a-zA-Z0-9_\-]+\@bitbucket.org\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)\.git/,
-        'anon': /https\:\/\/bitbucket.org\/([a-zA-Z0-9_\-]+\/[a-zA-Z0-9_\-]+)(\.git)?/
-        */
 
         return false;
     }

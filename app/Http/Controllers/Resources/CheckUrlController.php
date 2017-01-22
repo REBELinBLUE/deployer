@@ -37,9 +37,8 @@ class CheckUrlController extends ResourceController
     public function store(StoreCheckUrlRequest $request)
     {
         return $this->repository->create($request->only(
-            'title',
+            'name',
             'url',
-            'is_report',
             'period',
             'project_id'
         ));
@@ -56,9 +55,8 @@ class CheckUrlController extends ResourceController
     public function update($url_id, StoreCheckUrlRequest $request)
     {
         return $this->repository->updateById($request->only(
-            'title',
+            'name',
             'url',
-            'is_report',
             'period'
         ), $url_id);
     }

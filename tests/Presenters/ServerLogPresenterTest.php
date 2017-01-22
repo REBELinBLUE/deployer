@@ -1,6 +1,6 @@
 <?php
 
-use REBELinBLUE\Deployer\Presenters\ServerLogPresenter;
+use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 
 class ServerLogPresenterTest extends TestCase
 {

@@ -10,7 +10,7 @@ class CheckUrlTableSeeder extends Seeder
         DB::table('check_urls')->delete();
 
         CheckUrl::create([
-            'title'      => 'Deployer',
+            'name'       => 'Deployer',
             'url'        => 'http://deployer.app',
             'project_id' => 1,
             'period'     => 10,
