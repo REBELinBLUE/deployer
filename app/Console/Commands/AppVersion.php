@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 use Illuminate\Console\Command;
 use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
 use Symfony\Component\Console\Helper\FormatterHelper;
-use Version\Version;
 
 /**
  * Shows the app version and checks for updates.

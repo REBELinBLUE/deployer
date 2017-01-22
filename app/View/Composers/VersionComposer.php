@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\View\Composers;
 
 use Illuminate\Contracts\View\View;
 use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
-use Version\Version;
 
 /**
  * View composer for the update bar.
