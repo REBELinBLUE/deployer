@@ -18,6 +18,7 @@
 *.svg text
 artisan text
 VERSION text
+Makefile text
 
 # server config
 .htaccess text
