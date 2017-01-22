@@ -35,33 +35,33 @@ return [
         ],
 
         'database' => [
-            'driver' => 'database',
-            'table' => 'jobs',
-            'queue' => 'deployer-default',
+            'driver'      => 'database',
+            'table'       => 'jobs',
+            'queue'       => 'deployer-default',
             'retry_after' => 90,
         ],
 
         'beanstalkd' => [
-            'driver' => 'beanstalkd',
-            'host'   => env('QUEUE_HOST', 'localhost'),
-            'port'   => env('QUEUE_PORT', 11300),
-            'queue'  => 'deployer-default',
+            'driver'      => 'beanstalkd',
+            'host'        => env('QUEUE_HOST', 'localhost'),
+            'port'        => env('QUEUE_PORT', 11300),
+            'queue'       => 'deployer-default',
             'retry_after' => 90,
         ],
 
         'sqs' => [
             'driver' => 'sqs',
-            'key' => 'your-public-key',
+            'key'    => 'your-public-key',
             'secret' => 'your-secret-key',
             'prefix' => 'https://sqs.us-east-1.amazonaws.com/your-account-id',
-            'queue' => 'your-queue-name',
+            'queue'  => 'your-queue-name',
             'region' => 'us-east-1',
         ],
 
         'redis' => [
-            'driver' => 'redis',
-            'connection' => 'default',
-            'queue' => 'deployer-default',
+            'driver'      => 'redis',
+            'connection'  => 'default',
+            'queue'       => 'deployer-default',
             'retry_after' => 90,
         ],
 
@@ -80,7 +80,7 @@ return [
 
     'failed' => [
         'database' => env('DB_CONNECTION', 'sqlite'),
-        'table' => 'failed_jobs',
+        'table'    => 'failed_jobs',
     ],
 
 ];

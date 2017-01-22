@@ -1,8 +1,11 @@
 <?php
 
-use REBELinBLUE\Deployer\View\Composers\ThemeComposer;
+namespace REBELinBLUE\Deployer\Tests\Views\Composers;
+
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\View\Composers\ThemeComposer;
 
 class ThemeComposerTest extends TestCase
 {

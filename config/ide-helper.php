@@ -55,7 +55,6 @@ return [
         'app',
     ],
 
-
     /*
     |--------------------------------------------------------------------------
     | Extra classes
@@ -67,7 +66,7 @@ return [
 
     'extra' => [
         'Eloquent' => ['Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder'],
-        'Session' => ['Illuminate\Session\Store'],
+        'Session'  => ['Illuminate\Session\Store'],
     ],
 
     'magic' => [
@@ -80,7 +79,7 @@ return [
             'critical'  => 'Monolog\Logger::addCritical',
             'alert'     => 'Monolog\Logger::addAlert',
             'emergency' => 'Monolog\Logger::addEmergency',
-        ]
+        ],
     ],
 
     /*

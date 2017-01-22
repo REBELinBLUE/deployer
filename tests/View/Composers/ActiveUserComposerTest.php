@@ -1,8 +1,11 @@
 <?php
 
-use REBELinBLUE\Deployer\View\Composers\ActiveUserComposer;
+namespace REBELinBLUE\Deployer\Tests\Views\Composers;
+
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\View\Composers\ActiveUserComposer;
 
 class ActiveUserComposerTest extends TestCase
 {
@@ -13,7 +16,6 @@ class ActiveUserComposerTest extends TestCase
         Auth::shouldReceive('user')
             ->once()
             ->andReturn($expected_user);
-
 
         $view = $this->getMockBuilder(View::class)
                      ->disableOriginalConstructor()

@@ -75,9 +75,10 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        "psr-4": {
+            "REBELinBLUE\\Deployer\\": "app/",
+            "REBELinBLUE\\Deployer\\Tests\\": "tests/"
+        }
     },
     "scripts": {
         "pre-install-cmd": [

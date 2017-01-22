@@ -1,16 +1,19 @@
 <?php
 
-use REBELinBLUE\Deployer\View\Composers\NavigationComposer;
+namespace REBELinBLUE\Deployer\Tests\Views\Composers;
+
 use Illuminate\Contracts\View\View;
 use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
+use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\View\Composers\NavigationComposer;
 
 class NavigationComposerTest extends TestCase
 {
     public function testCompose()
     {
-        $active_group = 1;
+        $active_group   = 1;
         $active_project = 2;
-        $items = ['pending 1', 'pending 2', 'pending 3'];
+        $items          = ['pending 1', 'pending 2', 'pending 3'];
 
         $view = $this->getMockBuilder(View::class)
                      ->disableOriginalConstructor()
@@ -20,7 +23,7 @@ class NavigationComposerTest extends TestCase
         $view->project = (object) [
             'group_id'    => $active_group,
             'id'          => $active_project,
-            'is_template' => false
+            'is_template' => false,
         ];
 
         $view->expects($this->any())

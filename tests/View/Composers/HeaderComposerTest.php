@@ -1,8 +1,11 @@
 <?php
 
-use REBELinBLUE\Deployer\View\Composers\HeaderComposer;
+namespace REBELinBLUE\Deployer\Tests\Views\Composers;
+
 use Illuminate\Contracts\View\View;
 use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\View\Composers\HeaderComposer;
 
 class HeaderComposerTest extends TestCase
 {

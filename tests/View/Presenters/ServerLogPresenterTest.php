@@ -1,5 +1,8 @@
 <?php
 
+namespace REBELinBLUE\Deployer\Tests\Views\Presenters;
+
+use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 
 class ServerLogPresenterTest extends TestCase

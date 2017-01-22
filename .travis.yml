@@ -73,8 +73,8 @@ before_script:
 script:
   - php artisan migrate --seed --env="testing"
   - vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
-  - vendor/bin/phpcs -p --standard=PSR2 app/
-  # - vendor/bin/phpmd app text phpmd.xml
+  - vendor/bin/phpcs -p --standard=phpcs.xml
+  # - vendor/bin/phpmd app,tests text phpmd.xml
   - if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then vendor/bin/phpunit --coverage-clover=$TRAVIS_BUILD_DIR/coverage.xml; fi
   - if [[ $TRAVIS_PHP_VERSION != 7.0 ]]; then vendor/bin/phpunit; fi
   - vendor/bin/phpdoccheck --directory=app

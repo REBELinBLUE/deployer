@@ -1,8 +1,11 @@
 <?php
 
-use REBELinBLUE\Deployer\View\Composers\VersionComposer;
-use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
+namespace REBELinBLUE\Deployer\Tests\Views\Composers;
+
 use Illuminate\Contracts\View\View;
+use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\View\Composers\VersionComposer;
 use Version\Version;
 
 class VersionComposerTest extends TestCase
