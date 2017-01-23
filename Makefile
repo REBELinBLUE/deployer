@@ -6,7 +6,7 @@ dev-deps: permissions
 	composer install --no-suggest --prefer-dist
 	yarn install
 
-test: lint phpcs phpdoccheck phpunit phpmd
+test: lint phpcs phpdoccheck phpunit phpmd loc
 
 build: dev-deps
 	gulp
@@ -30,7 +30,11 @@ phpdoccheck:
 	php vendor/bin/phpdoccheck --directory=app
 
 lint:
-	php vendor/bin/parallel-lint --exclude bootstrap/cache/ app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan
+	rm -rf bootstrap/cache/*.php
+	php vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan
+
+loc:
+	php vendor/bin/phploc --count-tests app/ database/ resources/ tests/
 
 permissions:
 	chmod 777 storage/logs/ bootstrap/cache/
