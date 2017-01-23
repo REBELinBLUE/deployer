@@ -12,35 +12,37 @@ build: dev-deps
 	gulp
 
 phpcs:
-	./vendor/bin/phpcs -n --standard=phpcs.xml
+	php vendor/bin/phpcs -n --standard=phpcs.xml
 
 fix:
-	./vendor/bin/php-cs-fixer -n fix
+	php vendor/bin/php-cs-fixer -n fix
 
 phpmd:
-	./vendor/bin/phpmd app text phpmd.xml
+	php vendor/bin/phpmd app text phpmd.xml
 
 phpunit:
-	./vendor/bin/phpunit --no-coverage
+	php vendor/bin/phpunit --no-coverage
+
+coverage:
+	php vendor/bin/phpunit --coverage-clover=coverage.xml
 
 phpdoccheck:
-	./vendor/bin/phpdoccheck --directory=app
+	php vendor/bin/phpdoccheck --directory=app
 
 lint:
-	./vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
+	php vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
 
 clean:
-	rm -rf ./{vendor,node_modules,bower_components}/
-	rm -rf ./storage/logs/*.log
-	rm -rf ./storage/framework/{cache,sessions,views}/*
-	rm -rf ./storage/clockwork/*
-	rm -rf ./bootstrap/cache/*.php
-	rm -rf ./public/{css,fonts,js}
-	rm -rf ./_ide_helper{_models,}.php
-	rm -rf ./.phpstorm.meta.php
-	rm -rf ./.php_cs.cache
+	rm -rf vendor/ node_modules/ bower_components/
+	rm -rf storage/logs/*.log
+	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*
+	rm -rf storage/clockwork/*
+	rm -rf bootstrap/cache/*.php
+	rm -rf public/css/ public/fonts/ public/js/
 
 reset: clean
-	rm -rf ./public/build
-	rm -rf ./storage/app/{mirrors,tmp}/*
+	rm -rf public/build/
+	rm -rf storage/app/mirrors/* storage/app/tmp/*
 	rm -rf .env.prev
+	rm -rf _ide_helper_models.php _ide_helper.php .phpstorm.meta.php
+	rm -rf .php_cs.cache
