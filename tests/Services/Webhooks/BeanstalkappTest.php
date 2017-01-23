@@ -18,7 +18,7 @@ class BeanstalkappTest extends WebhookTestCase
         $header = Mockery::mock(HeaderBag::class);
         $header->shouldReceive('get')->once()->with('User-Agent')->andReturn($userAgent);
 
-        $request = Mockery::mock(Request::class);
+        $request          = Mockery::mock(Request::class);
         $request->headers = $header;
 
         return $request;

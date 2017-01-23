@@ -23,7 +23,6 @@ class BitbucketTest extends WebhookTestCase
         $push = Mockery::mock(ParameterBag::class);
         $push->shouldReceive('has')->once()->with('changes')->andReturn(true);
         $push->shouldReceive('get')->once()->with('changes', [])->andReturn($data);
-        $push->shouldReceive('get')->once()->with('changes')->andReturn($data);
 
         $payload = Mockery::mock(ParameterBag::class);
         $payload->shouldReceive('get')->once()->with('push')->andReturn($push);

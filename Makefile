@@ -1,5 +1,5 @@
 deps: permissions
-	composer install -o --no-dev --no-suggest --prefer-dist
+	composer install --optimize-autoloader --no-dev --no-suggest --prefer-dist
 	yarn install --production
 
 dev-deps: permissions
@@ -15,7 +15,7 @@ phpcs:
 	php vendor/bin/phpcs -n --standard=phpcs.xml
 
 fix:
-	php vendor/bin/php-cs-fixer -n fix
+	php vendor/bin/php-cs-fixer --no-interaction fix
 
 phpmd:
 	php vendor/bin/phpmd app text phpmd.xml
