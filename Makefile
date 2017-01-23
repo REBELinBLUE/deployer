@@ -1,4 +1,4 @@
-test: lint phpcs phpdoccheck phpunit #phpmd - Disabled for now
+test: install-dev lint phpcs phpdoccheck phpunit #phpmd - Disabled for now
 
 install: permissions
 	composer install --optimize-autoloader --no-dev --no-suggest --prefer-dist
@@ -19,7 +19,7 @@ build: install-dev
 docs:
 	@echo "Nothing here yet"
 
-release: install-dev test
+release: test
 	@/usr/local/bin/create-release
 
 phpcs:
