@@ -10,19 +10,32 @@ Always provide the English translation - making sure that the indentation and al
 
 The code is written to follow [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) standards, this can be tested using PHP_CodeSniffer
 
-    $ ./vendor/bin/phpcs --standard=phpcs.xml
+    $ make phpcs
 
-Style problems can be fixed with
+Linting can be checked with
 
-    $ ./vendor/bin/php-cs-fixer fix
+    $ make lint
 
 Mess can be checked with
 
-    $ ./vendor/bin/phpmd app text phpmd.xml
+    $ make phpmd
 
 PHPDoc blocks can be checked with
 
-    $ ./vendor/bin/phpdoccheck --directory=app
+    $ make phpdoccheck
+
+Unit tests can be run with
+
+    $ make phpunit
+    
+You can also run all tests at once by running
+
+    $ make test
+    
+Style problems can automatically be fixed with
+
+    $ make fix
+
 
 ### Automated testing
 

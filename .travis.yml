@@ -72,12 +72,12 @@ before_script:
 
 script:
   - php artisan migrate --seed --env="testing"
-  - vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
-  - vendor/bin/phpcs -p --standard=phpcs.xml
-  # - vendor/bin/phpmd app,tests text phpmd.xml
+  - make lint
+  - make phpcs
+  # - make phpmd
   - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then vendor/bin/phpunit --coverage-clover=$TRAVIS_BUILD_DIR/coverage.xml; fi
-  - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then vendor/bin/phpunit --no-coverage; fi
-  - vendor/bin/phpdoccheck --directory=app
+  - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then make phpunit; fi
+  - make phpdoccheck
 
 after_script:
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
