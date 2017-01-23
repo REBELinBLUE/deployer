@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\View\Composers;
 
 use Illuminate\Contracts\View\View;
-use REBELinBLUE\Deployer\Services\Github\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Services\Update\LatestReleaseInterface;
 
 /**
  * View composer for the update bar.

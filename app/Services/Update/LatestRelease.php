@@ -1,10 +1,9 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Services\Github;
+namespace REBELinBLUE\Deployer\Services\Update;
 
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
-use REBELinBLUE\Deployer\Services\Github\LatestReleaseInterface;
 use Version\Version;
 
 /**
@@ -77,7 +76,7 @@ class LatestRelease implements LatestReleaseInterface
             return json_decode($response->getBody());
         });
 
-        if (is_object($release)) {
+        if (is_object($release) && property_exists($release, 'tag_name')) {
             return $release->tag_name;
         }
 

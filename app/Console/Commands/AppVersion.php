@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
-use REBELinBLUE\Deployer\Services\Github\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Services\Update\LatestReleaseInterface;
 use Symfony\Component\Console\Helper\FormatterHelper;
 
 /**

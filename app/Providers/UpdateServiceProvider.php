@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Providers;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
-use REBELinBLUE\Deployer\Services\Github\LatestRelease;
-use REBELinBLUE\Deployer\Services\Github\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Services\Update\LatestRelease;
+use REBELinBLUE\Deployer\Services\Update\LatestReleaseInterface;
 
 /**
  * Service provider to register the LatestRelease class as a singleton.

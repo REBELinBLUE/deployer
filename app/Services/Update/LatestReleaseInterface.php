@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Services\Github;
+namespace REBELinBLUE\Deployer\Services\Update;
 
 interface LatestReleaseInterface
 {
