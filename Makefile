@@ -1,14 +1,19 @@
-deps: permissions
+test: lint phpcs phpdoccheck phpunit phpmd loc
+
+install: permissions
 	composer install --optimize-autoloader --no-dev --no-suggest --prefer-dist
 	yarn install --production
 
-dev-deps: permissions
+install-dev: permissions
 	composer install --no-suggest --prefer-dist
 	yarn install
 
-test: lint phpcs phpdoccheck phpunit phpmd loc
+update-deps: permissions
+	composer update
+	yarn upgrade
+	git add composer.lock yarn.lock
 
-build: dev-deps
+build: install-dev
 	gulp
 
 phpcs:
@@ -37,23 +42,17 @@ loc:
 	php vendor/bin/phploc --count-tests app/ database/ resources/ tests/
 
 permissions:
-	chmod 777 storage/logs/ bootstrap/cache/
+	chmod 777 storage/logs/ bootstrap/cache/ storage/clockwork/
 	chmod 777 storage/framework/cache/ storage/framework/sessions/ storage/framework/views/
 	chmod 777 storage/app/mirrors/ storage/app/tmp/ storage/app/public/
-	chmod 777 storage/clockwork/
-	chmod 777 public/upload/ # This should be moved, laravel recommends storage/public
+	chmod 777 public/upload/ # This should be removed, laravel recommends storage/public
 
 clean:
-	rm -rf vendor/ node_modules/ bower_components/
-	rm -rf storage/logs/*.log bootstrap/cache/*.php
+	rm -rf storage/logs/*.log bootstrap/cache/*.php storage/framework/schedule-* storage/clockwork/*.json
 	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*.php
-	rm -rf storage/framework/schedule-*
-	rm -rf storage/clockwork/*.json
 	rm -rf public/css/ public/fonts/ public/js/
 
 reset: clean
-	rm -rf public/build/
-	rm -rf storage/app/mirrors/* storage/app/tmp/* storage/app/public/*
-	rm -rf .env.prev
-	rm -rf _ide_helper_models.php _ide_helper.php .phpstorm.meta.php
-	rm -rf .php_cs.cache
+	rm -rf vendor/ node_modules/ bower_components/
+	rm -rf public/build/ storage/app/mirrors/* storage/app/tmp/* storage/app/public/*
+	rm -rf .env.prev _ide_helper_models.php _ide_helper.php .phpstorm.meta.php .php_cs.cache
