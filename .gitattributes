@@ -77,6 +77,7 @@ examples/ export-ignore
 phpcs.xml export-ignore
 phpmd.xml export-ignore
 phpunit.xml.dist export-ignore
+Makefile export-ignore
 
 #
 ## Github config

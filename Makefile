@@ -1,4 +1,4 @@
-test: lint phpcs phpdoccheck phpunit phpmd loc
+test: lint phpcs phpdoccheck phpunit #phpmd - Disabled for now
 
 install: permissions
 	composer install --optimize-autoloader --no-dev --no-suggest --prefer-dist
@@ -16,30 +16,36 @@ update-deps: permissions
 build: install-dev
 	gulp
 
+docs:
+	@echo "Nothing here yet"
+
+release: install-dev test
+	@/usr/local/bin/create-release
+
 phpcs:
-	php vendor/bin/phpcs -n --standard=phpcs.xml
+	@php vendor/bin/phpcs -n --standard=phpcs.xml
 
 fix:
-	php vendor/bin/php-cs-fixer --no-interaction fix
+	@php vendor/bin/php-cs-fixer --no-interaction fix
 
 phpmd:
-	php vendor/bin/phpmd app text phpmd.xml
+	@php vendor/bin/phpmd app text phpmd.xml
 
 phpunit:
-	php vendor/bin/phpunit --no-coverage
+	@php vendor/bin/phpunit --no-coverage
 
 phpunit-coverage:
-	php vendor/bin/phpunit --coverage-clover=coverage.xml
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml
 
 phpdoccheck:
-	php vendor/bin/phpdoccheck --directory=app
+	@php vendor/bin/phpdoccheck --directory=app
 
 lint:
-	rm -rf bootstrap/cache/*.php
-	php vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan
+	@rm -rf bootstrap/cache/*.php
+	@php vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan
 
 loc:
-	php vendor/bin/phploc --count-tests app/ database/ resources/ tests/
+	@php vendor/bin/phploc --count-tests app/ database/ resources/ tests/
 
 permissions:
 	chmod 777 storage/logs/ bootstrap/cache/ storage/clockwork/
