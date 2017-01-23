@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Http\Webhooks;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Http\Webhooks\Beanstalkapp;
+use REBELinBLUE\Deployer\Services\Webhooks\Beanstalkapp;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\ParameterBag;
 

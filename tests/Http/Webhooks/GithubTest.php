@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Http\Webhooks;
 
-use REBELinBLUE\Deployer\Http\Webhooks\Github;
+use REBELinBLUE\Deployer\Services\Webhooks\Github;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class GithubTest extends WebhookTestCase

@@ -1,17 +1,9 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface ServerRepositoryInterface
+interface SharedFileRepositoryInterface
 {
-    /**
-     * @param int $model_id
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function getById($model_id);
-
     /**
      * @param array $fields
      *
@@ -35,16 +27,4 @@ interface ServerRepositoryInterface
      * @return bool
      */
     public function deleteById($model_id);
-
-    /**
-     * @param int $model_id
-     */
-    public function queueForTesting($model_id);
-
-    /**
-     * @param string $name
-     *
-     * @return mixed
-     */
-    public function queryByName($name);
 }

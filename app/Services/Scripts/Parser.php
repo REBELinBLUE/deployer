@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Scripts;
+namespace REBELinBLUE\Deployer\Services\Scripts;
 
 /**
  * Class which loads a shell script template and parses any variables.

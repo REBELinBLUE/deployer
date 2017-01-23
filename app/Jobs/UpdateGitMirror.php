@@ -7,8 +7,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\Services\Scripts\Parser as ScriptParser;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
  * Updates the git mirror for a project.

@@ -1,14 +1,9 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface TemplateRepositoryInterface
+interface NotificationRepositoryInterface
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getAll();
-
     /**
      * @param array $fields
      *

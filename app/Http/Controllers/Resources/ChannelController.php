@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\ChannelRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Requests\StoreChannelRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ChannelRepositoryInterface;
 
 /**
  * Controller for managing notifications.

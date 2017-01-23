@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\User;
 
 /**

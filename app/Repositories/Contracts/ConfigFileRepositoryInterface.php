@@ -1,19 +1,9 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-use REBELinBLUE\Deployer\Heartbeat;
-
-interface HeartbeatRepositoryInterface
+interface ConfigFileRepositoryInterface
 {
-    /**
-     * @param string $hash
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return Heartbeat
-     */
-    public function getByHash($hash);
-
     /**
      * @param array $fields
      *

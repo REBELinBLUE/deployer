@@ -1,8 +1,8 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface ChannelRepositoryInterface
+interface CheckUrlRepositoryInterface
 {
     /**
      * @param array $fields

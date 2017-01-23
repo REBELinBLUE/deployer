@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
 use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;

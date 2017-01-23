@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Ref;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
  * Updates the list of tags and branches in a project.

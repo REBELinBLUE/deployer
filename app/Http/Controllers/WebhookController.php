@@ -3,15 +3,15 @@
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
-use REBELinBLUE\Deployer\Http\Webhooks\Beanstalkapp;
-use REBELinBLUE\Deployer\Http\Webhooks\Bitbucket;
-use REBELinBLUE\Deployer\Http\Webhooks\Custom;
-use REBELinBLUE\Deployer\Http\Webhooks\Github;
-use REBELinBLUE\Deployer\Http\Webhooks\Gitlab;
-use REBELinBLUE\Deployer\Http\Webhooks\Gogs;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Services\Webhooks\Beanstalkapp;
+use REBELinBLUE\Deployer\Services\Webhooks\Bitbucket;
+use REBELinBLUE\Deployer\Services\Webhooks\Custom;
+use REBELinBLUE\Deployer\Services\Webhooks\Github;
+use REBELinBLUE\Deployer\Services\Webhooks\Gitlab;
+use REBELinBLUE\Deployer\Services\Webhooks\Gogs;
 
 /**
  * The deployment webhook controller.

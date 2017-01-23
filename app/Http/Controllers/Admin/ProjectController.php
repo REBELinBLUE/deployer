@@ -4,11 +4,11 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\TemplateRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 
 /**
  * The controller for managing projects.

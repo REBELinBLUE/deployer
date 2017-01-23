@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 

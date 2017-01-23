@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\View\Composers;
 
 use Illuminate\Contracts\View\View;
-use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 
 /**
  * View composer for the navigation bar.

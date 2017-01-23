@@ -1,9 +1,19 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface CommandRepositoryInterface
+use REBELinBLUE\Deployer\Heartbeat;
+
+interface HeartbeatRepositoryInterface
 {
+    /**
+     * @param string $hash
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return Heartbeat
+     */
+    public function getByHash($hash);
+
     /**
      * @param array $fields
      *
@@ -27,13 +37,4 @@ interface CommandRepositoryInterface
      * @return bool
      */
     public function deleteById($model_id);
-
-    /**
-     * @param int    $target_id
-     * @param string $target
-     * @param int    $step
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getForDeployStep($target_id, $target, $step);
 }

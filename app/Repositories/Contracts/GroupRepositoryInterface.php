@@ -1,9 +1,14 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface NotificationRepositoryInterface
+interface GroupRepositoryInterface
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAll();
+
     /**
      * @param array $fields
      *
@@ -19,12 +24,4 @@ interface NotificationRepositoryInterface
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(array $fields, $model_id);
-
-    /**
-     * @param int $model_id
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return bool
-     */
-    public function deleteById($model_id);
 }

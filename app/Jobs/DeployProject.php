@@ -13,10 +13,10 @@ use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
+use REBELinBLUE\Deployer\Services\Scripts\Parser as ScriptParser;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\User;
 
 /**

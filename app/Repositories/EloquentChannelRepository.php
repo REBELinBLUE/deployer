@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Channel;
-use REBELinBLUE\Deployer\Contracts\Repositories\ChannelRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ChannelRepositoryInterface;
 
 /**
  * The notification channel repository.

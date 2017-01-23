@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Http\Webhooks;
 
-use REBELinBLUE\Deployer\Http\Webhooks\Gogs;
+use REBELinBLUE\Deployer\Services\Webhooks\Gogs;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class GogsTest extends WebhookTestCase

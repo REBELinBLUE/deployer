@@ -4,9 +4,9 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 
 /**
  * Group management controller.

@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Http\Webhooks;
 
-use REBELinBLUE\Deployer\Http\Webhooks\Bitbucket;
+use REBELinBLUE\Deployer\Services\Webhooks\Bitbucket;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class BitbucketTest extends WebhookTestCase

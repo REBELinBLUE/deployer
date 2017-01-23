@@ -5,9 +5,9 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ModelChanged;
 use REBELinBLUE\Deployer\View\Presenters\DeploymentPresenter;
+use REBELinBLUE\Deployer\View\Presenters\RuntimeInterface;
 use Robbo\Presenter\PresentableInterface;
 
 /**

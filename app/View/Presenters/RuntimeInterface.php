@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts;
+namespace REBELinBLUE\Deployer\View\Presenters;
 
 interface RuntimeInterface
 {

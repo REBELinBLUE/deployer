@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Views\Composers;
 
 use Illuminate\Contracts\View\View;
-use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Composers\HeaderComposer;
 

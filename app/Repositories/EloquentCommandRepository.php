@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\Contracts\Repositories\CommandRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
 
 /**
  * The command repository.

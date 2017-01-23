@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Server;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
  * Tests if a server can successfully be SSHed into.

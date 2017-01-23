@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Http\Webhooks;
 
 use Carbon\Carbon;
-use REBELinBLUE\Deployer\Http\Webhooks\Gitlab;
+use REBELinBLUE\Deployer\Services\Webhooks\Gitlab;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class GitlabTest extends WebhookTestCase

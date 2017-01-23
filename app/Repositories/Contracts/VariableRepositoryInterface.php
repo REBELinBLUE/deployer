@@ -1,17 +1,9 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface ProjectRepositoryInterface
+interface VariableRepositoryInterface
 {
-    /**
-     * @param string $hash
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function getByHash($hash);
-
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -40,12 +32,4 @@ interface ProjectRepositoryInterface
      * @return bool
      */
     public function deleteById($model_id);
-
-    /**
-     * @param int $model_id
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return array
-     */
-    public function refreshBranches($model_id);
 }

@@ -282,7 +282,7 @@ class InstallApp extends Command
         $builder->setPrefix('php');
 
         $process = $builder->setArguments([
-            base_path('artisan'), 'deployer:create-user', $name, $email, $password,
+            base_path('artisan'), 'deployer:create-user', $name, $email, $password, '--no-email',
         ])->setWorkingDirectory(base_path('artisan'))
           ->getProcess()
           ->setTimeout(null);

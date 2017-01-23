@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
 use REBELinBLUE\Deployer\Deployment;
 

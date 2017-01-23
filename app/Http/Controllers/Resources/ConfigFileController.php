@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\ConfigFileRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Requests\StoreConfigFileRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ConfigFileRepositoryInterface;
 
 /**
  * Manage the configuration files for a project.

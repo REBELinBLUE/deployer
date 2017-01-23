@@ -1,13 +1,16 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface UserRepositoryInterface
+interface ServerRepositoryInterface
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param int $model_id
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getAll();
+    public function getById($model_id);
 
     /**
      * @param array $fields
@@ -34,9 +37,14 @@ interface UserRepositoryInterface
     public function deleteById($model_id);
 
     /**
-     * @param string $token
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @param int $model_id
      */
-    public function findByEmailToken($token);
+    public function queueForTesting($model_id);
+
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function queryByName($name);
 }

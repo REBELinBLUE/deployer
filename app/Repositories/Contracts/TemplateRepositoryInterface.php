@@ -1,9 +1,14 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface SharedFileRepositoryInterface
+interface TemplateRepositoryInterface
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAll();
+
     /**
      * @param array $fields
      *

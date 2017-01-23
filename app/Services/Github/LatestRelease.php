@@ -1,10 +1,10 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Github;
+namespace REBELinBLUE\Deployer\Services\Github;
 
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
-use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Services\Github\LatestReleaseInterface;
 use Version\Version;
 
 /**

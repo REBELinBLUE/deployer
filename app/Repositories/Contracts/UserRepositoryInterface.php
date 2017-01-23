@@ -1,9 +1,14 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface ConfigFileRepositoryInterface
+interface UserRepositoryInterface
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAll();
+
     /**
      * @param array $fields
      *
@@ -27,4 +32,11 @@ interface ConfigFileRepositoryInterface
      * @return bool
      */
     public function deleteById($model_id);
+
+    /**
+     * @param string $token
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function findByEmailToken($token);
 }

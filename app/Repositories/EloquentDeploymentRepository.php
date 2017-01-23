@@ -4,10 +4,10 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 
 /**
  * The deployment repository.

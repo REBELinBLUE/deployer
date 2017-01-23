@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Contracts\Repositories\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 
 /**
  * Server management controller.

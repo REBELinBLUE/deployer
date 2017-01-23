@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Scripts;
+namespace REBELinBLUE\Deployer\Services\Scripts;
 
 use Illuminate\Support\Facades\Log;
 use REBELinBLUE\Deployer\Server;

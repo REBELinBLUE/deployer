@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\NotificationRepositoryInterface;
 use REBELinBLUE\Deployer\Notification;
+use REBELinBLUE\Deployer\Repositories\Contracts\NotificationRepositoryInterface;
 
 /**
  * The notification repository.

@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
  * Checks for and cleans up orphaned git mirrors.

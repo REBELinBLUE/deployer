@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Http\Webhooks;
 
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Http\Webhooks\Custom;
+use REBELinBLUE\Deployer\Services\Webhooks\Custom;
 use Symfony\Component\HttpFoundation\HeaderBag;
 
 class CustomTest extends WebhookTestCase

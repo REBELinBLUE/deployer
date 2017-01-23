@@ -3,10 +3,10 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Jobs\SetupProject;
 use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
 /**
  * The project repository.

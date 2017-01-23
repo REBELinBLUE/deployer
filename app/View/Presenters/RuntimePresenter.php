@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\View\Presenters;
 
 use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
+use REBELinBLUE\Deployer\View\Presenters\RuntimeInterface;
 
 /**
  * View presenter for calculating the runtime in a readable format.

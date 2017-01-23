@@ -1,8 +1,8 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Contracts\Repositories;
+namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface CheckUrlRepositoryInterface
+interface CommandRepositoryInterface
 {
     /**
      * @param array $fields
@@ -27,4 +27,13 @@ interface CheckUrlRepositoryInterface
      * @return bool
      */
     public function deleteById($model_id);
+
+    /**
+     * @param int    $target_id
+     * @param string $target
+     * @param int    $step
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getForDeployStep($target_id, $target, $step);
 }

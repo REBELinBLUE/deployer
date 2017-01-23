@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Http\Webhooks;
+namespace REBELinBLUE\Deployer\Services\Webhooks;
 
 /**
  * Class to handle integration with Github webhooks.

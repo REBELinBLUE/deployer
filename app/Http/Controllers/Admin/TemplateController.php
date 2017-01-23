@@ -4,10 +4,10 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\Contracts\Repositories\CommandRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\TemplateRepositoryInterface;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreTemplateRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 
 /**
  * Controller for managing deployment template.
