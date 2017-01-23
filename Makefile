@@ -1,8 +1,8 @@
-deps:
+deps: permissions
 	composer install -o --no-dev --no-suggest --prefer-dist
 	yarn install --production
 
-dev-deps:
+dev-deps: permissions
 	composer install --no-suggest --prefer-dist
 	yarn install
 
@@ -32,17 +32,23 @@ phpdoccheck:
 lint:
 	php vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
 
+permissions:
+	chmod 777 storage/logs/ bootstrap/cache/
+	chmod 777 storage/framework/cache/ storage/framework/sessions/ storage/framework/views/
+	chmod 777 storage/app/mirrors/ storage/app/tmp/ storage/app/public/
+	chmod 777 storage/clockwork/
+	chmod 777 public/upload/ # This should be moved, laravel recommends storage/public
+
 clean:
 	rm -rf vendor/ node_modules/ bower_components/
-	rm -rf storage/logs/*.log
+	rm -rf storage/logs/*.log bootstrap/cache/*.php
 	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*
 	rm -rf storage/clockwork/*
-	rm -rf bootstrap/cache/*.php
 	rm -rf public/css/ public/fonts/ public/js/
 
 reset: clean
 	rm -rf public/build/
-	rm -rf storage/app/mirrors/* storage/app/tmp/*
+	rm -rf storage/app/mirrors/* storage/app/tmp/* storage/app/public/*
 	rm -rf .env.prev
 	rm -rf _ide_helper_models.php _ide_helper.php .phpstorm.meta.php
 	rm -rf .php_cs.cache
