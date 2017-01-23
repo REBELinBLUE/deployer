@@ -30,15 +30,22 @@ class LatestRelease implements LatestReleaseInterface
     private $client;
 
     /**
+     * @var string
+     */
+    private $token;
+
+    /**
      * LatestRelease constructor.
      *
      * @param CacheRepository $cache
      * @param Client          $client
+     * @param string          $token
      */
-    public function __construct(CacheRepository $cache, Client $client)
+    public function __construct(CacheRepository $cache, Client $client, $token = false)
     {
         $this->cache  = $cache;
         $this->client = $client;
+        $this->token  = $token;
     }
 
     /**
@@ -55,8 +62,8 @@ class LatestRelease implements LatestReleaseInterface
                 'Accept' => 'application/vnd.github.v3+json',
             ];
 
-            if (config('deployer.github_oauth_token')) {
-                $headers['OAUTH-TOKEN'] = config('deployer.github_oauth_token');
+            if ($this->token) {
+                $headers['Authorization'] = 'token ' . $this->token;
             }
 
             try {

@@ -6,7 +6,7 @@ dev-deps:
 	composer install --no-suggest --prefer-dist
 	yarn install
 
-test: lint phpcs phpdoccheck phpunit phpmd
+test: lint phpcs phpdoccheck phpunit #phpmd
 
 build: dev-deps
 	gulp
