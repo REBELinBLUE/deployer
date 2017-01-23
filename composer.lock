@@ -5810,19 +5810,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/REBELinBLUE/laravel-migrate-fresh.git",
-                "reference": "d429e6f535ad975ea54278866f8f91e9873daec0"
+                "reference": "bcb4afe36e1ab1d6abea976b44c8708bb0dea9db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/REBELinBLUE/laravel-migrate-fresh/zipball/d429e6f535ad975ea54278866f8f91e9873daec0",
-                "reference": "d429e6f535ad975ea54278866f8f91e9873daec0",
+                "url": "https://api.github.com/repos/REBELinBLUE/laravel-migrate-fresh/zipball/bcb4afe36e1ab1d6abea976b44c8708bb0dea9db",
+                "reference": "bcb4afe36e1ab1d6abea976b44c8708bb0dea9db",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^5.3",
+                "illuminate/console": "^5.3.28",
+                "illuminate/events": "^5.3.28",
                 "php": ">=5.6.4"
             },
             "require-dev": {
+                "mockery/mockery": "^0.9.7",
                 "orchestra/testbench": "^3.3",
                 "phpunit/phpunit": "5.*"
             },
@@ -5866,7 +5868,7 @@
             "support": {
                 "source": "https://github.com/REBELinBLUE/laravel-migrate-fresh/tree/php56"
             },
-            "time": "2017-01-10T15:12:03+00:00"
+            "time": "2017-01-23T17:30:13+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

@@ -7,6 +7,7 @@
     <file>app</file>
     <file>tests</file>
     <file>config</file>
+    <file>resources/lang</file>
 
     <arg name="encoding" value="UTF-8" />
     <arg name="extensions" value="php" />

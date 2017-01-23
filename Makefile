@@ -30,7 +30,7 @@ phpdoccheck:
 	php vendor/bin/phpdoccheck --directory=app
 
 lint:
-	php vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
+	php vendor/bin/parallel-lint --exclude bootstrap/cache/ app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan
 
 permissions:
 	chmod 777 storage/logs/ bootstrap/cache/

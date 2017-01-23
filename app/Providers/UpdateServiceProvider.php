@@ -14,17 +14,6 @@ use REBELinBLUE\Deployer\Services\Github\LatestReleaseInterface;
 class UpdateServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
-     */
-    public function boot()
-    {
-        // Define a constant for the application version
-        if (!defined('APP_VERSION')) {
-            define('APP_VERSION', trim(file_get_contents(base_path('VERSION'))));
-        }
-    }
-
-    /**
      * Register the application services.
      */
     public function register()
