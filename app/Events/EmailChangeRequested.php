@@ -8,7 +8,7 @@ use REBELinBLUE\Deployer\User;
 /**
  * Event for user request to change the login email.
  */
-class EmailChangeRequested extends Event
+class EmailChangeRequested
 {
     use SerializesModels;
 

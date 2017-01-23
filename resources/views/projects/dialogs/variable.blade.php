@@ -17,11 +17,17 @@
 
                     <div class="form-group">
                         <label for="variable_name">{{ Lang::get('variables.name') }}</label>
-                        <input type="text" class="form-control" id="variable_name" name="name" placeholder="COMPOSER_PROCESS_TIMEOUT" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                            <input type="text" class="form-control" id="variable_name" name="name" placeholder="COMPOSER_PROCESS_TIMEOUT" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="variable_value">{{ Lang::get('variables.value') }}</label>
-                        <input type="text" class="form-control" id="variable_value" name="value" placeholder="300" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-usd"></i></div>
+                            <input type="text" class="form-control" id="variable_value" name="value" placeholder="300" />
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

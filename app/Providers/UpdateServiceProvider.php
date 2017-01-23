@@ -2,6 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use GuzzleHttp\Client;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
 use REBELinBLUE\Deployer\Github\LatestRelease;
@@ -18,7 +20,7 @@ class UpdateServiceProvider extends ServiceProvider
     {
         // Define a constant for the application version
         if (!defined('APP_VERSION')) {
-            define('APP_VERSION', trim(file_get_contents(app_path('../VERSION'))));
+            define('APP_VERSION', trim(file_get_contents(base_path('VERSION'))));
         }
     }
 
@@ -29,10 +31,11 @@ class UpdateServiceProvider extends ServiceProvider
     {
         $this->app->bind(LatestReleaseInterface::class, LatestRelease::class);
 
-        $this->app->singleton('deployer.update-check', function ($app) {
-            $cache = $app['cache.store'];
+        $this->app->singleton('deployer.update-check', function (Application $app) {
+            $cache = $app->make('cache.store');
+            $client = $app->make(Client::class);
 
-            return new LatestRelease($cache);
+            return new LatestRelease($cache, $client);
         });
 
         $this->app->alias('deployer.update-check', LatestReleaseInterface::class);

@@ -38,9 +38,7 @@ class ResetApp extends UpdateApp
         $this->clearLogs();
         $this->updateConfiguration();
         $this->resetDB();
-        $this->migrate();
-        $this->seedDB();
-        $this->clearCaches();
+        $this->clearCaches(false);
         $this->restartQueue();
         $this->restartSocket();
     }
@@ -52,7 +50,7 @@ class ResetApp extends UpdateApp
     {
         $this->info('Resetting the database');
         $this->line('');
-        $this->call('migrate:reset', ['--force' => true]);
+        $this->call('migrate:fresh', ['--seed' => true]);
         $this->line('');
     }
 
@@ -64,7 +62,7 @@ class ResetApp extends UpdateApp
         $this->info('Removing log files');
         $this->line('');
 
-        foreach (glob(storage_path('logs/') . '*.log*') as $file) {
+        foreach (glob(storage_path('logs/') . '*.log') as $file) {
             unlink($file);
         }
     }
@@ -87,18 +85,5 @@ class ResetApp extends UpdateApp
         }
 
         return true;
-    }
-
-    /**
-     * Seeds the database.
-     *
-     * @return void
-     */
-    private function seedDB()
-    {
-        $this->info('Seeding database');
-        $this->line('');
-        $this->call('db:seed', ['--force' => true]);
-        $this->line('');
     }
 }

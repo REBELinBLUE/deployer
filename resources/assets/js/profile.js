@@ -6,11 +6,16 @@ var app = app || {};
         return;
     }
 
+    // FIXME: Might not need to do all of these separately
     $('#skin').select2({
       minimumResultsForSearch: Infinity
     });
 
     $('#scheme').select2({
+      minimumResultsForSearch: Infinity
+    });
+
+    $('#language').select2({
       minimumResultsForSearch: Infinity
     });
 

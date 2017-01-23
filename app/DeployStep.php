@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
-use REBELinBLUE\Deployer\Presenters\DeployStepPresenter;
+use REBELinBLUE\Deployer\View\Presenters\DeployStepPresenter;
 use Robbo\Presenter\PresentableInterface;
 
 /**
@@ -11,6 +11,13 @@ use Robbo\Presenter\PresentableInterface;
  */
 class DeployStep extends Model implements PresentableInterface
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['stage', 'deployment_id', 'command_id'];
+
     /**
      * The attributes that should be casted to native types.
      *
@@ -23,13 +30,6 @@ class DeployStep extends Model implements PresentableInterface
         'stage'         => 'integer',
         'optional'      => 'boolean',
     ];
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['stage', 'deployment_id', 'command_id'];
 
     /**
      * Has many relationship.

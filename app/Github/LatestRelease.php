@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Github;
 
-use Httpful\Exception\ConnectionErrorException;
-use Httpful\Request;
+use GuzzleHttp\Client;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use REBELinBLUE\Deployer\Contracts\Github\LatestReleaseInterface;
+use Version\Version;
 
 /**
  * A class to get the latest release tag for Github.
@@ -25,13 +25,20 @@ class LatestRelease implements LatestReleaseInterface
     private $cache;
 
     /**
+     * @var Client
+     */
+    private $client;
+
+    /**
      * LatestRelease constructor.
      *
      * @param CacheRepository $cache
+     * @param Client          $client
      */
-    public function __construct(CacheRepository $cache)
+    public function __construct(CacheRepository $cache, Client $client)
     {
-        $this->cache = $cache;
+        $this->cache  = $cache;
+        $this->client = $client;
     }
 
     /**
@@ -44,26 +51,23 @@ class LatestRelease implements LatestReleaseInterface
         $cache_for = self::CACHE_TIME_IN_HOURS * 60;
 
         $release = $this->cache->remember('latest_version', $cache_for, function () {
-            $request = Request::get($this->github_url)
-                              ->timeoutIn(5)
-                              ->expectsJson()
-                              ->withAccept('application/vnd.github.v3+json');
+            $headers = [
+                'Accept' => 'application/vnd.github.v3+json',
+            ];
 
             if (config('deployer.github_oauth_token')) {
-                $request->withAuthorization('token ' . config('deployer.github_oauth_token'));
+                $headers['OAUTH-TOKEN'] = config('deployer.github_oauth_token');
             }
 
             try {
-                $response = $request->send();
-            } catch (ConnectionErrorException $exception) {
+                $response = $this->client->get($this->github_url, [
+                    'headers' => $headers,
+                ]);
+            } catch (\Exception $exception) {
                 return false;
             }
 
-            if ($response->hasErrors()) {
-                return false;
-            }
-
-            return $response->body;
+            return json_decode($response->getBody());
         });
 
         if (is_object($release)) {
@@ -71,5 +75,20 @@ class LatestRelease implements LatestReleaseInterface
         }
 
         return false;
+    }
+
+    /**
+     * Returns whether or not the install is up to date.
+     *
+     * @return bool
+     */
+    public function isUpToDate()
+    {
+        $latest_release = $this->latest();
+
+        $current = Version::parse(APP_VERSION);
+        $latest  = Version::parse($latest_release ?: $current);
+
+        return ($latest->compare($current) !== 1);
     }
 }

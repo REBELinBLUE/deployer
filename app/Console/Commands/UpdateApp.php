@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Events\RestartSocketServer;
@@ -45,7 +44,7 @@ class UpdateApp extends InstallApp
 
         $bring_back_up = false;
 
-        if (!App::isDownForMaintenance()) {
+        if (!$this->laravel->isDownForMaintenance()) {
             $this->error(Lang::get('app.not_down'));
 
             if (!$this->confirm(Lang::get('app.switch_down'))) {
@@ -59,7 +58,7 @@ class UpdateApp extends InstallApp
 
         $this->backupDatabase();
         $this->updateConfiguration();
-        $this->clearCaches();
+        $this->clearCaches(false);
         $this->migrate();
         $this->optimize();
         $this->restartQueue();

@@ -249,3 +249,7 @@ div#project div.callout-danger {
     display: block;
     border-bottom: 1px solid #000;
 }
+
+table.table tr td {
+    vertical-align: middle;
+}

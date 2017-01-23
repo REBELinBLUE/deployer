@@ -29,14 +29,15 @@ class Bitbucket extends Webhook
             return false;
         }
 
-        $payload = collect($this->request->json('push'));
+        $payload = $this->request->json();
+        $push    = $payload->get('push');
 
         // Invalid event from bitbucket
-        if (!$payload->has('changes') || !count($payload->get('changes', []))) {
+        if (!$push->has('changes') || !count($push->get('changes', []))) {
             return false;
         }
 
-        $head = $payload->get('changes')[0]['new'];
+        $head = $push->get('changes')[0]['new'];
 
         list($name, $email) = explode(' <', trim($head['target']['author']['raw'], '> '));
 

@@ -112,13 +112,16 @@ class ServerController extends ResourceController
      */
     public function autoComplete(Request $request)
     {
-        $q = $request->get('query');
         $servers = [];
-        if ($q) {
-            $servers = $this->repository->queryByName($q)->get();
+        $query   = $request->get('query');
+
+        if ($query) {
+            $servers = $this->repository->queryByName($query);
         }
 
-        $data = ['query' => $q, 'suggestions' => $servers];
-        return $data;
+        return [
+            'query'       => $query,
+            'suggestions' => $servers,
+        ];
     }
 }

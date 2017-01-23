@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Intervention\Image\Facades\Image;
+use MicheleAngioni\MultiLanguage\LanguageManager;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
 use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
 use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
 use REBELinBLUE\Deployer\Http\Requests\StoreSettingsRequest;
+use REBELinBLUE\Deployer\Settings;
 
 /**
  * The use profile controller.
@@ -28,15 +30,31 @@ class ProfileController extends Controller
     private $google2fa;
 
     /**
+     * @var LanguageManager
+     */
+    private $languageManager;
+
+    /**
+     * @var Settings
+     */
+    private $settings;
+
+    /**
      * ProfileController constructor.
      *
      * @param UserRepositoryInterface $repository
      * @param Google2FA               $google2fa
      */
-    public function __construct(UserRepositoryInterface $repository, Google2FA $google2fa)
-    {
-        $this->repository = $repository;
-        $this->google2fa  = $google2fa;
+    public function __construct(
+        UserRepositoryInterface $repository,
+        Google2FA $google2fa,
+        LanguageManager $languageManager,
+        Settings $settings
+    ) {
+        $this->repository      = $repository;
+        $this->google2fa       = $google2fa;
+        $this->languageManager = $languageManager;
+        $this->settings        = $settings;
     }
 
     /**
@@ -59,6 +77,8 @@ class ProfileController extends Controller
             'google_2fa_url'  => $img,
             'google_2fa_code' => $code,
             'title'           => Lang::get('users.update_profile'),
+            'locales'         => $this->languageManager->getAvailableLanguages(),
+            'settings'        => $this->settings,
         ]);
     }
 
@@ -90,7 +110,8 @@ class ProfileController extends Controller
     {
         $this->repository->updateById($request->only(
             'skin',
-            'scheme'
+            'scheme',
+            'language'
         ), Auth::user()->id);
 
         return redirect()->to('/');

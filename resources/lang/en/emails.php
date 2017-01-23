@@ -23,23 +23,11 @@ return [
     'login_change'       => 'Change Email Address',
     'change_footer'      => 'If you did not request an email change, no further action is required.',
 
-    // Deployment completed email
-    'deployment_done'    => 'Deployment Finished',
-    'deployment_header'  => 'The deployment has finished.',
-    'project_name'       => 'Project name',
-    'deployed_branch'    => 'Deployed branch',
-    'deployment_details' => 'View the Deployment',
-    'started_at'         => 'Started at',
-    'finished_at'        => 'Finished at',
-    'last_committer'     => 'Last committer',
-    'last_commit'        => 'Last commit',
-    'reason'             => 'Deployment reason - :reason',
-
     // Others
     'welcome'            => 'Hello :name',
     'whoops'             => 'Whoops!',
     'regards'            => 'Regards,',
     'action'             => 'If you’re having trouble clicking the ":action" button, copy and paste the URL ' .
-                            'below into your web browser:'
+                            'below into your web browser:',
 
 ];

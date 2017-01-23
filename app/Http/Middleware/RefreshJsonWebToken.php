@@ -42,7 +42,7 @@ class RefreshJsonWebToken
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $autheticated_user = Auth::guard($guard)->user();
+        $authenticated_user = Auth::guard($guard)->user();
 
         $has_valid_token = false;
 
@@ -53,7 +53,7 @@ class RefreshJsonWebToken
             try {
                 $token_user = $this->auth->authenticate($token);
 
-                if ($token_user->id !== $autheticated_user->id) {
+                if ($token_user->id !== $authenticated_user->id) {
                     throw new JWTException('Token does not belong to the authenticated user');
                 }
 
@@ -71,7 +71,7 @@ class RefreshJsonWebToken
 
         // If there is no valid token, generate one
         if (!$has_valid_token) {
-            event(new JsonWebTokenExpired($autheticated_user));
+            event(new JsonWebTokenExpired($authenticated_user));
         }
 
         return $next($request);

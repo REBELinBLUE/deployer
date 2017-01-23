@@ -13,7 +13,7 @@
     "dependencies": {
         "ace-min-noconflict": "~1.1.9",
         "backbone": "~1.3.0",
-        "fontawesome": "~4.6.0",
+        "fontawesome": "~4.7.0",
         "ionicons": "~2.0.1",
         "jquery-sortable": "~0.9.13",
         "moment": "~2.12.0",

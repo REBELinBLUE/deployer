@@ -15,7 +15,10 @@
 
                     <div class="form-group">
                         <label for="group_name">{{ Lang::get('groups.name') }}</label>
-                        <input type="text" class="form-control" name="name" id="group_name" placeholder="{{ Lang::get('groups.projects') }}" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                            <input type="text" class="form-control" name="name" id="group_name" placeholder="{{ Lang::get('groups.projects') }}" />
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -15,7 +15,7 @@ return [
     'rollback_title'        => '回滚到上一个部署',
     'expert'                => '除非你确信可以完成任何可能需要的额外清理工作，否则你不应该回滚到上一个部署。',
     'rollback_warning'      => '当回滚到上一个部署，你可能需要手动连接到服务器并运行数据库回滚或者相似操作，' .
-                               '这些操作无法自动完成',
+        '这些操作无法自动完成',
     'caution'               => '警告!',
     'cancel'                => '取消',
     'loading'               => '加载',
@@ -55,5 +55,9 @@ return [
     'second'                => ':time 秒',
     'repo_failure'          => '获取 repository 信息出错，请检查 URL 是否正确、 SSH key 是否已经添加',
     'repo_failure_head'     => 'repository 问题',
+
+    // Notifications
+    'success_slack_message' => '部署 %s 成功! :smile:',
+    'failed_slack_message'  => '部署 %s 失败! :cry:',
 
 ];

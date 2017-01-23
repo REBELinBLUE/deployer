@@ -10,13 +10,14 @@ return [
     'titleTip'           => 'Admin 面板',
     'url'                => 'URL',
     'frequency'          => '频率',
-    'is_report'          => '失败时报告',
     'length'             => '分钟',
     'warning'            => '链接无法保存，请检查下面的表单',
     'last_status'        => '状态',
     'successful'         => '在线',
     'failed'             => '离线',
     'untested'           => '未知',
-    'message'            => ':link 似乎已经挂掉',
+
+    // Notifications
+    'down_message'       => ':link 似乎已经挂掉',
 
 ];

@@ -20,7 +20,7 @@ return [
     ],
 
     'ses' => [
-        'key' => env('SES_KEY'),
+        'key'    => env('SES_KEY'),
         'secret' => env('SES_SECRET'),
         'region' => 'us-east-1',
     ],
@@ -33,6 +33,18 @@ return [
         'model'  => REBELinBLUE\Deployer\User::class,
         'key'    => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+    ],
+
+    'hipchat' => [
+        'token' => env('HIPCHAT_TOKEN'),
+        'room'  => env('HIPCHAT_ROOM', null),
+        'url'   => env('HIPCHAT_URL'),
+    ],
+
+    'twilio' => [
+        'account_sid' => env('TWILIO_ACCOUNT_SID'),
+        'auth_token'  => env('TWILIO_AUTH_TOKEN'),
+        'from'        => env('TWILIO_FROM'),
     ],
 
 ];

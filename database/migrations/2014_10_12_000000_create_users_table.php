@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use REBELinBLUE\Deployer\User;
 
 class CreateUsersTable extends Migration
 {
@@ -20,13 +19,6 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        User::create([
-            'name'           => 'Admin',
-            'email'          => 'admin@example.com',
-            'password'       => bcrypt('password'),
-            'remember_token' => str_random(10),
-        ]);
     }
 
     /**

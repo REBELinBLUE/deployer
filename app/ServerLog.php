@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ServerLogChanged;
 use REBELinBLUE\Deployer\Events\ServerOutputChanged;
-use REBELinBLUE\Deployer\Presenters\ServerLogPresenter;
+use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 use Robbo\Presenter\PresentableInterface;
 
 /**
@@ -19,13 +19,6 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
     const RUNNING   = 2;
     const FAILED    = 3;
     const CANCELLED = 4;
-
-    /**
-     * The fields which should be tried as Carbon instances.
-     *
-     * @var array
-     */
-    protected $dates = ['started_at', 'finished_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +38,13 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
         'deploy_step_id' => 'integer',
         'status'         => 'integer',
     ];
+
+    /**
+     * The fields which should be treated as Carbon instances.
+     *
+     * @var array
+     */
+    protected $dates = ['started_at', 'finished_at'];
 
     /**
      * Override the boot method to bind model event listeners.

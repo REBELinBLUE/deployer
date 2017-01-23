@@ -5,10 +5,9 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Contracts\RuntimeInterface;
 use REBELinBLUE\Deployer\Events\ModelChanged;
-use REBELinBLUE\Deployer\Presenters\DeploymentPresenter;
+use REBELinBLUE\Deployer\View\Presenters\DeploymentPresenter;
 use Robbo\Presenter\PresentableInterface;
 
 /**
@@ -53,13 +52,6 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
                           'short_commit', 'branch_url', 'repo_failure', ];
 
     /**
-     * The fields which should be tried as Carbon instances.
-     *
-     * @var array
-     */
-    protected $dates = ['started_at', 'finished_at'];
-
-    /**
      * The attributes that should be casted to native types.
      *
      * @var array
@@ -71,6 +63,13 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         'status'     => 'integer',
         'is_webhook' => 'boolean',
     ];
+
+    /**
+     * The fields which should be treated as Carbon instances.
+     *
+     * @var array
+     */
+    protected $dates = ['started_at', 'finished_at'];
 
     /**
      * Override the boot method to bind model event listeners.
@@ -295,67 +294,6 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function getBranchURLAttribute()
     {
         return $this->project->getBranchUrlAttribute($this->branch);
-    }
-
-    /**
-     * Generates a slack payload for the deployment.
-     *
-     * @return array
-     */
-    public function notificationPayload()
-    {
-        $colour  = 'good';
-        $message = Lang::get('notifications.success_message');
-
-        if ($this->status === self::FAILED) {
-            $colour  = 'danger';
-            $message = Lang::get('notifications.failed_message');
-        }
-
-        $payload = [
-            'attachments' => [
-                [
-                    'fallback' => sprintf($message, '#' . $this->id),
-                    'text'     => sprintf($message, sprintf(
-                        '<%s|#%u>',
-                        route('deployments', ['id' => $this->id]),
-                        $this->id
-                    )),
-                    'color'    => $colour,
-                    'fields'   => [
-                        [
-                            'title' => Lang::get('notifications.project'),
-                            'value' => sprintf(
-                                '<%s|%s>',
-                                route('projects', ['id' => $this->project_id]),
-                                $this->project->name
-                            ),
-                            'short' => true,
-                        ], [
-                            'title' => Lang::get('notifications.commit'),
-                            'value' => $this->commit_url ? sprintf(
-                                '<%s|%s>',
-                                $this->commit_url,
-                                $this->short_commit
-                            ) : $this->short_commit,
-                            'short' => true,
-                        ], [
-                            'title' => Lang::get('notifications.committer'),
-                            'value' => $this->committer,
-                            'short' => true,
-                        ], [
-                            'title' => Lang::get('notifications.branch'),
-                            'value' => $this->project->branch,
-                            'short' => true,
-                        ],
-                    ],
-                    'footer' => Lang::get('app.name'),
-                    'ts'     => time(),
-                ],
-            ],
-        ];
-
-        return $payload;
     }
 
     /**

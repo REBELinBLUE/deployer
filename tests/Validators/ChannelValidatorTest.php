@@ -1,5 +1,8 @@
 <?php
 
+namespace REBELinBLUE\Deployer\Tests\Validators;
+
+use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Validators\ChannelValidator;
 
 class ChannelValidatorTest extends TestCase

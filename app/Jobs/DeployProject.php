@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
-use REBELinBLUE\Deployer\Events\DeployFinished;
+use REBELinBLUE\Deployer\Events\DeploymentFinished;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
@@ -134,7 +134,7 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->project->save();
 
         // Notify user or others the deployment has been finished
-        event(new DeployFinished($this->deployment));
+        event(new DeploymentFinished($this->deployment));
 
         unlink($this->private_key);
 

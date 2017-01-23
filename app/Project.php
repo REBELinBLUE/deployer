@@ -5,10 +5,10 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
 use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
+use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
 use Robbo\Presenter\PresentableInterface;
 use UnexpectedValueException;
 use Version\Compare as VersionCompare;
@@ -27,16 +27,6 @@ class Project extends Model implements PresentableInterface
     const NOT_DEPLOYED = 4;
 
     /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
-                         'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
-                         'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-                         'notifications', 'deployments', 'shareFiles', 'configFiles', ];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -46,11 +36,14 @@ class Project extends Model implements PresentableInterface
                            'private_key', ];
 
     /**
-     * The fields which should be treated as Carbon instances.
+     * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $dates = ['last_run', 'last_mirrored'];
+    protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
+        'updated_at', 'servers', 'commands', 'hash',
+        'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
+        'notifications', 'deployments', 'shareFiles', 'configFiles', ];
 
     /**
      * Additional attributes to include in the JSON representation.
@@ -73,6 +66,13 @@ class Project extends Model implements PresentableInterface
         'allow_other_branch' => 'boolean',
         'include_dev'        => 'boolean',
     ];
+
+    /**
+     * The fields which should be treated as Carbon instances.
+     *
+     * @var array
+     */
+    protected $dates = ['last_run', 'last_mirrored'];
 
     /**
      * The heart beats status count.
@@ -263,7 +263,7 @@ class Project extends Model implements PresentableInterface
             $missed = 0;
 
             foreach ($this->checkUrls as $link) {
-                if ($link->last_status) {
+                if (!$link->isHealthy()) {
                     $missed++;
                 }
             }
@@ -309,6 +309,7 @@ class Project extends Model implements PresentableInterface
         $compare = new VersionCompare;
 
         // Sort the tags, if compare throws an exception it isn't a value version string so just do a strnatcmp
+        // See #258 - Can remove the @ when dropping PHP 5 support
         @usort($tags, function ($first, $second) use ($compare) {
             try {
                 return $compare->compare($first, $second);
@@ -397,7 +398,7 @@ class Project extends Model implements PresentableInterface
     /**
      * Belongs to relationship.
      *
-     * @return Group
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function group()
     {
@@ -407,7 +408,7 @@ class Project extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return Server
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function servers()
     {
@@ -418,7 +419,7 @@ class Project extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return Heartbeat
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function heartbeats()
     {
@@ -429,18 +430,7 @@ class Project extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return Notification
-     */
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class)
-                    ->orderBy('name');
-    }
-
-    /**
-     * Has many relationship.
-     *
-     * @return Deployment
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function deployments()
     {
@@ -451,17 +441,18 @@ class Project extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return SharedFile
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function notifyEmails()
+    public function channels()
     {
-        return $this->hasMany(NotifyEmail::class);
+        return $this->hasMany(Channel::class)
+                    ->orderBy('name');
     }
 
     /**
      * Has many urls to check.
      *
-     * @return CheckUrl
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function checkUrls()
     {
@@ -473,8 +464,8 @@ class Project extends Model implements PresentableInterface
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      *
-     * @see Project::tags()
-     * @see Project::branches()
+     * @see Project::getTagsAttribute()
+     * @see Project::getBranchesAttribute()
      */
     public function refs()
     {

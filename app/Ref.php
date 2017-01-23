@@ -10,18 +10,18 @@ use Illuminate\Database\Eloquent\Model;
 class Ref extends Model
 {
     /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $visible = ['id', 'name', 'is_tag'];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['name', 'project_id', 'is_tag'];
+
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $visible = ['id', 'name', 'is_tag'];
 
     /**
      * The attributes that should be casted to native types.

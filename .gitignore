@@ -4,11 +4,11 @@
 
 # Dev files
 .php_cs.cache
-.vagrant/
 phpunit.xml
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
+clover.xml
 
 # Composer files
 composer.phar
