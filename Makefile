@@ -42,8 +42,9 @@ permissions:
 clean:
 	rm -rf vendor/ node_modules/ bower_components/
 	rm -rf storage/logs/*.log bootstrap/cache/*.php
-	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*
-	rm -rf storage/clockwork/*
+	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*.php
+	rm -rf storage/framework/schedule-*
+	rm -rf storage/clockwork/*.json
 	rm -rf public/css/ public/fonts/ public/js/
 
 reset: clean
