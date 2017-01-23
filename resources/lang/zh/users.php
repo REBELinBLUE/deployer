@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'name'              => '名称',
     'email'             => 'Email',
     'password'          => '密码',
@@ -25,7 +24,7 @@ return [
         '<a href=":url" target="_blank">' .
         'Google 验证器</a> 或者相似的 app。当你登录时，会被要求提供 app 生成的安全令牌',
     'language'          => '区域语言',
-    'settings'          => '設置',
+    'settings'          => '设置',
     'skin'              => '皮肤',
     'console'           => 'Console/Log 方案',
     'change_email'      => 'Email 地址',
@@ -45,5 +44,5 @@ return [
     'purple'            => '紫',
     'blue'              => '蓝',
     'with_sidebar'      => ':colour （亮色边栏）',
-
+    'default'           => '默认',
 ];
