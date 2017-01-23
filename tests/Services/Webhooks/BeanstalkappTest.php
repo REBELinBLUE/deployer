@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Http\Webhooks;
+namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;

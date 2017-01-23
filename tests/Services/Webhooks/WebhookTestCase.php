@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Http\Webhooks;
+namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
 use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Tests\TestCase;

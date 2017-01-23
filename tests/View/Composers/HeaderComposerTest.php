@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Views\Composers;
+namespace REBELinBLUE\Deployer\Tests\View\Composers;
 
 use Illuminate\Contracts\View\View;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;

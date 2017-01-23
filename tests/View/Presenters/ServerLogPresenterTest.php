@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Views\Presenters;
+namespace REBELinBLUE\Deployer\Tests\View\Presenters;
 
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;

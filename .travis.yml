@@ -75,7 +75,7 @@ script:
   - make lint
   - make phpcs
   # - make phpmd
-  - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then make coverage; fi
+  - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then make phpunit-coverage; fi
   - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then make phpunit; fi
   - make phpdoccheck
 
