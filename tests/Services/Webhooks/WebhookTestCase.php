@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
 use Illuminate\Http\Request;
+use Mockery;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use Symfony\Component\HttpFoundation\HeaderBag;
 
@@ -51,19 +52,10 @@ abstract class WebhookTestCase extends TestCase
 
     protected function mockRequestIsFrom($key, $isValid)
     {
-        $request = $this->getMockBuilder(Request::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $header = Mockery::mock(HeaderBag::class);
+        $header->shouldReceive('has')->once()->with($key)->andReturn($isValid);
 
-        $header = $this->getMockBuilder(HeaderBag::class)
-                       ->disableOriginalConstructor()
-                       ->getMock();
-
-        $header->expects($this->once())
-               ->method('has')
-               ->with($this->equalTo($key))
-               ->willReturn($isValid);
-
+        $request = Mockery::mock(Request::class);
         $request->headers = $header;
 
         return $request;
@@ -71,14 +63,8 @@ abstract class WebhookTestCase extends TestCase
 
     protected function mockEventRequest($key, $value)
     {
-        $request = $this->getMockBuilder(Request::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
-
-        $request->expects($this->once())
-                ->method('header')
-                ->with($this->equalTo($key))
-                ->willReturn($value);
+        $request = Mockery::mock(Request::class);
+        $request->shouldReceive('header')->once()->with($key)->andReturn($value);
 
         return $request;
     }

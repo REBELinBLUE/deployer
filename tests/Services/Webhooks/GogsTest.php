@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
+use Mockery;
 use REBELinBLUE\Deployer\Services\Webhooks\Gogs;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -19,25 +20,12 @@ class GogsTest extends WebhookTestCase
 
     private function mockRequestWithPayload(array $data, $ref)
     {
+        $payload = Mockery::mock(ParameterBag::class);
+        $payload->shouldReceive('get')->with('commits')->andReturn($data);
+        $payload->shouldReceive('get')->with('ref')->andReturn('refs/' . $ref);
+
         $request = $this->mockEventRequestFromGogs('push');
-
-        $payload = $this->getMockBuilder(ParameterBag::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
-
-        $request->expects($this->once())
-                ->method('json')
-                ->willReturn($payload);
-
-        $payload->expects($this->at(0))
-                ->method('get')
-                ->with($this->equalTo('commits'))
-                ->willReturn($data);
-
-        $payload->expects($this->at(1))
-                ->method('get')
-                ->with($this->equalTo('ref'))
-                ->willReturn('refs/' . $ref);
+        $request->shouldReceive('json')->once()->andReturn($payload);
 
         return $request;
     }
@@ -59,8 +47,6 @@ class GogsTest extends WebhookTestCase
     }
 
     /**
-     * @param string $branch
-     * @param string $ref
      * @dataProvider getBranch
      */
     public function testHandlePushEventValid($branch, $ref)
@@ -90,7 +76,6 @@ class GogsTest extends WebhookTestCase
     }
 
     /**
-     * @param string $event
      * @dataProvider getUnsupportedEvents
      */
     public function testHandleUnsupportedEvent($event)

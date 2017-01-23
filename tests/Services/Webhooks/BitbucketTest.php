@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
+use Mockery;
 use REBELinBLUE\Deployer\Services\Webhooks\Bitbucket;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -19,34 +20,16 @@ class BitbucketTest extends WebhookTestCase
 
     private function mockRequestWithPayload(array $data)
     {
+        $push = Mockery::mock(ParameterBag::class);
+        $push->shouldReceive('has')->once()->with('changes')->andReturn(true);
+        $push->shouldReceive('get')->once()->with('changes', [])->andReturn($data);
+        $push->shouldReceive('get')->once()->with('changes')->andReturn($data);
+
+        $payload = Mockery::mock(ParameterBag::class);
+        $payload->shouldReceive('get')->once()->with('push')->andReturn($push);
+
         $request = $this->mockEventRequestFromBitbucket('repo:push');
-
-        $payload = $this->getMockBuilder(ParameterBag::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
-
-        $push = $this->getMockBuilder(ParameterBag::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
-
-        $request->expects($this->once())
-                ->method('json')
-                ->willReturn($payload);
-
-        $payload->expects($this->once())
-                ->method('get')
-                ->with($this->equalTo('push'))
-                ->willReturn($push);
-
-        $push->expects($this->once())
-             ->method('has')
-             ->with($this->equalTo('changes'))
-             ->willReturn(true);
-
-        $push->expects($this->exactly(2))
-             ->method('get')
-             ->with($this->equalTo('changes'))
-             ->willReturn($data);
+        $request->shouldReceive('json')->once()->andReturn($payload);
 
         return $request;
     }

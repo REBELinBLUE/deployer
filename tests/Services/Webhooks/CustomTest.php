@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
 use Illuminate\Http\Request;
+use Mockery;
 use REBELinBLUE\Deployer\Services\Webhooks\Custom;
 use Symfony\Component\HttpFoundation\HeaderBag;
 
@@ -10,55 +11,16 @@ class CustomTest extends WebhookTestCase
 {
     private function mockRequestWithCustomPayload(array $data)
     {
-        $request = $this->getMockBuilder(Request::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
-
-        // This seems really fragile
-        $request->expects($this->at(0))
-                ->method('has')
-                ->with($this->equalTo('branch'))
-                ->willReturn(true);
-
-        $request->expects($this->at(1))
-                ->method('get')
-                ->with($this->equalTo('branch'))
-                ->willReturn($data['branch']);
-
-        $request->expects($this->at(2))
-                ->method('has')
-                ->with($this->equalTo('source'))
-                ->willReturn(true);
-
-        $request->expects($this->at(3))
-                ->method('has')
-                ->with($this->equalTo('url'))
-                ->willReturn(true);
-
-        $request->expects($this->at(4))
-                ->method('get')
-                ->with($this->equalTo('url'))
-                ->willReturn($data['url']);
-
-        $request->expects($this->at(5))
-                ->method('has')
-                ->with($this->equalTo('commit'))
-                ->willReturn(true);
-
-        $request->expects($this->at(6))
-                ->method('get')
-                ->with($this->equalTo('commit'))
-                ->willReturn($data['commit']);
-
-        $request->expects($this->at(7))
-                ->method('get')
-                ->with($this->equalTo('reason'))
-                ->willReturn($data['reason']);
-
-        $request->expects($this->at(8))
-                ->method('get')
-                ->with($this->equalTo('source'))
-                ->willReturn($data['source']);
+        $request = Mockery::mock(Request::class);
+        $request->shouldReceive('has')->once()->with('branch')->andReturn(true);
+        $request->shouldReceive('get')->once()->with('branch')->andReturn($data['branch']);
+        $request->shouldReceive('has')->once()->with('source')->andReturn(true);
+        $request->shouldReceive('has')->once()->with('url')->andReturn(true);
+        $request->shouldReceive('get')->once()->with('url')->andReturn($data['url']);
+        $request->shouldReceive('has')->once()->with('commit')->andReturn(true);
+        $request->shouldReceive('get')->once()->with('commit')->andReturn($data['commit']);
+        $request->shouldReceive('get')->once()->with('reason')->andReturn($data['reason']);
+        $request->shouldReceive('get')->once()->with('source')->andReturn($data['source']);
 
         return $request;
     }
@@ -102,9 +64,7 @@ class CustomTest extends WebhookTestCase
 
     public function testIsRequestOriginValid()
     {
-        $request = $this->getMockBuilder(Request::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $request = Mockery::mock(Request::class);
 
         $custom = new Custom($request);
         $this->assertTrue($custom->isRequestOrigin());

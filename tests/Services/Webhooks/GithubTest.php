@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
+use Mockery;
 use REBELinBLUE\Deployer\Services\Webhooks\Github;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -19,55 +20,25 @@ class GithubTest extends WebhookTestCase
 
     private function mockPullRequest()
     {
+        $payload = Mockery::mock(ParameterBag::class);
+        $payload->shouldReceive('has')->once()->with('after')->andReturn(true);
+        $payload->shouldReceive('get')->once()->with('after')->andReturn('0000000000000000000000000000000000000000');
+
         $request = $this->mockEventRequestFromGithub('push');
-
-        $payload = $this->getMockBuilder(ParameterBag::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
-
-        $request->expects($this->once())
-                ->method('json')
-                ->willReturn($payload);
-
-        $payload->expects($this->once())
-                ->method('has')
-                ->with($this->equalTo('after'))
-                ->willReturn(true);
-
-        $payload->expects($this->once())
-                ->method('get')
-                ->with($this->equalTo('after'))
-                ->willReturn('0000000000000000000000000000000000000000');
+        $request->shouldReceive('json')->once()->andReturn($payload);
 
         return $request;
     }
 
     private function mockRequestWithPayload(array $data, $ref)
     {
+        $payload = Mockery::mock(ParameterBag::class);
+        $payload->shouldReceive('has')->once()->with('after')->andReturn(false);
+        $payload->shouldReceive('get')->once()->with('head_commit')->andReturn($data);
+        $payload->shouldReceive('get')->once()->with('ref')->andReturn('refs/' . $ref);
+
         $request = $this->mockEventRequestFromGithub('push');
-
-        $payload = $this->getMockBuilder(ParameterBag::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
-
-        $request->expects($this->once())
-                ->method('json')
-                ->willReturn($payload);
-
-        $payload->expects($this->once())
-                ->method('has')
-                ->with($this->equalTo('after'))
-                ->willReturn(false);
-
-        $payload->expects($this->at(1))
-                ->method('get')
-                ->with($this->equalTo('head_commit'))
-                ->willReturn($data);
-
-        $payload->expects($this->at(2))
-                ->method('get')
-                ->with($this->equalTo('ref'))
-                ->willReturn('refs/' . $ref);
+        $request->shouldReceive('json')->once()->andReturn($payload);
 
         return $request;
     }

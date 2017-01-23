@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\View\Composers;
 
 use Illuminate\Contracts\View\View;
+use Mockery;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Composers\HeaderComposer;
@@ -13,30 +14,15 @@ class HeaderComposerTest extends TestCase
     {
         $items = ['pending 1', 'pending 2', 'pending 3'];
 
-        $view = $this->getMockBuilder(View::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+        $view = Mockery::mock(View::class);
+        $view->shouldReceive('with')->once()->with('pending', $items);
+        $view->shouldReceive('with')->once()->with('pending_count', 3);
+        $view->shouldReceive('with')->once()->with('deploying', $items);
+        $view->shouldReceive('with')->once()->with('deploying_count', 3);
 
-        $view->expects($this->any())
-             ->method('with')
-             ->withConsecutive(
-                 [$this->equalTo('pending'), $this->equalTo($items)],
-                 [$this->equalTo('pending_count'), $this->equalTo(3)],
-                 [$this->equalTo('deploying'), $this->equalTo($items)],
-                 [$this->equalTo('deploying_count'), $this->equalTo(3)]
-             );
-
-        $repository = $this->getMockBuilder(DeploymentRepositoryInterface::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
-
-        $repository->expects($this->once())
-                   ->method('getPending')
-                   ->willReturn($items);
-
-        $repository->expects($this->once())
-                   ->method('getRunning')
-                   ->willReturn($items);
+        $repository = Mockery::mock(DeploymentRepositoryInterface::class);
+        $repository->shouldReceive('getPending')->once()->andReturn($items);
+        $repository->shouldReceive('getRunning')->once()->andReturn($items);
 
         $composer = new HeaderComposer($repository);
         $composer->compose($view);

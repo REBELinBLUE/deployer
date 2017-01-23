@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\View\Composers;
 
 use Illuminate\Contracts\View\View;
+use Mockery;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Composers\NavigationComposer;
@@ -15,9 +16,7 @@ class NavigationComposerTest extends TestCase
         $active_project = 2;
         $items          = ['pending 1', 'pending 2', 'pending 3'];
 
-        $view = $this->getMockBuilder(View::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+        $view = Mockery::mock(View::class);
 
         // TODO: Check if this is the best value to do it
         $view->project = (object) [
@@ -26,21 +25,12 @@ class NavigationComposerTest extends TestCase
             'is_template' => false,
         ];
 
-        $view->expects($this->any())
-             ->method('with')
-             ->withConsecutive(
-                 [$this->equalTo('active_group'), $this->equalTo($active_group)],
-                 [$this->equalTo('active_project'), $this->equalTo($active_project)],
-                 [$this->equalTo('groups'), $this->equalTo($items)]
-             );
+        $view->shouldReceive('with')->once()->with('active_group', $active_group);
+        $view->shouldReceive('with')->once()->with('active_project', $active_project);
+        $view->shouldReceive('with')->once()->with('groups', $items);
 
-        $repository = $this->getMockBuilder(GroupRepositoryInterface::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
-
-        $repository->expects($this->once())
-                   ->method('getAll')
-                   ->willReturn($items);
+        $repository = Mockery::mock(GroupRepositoryInterface::class);
+        $repository->shouldReceive('getAll')->andReturn($items);
 
         $composer = new NavigationComposer($repository);
         $composer->compose($view);

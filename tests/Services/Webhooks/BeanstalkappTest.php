@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Mockery;
 use REBELinBLUE\Deployer\Services\Webhooks\Beanstalkapp;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -12,19 +13,12 @@ class BeanstalkappTest extends WebhookTestCase
 {
     private function mockRequestIsFromBeanstalk($isValid)
     {
-        $request = $this->getMockBuilder(Request::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $userAgent = $isValid ? 'beanstalkapp.com' : 'something-else';
 
-        $header = $this->getMockBuilder(HeaderBag::class)
-                       ->disableOriginalConstructor()
-                       ->getMock();
+        $header = Mockery::mock(HeaderBag::class);
+        $header->shouldReceive('get')->once()->with('User-Agent')->andReturn($userAgent);
 
-        $header->expects($this->once())
-               ->method('get')
-               ->with($this->equalTo('User-Agent'))
-               ->willReturn($isValid ? 'beanstalkapp.com' : 'something-else');
-
+        $request = Mockery::mock(Request::class);
         $request->headers = $header;
 
         return $request;
@@ -32,59 +26,25 @@ class BeanstalkappTest extends WebhookTestCase
 
     private function mockEventRequestFromBeanstalk($event)
     {
-        $request = $this->getMockBuilder(Request::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $payload = Mockery::mock(ParameterBag::class);
+        $payload->shouldReceive('has')->once()->with('trigger')->andReturn(true);
+        $payload->shouldReceive('get')->once()->with('trigger')->andReturn($event);
 
-        $payload = $this->getMockBuilder(ParameterBag::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
-
-        $request->expects($this->once())
-                ->method('json')
-                ->willReturn($payload);
-
-        $payload->expects($this->once())
-                ->method('has')
-                ->with($this->equalTo('trigger'))
-                ->willReturn(true);
-
-        $payload->expects($this->once())
-                ->method('get')
-                ->with($this->equalTo('trigger'))
-                ->willReturn($event);
+        $request = Mockery::mock(Request::class);
+        $request->shouldReceive('json')->once()->andReturn($payload);
 
         return $request;
     }
 
     private function mockRequestWithBeanstalkPayload(array $data)
     {
-        $request = $this->getMockBuilder(Request::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $payload = Mockery::mock(ParameterBag::class);
+        $payload->shouldReceive('has')->once()->with('trigger')->andReturn(true);
+        $payload->shouldReceive('get')->once()->with('trigger')->andReturn('push');
+        $payload->shouldReceive('get')->once()->with('payload')->andReturn($data);
 
-        $payload = $this->getMockBuilder(ParameterBag::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
-
-        $request->expects($this->once())
-                ->method('json')
-                ->willReturn($payload);
-
-        $payload->expects($this->once())
-                ->method('has')
-                ->with($this->equalTo('trigger'))
-                ->willReturn(true);
-
-        $payload->expects($this->at(1))
-                ->method('get')
-                ->with($this->equalTo('trigger'))
-                ->willReturn('push');
-
-        $payload->expects($this->at(2))
-                ->method('get')
-                ->with($this->equalTo('payload'))
-                ->willReturn($data);
+        $request = Mockery::mock(Request::class);
+        $request->shouldReceive('json')->once()->andReturn($payload);
 
         return $request;
     }
@@ -140,7 +100,6 @@ class BeanstalkappTest extends WebhookTestCase
     }
 
     /**
-     * @param string $event
      * @dataProvider getUnsupportedEvents
      */
     public function testHandleUnsupportedEvent($event)

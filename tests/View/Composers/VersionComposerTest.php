@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\View\Composers;
 
 use Illuminate\Contracts\View\View;
+use Mockery;
 use REBELinBLUE\Deployer\Services\Github\LatestReleaseInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Composers\VersionComposer;
@@ -14,29 +15,14 @@ class VersionComposerTest extends TestCase
     {
         $current = Version::parse(APP_VERSION);
 
-        $release = $this->getMockBuilder(LatestReleaseInterface::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $release = Mockery::mock(LatestReleaseInterface::class);
+        $release->shouldReceive('latest')->once()->andReturn(APP_VERSION);
+        $release->shouldReceive('isUpToDate')->once()->andReturn(true);
 
-        $release->expects($this->once())
-                ->method('latest')
-                ->willReturn(APP_VERSION);
-
-        $release->expects($this->once())
-                ->method('isUpToDate')
-                ->willReturn(true);
-
-        $view = $this->getMockBuilder(View::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
-
-        $view->expects($this->any())
-             ->method('with')
-             ->withConsecutive(
-                 [$this->equalTo('is_outdated'), $this->equalTo(false)],
-                 [$this->equalTo('current_version'), $this->equalTo($current)],
-                 [$this->equalTo('latest_version'), $this->equalTo($current)]
-             );
+        $view = Mockery::mock(View::class);
+        $view->shouldReceive('with')->once()->with('is_outdated', false);
+        $view->shouldReceive('with')->once()->with('current_version', (string) $current);
+        $view->shouldReceive('with')->once()->with('latest_version', (string) $current);
 
         $composer = new VersionComposer($release);
         $composer->compose($view);

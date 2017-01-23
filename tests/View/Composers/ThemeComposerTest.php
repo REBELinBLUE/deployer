@@ -4,33 +4,31 @@ namespace REBELinBLUE\Deployer\Tests\View\Composers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Mockery;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Composers\ThemeComposer;
 
 class ThemeComposerTest extends TestCase
 {
-    public function testCompose()
+    public function testComposeIncludesDefaultTheme()
     {
         $expected_theme = config('deployer.theme');
 
-        $view = $this->getMockBuilder(View::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
-
-        $view->expects($this->any())
-             ->method('with')
-             ->withConsecutive(
-                 [$this->equalTo('theme'), $this->equalTo($expected_theme)],
-                 [$this->equalTo('theme'), $this->equalTo('pink')]
-             );
+        $view = Mockery::mock(View::class);
+        $view->shouldReceive('with')->once()->with('theme', $expected_theme);
 
         $composer = new ThemeComposer;
         $composer->compose($view);
+    }
 
-        Auth::shouldReceive('user')
-            ->once()
-            ->andReturn((object) ['skin' => 'pink']);
+    public function testComposeIncludesUserTheme()
+    {
+        Auth::shouldReceive('user')->once()->andReturn((object) ['skin' => 'pink']);
 
+        $view = Mockery::mock(View::class);
+        $view->shouldReceive('with')->once()->with('theme', 'pink');
+
+        $composer = new ThemeComposer;
         $composer->compose($view);
     }
 }
