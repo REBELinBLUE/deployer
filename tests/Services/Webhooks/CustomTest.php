@@ -62,6 +62,38 @@ class CustomTest extends WebhookTestCase
         $this->assertEquals($commit, $actual['commit']);
     }
 
+    public function testInvalidCommitIsCleared()
+    {
+        $request = $this->mockRequestWithCustomPayload([
+            'branch'  => 'master',
+            'source'  => 'custom',
+            'commit'  => 'short',
+            'url'     => '',
+            'reason'  => '',
+        ]);
+
+        $custom = new Custom($request);
+        $actual = $custom->handlePush();
+
+        $this->assertEmpty($actual['commit']);
+    }
+
+    public function testInvalidUrlIsCleared()
+    {
+        $request = $this->mockRequestWithCustomPayload([
+            'branch'  => 'master',
+            'source'  => 'ee5a7ef',
+            'commit'  => 'short',
+            'url'     => 'invalid-url',
+            'reason'  => '',
+        ]);
+
+        $custom = new Custom($request);
+        $actual = $custom->handlePush();
+
+        $this->assertEmpty($actual['commit']);
+    }
+
     public function testIsRequestOriginValid()
     {
         $request = m::mock(Request::class);

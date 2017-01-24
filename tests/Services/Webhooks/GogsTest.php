@@ -75,6 +75,18 @@ class GogsTest extends WebhookTestCase
         $this->assertWebhookDataIsValid($actual, $branch, 'Gogs', $reason, $url, $commit, $name, $email);
     }
 
+    public function testHandleEmptyPush()
+    {
+        $payload = m::mock(ParameterBag::class);
+        $payload->shouldReceive('get')->with('commits')->andReturn([]);
+
+        $request = $this->mockEventRequestFromGogs('push');
+        $request->shouldReceive('json')->once()->andReturn($payload);
+
+        $gogs = new Gogs($request);
+        $this->assertFalse($gogs->handlePush());
+    }
+
     /**
      * @dataProvider getUnsupportedEvents
      */

@@ -83,6 +83,29 @@ class BitbucketTest extends WebhookTestCase
         $this->assertWebhookDataIsValid($actual, $branch, 'Bitbucket', $reason, $url, $commit, $name, $email);
     }
 
+    public function testHandlePushWithoutChanges()
+    {
+        $push = m::mock(ParameterBag::class);
+        $push->shouldReceive('has')->once()->with('changes')->andReturn(false);
+
+        $payload = m::mock(ParameterBag::class);
+        $payload->shouldReceive('get')->once()->with('push')->andReturn($push);
+
+        $request = $this->mockEventRequestFromBitbucket('repo:push');
+        $request->shouldReceive('json')->once()->andReturn($payload);
+
+        $bitbucket = new Bitbucket($request);
+        $this->assertFalse($bitbucket->handlePush());
+    }
+
+    public function testHandlePushWithEmptyChanges()
+    {
+        $request = $this->mockRequestWithPayload([]);
+
+        $bitbucket = new Bitbucket($request);
+        $this->assertFalse($bitbucket->handlePush());
+    }
+
     /**
      * @param string $event
      * @dataProvider getUnsupportedEvents
