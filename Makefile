@@ -35,7 +35,7 @@ phpunit:
 	@php vendor/bin/phpunit --no-coverage
 
 phpunit-coverage:
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=coverage.txt
 
 phpdoccheck:
 	@php vendor/bin/phpdoccheck --directory=app
