@@ -30,8 +30,8 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     public function getAll()
     {
         return $this->model
-                    ->orderBy('name')
-                    ->get();
+            ->orderBy('name')
+            ->get();
     }
 
     /**
@@ -41,8 +41,8 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     {
         // Get the current highest server order
         $max = $this->model->where('project_id', $fields['project_id'])
-                           ->orderBy('order', 'DESC')
-                           ->first();
+            ->orderBy('order', 'DESC')
+            ->first();
 
         $order = 0;
         if (isset($max)) {
@@ -91,7 +91,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     public function queryByName($name)
     {
         return $this->model
-                    ->where('name', 'LIKE', "%{$name}%")
-                    ->get();
+            ->where('name', 'LIKE', "%{$name}%")
+            ->get();
     }
 }

@@ -70,8 +70,8 @@ var app = app || {};
                 suggestions: $.map(response.suggestions, function (dataItem) {
                     var value = dataItem.name + ' (' + dataItem.user + '@' + dataItem.ip_address + ')';
                     return {
-                      value: value,
-                      data: dataItem
+                        value: value,
+                        data: dataItem
                     };
                 })
             };
