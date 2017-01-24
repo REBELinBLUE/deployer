@@ -7,14 +7,14 @@ php:
   - 7.0
   - 7.1
 
-services:
-  - redis-server
-
 env:
   - DB=sqlite
 
 cache:
   directories:
+    - $TRAVIS_BUILD_DIR/vendor
+    - $TRAVIS_BUILD_DIR/node_modules
+    - $TRAVIS_BUILD_DIR/bower_components
     - $HOME/.composer/cache
 
 matrix:
