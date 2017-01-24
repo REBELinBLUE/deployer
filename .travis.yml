@@ -91,7 +91,7 @@ before_script:
   - if [[ "$DB" = "maria" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
   - if [[ "$DB" = "pgsql" ]]; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
   - if [[ "$DB" = "sqlite" ]]; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
-  - cp -f $TRAVIS_BUILD_DIR/.env.travis .env
+  - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis .env
   - php artisan key:generate
   - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
   - sed -i "s/DB_CONNECTION=maria/DB_CONNECTION=mysql/g" .env
