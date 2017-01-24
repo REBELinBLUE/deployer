@@ -151,7 +151,7 @@ class LatestReleaseTest extends TestCase
         $this->assertEquals($expected, $actual);
         $this->assertEquals(
             json_decode($response),
-            $this->cache->get('latest_version', null),
+            $this->cache->get(LatestRelease::CACHE_KEY, null),
             'The expected response is not being cached'
         );
     }

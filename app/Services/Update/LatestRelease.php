@@ -12,6 +12,7 @@ use Version\Version;
 class LatestRelease implements LatestReleaseInterface
 {
     const CACHE_TIME_IN_HOURS = 12;
+    const CACHE_KEY = 'latest_version';
 
     /**
      * @var string
@@ -56,7 +57,7 @@ class LatestRelease implements LatestReleaseInterface
     {
         $cache_for = self::CACHE_TIME_IN_HOURS * 60;
 
-        $release = $this->cache->remember('latest_version', $cache_for, function () {
+        $release = $this->cache->remember(self::CACHE_KEY, $cache_for, function () {
             $headers = [
                 'Accept' => 'application/vnd.github.v3+json',
             ];
