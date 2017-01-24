@@ -12,7 +12,7 @@ use Version\Version;
 class LatestRelease implements LatestReleaseInterface
 {
     const CACHE_TIME_IN_HOURS = 12;
-    const CACHE_KEY = 'latest_version';
+    const CACHE_KEY           = 'latest_version';
 
     /**
      * @var string
