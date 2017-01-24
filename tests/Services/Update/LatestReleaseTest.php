@@ -136,9 +136,10 @@ class LatestReleaseTest extends TestCase
     public function testHandlesValidResponseBody()
     {
         $expected = 'an-expected-response';
+        $response = json_encode(['tag_name' => $expected]);
 
         $mock = new MockHandler([
-            new Response(200, [], json_encode(['tag_name' => $expected])),
+            new Response(200, [], $response),
         ]);
 
         $stack  = HandlerStack::create($mock);
@@ -148,5 +149,10 @@ class LatestReleaseTest extends TestCase
         $actual  = $release->latest();
 
         $this->assertEquals($expected, $actual);
+        $this->assertEquals(
+            json_decode($response),
+            $this->cache->get('latest_version', null),
+            'The expected response is not being cached'
+        );
     }
 }
