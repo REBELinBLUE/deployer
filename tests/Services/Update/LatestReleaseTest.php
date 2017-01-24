@@ -12,13 +12,15 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Services\Update\LatestRelease;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
-// Clean this up, test isUpToDate and check cache works
+// Test isUpToDate
 class LatestReleaseTest extends TestCase
 {
     /**
      * @var \Illuminate\Contracts\Cache\Repository
      */
     private $cache;
+
+    private $container = [];
 
     public function setUp()
     {
@@ -27,25 +29,34 @@ class LatestReleaseTest extends TestCase
         $this->cache = app('cache.store');
     }
 
-    public function testRequestIsExpected()
+    /**
+     * @return Request
+     */
+    private function getRequest()
     {
-        $container = [];
-        $history   = Middleware::history($container);
+        return $this->container[0]['request'];
+    }
 
-        $mock = new MockHandler([
-            new Response(200),
-        ]);
-
-        $stack = HandlerStack::create($mock);
+    private function mockHttpClient(Response $response)
+    {
+        $history = Middleware::history($this->container);
+        $mock    = new MockHandler([$response]);
+        $stack   = HandlerStack::create($mock);
         $stack->push($history);
 
-        $client = new Client(['handler' => $stack]);
+        return new Client([
+            'handler' => $stack,
+        ]);
+    }
+
+    public function testRequestIsExpected()
+    {
+        $client = $this->mockHttpClient(new Response(200));
 
         $release = new LatestRelease($this->cache, $client);
         $release->latest();
 
-        /** @var Request $request */
-        $request = $container[0]['request'];
+        $request = $this->getRequest();
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertTrue($request->hasHeader('Accept'));
@@ -54,25 +65,14 @@ class LatestReleaseTest extends TestCase
 
     public function testRequestHasExpectedAuthorizationHeader()
     {
+        $client = $this->mockHttpClient(new Response(200));
+
         $expectedToken = '123456';
-
-        $container = [];
-        $history   = Middleware::history($container);
-
-        $mock = new MockHandler([
-            new Response(200),
-        ]);
-
-        $stack = HandlerStack::create($mock);
-        $stack->push($history);
-
-        $client = new Client(['handler' => $stack]);
 
         $release = new LatestRelease($this->cache, $client, $expectedToken);
         $release->latest();
 
-        /** @var Request $request */
-        $request = $container[0]['request'];
+        $request = $this->getRequest();
 
         $this->assertTrue($request->hasHeader('Authorization'));
         $this->assertEquals('token ' . $expectedToken, $request->getHeaderLine('Authorization'));
@@ -80,37 +80,21 @@ class LatestReleaseTest extends TestCase
 
     public function testRequestDoesNotHaveAuthorizationHeader()
     {
+        $client = $this->mockHttpClient(new Response(200));
+
         $expectedToken = null;
-
-        $container = [];
-        $history   = Middleware::history($container);
-
-        $mock = new MockHandler([
-            new Response(200),
-        ]);
-
-        $stack = HandlerStack::create($mock);
-        $stack->push($history);
-
-        $client = new Client(['handler' => $stack]);
 
         $release = new LatestRelease($this->cache, $client, $expectedToken);
         $release->latest();
 
-        /** @var Request $request */
-        $request = $container[0]['request'];
+        $request = $this->getRequest();
 
         $this->assertFalse($request->hasHeader('Authorization'));
     }
 
     public function testHandlesClientException()
     {
-        $mock = new MockHandler([
-            new Response(500),
-        ]);
-
-        $stack  = HandlerStack::create($mock);
-        $client = new Client(['handler' => $stack]);
+        $client = $this->mockHttpClient(new Response(500));
 
         $release = new LatestRelease($this->cache, $client);
         $actual  = $release->latest();
@@ -120,12 +104,7 @@ class LatestReleaseTest extends TestCase
 
     public function testHandlesInvalidResponseBody()
     {
-        $mock = new MockHandler([
-            new Response(200, [], 'Unexpected response'),
-        ]);
-
-        $stack  = HandlerStack::create($mock);
-        $client = new Client(['handler' => $stack]);
+        $client = $this->mockHttpClient(new Response(200, [], 'Unexpected response'));
 
         $release = new LatestRelease($this->cache, $client);
         $actual  = $release->latest();
@@ -138,12 +117,7 @@ class LatestReleaseTest extends TestCase
         $expected = 'an-expected-response';
         $response = json_encode(['tag_name' => $expected]);
 
-        $mock = new MockHandler([
-            new Response(200, [], $response),
-        ]);
-
-        $stack  = HandlerStack::create($mock);
-        $client = new Client(['handler' => $stack]);
+        $client = $this->mockHttpClient(new Response(200, [], $response));
 
         $release = new LatestRelease($this->cache, $client);
         $actual  = $release->latest();
@@ -154,5 +128,36 @@ class LatestReleaseTest extends TestCase
             $this->cache->get(LatestRelease::CACHE_KEY, null),
             'The expected response is not being cached'
         );
+    }
+
+    public function testIsUpToDateReturnsFalseOnOutdated()
+    {
+        // Is there not a nicer way to do this? Set the latest version to be very high
+        $response = json_encode(['tag_name' => '1000.0.0']);
+
+        $client  = $this->mockHttpClient(new Response(200, [], $response));
+        $release = new LatestRelease($this->cache, $client);
+
+        $this->assertFalse($release->isUpToDate());
+    }
+
+    public function testIsUpToDateReturnsTrueOnCurrent()
+    {
+        $response = json_encode(['tag_name' => APP_VERSION]);
+
+        $client  = $this->mockHttpClient(new Response(200, [], $response));
+        $release = new LatestRelease($this->cache, $client);
+
+        $this->assertTrue($release->isUpToDate());
+    }
+
+    public function testIsUpToDateReturnsFalseOnPublishedVersionOlder()
+    {
+        $response = json_encode(['tag_name' => '0.0.1']);
+
+        $client  = $this->mockHttpClient(new Response(200, [], $response));
+        $release = new LatestRelease($this->cache, $client);
+
+        $this->assertTrue($release->isUpToDate());
     }
 }
