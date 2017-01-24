@@ -18,6 +18,7 @@ cache:
     - $HOME/.composer/cache
 
 matrix:
+  fast_finish: true
   include:
     - php: 5.6
       env: DB=mysql DB_USERNAME=travis
@@ -101,11 +102,11 @@ before_script:
   - sed -i '/^$/N;/^\n$/D' .env
   - php artisan js-localization:refresh
   - make permissions
-  - php artisan migrate --seed --env="testing"
   - sleep 5
   - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
 
 script:
+  - php artisan migrate --seed --env="testing"
   - make lint
   - make phpcs
   # - make phpmd
