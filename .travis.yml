@@ -88,7 +88,7 @@ install:
 
 before_script:
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
-  - echo "Setting up .env file"
+  - echo -e "\e[0;31mSetting up .env file\033[0m"
   - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
   - sed -i "s/DB_CONNECTION=maria/DB_CONNECTION=mysql/g" .env
   - if [[ "$DB" = "mysql" ]] || [[ "$DB" = "maria" ]]; then sed -i "s/DB_USERNAME=/DB_USERNAME=travis/g" .env; fi
@@ -96,7 +96,7 @@ before_script:
   - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_DATABASE=deployer//g' .env; fi
   - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_USERNAME=//g' .env; fi
   - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_PASSWORD=//g' .env; fi
-  - echo "Creating database"
+  - echo -e "\e[0;31mCreating database\033[0m"
   - if [[ "$DB" = "mysql" ]] || [[ "$DB" = "maria" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
   - if [[ "$DB" = "pgsql" ]]; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
   - if [[ "$DB" = "sqlite" ]]; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
