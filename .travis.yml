@@ -18,7 +18,6 @@ cache:
     - $HOME/.composer/cache
 
 matrix:
-  fast_finish: true
   include:
     - php: 5.6
       env: DB=mysql DB_USERNAME=travis
@@ -87,8 +86,7 @@ install:
   - travis_retry composer install --no-interaction --no-scripts --prefer-dist --no-suggest
 
 before_script:
-  - if [[ "$DB" = "mysql" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
-  - if [[ "$DB" = "maria" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
+  - if [[ "$DB" = "mysql" ] || [ "$DB" = "maria" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
   - if [[ "$DB" = "pgsql" ]]; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
   - if [[ "$DB" = "sqlite" ]]; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis .env
