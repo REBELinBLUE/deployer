@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
-use Mockery;
+use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Github;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -20,7 +20,7 @@ class GithubTest extends WebhookTestCase
 
     private function mockPullRequest()
     {
-        $payload = Mockery::mock(ParameterBag::class);
+        $payload = m::mock(ParameterBag::class);
         $payload->shouldReceive('has')->once()->with('after')->andReturn(true);
         $payload->shouldReceive('get')->once()->with('after')->andReturn('0000000000000000000000000000000000000000');
 
@@ -32,7 +32,7 @@ class GithubTest extends WebhookTestCase
 
     private function mockRequestWithPayload(array $data, $ref)
     {
-        $payload = Mockery::mock(ParameterBag::class);
+        $payload = m::mock(ParameterBag::class);
         $payload->shouldReceive('has')->once()->with('after')->andReturn(false);
         $payload->shouldReceive('get')->once()->with('head_commit')->andReturn($data);
         $payload->shouldReceive('get')->once()->with('ref')->andReturn('refs/' . $ref);

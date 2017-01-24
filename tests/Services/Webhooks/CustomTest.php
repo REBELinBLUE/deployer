@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
 use Illuminate\Http\Request;
-use Mockery;
+use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Custom;
 use Symfony\Component\HttpFoundation\HeaderBag;
 
@@ -11,7 +11,7 @@ class CustomTest extends WebhookTestCase
 {
     private function mockRequestWithCustomPayload(array $data)
     {
-        $request = Mockery::mock(Request::class);
+        $request = m::mock(Request::class);
         $request->shouldReceive('has')->once()->with('branch')->andReturn(true);
         $request->shouldReceive('get')->once()->with('branch')->andReturn($data['branch']);
         $request->shouldReceive('has')->once()->with('source')->andReturn(true);
@@ -64,7 +64,7 @@ class CustomTest extends WebhookTestCase
 
     public function testIsRequestOriginValid()
     {
-        $request = Mockery::mock(Request::class);
+        $request = m::mock(Request::class);
 
         $custom = new Custom($request);
         $this->assertTrue($custom->isRequestOrigin());

@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Mockery;
+use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Beanstalkapp;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -15,10 +15,10 @@ class BeanstalkappTest extends WebhookTestCase
     {
         $userAgent = $isValid ? 'beanstalkapp.com' : 'something-else';
 
-        $header = Mockery::mock(HeaderBag::class);
+        $header = m::mock(HeaderBag::class);
         $header->shouldReceive('get')->once()->with('User-Agent')->andReturn($userAgent);
 
-        $request          = Mockery::mock(Request::class);
+        $request          = m::mock(Request::class);
         $request->headers = $header;
 
         return $request;
@@ -26,11 +26,11 @@ class BeanstalkappTest extends WebhookTestCase
 
     private function mockEventRequestFromBeanstalk($event)
     {
-        $payload = Mockery::mock(ParameterBag::class);
+        $payload = m::mock(ParameterBag::class);
         $payload->shouldReceive('has')->once()->with('trigger')->andReturn(true);
         $payload->shouldReceive('get')->once()->with('trigger')->andReturn($event);
 
-        $request = Mockery::mock(Request::class);
+        $request = m::mock(Request::class);
         $request->shouldReceive('json')->once()->andReturn($payload);
 
         return $request;
@@ -38,12 +38,12 @@ class BeanstalkappTest extends WebhookTestCase
 
     private function mockRequestWithBeanstalkPayload(array $data)
     {
-        $payload = Mockery::mock(ParameterBag::class);
+        $payload = m::mock(ParameterBag::class);
         $payload->shouldReceive('has')->once()->with('trigger')->andReturn(true);
         $payload->shouldReceive('get')->once()->with('trigger')->andReturn('push');
         $payload->shouldReceive('get')->once()->with('payload')->andReturn($data);
 
-        $request = Mockery::mock(Request::class);
+        $request = m::mock(Request::class);
         $request->shouldReceive('json')->once()->andReturn($payload);
 
         return $request;

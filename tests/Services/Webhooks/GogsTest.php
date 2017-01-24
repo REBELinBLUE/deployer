@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
-use Mockery;
+use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Gogs;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -20,7 +20,7 @@ class GogsTest extends WebhookTestCase
 
     private function mockRequestWithPayload(array $data, $ref)
     {
-        $payload = Mockery::mock(ParameterBag::class);
+        $payload = m::mock(ParameterBag::class);
         $payload->shouldReceive('get')->with('commits')->andReturn($data);
         $payload->shouldReceive('get')->with('ref')->andReturn('refs/' . $ref);
 

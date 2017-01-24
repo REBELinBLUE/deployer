@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
 use Carbon\Carbon;
-use Mockery;
+use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Gitlab;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -21,7 +21,7 @@ class GitlabTest extends WebhookTestCase
 
     private function mockRequestWithPayload(array $data, $ref)
     {
-        $payload = Mockery::mock(ParameterBag::class);
+        $payload = m::mock(ParameterBag::class);
         $payload->shouldReceive('get')->once()->with('commits')->andReturn($data);
         $payload->shouldReceive('get')->once()->with('ref')->andReturn('refs/' . $ref);
 

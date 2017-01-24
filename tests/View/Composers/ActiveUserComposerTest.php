@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\View\Composers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Mockery;
+use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Composers\ActiveUserComposer;
 
@@ -16,7 +16,7 @@ class ActiveUserComposerTest extends TestCase
 
         Auth::shouldReceive('user')->once()->andReturn($expected_user);
 
-        $view = Mockery::mock(View::class);
+        $view = m::mock(View::class);
         $view->shouldReceive('with')->once()->with('logged_in_user', $expected_user);
 
         $composer = new ActiveUserComposer;

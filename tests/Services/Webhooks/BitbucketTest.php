@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Services\Webhooks;
 
-use Mockery;
+use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Bitbucket;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -20,11 +20,11 @@ class BitbucketTest extends WebhookTestCase
 
     private function mockRequestWithPayload(array $data)
     {
-        $push = Mockery::mock(ParameterBag::class);
+        $push = m::mock(ParameterBag::class);
         $push->shouldReceive('has')->once()->with('changes')->andReturn(true);
         $push->shouldReceive('get')->once()->with('changes', [])->andReturn($data);
 
-        $payload = Mockery::mock(ParameterBag::class);
+        $payload = m::mock(ParameterBag::class);
         $payload->shouldReceive('get')->once()->with('push')->andReturn($push);
 
         $request = $this->mockEventRequestFromBitbucket('repo:push');
