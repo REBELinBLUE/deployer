@@ -7,23 +7,73 @@ php:
   - 7.0
   - 7.1
 
+services:
+  - redis-server
+
+env:
+  - DB=sqlite
+
 cache:
   directories:
     - $HOME/.composer/cache
 
-services:
-  - mysql
-  - postgresql
-  - redis-server
-
-addons:
-  postgresql: "9.3"
-  mariadb: "10.1"
-
-env:
-  - DB=mysql DB_USERNAME=travis
-  - DB=pgsql DB_USERNAME=postgres
-  - DB=sqlite
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.6
+      env: DB=mysql DB_USERNAME=travis
+      services:
+        - mysql
+        - redis-server
+    - php: 7.0
+      env: DB=mysql DB_USERNAME=travis
+      services:
+        - mysql
+        - redis-server
+    - php: 7.1
+      env: DB=mysql DB_USERNAME=travis
+      services:
+        - mysql
+        - redis-server
+    - php: 5.6
+      env: DB=maria DB_USERNAME=travis
+      addons:
+        mariadb: 10.1
+      services:
+        - redis-server
+    - php: 7.0
+      env: DB=maria DB_USERNAME=travis
+      addons:
+        mariadb: 10.1
+      services:
+        - redis-server
+    - php: 7.1
+      env: DB=maria DB_USERNAME=travis
+      addons:
+        mariadb: 10.1
+      services:
+        - redis-server
+    - php: 5.6
+      env: DB=pgsql DB_USERNAME=postgres
+      addons:
+        postgresql: "9.3"
+      services:
+        - postgresql
+        - redis-server
+    - php: 7.0
+      env: DB=pgsql DB_USERNAME=postgres
+      addons:
+        postgresql: "9.3"
+      services:
+        - postgresql
+        - redis-server
+    - php: 7.1
+      env: DB=pgsql DB_USERNAME=postgres
+      addons:
+        postgresql: "9.3"
+      services:
+        - postgresql
+        - redis-server
 
 before_install:
   - if [[ "$TRAVIS_PHP_VERSION" = "5.6" ]] ; then phpenv config-rm xdebug.ini; fi
@@ -37,38 +87,40 @@ install:
   - travis_retry composer install --no-interaction --no-scripts --prefer-dist --no-suggest
 
 before_script:
-    - if [[ "$DB" = "mysql" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
-    - if [[ "$DB" = "pgsql" ]]; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
-    - if [[ "$DB" = "sqlite" ]]; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
-    - cp -f .env.example .env
-    - php artisan key:generate
-    - sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
-    - sed -i 's/APP_DEBUG=false/APP_DEBUG=true/g' .env
-    - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
-    - sed -i "s/DB_USERNAME=deployer/DB_USERNAME=$DB_USERNAME/g" .env
-    - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
-    - if [[ "$DB" = "pgsql" ]]; then sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env; fi
-    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_DATABASE=deployer//g' .env; fi
-    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_USERNAME=//g' .env; fi
-    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_PASSWORD=//g' .env; fi
-    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_HOST=localhost//g' .env; fi
-    - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_PORT=3306//g' .env; fi
-    - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
-    - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
-    - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
-    - sed -i 's/SOCKET_SSL_KEY_PASSPHRASE=//g' .env
-    - sed -i 's/REDIS_PASSWORD=null//g' .env
-    - sed -i 's/TRUSTED_PROXIES=//g' .env
-    - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
-    - sed -i 's/GUZZLE_HTTP_PROXY=//g' .env
-    - sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32 ; echo)/g" .env
-    - sed -i '/^#/ d' .env
-    - sed -i 's/ \#default for beanstalkd//g' .env
-    - sed -i '/^$/N;/^\n$/D' .env
-    - php artisan js-localization:refresh
-    - make permissions
-    - sleep 5
-    - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
+  - if [[ "$DB" = "mysql" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
+  - if [[ "$DB" = "maria" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
+  - if [[ "$DB" = "pgsql" ]]; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
+  - if [[ "$DB" = "sqlite" ]]; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
+  - cp -f .env.example .env
+  - php artisan key:generate
+  - sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
+  - sed -i 's/APP_DEBUG=false/APP_DEBUG=true/g' .env
+  - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
+  - sed -i "s/DB_CONNECTION=maria/DB_CONNECTION=mysql/g" .env
+  - sed -i "s/DB_USERNAME=deployer/DB_USERNAME=$DB_USERNAME/g" .env
+  - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
+  - if [[ "$DB" = "pgsql" ]]; then sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env; fi
+  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_DATABASE=deployer//g' .env; fi
+  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_USERNAME=//g' .env; fi
+  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_PASSWORD=//g' .env; fi
+  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_HOST=localhost//g' .env; fi
+  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_PORT=3306//g' .env; fi
+  - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
+  - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
+  - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
+  - sed -i 's/SOCKET_SSL_KEY_PASSPHRASE=//g' .env
+  - sed -i 's/REDIS_PASSWORD=null//g' .env
+  - sed -i 's/TRUSTED_PROXIES=//g' .env
+  - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
+  - sed -i 's/GUZZLE_HTTP_PROXY=//g' .env
+  - sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32 ; echo)/g" .env
+  - sed -i '/^#/ d' .env
+  - sed -i 's/ \#default for beanstalkd//g' .env
+  - sed -i '/^$/N;/^\n$/D' .env
+  - php artisan js-localization:refresh
+  - make permissions
+  - sleep 5
+  - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
 
 script:
   - php artisan migrate --seed --env="testing"
