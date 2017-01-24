@@ -86,10 +86,10 @@ install:
   - travis_retry composer install --no-interaction --no-scripts --prefer-dist --no-suggest
 
 before_script:
-  - if [[ "$DB" = "mysql" ] || [ "$DB" = "maria" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
+  - if [[ "$DB" = "mysql" ]] || [[ "$DB" = "maria" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
   - if [[ "$DB" = "pgsql" ]]; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
   - if [[ "$DB" = "sqlite" ]]; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
-  - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis .env
+  - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
   - php artisan key:generate
   - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
   - sed -i "s/DB_CONNECTION=maria/DB_CONNECTION=mysql/g" .env
@@ -101,11 +101,11 @@ before_script:
   - sed -i '/^$/N;/^\n$/D' .env
   - php artisan js-localization:refresh
   - make permissions
+  - php artisan migrate --seed --env="testing"
   - sleep 5
   - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
 
 script:
-  - php artisan migrate --seed --env="testing"
   - make lint
   - make phpcs
   # - make phpmd
