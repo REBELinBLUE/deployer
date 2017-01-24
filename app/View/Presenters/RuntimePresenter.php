@@ -24,8 +24,6 @@ trait RuntimePresenter
         $seconds = $this->getObject()->runtime();
 
         $units = [
-            'week'   => 7 * 24 * 3600,
-            'day'    => 24 * 3600,
             'hour'   => 3600,
             'minute' => 60,
             'second' => 1,
@@ -33,6 +31,11 @@ trait RuntimePresenter
 
         if ($seconds === 0) {
             return Lang::choice('deployments.second', 0, ['time' => 0]);
+        }
+
+        // If the runtime is more than 3 hours show a simple message
+        if ($seconds >= $units['hour'] * 3) {
+            return Lang::get('deployments.very_long_time');
         }
 
         $readable = '';

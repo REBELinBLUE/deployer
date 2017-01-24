@@ -46,8 +46,6 @@ return [
     'warning'                 => '部署无法开始，请确定你已经输入了所有需要的值',
     'describe_reason'         => '请简要描述部署原因',
     'optional'                => '选择可选的部署步骤运行',
-    'week'                    => ':time 周',
-    'day'                     => ':time 天',
     'hour'                    => ':time 时',
     'minute'                  => ':time 分',
     'second'                  => ':time 秒',
