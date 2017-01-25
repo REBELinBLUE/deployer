@@ -236,4 +236,48 @@ class DeploymentPresenterTest extends TestCase
             [Deployment::LOADING, Deployment::FAILED, 'deployments.unknown'],
         ];
     }
+
+    private function mockCommand($id, $optional = false)
+    {
+        $command = m::mock(Command::class);
+        $command->shouldReceive('getAttribute')->with('optional')->andReturn($optional);
+        $command->shouldReceive('offsetExists')->with('id')->andReturn(true);
+        $command->shouldReceive('offsetGet')->with('id')->andReturn($id);
+
+        return $command;
+    }
+
+    /**
+     * @dataProvider getCommandsUsed
+     */
+    public function testPresentOptionalCommandsUsed(array $commands, $expected)
+    {
+        $collection = [];
+        foreach ($commands as $id => $optional) {
+            $collection[] = $this->mockCommand($id + 1, $optional);
+        }
+        $commands = collect($collection);
+
+        $deployment = m::mock(Deployment::class);
+        $deployment->shouldReceive('getAttribute')->with('commands')->andReturn($commands);
+
+        $presenter = new DeploymentPresenter($deployment);
+        $actual    = $presenter->presentOptionalCommandsUsed();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getCommandsUsed()
+    {
+        return [
+            [[true], '1'],
+            [[false], ''],
+            [[true,true], '1,2'],
+            [[true,false], '1'],
+            [[false,true], '2'],
+            [[false,false], ''],
+            [[true,true,true], '1,2,3'],
+            [[true,false,true], '1,3'],
+        ];
+    }
 }
