@@ -35,7 +35,7 @@ class ProjectPresenterTest extends TestCase
         $project = $this->mockProjectWithStatus($status);
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentCcTrayStatus();
+        $actual    = $presenter->presentCcTrayStatus();
 
         $this->assertEquals($expected, $actual);
     }
@@ -62,7 +62,7 @@ class ProjectPresenterTest extends TestCase
         Lang::shouldReceive('get')->with($expected)->andReturn($expected);
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentReadableStatus();
+        $actual    = $presenter->presentReadableStatus();
 
         $this->assertEquals($expected, $actual);
     }
@@ -87,7 +87,7 @@ class ProjectPresenterTest extends TestCase
         $project = $this->mockProjectWithStatus($status);
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentIcon();
+        $actual    = $presenter->presentIcon();
 
         $this->assertEquals($expected, $actual);
     }
@@ -112,7 +112,7 @@ class ProjectPresenterTest extends TestCase
         $project = $this->mockProjectWithStatus($status);
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentCssClass();
+        $actual    = $presenter->presentCssClass();
 
         $this->assertEquals($expected, $actual);
     }
@@ -138,7 +138,7 @@ class ProjectPresenterTest extends TestCase
         Lang::shouldReceive('get')->with($expected)->andReturn($expected);
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentAppStatus();
+        $actual    = $presenter->presentAppStatus();
 
         $this->assertEquals($expected, $actual);
     }
@@ -151,7 +151,7 @@ class ProjectPresenterTest extends TestCase
         $project = $this->mockProjectWithHealthStatus($length, $missed);
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentAppStatus();
+        $actual    = $presenter->presentAppStatus();
 
         $this->assertEquals($expected, $actual);
     }
@@ -174,7 +174,7 @@ class ProjectPresenterTest extends TestCase
         $project = $this->mockProjectWithHealthStatus($length, $missed);
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentAppStatusCss();
+        $actual    = $presenter->presentAppStatusCss();
 
         $this->assertEquals($expected, $actual);
     }
@@ -200,11 +200,10 @@ class ProjectPresenterTest extends TestCase
         Lang::shouldReceive('get')->with($expected)->andReturn($expected);
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentHeartBeatStatus();
+        $actual    = $presenter->presentHeartBeatStatus();
 
         $this->assertEquals($expected, $actual);
     }
-
 
     /**
      * @dataProvider getHeartbeatStatuses
@@ -214,7 +213,7 @@ class ProjectPresenterTest extends TestCase
         $project = $this->mockProjectWithHealthStatus($length, $missed, 'heartbeatsStatus');
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentHeartBeatStatus();
+        $actual    = $presenter->presentHeartBeatStatus();
 
         $this->assertEquals($expected, $actual);
     }
@@ -237,7 +236,7 @@ class ProjectPresenterTest extends TestCase
         $project = $this->mockProjectWithHealthStatus($length, $missed, 'heartbeatsStatus');
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentHeartBeatStatusCss();
+        $actual    = $presenter->presentHeartBeatStatusCss();
 
         $this->assertEquals($expected, $actual);
     }
@@ -262,7 +261,7 @@ class ProjectPresenterTest extends TestCase
         $project->shouldReceive('accessDetails')->andReturnNull();
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentTypeIcon();
+        $actual    = $presenter->presentTypeIcon();
 
         $this->assertEquals($expected, $actual);
     }
@@ -276,7 +275,7 @@ class ProjectPresenterTest extends TestCase
         $project->shouldReceive('accessDetails')->andReturn(['domain' => $repository]);
 
         $presenter = new ProjectPresenter($project);
-        $actual = $presenter->presentTypeIcon();
+        $actual    = $presenter->presentTypeIcon();
 
         $this->assertEquals($expected, $actual);
     }
@@ -296,5 +295,4 @@ class ProjectPresenterTest extends TestCase
             [null, 'fa-git-square'],
         ];
     }
-
 }
