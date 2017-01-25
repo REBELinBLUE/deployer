@@ -22,8 +22,12 @@ update-deps: permissions
 	git add composer.lock yarn.lock
 
 ## Frontend build
-build: install-dev
+build: install-dev localise
 	gulp
+
+## Runs the artisan js localisation refresh command
+localise:
+	@php artisan js-localization:refresh
 
 # TBD
 docs:
@@ -84,6 +88,13 @@ reset: clean
 	rm -rf vendor/ node_modules/ bower_components/
 	rm -rf public/build/ storage/app/mirrors/* storage/app/tmp/* storage/app/public/*
 	rm -rf .env.prev _ide_helper_models.php _ide_helper.php .phpstorm.meta.php .php_cs.cache
+
+## Generates helper files for IDEs
+ide:
+	php artisan clear-compiled
+	php artisan ide-helper:generate
+	php artisan ide-helper:meta
+	php artisan ide-helper:models --nowrite
 
 ## Prints this help :D
 help:
