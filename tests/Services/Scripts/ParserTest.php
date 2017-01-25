@@ -41,6 +41,6 @@ class ParserTest extends TestCase
 
     public function testParseFileLoadsScript()
     {
-        $this->markTestSkipped('Need to think of a way to do this');
+        $this->markTestIncomplete('This test has not been implemented yet');
     }
 }

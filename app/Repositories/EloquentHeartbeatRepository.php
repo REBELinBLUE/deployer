@@ -6,7 +6,7 @@ use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
 
 /**
- * The shared file repository.
+ * The heartbeat repository.
  */
 class EloquentHeartbeatRepository extends EloquentRepository implements HeartbeatRepositoryInterface
 {

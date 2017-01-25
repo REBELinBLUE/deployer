@@ -30,7 +30,7 @@
     </filter>
     <logging>
         <log type="coverage-text" target="php://stdout" lowUpperBound="50" highLowerBound="80" />
-        <log type="coverage-clover" target="clover.xml" />
+        <log type="coverage-clover" target="coverage.xml" />
     </logging>
     <php>
         <env name="APP_ENV" value="testing" />

@@ -4,13 +4,13 @@ namespace REBELinBLUE\Deployer\Tests\View\Presenters;
 
 use Illuminate\Support\Facades\Lang;
 use Mockery as m;
-use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
+use REBELinBLUE\Deployer\Tests\View\Presenters\Stubs\StubModel;
+use REBELinBLUE\Deployer\Tests\View\Presenters\Stubs\StubPresenter;
 use RuntimeException;
 use stdClass;
 
-class ServerLogPresenterTest extends TestCase
+class RuntimePresenterTest extends TestCase
 {
     const SECOND = 1;
     const MINUTE = 60;
@@ -21,7 +21,7 @@ class ServerLogPresenterTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         // Class which doesn't implement the RuntimeInterface
-        $presenter = new ServerLogPresenter(new stdClass);
+        $presenter = new StubPresenter(new stdClass);
         $presenter->presentReadableRuntime();
     }
 
@@ -32,8 +32,8 @@ class ServerLogPresenterTest extends TestCase
     {
         $expected = implode(', ', $translations); // minute; hour, minute; minute, second; etc
 
-        $serverLog = m::mock(ServerLog::class);
-        $serverLog->shouldReceive('runtime')->once()->andReturn($runtime);
+        $model = m::mock(StubModel::class);
+        $model->shouldReceive('runtime')->once()->andReturn($runtime);
 
         foreach ($translations as $key) {
             $time        = $runtime === 0 ? 0 : 1;
@@ -42,7 +42,7 @@ class ServerLogPresenterTest extends TestCase
             Lang::shouldReceive('choice')->with($translation, $time, ['time' => $time])->andReturn($key);
         }
 
-        $presenter = new ServerLogPresenter($serverLog);
+        $presenter = new StubPresenter($model);
         $actual    = $presenter->presentReadableRuntime();
 
         $this->assertEquals($expected, $actual);
@@ -69,12 +69,12 @@ class ServerLogPresenterTest extends TestCase
     {
         $expected = 'deployments.very_long_time';
 
-        $serverLog = m::mock(ServerLog::class);
-        $serverLog->shouldReceive('runtime')->once()->andReturn($runtime);
+        $model = m::mock(StubModel::class);
+        $model->shouldReceive('runtime')->once()->andReturn($runtime);
 
         Lang::shouldReceive('get')->with($expected)->andReturn($expected);
 
-        $presenter = new ServerLogPresenter($serverLog);
+        $presenter = new StubPresenter($model);
         $actual    = $presenter->presentReadableRuntime();
 
         $this->assertEquals($expected, $actual);

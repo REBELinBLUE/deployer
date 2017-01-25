@@ -53,6 +53,8 @@ phpmd:
 phpunit:
 	@php vendor/bin/phpunit --no-coverage
 
+coverage: phpunit-coverage
+
 ## PHPUnit coverage
 phpunit-coverage:
 	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/tmp/coverage.txt
