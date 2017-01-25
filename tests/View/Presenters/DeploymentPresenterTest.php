@@ -8,6 +8,8 @@ use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Presenters\DeploymentPresenter;
+use RuntimeException;
+use stdClass;
 
 class DeploymentPresenterTest extends TestCase
 {
@@ -17,6 +19,15 @@ class DeploymentPresenterTest extends TestCase
         $deployment->shouldReceive('getAttribute')->with('status')->andReturn($status);
 
         return $deployment;
+    }
+
+    public function testRuntimeInterfaceIsUsed()
+    {
+        $this->expectException(RuntimeException::class);
+
+        // Class which doesn't implement the RuntimeInterface
+        $presenter = new DeploymentPresenter(new stdClass);
+        $presenter->presentReadableRuntime();
     }
 
     /**
