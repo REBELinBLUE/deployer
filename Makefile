@@ -57,12 +57,12 @@ phpunit-coverage:
 phpdoccheck:
 	@php vendor/bin/phpdoccheck --directory=app
 
-## PHPDocCheck
+## PHP Parallel Lint
 lint:
 	@rm -rf bootstrap/cache/*.php
 	@php vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan
 
-## PHP Parallel Lint
+## PHP Lines of Code
 loc:
 	@php vendor/bin/phploc --count-tests app/ database/ resources/ tests/
 
