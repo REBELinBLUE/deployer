@@ -51,9 +51,9 @@ phpunit:
 
 ## PHPUnit coverage
 phpunit-coverage:
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=coverage.txt
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/tmp/coverage.txt
 
-## PHPDocCheck
+## PHPDoccheck
 phpdoccheck:
 	@php vendor/bin/phpdoccheck --directory=app
 
