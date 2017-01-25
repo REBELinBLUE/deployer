@@ -123,19 +123,23 @@ class AppServiceProvider extends ServiceProvider
         $this->app->alias(HttpClient::class, 'HttpClient');
         $this->app->when(SlackWebhookChannel::class)->needs(HttpClient::class)->give('HttpClient');
 
-        $this->app->bind('HttpClient', function (Application $app, array $additional = []) {
+        $client = function (Application $app, array $additional = []) {
             $config = array_merge($app->make('config')->get('deployer.guzzle') ?: [], [
                 'headers' => ['User-Agent' => 'Deployer/' . APP_VERSION . ' ' . default_user_agent()],
             ]);
 
             return new HttpClient(array_merge_recursive($config, $additional));
+        };
+
+        $this->app->bind('HttpClient', function (Application $app) use ($client) {
+            return $client($app);
         });
 
         // Inject the Guzzle client for the Webhook channel so that we can set some defaults
         $this->app->when(WebhookChannel::class)
                   ->needs(HttpClient::class)
-                  ->give(function (Application $app) {
-                      return $app->make('HttpClient', [
+                  ->give(function (Application $app) use ($client) {
+                      return $client($app, [
                           'headers' => ['Content-Type' => 'application/json'],
                       ]);
                   });

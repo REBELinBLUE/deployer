@@ -7,8 +7,6 @@ use REBELinBLUE\Deployer\Project;
 
 /**
  * The view presenter for a project class.
- * @property int status
- * @property string readable_status
  */
 class ProjectPresenter extends CommandPresenter
 {

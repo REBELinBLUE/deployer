@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 /**
  * A console command for clearing all data and setting up again.
- * @property \Illuminate\Contracts\Foundation\Application app
  */
 class ResetApp extends UpdateApp
 {

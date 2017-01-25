@@ -9,10 +9,6 @@ use Robbo\Presenter\Presenter;
 
 /**
  * The view presenter for a project class.
- * @property string committer_name
- * @property int status
- * @property string short_commit
- * @property string committer
  */
 class DeploymentPresenter extends Presenter
 {
