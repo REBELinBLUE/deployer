@@ -10,15 +10,14 @@ comment:
 coverage:
   precision: 2
   range:
-  - 70.0
-  - 100.0
+    - 70.0
+    - 100.0
   round: down
   status:
     changes: false
     patch: true
     project: true
-
-notify:
+  notify:
     gitter:
       default:
         url: "https://webhooks.gitter.im/e/8c76ce4628fb675f1d29"
@@ -33,4 +32,3 @@ parsers:
       method: false
   javascript:
     enable_partials: false
-
