@@ -14,16 +14,16 @@ class EloquentHeartbeatRepositoryTest extends TestCase
 {
     public function testExtendsEloquentRepository()
     {
-        $heartbeat  = m::mock(Heartbeat::class);
-        $repository = new EloquentHeartbeatRepository($heartbeat);
+        $model      = m::mock(Heartbeat::class);
+        $repository = new EloquentHeartbeatRepository($model);
 
         $this->assertInstanceOf(EloquentRepository::class, $repository);
     }
 
     public function testImplementsHeartbeatRepositoryInterface()
     {
-        $heartbeat  = m::mock(Heartbeat::class);
-        $repository = new EloquentHeartbeatRepository($heartbeat);
+        $model      = m::mock(Heartbeat::class);
+        $repository = new EloquentHeartbeatRepository($model);
 
         $this->assertInstanceOf(HeartbeatRepositoryInterface::class, $repository);
     }
@@ -35,10 +35,10 @@ class EloquentHeartbeatRepositoryTest extends TestCase
         $expected = m::mock(Heartbeat::class);
         $expected->shouldReceive('firstOrFail')->andReturnSelf();
 
-        $heartbeat = m::mock(Heartbeat::class);
-        $heartbeat->shouldReceive('where')->with('hash', $hash)->andReturn($expected);
+        $model = m::mock(Heartbeat::class);
+        $model->shouldReceive('where')->with('hash', $hash)->andReturn($expected);
 
-        $repository = new EloquentHeartbeatRepository($heartbeat);
+        $repository = new EloquentHeartbeatRepository($model);
         $actual     = $repository->getByHash($hash);
 
         $this->assertEquals($expected, $actual);
@@ -53,10 +53,10 @@ class EloquentHeartbeatRepositoryTest extends TestCase
         $expected = m::mock(Heartbeat::class);
         $expected->shouldReceive('firstOrFail')->andThrow(ModelNotFoundException::class);
 
-        $heartbeat = m::mock(Heartbeat::class);
-        $heartbeat->shouldReceive('where')->with('hash', $hash)->andReturn($expected);
+        $model = m::mock(Heartbeat::class);
+        $model->shouldReceive('where')->with('hash', $hash)->andReturn($expected);
 
-        $repository = new EloquentHeartbeatRepository($heartbeat);
+        $repository = new EloquentHeartbeatRepository($model);
         $repository->getByHash($hash);
     }
 }
