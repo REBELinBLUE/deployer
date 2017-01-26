@@ -40,13 +40,14 @@ class EloquentRepositoryTest extends TestCase
 
     public function testGetByIdThrowsModelNotFoundException()
     {
+        $id = 1;
         $this->expectException(ModelNotFoundException::class);
 
         $model = m::mock(StubModel::class);
-        $model->shouldReceive('findOrFail')->andThrow(ModelNotFoundException::class);
+        $model->shouldReceive('findOrFail')->with($id)->andThrow(ModelNotFoundException::class);
 
         $repository = new StubEloquentRepository($model);
-        $repository->getById(1);
+        $repository->getById($id);
     }
 
     public function testCreate()
