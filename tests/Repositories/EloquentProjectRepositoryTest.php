@@ -102,4 +102,41 @@ class EloquentProjectRepositoryTest extends TestCase
         $repository = new EloquentProjectRepository($model);
         $repository->refreshBranches($id);
     }
+
+    public function testUpdateByIdRemovesBlankPrivateKey()
+    {
+        $id     = 1;
+        $fields = ['foo' => 'bar', 'private_key' => ''];
+        $update = ['foo' => 'bar']; // This is what is expected to be passed to update
+
+        $expected = m::mock(Project::class);
+        $expected->shouldReceive('update')->with($update);
+
+        $model = m::mock(Project::class);
+        $model->shouldReceive('findOrFail')->with($id)->andReturn($expected);
+
+        $repository = new EloquentProjectRepository($model);
+        $actual     = $repository->updateById($fields, $id);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+
+    public function testUpdateByIdClearPublicKeyWhenPrivateKeyIsProvided()
+    {
+        $id     = 1;
+        $fields = ['foo' => 'bar', 'private_key' => 'a-new-key'];
+
+        $expected = m::mock(Project::class);
+        $expected->shouldReceive('update')->with($fields);
+        $expected->shouldReceive('setAttribute')->with('public_key', '');
+
+        $model = m::mock(Project::class);
+        $model->shouldReceive('findOrFail')->with($id)->andReturn($expected);
+
+        $repository = new EloquentProjectRepository($model);
+        $actual     = $repository->updateById($fields, $id);
+
+        $this->assertEquals($expected, $actual);
+    }
 }
