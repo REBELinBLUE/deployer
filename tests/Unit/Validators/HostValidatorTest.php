@@ -10,6 +10,15 @@ use REBELinBLUE\Deployer\Validators\HostValidator;
  */
 class HostValidatorTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        if (!gethostbyname('www.google.com')) {
+            $this->markTestSkipped('The test can not be run as there was no active network connection');
+        }
+    }
+
     /**
      * @dataProvider validationDataProvider
      * @covers ::validate
