@@ -211,7 +211,7 @@ class DeploymentFinishedTestCase extends TestCase
         $expectedIcon          = 'an-icon';
         $expectedChannel       = '#channel';
         $expectedMessage       = 'the slack message #' . $expectedId;
-        $expectedContent       = 'the slack message <' . $expectedDeploymentUrl . '|#' . $expectedId .'>';
+        $expectedContent       = 'the slack message <' . $expectedDeploymentUrl . '|#' . $expectedId . '>';
 
         $expectedFields = [
             'project'       => '<' . $expectedProjectUrl . '|' . $expectedProjectName . '>',
@@ -222,7 +222,7 @@ class DeploymentFinishedTestCase extends TestCase
 
         if (!$hasCommitUrl) {
             $expectedFields['commit'] = $expectedCommit;
-            $expectedCommitUrl = false;
+            $expectedCommitUrl        = false;
         }
 
         Lang::shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
@@ -298,8 +298,8 @@ class DeploymentFinishedTestCase extends TestCase
         $expectedCommit        = '1234abcd';
         $expectedCommitUrl     = 'http://git.example.com/';
         $expectedRoom          = '#channel';
-        $expectedMessage       = 'the hipchat message <a href="' . $expectedDeploymentUrl .'">#' .$expectedId . '</a>';
-        $expectedTitle = 'the hipchat message #' . $expectedId;
+        $expectedMessage       = 'the hipchat message <a href="' . $expectedDeploymentUrl . '">#' . $expectedId . '</a>';
+        $expectedTitle         = 'the hipchat message #' . $expectedId;
 
         Lang::shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
         Lang::shouldReceive('get')->once()->with('notifications.commit')->andReturn('commit');

@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\Configurable;
 
-use Illuminate\Support\Facades\Lang;
 use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Notifications\Configurable\DeploymentSucceeded;
