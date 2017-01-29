@@ -37,8 +37,6 @@ class RefreshJsonWebToken
      * @param string|null              $guard
      *
      * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     *
-     * @fires JsonWebTokenExpired
      */
     public function handle($request, Closure $next, $guard = null)
     {
@@ -63,9 +61,9 @@ class RefreshJsonWebToken
             } catch (JWTException $e) {
                 if ($request->ajax()) {
                     return response('Unauthorized.', 401);
-                } else {
-                    return redirect()->guest('login');
                 }
+
+                return redirect()->guest('login');
             }
         }
 

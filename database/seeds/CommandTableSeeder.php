@@ -5,23 +5,6 @@ use REBELinBLUE\Deployer\Command;
 
 class CommandTableSeeder extends Seeder
 {
-    private function getScript()
-    {
-        return <<< EOD
-echo "Release {{ release }}"
-echo "Release Path {{ release_path }}"
-echo "Project Path {{ project_path }}"
-echo "Branch {{ branch }}"
-echo "SHA {{ sha }}"
-echo "Short SHA {{ short_sha }}"
-echo "Deployer email {{ deployer_email }}"
-echo "Deployer name {{ deployer_name }}"
-echo "Committer email {{ committer_email }}"
-echo "Committer name {{ committer_name }}"
-echo "Server user \$(whoami)"
-EOD;
-    }
-
     public function run()
     {
         DB::table('commands')->delete();
@@ -99,5 +82,22 @@ EOD;
             'target_type' => 'project',
             'target_id'   => 1,
         ])->servers()->attach([1, 2]);
+    }
+
+    private function getScript()
+    {
+        return <<< EOD
+echo "Release {{ release }}"
+echo "Release Path {{ release_path }}"
+echo "Project Path {{ project_path }}"
+echo "Branch {{ branch }}"
+echo "SHA {{ sha }}"
+echo "Short SHA {{ short_sha }}"
+echo "Deployer email {{ deployer_email }}"
+echo "Deployer name {{ deployer_name }}"
+echo "Committer email {{ committer_email }}"
+echo "Committer name {{ committer_name }}"
+echo "Server user \$(whoami)"
+EOD;
     }
 }

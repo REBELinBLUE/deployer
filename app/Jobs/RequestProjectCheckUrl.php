@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use REBELinBLUE\Deployer\CheckUrl;
 
 /**
  * Request the urls.
@@ -32,12 +31,14 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
 
     /**
      * Execute the command.
+     *
+     * @param Client $client
      */
-    public function handle()
+    public function handle(Client $client)
     {
         foreach ($this->links as $link) {
             try {
-                app()->make(Client::class)->get($link->url);
+                $client->get($link->url);
 
                 $link->online();
             } catch (\Exception $error) {

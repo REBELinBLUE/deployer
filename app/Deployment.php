@@ -73,7 +73,6 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
 
     /**
      * Override the boot method to bind model event listeners.
-     * @fires ModelChanged
      */
     public static function boot()
     {
@@ -121,26 +120,6 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
         }
 
         return collect([]);
-    }
-
-    /**
-     * Query the DB and load the HasMany relationship for commands.
-     *
-     * @return $this
-     */
-    private function loadCommands()
-    {
-        $collection = Command::join('deploy_steps', 'commands.id', '=', 'deploy_steps.command_id')
-                             ->where('deploy_steps.deployment_id', $this->getKey())
-                             ->distinct()
-                             ->orderBy('step')
-                             ->orderBy('order')
-                             ->get(['commands.*', 'deployment_id']);
-
-        $hasMany = new HasMany(Command::query(), $this, 'deployment_id', 'id');
-        $hasMany->matchMany([$this], $collection, 'commands');
-
-        return $this;
     }
 
     /**
@@ -352,5 +331,25 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
     public function getReleaseIdAttribute()
     {
         return $this->started_at->format('YmdHis');
+    }
+
+    /**
+     * Query the DB and load the HasMany relationship for commands.
+     *
+     * @return $this
+     */
+    private function loadCommands()
+    {
+        $collection = Command::join('deploy_steps', 'commands.id', '=', 'deploy_steps.command_id')
+                             ->where('deploy_steps.deployment_id', $this->getKey())
+                             ->distinct()
+                             ->orderBy('step')
+                             ->orderBy('order')
+                             ->get(['commands.*', 'deployment_id']);
+
+        $hasMany = new HasMany(Command::query(), $this, 'deployment_id', 'id');
+        $hasMany->matchMany([$this], $collection, 'commands');
+
+        return $this;
     }
 }

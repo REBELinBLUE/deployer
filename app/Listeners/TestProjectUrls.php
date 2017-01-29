@@ -18,7 +18,6 @@ class TestProjectUrls implements ShouldQueue
      * Handle the event.
      *
      * @param DeploymentFinished $event
-     * @dispatches RequestProjectCheckUrl
      */
     public function handle(DeploymentFinished $event)
     {

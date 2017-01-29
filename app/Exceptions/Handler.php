@@ -77,7 +77,7 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionWithWhoops($request, Exception $exception)
     {
-        $whoops = new \Whoops\Run;
+        $whoops = new \Whoops\Run();
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
 
         if ($request->ajax()) {

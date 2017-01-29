@@ -48,7 +48,6 @@ class QueueDeployment extends Job
 
     /**
      * Execute the command.
-     * @dispatches DeployProject
      */
     public function handle()
     {

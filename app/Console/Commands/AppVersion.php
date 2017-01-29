@@ -68,7 +68,7 @@ class AppVersion extends Command
      */
     private function updateBanner()
     {
-        $formatter = new FormatterHelper;
+        $formatter = new FormatterHelper();
 
         return $formatter->formatBlock('There is an update available!', 'fg=white;bg=green;options=bold', true);
     }

@@ -149,13 +149,11 @@ class UpdateApp extends InstallApp
 
     /**
      * Restarts the socket server.
-     *
-     * @fires RestartSocketServer
      */
     protected function restartSocket()
     {
         $this->info('Restarting the socket server');
-        event(new RestartSocketServer);
+        event(new RestartSocketServer());
     }
 
     /**

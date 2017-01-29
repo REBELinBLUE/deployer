@@ -48,6 +48,22 @@ class User extends Authenticatable implements PresentableInterface
     ];
 
     /**
+     * A hack to allow avatar_url to be called on the result of Auth::user().
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        if ($key === 'avatar_url') {
+            return $this->getPresenter()->avatar_url;
+        }
+
+        return parent::__get($key);
+    }
+
+    /**
      * Generate a change email token.
      *
      * @return string
@@ -68,22 +84,6 @@ class User extends Authenticatable implements PresentableInterface
     public function getPresenter()
     {
         return new UserPresenter($this);
-    }
-
-    /**
-     * A hack to allow avatar_url to be called on the result of Auth::user().
-     *
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        if ($key === 'avatar_url') {
-            return $this->getPresenter()->avatar_url;
-        }
-
-        return parent::__get($key);
     }
 
     /**

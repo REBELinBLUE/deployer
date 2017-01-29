@@ -59,6 +59,26 @@ class DashboardController extends Controller
     }
 
     /**
+     * Generates an XML file for CCTray.
+     *
+     * @param ProjectRepositoryInterface $projectRepository
+     *
+     * @return \Illuminate\View\View
+     */
+    public function cctray(ProjectRepositoryInterface $projectRepository)
+    {
+        $projects = $projectRepository->getAll();
+
+        foreach ($projects as $project) {
+            $project->latest_deployment = $project->deployments->first();
+        }
+
+        return Response::view('cctray', [
+            'projects' => $projects,
+        ])->header('Content-Type', 'application/xml');
+    }
+
+    /**
      * Builds the data for the timeline.
      *
      * @param DeploymentRepositoryInterface $deploymentRepository
@@ -81,25 +101,5 @@ class DashboardController extends Controller
         }
 
         return $deploys_by_date;
-    }
-
-    /**
-     * Generates an XML file for CCTray.
-     *
-     * @param ProjectRepositoryInterface $projectRepository
-     *
-     * @return \Illuminate\View\View
-     */
-    public function cctray(ProjectRepositoryInterface $projectRepository)
-    {
-        $projects = $projectRepository->getAll();
-
-        foreach ($projects as $project) {
-            $project->latest_deployment = $project->deployments->first();
-        }
-
-        return Response::view('cctray', [
-            'projects' => $projects,
-        ])->header('Content-Type', 'application/xml');
     }
 }

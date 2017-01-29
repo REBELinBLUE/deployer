@@ -111,6 +111,16 @@ class Server extends Model
     }
 
     /**
+     * The server path without a trailing slash.
+     *
+     * @return string
+     */
+    public function getCleanPathAttribute()
+    {
+        return preg_replace('#/$#', '', $this->path);
+    }
+
+    /**
      * Updates the attribute value and if it has changed set the server status to untested.
      *
      * @param string $attribute
@@ -123,15 +133,5 @@ class Server extends Model
         }
 
         $this->attributes[$attribute] = $value;
-    }
-
-    /**
-     * The server path without a trailing slash.
-     *
-     * @return string
-     */
-    public function getCleanPathAttribute()
-    {
-        return preg_replace('#/$#', '', $this->path);
     }
 }

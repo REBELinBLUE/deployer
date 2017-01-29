@@ -42,8 +42,6 @@ class UserController extends Controller
      * @param StoreUserRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model
-     *
-     * @fires UserWasCreated
      */
     public function store(StoreUserRequest $request)
     {

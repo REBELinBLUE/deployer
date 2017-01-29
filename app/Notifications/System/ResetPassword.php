@@ -21,7 +21,7 @@ class ResetPassword extends Notification implements ShouldQueue
      *
      * @var string
      */
-    public $token;
+    private $token;
 
     /**
      * Create a notification instance.
@@ -53,7 +53,7 @@ class ResetPassword extends Notification implements ShouldQueue
     {
         $action = route('auth.reset-confirm', ['token' => $this->token]);
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])

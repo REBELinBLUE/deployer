@@ -48,8 +48,6 @@ class ServerLog extends Model implements PresentableInterface, RuntimeInterface
 
     /**
      * Override the boot method to bind model event listeners.
-     * @fires ServerLogChanged
-     * @fires ServerOutputChanged
      */
     public static function boot()
     {

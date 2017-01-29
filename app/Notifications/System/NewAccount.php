@@ -49,7 +49,7 @@ class NewAccount extends Notification implements ShouldQueue
      */
     public function toMail(User $user)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])

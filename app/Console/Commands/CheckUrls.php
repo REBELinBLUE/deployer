@@ -35,14 +35,12 @@ class CheckUrls extends Command
      * Execute the console command.
      *
      * @return bool
-     *
-     * @dispatches RequestProjectCheckUrl
      */
     public function handle()
     {
         $period = [];
 
-        $minute = intval(date('i'));
+        $minute = (int) (date('i'));
         if ($minute === 0) {
             $period = [60, 30, 10, 5];
         } else {

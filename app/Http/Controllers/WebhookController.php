@@ -91,6 +91,24 @@ class WebhookController extends Controller
     }
 
     /**
+     * Generates a new webhook URL.
+     *
+     * @param int $project_id
+     *
+     * @return \Illuminate\View\View
+     */
+    public function refresh($project_id)
+    {
+        $project = $this->projectRepository->getById($project_id);
+        $project->generateHash();
+        $project->save();
+
+        return [
+            'url' => route('webhook.deploy', $project->hash),
+        ];
+    }
+
+    /**
      * Goes through the various webhook integrations as checks if the request is for them and parses it.
      * Then adds the various additional details required to trigger a deployment.
      *
@@ -164,23 +182,5 @@ class WebhookController extends Controller
         }
 
         return $payload;
-    }
-
-    /**
-     * Generates a new webhook URL.
-     *
-     * @param int $project_id
-     *
-     * @return \Illuminate\View\View
-     */
-    public function refresh($project_id)
-    {
-        $project = $this->projectRepository->getById($project_id);
-        $project->generateHash();
-        $project->save();
-
-        return [
-            'url' => route('webhook.deploy', $project->hash),
-        ];
     }
 }

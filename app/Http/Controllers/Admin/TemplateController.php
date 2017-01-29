@@ -15,18 +15,17 @@ use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 class TemplateController extends Controller
 {
     /**
-     * The template repository.
-     *
-     * @var TemplateRepositoryInterface
-     */
-    private $templateRepository;
-
-    /**
      * The command repository.
      *
      * @var CommandRepositoryInterface
      */
     protected $repository;
+    /**
+     * The template repository.
+     *
+     * @var TemplateRepositoryInterface
+     */
+    private $templateRepository;
 
     /**
      * TemplateController constructor.

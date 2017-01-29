@@ -61,6 +61,14 @@ class CreateNotificationChannels extends Migration
         Schema::drop('notify_emails');
     }
 
+    /**
+     * Reverse the migrations.
+     */
+    public function down()
+    {
+        //
+    }
+
     private function channelData(stdClass $row, array $config, $type)
     {
         $is_slack = ($type === 'slack');
@@ -90,13 +98,5 @@ class CreateNotificationChannels extends Migration
             'on_heartbeat_still_missing' => false,
             'on_heartbeat_recovered'     => $is_slack,
         ];
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down()
-    {
-        //
     }
 }

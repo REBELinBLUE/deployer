@@ -71,7 +71,6 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
 
     /**
      * {@inheritdoc}
-     * @dispatches TestServerConnection
      */
     public function queueForTesting($server_id)
     {

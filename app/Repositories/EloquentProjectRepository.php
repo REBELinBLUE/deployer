@@ -37,7 +37,6 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
 
     /**
      * {@inheritdoc}
-     * @dispatches SetupProject
      */
     public function create(array $fields)
     {
@@ -94,7 +93,6 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
 
     /**
      * {@inheritdoc}
-     * @dispatches TestServerConnection
      */
     public function refreshBranches($model_id)
     {

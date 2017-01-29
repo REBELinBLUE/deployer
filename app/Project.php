@@ -41,9 +41,9 @@ class Project extends Model implements PresentableInterface
      * @var array
      */
     protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
-        'updated_at', 'servers', 'commands', 'hash',
-        'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-        'notifications', 'deployments', 'shareFiles', 'configFiles', ];
+                         'updated_at', 'servers', 'commands', 'hash',
+                         'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
+                         'notifications', 'deployments', 'shareFiles', 'configFiles', ];
 
     /**
      * Additional attributes to include in the JSON representation.
@@ -306,7 +306,7 @@ class Project extends Model implements PresentableInterface
                      ->pluck('name')
                      ->toArray();
 
-        $compare = new VersionCompare;
+        $compare = new VersionCompare();
 
         // Sort the tags, if compare throws an exception it isn't a value version string so just do a strnatcmp
         // See #258 - Can remove the @ when dropping PHP 5 support
@@ -333,54 +333,6 @@ class Project extends Model implements PresentableInterface
                     ->where('name', '<>', $this->branch)
                     ->orderBy('name')
                     ->pluck('name');
-    }
-
-    /**
-     * Generates an SSH key and sets the private/public key properties.
-     */
-    protected function generateSSHKey()
-    {
-        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
-        unlink($key);
-
-        $process = new Process('tools.GenerateSSHKey', [
-            'key_file' => $key,
-        ]);
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
-        }
-
-        $this->attributes['private_key'] = file_get_contents($key);
-        $this->attributes['public_key']  = file_get_contents($key . '.pub');
-
-        unlink($key);
-        unlink($key . '.pub');
-    }
-
-    /**
-     * Generates an SSH key and sets the private/public key properties.
-     */
-    protected function regeneratePublicKey()
-    {
-        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
-        file_put_contents($key, $this->private_key);
-        chmod($key, 0600);
-
-        $process = new Process('tools.RegeneratePublicSSHKey', [
-            'key_file' => $key,
-        ]);
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
-        }
-
-        $this->attributes['public_key']  = file_get_contents($key . '.pub');
-
-        unlink($key);
-        unlink($key . '.pub');
     }
 
     /**
@@ -470,5 +422,53 @@ class Project extends Model implements PresentableInterface
     public function refs()
     {
         return $this->hasMany(Ref::class);
+    }
+
+    /**
+     * Generates an SSH key and sets the private/public key properties.
+     */
+    protected function generateSSHKey()
+    {
+        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
+        unlink($key);
+
+        $process = new Process('tools.GenerateSSHKey', [
+            'key_file' => $key,
+        ]);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process->getErrorOutput());
+        }
+
+        $this->attributes['private_key'] = file_get_contents($key);
+        $this->attributes['public_key']  = file_get_contents($key . '.pub');
+
+        unlink($key);
+        unlink($key . '.pub');
+    }
+
+    /**
+     * Generates an SSH key and sets the private/public key properties.
+     */
+    protected function regeneratePublicKey()
+    {
+        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
+        file_put_contents($key, $this->private_key);
+        chmod($key, 0600);
+
+        $process = new Process('tools.RegeneratePublicSSHKey', [
+            'key_file' => $key,
+        ]);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process->getErrorOutput());
+        }
+
+        $this->attributes['public_key']  = file_get_contents($key . '.pub');
+
+        unlink($key);
+        unlink($key . '.pub');
     }
 }

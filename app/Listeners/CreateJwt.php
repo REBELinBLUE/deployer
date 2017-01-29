@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Listeners;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Session\Store;
+use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use Tymon\JWTAuth\JWTAuth;
 
 /**
@@ -12,6 +13,8 @@ use Tymon\JWTAuth\JWTAuth;
  */
 class CreateJwt
 {
+    const LIFETIME_IN_HOURS = 3;
+
     /**
      * @var JWTAuth
      */
@@ -23,15 +26,22 @@ class CreateJwt
     private $session;
 
     /**
+     * @var JwtIdGenerator
+     */
+    private $generator;
+
+    /**
      * Create a new middleware instance.
      *
-     * @param JWTAuth $auth
-     * @param Store   $session
+     * @param JWTAuth        $auth
+     * @param Store          $session
+     * @param JwtIdGenerator $generator
      */
-    public function __construct(JWTAuth $auth, Store $session)
+    public function __construct(JWTAuth $auth, Store $session, TokenGenerator $generator)
     {
-        $this->auth    = $auth;
-        $this->session = $session;
+        $this->auth      = $auth;
+        $this->session   = $session;
+        $this->generator = $generator;
     }
 
     /**
@@ -41,10 +51,10 @@ class CreateJwt
      */
     public function handle(Login $event)
     {
-        $tokenId    = base64_encode(str_random(32));
+        $tokenId    = base64_encode($this->generator->generateRandom(32));
         $issuedAt   = Carbon::now()->timestamp;
         $notBefore  = $issuedAt;
-        $expire     = $notBefore + 3 * 60 * 60; // Adding 3 hours
+        $expire     = $notBefore + self::LIFETIME_IN_HOURS * 60 * 60; // Adding 3 hours
 
         // Create the token
         $config = [
@@ -54,7 +64,7 @@ class CreateJwt
             'nbf'  => $notBefore,        // Not before
             'exp'  => $expire,           // Expire
             'data' => [                  // Data related to the signed user
-                'userId' => $event->user->id    // User ID from the users table
+                'userId' => $event->user->id,    // User ID from the users table
             ],
         ];
 

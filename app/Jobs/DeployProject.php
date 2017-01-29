@@ -71,8 +71,6 @@ class DeployProject extends Job implements ShouldQueue
 
     /**
      * Execute the command.
-     * @fires DeploymentFinished
-     * @dispatches UpdateGitMirror
      */
     public function handle()
     {
@@ -506,7 +504,7 @@ class DeployProject extends Job implements ShouldQueue
             return '';
         }
 
-        $parser = new ScriptParser;
+        $parser = new ScriptParser();
 
         $script = '';
 
@@ -534,7 +532,7 @@ class DeployProject extends Job implements ShouldQueue
             return '';
         }
 
-        $parser = new ScriptParser;
+        $parser = new ScriptParser();
 
         $script = '';
 

@@ -54,7 +54,6 @@ class CreateUser extends Command
      * Execute the console command.
      *
      * @throws \RuntimeException
-     * @fires UserWasCreated
      */
     public function handle()
     {

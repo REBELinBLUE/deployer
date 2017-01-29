@@ -33,7 +33,7 @@ class Command extends Model
      * @var array
      */
     protected $fillable = ['name', 'user', 'script', 'target_type', 'target_id',
-        'step', 'order', 'optional', 'default_on', ];
+                           'step', 'order', 'optional', 'default_on', ];
 
     /**
      * The attributes excluded from the model's JSON form.

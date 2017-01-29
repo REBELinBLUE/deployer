@@ -76,13 +76,10 @@ install:
 
 before_script:
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
-  - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
-  - sed -i "s/DB_CONNECTION=maria/DB_CONNECTION=mysql/g" .env
-  - if [[ "$DB" = "mysql" ]] || [[ "$DB" = "maria" ]]; then sed -i "s/DB_USERNAME=/DB_USERNAME=travis/g" .env; fi
-  - if [[ "$DB" = "pgsql" ]]; then sed -i "s/DB_USERNAME=/DB_USERNAME=postgres/g" .env; fi
+  - if [[ "$DB" != "maria" ]]; then sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env; fi
+  - if [[ "$DB" = "pgsql" ]]; then sed -i "s/DB_USERNAME=travis/DB_USERNAME=postgres/g" .env; fi
   - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_DATABASE=deployer//g' .env; fi
-  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_USERNAME=//g' .env; fi
-  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_PASSWORD=//g' .env; fi
+  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_USERNAME=travis//g' .env; fi
   - if [[ "$DB" = "mysql" ]] || [[ "$DB" = "maria" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
   - if [[ "$DB" = "pgsql" ]]; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
   - if [[ "$DB" = "sqlite" ]]; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
@@ -101,14 +98,14 @@ script:
   # - make phpmd
   - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then make phpunit-coverage; fi
   - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then make phpunit; fi
-  - make phpdoccheck
+  - make phpdoc-check
 
 after_script:
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
   - cat $TRAVIS_BUILD_DIR/.env
 
 after_success:
-  - make loc
+  - make lines
   - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then bash <(curl -s https://codecov.io/bash); fi
 
 notifications:

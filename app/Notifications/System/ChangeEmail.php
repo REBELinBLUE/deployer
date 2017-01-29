@@ -49,7 +49,7 @@ class ChangeEmail extends Notification implements ShouldQueue
     {
         $action = route('profile.confirm-change-email', ['token' => $this->token]);
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])

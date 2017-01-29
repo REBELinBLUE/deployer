@@ -35,7 +35,6 @@ class UpdateGitMirror extends Job implements ShouldQueue
     /**
      * Execute the job.
      * @throws \RuntimeException
-     * @dispatches UpdateGitReferences
      */
     public function handle()
     {
@@ -43,7 +42,7 @@ class UpdateGitMirror extends Job implements ShouldQueue
         file_put_contents($private_key, $this->project->private_key);
         chmod($private_key, 0600);
 
-        $wrapper = with(new ScriptParser)->parseFile('tools.SSHWrapperScript', [
+        $wrapper = with(new ScriptParser())->parseFile('tools.SSHWrapperScript', [
             'private_key' => $private_key,
         ]);
 

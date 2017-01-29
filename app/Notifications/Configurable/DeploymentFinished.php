@@ -67,12 +67,11 @@ abstract class DeploymentFinished extends Notification
 
         $action = route('deployments', ['id' => $this->deployment->id]);
 
-        $email = (new MailMessage)
+        $email = (new MailMessage())
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name'  => $notification->name,
                 'table' => $table,
             ])
-            ->to($notification->config->email)
             ->subject(Lang::get($subject))
             ->line($message)
             ->action(Lang::get('notifications.deployment_details'), $action);
@@ -111,7 +110,7 @@ abstract class DeploymentFinished extends Notification
             Lang::get('notifications.branch')    => $this->deployment->branch,
         ];
 
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->from(null, $notification->config->icon)
             ->to($notification->config->channel)
             ->attachment(function (SlackAttachment $attachment) use ($message, $fields) {
@@ -138,7 +137,7 @@ abstract class DeploymentFinished extends Notification
      */
     protected function buildWebhookMessage($event, Channel $notification)
     {
-        return (new WebhookMessage)
+        return (new WebhookMessage())
             ->data(array_merge(array_only(
                 $this->deployment->attributesToArray(),
                 ['id', 'branch', 'started_at', 'finished_at', 'commit', 'source', 'reason']
@@ -163,7 +162,7 @@ abstract class DeploymentFinished extends Notification
      */
     protected function buildTwilioMessage($translation)
     {
-        return (new TwilioMessage)
+        return (new TwilioMessage())
             ->content(Lang::get($translation, [
                 'id'      => $this->deployment->id,
                 'project' => $this->project->name,
@@ -182,7 +181,7 @@ abstract class DeploymentFinished extends Notification
     {
         $message = Lang::get($translation);
 
-        return (new HipChatMessage)
+        return (new HipChatMessage())
             ->room($notification->config->room)
             ->notify()
             ->html(sprintf($message, sprintf(

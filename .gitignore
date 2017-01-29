@@ -4,6 +4,7 @@
 
 # Dev files
 .php_cs.cache
+.php_cs
 phpunit.xml
 _ide_helper.php
 _ide_helper_models.php

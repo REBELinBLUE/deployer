@@ -79,6 +79,9 @@ phpmd.xml export-ignore
 phpunit.xml.dist export-ignore
 Makefile export-ignore
 
+composer.lock -diff
+yarn.lock -diff
+
 #
 ## Github config
 #

@@ -61,12 +61,11 @@ abstract class HeartbeatChanged extends Notification
 
         $action = route('projects', ['id' => $this->heartbeat->project_id]);
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name'  => $notification->name,
                 'table' => $table,
             ])
-            ->to($notification->config->email)
             ->subject(Lang::get($subject))
             ->line($message)
             ->action(Lang::get('notifications.project_details'), $action);
@@ -96,7 +95,7 @@ abstract class HeartbeatChanged extends Notification
             Lang::get('heartbeats.last_check_in') => $heard_from,
         ];
 
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->from(null, $notification->config->icon)
             ->to($notification->config->channel)
             ->attachment(function (SlackAttachment $attachment) use ($message, $fields) {
@@ -119,7 +118,7 @@ abstract class HeartbeatChanged extends Notification
      */
     protected function buildWebhookMessage($event, Channel $notification)
     {
-        return (new WebhookMessage)
+        return (new WebhookMessage())
             ->data(array_merge(array_only(
                 $this->heartbeat->attributesToArray(),
                 ['id', 'name', 'missed', 'last_activity']
@@ -146,7 +145,7 @@ abstract class HeartbeatChanged extends Notification
             $heard_from = $this->heartbeat->last_activity->diffForHumans();
         }
 
-        return (new TwilioMessage)
+        return (new TwilioMessage())
             ->content(Lang::get($translation, [
                 'job'     => $this->heartbeat->name,
                 'project' => $this->heartbeat->project->name,
@@ -167,7 +166,7 @@ abstract class HeartbeatChanged extends Notification
         $message = Lang::get($translation, ['job' => $this->heartbeat->name]);
         $url     = route('projects', ['id' => $this->heartbeat->project_id]);
 
-        return (new HipChatMessage)
+        return (new HipChatMessage())
             ->room($notification->config->room)
             ->notify()
             ->html($message)

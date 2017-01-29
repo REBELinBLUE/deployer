@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Events\UrlDown;
 use REBELinBLUE\Deployer\Events\UrlUp;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
@@ -58,7 +57,6 @@ class CheckUrl extends Model
 
     /**
      * Override the boot method to bind model event listeners.
-     * @dispatches RequestProjectCheckUrl
      */
     public static function boot()
     {
@@ -91,8 +89,6 @@ class CheckUrl extends Model
      * Flags the link as healthy.
      *
      * @return bool
-     *
-     * @fires UrlUp
      */
     public function online()
     {
@@ -113,8 +109,6 @@ class CheckUrl extends Model
      * Flags the link as down.
      *
      * @return bool
-     *
-     * @fires UrlDown
      */
     public function offline()
     {

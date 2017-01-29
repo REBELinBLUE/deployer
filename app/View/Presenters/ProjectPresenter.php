@@ -98,11 +98,7 @@ class ProjectPresenter extends CommandPresenter
     {
         $status = $this->applicationCheckUrlStatus();
 
-        if ($status['length'] === 0) {
-            return Lang::get('app.not_applicable');
-        }
-
-        return ($status['length'] - $status['missed']) . ' / ' . $status['length'];
+        return $this->getStatusLabel($status);
     }
 
     /**
@@ -114,13 +110,7 @@ class ProjectPresenter extends CommandPresenter
     {
         $status = $this->applicationCheckUrlStatus();
 
-        if ($status['length'] === 0) {
-            return 'warning';
-        } elseif ($status['missed']) {
-            return 'danger';
-        }
-
-        return 'success';
+        return $this->getStatusCss($status);
     }
 
     /**
@@ -132,11 +122,7 @@ class ProjectPresenter extends CommandPresenter
     {
         $status = $this->heartbeatsStatus();
 
-        if ($status['length'] === 0) {
-            return Lang::get('app.not_applicable');
-        }
-
-        return ($status['length'] - $status['missed']) . ' / ' . $status['length'];
+        return $this->getStatusLabel($status);
     }
 
     /**
@@ -148,13 +134,7 @@ class ProjectPresenter extends CommandPresenter
     {
         $status = $this->heartbeatsStatus();
 
-        if ($status['length'] === 0) {
-            return 'warning';
-        } elseif ($status['missed']) {
-            return 'danger';
-        }
-
-        return 'success';
+        return $this->getStatusCss($status);
     }
 
     /**
@@ -179,5 +159,39 @@ class ProjectPresenter extends CommandPresenter
         }
 
         return 'fa-git-square';
+    }
+
+    /**
+     * Gets the status CSS class for heartbeats and URLs.
+     *
+     * @param array $status
+     *
+     * @return string
+     */
+    private function getStatusCss(array $status)
+    {
+        if ($status['length'] === 0) {
+            return 'warning';
+        } elseif ($status['missed']) {
+            return 'danger';
+        }
+
+        return 'success';
+    }
+
+    /**
+     * Gets the status label for heartbeats and URLs.
+     *
+     * @param array $status
+     *
+     * @return string
+     */
+    private function getStatusLabel(array $status)
+    {
+        if ($status['length'] === 0) {
+            return Lang::get('app.not_applicable');
+        }
+
+        return ($status['length'] - $status['missed']) . ' / ' . $status['length'];
     }
 }

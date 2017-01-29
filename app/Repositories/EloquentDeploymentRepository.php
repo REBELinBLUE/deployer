@@ -50,7 +50,6 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
     /**
      * {@inheritdoc}
-     * @dispatches AbortDeployment
      */
     public function abort($model_id)
     {
@@ -68,7 +67,6 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      * Gets all pending and running deployments for a project and aborts them.
      *
      * {@inheritdoc}
-     * @dispatches AbortDeployment
      */
     public function abortQueued($project_id)
     {

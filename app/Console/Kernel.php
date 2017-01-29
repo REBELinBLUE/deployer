@@ -62,6 +62,22 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
+     * Bootstrap the application for artisan commands.
+     */
+    public function bootstrap()
+    {
+        parent::bootstrap();
+
+        $fresh = '\Spatie\MigrateFresh\Commands\MigrateFresh';
+
+        // Only register the reset command on the local environment when dev dependencies are installed
+        if ($this->app->environment() === 'local' && class_exists($fresh, true)) {
+            $this->commands[] = ResetApp::class;
+            $this->commands[] = $fresh;
+        }
+    }
+
+    /**
      * Define the application's command schedule.
      *
      * @param Schedule $schedule
@@ -94,22 +110,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('deployer:purge-temp')
                  ->hourly()
                  ->withoutOverlapping();
-    }
-
-    /**
-     * Bootstrap the application for artisan commands.
-     */
-    public function bootstrap()
-    {
-        parent::bootstrap();
-
-        $fresh = '\Spatie\MigrateFresh\Commands\MigrateFresh';
-
-        // Only register the reset command on the local environment when dev dependencies are installed
-        if ($this->app->environment() === 'local' && class_exists($fresh, true)) {
-            $this->commands[] = ResetApp::class;
-            $this->commands[] = $fresh;
-        }
     }
 
     /**

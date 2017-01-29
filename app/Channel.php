@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use REBELinBLUE\Deployer\Notifications\System\NewNotificationTest;
+use REBELinBLUE\Deployer\Notifications\System\NewTestNotification;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
@@ -76,7 +76,7 @@ class Channel extends Model
 
         // When the notification has been saved queue a test
         static::saved(function (Channel $model) {
-            $model->notify(new NewNotificationTest());
+            $model->notify(new NewTestNotification());
         });
     }
 
@@ -90,8 +90,6 @@ class Channel extends Model
         if ($this->type === self::EMAIL) {
             return $this->config->email;
         }
-
-        return;
     }
 
     /**
@@ -104,8 +102,6 @@ class Channel extends Model
         if ($this->type === self::SLACK) {
             return $this->config->webhook;
         }
-
-        return;
     }
 
     /**
@@ -118,8 +114,6 @@ class Channel extends Model
         if ($this->type === self::WEBHOOK) {
             return $this->config->url;
         }
-
-        return;
     }
 
     /**
@@ -132,8 +126,6 @@ class Channel extends Model
         if ($this->type === self::TWILIO) {
             return $this->config->telephone;
         }
-
-        return;
     }
 
     /**
@@ -146,8 +138,6 @@ class Channel extends Model
         if ($this->type === self::HIPCHAT) {
             return $this->config->room;
         }
-
-        return;
     }
 
     /**

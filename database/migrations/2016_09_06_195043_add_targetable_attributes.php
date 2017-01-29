@@ -18,7 +18,7 @@ class AddTargetableAttributes extends Migration
     {
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance  = new $className;
+            $instance  = new $className();
 
             $table = $instance->getTable();
 
@@ -47,7 +47,7 @@ class AddTargetableAttributes extends Migration
         // Now loop through the relations and set the target details
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance  = new $className;
+            $instance  = new $className();
 
             foreach ($instance->all() as $row) {
                 $row->target_id   = $row->project_id;
@@ -60,7 +60,7 @@ class AddTargetableAttributes extends Migration
 
                 $row->save();
             }
-        };
+        }
 
         // Remove any deleted non templates from group 1 to group 2
         Project::where('is_template', false)
@@ -78,7 +78,7 @@ class AddTargetableAttributes extends Migration
         // Remove the unneeded project ID column
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance  = new $className;
+            $instance  = new $className();
 
             $table = $instance->getTable();
 
@@ -104,7 +104,7 @@ class AddTargetableAttributes extends Migration
     {
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance  = new $className;
+            $instance  = new $className();
 
             $table = $instance->getTable();
 

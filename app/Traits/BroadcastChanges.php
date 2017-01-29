@@ -13,9 +13,6 @@ trait BroadcastChanges
 {
     /**
      * Boot method to bind model event listeners.
-     * @fires ModelCreated
-     * @fires ModelChanged
-     * @fires ModelTrashed
      */
     public static function bootBroadcastChanges()
     {

@@ -62,12 +62,11 @@ abstract class UrlChanged extends Notification
 
         $action = route('projects', ['id' => $this->url->project_id]);
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name'  => $notification->name,
                 'table' => $table,
             ])
-            ->to($notification->config->email)
             ->subject(Lang::get($subject))
             ->line($message)
             ->action(Lang::get('notifications.project_details'), $action);
@@ -98,7 +97,7 @@ abstract class UrlChanged extends Notification
             Lang::get('checkUrls.url')         => $this->url->url,
         ];
 
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->from(null, $notification->config->icon)
             ->to($notification->config->channel)
             ->attachment(function (SlackAttachment $attachment) use ($message, $fields) {
@@ -121,7 +120,7 @@ abstract class UrlChanged extends Notification
      */
     protected function buildWebhookMessage($event, Channel $notification)
     {
-        return (new WebhookMessage)
+        return (new WebhookMessage())
             ->data(array_merge(array_only(
                 $this->url->attributesToArray(),
                 ['id', 'name', 'missed', 'last_seen']
@@ -148,7 +147,7 @@ abstract class UrlChanged extends Notification
             $last_seen = $this->url->last_seen->diffForHumans();
         }
 
-        return (new TwilioMessage)
+        return (new TwilioMessage())
             ->content(Lang::get($translation, [
                 'link'    => $this->url->name,
                 'project' => $this->url->project->name,
@@ -169,7 +168,7 @@ abstract class UrlChanged extends Notification
         $message = Lang::get($translation, ['link' => $this->url->name]);
         $url     = route('projects', ['id' => $this->url->project_id]);
 
-        return (new HipChatMessage)
+        return (new HipChatMessage())
             ->room($notification->config->room)
             ->notify()
             ->html($message)

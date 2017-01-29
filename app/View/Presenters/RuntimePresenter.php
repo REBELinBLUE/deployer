@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\View\Presenters;
 
 use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\View\Presenters\RuntimeInterface;
 
 /**
  * View presenter for calculating the runtime in a readable format.
@@ -40,7 +39,7 @@ trait RuntimePresenter
 
         $readable = '';
         foreach ($units as $name => $divisor) {
-            if ($quot = intval($seconds / $divisor)) {
+            if ($quot = (int) ($seconds / $divisor)) {
                 $readable .= Lang::choice('deployments.' . $name, $quot, ['time' => $quot]) . ', ';
                 $seconds -= $quot * $divisor;
             }

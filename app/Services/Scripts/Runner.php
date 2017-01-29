@@ -57,10 +57,28 @@ class Runner
         $this->process->setTimeout(null);
 
         if ($script_source === self::TEMPLATE_INPUT) {
-            $this->script = with(new Parser)->parseFile($input, $tokens);
+            $this->script = with(new Parser())->parseFile($input, $tokens);
         } else {
-            $this->script = with(new Parser)->parseString($input, $tokens);
+            $this->script = with(new Parser())->parseString($input, $tokens);
         }
+    }
+
+    /**
+     * Overloading call to undefined methods to pass them to the process object.
+     *
+     * @param string $method
+     * @param array  $arguments
+     *
+     * @throws \RuntimeException
+     * @return mixed
+     */
+    public function __call($method, array $arguments = [])
+    {
+        if (!is_callable([$this->process, $method])) {
+            throw new \RuntimeException('Method ' . $method . ' not exists');
+        }
+
+        return call_user_func_array([$this->process, $method], $arguments);
     }
 
     /**
@@ -150,28 +168,10 @@ class Runner
             ]);
         }
 
-        $output = with(new Parser)->parseFile('RunScript' . $wrapper, $tokens);
+        $output = with(new Parser())->parseFile('RunScript' . $wrapper, $tokens);
 
         Log::debug($output);
 
         return $output;
-    }
-
-    /**
-     * Overloading call to undefined methods to pass them to the process object.
-     *
-     * @param string $method
-     * @param array  $arguments
-     *
-     * @throws \RuntimeException
-     * @return mixed
-     */
-    public function __call($method, array $arguments = [])
-    {
-        if (!is_callable([$this->process, $method])) {
-            throw new \RuntimeException('Method ' . $method . ' not exists');
-        }
-
-        return call_user_func_array([$this->process, $method], $arguments);
     }
 }

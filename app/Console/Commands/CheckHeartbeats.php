@@ -28,8 +28,6 @@ class CheckHeartbeats extends Command
 
     /**
      * Execute the console command.
-     *
-     * @fires HeartbeatMissed
      */
     public function handle()
     {

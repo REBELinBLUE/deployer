@@ -121,8 +121,6 @@ class ProfileController extends Controller
      * Send email to change a new email.
      *
      * @return string
-     *
-     * @fires EmailChangeRequested
      */
     public function requestEmail()
     {
@@ -192,9 +190,9 @@ class ProfileController extends Controller
                 'path'    => $path . '/' . $filename,
                 'message' => 'success',
             ];
-        } else {
-            return 'failed';
         }
+
+        return 'failed';
     }
 
     /**
