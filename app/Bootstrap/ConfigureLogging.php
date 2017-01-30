@@ -41,7 +41,7 @@ class ConfigureLogging extends BaseLoggingConfiguration
             $config->get('app.log_level', 'debug')
         );
     }
-    
+
     /**
      * Determines the filename for the log.
      *
