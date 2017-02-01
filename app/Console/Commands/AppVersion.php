@@ -32,6 +32,8 @@ class AppVersion extends Command
 
     /**
      * Create a new command instance.
+     *
+     * @param LatestReleaseInterface $release
      */
     public function __construct(LatestReleaseInterface $release)
     {

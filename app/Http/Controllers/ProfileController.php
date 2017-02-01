@@ -44,6 +44,8 @@ class ProfileController extends Controller
      *
      * @param UserRepositoryInterface $repository
      * @param Google2FA               $google2fa
+     * @param LanguageManager         $languageManager
+     * @param Settings                $settings
      */
     public function __construct(
         UserRepositoryInterface $repository,
@@ -179,7 +181,7 @@ class ProfileController extends Controller
 
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
             $file            = $request->file('file');
-            $path            = '/upload/' . date('Y-m-d');
+            $path            = '/storage/' . date('Y-m-d');
             $destinationPath = public_path() . $path;
             $filename        = uniqid() . '.' . $file->getClientOriginalExtension();
 
@@ -221,7 +223,7 @@ class ProfileController extends Controller
      */
     public function avatar(Request $request)
     {
-        $path   = $request->get('path', '/upload/picture.jpg');
+        $path   = $request->get('path', '/placeholder.jpg');
         $image  = Image::make(public_path() . $path);
         $rotate = $request->get('dataRotate');
 
@@ -235,7 +237,7 @@ class ProfileController extends Controller
         $top    = $request->get('dataY');
 
         $image->crop($width, $height, $left, $top);
-        $path = '/upload/' . date('Y-m-d') . '/avatar' . uniqid() . '.jpg';
+        $path = '/storage/' . date('Y-m-d') . '/avatar' . uniqid() . '.jpg';
 
         $image->save(public_path() . $path);
 

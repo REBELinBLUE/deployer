@@ -3,20 +3,20 @@
 namespace REBELinBLUE\Deployer\Http;
 
 use Fideloper\Proxy\TrustProxies;
-use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Foundation\Bootstrap\ConfigureLogging;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as HttpLogging;
 use REBELinBLUE\Deployer\Http\Middleware\Authenticate;
 use REBELinBLUE\Deployer\Http\Middleware\EncryptCookies;
 use REBELinBLUE\Deployer\Http\Middleware\Locale;
 use REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated;
 use REBELinBLUE\Deployer\Http\Middleware\RefreshJsonWebToken;
+use REBELinBLUE\Deployer\Http\Middleware\TrimStrings;
 use REBELinBLUE\Deployer\Http\Middleware\VerifyCsrfToken;
 
 /**
@@ -24,24 +24,6 @@ use REBELinBLUE\Deployer\Http\Middleware\VerifyCsrfToken;
  */
 class Kernel extends HttpKernel
 {
-    /**
-     * The custom bootstrappers like Logging or Environment detector.
-     *
-     * @var array
-     */
-    protected $customBooters = [
-        ConfigureLogging::class => HttpLogging::class,
-    ];
-
-    /**
-     * Disable bootstrapper list.
-     *
-     * @var array
-     */
-    protected $disabledBooters = [
-
-    ];
-
     /**
      * The application's global HTTP middleware stack.
      * These middleware are run during every request to your application.
@@ -51,6 +33,9 @@ class Kernel extends HttpKernel
     protected $middleware = [
         CheckForMaintenanceMode::class,
         TrustProxies::class,
+        ValidatePostSize::class,
+        TrimStrings::class,
+        ConvertEmptyStringsToNull::class,
     ];
 
     /**
@@ -79,35 +64,9 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'jwt'        => RefreshJsonWebToken::class,
         'auth'       => Authenticate::class,
-        'auth.basic' => AuthenticateWithBasicAuth::class,
         'guest'      => RedirectIfAuthenticated::class,
+        'jwt'        => RefreshJsonWebToken::class,
         'throttle'   => ThrottleRequests::class,
     ];
-
-    /**
-     * Get the bootstrap classes for the application.
-     *
-     * @return array
-     */
-    protected function bootstrappers()
-    {
-        foreach ($this->bootstrappers as &$bootstrapper) {
-            foreach ($this->customBooters as $sourceBooter => $newBooter) {
-                if ($bootstrapper === $sourceBooter) {
-                    $bootstrapper = $newBooter;
-                    unset($this->customBooters[$sourceBooter]);
-                }
-            }
-        }
-
-        return array_merge(
-            array_diff(
-                $this->bootstrappers,
-                $this->disabledBooters
-            ),
-            $this->customBooters
-        );
-    }
 }

@@ -3,9 +3,7 @@
 namespace REBELinBLUE\Deployer\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Foundation\Bootstrap\ConfigureLogging;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use REBELinBLUE\Deployer\Bootstrap\ConfigureLogging as ConsoleLogging;
 use REBELinBLUE\Deployer\Console\Commands\AppVersion;
 use REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats;
 use REBELinBLUE\Deployer\Console\Commands\CheckUrls;
@@ -24,24 +22,6 @@ use REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors;
  */
 class Kernel extends ConsoleKernel
 {
-    /**
-     * The custom bootstrappers like Logging or Environment detector.
-     *
-     * @var array
-     */
-    protected $customBooters = [
-        ConfigureLogging::class => ConsoleLogging::class,
-    ];
-
-    /**
-     * Disable bootstrapper list.
-     *
-     * @var array
-     */
-    protected $disabledBooters = [
-
-    ];
-
     /**
      * The Artisan commands provided by your application.
      *
@@ -110,30 +90,5 @@ class Kernel extends ConsoleKernel
         $schedule->command('deployer:purge-temp')
                  ->hourly()
                  ->withoutOverlapping();
-    }
-
-    /**
-     * Get the bootstrap classes for the application.
-     *
-     * @return array
-     */
-    protected function bootstrappers()
-    {
-        foreach ($this->bootstrappers as &$bootstrapper) {
-            foreach ($this->customBooters as $sourceBooter => $newBooter) {
-                if ($bootstrapper === $sourceBooter) {
-                    $bootstrapper = $newBooter;
-                    unset($this->customBooters[$sourceBooter]);
-                }
-            }
-        }
-
-        return array_merge(
-            array_diff(
-                $this->bootstrappers,
-                $this->disabledBooters
-            ),
-            $this->customBooters
-        );
     }
 }

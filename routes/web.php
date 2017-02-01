@@ -3,13 +3,11 @@
 /** @var \Illuminate\Routing\Router $router */
 
 // Include the API routes inside an app path and add the authentication middleware to protect them
-$router->group(['middleware' => ['auth', 'jwt']], function () use ($router) {
-    require base_path('routes/api.php');
-});
+$router->middleware(['auth', 'jwt'])->group(base_path('routes/api.php'));
 
 // Dashboard routes
-$router->get('timeline', 'DashboardController@timeline')->middleware(['auth', 'jwt'])->name('dashboard.timeline');
-$router->get('/', 'DashboardController@index')->middleware(['auth', 'jwt'])->name('dashboard');
+$router->get('timeline', 'DashboardController@timeline')->name('dashboard.timeline');
+$router->get('/', 'DashboardController@index')->name('dashboard');
 
 // Deployments
 $router->get('webhook/{id}/refresh', 'WebhookController@refresh')->name('webhook.refresh');

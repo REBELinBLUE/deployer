@@ -29,6 +29,8 @@ abstract class HeartbeatChanged extends Notification
 
     /**
      * Create a new notification instance.
+     *
+     * @param Heartbeat $heartbeat
      */
     public function __construct(Heartbeat $heartbeat)
     {

@@ -38,7 +38,7 @@ class ClearOrphanAvatars extends Command
     private function purgeOldAvatars()
     {
         // Build up a list of all avatar images
-        $avatars = glob(public_path() . '/upload/*/*.*');
+        $avatars = glob(public_path() . '/storage/*/*.*');
 
         // Remove the public_path() from the path so that they match values in the DB
         array_walk($avatars, function (&$avatar) {

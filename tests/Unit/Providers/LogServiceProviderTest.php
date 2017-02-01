@@ -1,18 +1,18 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Bootstrap;
+namespace REBELinBLUE\Deployer\Tests\Unit\Providers;
 
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Log\Writer;
 use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\Unit\Bootstrap\Stubs\ConfigureLogging;
+use REBELinBLUE\Deployer\Tests\Unit\Providers\Stubs\LogServiceProvider;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Bootstrap\ConfigureLogging
+ * @coversDefaultClass \REBELinBLUE\Deployer\Providers\LogServiceProvider
  */
-class ConfigureLoggingTest extends TestCase
+class LogServiceProviderTest extends TestCase
 {
     /**
      * @covers ::configureSingleHandler
@@ -27,13 +27,14 @@ class ConfigureLoggingTest extends TestCase
 
         $app = m::mock(Application::class);
         $app->shouldReceive('storagePath')->once()->andReturn('/tmp');
+        $app->shouldReceive('bound')->once()->with('config')->andReturn(true);
         $app->shouldReceive('make')->once()->with('config')->andReturn($config);
 
         $writer = m::mock(Writer::class);
         $writer->shouldReceive('useFiles')->once()->shouldReceive('/tmp/logs/' . $name . 'log', $level);
 
-        $log = new ConfigureLogging();
-        $log->configureSingleHandler($app, $writer);
+        $log = new LogServiceProvider($app);
+        $log->configureSingleHandler($writer);
     }
 
     /**
@@ -50,13 +51,14 @@ class ConfigureLoggingTest extends TestCase
         $config->shouldReceive('get')->once()->with('app.log_level', 'debug')->andReturn($level);
 
         $app = m::mock(Application::class);
+        $app->shouldReceive('bound')->atLeast()->once()->with('config')->andReturn(true);
+        $app->shouldReceive('make')->atLeast()->once()->with('config')->andReturn($config);
         $app->shouldReceive('storagePath')->once()->andReturn('/tmp');
-        $app->shouldReceive('make')->once()->with('config')->andReturn($config);
 
         $writer = m::mock(Writer::class);
         $writer->shouldReceive('useDailyFiles')->once()->shouldReceive('/tmp/logs/' . $name . 'log', $days, $level);
 
-        $log = new ConfigureLogging();
-        $log->configureDailyHandler($app, $writer);
+        $log = new LogServiceProvider($app);
+        $log->configureDailyHandler($writer);
     }
 }

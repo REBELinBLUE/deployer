@@ -2,6 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
+use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use GuzzleHttp\Client as HttpClient;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Application;
@@ -25,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private $providers = [
         'production' => [
-            'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
+            HTMLMinServiceProvider::class,
         ],
         'local' => [
             'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
@@ -41,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private $middleware = [
         'production' => [
-            'GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware',
+            MinifyMiddleware::class,
         ],
         'local' => [
             'Clockwork\Support\Laravel\ClockworkMiddleware',
@@ -66,7 +68,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $env = 'production';
-        if ($this->app->environment() === 'local') {
+        if ($this->app->environment('local', 'testing')) {
             $env = 'local';
         }
 

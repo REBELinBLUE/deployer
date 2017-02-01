@@ -3,10 +3,12 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
+use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentDeploymentRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentRepository;
@@ -44,13 +46,14 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testCreate()
     {
-        $this->markTestSkipped('not working - same issue as ProjectRepository');
-
-        $expected = m::mock(Deployment::class);
-
         $fields   = ['foo' => 'bar'];
 
         $this->expectsJobs(QueueDeployment::class);
+
+        $project  = m::mock(Project::class);
+
+        $expected = m::mock(Deployment::class);
+        $expected->shouldReceive('getAttribute')->once()->with('project')->andReturn($project);
 
         $model = m::mock(Deployment::class);
         $model->shouldReceive('create')->once()->with($fields)->andReturn($expected);
@@ -66,9 +69,8 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testCreateClearsOptionalCommands()
     {
-        $this->markTestSkipped('not working - same issue as ProjectRepository');
-
         $project  = m::mock(Project::class);
+
         $expected = m::mock(Deployment::class);
         $expected->shouldReceive('getAttribute')->once()->with('project')->andReturn($project);
 
@@ -129,21 +131,108 @@ class EloquentDeploymentRepositoryTest extends TestCase
     /**
      * @covers ::abortQueued
      */
-    public function testAbortQueued()
+    public function testAbortQueued($is_webhook = false)
     {
-        $this->markTestIncomplete('not yet implemented');
+        $project_id = 432;
+
+        // 2 deployments
+        $deployments = [
+            $this->mockDeploymentToAbort($is_webhook),
+            $this->mockDeploymentToAbort($is_webhook),
+        ];
+
+        $model = m::mock(Deployment::class);
+        $model->shouldReceive('where')->once()->with('project_id', $project_id)->andReturnSelf();
+        $model->shouldReceive('whereIn')
+              ->once()
+              ->with('status', [Deployment::DEPLOYING, Deployment::PENDING])
+              ->andReturnSelf();
+        $model->shouldReceive('orderBy')->once()->with('started_at', 'DESC')->andReturnSelf();
+        $model->shouldReceive('get')->andReturn($deployments);
+
+        $this->expectsJobs(AbortDeployment::class);
+
+        $repository = new EloquentDeploymentRepository($model);
+        $repository->abortQueued($project_id);
+    }
+
+    /**
+     * @covers ::abortQueued
+     */
+    public function testAbortQueuedWebhookIsDeleted()
+    {
+        $this->testAbortQueued(true);
     }
 
     /**
      * @covers ::rollback
      */
-    public function testRollback()
+    public function testRollback($reason = '')
     {
-        $this->markTestIncomplete('not yet implemented');
+        $this->withoutJobs(); // Disable jobs as that is tested by create
+
+        $expected = m::mock(Deployment::class);
+        $expected->shouldReceive('getAttribute')->with('project')->andReturn(m::mock(Project::class));
+
+        $id         = 1234;
+        $committer  = 'bob';
+        $email      = 'bob@example.com';
+        $commit     = 'abcd1234efgh';
+        $project_id = 12;
+        $branch     = 'master';
+
+        $fields = [
+            'committer'       => $committer,
+            'committer_email' => $email,
+            'commit'          => $commit,
+            'project_id'      => $project_id,
+            'branch'          => $branch,
+            'reason'          => $reason,
+        ];
+
+        $previous = m::mock(Deployment::class);
+        $previous->shouldReceive('getAttribute')->with('committer')->andReturn($committer);
+        $previous->shouldReceive('getAttribute')->with('committer_email')->andReturn($email);
+        $previous->shouldReceive('getAttribute')->with('commit')->andReturn($commit);
+        $previous->shouldReceive('getAttribute')->with('project_id')->andReturn($project_id);
+        $previous->shouldReceive('getAttribute')->with('branch')->andReturn($branch);
+
+        $model = m::mock(Deployment::class);
+        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($previous);
+        $model->shouldReceive('create')->once()->with($fields)->andReturn($expected);
+
+        $repository = new EloquentDeploymentRepository($model);
+        $actual     = $repository->rollback($id, $reason);
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @covers ::rollback
+     */
+    public function testRollBackWithReason()
+    {
+        $this->testRollback('deployment reason');
+    }
+
+    /**
+     * @covers ::rollback
+     */
+    public function testRollbackThrowsModelNotFoundException()
+    {
+        $id = 1321;
+        $this->expectException(ModelNotFoundException::class);
+
+        $model = m::mock(Deployment::class);
+        $model->shouldReceive('findOrFail')->once()->with($id)->andThrow(ModelNotFoundException::class);
+
+        $repository = new EloquentDeploymentRepository($model);
+        $repository->rollback($id);
     }
 
     /**
      * @covers ::getTodayCount
+     * @covers ::getBetweenDates
      */
     public function testGetTodayCount()
     {
@@ -160,6 +249,7 @@ class EloquentDeploymentRepositoryTest extends TestCase
 
     /**
      * @covers ::getLastWeekCount
+     * @covers ::getBetweenDates
      */
     public function testGetLastWeekCount()
     {
@@ -176,6 +266,7 @@ class EloquentDeploymentRepositoryTest extends TestCase
 
     /**
      * @covers ::getPending
+     * @covers ::getStatus
      */
     public function testGetPending()
     {
@@ -194,18 +285,16 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testGetLatest()
     {
-        $this->markTestSkipped('not working - same issue as ProjectRepository');
-
         $id       = 1;
         $paginate = 10;
         $expected = m::mock(Deployment::class);
+        $expected->shouldReceive('with')->once()->with('user', 'project')->andReturnSelf();
+        $expected->shouldReceive('whereNotNull')->once()->with('started_at')->andReturnSelf();
+        $expected->shouldReceive('orderBy')->once()->with('started_at', 'DESC')->andReturnSelf();
+        $expected->shouldReceive('paginate')->once()->with($paginate)->andReturnSelf();
 
         $model = m::mock(Deployment::class);
-        $model->shouldReceive('where')->once()->with('project_id', $id)->andReturnSelf();
-        $model->shouldReceive('with')->once()->with('user', 'project')->andReturnSelf();
-        $model->shouldReceive('whereNotNull')->once()->with('started_at')->andReturnSelf();
-        $model->shouldReceive('orderBy')->once()->with('started_at', 'DESC')->andReturnSelf();
-        $model->shouldReceive('paginate')->once()->with($paginate)->andReturn($expected);
+        $model->shouldReceive('where')->once()->with('project_id', $id)->andReturn($expected);
 
         $repository = new EloquentDeploymentRepository($model);
         $actual     = $repository->getLatest($id, $paginate);
@@ -239,17 +328,15 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testGetTimeline()
     {
-        $this->markTestSkipped('not working - same issue as ProjectRepository');
-
         $expected = m::mock(Deployment::class);
+        $expected->shouldReceive('with')->once()->with('project')->andReturnSelf();
+        $expected->shouldReceive('take')->once()->with(15)->andReturnSelf();
+        $expected->shouldReceive('orderBy')->once()->with('started_at', 'DESC')->andReturnSelf();
+        $expected->shouldReceive('get')->once()->andReturnSelf();
 
         $model = m::mock(Deployment::class);
         $model->shouldReceive('whereRaw')->once()->withAnyArgs()->andReturnSelf();
-        $model->shouldReceive('whereNotNull')->once()->with('started_at')->andReturnSelf();
-        $model->shouldReceive('with')->once()->with('project')->andReturnSelf();
-        $model->shouldReceive('take')->once()->with(15)->andReturnSelf();
-        $model->shouldReceive('orderBy')->once()->with('started_at', 'DESC')->andReturnSelf();
-        $model->shouldReceive('get')->once()->andReturn($expected);
+        $model->shouldReceive('whereNotNull')->once()->with('started_at')->andReturn($expected);
 
         $repository = new EloquentDeploymentRepository($model);
         $actual     = $repository->getTimeline();
@@ -259,6 +346,7 @@ class EloquentDeploymentRepositoryTest extends TestCase
 
     /**
      * @covers ::getRunning
+     * @covers ::getStatus
      */
     public function testGetRunning()
     {
@@ -270,6 +358,21 @@ class EloquentDeploymentRepositoryTest extends TestCase
         $actual     = $repository->getRunning();
 
         $this->assertSame($expected, $actual);
+    }
+
+    private function mockDeploymentToAbort($is_webhook = false)
+    {
+        $deployment = m::mock(Deployment::class);
+        $deployment->shouldReceive('setAttribute')->once()->with('status', Deployment::ABORTING);
+        $deployment->shouldReceive('save');
+
+        $deployment->shouldReceive('getAttribute')->once()->with('is_webhook')->andReturn($is_webhook);
+
+        if ($is_webhook) {
+            $deployment->shouldReceive('delete');
+        }
+
+        return $deployment;
     }
 
     private function mockDeploymentsBetweenDates($expected, $id, $sameDay = false)

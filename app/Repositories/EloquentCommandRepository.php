@@ -26,9 +26,11 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     public function create(array $fields)
     {
         // Get the current highest command order
-        $max = $this->getStepForTarget($fields['target_type'], $fields['target_id'], $fields['step'])
-                    ->orderBy('order', 'DESC')
-                    ->first();
+        $max = $this->model->where('target_type', $fields['target_type'])
+                           ->where('target_id', $fields['target_id'])
+                           ->where('step', $fields['step'])
+                           ->orderBy('order', 'DESC')
+                           ->first();
 
         $order = 0;
         if (isset($max)) {
@@ -83,23 +85,11 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
      */
     public function getForDeployStep($target_id, $target, $step)
     {
-        return $this->getStepForTarget($target, $target_id, [$step - 1, $step + 1])
-                    ->with('servers')
-                    ->orderBy('order')
-                    ->get();
-    }
-
-    /**
-     * @param string $target
-     * @param int    $target_id
-     * @param mixed  $step
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    private function getStepForTarget($target, $target_id, $step)
-    {
         return $this->model->where('target_type', $target)
                            ->where('target_id', $target_id)
-                           ->where('step', $step);
+                           ->with('servers')
+                           ->whereIn('step', [$step - 1, $step + 1])
+                           ->orderBy('order')
+                           ->get();
     }
 }

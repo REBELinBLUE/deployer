@@ -29,6 +29,8 @@ abstract class UrlChanged extends Notification
 
     /**
      * Create a new notification instance.
+     *
+     * @param CheckUrl $url
      */
     public function __construct(CheckUrl $url)
     {

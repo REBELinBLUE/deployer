@@ -26,7 +26,7 @@ class UserPresenterTest extends TestCase
         $presenter = new UserPresenter($user);
         $actual    = $presenter->presentAvatarUrl();
 
-        $this->assertSame($this->baseUrl . '/' . $expected, $actual);
+        $this->assertSame(config('app.url') . '/' . $expected, $actual);
     }
 
     /**

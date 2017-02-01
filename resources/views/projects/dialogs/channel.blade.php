@@ -8,7 +8,7 @@
             <form role="form">
                 <input type="hidden" id="notification_id" name="id" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
-                <input type="hidden" name="type" id="notification_type" alue="" />
+                <input type="hidden" name="type" id="notification_type" value="" />
                 <div class="modal-body">
                     <div class="callout callout-danger">
                         <i class="icon fa fa-warning"></i> {{ Lang::get('channels.warning') }}
