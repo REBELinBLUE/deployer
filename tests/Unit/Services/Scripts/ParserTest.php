@@ -3,10 +3,10 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Services\Scripts;
 
 use Illuminate\Filesystem\Filesystem;
+use Mockery as m;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use RuntimeException;
-use Mockery as m;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Services\Scripts\Parser
@@ -61,7 +61,7 @@ class ParserTest extends TestCase
     public function testParseFileLoadsScript($fileContent, $expected, array $tokens)
     {
         $expectedFileName = 'a-real-file';
-        $path = resource_path('scripts/' . $expectedFileName . '.sh');
+        $path             = resource_path('scripts/' . $expectedFileName . '.sh');
 
         $fs = m::mock(Filesystem::class);
         $fs->shouldReceive('exists')->with($path)->andReturn(true);
@@ -79,7 +79,7 @@ class ParserTest extends TestCase
 
         return [
             ['a {{ token }} b', 'a REPLACED b', $tokens],
-            ['a token b', 'a token b', $tokens]
+            ['a token b', 'a token b', $tokens],
         ];
     }
 }

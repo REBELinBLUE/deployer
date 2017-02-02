@@ -33,19 +33,19 @@ class UpdateGitReferences extends Job implements ShouldQueue
 
     /**
      * Execute the job.
+     * @param Process $process
      */
-    public function handle()
+    public function handle(Process $process)
     {
         $mirror_dir = $this->project->mirrorPath();
 
         $this->project->refs()->delete();
 
         foreach (['tag', 'branch'] as $ref) {
-            $process = new Process('tools.ListGitReferences', [
+            $process->setScript('tools.ListGitReferences', [
                 'mirror_path'   => $mirror_dir,
                 'git_reference' => $ref,
-            ]);
-            $process->run();
+            ])->run();
 
             if ($process->isSuccessful()) {
                 foreach (explode(PHP_EOL, trim($process->getOutput())) as $reference) {

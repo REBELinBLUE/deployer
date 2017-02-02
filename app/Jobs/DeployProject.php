@@ -149,12 +149,12 @@ class DeployProject extends Job implements ShouldQueue
     {
         $commit = ($this->deployment->commit === Deployment::LOADING ? null : $this->deployment->commit);
 
-        $process = new Process('tools.GetCommitDetails', [
+        $process = app()->make(Process::class);
+        $process->setScript('tools.GetCommitDetails', [
             'deployment'    => $this->deployment->id,
             'mirror_path'   => $this->deployment->project->mirrorPath(),
             'git_reference' => $commit ?: $this->deployment->branch,
-        ]);
-        $process->run();
+        ])->run();
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
@@ -188,15 +188,15 @@ class DeployProject extends Job implements ShouldQueue
     {
         $tmp_dir = 'clone_' . $this->deployment->project_id . '_' . $this->deployment->release_id;
 
-        $process = new Process('deploy.CreateReleaseArchive', [
+        $process = app()->make(Process::class);
+        $process->setScript('deploy.CreateReleaseArchive', [
             'deployment'      => $this->deployment->id,
             'mirror_path'     => $this->deployment->project->mirrorPath(),
             'scripts_path'    => resource_path('scripts/'),
             'tmp_path'        => storage_path('app/tmp/' . $tmp_dir),
             'sha'             => $this->deployment->commit,
             'release_archive' => storage_path('app/' . $this->release_archive),
-        ]);
-        $process->run();
+        ])->run();
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
@@ -213,15 +213,13 @@ class DeployProject extends Job implements ShouldQueue
                 continue;
             }
 
-            $process = new Process('deploy.CleanupFailedRelease', [
+            $process = app()->make(Process::class);
+            $process->setScript('deploy.CleanupFailedRelease', [
                 'deployment'     => $this->deployment->id,
                 'project_path'   => $server->clean_path,
                 'release_path'   => $server->clean_path . '/releases/' . $this->deployment->release_id,
                 'remote_archive' => $server->clean_path . '/' . $this->release_archive,
-            ]);
-
-            $process->setServer($server, $this->private_key)
-                    ->run();
+            ])->setServer($server, $this->private_key)->run();
         }
     }
 
@@ -408,26 +406,28 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function getScriptForStep(DeployStep $step, array $tokens = [])
     {
+        $process = app()->make(Process::class);
+
         switch ($step->stage) {
             case Stage::DO_CLONE:
-                return new Process('deploy.steps.CreateNewRelease', $tokens);
+                return $process->setScript('deploy.steps.CreateNewRelease', $tokens);
             case Stage::DO_INSTALL:
                 // Write configuration file to release dir, symlink shared files and run composer
-                $process = new Process('deploy.steps.InstallComposerDependencies', $tokens);
-                $process->prependScript($this->configurationFileCommands($tokens['release_path']))
+                $process->setScript('deploy.steps.InstallComposerDependencies', $tokens)
+                        ->prependScript($this->configurationFileCommands($tokens['release_path']))
                         ->appendScript($this->shareFileCommands($tokens['release_path'], $tokens['shared_path']));
 
                 return $process;
             case Stage::DO_ACTIVATE:
-                return new Process('deploy.steps.ActivateNewRelease', $tokens);
+                return $process->setScript('deploy.steps.ActivateNewRelease', $tokens);
             case Stage::DO_PURGE:
-                return new Process('deploy.steps.PurgeOldReleases', $tokens);
+                return $process->setScript('deploy.steps.PurgeOldReleases', $tokens);
         }
 
         // Custom step
         $script = '### Custom script - {{ deployment }}' . PHP_EOL . $step->command->script;
 
-        return new Process($script, $tokens, Process::DIRECT_INPUT);
+        return $process->setScript($script, $tokens, Process::DIRECT_INPUT);
     }
 
     /**
@@ -441,7 +441,8 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function sendFile($local_file, $remote_file, ServerLog $log)
     {
-        $process = new Process('deploy.SendFileToServer', [
+        $process = app()->make(Process::class);
+        $process->setScript('deploy.SendFileToServer', [
             'deployment'  => $this->deployment->id,
             'port'        => $log->server->port,
             'private_key' => $this->private_key,

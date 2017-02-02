@@ -52,22 +52,13 @@ class Runner
     /**
      * Runner constructor.
      *
-     * @param string $input
-     * @param array  $tokens
-     * @param bool   $script_source
+     * @param Parser  $parser
+     * @param Process $process
      */
-    public function __construct($input, array $tokens = [], $script_source = self::TEMPLATE_INPUT)
+    public function __construct(Parser $parser, Process $process)
     {
-        $this->process = new Process('');
-        $this->process->setTimeout(null);
-
-        $this->parser = app()->make(Parser::class);
-
-        if ($script_source === self::TEMPLATE_INPUT) {
-            $this->script = $this->parser->parseFile($input, $tokens);
-        } else {
-            $this->script = $this->parser->parseString($input, $tokens);
-        }
+        $this->parser  = $parser;
+        $this->process = $process;
     }
 
     /**
@@ -89,6 +80,26 @@ class Runner
     }
 
     /**
+     * Sets the script to use for the process.
+     *
+     * @param string $input
+     * @param array  $tokens
+     * @param bool   $script_source
+     *
+     * @return $this
+     */
+    public function setScript($input, array $tokens = [], $script_source = self::TEMPLATE_INPUT)
+    {
+        if ($script_source === self::TEMPLATE_INPUT) {
+            $this->script = $this->parser->parseFile($input, $tokens);
+        } else {
+            $this->script = $this->parser->parseString($input, $tokens);
+        }
+
+        return $this;
+    }
+
+    /**
      * Prepend commands to the beginning of the script.
      *
      * @param string $script
@@ -97,7 +108,7 @@ class Runner
      */
     public function prependScript($script)
     {
-        $this->script = trim($script . PHP_EOL . $this->script);
+        $this->script = trim($script . PHP_EOL . $this->getScript());
 
         return $this;
     }
@@ -111,7 +122,7 @@ class Runner
      */
     public function appendScript($script)
     {
-        $this->script = trim($this->script . PHP_EOL . $script);
+        $this->script = trim($this->getScript() . PHP_EOL . $script);
 
         return $this;
     }
@@ -125,7 +136,7 @@ class Runner
      */
     public function run($callback = null)
     {
-        $command = $this->wrapCommand($this->script);
+        $command = $this->wrapCommand($this->getScript());
 
         $this->process->setCommandLine($command);
 
@@ -149,6 +160,16 @@ class Runner
         $this->is_local         = false;
 
         return $this;
+    }
+
+    /**
+     * Gets the content of the script to be run.
+     *
+     * @return string
+     */
+    public function getScript()
+    {
+        return $this->script;
     }
 
     /**

@@ -51,10 +51,10 @@ class ClearOrphanMirrors extends Command
 
         // Now loop through the mirrors and delete them from storage
         foreach ($orphan_mirrors as $mirror_dir) {
-            $process = new Process('tools.RemoveMirrorDirectory', [
+            $process = app()->make(Process::class);
+            $process->setScript('tools.RemoveMirrorDirectory', [
                 'mirror_path' => $mirror_dir,
-            ]);
-            $process->run();
+            ])->run();
 
             if ($process->isSuccessful()) {
                 $this->info('Deleted ' . basename($mirror_dir));

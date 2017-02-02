@@ -13,7 +13,9 @@ use MicheleAngioni\MultiLanguage\LanguageManager;
 use NotificationChannels\Webhook\WebhookChannel;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
+use REBELinBLUE\Deployer\Services\Scripts\Runner;
 use REBELinBLUE\Deployer\Template;
+use Symfony\Component\Process\Process;
 use function GuzzleHttp\default_user_agent;
 
 /**
@@ -117,6 +119,13 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(Parser::class, function (Application $app) {
             return new Parser($app->make('files'));
+        });
+
+        $this->app->bind(Runner::class, function (Application $app) {
+            $process = new Process('');
+            $process->setTimeout(null);
+
+            return new Runner($app->make(Parser::class), $process);
         });
 
         $this->registerGuzzleClientOptions();

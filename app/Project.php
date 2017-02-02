@@ -432,10 +432,10 @@ class Project extends Model implements PresentableInterface
         $key = tempnam(storage_path('app/tmp/'), 'sshkey');
         unlink($key);
 
-        $process = new Process('tools.GenerateSSHKey', [
+        $process = app()->make(Process::class);
+        $process->setScript('tools.GenerateSSHKey', [
             'key_file' => $key,
-        ]);
-        $process->run();
+        ])->run();
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());

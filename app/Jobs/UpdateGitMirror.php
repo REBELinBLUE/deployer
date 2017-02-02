@@ -34,9 +34,9 @@ class UpdateGitMirror extends Job implements ShouldQueue
 
     /**
      * Execute the job.
-     * @throws \RuntimeException
+     * @param Process $process
      */
-    public function handle()
+    public function handle(Process $process)
     {
         $private_key = tempnam(storage_path('app/tmp/'), 'sshkey');
         file_put_contents($private_key, $this->project->private_key);
@@ -50,12 +50,11 @@ class UpdateGitMirror extends Job implements ShouldQueue
         file_put_contents($wrapper_file, $wrapper);
         chmod($wrapper_file, 0755);
 
-        $process = new Process('tools.MirrorGitRepository', [
+        $process->setScript('tools.MirrorGitRepository', [
             'wrapper_file' => $wrapper_file,
             'mirror_path'  => $this->project->mirrorPath(),
             'repository'   => $this->project->repository,
-        ]);
-        $process->run();
+        ])->run();
 
         unlink($wrapper_file);
         unlink($private_key);

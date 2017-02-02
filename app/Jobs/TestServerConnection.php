@@ -32,8 +32,9 @@ class TestServerConnection extends Job implements ShouldQueue
 
     /**
      * Execute the command.
+     * @param Process $process
      */
-    public function handle()
+    public function handle(Process $process)
     {
         $this->server->status = Server::TESTING;
         $this->server->save();
@@ -43,15 +44,12 @@ class TestServerConnection extends Job implements ShouldQueue
         chmod($key, 0600);
 
         try {
-            $process = new Process('TestServerConnection', [
+            $process->setScript('TestServerConnection', [
                 'server_id'      => $this->server->id,
                 'project_path'   => $this->server->clean_path,
                 'test_file'      => time() . '_testing_deployer.txt',
                 'test_directory' => time() . '_testing_deployer_dir',
-            ]);
-
-            $process->setServer($this->server, $key)
-                    ->run();
+            ])->setServer($this->server, $key)->run();
 
             if (!$process->isSuccessful()) {
                 $this->server->status = Server::FAILED;
