@@ -4,16 +4,15 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\Stubs\StubUser;
 use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
 use Robbo\Presenter\PresentableInterface;
-
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\User
@@ -52,7 +51,7 @@ class UserTest extends TestCase
 
         App::instance(TokenGenerator::class, $generator);
 
-        $user = new StubUser();
+        $user   = new StubUser(); // A stub to disable save()
         $actual = $user->requestEmailToken();
 
         $this->assertSame($expected, $actual);
@@ -76,11 +75,11 @@ class UserTest extends TestCase
     public function testGetAvatarUrl()
     {
         $expected = '/an/image.jpg';
-        $email = 'user@example.com';
+        $email    = 'user@example.com';
 
-        $user = new User();
+        $user         = new User();
         $user->avatar = $expected;
-        $user->email = $email;
+        $user->email  = $email;
 
         $this->assertSame(config('app.url') . $expected, $user->avatar_url);
         $this->assertSame($email, $user->email);
@@ -120,13 +119,5 @@ class UserTest extends TestCase
         $user->sendPasswordResetNotification($expectedToken);
 
         Notification::assertSentTo($user, ResetPassword::class);
-    }
-}
-
-class StubUser extends User
-{
-    public function save(array $options = [])
-    {
-        // Overwrite the save method which is called by requestEmailToken, so we don't need to worry about migrations
     }
 }
