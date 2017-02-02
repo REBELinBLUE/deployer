@@ -7,7 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Services\Scripts\Parser as ScriptParser;
+use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
@@ -34,15 +34,17 @@ class UpdateGitMirror extends Job implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param Process $process
+     * @param Parser  $parser
      */
-    public function handle(Process $process)
+    public function handle(Process $process, Parser $parser)
     {
         $private_key = tempnam(storage_path('app/tmp/'), 'sshkey');
         file_put_contents($private_key, $this->project->private_key);
         chmod($private_key, 0600);
 
-        $wrapper = with(new ScriptParser())->parseFile('tools.SSHWrapperScript', [
+        $wrapper = $parser->parseFile('tools.SSHWrapperScript', [
             'private_key' => $private_key,
         ]);
 

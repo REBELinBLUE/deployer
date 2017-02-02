@@ -505,7 +505,7 @@ class DeployProject extends Job implements ShouldQueue
             return '';
         }
 
-        $parser = new ScriptParser();
+        $parser = app()->make(ScriptParser::class);
 
         $script = '';
 
@@ -533,7 +533,7 @@ class DeployProject extends Job implements ShouldQueue
             return '';
         }
 
-        $parser = new ScriptParser();
+        $parser = app()->make(ScriptParser::class);
 
         $script = '';
 
