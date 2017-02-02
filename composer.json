@@ -33,8 +33,8 @@
         "itsgoingd/clockwork": "~1.9",
         "laravel/framework": "5.4.*",
         "laravel-notification-channels/hipchat": "~0.2",
-        "laravel-notification-channels/twilio": "dev-laravel-5.4-upgrade",
-        "laravel-notification-channels/webhook": "dev-laravel-5.4-upgrade",
+        "laravel-notification-channels/twilio": "~1.0.2",
+        "laravel-notification-channels/webhook": "~1.0.2",
         "laravel/tinker": "1.0.*",
         "michele-angioni/multi-language": "~0.4",
         "pda/pheanstalk": "~3.1",
@@ -61,8 +61,6 @@
     },
     "repositories": [
         { "type": "vcs", "url": "https://github.com/REBELinBLUE/laravel-migrate-fresh" },
-        { "type": "vcs", "url": "https://github.com/REBELinBLUE/twilio" },
-        { "type": "vcs", "url": "https://github.com/REBELinBLUE/webhook" },
         { "type": "vcs", "url": "https://github.com/REBELinBLUE/presenter" },
         { "type": "vcs", "url": "https://github.com/REBELinBLUE/multi-language" }
     ],

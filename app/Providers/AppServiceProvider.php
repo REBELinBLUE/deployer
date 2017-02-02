@@ -6,12 +6,14 @@ use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
 use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use GuzzleHttp\Client as HttpClient;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Notifications\Channels\SlackWebhookChannel;
 use Illuminate\Support\ServiceProvider;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use NotificationChannels\Webhook\WebhookChannel;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Template;
 use function GuzzleHttp\default_user_agent;
 
@@ -112,6 +114,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('locale', function (Application $app) {
             return $app->make(LanguageManager::class);
+        });
+
+        $this->app->bind(Parser::class, function (Application $app) {
+            return new Parser($app->make('files'));
         });
 
         $this->registerGuzzleClientOptions();
