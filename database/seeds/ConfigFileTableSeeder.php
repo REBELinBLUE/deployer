@@ -22,6 +22,7 @@ APP_TIMEZONE=UTC
 APP_LOCALE=en
 APP_THEME=green
 APP_LOG=daily
+APP_LOG_LEVEL=error
 
 JWT_SECRET=zLBooByVMcfVWJYaSEKr7iKHIMluVBAl
 
@@ -29,9 +30,10 @@ SOCKET_URL=http://deployer.app
 SOCKET_PORT=6001
 
 DB_CONNECTION=mysql
+DB_PORT=3306
 DB_HOST=localhost
 DB_DATABASE=deployer
-DB_USERNAME=homestead
+DB_USERNAME=deployer
 DB_PASSWORD=secret
 
 MAIL_DRIVER=mail

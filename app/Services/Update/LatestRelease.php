@@ -41,7 +41,7 @@ class LatestRelease implements LatestReleaseInterface
      * @param Client          $client
      * @param string          $token
      */
-    public function __construct(CacheRepository $cache, Client $client, $token = false)
+    public function __construct(CacheRepository $cache, Client $client, $token = null)
     {
         $this->cache  = $cache;
         $this->client = $client;
@@ -62,7 +62,7 @@ class LatestRelease implements LatestReleaseInterface
                 'Accept' => 'application/vnd.github.v3+json',
             ];
 
-            if ($this->token) {
+            if (!is_null($this->token)) {
                 $headers['Authorization'] = 'token ' . $this->token;
             }
 

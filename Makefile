@@ -4,13 +4,15 @@
 
 ## Frontend build
 build: install-dev localise
+	@-rm -rf public/build
 	gulp
+	@rm -rf public/css public/fonts public/js
 
 ## Clean cache, logs and other temporary files
 clean:
 	rm -rf storage/logs/*.log bootstrap/cache/*.php storage/framework/schedule-* storage/clockwork/*.json
 	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*.php
-	rm -rf public/css/ public/fonts/ public/js/ # temporary storage of compiled assets
+	-rm -rf public/css/ public/fonts/ public/js/ # temporary storage of compiled assets
 
 ## PHP Coding Standards Fixer
 fix:
@@ -51,7 +53,6 @@ permissions:
 	chmod 777 storage/logs/ bootstrap/cache/ storage/clockwork/
 	chmod 777 storage/framework/cache/ storage/framework/sessions/ storage/framework/views/
 	chmod 777 storage/app/mirrors/ storage/app/tmp/ storage/app/public/
-	chmod 777 public/upload/ # This should be removed, laravel recommends storage/public
 
 ## PHP Coding Standards (PSR-2)
 phpcs:
@@ -82,6 +83,8 @@ reset: clean
 	rm -rf vendor/ node_modules/ bower_components/
 	rm -rf public/build/ storage/app/mirrors/* storage/app/tmp/* storage/app/public/*
 	rm -rf .env.prev _ide_helper_models.php _ide_helper.php .phpstorm.meta.php .php_cs.cache
+	-rm database/database.sqlite
+	-rm database/backups/*
 	-git checkout -- public/build/ 2> /dev/null # Exists on the release branch
 
 ## Install dependencies and runs tests

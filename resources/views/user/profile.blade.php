@@ -57,7 +57,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="scheme">{{ Lang::get('users.language') }}</label>
+                        <label for="language">{{ Lang::get('users.language') }}</label>
                         <select name="language" id="language" class="form-control">
                             @foreach ($locales as $locale)
                                 <option value="{{ $locale }}" @if ($locale === $logged_in_user->language) selected @endif>
@@ -105,7 +105,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="avatar">
-                            <img src="{{ url('upload/picture.jpg') }}" class="img-rounded img-responsive" />
+                            <img src="{{ url('placeholder.jpg') }}" class="img-rounded img-responsive" />
                         </div>
                     </div>
                     <div class="col-md-4">

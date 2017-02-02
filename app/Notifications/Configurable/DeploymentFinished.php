@@ -36,6 +36,9 @@ abstract class DeploymentFinished extends Notification
 
     /**
      * Create a new notification instance.
+     *
+     * @param Project    $project
+     * @param Deployment $deployment
      */
     public function __construct(Project $project, Deployment $deployment)
     {

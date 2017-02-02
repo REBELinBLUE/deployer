@@ -2,9 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Services\Scripts;
 
+use Illuminate\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use RuntimeException;
+use Mockery as m;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Services\Scripts\Parser
@@ -18,7 +20,7 @@ class ParserTest extends TestCase
     {
         $expected = 'This is a script';
 
-        $parser = new Parser();
+        $parser = app()->make(Parser::class);
         $actual = $parser->parseString($expected);
 
         $this->assertSame($expected, $actual);
@@ -34,7 +36,7 @@ class ParserTest extends TestCase
 
         $tokens = ['token' => 'REPLACED'];
 
-        $parser = new Parser();
+        $parser = app()->make(Parser::class);
         $actual = $parser->parseString($input, $tokens);
 
         $this->assertSame($expected, $actual);
@@ -47,12 +49,37 @@ class ParserTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $parser = new Parser();
-        $parser->parseFile('a-file-with-does-not-exist');
+        $parser = app()->make(Parser::class);
+        $parser->parseFile('a-file-which-does-not-exist');
     }
 
-    public function testParseFileLoadsScript()
+    /**
+     * @dataProvider getFileData
+     * @covers ::parseFile
+     * @covers ::__construct
+     */
+    public function testParseFileLoadsScript($fileContent, $expected, array $tokens)
     {
-        $this->markTestIncomplete('This test has not been implemented yet');
+        $expectedFileName = 'a-real-file';
+        $path = resource_path('scripts/' . $expectedFileName . '.sh');
+
+        $fs = m::mock(Filesystem::class);
+        $fs->shouldReceive('exists')->with($path)->andReturn(true);
+        $fs->shouldReceive('get')->with($path)->andReturn($fileContent);
+
+        $parser = new Parser($fs);
+        $actual = $parser->parseFile($expectedFileName, $tokens);
+
+        $this->assertSame($actual, $expected);
+    }
+
+    public function getFileData()
+    {
+        $tokens = ['token' => 'REPLACED'];
+
+        return [
+            ['a {{ token }} b', 'a REPLACED b', $tokens],
+            ['a token b', 'a token b', $tokens]
+        ];
     }
 }

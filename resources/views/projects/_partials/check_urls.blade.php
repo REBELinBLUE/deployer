@@ -42,7 +42,6 @@
                 {{ Lang::get('app.never') }}
             <% } %>
         </td>
-        </td>
         <td>
             <span class="label label-<%- status_css %>">
                 <i class="fa fa-<%-icon_css %>"></i>

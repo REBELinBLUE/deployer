@@ -193,15 +193,30 @@ class EloquentProjectRepositoryTest extends TestCase
      */
     public function testCreateWithTemplate()
     {
-        $this->markTestSkipped('not working - same issue as ServerRepository');
-
         $this->expectsJobs(SetupProject::class);
 
         $expected = m::mock(Project::class);
 
-//        $expected = 'string';
-
         $fields = ['foo' => 'bar', 'template_id' => 1];
+        $create = ['foo' => 'bar']; // This is what is expected to be passed to create
+
+        $model = m::mock(Project::class);
+        $model->shouldReceive('create')->once()->with($create)->andReturn($expected);
+
+        $repository = new EloquentProjectRepository($model);
+        $actual     = $repository->create($fields);
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testCreateDoesNotSaveBlanKPrivateKey()
+    {
+        $expected = m::mock(Project::class);
+
+        $fields = ['foo' => 'bar', 'private_key' => ''];
         $create = ['foo' => 'bar']; // This is what is expected to be passed to create
 
         $model = m::mock(Project::class);

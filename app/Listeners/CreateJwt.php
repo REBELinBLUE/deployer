@@ -35,7 +35,7 @@ class CreateJwt
      *
      * @param JWTAuth        $auth
      * @param Store          $session
-     * @param JwtIdGenerator $generator
+     * @param TokenGenerator $generator
      */
     public function __construct(JWTAuth $auth, Store $session, TokenGenerator $generator)
     {

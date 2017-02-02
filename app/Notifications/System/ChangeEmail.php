@@ -23,6 +23,8 @@ class ChangeEmail extends Notification implements ShouldQueue
 
     /**
      * Create a new notification instance.
+     *
+     * @param string $token
      */
     public function __construct($token)
     {

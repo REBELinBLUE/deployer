@@ -11,11 +11,16 @@
 |
 */
 
-$factory->define(REBELinBLUE\Deployer\User::class, function (Faker $faker) {
+use REBELinBLUE\Deployer\User;
+
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(User::class, function (Faker $faker) {
+    static $password;
+
     return [
         'name'           => $faker->name,
-        'email'          => $faker->email,
-        'password'       => str_random(10),
+        'email'          => $faker->unique()->safeEmail,
+        'password'       => $password ?: $password = bcrypt(str_random(10)),
         'remember_token' => str_random(10),
     ];
 });

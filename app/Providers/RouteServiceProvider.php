@@ -47,21 +47,19 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         // Authentication screen
-        Route::group([
-            'middleware' => 'web',
-            'namespace'  => $this->namespace,
-        ], function ($router) {
-            require base_path('routes/auth.php');
-        });
+        Route::middleware('web')
+              ->namespace($this->namespace)
+              ->group(base_path('routes/auth.php'));
 
         // Logged in routes
-        Route::group([
-            'middleware' => ['web', 'auth', 'jwt'],
-            'namespace'  => $this->namespace,
-        ], function ($router) {
-            require base_path('routes/web.php');
-            require base_path('routes/admin.php');
-        });
+        Route::middleware(['web', 'auth', 'jwt'])
+             ->namespace($this->namespace)
+             ->group(base_path('routes/web.php'));
+
+        // Admin routes
+        Route::middleware(['web', 'auth', 'jwt'])
+             ->namespace($this->namespace)
+             ->group(base_path('routes/admin.php'));
     }
 
     /**
@@ -70,10 +68,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapHookRoutes()
     {
-        Route::group([
-            'namespace' => $this->namespace,
-        ], function ($router) {
-            require base_path('routes/hooks.php');
-        });
+        Route::middleware([])
+             ->namespace($this->namespace)
+             ->group(base_path('routes/hooks.php'));
     }
 }

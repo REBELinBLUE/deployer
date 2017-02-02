@@ -2,11 +2,28 @@
 
 namespace REBELinBLUE\Deployer\Services\Scripts;
 
+use Illuminate\Filesystem\Filesystem;
+
 /**
  * Class which loads a shell script template and parses any variables.
  */
 class Parser
 {
+    /**
+     * @var Filesystem
+     */
+    private $fs;
+
+    /**
+     * Parser constructor.
+     *
+     * @param Filesystem $fs
+     */
+    public function __construct(Filesystem $fs)
+    {
+        $this->fs = $fs;
+    }
+
     /**
      * Parse a string to replace the tokens.
      *
@@ -17,8 +34,6 @@ class Parser
      */
     public function parseString($script, array $tokens = [])
     {
-        $script = $this->tidyScript($script);
-
         $values = array_values($tokens);
 
         $tokens = array_map(function ($token) {
@@ -40,23 +55,10 @@ class Parser
     {
         $template = resource_path('scripts/' . str_replace('.', '/', $file) . '.sh');
 
-        if (file_exists($template)) {
-            return $this->parseString(file_get_contents($template), $tokens);
+        if ($this->fs->exists($template)) {
+            return $this->parseString($this->fs->get($template), $tokens);
         }
 
         throw new \RuntimeException('Template ' . $template . ' does not exist');
-    }
-
-    /**
-     * Cleans up things which are only in the script to make it easy to read but don't
-     * need to be sent to the server, i.e. comments.
-     *
-     * @param string $script
-     *
-     * @return string
-     */
-    private function tidyScript($script)
-    {
-        return $script;
     }
 }

@@ -45,6 +45,11 @@ class Runner
     private $is_local = true;
 
     /**
+     * @var Parser
+     */
+    private $parser;
+
+    /**
      * Runner constructor.
      *
      * @param string $input
@@ -56,10 +61,12 @@ class Runner
         $this->process = new Process('');
         $this->process->setTimeout(null);
 
+        $this->parser = app()->make(Parser::class);
+
         if ($script_source === self::TEMPLATE_INPUT) {
-            $this->script = with(new Parser())->parseFile($input, $tokens);
+            $this->script = $this->parser->parseFile($input, $tokens);
         } else {
-            $this->script = with(new Parser())->parseString($input, $tokens);
+            $this->script = $this->parser->parseString($input, $tokens);
         }
     }
 
@@ -168,7 +175,7 @@ class Runner
             ]);
         }
 
-        $output = with(new Parser())->parseFile('RunScript' . $wrapper, $tokens);
+        $output = $this->parser->parseFile('RunScript' . $wrapper, $tokens);
 
         Log::debug($output);
 

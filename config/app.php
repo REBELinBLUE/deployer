@@ -88,7 +88,7 @@ return [
     | is not available. You may change the value to correspond to any of
     | the language folders that are provided through your application.
     |
-     */
+    */
 
     'fallback_locale' => 'en',
 
@@ -101,7 +101,7 @@ return [
     | to a random, 32 character string, otherwise these encrypted strings
     | will not be safe. Please do this before deploying an application!
     |
-     */
+    */
 
     'key' => env('APP_KEY', 'SomeRandomString'),
 
@@ -166,6 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Laravel\Tinker\TinkerServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Robbo\Presenter\PresenterServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
@@ -185,9 +186,10 @@ return [
          * Application Service Providers...
          */
         REBELinBLUE\Deployer\Providers\AppServiceProvider::class,
-        REBELinBLUE\Deployer\Providers\AuthServiceProvider::class,
+        // REBELinBLUE\Deployer\Providers\AuthServiceProvider::class,
         // REBELinBLUE\Deployer\Providers\BroadcastServiceProvider::class,
         REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\LogServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RepositoryServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RouteServiceProvider::class,
         REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,
@@ -213,6 +215,8 @@ return [
         'Artisan'      => Illuminate\Support\Facades\Artisan::class,
         'Auth'         => Illuminate\Support\Facades\Auth::class,
         'Blade'        => Illuminate\Support\Facades\Blade::class,
+        'Broadcast'    => Illuminate\Support\Facades\Broadcast::class,
+        'Bus'          => Illuminate\Support\Facades\Bus::class,
         'Cache'        => Illuminate\Support\Facades\Cache::class,
         'Config'       => Illuminate\Support\Facades\Config::class,
         'Cookie'       => Illuminate\Support\Facades\Cookie::class,

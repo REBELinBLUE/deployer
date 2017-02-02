@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
-use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 
 /**
