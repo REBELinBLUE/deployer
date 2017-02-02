@@ -6,7 +6,6 @@ use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
 use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use GuzzleHttp\Client as HttpClient;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Notifications\Channels\SlackWebhookChannel;
 use Illuminate\Support\ServiceProvider;
