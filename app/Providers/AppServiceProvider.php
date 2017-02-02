@@ -14,6 +14,7 @@ use NotificationChannels\Webhook\WebhookChannel;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner;
+use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Template;
 use Symfony\Component\Process\Process;
 use function GuzzleHttp\default_user_agent;
@@ -126,6 +127,10 @@ class AppServiceProvider extends ServiceProvider
             $process->setTimeout(null);
 
             return new Runner($app->make(Parser::class), $process);
+        });
+
+        $this->app->bind(TokenGenerator::class, function () {
+            return new TokenGenerator();
         });
 
         $this->registerGuzzleClientOptions();

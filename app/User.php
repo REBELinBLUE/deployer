@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
+use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
 use Robbo\Presenter\PresentableInterface;
@@ -70,7 +71,7 @@ class User extends Authenticatable implements PresentableInterface
      */
     public function requestEmailToken()
     {
-        $this->email_token = str_random(40);
+        $this->email_token = app()->make(TokenGenerator::class)->generateRandom(40);
         $this->save();
 
         return $this->email_token;
