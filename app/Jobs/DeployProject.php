@@ -483,7 +483,7 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function sendFileFromString($remote_path, $content, ServerLog $log)
     {
-        $tmp_file = tempnam(storage_path('app/'), 'tmpfile');
+        $tmp_file = tempnam(storage_path('app/tmp/'), 'tmpfile');
         file_put_contents($tmp_file, $content);
 
         // Upload the file
