@@ -50,8 +50,8 @@ class RenameCheckurlColumns extends Migration
         });
 
         Schema::table('check_urls', function (Blueprint $table) {
+            $table->boolean('status')->nullable()->default(null)->change();
             $table->renameColumn('status', 'last_status');
-            $table->boolean('last_status')->nullable()->default(null)->change();
         });
 
         CheckUrl::withTrashed()->chunk(100, function (Collection $urls) {

@@ -93,6 +93,7 @@ before_script:
 
 script:
   - php artisan migrate --seed --env="testing"
+  - php artisan migrate:rollback --env="testing"
   - make lint
   - make phpcs
   # - make phpmd

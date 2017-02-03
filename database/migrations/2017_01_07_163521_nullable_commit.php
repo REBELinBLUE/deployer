@@ -23,7 +23,7 @@ class NullableCommit extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('deployments', function (Blueprint $table) {
             $table->string('committer')->nullable(false)->change();
             $table->string('commit')->nullable(false)->change();
             $table->string('committer_email')->nullable(false)->change();

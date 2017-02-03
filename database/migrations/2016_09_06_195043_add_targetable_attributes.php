@@ -102,6 +102,10 @@ class AddTargetableAttributes extends Migration
      */
     public function down()
     {
+        if (config('database.default') === 'sqlite') {
+            return;
+        }
+
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
             $instance  = new $className();
