@@ -102,10 +102,6 @@ class AddTargetableAttributes extends Migration
      */
     public function down()
     {
-        if (config('database.default') === 'sqlite') {
-            return;
-        }
-
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
             $instance  = new $className();
@@ -113,8 +109,7 @@ class AddTargetableAttributes extends Migration
             $table = $instance->getTable();
 
             Schema::table($table, function (Blueprint $table) {
-                $table->dropColumn('target_id');
-                $table->dropColumn('target_type');
+                $table->dropColumn(['target_id', 'target_type']);
             });
         }
     }

@@ -66,7 +66,30 @@ class CreateNotificationChannels extends Migration
      */
     public function down()
     {
-        //
+        // TODO: Clean this up, at the moment data would be lost
+        Schema::drop('channels');
+        Schema::create('notify_emails', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->text('email');
+            $table->unsignedInteger('project_id');
+            $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('project_id')->references('id')->on('projects');
+        });
+
+        Schema::create('channels', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('webhook');
+            $table->string('channel');
+            $table->string('icon')->nullable();
+            $table->unsignedInteger('project_id');
+            $table->timestamps();
+            $table->softDeletes();
+            $table->boolean('failure_only')->default(false);
+            $table->foreign('project_id')->references('id')->on('projects');
+        });
     }
 
     private function channelData(stdClass $row, array $config, $type)

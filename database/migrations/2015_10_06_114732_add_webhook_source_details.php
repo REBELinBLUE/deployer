@@ -22,8 +22,7 @@ class AddWebhookSourceDetails extends Migration
     public function down()
     {
         Schema::table('deployments', function (Blueprint $table) {
-            $table->dropColumn('source');
-            $table->dropColumn('build_url');
+            $table->dropColumn(['source', 'build_url']);
         });
     }
 }

@@ -22,8 +22,7 @@ class AddUserPreferences extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('language');
-            $table->dropColumn('skin');
+            $table->dropColumn(['language', 'skin']);
         });
     }
 }
