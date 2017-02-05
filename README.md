@@ -1,14 +1,14 @@
 # Deployer
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square&branch=master)](https://styleci.io/repos/33559148)
-[![Build Status](https://img.shields.io/travis/REBELinBLUE/deployer/master.svg?style=flat-square)](https://travis-ci.org/REBELinBLUE/deployer)
-[![Code Coverage](https://img.shields.io/codecov/c/github/REBELinBLUE/deployer/master.svg?style=flat-square)](https://codecov.io/gh/REBELinBLUE/deployer)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/686dd98b-c0e5-465b-8f14-29b1cab47f3b.svg?style=flat-square)](https://insight.sensiolabs.com/projects/686dd98b-c0e5-465b-8f14-29b1cab47f3b)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](/LICENSE.md)
+[![Build Status](https://img.shields.io/travis/REBELinBLUE/deployer/master.svg?style=flat-square&label=Travis)](https://travis-ci.org/REBELinBLUE/deployer)
+[![Code Coverage](https://img.shields.io/codecov/c/github/REBELinBLUE/deployer/master.svg?style=flat-square&label=Coverage)](https://codecov.io/gh/REBELinBLUE/deployer)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/686dd98b-c0e5-465b-8f14-29b1cab47f3b.svg?style=flat-square&label=Insight)](https://insight.sensiolabs.com/projects/686dd98b-c0e5-465b-8f14-29b1cab47f3b)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square&label=License)](/LICENSE.md)
 [![Laravel Version](https://shield.with.social/cc/github/REBELinBLUE/deployer/master.svg?style=flat-square)](https://packagist.org/packages/laravel/framework)
-[![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg?style=flat-square)](https://github.com/REBELinBLUE/deployer/releases)
-[![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat-square)](https://stackshare.io/REBELinBLUE/deployer)
-[![Gitter](https://img.shields.io/badge/chat-on%20gitter-brightgreen.svg?style=flat-square)](https://gitter.im/REBELinBLUE/deployer)
+[![Latest Version](https://img.shields.io/github/release/REBELinBLUE/deployer.svg?style=flat-square&label=Release)](https://github.com/REBELinBLUE/deployer/releases)
+[![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat-square&label=Tech)](https://stackshare.io/REBELinBLUE/deployer)
+[![Gitter](https://img.shields.io/badge/chat-on%20gitter-brightgreen.svg?style=flat-square&label=Chat)](https://gitter.im/REBELinBLUE/deployer)
 
 Deployer is a PHP Application deployment system powered by [Laravel 5.4](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
 
