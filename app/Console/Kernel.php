@@ -49,10 +49,14 @@ class Kernel extends ConsoleKernel
     {
         parent::bootstrap();
 
-        // Only register the reset command on the local environment when dev dependencies are installed
-        if ($this->app->environment() === 'local' && class_exists(MigrateFresh::class, true)) {
+        // Only register the reset command on the local environment
+        if ($this->app->environment('local', 'testing')) {
             $this->commands[] = ResetApp::class;
-            $this->commands[] = MigrateFresh::class;
+
+            // Only register the migratefresh command when it is installed
+            if (class_exists(MigrateFresh::class, true)) {
+                $this->commands[] = MigrateFresh::class;
+            }
         }
     }
 
