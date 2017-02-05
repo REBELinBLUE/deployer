@@ -34,7 +34,7 @@ class ClearOrphanMirrors extends Command
     {
         $current_mirrors = [];
 
-        Project::where('is_template', false)->chunk(10, function ($projects) use (&$current_mirrors) {
+        Project::chunk(10, function ($projects) use (&$current_mirrors) {
             foreach ($projects as $project) {
                 $current_mirrors[] = $project->mirrorPath();
             }
@@ -51,7 +51,8 @@ class ClearOrphanMirrors extends Command
 
         // Now loop through the mirrors and delete them from storage
         foreach ($orphan_mirrors as $mirror_dir) {
-            $process = app()->make(Process::class);
+            /** @var Process $process */
+            $process = app(Process::class);
             $process->setScript('tools.RemoveMirrorDirectory', [
                 'mirror_path' => $mirror_dir,
             ])->run();

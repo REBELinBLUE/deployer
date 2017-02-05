@@ -4,9 +4,6 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\System;
 
 use Illuminate\Support\Facades\Lang;
 use Mockery as m;
-use NotificationChannels\HipChat\HipChatChannel;
-use NotificationChannels\Twilio\TwilioChannel;
-use NotificationChannels\Webhook\WebhookChannel;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Notifications\System\NewTestNotification;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -17,7 +14,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 class NewTestNotificationTest extends TestCase
 {
     /**
-     * @dataProvider getChannelTypes
+     * @dataProvider provideChannelTypes
      * @covers \REBELinBLUE\Deployer\Notifications\Notification::via
      */
     public function testSendVia($type, $expected)
@@ -56,15 +53,9 @@ class NewTestNotificationTest extends TestCase
         $this->assertSame($expectedName, $mail->viewData['name']);
     }
 
-    public function getChannelTypes()
+    public function provideChannelTypes()
     {
-        return [
-            [Channel::WEBHOOK, WebhookChannel::class],
-            [Channel::HIPCHAT, HipChatChannel::class],
-            [Channel::TWILIO, TwilioChannel::class],
-            [Channel::EMAIL, 'mail'],
-            [Channel::SLACK, 'slack'],
-        ];
+        return $this->fixture('Notifications/System/NewTestNotification');
     }
 
     /**

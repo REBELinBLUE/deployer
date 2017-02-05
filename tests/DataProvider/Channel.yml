@@ -1,0 +1,10 @@
+fixture:
+  events: # Events which can trigger a channel notification
+    - deployment_success
+    - deployment_failure
+    - link_down
+    - link_still_down
+    - link_recovered
+    - heartbeat_missing
+    - heartbeat_still_missing
+    - heartbeat_recovered

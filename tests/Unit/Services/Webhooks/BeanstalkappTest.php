@@ -38,7 +38,7 @@ class BeanstalkappTest extends WebhookTestCase
     }
 
     /**
-     * @dataProvider getBranch
+     * @dataProvider provideBranch
      * @covers ::handlePush
      */
     public function testHandlePushEventValid($branch)
@@ -72,7 +72,7 @@ class BeanstalkappTest extends WebhookTestCase
     }
 
     /**
-     * @dataProvider getUnsupportedEvents
+     * @dataProvider provideUnsupportedEvents
      * @covers ::handlePush
      */
     public function testHandleUnsupportedEvent($event)
@@ -83,7 +83,7 @@ class BeanstalkappTest extends WebhookTestCase
         $this->assertFalse($beanstalkapp->handlePush());
     }
 
-    public function getUnsupportedEvents()
+    public function provideUnsupportedEvents()
     {
         return array_chunk([
             'commit', 'comment', 'deploy', 'create_branch', 'delete_branch', 'create_tag', 'delete_tag',

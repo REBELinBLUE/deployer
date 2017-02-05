@@ -1,0 +1,43 @@
+fixture:
+  - # Empty value
+    repository: ''
+    expected: false
+  - # Null value
+    repository: null
+    expected: false
+  - # Protocol only
+    repository: http:
+    expected: false
+  - # Hostname only
+    repository: github.com
+    expected: false
+  - # IP address only
+    repository: 8.8.8.8
+    expected: false
+  - # HTTP host
+    repository: http://github.com
+    expected: true
+  - # HTTPS host
+    repository: https://github.com
+    expected: true
+  - # SSH host
+    repository: ssh://github.com
+    expected: true
+  - # Git host
+    repository: git://github.com
+    expected: true
+  - # Missing username
+    repository: gitlab.com:namespace/repo.git
+    expected: false
+  - # Missing repo
+    repository: git@gitlab.com
+    expected: false
+  - # Missing namespamce
+    repository: git@gitlab.com:repo.git
+    expected: false
+  - # Missing extension
+    repository: git@gitlab.com:namespace/repo
+    expected: false
+  - # User repository
+    repository: git@gitlab.com:namespace/repo.git
+    expected: true

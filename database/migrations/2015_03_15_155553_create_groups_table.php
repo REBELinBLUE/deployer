@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use REBELinBLUE\Deployer\Group;
+use Illuminate\Support\Facades\DB;
 
 class CreateGroupsTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreateGroupsTable extends Migration
             $table->softDeletes();
         });
 
-        Group::create([
+        DB::table('groups')->insert([
             'name' => 'Projects',
         ]);
     }

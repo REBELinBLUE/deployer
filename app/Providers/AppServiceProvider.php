@@ -2,6 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Clockwork\Support\Laravel\ClockworkMiddleware;
+use Clockwork\Support\Laravel\ClockworkServiceProvider;
+use Faker\Factory as FakerFactory;
+use Faker\Generator as FakerGenerator;
 use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
 use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use GuzzleHttp\Client as HttpClient;
@@ -17,6 +22,7 @@ use REBELinBLUE\Deployer\Services\Scripts\Runner;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Template;
 use Symfony\Component\Process\Process;
+use Themsaid\Langman\LangmanServiceProvider;
 use function GuzzleHttp\default_user_agent;
 
 /**
@@ -34,9 +40,9 @@ class AppServiceProvider extends ServiceProvider
             HTMLMinServiceProvider::class,
         ],
         'local' => [
-            'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-            'Clockwork\Support\Laravel\ClockworkServiceProvider',
-            'Themsaid\Langman\LangmanServiceProvider',
+            IdeHelperServiceProvider::class,
+            ClockworkServiceProvider::class,
+            LangmanServiceProvider::class,
         ],
     ];
 
@@ -50,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
             MinifyMiddleware::class,
         ],
         'local' => [
-            'Clockwork\Support\Laravel\ClockworkMiddleware',
+            ClockworkMiddleware::class,
         ],
     ];
 
@@ -118,6 +124,16 @@ class AppServiceProvider extends ServiceProvider
             return $app->make(LanguageManager::class);
         });
 
+        $this->registerServiceDependencies();
+        $this->registerGuzzleClientOptions();
+        $this->replacePackageDependencies();
+    }
+
+    /**
+     * Register service classes into the container.
+     */
+    private function registerServiceDependencies()
+    {
         $this->app->bind(Parser::class, function (Application $app) {
             return new Parser($app->make('files'));
         });
@@ -132,8 +148,27 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TokenGenerator::class, function () {
             return new TokenGenerator();
         });
+    }
 
-        $this->registerGuzzleClientOptions();
+    /**
+     * Replace dependencies register by laravel and packages.
+     */
+    private function replacePackageDependencies()
+    {
+        $this->app->singleton(FakerGenerator::class, function () {
+            return FakerFactory::create('en_GB');
+        });
+
+        $client = $this->getClient();
+
+        // Inject the Guzzle client for the Webhook channel so that we can set some defaults
+        $this->app->when(WebhookChannel::class)
+            ->needs(HttpClient::class)
+            ->give(function (Application $app) use ($client) {
+                return $client($app, [
+                    'headers' => ['Content-Type' => 'application/json'],
+                ]);
+            });
     }
 
     /**
@@ -141,28 +176,29 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerGuzzleClientOptions()
     {
-        $this->app->alias(HttpClient::class, 'HttpClient');
+        $this->app->alias('HttpClient', HttpClient::class);
         $this->app->when(SlackWebhookChannel::class)->needs(HttpClient::class)->give('HttpClient');
 
-        $client = function (Application $app, array $additional = []) {
+        $client = $this->getClient();
+
+        $this->app->bind('HttpClient', function (Application $app) use ($client) {
+            return $client($app);
+        });
+    }
+
+    /**
+     * Creates a closure for the Guzzle client so that additional options can be provided.
+     *
+     * @return \Closure
+     */
+    private function getClient()
+    {
+        return function (Application $app, array $additional = []) {
             $config = array_merge($app->make('config')->get('deployer.guzzle') ?: [], [
                 'headers' => ['User-Agent' => 'Deployer/' . APP_VERSION . ' ' . default_user_agent()],
             ]);
 
             return new HttpClient(array_merge_recursive($config, $additional));
         };
-
-        $this->app->bind('HttpClient', function (Application $app) use ($client) {
-            return $client($app);
-        });
-
-        // Inject the Guzzle client for the Webhook channel so that we can set some defaults
-        $this->app->when(WebhookChannel::class)
-                  ->needs(HttpClient::class)
-                  ->give(function (Application $app) use ($client) {
-                      return $client($app, [
-                          'headers' => ['Content-Type' => 'application/json'],
-                      ]);
-                  });
     }
 }

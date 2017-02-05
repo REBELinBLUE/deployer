@@ -15,7 +15,7 @@ use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
-class UrlChangedTestCase extends TestCase
+abstract class UrlChangedTestCase extends TestCase
 {
     protected function toTwilio($class, $translation, $expectedDate, $expectedDateString)
     {
@@ -54,7 +54,7 @@ class UrlChangedTestCase extends TestCase
             'id'        => $expectedId,
             'name'      => 'a link',
             'missed'    => $expectedMissed,
-            'last_seen' => Carbon::create(2015, 1, 1, 12, 00, 00, 'Europe/London'),
+            'last_seen' => Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC'),
         ];
 
         $expected = array_merge($expectedData, ['status' => $expectedStatus]);
@@ -150,7 +150,7 @@ class UrlChangedTestCase extends TestCase
     protected function toSlack($class, $message, $level, $expectedDate, $expectedDateString)
     {
         $expectedProjectId   = 53;
-        $expectedTimestamp   = Carbon::create(2015, 1, 1, 12, 0, 0, 'Europe/London');
+        $expectedTimestamp   = Carbon::create(2015, 1, 1, 12, 0, 0, 'UTC');
         $expectedProjectName = 'a-project-name';
         $expectedUrlName     = 'a-link-name';
         $expectedUrl         = 'http://www.example.com';

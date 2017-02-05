@@ -6,8 +6,8 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\Unit\Repositories\Stubs\StubEloquentRepository;
-use REBELinBLUE\Deployer\Tests\Unit\Repositories\Stubs\StubModel;
+use REBELinBLUE\Deployer\Tests\Unit\stubs\EloquentRepository as StubEloquentRepository;
+use REBELinBLUE\Deployer\Tests\Unit\stubs\Model as StubModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentRepository

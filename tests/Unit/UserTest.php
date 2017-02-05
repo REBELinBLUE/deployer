@@ -5,11 +5,8 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
-use Mockery as m;
 use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
-use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\Unit\Stubs\StubUser;
 use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
 use Robbo\Presenter\PresentableInterface;
@@ -37,24 +34,6 @@ class UserTest extends TestCase
         $user = new User();
 
         $this->assertInstanceOf(Authenticatable::class, $user);
-    }
-
-    /**
-     * @covers ::requestEmailToken
-     */
-    public function testRequestEmailToken()
-    {
-        $expected = 'an-email-token';
-
-        $generator = m::mock(TokenGenerator::class);
-        $generator->shouldReceive('generateRandom')->with(40)->andReturn($expected);
-
-        App::instance(TokenGenerator::class, $generator);
-
-        $user   = new StubUser(); // A stub to disable save()
-        $actual = $user->requestEmailToken();
-
-        $this->assertSame($expected, $actual);
     }
 
     /**

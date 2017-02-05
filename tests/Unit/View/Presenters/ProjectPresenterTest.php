@@ -14,7 +14,7 @@ use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
 class ProjectPresenterTest extends TestCase
 {
     /**
-     * @dataProvider getCCTrayStatus
+     * @dataProvider provideCCTrayStatus
      * @covers ::presentCcTrayStatus
      */
     public function testPresentCcTrayStatusIsCorrect($status, $expected)
@@ -27,20 +27,13 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getCCTrayStatus()
+    public function provideCCTrayStatus()
     {
-        return [
-            [Project::FINISHED, 'Sleeping'],
-            [Project::FAILED, 'Sleeping'],
-            [Project::DEPLOYING, 'Building'],
-            [Project::PENDING, 'Pending'],
-            [Project::NOT_DEPLOYED, 'Unknown'],
-            ['invalid-value', 'Unknown'],
-        ];
+        return $this->fixture('View/Presenters/ProjectPresenter')['cc_tray_status'];
     }
 
     /**
-     * @dataProvider getReadableStatus
+     * @dataProvider provideReadableStatus
      * @covers ::presentReadableStatus
      */
     public function testPresentReadableStatusIsCorrect($status, $expected)
@@ -55,20 +48,13 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getReadableStatus()
+    public function provideReadableStatus()
     {
-        return [
-            [Project::FINISHED, 'projects.finished'],
-            [Project::DEPLOYING, 'projects.deploying'],
-            [Project::FAILED, 'projects.failed'],
-            [Project::PENDING, 'projects.pending'],
-            [Project::NOT_DEPLOYED, 'projects.not_deployed'],
-            ['invalid-value', 'projects.not_deployed'],
-        ];
+        return $this->fixture('View/Presenters/ProjectPresenter')['readable_status'];
     }
 
     /**
-     * @dataProvider getIcons
+     * @dataProvider provideIcons
      * @covers ::presentIcon
      */
     public function testPresentIconIsCorrect($status, $expected)
@@ -81,20 +67,13 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getIcons()
+    public function provideIcons()
     {
-        return [
-            [Project::FINISHED, 'check'],
-            [Project::DEPLOYING, 'spinner fa-pulse'],
-            [Project::FAILED, 'warning'],
-            [Project::PENDING, 'clock-o'],
-            [Project::NOT_DEPLOYED, 'question-circle'],
-            ['invalid-value', 'question-circle'],
-        ];
+        return $this->fixture('View/Presenters/ProjectPresenter')['icons'];
     }
 
     /**
-     * @dataProvider getCssClasses
+     * @dataProvider provideCssClasses
      * @covers ::presentCssClass
      */
     public function testPresentCssClassIsCorrect($status, $expected)
@@ -107,20 +86,14 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getCssClasses()
+    public function provideCssClasses()
     {
-        return [
-            [Project::FINISHED, 'success'],
-            [Project::DEPLOYING, 'warning'],
-            [Project::FAILED, 'danger'],
-            [Project::PENDING, 'info'],
-            [Project::NOT_DEPLOYED, 'primary'],
-            ['invalid-value', 'primary'],
-        ];
+        return $this->fixture('View/Presenters/ProjectPresenter')['css_classes'];
     }
 
     /**
      * @covers ::presentAppStatus
+     * @covers ::getStatusLabel
      */
     public function testPresentAppStatusReturnsMessageOnEmpty()
     {
@@ -137,8 +110,9 @@ class ProjectPresenterTest extends TestCase
     }
 
     /**
-     * @dataProvider getAppStatuses
+     * @dataProvider provideAppStatuses
      * @covers ::presentAppStatus
+     * @covers ::getStatusLabel
      */
     public function testPresentAppStatusReturnsExpectedMessageWhenNotEmpty($length, $missed, $expected)
     {
@@ -150,19 +124,15 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getAppStatuses()
+    public function provideAppStatuses()
     {
-        return [
-            [1, 0, '1 / 1'],
-            [1, 1, '0 / 1'],
-            [2, 1, '1 / 2'],
-            [2, 2, '0 / 2'],
-        ];
+        return $this->fixture('View/Presenters/ProjectPresenter')['status_label'];
     }
 
     /**
-     * @dataProvider getAppStatusCssClasses
+     * @dataProvider provideAppStatusCssClasses
      * @covers ::presentAppStatusCss
+     * @covers ::getStatusCss
      */
     public function testPresentAppStatusCss($length, $missed, $expected)
     {
@@ -174,20 +144,14 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getAppStatusCssClasses()
+    public function provideAppStatusCssClasses()
     {
-        return [
-            [0, 0, 'warning'],
-            [0, 1, 'warning'],
-            [0, 2, 'warning'],
-            [1, 0, 'success'],
-            [2, 0, 'success'],
-            [1, 1, 'danger'],
-        ];
+        return $this->fixture('View/Presenters/ProjectPresenter')['status_css_classes'];
     }
 
     /**
      * @covers ::presentHeartBeatStatus
+     * @covers ::getStatusLabel
      */
     public function testPresentHeartbeatStatusReturnsMessageOnEmpty()
     {
@@ -204,8 +168,9 @@ class ProjectPresenterTest extends TestCase
     }
 
     /**
-     * @dataProvider getHeartbeatStatuses
+     * @dataProvider provideHeartbeatStatuses
      * @covers ::presentHeartBeatStatus
+     * @covers ::getStatusLabel
      */
     public function testPresentHeartbeatReturnsExpectedMessageWhenNotEmpty($length, $missed, $expected)
     {
@@ -217,19 +182,15 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getHeartbeatStatuses()
+    public function provideHeartbeatStatuses()
     {
-        return [
-            [1, 0, '1 / 1'],
-            [1, 1, '0 / 1'],
-            [2, 1, '1 / 2'],
-            [2, 2, '0 / 2'],
-        ];
+        return $this->provideAppStatuses();
     }
 
     /**
-     * @dataProvider getHeartbeatsCssClasses
+     * @dataProvider provideHeartbeatsCssClasses
      * @covers ::presentHeartBeatStatusCss
+     * @covers ::getStatusCss
      */
     public function testPresentHeartbeatStatusCss($length, $missed, $expected)
     {
@@ -241,16 +202,9 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getHeartbeatsCssClasses()
+    public function provideHeartbeatsCssClasses()
     {
-        return [
-            [0, 0, 'warning'],
-            [0, 1, 'warning'],
-            [0, 2, 'warning'],
-            [1, 0, 'success'],
-            [2, 0, 'success'],
-            [1, 1, 'danger'],
-        ];
+        return $this->provideAppStatusCssClasses();
     }
 
     /**
@@ -270,7 +224,7 @@ class ProjectPresenterTest extends TestCase
     }
 
     /**
-     * @dataProvider getRepoUrls
+     * @dataProvider provideRepoUrls
      * @covers ::presentTypeIcon
      */
     public function testPresentTypeIconReturnsExpectedIcon($repository, $expected)
@@ -284,20 +238,9 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getRepoUrls()
+    public function provideRepoUrls()
     {
-        return [
-            ['https://github.com/REBELinBLUE/deployer.git', 'fa-github'],
-            ['ssh://github@github.com:REBELinBLUE/deployer.git', 'fa-github'],
-            ['https://gitlab.com/REBELinBLUE/deployer.git', 'fa-gitlab'],
-            ['ssh://gitlab@gitlab.com:REBELinBLUE/deployer.git', 'fa-gitlab'],
-            ['https://bitbucket.org/rebelinblue/deployer.git', 'fa-bitbucket'],
-            ['ssh://git@bitbucket.org:rebelinblue/deployer.git', 'fa-bitbucket'],
-            ['https://git-codecommit.us-east-2.amazonaws.com/v1/repos/deployer.git', 'fa-amazon'],
-            ['ssh://key@git-codecommit.us-east-2.amazonaws.com/v1/repos/deployer', 'fa-amazon'],
-            ['www.invalid.url.com', 'fa-git-square'],
-            [null, 'fa-git-square'],
-        ];
+        return $this->fixture('View/Presenters/ProjectPresenter')['repo_icon'];
     }
 
     private function mockProjectWithStatus($status)

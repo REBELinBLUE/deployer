@@ -12,7 +12,7 @@ use REBELinBLUE\Deployer\Services\Webhooks\Custom;
 class CustomTest extends WebhookTestCase
 {
     /**
-     * @dataProvider getBranch
+     * @dataProvider provideBranch
      * @covers ::handlePush
      */
     public function testHandlePushEventValid($branch)

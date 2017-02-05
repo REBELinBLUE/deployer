@@ -15,7 +15,7 @@ use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
-class HeartbeatChangedTestCase extends TestCase
+abstract class HeartbeatChangedTestCase extends TestCase
 {
     protected function toTwilio($class, $translation, $expectedDate, $expectedDateString)
     {
@@ -54,7 +54,7 @@ class HeartbeatChangedTestCase extends TestCase
             'id'            => $expectedId,
             'name'          => 'a cronjob',
             'missed'        => $expectedMissed,
-            'last_activity' => Carbon::create(2015, 1, 1, 12, 00, 00, 'Europe/London'),
+            'last_activity' => Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC'),
         ];
 
         $expected = array_merge($expectedData, ['status' => $expectedStatus]);
@@ -146,7 +146,7 @@ class HeartbeatChangedTestCase extends TestCase
     protected function toSlack($class, $message, $level, $expectedDate, $expectedDateString)
     {
         $expectedProjectId   = 53;
-        $expectedTimestamp   = Carbon::create(2015, 1, 1, 12, 0, 0, 'Europe/London');
+        $expectedTimestamp   = Carbon::create(2015, 1, 1, 12, 0, 0, 'UTC');
         $expectedProjectName = 'a-project-name';
         $expectedJobName     = 'a-cronjob-name';
         $expectedAppName     = 'app-name';

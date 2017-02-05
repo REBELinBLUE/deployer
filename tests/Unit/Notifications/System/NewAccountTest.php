@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Unit\Tests\Notifications\System;
+namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\System;
 
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\App;

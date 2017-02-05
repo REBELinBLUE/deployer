@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
@@ -126,7 +125,7 @@ class Project extends Model implements PresentableInterface
      */
     public function generateHash()
     {
-        $this->attributes['hash'] = Str::random(60);
+        $this->attributes['hash'] = token(60);
     }
 
     /**
@@ -138,14 +137,26 @@ class Project extends Model implements PresentableInterface
     {
         $info = [];
 
-        if (preg_match('#^(.+)@(.+):([0-9]*)\/?(.+)\.git$#', $this->repository, $matches)) {
+        if (preg_match('#^(.+)://(.+)@(.+):([0-9]*)\/?(.+)\.git$#', $this->repository, $matches)) {
+            $info['scheme']    = strtolower($matches[1]);
+            $info['user']      = $matches[2];
+            $info['domain']    = $matches[3];
+            $info['port']      = $matches[4];
+            $info['reference'] = $matches[5];
+        } elseif (preg_match('#^(.+)@(.+):([0-9]*)\/?(.+)\.git$#', $this->repository, $matches)) {
+            $info['scheme']    = 'git';
             $info['user']      = $matches[1];
             $info['domain']    = $matches[2];
             $info['port']      = $matches[3];
             $info['reference'] = $matches[4];
-        } elseif (preg_match('#^https?#', $this->repository)) {
+        } elseif (preg_match('#^https?://#i', $this->repository)) {
             $data = parse_url($this->repository);
 
+            if (!$data) {
+                return $info;
+            }
+
+            $info['scheme']    = strtolower($data['scheme']);
             $info['user']      = isset($data['user']) ? $data['user'] : '';
             $info['domain']    = $data['host'];
             $info['port']      = isset($data['port']) ? $data['port'] : '';
@@ -185,7 +196,16 @@ class Project extends Model implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'];
+            if (!isset($info['scheme']) || !starts_with($info['scheme'], 'http')) {
+                $info['scheme'] = 'http';
+            }
+
+            // Always serve github links over HTTPS
+            if (ends_with($info['domain'], 'github.com')) {
+                $info['scheme'] = 'https';
+            }
+
+            return $info['scheme'] . '://' . $info['domain'] . '/' . $info['reference'];
         }
 
         return false;
@@ -216,13 +236,22 @@ class Project extends Model implements PresentableInterface
 
         if (isset($info['domain']) && isset($info['reference'])) {
             $path = 'tree';
-            if (preg_match('/bitbucket/', $info['domain'])) {
+            if (str_contains($info['domain'], 'bitbucket')) {
                 $path = 'commits/branch';
+            }
+
+            if (!isset($info['scheme']) || !starts_with($info['scheme'], 'http')) {
+                $info['scheme'] = 'http';
+            }
+
+            // Always serve github links over HTTPS
+            if (ends_with($info['domain'], 'github.com')) {
+                $info['scheme'] = 'https';
             }
 
             $branch = (is_null($alternative) ? $this->branch : $alternative);
 
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $branch;
+            return $info['scheme'] . '://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $branch;
         }
 
         return false;
@@ -429,23 +458,26 @@ class Project extends Model implements PresentableInterface
      */
     protected function generateSSHKey()
     {
-        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
-        unlink($key);
+        /** @var \Illuminate\Filesystem\Filesystem $filesystem */
+        $filesystem = app('files');
 
-        $process = app()->make(Process::class);
+        $private_key_file = storage_path('app/tmp/sshkey' . $this->id);
+        $public_key_file  = $private_key_file . '.pub';
+
+        /** @var Process $process */
+        $process = app(Process::class);
         $process->setScript('tools.GenerateSSHKey', [
-            'key_file' => $key,
+            'key_file' => $private_key_file,
         ])->run();
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
         }
 
-        $this->attributes['private_key'] = file_get_contents($key);
-        $this->attributes['public_key']  = file_get_contents($key . '.pub');
+        $this->attributes['private_key'] = $filesystem->get($private_key_file);
+        $this->attributes['public_key']  = $filesystem->get($public_key_file);
 
-        unlink($key);
-        unlink($key . '.pub');
+        $filesystem->delete([$private_key_file, $public_key_file]);
     }
 
     /**
@@ -453,22 +485,27 @@ class Project extends Model implements PresentableInterface
      */
     protected function regeneratePublicKey()
     {
-        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
-        file_put_contents($key, $this->private_key);
-        chmod($key, 0600);
+        /** @var \Illuminate\Filesystem\Filesystem $filesystem */
+        $filesystem = app('files');
 
-        $process = new Process('tools.RegeneratePublicSSHKey', [
-            'key_file' => $key,
-        ]);
-        $process->run();
+        $private_key_file = storage_path('app/tmp/sshkey' . $this->id);
+        $public_key_file  = $private_key_file . '.pub';
+
+        $filesystem->put($private_key_file, $this->private_key);
+        $filesystem->chmod($private_key_file, 0600);
+
+        /** @var Process $process */
+        $process = app(Process::class);
+        $process->setScript('tools.RegeneratePublicSSHKey', [
+            'key_file' => $private_key_file,
+        ])->run();
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
         }
 
-        $this->attributes['public_key']  = file_get_contents($key . '.pub');
+        $this->attributes['public_key'] = $filesystem->get($public_key_file);
 
-        unlink($key);
-        unlink($key . '.pub');
+        $filesystem->delete([$private_key_file, $public_key_file]);
     }
 }

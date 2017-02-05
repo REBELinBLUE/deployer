@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Events\HeartbeatRecovered;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
@@ -51,7 +50,6 @@ class Heartbeat extends Model
         'missed'      => 'integer',
         'interval'    => 'integer',
         'status'      => 'integer',
-        'deploy_code' => 'boolean',
     ];
 
     /**
@@ -91,7 +89,7 @@ class Heartbeat extends Model
      */
     public function generateHash()
     {
-        $this->attributes['hash'] = Str::random(30);
+        $this->attributes['hash'] = token(30);
     }
 
     /**

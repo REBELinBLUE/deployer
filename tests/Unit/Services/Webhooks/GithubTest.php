@@ -45,7 +45,7 @@ class GithubTest extends WebhookTestCase
     }
 
     /**
-     * @dataProvider getBranch
+     * @dataProvider provideBranch
      * @covers ::handlePush
      */
     public function testHandlePushEventValid($branch, $ref)
@@ -73,7 +73,7 @@ class GithubTest extends WebhookTestCase
     }
 
     /**
-     * @dataProvider getUnsupportedEvents
+     * @dataProvider provideUnsupportedEvents
      * @covers ::handlePush
      */
     public function testHandleUnsupportedEvent($event)
@@ -84,7 +84,7 @@ class GithubTest extends WebhookTestCase
         $this->assertFalse($github->handlePush());
     }
 
-    public function getUnsupportedEvents()
+    public function provideUnsupportedEvents()
     {
         return array_chunk([
             '*', 'commit_comment', 'create', 'delete', 'deployment', 'deployment_status', 'fork', 'gollum',

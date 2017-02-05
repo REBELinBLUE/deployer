@@ -14,7 +14,7 @@ class ServerTest extends TestCase
     /**
      * @covers ::project
      */
-    public function testProjectRelation()
+    public function testProject()
     {
         $server = new Server();
         $actual = $server->project();
@@ -24,7 +24,7 @@ class ServerTest extends TestCase
     }
 
     /**
-     * @dataProvider getStatuses
+     * @dataProvider provideStatuses
      * @covers ::isTesting
      */
     public function testIsTesting($status, $expected)
@@ -38,18 +38,13 @@ class ServerTest extends TestCase
         $this->assertSame($expected, $server->isTesting());
     }
 
-    public function getStatuses()
+    public function provideStatuses()
     {
-        return [
-            [Server::TESTING, true],
-            [Server::UNTESTED, false],
-            [Server::SUCCESSFUL, false],
-            [Server::FAILED, false],
-        ];
+        return $this->fixture('Server')['statuses'];
     }
 
     /**
-     * @dataProvider getPaths
+     * @dataProvider providePaths
      * @covers ::getCleanPathAttribute
      */
     public function testGetCleanPathAttribute($path, $expected)
@@ -61,138 +56,8 @@ class ServerTest extends TestCase
         $this->assertSame($expected, $server->getCleanPathAttribute());
     }
 
-    public function getPaths()
+    public function providePaths()
     {
-        return [
-            ['/var/www/deployer', '/var/www/deployer'],
-            ['/var/www/deployer/', '/var/www/deployer'],
-            ['/', ''],
-        ];
-    }
-
-    /**
-     * @covers ::setPortAttribute
-     * @covers ::setAttributeStatusUntested
-     */
-    public function testSetPortAttribute()
-    {
-        $server = $this->getSuccessfulServer();
-
-        $server->port = 22;
-
-        $this->assertIsUntested($server);
-    }
-
-    /**
-     * @covers ::setPortAttribute
-     * @covers ::setAttributeStatusUntested
-     */
-    public function testSetPortAttributeDoesNotChangeStatusWhenSame()
-    {
-        $server = $this->getSuccessfulServer();
-
-        $server->port = 2222;
-
-        $this->assertIsSuccessful($server);
-    }
-
-    /**
-     * @covers ::setIpAddressAttribute
-     * @covers ::setAttributeStatusUntested
-     */
-    public function testSetIpAddressAttribute()
-    {
-        $server = $this->getSuccessfulServer();
-
-        $server->ip_address = '127.0.0.1';
-
-        $this->assertIsUntested($server);
-    }
-
-    /**
-     * @covers ::setIpAddressAttribute
-     * @covers ::setAttributeStatusUntested
-     */
-    public function testSetIpAddressDoesNotChangeStatusWhenSame()
-    {
-        $server = $this->getSuccessfulServer();
-
-        $server->ip_address = '0.0.0.0';
-
-        $this->assertIsSuccessful($server);
-    }
-
-    /**
-     * @covers ::setPathAttribute
-     * @covers ::setAttributeStatusUntested
-     */
-    public function testSetPathAttribute()
-    {
-        $server = $this->getSuccessfulServer();
-
-        $server->path = '/var/www/deployer';
-
-        $this->assertIsUntested($server);
-    }
-
-    /**
-     * @covers ::setPathAttribute
-     * @covers ::setAttributeStatusUntested
-     */
-    public function testSetPathAttributeDoesNotChangeStatusWhenSame()
-    {
-        $server = $this->getSuccessfulServer();
-
-        $server->path = '/var/www';
-
-        $this->assertIsSuccessful($server);
-    }
-
-    /**
-     * @covers ::setUserAttribute
-     * @covers ::setAttributeStatusUntested
-     */
-    public function testSetUserAttribute()
-    {
-        $server = $this->getSuccessfulServer();
-
-        $server->user = 'deploy';
-
-        $this->assertIsUntested($server);
-    }
-
-    /**
-     * @covers ::setUserAttribute
-     * @covers ::setAttributeStatusUntested
-     */
-    public function testSetUserAttributeDoesNotChangeStatusWhenSame()
-    {
-        $server = $this->getSuccessfulServer();
-
-        $server->user = 'root';
-
-        $this->assertIsSuccessful($server);
-    }
-
-    private function assertIsUntested(Server $server)
-    {
-        $this->assertSame(Server::UNTESTED, $server->status);
-    }
-
-    private function assertIsSuccessful(Server $server)
-    {
-        $this->assertSame(Server::SUCCESSFUL, $server->status);
-    }
-
-    private function getSuccessfulServer()
-    {
-        $server             = new Server();
-        $server->user       = 'root';
-        $server->ip_address = '0.0.0.0';
-        $server->port       = 2222;
-        $server->path       = '/var/www';
-        $server->status     = Server::SUCCESSFUL;
-
-        return $server;
+        return $this->fixture('Server')['paths'];
     }
 }

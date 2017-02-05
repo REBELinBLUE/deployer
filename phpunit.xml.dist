@@ -3,6 +3,7 @@
          backupStaticAttributes="false"
          beStrictAboutTestsThatDoNotTestAnything="false"
          beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestSize="true"
          bootstrap="bootstrap/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
@@ -26,9 +27,6 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app/</directory>
-            <exclude>
-                <directory suffix=".php">./app/Contracts/</directory>
-            </exclude>
         </whitelist>
     </filter>
     <logging>
@@ -37,11 +35,11 @@
     </logging>
     <php>
         <env name="APP_ENV" value="testing" />
+        <env name="APP_URL" value="http://localhost" />
         <env name="APP_DEBUG" value="true" />
+        <env name="APP_KEY" value="cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy" />
         <env name="APP_TIMEZONE" value="UTC" />
         <env name="APP_LOCALE" value="en" />
-        <env name="APP_KEY" value="cHKwVTJCF75DKo9bta72ZNrkS6Q0tqYy" />
-        <env name="APP_URL" value="http://localhost" />
         <env name="DB_CONNECTION" value="sqlite" />
         <env name="DB_DATABASE" value=":memory:" />
         <env name="CACHE_DRIVER" value="array" />

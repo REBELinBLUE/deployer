@@ -1,0 +1,10 @@
+fixture:
+  notification:
+    -
+      notification: REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFailed
+      successful: false
+      field: on_deployment_failure
+    -
+      notification: REBELinBLUE\Deployer\Notifications\Configurable\DeploymentSucceeded
+      successful: true
+      field: on_deployment_success

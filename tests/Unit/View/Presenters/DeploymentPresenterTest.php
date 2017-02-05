@@ -29,7 +29,7 @@ class DeploymentPresenterTest extends TestCase
     }
 
     /**
-     * @dataProvider getCCTrayStatus
+     * @dataProvider provideCCTrayStatus
      * @covers ::presentCcTrayStatus
      */
     public function testPresentCcTrayStatusIsCorrect($status, $expected)
@@ -42,23 +42,13 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getCCTrayStatus()
+    public function provideCCTrayStatus()
     {
-        return [
-            [Deployment::COMPLETED, 'Success'],
-            [Deployment::COMPLETED_WITH_ERRORS, 'Success'],
-            [Deployment::FAILED, 'Failure'],
-            [Deployment::ABORTED, 'Failure'],
-            [Deployment::PENDING, 'Unknown'],
-            [Deployment::DEPLOYING, 'Unknown'],
-            [Deployment::ABORTING, 'Unknown'],
-            [Deployment::LOADING, 'Unknown'],
-            ['invalid-value', 'Unknown'],
-        ];
+        return $this->fixture('View/Presenters/DeploymentPresenter')['cc_tray_status'];
     }
 
     /**
-     * @dataProvider getReadableStatus
+     * @dataProvider provideReadableStatus
      * @covers ::presentReadableStatus
      */
     public function testPresentReadableStatusIsCorrect($status, $expected)
@@ -73,23 +63,13 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getReadableStatus()
+    public function provideReadableStatus()
     {
-        return [
-            [Deployment::COMPLETED, 'deployments.completed'],
-            [Deployment::COMPLETED_WITH_ERRORS, 'deployments.completed_with_errors'],
-            [Deployment::FAILED, 'deployments.failed'],
-            [Deployment::ABORTED, 'deployments.aborted'],
-            [Deployment::PENDING, 'deployments.pending'],
-            [Deployment::DEPLOYING, 'deployments.deploying'],
-            [Deployment::ABORTING, 'deployments.aborting'],
-            [Deployment::LOADING, 'deployments.pending'],
-            ['invalid-value', 'deployments.pending'],
-        ];
+        return $this->fixture('View/Presenters/DeploymentPresenter')['readable_status'];
     }
 
     /**
-     * @dataProvider getIcons
+     * @dataProvider provideIcons
      * @covers ::presentIcon
      */
     public function testPresentIconIsCorrect($status, $expected)
@@ -102,23 +82,13 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getIcons()
+    public function provideIcons()
     {
-        return [
-            [Deployment::COMPLETED, 'check'],
-            [Deployment::COMPLETED_WITH_ERRORS, 'warning'],
-            [Deployment::FAILED, 'warning'],
-            [Deployment::ABORTED, 'warning'],
-            [Deployment::PENDING, 'clock-o'],
-            [Deployment::DEPLOYING, 'spinner fa-pulse'],
-            [Deployment::ABORTING, 'warning'],
-            [Deployment::LOADING, 'clock-o'],
-            ['invalid-value', 'clock-o'],
-        ];
+        return $this->fixture('View/Presenters/DeploymentPresenter')['icons'];
     }
 
     /**
-     * @dataProvider getCssClasses
+     * @dataProvider provideCssClasses
      * @covers ::presentCssClass
      */
     public function testPresentCssClassIsCorrect($status, $expected)
@@ -131,23 +101,13 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getCssClasses()
+    public function provideCssClasses()
     {
-        return [
-            [Deployment::COMPLETED, 'success'],
-            [Deployment::COMPLETED_WITH_ERRORS, 'success'],
-            [Deployment::FAILED, 'danger'],
-            [Deployment::ABORTED, 'danger'],
-            [Deployment::PENDING, 'info'],
-            [Deployment::DEPLOYING, 'warning'],
-            [Deployment::ABORTING, 'danger'],
-            [Deployment::LOADING, 'info'],
-            ['invalid-value', 'info'],
-        ];
+        return $this->fixture('View/Presenters/DeploymentPresenter')['css_classes'];
     }
 
     /**
-     * @dataProvider getTimelineCssClasses
+     * @dataProvider provideTimelineCssClasses
      * @covers ::presentTimelineCssClass
      */
     public function testPresentTimelineCssClass($status, $expected)
@@ -160,19 +120,9 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getTimelineCssClasses()
+    public function provideTimelineCssClasses()
     {
-        return [
-            [Deployment::COMPLETED, 'green'],
-            [Deployment::COMPLETED_WITH_ERRORS, 'green'],
-            [Deployment::FAILED, 'red'],
-            [Deployment::ABORTED, 'red'],
-            [Deployment::PENDING, 'aqua'],
-            [Deployment::DEPLOYING, 'yellow'],
-            [Deployment::ABORTING, 'red'],
-            [Deployment::LOADING, 'aqua'],
-            ['invalid-value', 'aqua'],
-        ];
+        return $this->fixture('View/Presenters/DeploymentPresenter')['timeline_css_classes'];
     }
 
     /**
@@ -192,7 +142,7 @@ class DeploymentPresenterTest extends TestCase
     }
 
     /**
-     * @dataProvider getCommiterName
+     * @dataProvider provideCommiterName
      * @covers ::presentCommitterName
      */
     public function testPresentCommitterNameReturnsTranslation($committer, $status, $expected)
@@ -209,12 +159,9 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getCommiterName()
+    public function provideCommiterName()
     {
-        return [
-            [Deployment::LOADING, Deployment::LOADING, 'deployments.loading'],
-            [Deployment::LOADING, Deployment::FAILED, 'deployments.unknown'],
-        ];
+        return $this->fixture('View/Presenters/DeploymentPresenter')['committer_name'];
     }
 
     /**
@@ -234,7 +181,7 @@ class DeploymentPresenterTest extends TestCase
     }
 
     /**
-     * @dataProvider getShortHash
+     * @dataProvider provideShortHash
      * @covers ::presentShortCommitHash
      */
     public function testPresentShortCommitHashReturnsTranslation($commit, $status, $expected)
@@ -251,16 +198,14 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getShortHash()
+    public function provideShortHash()
     {
-        return [
-            [Deployment::LOADING, Deployment::LOADING, 'deployments.loading'],
-            [Deployment::LOADING, Deployment::FAILED, 'deployments.unknown'],
-        ];
+        // FIXME: Is this right?
+        return $this->fixture('View/Presenters/DeploymentPresenter')['short_hash_translations'];
     }
 
     /**
-     * @dataProvider getCommandsUsed
+     * @dataProvider provideCommandsUsed
      * @covers ::presentOptionalCommandsUsed
      */
     public function testPresentOptionalCommandsUsed(array $commands, $expected)
@@ -280,18 +225,9 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getCommandsUsed()
+    public function provideCommandsUsed()
     {
-        return [
-            [[true], '1'],
-            [[false], ''],
-            [[true,true], '1,2'],
-            [[true,false], '1'],
-            [[false,true], '2'],
-            [[false,false], ''],
-            [[true,true,true], '1,2,3'],
-            [[true,false,true], '1,3'],
-        ];
+        return $this->fixture('View/Presenters/DeploymentPresenter')['commands_used'];
     }
 
     private function mockDeploymentWithStatus($status)

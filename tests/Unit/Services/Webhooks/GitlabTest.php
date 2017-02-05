@@ -35,7 +35,7 @@ class GitlabTest extends WebhookTestCase
     }
 
     /**
-     * @dataProvider getBranch
+     * @dataProvider provideBranch
      * @covers ::handlePush
      */
     public function testHandlePushEventValid($branch, $ref)
@@ -66,7 +66,7 @@ class GitlabTest extends WebhookTestCase
     }
 
     /**
-     * @dataProvider getUnsupportedEvents
+     * @dataProvider provideUnsupportedEvents
      * @covers ::handlePush
      */
     public function testHandleUnsupportedEvent($event)
@@ -77,7 +77,7 @@ class GitlabTest extends WebhookTestCase
         $this->assertFalse($gitlab->handlePush());
     }
 
-    public function getUnsupportedEvents()
+    public function provideUnsupportedEvents()
     {
         return array_chunk([
             'System Hook', 'Issue Hook', 'Note Hook', 'Merge Request Hook',

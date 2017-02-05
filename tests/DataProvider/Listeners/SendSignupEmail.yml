@@ -1,0 +1,20 @@
+fixture:
+  notifications:
+    -
+      event: REBELinBLUE\Deployer\Events\HeartbeatRecovered
+      notification: REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatRecovered
+      healthy: true
+      missed: 0
+      field: on_heartbeat_recovered
+    -
+      event: REBELinBLUE\Deployer\Events\HeartbeatMissed
+      notification: REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatMissing
+      healthy: false
+      missed: 1
+      field: on_heartbeat_missing
+    -
+      event: REBELinBLUE\Deployer\Events\HeartbeatMissed
+      notification: REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatMissing
+      healthy: false
+      missed: 2
+      field: on_heartbeat_still_missing

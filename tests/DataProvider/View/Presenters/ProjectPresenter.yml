@@ -1,0 +1,150 @@
+fixture:
+  cc_tray_status:
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      expected: Sleeping
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      expected: Sleeping
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      expected: Building
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      expected: Pending
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      expected: Unknown
+    -
+      status: invalid-value
+      expected: Unknown
+  readable_status:
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      expected: projects.finished
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      expected: projects.failed
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      expected: projects.deploying
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      expected: projects.pending
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      expected: projects.not_deployed
+    -
+      status: invalid-value
+      expected: projects.not_deployed
+  icons:
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      expected: check
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      expected: warning
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      expected: spinner fa-pulse
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      expected: clock-o
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      expected: question-circle
+    -
+      status: invalid-value
+      expected: question-circle
+  css_classes:
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      expected: success
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      expected: danger
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      expected: warning
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      expected: info
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      expected: primary
+    -
+      status: invalid-value
+      expected: primary
+  status_label:
+    -
+      length: 1
+      missed: 0
+      expected: 1 / 1
+    -
+      length: 1
+      missed: 1
+      expected: 0 / 1
+    -
+      length: 2
+      missed: 1
+      expected: 1 / 2
+    -
+      length: 2
+      missed: 2
+      expected: 0 / 2
+  status_css_classes:
+    -
+      length: 0
+      missed: 0
+      expected: warning
+    -
+      length: 0
+      missed: 1
+      expected: warning
+    -
+      length: 0
+      missed: 2
+      expected: warning
+    -
+      length: 1
+      missed: 0
+      expected: success
+    -
+      length: 2
+      missed: 0
+      expected: success
+    -
+      length: 1
+      missed: 1
+      expected: danger
+  repo_icon:
+    -
+      repo: https://github.com/REBELinBLUE/deployer.git
+      expected: fa-github
+    -
+      repo: ssh://github@github.com:REBELinBLUE/deployer.git
+      expected: fa-github
+    -
+      repo: https://gitlab.com/REBELinBLUE/deployer.git
+      expected: fa-gitlab
+    -
+      repo: ssh://gitlab@gitlab.com:REBELinBLUE/deployer.git
+      expected: fa-gitlab
+    -
+      repo: https://bitbucket.org/rebelinblue/deployer.git
+      expected: fa-bitbucket
+    -
+      repo: ssh://git@bitbucket.org:rebelinblue/deployer.git
+      expected: fa-bitbucket
+    -
+      repo: https://git-codecommit.us-east-2.amazonaws.com/v1/repos/deployer.git
+      expected: fa-amazon
+    -
+      repo: ssh://key@git-codecommit.us-east-2.amazonaws.com/v1/repos/deployer
+      expected: fa-amazon
+    -
+      repo: www.invalid.url.com
+      expected: fa-git-square
+    -
+      repo: null
+      expected: fa-git-square

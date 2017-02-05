@@ -1,0 +1,20 @@
+fixture:
+  notifications:
+    -
+      event: REBELinBLUE\Deployer\Events\UrlUp
+      notification: REBELinBLUE\Deployer\Notifications\Configurable\UrlRecovered
+      healthy: true
+      missed: 0
+      field: on_link_recovered
+    -
+      event: REBELinBLUE\Deployer\Events\UrlDown
+      notification: REBELinBLUE\Deployer\Notifications\Configurable\UrlDown
+      healthy: false
+      missed: 1
+      field: on_link_down
+    -
+      event: REBELinBLUE\Deployer\Events\UrlDown
+      notification: REBELinBLUE\Deployer\Notifications\Configurable\UrlDown
+      healthy: false
+      missed: 2
+      field: on_link_still_down

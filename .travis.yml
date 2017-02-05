@@ -64,49 +64,37 @@ matrix:
         - postgresql
 
 before_install:
-  - if [[ "$TRAVIS_PHP_VERSION" = "5.6" ]] ; then phpenv config-rm xdebug.ini; fi
-  - curl -L https://github.com/kr/beanstalkd/archive/v1.9.tar.gz | tar xz -C /tmp
-  - cd /tmp/beanstalkd-1.9/
-  - make
-  - ./beanstalkd 2>&1 >/dev/null &
-  - cd $TRAVIS_BUILD_DIR
+  - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then phpenv config-rm xdebug.ini; fi
 
 install:
-  - travis_retry composer install --no-interaction --no-scripts --prefer-dist --no-suggest
+  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 before_script:
-  - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
-  - if [[ "$DB" != "maria" ]]; then sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env; fi
-  - if [[ "$DB" = "pgsql" ]]; then sed -i "s/DB_USERNAME=travis/DB_USERNAME=postgres/g" .env; fi
-  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_DATABASE=deployer//g' .env; fi
-  - if [[ "$DB" = "sqlite" ]]; then sed -i 's/DB_USERNAME=travis//g' .env; fi
-  - if [[ "$DB" = "mysql" ]] || [[ "$DB" = "maria" ]]; then mysql -e 'CREATE DATABASE deployer;'; fi
-  - if [[ "$DB" = "pgsql" ]]; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
-  - if [[ "$DB" = "sqlite" ]]; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
-  - php artisan key:generate
-  - sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32 ; echo)/g" .env
-  - sed -i '/^$/N;/^\n$/D' .env
-  - php artisan js-localization:refresh
+  - make ci
+  # - php artisan js-localization:refresh
   - make permissions
-  - sleep 5
-  - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
 
 script:
-  - php artisan migrate --seed --env="testing"
-  - php artisan migrate:rollback --env="testing"
   - make lint
+  - make migrate
+  - make seed
+  - make rollback
   - make phpcs
   # - make phpmd
-  - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then make phpunit-coverage; fi
-  - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then make phpunit; fi
+  - make phpunit-ci
   - make phpdoc-check
+  - make lines
+
+  # Clear the compiled file and then try to install without the dev dependencies to ensure everything still works
+  - travis_retry composer install --no-dev --no-interaction --prefer-dist --no-suggest --quiet
+  - php artisan optimize
+  - php artisan app:version
 
 after_script:
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
   - cat $TRAVIS_BUILD_DIR/.env
 
 after_success:
-  - make lines
   - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then bash <(curl -s https://codecov.io/bash); fi
 
 notifications:

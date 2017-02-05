@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\CheckUrl;
-use REBELinBLUE\Deployer\Events\UrlDown;
-use REBELinBLUE\Deployer\Events\UrlUp;
 use REBELinBLUE\Deployer\Listeners\SendCheckUrlNotification;
-use REBELinBLUE\Deployer\Notifications\Configurable\UrlDown as UrlFailed;
-use REBELinBLUE\Deployer\Notifications\Configurable\UrlRecovered;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
@@ -20,7 +16,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 class SendCheckUrlNotificationTest extends TestCase
 {
     /**
-     * @dataProvider getTestNotificationData
+     * @dataProvider provideTestNotificationData
      * @covers ::handle
      */
     public function testHandleSendsNotification(
@@ -57,12 +53,8 @@ class SendCheckUrlNotificationTest extends TestCase
         Notification::assertSentTo($channel, $notification);
     }
 
-    public function getTestNotificationData()
+    public function provideTestNotificationData()
     {
-        return [
-            [UrlUp::class, UrlRecovered::class, true, 0, 'on_link_recovered'],
-            [UrlDown::class, UrlFailed::class, false, 1, 'on_link_down'],
-            [UrlDown::class, UrlFailed::class, false, 2, 'on_link_still_down'],
-        ];
+        return $this->fixture('Listeners/SendCheckUrlNotification')['notifications'];
     }
 }

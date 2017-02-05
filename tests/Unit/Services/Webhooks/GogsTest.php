@@ -34,7 +34,7 @@ class GogsTest extends WebhookTestCase
     }
 
     /**
-     * @dataProvider getBranch
+     * @dataProvider provideBranch
      * @covers ::handlePush
      */
     public function testHandlePushEventValid($branch, $ref)
@@ -79,7 +79,7 @@ class GogsTest extends WebhookTestCase
     }
 
     /**
-     * @dataProvider getUnsupportedEvents
+     * @dataProvider provideUnsupportedEvents
      * @covers ::handlePush
      */
     public function testHandleUnsupportedEvent($event)
@@ -90,7 +90,7 @@ class GogsTest extends WebhookTestCase
         $this->assertFalse($gogs->handlePush());
     }
 
-    public function getUnsupportedEvents()
+    public function provideUnsupportedEvents()
     {
         return array_chunk([
             'create', 'pull_request',

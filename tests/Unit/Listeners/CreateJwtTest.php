@@ -52,7 +52,7 @@ class CreateJwtTest extends TestCase
         $auth->shouldReceive('fromUser')->once()->with($user, $expected)->andReturn($expected);
 
         $generator = m::mock(TokenGenerator::class);
-        $generator->shouldReceive('generateRandom')->once()->with(32)->andReturn($random);
+        $generator->shouldReceive('generateRandom')->once()->with(m::type('int'))->andReturn($random);
 
         $listener = new CreateJwt($auth, $session, $generator);
         $listener->handle(new Login($user, false));

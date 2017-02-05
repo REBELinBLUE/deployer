@@ -45,8 +45,8 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
      */
     public function testToTwilioWithLastSeenDate()
     {
-        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'Europe/London');
-        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'Europe/London'));
+        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC');
+        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'UTC'));
 
         $this->toTwilio(HeartbeatMissing::class, 'heartbeats.missing_sms_message', $date, '15 minutes ago');
     }
@@ -86,8 +86,8 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
      */
     public function testToMailWithLastSeenDate()
     {
-        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'Europe/London');
-        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'Europe/London'));
+        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC');
+        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'UTC'));
 
         $this->toMail(
             HeartbeatMissing::class,
@@ -124,8 +124,8 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
      */
     public function testToSlackWithLastSeenDate()
     {
-        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'Europe/London');
-        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'Europe/London'));
+        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC');
+        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'UTC'));
 
         $this->toSlack(
             HeartbeatMissing::class,
@@ -161,8 +161,8 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
      */
     public function testToHipchatWithLastSeenDate()
     {
-        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'Europe/London');
-        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'Europe/London'));
+        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC');
+        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'UTC'));
 
         $this->toHipchat(
             HeartbeatMissing::class,

@@ -63,10 +63,10 @@ class CreateNotificationChannels extends Migration
 
     /**
      * Reverse the migrations.
+     * @todo Clean this up, at the moment data would be lost
      */
     public function down()
     {
-        // TODO: Clean this up, at the moment data would be lost
         Schema::drop('channels');
         Schema::create('notify_emails', function (Blueprint $table) {
             $table->increments('id');

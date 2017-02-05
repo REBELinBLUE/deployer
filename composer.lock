@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d29d2e45fd54f36c6c744e9ea0659449",
+    "content-hash": "7706107f2946d2dcfe6faeb7ae84b329",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -280,6 +280,50 @@
                 "laravel"
             ],
             "time": "2016-07-27T16:49:05+00:00"
+        },
+        {
+            "name": "cweagans/composer-patches",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cweagans/composer-patches.git",
+                "reference": "7cd5c6eb7e68b8f7436ce1a7b9fffa4418bf59c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/7cd5c6eb7e68b8f7436ce1a7b9fffa4418bf59c6",
+                "reference": "7cd5c6eb7e68b8f7436ce1a7b9fffa4418bf59c6",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "composer/composer": "~1.0",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "cweagans\\Composer\\Patches"
+            },
+            "autoload": {
+                "psr-4": {
+                    "cweagans\\Composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Cameron Eagans",
+                    "email": "me@cweagans.net"
+                }
+            ],
+            "description": "Provides a way to patch Composer packages.",
+            "time": "2016-12-01T01:19:32+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -594,16 +638,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.5.10",
+            "version": "v2.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "fc376f7a61498e18520cd6fa083752a4ca08072b"
+                "reference": "1b1effbddbdc0f40d1c8f849f44bcddac4f52a48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/fc376f7a61498e18520cd6fa083752a4ca08072b",
-                "reference": "fc376f7a61498e18520cd6fa083752a4ca08072b",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/1b1effbddbdc0f40d1c8f849f44bcddac4f52a48",
+                "reference": "1b1effbddbdc0f40d1c8f849f44bcddac4f52a48",
                 "shasum": ""
             },
             "require": {
@@ -661,7 +705,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2017-01-23T23:17:10+00:00"
+            "time": "2017-02-04T21:20:13+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -1235,16 +1279,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "2.3.10",
+            "version": "2.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "88911910dcbb7bf617f1370602ba1706489c8505"
+                "reference": "e8881fd99b9804b29e02d6d1c2c15ee459335cf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/88911910dcbb7bf617f1370602ba1706489c8505",
-                "reference": "88911910dcbb7bf617f1370602ba1706489c8505",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/e8881fd99b9804b29e02d6d1c2c15ee459335cf1",
+                "reference": "e8881fd99b9804b29e02d6d1c2c15ee459335cf1",
                 "shasum": ""
             },
             "require": {
@@ -1293,7 +1337,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2017-01-25T18:52:04+00:00"
+            "time": "2017-02-04T10:37:19+00:00"
         },
         {
             "name": "itsgoingd/clockwork",
@@ -1577,16 +1621,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.8",
+            "version": "v5.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3e226e3481aabe835626739a1507c8af17b76082"
+                "reference": "600330ae1d218919b3b307e0578461a2df248663"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3e226e3481aabe835626739a1507c8af17b76082",
-                "reference": "3e226e3481aabe835626739a1507c8af17b76082",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/600330ae1d218919b3b307e0578461a2df248663",
+                "reference": "600330ae1d218919b3b307e0578461a2df248663",
                 "shasum": ""
             },
             "require": {
@@ -1702,7 +1746,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-02-01T14:45:01+00:00"
+            "time": "2017-02-03T19:47:35+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1847,16 +1891,16 @@
         },
         {
             "name": "michele-angioni/multi-language",
-            "version": "v0.4",
+            "version": "v0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/REBELinBLUE/multi-language.git",
-                "reference": "cc1c51637ba45a06ea2c56db08715426f6bfab3d"
+                "url": "https://github.com/micheleangioni/multi-language.git",
+                "reference": "2d649d94c4f369c952db9800150cf288a9a3eafd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/REBELinBLUE/multi-language/zipball/cc1c51637ba45a06ea2c56db08715426f6bfab3d",
-                "reference": "cc1c51637ba45a06ea2c56db08715426f6bfab3d",
+                "url": "https://api.github.com/repos/micheleangioni/multi-language/zipball/2d649d94c4f369c952db9800150cf288a9a3eafd",
+                "reference": "2d649d94c4f369c952db9800150cf288a9a3eafd",
                 "shasum": ""
             },
             "require": {
@@ -1868,11 +1912,17 @@
                 "phpunit/phpunit": "5.7.*"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "Laravel 5.4 support for PHP 5.6": "https://www.phpdeployment.org/patches/0002-Multilanguage.patch"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "MicheleAngioni\\MultiLanguage\\": "src/MicheleAngioni/MultiLanguage"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1888,10 +1938,7 @@
                 "laravel",
                 "localization"
             ],
-            "support": {
-                "source": "https://github.com/REBELinBLUE/multi-language/tree/laravel-5.4-upgrade"
-            },
-            "time": "2017-01-30T00:05:24+00:00"
+            "time": "2017-01-25T21:26:31+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2165,16 +2212,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "adf44419c0fc014a0f191db6f89d3e55d4211744"
+                "reference": "5b8182cc0abb4b0ff290ba9df6c0e1323286013a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/adf44419c0fc014a0f191db6f89d3e55d4211744",
-                "reference": "adf44419c0fc014a0f191db6f89d3e55d4211744",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/5b8182cc0abb4b0ff290ba9df6c0e1323286013a",
+                "reference": "5b8182cc0abb4b0ff290ba9df6c0e1323286013a",
                 "shasum": ""
             },
             "require": {
@@ -2212,7 +2259,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2016-12-06T11:30:35+00:00"
+            "time": "2017-02-03T21:57:31+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2775,16 +2822,16 @@
         },
         {
             "name": "robclancy/presenter",
-            "version": "1.3.2",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/REBELinBLUE/presenter.git",
-                "reference": "f006d4014f966d1bf2c1ec3e102455a91d5d8dd4"
+                "url": "https://github.com/robclancy/presenter.git",
+                "reference": "ab8a18d69c452688a184a0f8b044d53b0cdc5f2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/REBELinBLUE/presenter/zipball/f006d4014f966d1bf2c1ec3e102455a91d5d8dd4",
-                "reference": "f006d4014f966d1bf2c1ec3e102455a91d5d8dd4",
+                "url": "https://api.github.com/repos/robclancy/presenter/zipball/ab8a18d69c452688a184a0f8b044d53b0cdc5f2e",
+                "reference": "ab8a18d69c452688a184a0f8b044d53b0cdc5f2e",
                 "shasum": ""
             },
             "require": {
@@ -2799,6 +2846,9 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.3-dev"
+                },
+                "patches_applied": {
+                    "Laravel 5.4 support": "https://www.phpdeployment.org/patches/0001-Presenter.patch"
                 }
             },
             "autoload": {
@@ -2806,6 +2856,7 @@
                     "Robbo\\Presenter\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "DBAD"
             ],
@@ -2821,10 +2872,7 @@
                 "laravel",
                 "presenter"
             ],
-            "support": {
-                "source": "https://github.com/REBELinBLUE/presenter/tree/1.3.2"
-            },
-            "time": "2017-01-31T13:08:22+00:00"
+            "time": "2015-03-14T08:14:37+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -5181,16 +5229,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.9",
+            "version": "5.7.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "69f832b87c731d5cacad7f91948778fe98335fdd"
+                "reference": "bf0804199f516fe80ffcc48ac6d4741c49baeb6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/69f832b87c731d5cacad7f91948778fe98335fdd",
-                "reference": "69f832b87c731d5cacad7f91948778fe98335fdd",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bf0804199f516fe80ffcc48ac6d4741c49baeb6e",
+                "reference": "bf0804199f516fe80ffcc48ac6d4741c49baeb6e",
                 "shasum": ""
             },
             "require": {
@@ -5207,11 +5255,11 @@
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-timer": "^1.0.6",
                 "phpunit/phpunit-mock-objects": "^3.2",
-                "sebastian/comparator": "~1.2.2",
+                "sebastian/comparator": "^1.2.4",
                 "sebastian/diff": "~1.2",
                 "sebastian/environment": "^1.3.4 || ^2.0",
                 "sebastian/exporter": "~2.0",
-                "sebastian/global-state": "^1.0 || ^2.0",
+                "sebastian/global-state": "^1.1",
                 "sebastian/object-enumerator": "~2.0",
                 "sebastian/resource-operations": "~1.0",
                 "sebastian/version": "~1.0|~2.0",
@@ -5259,7 +5307,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-01-28T06:14:33+00:00"
+            "time": "2017-02-04T09:03:53+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -5639,16 +5687,16 @@
         },
         {
             "name": "sebastian/git",
-            "version": "2.1.3",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/git.git",
-                "reference": "5100bc50cd9e70f424c643618e142214225024f3"
+                "reference": "815bbbc963cf35e5413df195aa29df58243ecd24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/git/zipball/5100bc50cd9e70f424c643618e142214225024f3",
-                "reference": "5100bc50cd9e70f424c643618e142214225024f3",
+                "url": "https://api.github.com/repos/sebastianbergmann/git/zipball/815bbbc963cf35e5413df195aa29df58243ecd24",
+                "reference": "815bbbc963cf35e5413df195aa29df58243ecd24",
                 "shasum": ""
             },
             "require": {
@@ -5680,7 +5728,7 @@
             "keywords": [
                 "git"
             ],
-            "time": "2016-06-15T09:30:19+00:00"
+            "time": "2017-01-23T20:57:12+00:00"
         },
         {
             "name": "sebastian/global-state",

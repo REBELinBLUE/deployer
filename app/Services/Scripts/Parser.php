@@ -12,16 +12,16 @@ class Parser
     /**
      * @var Filesystem
      */
-    private $fs;
+    private $filesystem;
 
     /**
      * Parser constructor.
      *
-     * @param Filesystem $fs
+     * @param Filesystem $filesystem
      */
-    public function __construct(Filesystem $fs)
+    public function __construct(Filesystem $filesystem)
     {
-        $this->fs = $fs;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -55,8 +55,8 @@ class Parser
     {
         $template = resource_path('scripts/' . str_replace('.', '/', $file) . '.sh');
 
-        if ($this->fs->exists($template)) {
-            return $this->parseString($this->fs->get($template), $tokens);
+        if ($this->filesystem->exists($template)) {
+            return $this->parseString($this->filesystem->get($template), $tokens);
         }
 
         throw new \RuntimeException('Template ' . $template . ' does not exist');
