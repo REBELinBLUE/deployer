@@ -1,11 +1,9 @@
 # Deployer
 
-<p align="center">
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square&branch=master)](https://styleci.io/repos/33559148)
 [![Build Status](https://img.shields.io/travis/REBELinBLUE/deployer/master.svg?style=flat-square&label=Travis+CI)](https://travis-ci.org/REBELinBLUE/deployer)
 [![Code Coverage](https://img.shields.io/codecov/c/github/REBELinBLUE/deployer/master.svg?style=flat-square&label=Coverage)](https://codecov.io/gh/REBELinBLUE/deployer)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/686dd98b-c0e5-465b-8f14-29b1cab47f3b.svg?style=flat-square&label=SensioLabs+Insight)](https://insight.sensiolabs.com/projects/686dd98b-c0e5-465b-8f14-29b1cab47f3b)
-</p>
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square&label=License)](/LICENSE.md)
 [![Laravel Version](https://shield.with.social/cc/github/REBELinBLUE/deployer/master.svg?style=flat-square)](https://packagist.org/packages/laravel/framework)
