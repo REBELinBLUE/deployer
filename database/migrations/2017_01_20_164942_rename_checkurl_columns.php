@@ -19,7 +19,7 @@ class RenameCheckurlColumns extends Migration
         });
 
         Schema::table('check_urls', function (Blueprint $table) {
-            $table->renameColumn('last_status', 'status');
+            $table->unsignedInteger('status')->nullable();
         });
 
         CheckUrl::withTrashed()->chunk(100, function (Collection $urls) {
@@ -36,7 +36,11 @@ class RenameCheckurlColumns extends Migration
         });
 
         Schema::table('check_urls', function (Blueprint $table) {
-            $table->boolean('status')->nullable(false)->default(0)->change();
+            $table->unsignedInteger('status')->nullable(false)->default(0)->change();
+        });
+
+        Schema::table('check_urls', function (Blueprint $table) {
+            $table->dropColumn('last_status');
         });
     }
 
@@ -50,8 +54,7 @@ class RenameCheckurlColumns extends Migration
         });
 
         Schema::table('check_urls', function (Blueprint $table) {
-            $table->boolean('status')->nullable()->default(null)->change();
-            $table->renameColumn('status', 'last_status');
+            $table->boolean('last_status')->nullable()->default(null)->change();
         });
 
         CheckUrl::withTrashed()->chunk(100, function (Collection $urls) {
@@ -64,6 +67,10 @@ class RenameCheckurlColumns extends Migration
 
                 $url->save();
             }
+        });
+
+        Schema::table('check_urls', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 }

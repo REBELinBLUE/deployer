@@ -62,8 +62,8 @@ class CreateNotificationChannels extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     * @todo Clean this up, at the moment data would be lost
+     * Reverse the migrations
+     * WARNING data will be lost as this does not convert back.
      */
     public function down()
     {
