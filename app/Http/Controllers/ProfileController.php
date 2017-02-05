@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
@@ -40,23 +41,31 @@ class ProfileController extends Controller
     private $settings;
 
     /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
      * ProfileController constructor.
      *
      * @param UserRepositoryInterface $repository
      * @param Google2FA               $google2fa
      * @param LanguageManager         $languageManager
      * @param Settings                $settings
+     * @param ViewFactory             $view
      */
     public function __construct(
         UserRepositoryInterface $repository,
         Google2FA $google2fa,
         LanguageManager $languageManager,
-        Settings $settings
+        Settings $settings,
+        ViewFactory $view
     ) {
         $this->repository      = $repository;
         $this->google2fa       = $google2fa;
         $this->languageManager = $languageManager;
         $this->settings        = $settings;
+        $this->view            = $view;
     }
 
     /**
@@ -75,7 +84,7 @@ class ProfileController extends Controller
 
         $img = $this->google2fa->getQRCodeGoogleUrl('Deployer', $user->email, $code);
 
-        return view('user.profile', [
+        return $this->view->make('user.profile', [
             'google_2fa_url'  => $img,
             'google_2fa_code' => $code,
             'title'           => Lang::get('users.update_profile'),
@@ -140,7 +149,7 @@ class ProfileController extends Controller
      */
     public function email($token)
     {
-        return view('user.change-email', [
+        return $this->view->make('user.change-email', [
             'token' => $token,
         ]);
     }

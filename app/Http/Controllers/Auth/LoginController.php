@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -29,13 +30,20 @@ class LoginController extends Controller
     private $google2fa;
 
     /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
      * AuthController constructor.
      *
-     * @param Google2FA $google2fa
+     * @param Google2FA   $google2fa
+     * @param ViewFactory $view
      */
-    public function __construct(Google2FA $google2fa)
+    public function __construct(Google2FA $google2fa, ViewFactory $view)
     {
         $this->google2fa  = $google2fa;
+        $this->view       = $view;
 
         $this->middleware('guest', ['except' => 'logout']);
     }
@@ -51,7 +59,7 @@ class LoginController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return view('auth.login');
+        return $this->view->make('auth.login');
     }
 
     /**
@@ -106,7 +114,7 @@ class LoginController extends Controller
      */
     public function showTwoFactorAuthenticationForm()
     {
-        return view('auth.twofactor');
+        return $this->view->make('auth.twofactor');
     }
 
     /**

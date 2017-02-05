@@ -2,8 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Response;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
@@ -12,6 +13,21 @@ use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
  */
 class DashboardController extends Controller
 {
+    /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
+     * DashboardController constructor.
+     *
+     * @param ViewFactory $view
+     */
+    public function __construct(ViewFactory $view)
+    {
+        $this->view = $view;
+    }
+
     /**
      * The main page of the dashboard.
      *
@@ -37,7 +53,7 @@ class DashboardController extends Controller
 
         ksort($projects_by_group);
 
-        return view('dashboard.index', [
+        return $this->view->make('dashboard.index', [
             'title'     => Lang::get('dashboard.title'),
             'latest'    => $this->buildTimelineData($deploymentRepository),
             'projects'  => $projects_by_group,
@@ -53,7 +69,7 @@ class DashboardController extends Controller
      */
     public function timeline(DeploymentRepositoryInterface $deploymentRepository)
     {
-        return view('dashboard.timeline', [
+        return $this->view->make('dashboard.timeline', [
             'latest' => $this->buildTimelineData($deploymentRepository),
         ]);
     }
@@ -62,10 +78,11 @@ class DashboardController extends Controller
      * Generates an XML file for CCTray.
      *
      * @param ProjectRepositoryInterface $projectRepository
+     * @param ResponseFactory            $response
      *
      * @return \Illuminate\View\View
      */
-    public function cctray(ProjectRepositoryInterface $projectRepository)
+    public function cctray(ProjectRepositoryInterface $projectRepository, ResponseFactory $response)
     {
         $projects = $projectRepository->getAll();
 
@@ -73,7 +90,7 @@ class DashboardController extends Controller
             $project->latest_deployment = $project->deployments->first();
         }
 
-        return Response::view('cctray', [
+        return $response->view('cctray', [
             'projects' => $projects,
         ])->header('Content-Type', 'application/xml');
     }

@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
@@ -22,17 +23,25 @@ class CommandController extends ResourceController
     private $projectRepository;
 
     /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
      * CommandController constructor.
      *
      * @param CommandRepositoryInterface $commandRepository
      * @param ProjectRepositoryInterface $projectRepository
+     * @param ViewFactory                $view
      */
     public function __construct(
         CommandRepositoryInterface $commandRepository,
-        ProjectRepositoryInterface $projectRepository
+        ProjectRepositoryInterface $projectRepository,
+        ViewFactory $view
     ) {
         $this->repository        = $commandRepository;
         $this->projectRepository = $projectRepository;
+        $this->view              = $view;
     }
 
     /**
@@ -59,7 +68,7 @@ class CommandController extends ResourceController
             ['url' => route('projects', ['id' => $project->id]), 'label' => $project->name],
         ];
 
-        return view('commands.listing', [
+        return $this->view->make('commands.listing', [
             'breadcrumb'  => $breadcrumb,
             'title'       => Lang::get('commands.' . strtolower($action)),
             'subtitle'    => $project->name,

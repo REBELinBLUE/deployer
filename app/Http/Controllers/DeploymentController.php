@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
@@ -29,17 +30,25 @@ class DeploymentController extends Controller
     private $deploymentRepository;
 
     /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
      * DeploymentController constructor.
      *
      * @param ProjectRepositoryInterface    $projectRepository
      * @param DeploymentRepositoryInterface $deploymentRepository
+     * @param ViewFactory                   $view
      */
     public function __construct(
         ProjectRepositoryInterface $projectRepository,
-        DeploymentRepositoryInterface $deploymentRepository
+        DeploymentRepositoryInterface $deploymentRepository,
+        ViewFactory $view
     ) {
         $this->projectRepository    = $projectRepository;
         $this->deploymentRepository = $deploymentRepository;
+        $this->view                 = $view;
     }
 
     /**
@@ -57,7 +66,7 @@ class DeploymentController extends Controller
             return $command->optional;
         });
 
-        return view('projects.details', [
+        return $this->view->make('projects.details', [
             'title'         => $project->name,
             'deployments'   => $this->deploymentRepository->getLatest($project_id),
             'today'         => $this->deploymentRepository->getTodayCount($project_id),
@@ -104,7 +113,7 @@ class DeploymentController extends Controller
 
         $project = $deployment->project;
 
-        return view('deployment.details', [
+        return $this->view->make('deployment.details', [
             'breadcrumb' => [
                 ['url' => route('projects', ['id' => $project->id]), 'label' => $project->name],
             ],

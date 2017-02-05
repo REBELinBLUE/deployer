@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
@@ -14,13 +15,20 @@ use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 class UserController extends Controller
 {
     /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
      * UserController constructor.
      *
      * @param UserRepositoryInterface $repository
+     * @param ViewFactory             $view
      */
-    public function __construct(UserRepositoryInterface $repository)
+    public function __construct(UserRepositoryInterface $repository, ViewFactory $view)
     {
         $this->repository = $repository;
+        $this->view       = $view;
     }
 
     /**
@@ -30,7 +38,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.users.listing', [
+        return $this->view->make('admin.users.listing', [
             'title' => Lang::get('users.manage'),
             'users' => $this->repository->getAll()->toJson(), // PresentableInterface toJson() is not working in view
         ]);

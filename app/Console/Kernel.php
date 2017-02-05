@@ -16,6 +16,7 @@ use REBELinBLUE\Deployer\Console\Commands\InstallApp;
 use REBELinBLUE\Deployer\Console\Commands\ResetApp;
 use REBELinBLUE\Deployer\Console\Commands\UpdateApp;
 use REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors;
+use Spatie\MigrateFresh\Commands\MigrateFresh;
 
 /**
  * Kernel class.
@@ -48,12 +49,10 @@ class Kernel extends ConsoleKernel
     {
         parent::bootstrap();
 
-        $fresh = '\Spatie\MigrateFresh\Commands\MigrateFresh';
-
         // Only register the reset command on the local environment when dev dependencies are installed
-        if ($this->app->environment() === 'local' && class_exists($fresh, true)) {
+        if ($this->app->environment() === 'local' && class_exists(MigrateFresh::class, true)) {
             $this->commands[] = ResetApp::class;
-            $this->commands[] = $fresh;
+            $this->commands[] = MigrateFresh::class;
         }
     }
 

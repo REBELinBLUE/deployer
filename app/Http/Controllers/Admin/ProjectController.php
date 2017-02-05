@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
@@ -16,13 +17,20 @@ use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 class ProjectController extends Controller
 {
     /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
      * ProjectController constructor.
      *
      * @param ProjectRepositoryInterface $repository
+     * @param ViewFactory                $view
      */
-    public function __construct(ProjectRepositoryInterface $repository)
+    public function __construct(ProjectRepositoryInterface $repository, ViewFactory $view)
     {
         $this->repository = $repository;
+        $this->view       = $view;
     }
 
     /**
@@ -41,7 +49,7 @@ class ProjectController extends Controller
     ) {
         $projects = $this->repository->getAll();
 
-        return view('admin.projects.listing', [
+        return $this->view->make('admin.projects.listing', [
             'is_secure' => $request->secure(),
             'title'     => Lang::get('projects.manage'),
             'templates' => $templateRepository->getAll(),

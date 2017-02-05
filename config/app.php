@@ -186,8 +186,6 @@ return [
          * Application Service Providers...
          */
         REBELinBLUE\Deployer\Providers\AppServiceProvider::class,
-        // REBELinBLUE\Deployer\Providers\AuthServiceProvider::class,
-        // REBELinBLUE\Deployer\Providers\BroadcastServiceProvider::class,
         REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
         REBELinBLUE\Deployer\Providers\HelperServiceProvider::class,
         REBELinBLUE\Deployer\Providers\LogServiceProvider::class,

@@ -2,7 +2,7 @@
 
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 
-/**
+/*
  * @codeCoverageIgnoreStart
  */
 if (!function_exists('token')) {
@@ -18,6 +18,6 @@ if (!function_exists('token')) {
         return app(TokenGenerator::class)->generateRandom($length);
     }
 }
-/**
+/*
  * @codeCoverageIgnoreEnd
  */

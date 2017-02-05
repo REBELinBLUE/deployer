@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
@@ -14,13 +15,20 @@ use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 class GroupController extends Controller
 {
     /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
      * GroupController constructor.
      *
      * @param GroupRepositoryInterface $repository
+     * @param ViewFactory              $view
      */
-    public function __construct(GroupRepositoryInterface $repository)
+    public function __construct(GroupRepositoryInterface $repository, ViewFactory $view)
     {
         $this->repository = $repository;
+        $this->view       = $view;
     }
 
     /**
@@ -30,7 +38,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        return view('admin.groups.listing', [
+        return $this->view->make('admin.groups.listing', [
             'title'  => Lang::get('groups.manage'),
             'groups' => $this->repository->getAll(),
         ]);

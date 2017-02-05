@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
@@ -20,6 +21,7 @@ class TemplateController extends Controller
      * @var CommandRepositoryInterface
      */
     protected $repository;
+
     /**
      * The template repository.
      *
@@ -28,17 +30,25 @@ class TemplateController extends Controller
     private $templateRepository;
 
     /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
      * TemplateController constructor.
      *
      * @param CommandRepositoryInterface  $commandRepository
      * @param TemplateRepositoryInterface $templateRepository
+     * @param ViewFactory                 $view
      */
     public function __construct(
         CommandRepositoryInterface $commandRepository,
-        TemplateRepositoryInterface $templateRepository
+        TemplateRepositoryInterface $templateRepository,
+        ViewFactory $view
     ) {
         $this->repository         = $commandRepository;
         $this->templateRepository = $templateRepository;
+        $this->view               = $view;
     }
 
     /**
@@ -66,7 +76,7 @@ class TemplateController extends Controller
             ['url' => route('admin.templates.show', ['templates' => $template->id]), 'label' => $template->name],
         ];
 
-        return view('commands.listing', [
+        return $this->view->make('commands.listing', [
             'breadcrumb'  => $breadcrumb,
             'title'       => Lang::get('commands.' . strtolower($action)),
             'subtitle'    => $template->name,
@@ -87,7 +97,7 @@ class TemplateController extends Controller
     {
         $templates = $this->templateRepository->getAll();
 
-        return view('admin.templates.listing', [
+        return $this->view->make('admin.templates.listing', [
             'title'     => Lang::get('templates.manage'),
             'templates' => $templates->toJson(), // Because PresentableInterface toJson() is not working in the view
         ]);
@@ -104,7 +114,7 @@ class TemplateController extends Controller
     {
         $template = $this->templateRepository->getById($template_id);
 
-        return view('admin.templates.details', [
+        return $this->view->make('admin.templates.details', [
             'breadcrumb' => [
                 ['url' => route('admin.templates.index'), 'label' => Lang::get('templates.label')],
             ],
