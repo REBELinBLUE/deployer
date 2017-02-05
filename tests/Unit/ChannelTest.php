@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Channel
  */
 class ChannelTest extends TestCase
 {
+    use TestsModel;
+
     /**
      * @covers ::project
      */
@@ -22,7 +25,7 @@ class ChannelTest extends TestCase
         $actual  = $channel->project();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('project', $actual->getRelation());
+        $this->assertBelongsTo('project', Channel::class);
     }
 
     /**

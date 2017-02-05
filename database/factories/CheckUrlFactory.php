@@ -16,3 +16,17 @@ $factory->define(CheckUrl::class, function (Generator $faker) {
         },
     ];
 });
+
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->state(CheckUrl::class, 'healthy', function () use ($factory) {
+    return array_merge($factory->raw(CheckUrl::class), [
+        'status' => CheckUrl::ONLINE,
+    ]);
+});
+
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->state(CheckUrl::class, 'down', function () use ($factory) {
+    return array_merge($factory->raw(CheckUrl::class), [
+        'status' => CheckUrl::OFFLINE,
+    ]);
+});

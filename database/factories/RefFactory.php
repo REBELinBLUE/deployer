@@ -13,3 +13,17 @@ $factory->define(Ref::class, function (Generator $faker) {
         },
     ];
 });
+
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->defineAs(Ref::class, 'branch', function () use ($factory) {
+    return array_merge($factory->raw(Ref::class), [
+        'is_tag' => false,
+    ]);
+});
+
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->defineAs(Ref::class, 'tag', function () use ($factory) {
+    return array_merge($factory->raw(Ref::class), [
+        'is_tag' => true,
+    ]);
+});

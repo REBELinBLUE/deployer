@@ -14,3 +14,17 @@ $factory->define(Heartbeat::class, function (Generator $faker) {
         },
     ];
 });
+
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->state(Heartbeat::class, 'healthy', function () use ($factory) {
+    return array_merge($factory->raw(Heartbeat::class), [
+        'status' => Heartbeat::OK,
+    ]);
+});
+
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->state(Heartbeat::class, 'missing', function () use ($factory) {
+    return array_merge($factory->raw(Heartbeat::class), [
+        'status' => Heartbeat::MISSING,
+    ]);
+});

@@ -8,6 +8,7 @@ use REBELinBLUE\Deployer\Project;
 $factory->define(Project::class, function (Generator $faker) {
     return [
         'name'       => $faker->word,
+        'branch'     => 'master',
         'repository' => 'git@git.example.com:user/repository.git',
         'group_id'   => function () {
             return factory(Group::class)->create()->id;

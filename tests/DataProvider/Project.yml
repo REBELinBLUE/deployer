@@ -186,3 +186,22 @@ fixture:
     -
       repository: https://git.example.com:8080/REBELinBLUE/deployer.git
       expected: https://git.example.com/REBELinBLUE/deployer
+  health:
+    -
+      healthy: 0
+      missing: 0
+    -
+      healthy: 1
+      missing: 0
+    -
+      healthy: 1
+      missing: 1
+    -
+      healthy: 0
+      missing: 1
+    -
+      healthy: 2
+      missing: 1
+    -
+      healthy: 2
+      missing: 2

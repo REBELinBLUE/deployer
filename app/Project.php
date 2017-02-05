@@ -343,7 +343,7 @@ class Project extends Model implements PresentableInterface
             try {
                 return $compare->compare($first, $second);
             } catch (UnexpectedValueException $error) {
-                return strnatcmp($first, $second);
+                return strnatcmp($second, $first); // Move unknown versions to be bottle, swap round to move to top
             }
         });
 
