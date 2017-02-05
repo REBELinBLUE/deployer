@@ -54,15 +54,15 @@ class RenameCheckurlColumns extends Migration
         });
 
         Schema::table('check_urls', function (Blueprint $table) {
-            $table->boolean('last_status')->nullable()->default(null)->change();
+            $table->boolean('last_status')->nullable();
         });
 
         CheckUrl::withTrashed()->chunk(100, function (Collection $urls) {
             foreach ($urls as $url) {
                 if ($url->status === CheckUrl::UNTESTED) {
-                    $url->status = null;
+                    $url->last_status = null;
                 } elseif ($url->status === CheckUrl::OFFLINE) {
-                    $url->status = 1;
+                    $url->last_status = 1;
                 }
 
                 $url->save();
