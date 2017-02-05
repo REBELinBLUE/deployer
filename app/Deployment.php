@@ -270,7 +270,7 @@ class Deployment extends Model implements PresentableInterface, RuntimeInterface
      *
      * @see Project::accessDetails()
      */
-    public function getBranchURLAttribute()
+    public function getBranchUrlAttribute()
     {
         return $this->project->getBranchUrlAttribute($this->branch);
     }

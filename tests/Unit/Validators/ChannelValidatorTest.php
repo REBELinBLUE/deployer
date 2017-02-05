@@ -29,15 +29,6 @@ class ChannelValidatorTest extends TestCase
 
     public function validationDataProvider()
     {
-        return [
-            'Empty value'    => ['', false],
-            'Null value'     => [null, false],
-            'No prefix'      => ['channel', false],
-            'Invalid prefix' => ['$channel', false],
-            'Only hash'      => ['#', false],
-            'Only at'        => ['@', false],
-            'Valid channel'  => ['#channel', true],
-            'Valid person'   => ['@username', true],
-        ];
+        return $this->fixture('Validators/ChannelValidator');
     }
 }

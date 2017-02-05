@@ -1,0 +1,17 @@
+fixture:
+  stages:
+    -
+      stage: !php/const:REBELinBLUE\Deployer\Command::DO_INSTALL
+      expected: commands.install
+    -
+      stage: !php/const:REBELinBLUE\Deployer\Command::DO_ACTIVATE
+      expected: commands.activate
+    -
+      stage: !php/const:REBELinBLUE\Deployer\Command::DO_PURGE
+      expected: commands.purge
+    -
+      stage: !php/const:REBELinBLUE\Deployer\Command::DO_CLONE
+      expected: commands.clone
+    -
+      stage: invalid
+      expected: commands.clone

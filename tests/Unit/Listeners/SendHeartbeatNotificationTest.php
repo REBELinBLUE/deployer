@@ -5,12 +5,8 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
-use REBELinBLUE\Deployer\Events\HeartbeatMissed;
-use REBELinBLUE\Deployer\Events\HeartbeatRecovered as HeartbeatFound;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Listeners\SendHeartbeatNotification;
-use REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatMissing;
-use REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatRecovered;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
@@ -20,7 +16,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 class SendHeartbeatNotificationTest extends TestCase
 {
     /**
-     * @dataProvider getTestNotificationData
+     * @dataProvider provideTestNotificationData
      * @covers ::handle
      */
     public function testHandleSendsNotification(
@@ -57,12 +53,8 @@ class SendHeartbeatNotificationTest extends TestCase
         Notification::assertSentTo($channel, $notification);
     }
 
-    public function getTestNotificationData()
+    public function provideTestNotificationData()
     {
-        return [
-            [HeartbeatFound::class, HeartbeatRecovered::class, true, 0, 'on_heartbeat_recovered'],
-            [HeartbeatMissed::class, HeartbeatMissing::class, false, 1, 'on_heartbeat_missing'],
-            [HeartbeatMissed::class, HeartbeatMissing::class, false, 2, 'on_heartbeat_still_missing'],
-        ];
+        return $this->fixture('Listeners/SendSignupEmail')['notifications'];
     }
 }

@@ -20,23 +20,19 @@ class ParserTest extends TestCase
     {
         $expected = 'This is a script';
 
-        $parser = app()->make(Parser::class);
+        $parser = app(Parser::class);
         $actual = $parser->parseString($expected);
 
         $this->assertSame($expected, $actual);
     }
 
     /**
+     * @dataProvider provideFileData
      * @covers ::parseString
      */
-    public function testParseStringParsersTokens()
+    public function testParseStringParsersTokens($input, $expected, array $tokens)
     {
-        $input    = 'a {{ token }} b';
-        $expected = 'a REPLACED b';
-
-        $tokens = ['token' => 'REPLACED'];
-
-        $parser = app()->make(Parser::class);
+        $parser = app(Parser::class);
         $actual = $parser->parseString($input, $tokens);
 
         $this->assertSame($expected, $actual);
@@ -49,12 +45,12 @@ class ParserTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $parser = app()->make(Parser::class);
+        $parser = app(Parser::class);
         $parser->parseFile('a-file-which-does-not-exist');
     }
 
     /**
-     * @dataProvider getFileData
+     * @dataProvider provideFileData
      * @covers ::parseFile
      * @covers ::__construct
      */
@@ -73,13 +69,8 @@ class ParserTest extends TestCase
         $this->assertSame($actual, $expected);
     }
 
-    public function getFileData()
+    public function provideFileData()
     {
-        $tokens = ['token' => 'REPLACED'];
-
-        return [
-            ['a {{ token }} b', 'a REPLACED b', $tokens],
-            ['a token b', 'a token b', $tokens],
-        ];
+        return $this->fixture('Services/Scripts/Parser');
     }
 }

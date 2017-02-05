@@ -1,0 +1,11 @@
+fixture:
+  -
+    input: a {{ token }} b
+    expected: a REPLACED b
+    tokens:
+      token: REPLACED
+  -
+    input: a token b
+    expected: a token b
+    tokens:
+      token: REPLACED

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Log\Writer;
 use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\Unit\Providers\Stubs\LogServiceProvider;
+use REBELinBLUE\Deployer\Tests\Unit\stubs\LogServiceProvider;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Providers\LogServiceProvider

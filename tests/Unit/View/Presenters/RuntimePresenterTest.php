@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Tests\Unit\View\Presenters;
 use Illuminate\Support\Facades\Lang;
 use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\Unit\View\Presenters\Stubs\StubModel;
-use REBELinBLUE\Deployer\Tests\Unit\View\Presenters\Stubs\StubPresenter;
+use REBELinBLUE\Deployer\Tests\Unit\stubs\Model as StubModel;
+use REBELinBLUE\Deployer\Tests\Unit\stubs\Presenter as StubPresenter;
 use RuntimeException;
 use stdClass;
 
@@ -15,10 +15,6 @@ use stdClass;
  */
 class RuntimePresenterTest extends TestCase
 {
-    const SECOND = 1;
-    const MINUTE = 60;
-    const HOUR   = 3600;
-
     /**
      * @covers ::presentReadableRuntime
      */
@@ -32,7 +28,7 @@ class RuntimePresenterTest extends TestCase
     }
 
     /**
-     * @dataProvider getRuntimeLabels
+     * @dataProvider provideRuntimeLabels
      * @covers ::presentReadableRuntime
      */
     public function testReadableRuntimeIsFormatted($translations, $runtime)
@@ -55,22 +51,13 @@ class RuntimePresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getRuntimeLabels()
+    public function provideRuntimeLabels()
     {
-        return [
-            [['second'],                   0],
-            [['second'],                   self::SECOND],
-            [['minute'],                   self::MINUTE],
-            [['minute', 'second'],         self::MINUTE + self::SECOND],
-            [['hour'],                     self::HOUR],
-            [['hour', 'second'],           self::HOUR + self::SECOND],
-            [['hour', 'minute'],           self::HOUR + self::MINUTE],
-            [['hour', 'minute', 'second'], self::HOUR + self::MINUTE + self::SECOND],
-        ];
+        return $this->fixture('View/Presenters/RuntimePresenter')['runtimes'];
     }
 
     /**
-     * @dataProvider getVeryLongRuntimes
+     * @dataProvider provideVeryLongRuntimes
      * @covers ::presentReadableRuntime
      */
     public function testReadableRuntimeFormatsLongRuntime($runtime)
@@ -88,11 +75,8 @@ class RuntimePresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getVeryLongRuntimes()
+    public function provideVeryLongRuntimes()
     {
-        return [              // The check is for 3 or more hours so
-            [self::HOUR * 3], // make sure == works
-            [self::HOUR * 6],  // and > works
-        ];
+        return $this->fixture('View/Presenters/RuntimePresenter')['long'];
     }
 }

@@ -65,7 +65,7 @@ class CheckUrl extends Model
         // When saving the model, if the URL has changed we need to test it
         static::saved(function (CheckUrl $model) {
             if ($model->status === self::UNTESTED) {
-                $model->dispatch(new RequestProjectCheckUrl(collect($model)));
+                $model->dispatch(new RequestProjectCheckUrl(collect([$model])));
             }
         });
     }

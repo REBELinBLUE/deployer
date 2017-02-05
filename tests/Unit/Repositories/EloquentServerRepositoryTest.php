@@ -145,8 +145,8 @@ class EloquentServerRepositoryTest extends TestCase
     }
 
     /**
+     * @dataProvider provideCommands
      * @covers ::create
-     * @dataProvider getHasCommands
      */
     public function testCreateWithCommands($hasCommands)
     {
@@ -184,12 +184,9 @@ class EloquentServerRepositoryTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getHasCommands()
+    public function provideCommands()
     {
-        return [
-            'has commands'           => [true],
-            'does not have commands' => [false],
-        ];
+        return $this->fixture('Repositories/EloquentServerRepository');
     }
 
     /**

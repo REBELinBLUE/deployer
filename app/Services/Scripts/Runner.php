@@ -8,6 +8,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * Class which runs scripts.
+ * @mixin Process
  */
 class Runner
 {
@@ -70,7 +71,7 @@ class Runner
      * @throws \RuntimeException
      * @return mixed
      */
-    public function __call($method, array $arguments = [])
+    public function __call($method, array $arguments)
     {
         if (!is_callable([$this->process, $method])) {
             throw new \RuntimeException('Method ' . $method . ' not exists');

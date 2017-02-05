@@ -45,18 +45,6 @@ class Template extends Model implements PresentableInterface
     ];
 
     /**
-     * Query scope to only show templates.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeTemplates($query)
-    {
-        return $query->where('is_template', '=', true);
-    }
-
-    /**
      * Define a accessor for the count of projects.
      *
      * @return int

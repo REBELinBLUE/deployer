@@ -19,7 +19,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 class SendDeploymentNotificationsTest extends TestCase
 {
     /**
-     * @dataProvider getTestNotificationData
+     * @dataProvider provideTestNotificationData
      * @covers ::handle
      */
     public function testHandleSendsNotification(
@@ -50,12 +50,9 @@ class SendDeploymentNotificationsTest extends TestCase
         Notification::assertSentTo($channel, $notification);
     }
 
-    public function getTestNotificationData()
+    public function provideTestNotificationData()
     {
-        return [
-            [DeploymentFailed::class, false, 'on_deployment_failure'],
-            [DeploymentSucceeded::class, true, 'on_deployment_success'],
-        ];
+        return $this->fixture('Listeners/SendDeploymentNotifications')['notification'];
     }
 
     public function testHandleDoesNotSendNotificationWhenAborted()

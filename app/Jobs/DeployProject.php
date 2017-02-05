@@ -149,7 +149,8 @@ class DeployProject extends Job implements ShouldQueue
     {
         $commit = ($this->deployment->commit === Deployment::LOADING ? null : $this->deployment->commit);
 
-        $process = app()->make(Process::class);
+        /** @var Process $process */
+        $process = app(Process::class);
         $process->setScript('tools.GetCommitDetails', [
             'deployment'    => $this->deployment->id,
             'mirror_path'   => $this->deployment->project->mirrorPath(),
@@ -188,7 +189,8 @@ class DeployProject extends Job implements ShouldQueue
     {
         $tmp_dir = 'clone_' . $this->deployment->project_id . '_' . $this->deployment->release_id;
 
-        $process = app()->make(Process::class);
+        /** @var Process $process */
+        $process = app(Process::class);
         $process->setScript('deploy.CreateReleaseArchive', [
             'deployment'      => $this->deployment->id,
             'mirror_path'     => $this->deployment->project->mirrorPath(),
@@ -213,7 +215,8 @@ class DeployProject extends Job implements ShouldQueue
                 continue;
             }
 
-            $process = app()->make(Process::class);
+            /** @var Process $process */
+            $process = app(Process::class);
             $process->setScript('deploy.CleanupFailedRelease', [
                 'deployment'     => $this->deployment->id,
                 'project_path'   => $server->clean_path,
@@ -406,7 +409,8 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function getScriptForStep(DeployStep $step, array $tokens = [])
     {
-        $process = app()->make(Process::class);
+        /** @var Process $process */
+        $process = app(Process::class);
 
         switch ($step->stage) {
             case Stage::DO_CLONE:
@@ -441,7 +445,8 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function sendFile($local_file, $remote_file, ServerLog $log)
     {
-        $process = app()->make(Process::class);
+        /** @var Process $process */
+        $process = app(Process::class);
         $process->setScript('deploy.SendFileToServer', [
             'deployment'  => $this->deployment->id,
             'port'        => $log->server->port,
@@ -505,7 +510,7 @@ class DeployProject extends Job implements ShouldQueue
             return '';
         }
 
-        $parser = app()->make(ScriptParser::class);
+        $parser = app(ScriptParser::class);
 
         $script = '';
 
@@ -533,7 +538,7 @@ class DeployProject extends Job implements ShouldQueue
             return '';
         }
 
-        $parser = app()->make(ScriptParser::class);
+        $parser = app(ScriptParser::class);
 
         $script = '';
 

@@ -119,7 +119,7 @@ class InstallApp extends Command
             'Set up your web server, see either <options=bold>nginx.conf</> or <options=bold>apache.conf</>',
             'Setup the cronjobs, see <options=bold>crontab</>',
             'Setup the socket server & queue runner, see <options=bold>supervisor.conf</> for an example setup',
-            'Ensure that <options=bold>storage</> and <options=bold>public/upload</> are writable by the webserver',
+            'Ensure that <options=bold>storage</> is writable by the webserver',
             'Visit <options=bold>' . $config['app']['url'] . '</> & login with the details you provided to get started',
         ];
 
@@ -413,7 +413,7 @@ class InstallApp extends Command
         // Files and directories which need to be writable
         $writable = ['.env', 'storage', 'storage/logs', 'storage/app', 'storage/app/mirrors', 'storage/app/tmp',
                      'storage/app/public', 'storage/framework', 'storage/framework/cache',
-                     'storage/framework/sessions', 'storage/framework/views', 'bootstrap/cache', 'public/upload',
+                     'storage/framework/sessions', 'storage/framework/views', 'bootstrap/cache',
                     ];
 
         foreach ($writable as $path) {

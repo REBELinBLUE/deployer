@@ -35,7 +35,7 @@ class DeployStepPresenterTest extends TestCase
     }
 
     /**
-     * @dataProvider getStageLabels
+     * @dataProvider provideStageLabels
      * @covers ::presentName
      */
     public function testPresentNameReturnsLabel($stage, $expected)
@@ -52,14 +52,8 @@ class DeployStepPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function getStageLabels()
+    public function provideStageLabels()
     {
-        return [
-            [Command::DO_INSTALL,  'commands.install'],
-            [Command::DO_ACTIVATE, 'commands.activate'],
-            [Command::DO_PURGE,    'commands.purge'],
-            [Command::DO_CLONE,    'commands.clone'],
-            ['invalid',            'commands.clone'],
-        ];
+        return $this->fixture('View/Presenters/DeployStepPresenter')['stages'];
     }
 }

@@ -16,7 +16,7 @@ use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
-class DeploymentFinishedTestCase extends TestCase
+abstract class DeploymentFinishedTestCase extends TestCase
 {
     protected function toTwilio($class, $translation)
     {
@@ -57,8 +57,8 @@ class DeploymentFinishedTestCase extends TestCase
         $expectedData = [
             'id'              => $expectedId,
             'branch'          => 'a branch',
-            'started_at'      => Carbon::create(2015, 1, 1, 12, 00, 00, 'Europe/London'),
-            'finished_at'     => Carbon::create(2015, 1, 1, 12, 30, 00, 'Europe/London'),
+            'started_at'      => Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC'),
+            'finished_at'     => Carbon::create(2015, 1, 1, 12, 30, 00, 'UTC'),
             'commit'          => '12345abcd',
             'source'          => 'Github',
             'reason'          => 'reason',
@@ -107,8 +107,8 @@ class DeploymentFinishedTestCase extends TestCase
 
     protected function toMail($class, $subject, $message, $level, $withReason = false)
     {
-        $startedDate  = Carbon::create(2016, 1, 1, 12, 00, 00, 'Europe/London');
-        $finishedDate = Carbon::create(2016, 1, 1, 13, 25, 00, 'Europe/London');
+        $startedDate  = Carbon::create(2016, 1, 1, 12, 00, 00, 'UTC');
+        $finishedDate = Carbon::create(2016, 1, 1, 13, 25, 00, 'UTC');
 
         $expectedName        = 'a-name';
         $expectedSubject     = 'the-email-subject';
@@ -197,7 +197,7 @@ class DeploymentFinishedTestCase extends TestCase
 
     protected function toSlack($class, $message, $level, $hasCommitUrl = true)
     {
-        $expectedTimestamp     = Carbon::create(2017, 1, 1, 12, 0, 0, 'Europe/London');
+        $expectedTimestamp     = Carbon::create(2017, 1, 1, 12, 0, 0, 'UTC');
         $expectedId            = 53;
         $expectedProjectName   = 'a-project-name';
         $expectedProjectId     = 143;

@@ -15,7 +15,7 @@ use REBELinBLUE\Deployer\View\Presenters\CommandPresenter;
 class CommandPresenterTest extends TestCase
 {
     /**
-     * @dataProvider getMethods
+     * @dataProvider provideMethods
      * @covers ::presentBeforeClone
      * @covers ::presentAfterClone
      * @covers ::presentBeforeInstall
@@ -42,7 +42,7 @@ class CommandPresenterTest extends TestCase
     }
 
     /**
-     * @dataProvider getCommandsAndMethods
+     * @dataProvider provideCommandsAndMethods
      * @covers ::presentBeforeClone
      * @covers ::presentAfterClone
      * @covers ::presentBeforeInstall
@@ -71,7 +71,7 @@ class CommandPresenterTest extends TestCase
         $this->assertSame($expected, $actual, $method . ' did not return expected names');
     }
 
-    public function getMethods()
+    public function provideMethods()
     {
         return array_chunk([
             'presentBeforeClone', 'presentAfterClone', 'presentBeforeInstall', 'presentAfterInstall',
@@ -79,16 +79,20 @@ class CommandPresenterTest extends TestCase
         ], 1);
     }
 
-    public function getCommandsAndMethods()
+    public function provideCommandsAndMethods()
     {
         $data = [];
         foreach ($this->getSteps() as $step) {
-            $method   = $step[0];
-            $expected = $step[1];
-            $other    = $step[2];
+            $method   = $step['method'];
+            $expected = $step['before'];
+            $other    = $step['after'];
 
-            $data[] = [$method, 'step1', [['step1', $expected]]];
-            $data[] = [$method, 'step1', [['step1', $expected], ['step2', $other]]];
+            $data[] = [$method, 'step1', [
+                ['step1', $expected], ],
+            ];
+            $data[] = [$method, 'step1', [
+                ['step1', $expected], ['step2', $other],
+            ]];
             $data[] = [$method, 'step1, step2', [
                 ['step1', $expected], ['step2', $expected],
             ]];
@@ -114,15 +118,6 @@ class CommandPresenterTest extends TestCase
 
     private function getSteps()
     {
-        return [
-            ['presentBeforeClone',    Command::BEFORE_CLONE,    Command::AFTER_CLONE],
-            ['presentAfterClone',     Command::AFTER_CLONE,     Command::AFTER_PURGE],
-            ['presentBeforeInstall',  Command::BEFORE_INSTALL,  Command::BEFORE_ACTIVATE],
-            ['presentAfterInstall',   Command::AFTER_INSTALL,   Command::AFTER_PURGE],
-            ['presentBeforeActivate', Command::BEFORE_ACTIVATE, Command::BEFORE_CLONE],
-            ['presentAfterActivate',  Command::AFTER_ACTIVATE,  Command::BEFORE_PURGE],
-            ['presentBeforePurge',    Command::BEFORE_PURGE,    Command::AFTER_INSTALL],
-            ['presentAfterPurge',     Command::AFTER_PURGE,     Command::AFTER_ACTIVATE],
-        ];
+        return $this->fixture('View/Presenters/CommandPresenter')['steps'];
     }
 }

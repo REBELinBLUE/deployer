@@ -1,0 +1,44 @@
+fixture:
+  runtimes:
+    -
+      translations:
+        - second
+      runtime: 0
+    -
+      translations:
+        - second
+      runtime: 0
+    -
+      translations:
+        - minute
+      runtime: 60
+    -
+      translations:
+        - minute
+        - second
+      runtime: 61
+    -
+      translations:
+        - hour
+      runtime: 3600
+    -
+      translations:
+        - hour
+        - second
+      runtime: 3601
+    -
+      translations:
+        - hour
+        - minute
+      runtime: 3660
+    -
+      translations:
+        - hour
+        - minute
+        - second
+      runtime: 3661
+  long:
+    -
+      seconds: 10800
+    -
+      seconds: 21600

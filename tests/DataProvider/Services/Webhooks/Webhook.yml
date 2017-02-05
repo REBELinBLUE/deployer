@@ -1,0 +1,7 @@
+fixture:
+  - # Branch
+    expected: master
+    ref: heads/master
+  - # Tag
+    expected: 1.0.0
+    ref: tags/1.0.0

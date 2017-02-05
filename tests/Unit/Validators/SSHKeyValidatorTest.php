@@ -11,7 +11,7 @@ use REBELinBLUE\Deployer\Validators\SSHKeyValidator;
 class SSHKeyValidatorTest extends TestCase
 {
     /**
-     * @dataProvider validationDataProvider
+     * @dataProvider provideKeys
      * @covers ::validate
      */
     public function testValidate($value, $valid)
@@ -27,18 +27,8 @@ class SSHKeyValidatorTest extends TestCase
         }
     }
 
-    public function validationDataProvider()
+    public function provideKeys()
     {
-        return [
-            'Valid Key'          => [$this->getFixtureData('valid_rsa_key'), true],
-            'Encrypted key'      => [$this->getFixtureData('encrypted_key'), false],
-            'Missing header'     => [$this->getFixtureData('invalid_key_missing_header'), false],
-            'Missing footer'     => [$this->getFixtureData('invalid_key_missing_footer'), false],
-        ];
-    }
-
-    private function getFixtureData($file)
-    {
-        return file_get_contents(__DIR__ . '/fixtures/' . $file);
+        return $this->fixture('Validators/SSHKeyValidator');
     }
 }

@@ -26,7 +26,7 @@ class RunnerTest extends TestCase
      */
     private $parser;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 

@@ -12,6 +12,9 @@ use Illuminate\Http\Response;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run as Whoops;
 
 /**
  * Exception handler.
@@ -60,7 +63,7 @@ class Handler extends ExceptionHandler
 
         // Only show whoops pages if debugging is enabled and it is installed, i.e. on dev
         // and for exceptions which should actually show an exception page
-        if (config('app.debug') && class_exists('\Whoops\Run', true) && $this->isSafeToWhoops($exception)) {
+        if (config('app.debug') && class_exists(Whoops::class, true) && $this->isSafeToWhoops($exception)) {
             return $this->renderExceptionWithWhoops($request, $exception);
         }
 
@@ -77,11 +80,11 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionWithWhoops($request, Exception $exception)
     {
-        $whoops = new \Whoops\Run();
-        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
+        $whoops = new Whoops();
+        $whoops->pushHandler(new PrettyPageHandler());
 
         if ($request->ajax()) {
-            $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
+            $whoops->pushHandler(new JsonResponseHandler());
         }
 
         return new Response(

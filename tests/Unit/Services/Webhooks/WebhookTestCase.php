@@ -9,12 +9,9 @@ use Symfony\Component\HttpFoundation\HeaderBag;
 
 abstract class WebhookTestCase extends TestCase
 {
-    public function getBranch()
+    public function provideBranch()
     {
-        return [
-            'Branch' => ['master', 'heads/master'],
-            'Tag'    => ['1.0.0', 'tags/1.0.0'],
-        ];
+        return $this->fixture('Services/Webhooks/Webhook');
     }
 
     /**
