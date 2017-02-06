@@ -12,8 +12,6 @@ use Illuminate\Http\Response;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Whoops\Handler\JsonResponseHandler;
-use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 
 /**
@@ -36,6 +34,19 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * Report or log an exception.
+     *
+     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+     *
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function report(Exception $exception)
+    {
+        parent::report($exception);
+    }
+
+    /**
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
@@ -49,9 +60,8 @@ class Handler extends ExceptionHandler
             return $this->renderHttpException($exception);
         }
 
-        // Only show whoops pages if debugging is enabled and it is installed, i.e. on dev
-        // and for exceptions which should actually show an exception page
-        if (config('app.debug') && class_exists(Whoops::class, true) && $this->isSafeToWhoops($exception)) {
+        // Use whoops if it is bound to the container and the exception is safe to pass to whoops
+        if ($this->container->bound(Whoops::class) && $this->isSafeToWhoops($exception)) {
             return $this->renderExceptionWithWhoops($request, $exception);
         }
 
@@ -68,12 +78,8 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionWithWhoops($request, Exception $exception)
     {
-        $whoops = new Whoops();
-        $whoops->pushHandler(new PrettyPageHandler());
-
-        if ($request->ajax()) {
-            $whoops->pushHandler(new JsonResponseHandler());
-        }
+        /** @var Whoops $whoops */
+        $whoops = $this->container->make(Whoops::class);
 
         return new Response(
             $whoops->handleException($exception),

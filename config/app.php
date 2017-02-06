@@ -194,6 +194,7 @@ return [
         REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ValidationServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\WhoopsServiceProvider::class,
 
     ],
 
