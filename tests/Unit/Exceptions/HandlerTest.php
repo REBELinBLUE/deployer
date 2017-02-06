@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Exceptions;
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 use Mockery as m;
-use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Exceptions\Handler;
+use REBELinBLUE\Deployer\Tests\TestCase;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -37,7 +37,7 @@ class HandlerTest extends TestCase
     {
         parent::setUp();
 
-        $this->app = app();
+        $this->app     = app();
         $this->request = m::mock(Request::class);
         $this->handler = new Handler($this->app);
     }
@@ -47,7 +47,7 @@ class HandlerTest extends TestCase
      */
     public function testRenderHandlesHttpException()
     {
-        $code = Response::HTTP_BAD_REQUEST;
+        $code    = Response::HTTP_BAD_REQUEST;
         $message = Response::$statusTexts[$code];
 
         $exception = new HttpException($code, $message);
@@ -77,6 +77,5 @@ class HandlerTest extends TestCase
         $this->assertContains(RuntimeException::class, $actual->getContent());
 
         $this->markTestIncomplete('Still needs refactoring');
-
     }
 }
