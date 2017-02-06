@@ -3,11 +3,16 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Database;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
+use Mockery as m;
 use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Ref;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
@@ -146,6 +151,147 @@ class ProjectTest extends TestCase
 
         $this->assertSame($expected, array_values($project->getTagsAttribute()->toArray()));
         $this->assertSame($expected, array_values($project->tags->toArray()));
+    }
+
+    /**
+     * @covers ::boot
+     */
+    public function testBootBindsSavingEventToGenerateHash()
+    {
+        $expected = 'my-fake-token';
+
+        $this->mockTokenGenerator($expected);
+
+        /** @var Process $process */
+        $process = m::mock(Process::class);
+        $process->shouldNotReceive('setScript')->withAnyArgs();
+
+        /** @var Project $project */
+        $project = factory(Project::class)->make([
+            'private_key' => 'a-private-key',
+        ]);
+
+        $project->public_key = 'a-public-key'; // Not "fillable"
+
+        $this->assertEmpty($project->hash);
+
+        $project->save();
+
+        $this->assertSame($expected, $project->hash);
+    }
+
+    /**
+     * @covers ::boot
+     */
+    public function testBootShouldNotRegenerateFieldsIfSet()
+    {
+        $expectedHash       = 'my-fake-token';
+        $expectedPrivateKey = 'a-private-key';
+        $expectedPublicKey  = 'a-public-key';
+
+        /** @var Process $process */
+        $process = m::mock(Process::class);
+        $process->shouldNotReceive('setScript')->withAnyArgs();
+
+        /** @var TokenGeneratorInterface $generator */
+        $generator = m::mock(TokenGeneratorInterface::class);
+        $generator->shouldNotReceive('generateRandom')->withAnyArgs();
+
+        App::instance(Process::class, $process);
+        App::instance(TokenGeneratorInterface::class, $generator);
+
+        /** @var Project $project */
+        $project = factory(Project::class)->make([
+            'private_key' => $expectedPrivateKey,
+        ]);
+
+        // Not "fillable"
+        $project->hash       = $expectedHash;
+        $project->public_key = $expectedPublicKey;
+
+        $this->assertSame($expectedHash, $project->hash);
+        $this->assertSame($expectedPrivateKey, $project->private_key);
+        $this->assertSame($expectedPublicKey, $project->public_key);
+
+        $project->save();
+
+        $this->assertSame($expectedHash, $project->hash);
+        $this->assertSame($expectedPrivateKey, $project->private_key);
+        $this->assertSame($expectedPublicKey, $project->public_key);
+    }
+
+    /**
+     * @covers ::boot
+     */
+    public function testBootBindsSavingEventToGenerateKeypair()
+    {
+        $expectedPrivateKey = 'a-private-key';
+        $expectedPublicKey  = 'a-public-key';
+        $path               = storage_path('app/tmp/sshkey');
+
+        File::shouldReceive('get')->once()->with($path)->andReturn($expectedPrivateKey);
+        File::shouldReceive('get')->once()->with($path . '.pub')->andReturn($expectedPublicKey);
+        File::shouldReceive('delete')->once()->with([$path, $path . '.pub']);
+
+        /** @var Process $process */
+        $process = m::mock(Process::class);
+        $process->shouldReceive('setScript')->with('tools.GenerateSSHKey', ['key_file' => $path])->andReturnSelf();
+        $process->shouldReceive('run')->once();
+        $process->shouldReceive('isSuccessful')->andReturn(true);
+        $process->shouldNotReceive('setScript')->with('tools.RegeneratePublicSSHKey')->withAnyArgs();
+
+        App::instance(Process::class, $process);
+
+        /** @var Project $project */
+        $project = factory(Project::class)->make([
+            'hash' => 'a-fake-hash',
+        ]);
+
+        $this->assertEmpty($project->private_key);
+        $this->assertEmpty($project->public_key);
+
+        $project->save();
+
+        $this->assertSame($expectedPrivateKey, $project->private_key);
+        $this->assertSame($expectedPublicKey, $project->public_key);
+    }
+
+    /**
+     * @covers ::boot
+     */
+    public function testBootBindsSavingEventToRegeneratePublicKeyWhenPrivateKeyProvided()
+    {
+        $expectedPrivateKey = 'a-private-key';
+        $expectedPublicKey  = 'a-public-key';
+        $path               = storage_path('app/tmp/sshkey');
+
+        File::shouldReceive('put')->once()->with($path, $expectedPrivateKey);
+        File::shouldReceive('chmod')->with($path, 0600);
+        File::shouldReceive('get')->once()->with($path . '.pub')->andReturn($expectedPublicKey);
+        File::shouldReceive('delete')->once()->with([$path, $path . '.pub']);
+
+        /** @var Process $process */
+        $process = m::mock(Process::class);
+        $process->shouldReceive('setScript')->with('tools.RegeneratePublicSSHKey', ['key_file' => $path])->andReturnSelf();
+        $process->shouldReceive('run')->once();
+        $process->shouldReceive('isSuccessful')->andReturn(true);
+        $process->shouldNotReceive('setScript')->with('tools.GenerateSSHKey')->withAnyArgs();
+
+        App::instance(Process::class, $process);
+
+        /** @var Project $project */
+        $project = factory(Project::class)->make([
+            'hash'        => 'a-fake-hash',
+            'private_key' => $expectedPrivateKey,
+        ]);
+
+        $this->assertSame($expectedPrivateKey, $project->private_key);
+        $this->assertEmpty($project->public_key);
+
+        $project->save();
+
+        $this->assertSame($expectedPrivateKey, $project->private_key);
+        $this->assertSame($expectedPublicKey, $project->public_key);
     }
 
     private function assertStatusArray($healthy, $missing, $actual)

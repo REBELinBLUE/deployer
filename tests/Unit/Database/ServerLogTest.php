@@ -70,6 +70,7 @@ class ServerLogTest extends TestCase
         /** @var ServerLog $log */
         $log = factory(ServerLog::class)->create([
             'status' => ServerLog::RUNNING,
+            'output' => 'lorem ipsum',
         ]);
 
         $log->status = ServerLog::COMPLETED;
@@ -79,7 +80,7 @@ class ServerLogTest extends TestCase
     /**
      * @covers ::boot
      */
-    public function testBootDoesNotFiresOutputChangedEventWhenOutputChanged()
+    public function testBootFiresOutputChangedEventWhenOutputChanged()
     {
         $this->expectsEvents(ServerLogChanged::class);
         $this->expectsEvents(ServerOutputChanged::class);

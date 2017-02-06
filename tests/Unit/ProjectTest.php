@@ -312,6 +312,7 @@ class ProjectTest extends TestCase
         $id   = 12345;
         $path = storage_path('app/tmp/sshkey' . $id);
 
+        /** @var Process $process */
         $process = m::mock(Process::class);
         $process->shouldReceive('setScript')->with('tools.GenerateSSHKey', ['key_file' => $path])->andReturnSelf();
         $process->shouldReceive('run')->once();
@@ -340,6 +341,7 @@ class ProjectTest extends TestCase
         File::shouldReceive('get')->once()->with($path . '.pub')->andReturn($expectedPublicKey);
         File::shouldReceive('delete')->once()->with([$path, $path . '.pub']);
 
+        /** @var Process $process */
         $process = m::mock(Process::class);
         $process->shouldReceive('setScript')
                 ->with('tools.RegeneratePublicSSHKey', ['key_file' => $path])
@@ -372,6 +374,7 @@ class ProjectTest extends TestCase
         File::shouldReceive('put')->once()->with($path, $expectedPrivateKey);
         File::shouldReceive('chmod')->with($path, 0600);
 
+        /** @var Runner $process */
         $process = m::mock(Process::class);
         $process->shouldReceive('setScript')
                 ->with('tools.RegeneratePublicSSHKey', ['key_file' => $path])

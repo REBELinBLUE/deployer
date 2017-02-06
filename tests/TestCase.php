@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Tests;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\App;
 use Mockery as m;
-use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
+use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -23,10 +23,10 @@ abstract class TestCase extends BaseTestCase
 
     protected function mockTokenGenerator($token)
     {
-        $generator = m::mock(TokenGenerator::class);
+        $generator = m::mock(TokenGeneratorInterface::class);
         $generator->shouldReceive('generateRandom')->with(m::type('int'))->andReturn($token);
 
-        App::instance(TokenGenerator::class, $generator);
+        App::instance(TokenGeneratorInterface::class, $generator);
 
         return $generator;
     }

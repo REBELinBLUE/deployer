@@ -2,7 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Tests;
 
+//
 // Taken from https://github.com/JeffreyWay/Laravel-Test-Helpers/blob/master/src/Way/Tests/ModelHelpers.php
+//
 
 use Mockery as m;
 

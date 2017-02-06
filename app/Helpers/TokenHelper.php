@@ -1,6 +1,6 @@
 <?php
 
-use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
+use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 
 if (!function_exists('token')) {
     /**
@@ -12,6 +12,6 @@ if (!function_exists('token')) {
      */
     function token($length)
     {
-        return app(TokenGenerator::class)->generateRandom($length);
+        return app(TokenGeneratorInterface::class)->generateRandom($length);
     }
 }

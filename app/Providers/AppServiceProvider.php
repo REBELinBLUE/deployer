@@ -20,6 +20,7 @@ use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
+use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use REBELinBLUE\Deployer\Template;
 use Symfony\Component\Process\Process;
 use Themsaid\Langman\LangmanServiceProvider;
@@ -145,9 +146,7 @@ class AppServiceProvider extends ServiceProvider
             return new Runner($app->make(Parser::class), $process);
         });
 
-        $this->app->bind(TokenGenerator::class, function () {
-            return new TokenGenerator();
-        });
+        $this->app->bind(TokenGeneratorInterface::class, TokenGenerator::class);
     }
 
     /**

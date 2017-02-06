@@ -461,7 +461,7 @@ class Project extends Model implements PresentableInterface
         /** @var \Illuminate\Filesystem\Filesystem $filesystem */
         $filesystem = app('files');
 
-        $private_key_file = storage_path('app/tmp/sshkey' . $this->id);
+        $private_key_file = storage_path('app/tmp/sshkey' . $this->id); // FIXME: Change so that ID isn't used as this doesn't exist on creating/saving
         $public_key_file  = $private_key_file . '.pub';
 
         /** @var Process $process */

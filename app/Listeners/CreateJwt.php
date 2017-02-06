@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Session\Store;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
+use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use Tymon\JWTAuth\JWTAuth;
 
 /**
@@ -26,7 +27,7 @@ class CreateJwt
     private $session;
 
     /**
-     * @var JwtIdGenerator
+     * @var TokenGeneratorInterface
      */
     private $generator;
 
@@ -37,7 +38,7 @@ class CreateJwt
      * @param Store          $session
      * @param TokenGenerator $generator
      */
-    public function __construct(JWTAuth $auth, Store $session, TokenGenerator $generator)
+    public function __construct(JWTAuth $auth, Store $session, TokenGeneratorInterface $generator)
     {
         $this->auth      = $auth;
         $this->session   = $session;
