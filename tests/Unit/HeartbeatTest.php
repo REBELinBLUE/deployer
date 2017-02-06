@@ -8,12 +8,15 @@ use Illuminate\Support\Facades\App;
 use Mockery as m;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Heartbeat
  */
 class HeartbeatTest extends TestCase
 {
+    use TestsModel;
+
     /**
      * @dataProvider provideStatuses
      * @covers ::isHealthy
@@ -43,7 +46,7 @@ class HeartbeatTest extends TestCase
         $actual    = $heartbeat->project();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('project', $actual->getRelation());
+        $this->assertBelongsTo('project', Heartbeat::class);
     }
 
     /**

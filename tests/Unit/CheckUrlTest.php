@@ -5,12 +5,15 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\CheckUrl
  */
 class CheckUrlTest extends TestCase
 {
+    use TestsModel;
+
     /**
      * @dataProvider provideStatuses
      * @covers ::isHealthy
@@ -35,7 +38,7 @@ class CheckUrlTest extends TestCase
         $actual = $url->project();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('project', $actual->getRelation());
+        $this->assertBelongsTo('project', CheckUrl::class);
     }
 
     public function provideStatuses()

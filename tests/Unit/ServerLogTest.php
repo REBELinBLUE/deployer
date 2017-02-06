@@ -3,8 +3,10 @@
 namespace REBELinBLUE\Deployer\Tests\Unit;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 use Robbo\Presenter\PresentableInterface;
 
@@ -13,6 +15,8 @@ use Robbo\Presenter\PresentableInterface;
  */
 class ServerLogTest extends TestCase
 {
+    use TestsModel;
+
     /**
      * @covers ::__construct
      */
@@ -57,5 +61,17 @@ class ServerLogTest extends TestCase
         $log = new ServerLog();
 
         $this->assertFalse($log->runtime());
+    }
+
+    /**
+     * @covers ::server
+     */
+    public function testServer()
+    {
+        $log    = new ServerLog();
+        $actual = $log->server();
+
+        $this->assertInstanceOf(BelongsTo::class, $actual);
+        $this->assertBelongsTo('server', ServerLog::class);
     }
 }

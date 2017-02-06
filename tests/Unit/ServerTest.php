@@ -5,12 +5,15 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Server
  */
 class ServerTest extends TestCase
 {
+    use TestsModel;
+
     /**
      * @covers ::project
      */
@@ -20,7 +23,7 @@ class ServerTest extends TestCase
         $actual = $server->project();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('project', $actual->getRelation());
+        $this->assertBelongsTo('project', Server::class);
     }
 
     /**

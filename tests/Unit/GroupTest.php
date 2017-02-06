@@ -5,12 +5,15 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Group
  */
 class GroupTest extends TestCase
 {
+    use TestsModel;
+
     /**
      * @covers ::projects
      */
@@ -21,6 +24,6 @@ class GroupTest extends TestCase
 
         // TODO: Check the order by?
         $this->assertInstanceOf(HasMany::class, $actual);
-        $this->assertSame('group_id', $actual->getForeignKeyName());
+        $this->assertHasMany('projects', Group::class);
     }
 }

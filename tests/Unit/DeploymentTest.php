@@ -8,6 +8,7 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\DeploymentPresenter;
 use REBELinBLUE\Deployer\View\Presenters\RuntimeInterface;
 use Robbo\Presenter\PresentableInterface;
@@ -17,6 +18,8 @@ use Robbo\Presenter\PresentableInterface;
  */
 class DeploymentTest extends TestCase
 {
+    use TestsModel;
+
     /**
      * @covers ::__construct
      */
@@ -36,7 +39,7 @@ class DeploymentTest extends TestCase
         $actual     = $deployment->project();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('project', $actual->getRelation());
+        $this->assertBelongsTo('project', Deployment::class);
     }
 
     /**

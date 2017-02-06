@@ -11,6 +11,7 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 use REBELinBLUE\Deployer\Tests\Unit\stubs\Project as StubProject;
 use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
 use RuntimeException;
@@ -20,6 +21,10 @@ use RuntimeException;
  */
 class ProjectTest extends TestCase
 {
+    // FIXME: Test the ProjectRelation trait methods
+
+    use TestsModel;
+
     /**
      * @covers ::getPresenter
      */
@@ -386,13 +391,13 @@ class ProjectTest extends TestCase
     /**
      * @covers ::group
      */
-    public function testProject()
+    public function testGroup()
     {
         $project = new Project();
         $actual  = $project->group();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('group', $actual->getRelation());
+        $this->assertBelongsTo('group', Project::class);
     }
 
     /**
@@ -404,7 +409,7 @@ class ProjectTest extends TestCase
         $actual   = $project->checkUrls();
 
         $this->assertInstanceOf(HasMany::class, $actual);
-        $this->assertSame('project_id', $actual->getForeignKeyName());
+        $this->assertHasMany('checkUrls', Project::class);
     }
 
     /**
@@ -416,7 +421,7 @@ class ProjectTest extends TestCase
         $actual   = $project->refs();
 
         $this->assertInstanceOf(HasMany::class, $actual);
-        $this->assertSame('project_id', $actual->getForeignKeyName());
+        $this->assertHasMany('refs', Project::class);
     }
 
     /**
@@ -429,7 +434,7 @@ class ProjectTest extends TestCase
 
         // TODO: Check the order by?
         $this->assertInstanceOf(HasMany::class, $actual);
-        $this->assertSame('project_id', $actual->getForeignKeyName());
+        $this->assertHasMany('channels', Project::class);
     }
 
     /**
@@ -442,7 +447,7 @@ class ProjectTest extends TestCase
 
         // TODO: Check the order by?
         $this->assertInstanceOf(HasMany::class, $actual);
-        $this->assertSame('project_id', $actual->getForeignKeyName());
+        $this->assertHasMany('deployments', Project::class);
     }
 
     /**
@@ -455,7 +460,7 @@ class ProjectTest extends TestCase
 
         // TODO: Check the order by?
         $this->assertInstanceOf(HasMany::class, $actual);
-        $this->assertSame('project_id', $actual->getForeignKeyName());
+        $this->assertHasMany('heartbeats', Project::class);
     }
 
     /**
@@ -468,6 +473,6 @@ class ProjectTest extends TestCase
 
         // TODO: Check the order by?
         $this->assertInstanceOf(HasMany::class, $actual);
-        $this->assertSame('project_id', $actual->getForeignKeyName());
+        $this->assertHasMany('servers', Project::class);
     }
 }

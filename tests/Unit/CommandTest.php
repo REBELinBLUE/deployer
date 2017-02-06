@@ -5,12 +5,15 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Command
  */
 class CommandTest extends TestCase
 {
+    use TestsModel;
+
     /**
      * @covers ::servers
      */
@@ -21,6 +24,6 @@ class CommandTest extends TestCase
 
         // TODO: Test for the order by?
         $this->assertInstanceOf(BelongsToMany::class, $actual);
-        $this->assertSame('servers', $actual->getRelationName());
+        $this->assertBelongsTo('servers', Command::class);
     }
 }
