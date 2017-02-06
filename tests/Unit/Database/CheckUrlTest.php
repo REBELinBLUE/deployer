@@ -12,6 +12,7 @@ use REBELinBLUE\Deployer\Events\UrlDown;
 use REBELinBLUE\Deployer\Events\UrlUp;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\BroadcastChanges;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\CheckUrl
@@ -19,7 +20,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
  */
 class CheckUrlTest extends TestCase
 {
-    use DatabaseMigrations, BroadcastChangesTests;
+    use DatabaseMigrations, BroadcastChanges;
 
     /**
      * @covers ::offline

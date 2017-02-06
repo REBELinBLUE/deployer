@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Database;
+namespace REBELinBLUE\Deployer\Tests\Unit\Traits;
 
 use REBELinBLUE\Deployer\Events\ModelChanged;
 use REBELinBLUE\Deployer\Events\ModelCreated;
@@ -9,12 +9,12 @@ use REBELinBLUE\Deployer\Events\ModelTrashed;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Traits\BroadcastChanges
  */
-trait BroadcastChangesTests
+trait BroadcastChanges
 {
     /**
      * @covers ::bootBroadcastChanges
      */
-    public function assertBroadcastCreatedEvent($class)
+    protected function assertBroadcastCreatedEvent($class)
     {
         $this->withoutJobs();
         $this->expectsEvents(ModelCreated::class);
@@ -25,7 +25,7 @@ trait BroadcastChangesTests
     /**
      * @covers ::bootBroadcastChanges
      */
-    public function assertBroadcastUpdatedEvent($class, array $defaults = [], array $changes = [])
+    protected function assertBroadcastUpdatedEvent($class, array $defaults = [], array $changes = [])
     {
         $this->withoutJobs();
         $this->expectsEvents(ModelCreated::class);
@@ -45,7 +45,7 @@ trait BroadcastChangesTests
     /**
      * @covers ::bootBroadcastChanges
      */
-    public function assertBroadcastTrashedEvent($class)
+    protected function assertBroadcastTrashedEvent($class)
     {
         $this->withoutJobs();
         $this->expectsEvents(ModelCreated::class);

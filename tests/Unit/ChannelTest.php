@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\TestsModel;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Channel

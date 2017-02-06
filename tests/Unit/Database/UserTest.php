@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Database;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\User;
 
 /**
@@ -12,7 +13,7 @@ use REBELinBLUE\Deployer\User;
  */
 class UserTest extends TestCase
 {
-    use DatabaseMigrations, BroadcastChangesTests;
+    use DatabaseMigrations, BroadcastChanges;
 
     /**
      * @covers ::requestEmailToken

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\BroadcastChanges;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Group
@@ -13,7 +14,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
  */
 class GroupTest extends TestCase
 {
-    use DatabaseMigrations, BroadcastChangesTests;
+    use DatabaseMigrations, BroadcastChanges;
 
     /**
      * @covers ::getProjectCountAttribute

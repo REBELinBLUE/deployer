@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\TestsModel;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 use Robbo\Presenter\PresentableInterface;
 

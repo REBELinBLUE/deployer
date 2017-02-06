@@ -1,15 +1,15 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit;
+namespace REBELinBLUE\Deployer\Tests\Unit\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Traits\ProductRelations
  */
-trait ProductRelationsTests
+trait ProductRelations
 {
-    public function assertHasProjectRelations($model)
+    protected function assertHasProjectRelations($model)
     {
         $this->assertHasCommands($model);
         $this->assertHasVariables($model);

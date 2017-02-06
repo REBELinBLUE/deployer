@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\App;
 use Mockery as m;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\TestsModel;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Heartbeat

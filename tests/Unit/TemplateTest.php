@@ -4,7 +4,8 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 
 use REBELinBLUE\Deployer\Template;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\TestsModel;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\ProductRelations;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\CommandPresenter;
 use Robbo\Presenter\PresentableInterface;
 
@@ -13,7 +14,7 @@ use Robbo\Presenter\PresentableInterface;
  */
 class TemplateTest extends TestCase
 {
-    use TestsModel, ProductRelationsTests;
+    use TestsModel, ProductRelations;
 
     /**
      * @covers ::__construct

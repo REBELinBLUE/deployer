@@ -14,6 +14,7 @@ use REBELinBLUE\Deployer\Ref;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\BroadcastChanges;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Project
@@ -21,7 +22,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
  */
 class ProjectTest extends TestCase
 {
-    use DatabaseMigrations, BroadcastChangesTests;
+    use DatabaseMigrations, BroadcastChanges;
 
     /**
      * @covers ::getGroupNameAttribute

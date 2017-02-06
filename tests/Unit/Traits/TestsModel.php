@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests;
+namespace REBELinBLUE\Deployer\Tests\Unit\Traits;
 
 //
 // Taken from https://github.com/JeffreyWay/Laravel-Test-Helpers/blob/master/src/Way/Tests/ModelHelpers.php
@@ -10,37 +10,37 @@ use Mockery as m;
 
 trait TestsModel
 {
-    public function assertBelongsToMany($parent, $child)
+    protected function assertBelongsToMany($parent, $child)
     {
         $this->assertRelationship($parent, $child, 'belongsToMany');
     }
 
-    public function assertBelongsTo($parent, $child)
+    protected function assertBelongsTo($parent, $child)
     {
         $this->assertRelationship($parent, $child, 'belongsTo');
     }
 
-    public function assertHasMany($relation, $class)
+    protected function assertHasMany($relation, $class)
     {
         $this->assertRelationship($relation, $class, 'hasMany');
     }
 
-    public function assertHasOne($relation, $class)
+    protected function assertHasOne($relation, $class)
     {
         $this->assertRelationship($relation, $class, 'hasOne');
     }
 
-    public function assertMorphMany($relation, $class)
+    protected function assertMorphMany($relation, $class)
     {
         $this->assertRelationship($relation, $class, 'morphMany');
     }
 
-    public function assertMorphTo($relation, $class)
+    protected function assertMorphTo($relation, $class)
     {
         $this->assertRelationship($relation, $class, 'morphTo');
     }
 
-    public function assertRespondsTo($method, $class, $message = null)
+    protected function assertRespondsTo($method, $class, $message = null)
     {
         $message = $message ?: "Expected the '$class' class to have method, '$method'.";
 
@@ -64,9 +64,9 @@ trait TestsModel
                 break;
             case 2:
                 $class->shouldReceive($type)
-                     ->once()
-                     ->with('/' . str_singular($relationship) . '/i', $args[1])
-                     ->andReturn(m::self());
+                      ->once()
+                      ->with('/' . str_singular($relationship) . '/i', $args[1])
+                      ->andReturn(m::self());
                 break;
             case 3:
                 $class->shouldReceive($type)

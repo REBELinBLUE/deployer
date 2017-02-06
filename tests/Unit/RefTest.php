@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use REBELinBLUE\Deployer\Ref;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\TestsModel;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Ref

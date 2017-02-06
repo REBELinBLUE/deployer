@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Events\HeartbeatRecovered;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\BroadcastChanges;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Heartbeat
@@ -14,7 +15,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
  */
 class HeartbeatTest extends TestCase
 {
-    use DatabaseMigrations, BroadcastChangesTests;
+    use DatabaseMigrations, BroadcastChanges;
 
     /**
      * @covers ::pinged

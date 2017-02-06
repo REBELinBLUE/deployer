@@ -8,7 +8,7 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\TestsModel;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\DeploymentPresenter;
 use REBELinBLUE\Deployer\View\Presenters\RuntimeInterface;
 use Robbo\Presenter\PresentableInterface;

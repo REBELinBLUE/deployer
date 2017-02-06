@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Database;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\BroadcastChanges;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Server
@@ -12,7 +13,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
  */
 class ServerTest extends TestCase
 {
-    use DatabaseMigrations, BroadcastChangesTests;
+    use DatabaseMigrations, BroadcastChanges;
 
     /**
      * @covers ::setPortAttribute

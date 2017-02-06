@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Notification;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Notifications\System\NewTestNotification;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\BroadcastChanges;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Channel
@@ -14,7 +15,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
  */
 class ChannelTest extends TestCase
 {
-    use DatabaseMigrations, BroadcastChangesTests;
+    use DatabaseMigrations, BroadcastChanges;
 
     /**
      * @covers ::boot

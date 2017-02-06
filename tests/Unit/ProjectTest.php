@@ -11,8 +11,9 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\TestsModel;
 use REBELinBLUE\Deployer\Tests\Unit\stubs\Project as StubProject;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\ProductRelations;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
 use RuntimeException;
 
@@ -21,7 +22,7 @@ use RuntimeException;
  */
 class ProjectTest extends TestCase
 {
-    use TestsModel, ProductRelationsTests;
+    use TestsModel, ProductRelations;
 
     /**
      * @covers ::getPresenter
