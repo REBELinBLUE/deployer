@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\Traits\HasTarget;
 use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 
 /**
@@ -12,7 +13,7 @@ use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
  */
 class CommandTest extends TestCase
 {
-    use TestsModel;
+    use TestsModel, HasTarget;
 
     /**
      * @covers ::servers
@@ -25,5 +26,13 @@ class CommandTest extends TestCase
         // TODO: Test for the order by?
         $this->assertInstanceOf(BelongsToMany::class, $actual);
         $this->assertBelongsToMany('servers', Command::class);
+    }
+
+    /**
+     * @covers \REBELinBLUE\Deployer\Traits\HasTarget
+     */
+    public function testTarget()
+    {
+        $this->assertHasTarget(Command::class);
     }
 }
