@@ -24,6 +24,6 @@ class CommandTest extends TestCase
 
         // TODO: Test for the order by?
         $this->assertInstanceOf(BelongsToMany::class, $actual);
-        $this->assertBelongsTo('servers', Command::class);
+        $this->assertBelongsToMany('servers', Command::class);
     }
 }
