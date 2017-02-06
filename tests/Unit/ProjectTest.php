@@ -479,7 +479,7 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @covers \REBELinBLUE\Deployer\Traits\ProductRelations
+     * @covers \REBELinBLUE\Deployer\Traits\ProjectRelations
      */
     public function testHasProjectRelations()
     {

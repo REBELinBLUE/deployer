@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Traits;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Traits\ProductRelations
+ * @coversDefaultClass \REBELinBLUE\Deployer\Traits\ProjectRelations
  */
 trait ProductRelations
 {
