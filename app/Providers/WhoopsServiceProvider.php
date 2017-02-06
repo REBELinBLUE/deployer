@@ -3,12 +3,13 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Whoops\Handler\HandlerInterface as WhoopsHandlerInterface;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 
 /**
- * Service provider to provide the Whoops exception handle
+ * Service provider to provide the Whoops exception handle.
  */
 class WhoopsServiceProvider extends ServiceProvider
 {
@@ -28,7 +29,7 @@ class WhoopsServiceProvider extends ServiceProvider
         $config = $this->app->make('config');
 
         // Only register if debugging is enabled and it is installed, i.e. on dev
-        if (!$config->get('app.debug', false) || !class_exists(Whoops::class, true)) {
+        if (!$config->get('app.debug', false) || !interface_exists(WhoopsHandlerInterface::class, true)) {
             return;
         }
 

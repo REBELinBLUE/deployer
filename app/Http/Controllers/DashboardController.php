@@ -19,28 +19,40 @@ class DashboardController extends Controller
     private $view;
 
     /**
+     * @var DeploymentRepositoryInterface
+     */
+    private $deploymentRepository;
+
+    /**
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
      * DashboardController constructor.
      *
-     * @param ViewFactory $view
+     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @param ProjectRepositoryInterface    $projectRepository
+     * @param ViewFactory                   $view
      */
-    public function __construct(ViewFactory $view)
-    {
-        $this->view = $view;
+    public function __construct(
+        DeploymentRepositoryInterface $deploymentRepository,
+        ProjectRepositoryInterface $projectRepository,
+        ViewFactory $view
+    ) {
+        $this->view                 = $view;
+        $this->deploymentRepository = $deploymentRepository;
+        $this->projectRepository    = $projectRepository;
     }
 
     /**
      * The main page of the dashboard.
      *
-     * @param DeploymentRepositoryInterface $deploymentRepository
-     * @param ProjectRepositoryInterface    $projectRepository
-     *
      * @return \Illuminate\View\View
      */
-    public function index(
-        DeploymentRepositoryInterface $deploymentRepository,
-        ProjectRepositoryInterface $projectRepository
-    ) {
-        $projects = $projectRepository->getAll();
+    public function index()
+    {
+        $projects = $this->projectRepository->getAll();
 
         $projects_by_group = [];
         foreach ($projects as $project) {
@@ -55,7 +67,7 @@ class DashboardController extends Controller
 
         return $this->view->make('dashboard.index', [
             'title'     => Lang::get('dashboard.title'),
-            'latest'    => $this->buildTimelineData($deploymentRepository),
+            'latest'    => $this->buildTimelineData($this->deploymentRepository),
             'projects'  => $projects_by_group,
         ]);
     }
@@ -63,28 +75,25 @@ class DashboardController extends Controller
     /**
      * Returns the timeline.
      *
-     * @param DeploymentRepositoryInterface $deploymentRepository
-     *
      * @return \Illuminate\View\View
      */
-    public function timeline(DeploymentRepositoryInterface $deploymentRepository)
+    public function timeline()
     {
         return $this->view->make('dashboard.timeline', [
-            'latest' => $this->buildTimelineData($deploymentRepository),
+            'latest' => $this->buildTimelineData($this->deploymentRepository),
         ]);
     }
 
     /**
      * Generates an XML file for CCTray.
      *
-     * @param ProjectRepositoryInterface $projectRepository
-     * @param ResponseFactory            $response
+     * @param ResponseFactory $response
      *
      * @return \Illuminate\View\View
      */
-    public function cctray(ProjectRepositoryInterface $projectRepository, ResponseFactory $response)
+    public function cctray(ResponseFactory $response)
     {
-        $projects = $projectRepository->getAll();
+        $projects = $this->projectRepository->getAll();
 
         foreach ($projects as $project) {
             $project->latest_deployment = $project->deployments->first();
@@ -98,13 +107,11 @@ class DashboardController extends Controller
     /**
      * Builds the data for the timeline.
      *
-     * @param DeploymentRepositoryInterface $deploymentRepository
-     *
      * @return array
      */
-    private function buildTimelineData(DeploymentRepositoryInterface $deploymentRepository)
+    private function buildTimelineData()
     {
-        $deployments = $deploymentRepository->getTimeline();
+        $deployments = $this->deploymentRepository->getTimeline();
 
         $deploys_by_date = [];
         foreach ($deployments as $deployment) {

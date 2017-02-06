@@ -34,6 +34,19 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * Exceptions which should not be handled by whoops.
+     *
+     * @var array
+     */
+    protected $skipWhoops = [
+        AuthenticationException::class,
+        AuthorizationException::class,
+        HttpResponseException::class,
+        ModelNotFoundException::class,
+        ValidationException::class,
+    ];
+
+    /**
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
@@ -80,17 +93,25 @@ class Handler extends ExceptionHandler
         /** @var Whoops $whoops */
         $whoops = $this->container->make(Whoops::class);
 
+        $statusCode = 500;
+        if (method_exists($exception, 'getStatusCode')) {
+            $statusCode = $exception->getStatusCode();
+        }
+
+        $headers = [];
+        if (method_exists($exception, 'getHeaders')) {
+            $headers = $exception->getHeaders();
+        }
+
         return new Response(
             $whoops->handleException($exception),
-            $exception->getStatusCode(),
-            $exception->getHeaders()
+            $statusCode,
+            $headers
         );
     }
 
     /**
-     * Don't allow the exceptions which laravel handles specially to be converted to Whoops
-     * This is horrible though, see if we can find a better way to do it.
-     * GrahamCampbell/Laravel-Exceptions unfortunately doesn't return JSON for whoops pages which are from AJAX.
+     * Don't allow the exceptions which laravel handles specially to be converted to Whoops.
      *
      * @param \Exception $exception
      *
@@ -98,17 +119,9 @@ class Handler extends ExceptionHandler
      */
     protected function isSafeToWhoops(Exception $exception)
     {
-        if ($exception instanceof HttpResponseException) {
-            return false;
-        } elseif ($exception instanceof ModelNotFoundException) {
-            return false;
-        } elseif ($exception instanceof AuthorizationException) {
-            return false;
-        } elseif ($exception instanceof ValidationException && $exception->getResponse()) {
-            return false;
-        }
-
-        return true;
+        return is_null(collect($this->skipWhoops)->first(function ($type) use ($exception) {
+            return $exception instanceof $type;
+        }));
     }
 
     /**
