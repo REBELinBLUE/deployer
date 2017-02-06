@@ -7,10 +7,15 @@ use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 
+/**
+ * Service provider to provide the Whoops exception handle
+ */
 class WhoopsServiceProvider extends ServiceProvider
 {
     /**
-     * {@inheritdoc}
+     * Defer loading until actually needed.
+     *
+     * @var bool
      */
     public $defer = true;
 
