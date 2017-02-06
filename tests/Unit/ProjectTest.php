@@ -21,9 +21,7 @@ use RuntimeException;
  */
 class ProjectTest extends TestCase
 {
-    // FIXME: Test the ProjectRelation trait methods
-
-    use TestsModel;
+    use TestsModel, ProductRelationsTests;
 
     /**
      * @covers ::getPresenter
@@ -477,5 +475,13 @@ class ProjectTest extends TestCase
         // TODO: Check the order by?
         $this->assertInstanceOf(HasMany::class, $actual);
         $this->assertHasMany('servers', Project::class);
+    }
+
+    /**
+     * @covers \REBELinBLUE\Deployer\Traits\ProductRelations
+     */
+    public function testHasProjectRelations()
+    {
+        $this->assertHasProjectRelations(Project::class);
     }
 }

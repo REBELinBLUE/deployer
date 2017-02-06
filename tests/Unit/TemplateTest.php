@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 
 use REBELinBLUE\Deployer\Template;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\CommandPresenter;
 use Robbo\Presenter\PresentableInterface;
 
@@ -12,7 +13,7 @@ use Robbo\Presenter\PresentableInterface;
  */
 class TemplateTest extends TestCase
 {
-    // FIXME: Test the ProjectRelation trait methods
+    use TestsModel, ProductRelationsTests;
 
     /**
      * @covers ::__construct
@@ -34,5 +35,13 @@ class TemplateTest extends TestCase
 
         $this->assertInstanceOf(CommandPresenter::class, $presenter);
         $this->assertSame($template, $presenter->getObject());
+    }
+
+    /**
+     * @covers \REBELinBLUE\Deployer\Traits\ProductRelations
+     */
+    public function testHasProjectRelations()
+    {
+        $this->assertHasProjectRelations(Template::class);
     }
 }
