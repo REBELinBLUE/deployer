@@ -138,6 +138,7 @@ class ChannelTest extends TestCase
 
     public function provideTypes()
     {
+        // FIXME: Move to yml files
         return array_chunk([
             Channel::EMAIL, Channel::SLACK, Channel::HIPCHAT, Channel::TWILIO, Channel::WEBHOOK,
         ], 1);

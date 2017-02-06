@@ -32,6 +32,7 @@ class TemplateTest extends TestCase
             $template->commands()->save($command);
         });
 
+        // FIXME: We may not need the count attributes, laravel has this built in apparently?
         $this->assertSame($expected, $template->command_count);
         $this->assertSame($expected, $template->getCommandCountAttribute());
     }
