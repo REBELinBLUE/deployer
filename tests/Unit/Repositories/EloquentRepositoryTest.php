@@ -35,14 +35,14 @@ class EloquentRepositoryTest extends TestCase
      */
     public function testGetById()
     {
-        $expected = 'a-model';
-        $id       = 1;
+        $expected       = 'a-model';
+        $model_id       = 1;
 
         $model = m::mock(StubModel::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($expected);
 
         $repository = new StubEloquentRepository($model);
-        $actual     = $repository->getById($id);
+        $actual     = $repository->getById($model_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -52,14 +52,14 @@ class EloquentRepositoryTest extends TestCase
      */
     public function testGetByIdThrowsModelNotFoundException()
     {
-        $id = 1;
+        $model_id = 1;
         $this->expectException(ModelNotFoundException::class);
 
         $model = m::mock(StubModel::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andThrow(ModelNotFoundException::class);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andThrow(ModelNotFoundException::class);
 
         $repository = new StubEloquentRepository($model);
-        $repository->getById($id);
+        $repository->getById($model_id);
     }
 
     /**
@@ -84,17 +84,17 @@ class EloquentRepositoryTest extends TestCase
      */
     public function testUpdateById()
     {
-        $id     = 1;
-        $fields = ['foo' => 'bar'];
+        $model_id     = 1;
+        $fields       = ['foo' => 'bar'];
 
         $expected = m::mock(StubModel::class);
         $expected->shouldReceive('update')->once()->with($fields);
 
         $model = m::mock(StubModel::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($expected);
 
         $repository = new StubEloquentRepository($model);
-        $actual     = $repository->updateById($fields, $id);
+        $actual     = $repository->updateById($fields, $model_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -104,16 +104,16 @@ class EloquentRepositoryTest extends TestCase
      */
     public function testDeleteById()
     {
-        $id = 1;
+        $model_id = 1;
 
         $found = m::mock(StubModel::class);
         $found->shouldReceive('delete')->andReturn(true);
 
         $model = m::mock(StubModel::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($found);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($found);
 
         $repository = new StubEloquentRepository($model);
-        $actual     = $repository->deleteById($id);
+        $actual     = $repository->deleteById($model_id);
 
         $this->assertTrue($actual);
     }
@@ -125,15 +125,15 @@ class EloquentRepositoryTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $id = 1;
+        $model_id = 1;
 
         $found = m::mock(StubModel::class);
         $found->shouldReceive('delete')->andThrow(Exception::class);
 
         $model = m::mock(StubModel::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($found);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($found);
 
         $repository = new StubEloquentRepository($model);
-        $repository->deleteById($id);
+        $repository->deleteById($model_id);
     }
 }

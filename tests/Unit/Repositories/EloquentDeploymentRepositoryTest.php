@@ -93,7 +93,7 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testAbort()
     {
-        $id = 1;
+        $expected_id = 1;
 
         $expected = m::mock(Deployment::class);
         $expected->shouldReceive('isAborting')->once()->andReturn(false);
@@ -103,10 +103,10 @@ class EloquentDeploymentRepositoryTest extends TestCase
         $this->expectsJobs(AbortDeployment::class);
 
         $model = m::mock(Deployment::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($expected_id)->andReturn($expected);
 
         $repository = new EloquentDeploymentRepository($model);
-        $repository->abort($id);
+        $repository->abort($expected_id);
     }
 
     /**
@@ -114,7 +114,7 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testAbortDoesNotAbortWhilstAlreadyAborting()
     {
-        $id = 1;
+        $expected_id = 1;
 
         $expected = m::mock(Deployment::class);
         $expected->shouldReceive('isAborting')->once()->andReturn(true);
@@ -122,10 +122,10 @@ class EloquentDeploymentRepositoryTest extends TestCase
         $this->doesntExpectJobs(AbortDeployment::class);
 
         $model = m::mock(Deployment::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($expected_id)->andReturn($expected);
 
         $repository = new EloquentDeploymentRepository($model);
-        $repository->abort($id);
+        $repository->abort($expected_id);
     }
 
     /**
@@ -174,12 +174,12 @@ class EloquentDeploymentRepositoryTest extends TestCase
         $expected = m::mock(Deployment::class);
         $expected->shouldReceive('getAttribute')->with('project')->andReturn(m::mock(Project::class));
 
-        $id         = 1234;
-        $committer  = 'bob';
-        $email      = 'bob@example.com';
-        $commit     = 'abcd1234efgh';
-        $project_id = 12;
-        $branch     = 'master';
+        $expected_id = 1234;
+        $committer   = 'bob';
+        $email       = 'bob@example.com';
+        $commit      = 'abcd1234efgh';
+        $project_id  = 12;
+        $branch      = 'master';
 
         $fields = [
             'committer'       => $committer,
@@ -198,11 +198,11 @@ class EloquentDeploymentRepositoryTest extends TestCase
         $previous->shouldReceive('getAttribute')->with('branch')->andReturn($branch);
 
         $model = m::mock(Deployment::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($previous);
+        $model->shouldReceive('findOrFail')->once()->with($expected_id)->andReturn($previous);
         $model->shouldReceive('create')->once()->with($fields)->andReturn($expected);
 
         $repository = new EloquentDeploymentRepository($model);
-        $actual     = $repository->rollback($id, $reason);
+        $actual     = $repository->rollback($expected_id, $reason);
 
         $this->assertSame($expected, $actual);
     }
@@ -220,14 +220,14 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testRollbackThrowsModelNotFoundException()
     {
-        $id = 1321;
+        $expected_id = 1321;
         $this->expectException(ModelNotFoundException::class);
 
         $model = m::mock(Deployment::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andThrow(ModelNotFoundException::class);
+        $model->shouldReceive('findOrFail')->once()->with($expected_id)->andThrow(ModelNotFoundException::class);
 
         $repository = new EloquentDeploymentRepository($model);
-        $repository->rollback($id);
+        $repository->rollback($expected_id);
     }
 
     /**
@@ -236,15 +236,15 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testGetTodayCount()
     {
-        $id       = 1;
-        $expected = 10;
+        $project_id       = 1;
+        $count            = 10;
 
-        $model = $this->mockDeploymentsBetweenDates($expected, $id, true);
+        $model = $this->mockDeploymentsBetweenDates($count, $project_id, true);
 
         $repository = new EloquentDeploymentRepository($model);
-        $actual     = $repository->getTodayCount($id);
+        $actual     = $repository->getTodayCount($project_id);
 
-        $this->assertSame($expected, $actual);
+        $this->assertSame($count, $actual);
     }
 
     /**
@@ -253,13 +253,13 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testGetLastWeekCount()
     {
-        $id       = 1;
-        $expected = 10;
+        $expected_id = 1;
+        $expected    = 10;
 
-        $model = $this->mockDeploymentsBetweenDates($expected, $id);
+        $model = $this->mockDeploymentsBetweenDates($expected, $expected_id);
 
         $repository = new EloquentDeploymentRepository($model);
-        $actual     = $repository->getLastWeekCount($id);
+        $actual     = $repository->getLastWeekCount($expected_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -285,19 +285,19 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testGetLatest()
     {
-        $id       = 1;
-        $paginate = 10;
-        $expected = m::mock(Deployment::class);
+        $expected_id       = 1;
+        $paginate          = 10;
+        $expected          = m::mock(Deployment::class);
         $expected->shouldReceive('with')->once()->with('user', 'project')->andReturnSelf();
         $expected->shouldReceive('whereNotNull')->once()->with('started_at')->andReturnSelf();
         $expected->shouldReceive('orderBy')->once()->with('started_at', 'DESC')->andReturnSelf();
         $expected->shouldReceive('paginate')->once()->with($paginate)->andReturnSelf();
 
         $model = m::mock(Deployment::class);
-        $model->shouldReceive('where')->once()->with('project_id', $id)->andReturn($expected);
+        $model->shouldReceive('where')->once()->with('project_id', $expected_id)->andReturn($expected);
 
         $repository = new EloquentDeploymentRepository($model);
-        $actual     = $repository->getLatest($id, $paginate);
+        $actual     = $repository->getLatest($expected_id, $paginate);
 
         $this->assertSame($expected, $actual);
     }
@@ -307,18 +307,18 @@ class EloquentDeploymentRepositoryTest extends TestCase
      */
     public function testGetLatestSuccessful()
     {
-        $id       = 1;
-        $expected = 'a-deployment-model';
+        $expected_id       = 1;
+        $expected          = 'a-deployment-model';
 
         $model = m::mock(Deployment::class);
-        $model->shouldReceive('where')->once()->with('project_id', $id)->andReturnSelf();
+        $model->shouldReceive('where')->once()->with('project_id', $expected_id)->andReturnSelf();
         $model->shouldReceive('where')->once()->with('status', Deployment::COMPLETED)->andReturnSelf();
         $model->shouldReceive('whereNotNull')->once()->with('started_at')->andReturnSelf();
         $model->shouldReceive('orderBy')->once()->with('started_at', 'DESC')->andReturnSelf();
         $model->shouldReceive('first')->once()->andReturn($expected);
 
         $repository = new EloquentDeploymentRepository($model);
-        $actual     = $repository->getLatestSuccessful($id);
+        $actual     = $repository->getLatestSuccessful($expected_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -375,7 +375,7 @@ class EloquentDeploymentRepositoryTest extends TestCase
         return $deployment;
     }
 
-    private function mockDeploymentsBetweenDates($expected, $id, $sameDay = false)
+    private function mockDeploymentsBetweenDates($count, $project_id, $sameDay = false)
     {
         Carbon::setTestNow(Carbon::create(2017, 1, 26, 0, 0, 0, 'UTC'));
 
@@ -388,10 +388,10 @@ class EloquentDeploymentRepositoryTest extends TestCase
         }
 
         $model = m::mock(Deployment::class);
-        $model->shouldReceive('where')->once()->with('project_id', $id)->andReturnSelf();
+        $model->shouldReceive('where')->once()->with('project_id', $project_id)->andReturnSelf();
         $model->shouldReceive('where')->once()->with('started_at', '>=', $start)->andReturnSelf();
         $model->shouldReceive('where')->once()->with('started_at', '<=', $end)->andReturnSelf();
-        $model->shouldReceive('count')->once()->andReturn($expected);
+        $model->shouldReceive('count')->once()->andReturn($count);
 
         return $model;
     }

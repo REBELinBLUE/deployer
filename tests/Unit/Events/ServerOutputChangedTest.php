@@ -18,10 +18,10 @@ class ServerOutputChangedTest extends TestCase
      */
     public function testBroadcastOn()
     {
-        $id = time();
+        $expected_id = 12345;
 
-        $event = new ServerOutputChanged($this->mockServerlog($id));
-        $this->assertSame(['serverlog-' . $id], $event->broadcastOn());
+        $event = new ServerOutputChanged($this->mockServerlog($expected_id));
+        $this->assertSame(['serverlog-' . $expected_id], $event->broadcastOn());
     }
 
     /**
@@ -33,10 +33,10 @@ class ServerOutputChangedTest extends TestCase
         $this->assertInstanceOf(ShouldBroadcast::class, $event);
     }
 
-    private function mockServerlog($id)
+    private function mockServerlog($expected_id)
     {
         $log = m::mock(ServerLog::class);
-        $log->shouldReceive('getAttribute')->once()->with('id')->andReturn($id);
+        $log->shouldReceive('getAttribute')->once()->with('id')->andReturn($expected_id);
         $log->shouldReceive('getAttribute')->once()->with('output')->andReturn(null);
 
         return $log;

@@ -101,12 +101,12 @@ class NewTestNotificationTest extends TestCase
      */
     public function testToWebhook()
     {
-        $id       = 2;
-        $project  = 10;
-        $expected = 'a-test-message';
+        $expected_id       = 2;
+        $project           = 10;
+        $expected          = 'a-test-message';
 
         $channel = m::mock(Channel::class);
-        $channel->shouldReceive('getAttribute')->once()->with('id')->andReturn($id);
+        $channel->shouldReceive('getAttribute')->once()->with('id')->andReturn($expected_id);
         $channel->shouldReceive('getAttribute')->once()->with('project_id')->andReturn($project);
 
         Lang::shouldReceive('get')->with('notifications.test_message')->andReturn($expected);
@@ -121,7 +121,7 @@ class NewTestNotificationTest extends TestCase
 
         $this->assertSame(3, count($actual['headers']));
         $this->assertSame($project, $actual['headers']['X-Deployer-Project-Id']);
-        $this->assertSame($id, $actual['headers']['X-Deployer-Notification-Id']);
+        $this->assertSame($expected_id, $actual['headers']['X-Deployer-Notification-Id']);
         $this->assertSame('notification_test', $actual['headers']['X-Deployer-Event']);
     }
 

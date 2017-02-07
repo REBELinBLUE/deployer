@@ -39,10 +39,10 @@ class ModelTrashedTest extends TestCase
         $this->assertInstanceOf(ShouldBroadcast::class, $event);
     }
 
-    private function mockModel($id, $project_id)
+    private function mockModel($server_id, $project_id)
     {
         $model = m::mock(Server::class);
-        $model->shouldReceive('getAttribute')->once()->with('id')->andReturn($id);
+        $model->shouldReceive('getAttribute')->once()->with('id')->andReturn($server_id);
         $model->shouldReceive('getAttribute')->once()->with('project_id')->andReturn($project_id);
 
         return $model;

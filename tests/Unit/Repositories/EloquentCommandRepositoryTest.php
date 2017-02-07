@@ -42,18 +42,18 @@ class EloquentCommandRepositoryTest extends TestCase
      */
     public function testUpdateById()
     {
-        $id     = 1;
-        $fields = ['foo' => 'bar'];
+        $model_id     = 1;
+        $fields       = ['foo' => 'bar'];
 
         $expected = m::mock(Command::class);
         $expected->shouldReceive('update')->once()->with($fields);
         $expected->shouldReceive('getAttribute')->with('servers');
 
         $model = m::mock(Command::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($expected);
 
         $repository = new EloquentCommandRepository($model);
-        $actual     = $repository->updateById($fields, $id);
+        $actual     = $repository->updateById($fields, $model_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -63,10 +63,10 @@ class EloquentCommandRepositoryTest extends TestCase
      */
     public function testUpdateByIdSyncsServers()
     {
-        $id             = 1;
-        $expectedServer = 'a-server';
-        $fields         = ['foo' => 'bar', 'servers' => $expectedServer];
-        $update         = ['foo' => 'bar'];
+        $expectedId             = 1;
+        $expectedServer         = 'a-server';
+        $fields                 = ['foo' => 'bar', 'servers' => $expectedServer];
+        $update                 = ['foo' => 'bar'];
 
         $server = m::mock(Server::class);
         $server->shouldReceive('sync')->once()->with($expectedServer);
@@ -77,10 +77,10 @@ class EloquentCommandRepositoryTest extends TestCase
         $expected->shouldReceive('getAttribute')->with('servers');
 
         $model = m::mock(Command::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($expectedId)->andReturn($expected);
 
         $repository = new EloquentCommandRepository($model);
-        $actual     = $repository->updateById($fields, $id);
+        $actual     = $repository->updateById($fields, $expectedId);
 
         $this->assertSame($expected, $actual);
     }

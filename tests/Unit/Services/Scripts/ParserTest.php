@@ -59,11 +59,11 @@ class ParserTest extends TestCase
         $expectedFileName = 'a-real-file';
         $path             = resource_path('scripts/' . $expectedFileName . '.sh');
 
-        $fs = m::mock(Filesystem::class);
-        $fs->shouldReceive('exists')->with($path)->andReturn(true);
-        $fs->shouldReceive('get')->with($path)->andReturn($fileContent);
+        $filesystem = m::mock(Filesystem::class);
+        $filesystem->shouldReceive('exists')->with($path)->andReturn(true);
+        $filesystem->shouldReceive('get')->with($path)->andReturn($fileContent);
 
-        $parser = new Parser($fs);
+        $parser = new Parser($filesystem);
         $actual = $parser->parseFile($expectedFileName, $tokens);
 
         $this->assertSame($actual, $expected);

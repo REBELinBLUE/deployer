@@ -237,14 +237,14 @@ class DeploymentPresenterTest extends TestCase
         return $deployment;
     }
 
-    private function mockCommand($id, $optional = false)
+    private function mockCommand($command_id, $optional = false)
     {
         $command = m::mock(Command::class);
         $command->shouldReceive('getAttribute')->atLeast()->times(1)->with('optional')->andReturn($optional);
 
         if ($optional) {
             $command->shouldReceive('offsetExists')->atLeast()->times(1)->with('id')->andReturn(true);
-            $command->shouldReceive('offsetGet')->atLeast()->times(1)->with('id')->andReturn($id);
+            $command->shouldReceive('offsetGet')->atLeast()->times(1)->with('id')->andReturn($command_id);
         }
 
         return $command;

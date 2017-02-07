@@ -99,15 +99,15 @@ class EloquentProjectRepositoryTest extends TestCase
      */
     public function testRefreshBranches()
     {
-        $id = 1;
+        $model_id = 1;
 
         $this->expectsJobs(UpdateGitMirror::class);
 
         $model = m::mock(Project::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturnSelf();
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturnSelf();
 
         $repository = new EloquentProjectRepository($model);
-        $repository->refreshBranches($id);
+        $repository->refreshBranches($model_id);
     }
 
     /**
@@ -115,16 +115,16 @@ class EloquentProjectRepositoryTest extends TestCase
      */
     public function testRefreshBranchesThrowsModelNotFoundException()
     {
-        $id = 1;
+        $model_id = 1;
         $this->doesntExpectJobs(UpdateGitMirror::class);
 
         $this->expectException(ModelNotFoundException::class);
 
         $model = m::mock(Project::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andThrow(ModelNotFoundException::class);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andThrow(ModelNotFoundException::class);
 
         $repository = new EloquentProjectRepository($model);
-        $repository->refreshBranches($id);
+        $repository->refreshBranches($model_id);
     }
 
     /**
@@ -132,18 +132,18 @@ class EloquentProjectRepositoryTest extends TestCase
      */
     public function testUpdateByIdRemovesBlankPrivateKey()
     {
-        $id     = 1;
-        $fields = ['foo' => 'bar', 'private_key' => ''];
-        $update = ['foo' => 'bar']; // This is what is expected to be passed to update
+        $model_id     = 1;
+        $fields       = ['foo' => 'bar', 'private_key' => ''];
+        $update       = ['foo' => 'bar']; // This is what is expected to be passed to update
 
         $expected = m::mock(Project::class);
         $expected->shouldReceive('update')->once()->with($update);
 
         $model = m::mock(Project::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($expected);
 
         $repository = new EloquentProjectRepository($model);
-        $actual     = $repository->updateById($fields, $id);
+        $actual     = $repository->updateById($fields, $model_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -153,18 +153,18 @@ class EloquentProjectRepositoryTest extends TestCase
      */
     public function testUpdateByIdClearPublicKeyWhenPrivateKeyIsProvided()
     {
-        $id     = 1;
-        $fields = ['foo' => 'bar', 'private_key' => 'a-new-key'];
+        $model_id     = 1;
+        $fields       = ['foo' => 'bar', 'private_key' => 'a-new-key'];
 
         $expected = m::mock(Project::class);
         $expected->shouldReceive('update')->once()->with($fields);
         $expected->shouldReceive('setAttribute')->once()->with('public_key', '');
 
         $model = m::mock(Project::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($expected);
 
         $repository = new EloquentProjectRepository($model);
-        $actual     = $repository->updateById($fields, $id);
+        $actual     = $repository->updateById($fields, $model_id);
 
         $this->assertSame($expected, $actual);
     }

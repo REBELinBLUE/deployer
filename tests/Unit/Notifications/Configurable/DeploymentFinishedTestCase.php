@@ -197,27 +197,27 @@ abstract class DeploymentFinishedTestCase extends TestCase
 
     protected function toSlack($class, $message, $level, $hasCommitUrl = true)
     {
-        $expectedTimestamp     = Carbon::create(2017, 1, 1, 12, 0, 0, 'UTC');
-        $expectedId            = 53;
-        $expectedProjectName   = 'a-project-name';
-        $expectedProjectId     = 143;
-        $expectedBranchName    = 'master';
-        $expectedAppName       = 'the app name';
-        $expectedProjectUrl    = 'http://project.example.com/';
-        $expectedDeploymentUrl = 'http://deployment.example.com/';
-        $expectedCommitter     = 'a committer name';
-        $expectedCommit        = '1234abcd';
-        $expectedCommitUrl     = 'http://git.example.com/';
-        $expectedIcon          = 'an-icon';
-        $expectedChannel       = '#channel';
-        $expectedMessage       = 'the slack message #' . $expectedId;
-        $expectedContent       = 'the slack message <' . $expectedDeploymentUrl . '|#' . $expectedId . '>';
+        $expectedTimestamp   = Carbon::create(2017, 1, 1, 12, 0, 0, 'UTC');
+        $expectedId          = 53;
+        $expectedProjectName = 'a-project-name';
+        $expectedProjectId   = 143;
+        $expectedBranchName  = 'master';
+        $expectedAppName     = 'the app name';
+        $expectedProjectUrl  = 'http://project.example.com/';
+        $expectedUrl         = 'http://deployment.example.com/';
+        $expectedCommitter   = 'a committer name';
+        $expectedCommit      = '1234abcd';
+        $expectedCommitUrl   = 'http://git.example.com/';
+        $expectedIcon        = 'an-icon';
+        $expectedChannel     = '#channel';
+        $expectedMessage     = 'the slack message #' . $expectedId;
+        $expectedContent     = 'the slack message <' . $expectedUrl . '|#' . $expectedId . '>';
 
         $expectedFields = [
-            'project'       => '<' . $expectedProjectUrl . '|' . $expectedProjectName . '>',
-            'commit'        => '<' . $expectedCommitUrl . '|' . $expectedCommit . '>',
-            'committer'     => $expectedCommitter,
-            'branch'        => $expectedBranchName,
+            'project'   => '<' . $expectedProjectUrl . '|' . $expectedProjectName . '>',
+            'commit'    => '<' . $expectedCommitUrl . '|' . $expectedCommit . '>',
+            'committer' => $expectedCommitter,
+            'branch'    => $expectedBranchName,
         ];
 
         if (!$hasCommitUrl) {
@@ -263,7 +263,7 @@ abstract class DeploymentFinishedTestCase extends TestCase
 
         $mock->shouldReceive('route')
              ->with('deployments', ['id' => $expectedId], true)
-             ->andReturn($expectedDeploymentUrl);
+             ->andReturn($expectedUrl);
 
         App::instance('url', $mock);
 

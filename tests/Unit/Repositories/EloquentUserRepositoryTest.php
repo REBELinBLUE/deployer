@@ -68,17 +68,17 @@ class EloquentUserRepositoryTest extends TestCase
      */
     public function testUpdateById()
     {
-        $id     = 1;
-        $fields = ['foo' => 'bar'];
+        $model_id     = 1;
+        $fields       = ['foo' => 'bar'];
 
         $expected = m::mock(User::class);
         $expected->shouldReceive('update')->once()->with($fields);
 
         $model = m::mock(User::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($expected);
 
         $repository = new EloquentUserRepository($model);
-        $actual     = $repository->updateById($fields, $id);
+        $actual     = $repository->updateById($fields, $model_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -88,18 +88,18 @@ class EloquentUserRepositoryTest extends TestCase
      */
     public function testUpdateByIdRemovesBlankPassword()
     {
-        $id     = 1;
-        $fields = ['foo' => 'bar', 'password' => ''];
-        $update = ['foo' => 'bar']; // This is what is expected to be passed to update
+        $model_id     = 1;
+        $fields       = ['foo' => 'bar', 'password' => ''];
+        $update       = ['foo' => 'bar']; // This is what is expected to be passed to update
 
         $expected = m::mock(User::class);
         $expected->shouldReceive('update')->once()->with($update);
 
         $model = m::mock(User::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($expected);
 
         $repository = new EloquentUserRepository($model);
-        $actual     = $repository->updateById($fields, $id);
+        $actual     = $repository->updateById($fields, $model_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -109,10 +109,10 @@ class EloquentUserRepositoryTest extends TestCase
      */
     public function testUpdateByIdEncryptsPassword()
     {
-        $id               = 1;
-        $expectedPassword = 'a-hashed-password';
-        $fields           = ['foo' => 'bar', 'password' => 'password'];
-        $update           = ['foo' => 'bar', 'password' => $expectedPassword]; // This is what is expected to be passed to update
+        $model_id               = 1;
+        $expectedPassword       = 'a-hashed-password';
+        $fields                 = ['foo' => 'bar', 'password' => 'password'];
+        $update                 = ['foo' => 'bar', 'password' => $expectedPassword]; // This is what is expected to be passed to update
 
         $mock = m::mock(Hasher::class);
         $mock->shouldReceive('make')->andReturn($expectedPassword);
@@ -122,10 +122,10 @@ class EloquentUserRepositoryTest extends TestCase
         $expected->shouldReceive('update')->once()->with($update);
 
         $model = m::mock(User::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturn($expected);
 
         $repository = new EloquentUserRepository($model);
-        $actual     = $repository->updateById($fields, $id);
+        $actual     = $repository->updateById($fields, $model_id);
 
         $this->assertSame($expected, $actual);
     }

@@ -38,12 +38,12 @@ class ServerLogChangedTest extends TestCase
      */
     public function testAttributesAreSet()
     {
-        $id     = 1000;
-        $status = ServerLog::COMPLETED;
+        $server_id     = 1000;
+        $status        = ServerLog::COMPLETED;
 
-        $event = new ServerLogChanged($this->mockServerlog($id, 'output-log', $status));
+        $event = new ServerLogChanged($this->mockServerlog($server_id, 'output-log', $status));
 
-        $this->assertSame($id, $event->log_id);
+        $this->assertSame($server_id, $event->log_id);
         $this->assertSame($status, $event->status);
         $this->assertEmpty($event->output);
         $this->assertNull($event->started_at);
@@ -97,7 +97,7 @@ class ServerLogChangedTest extends TestCase
     }
 
     private function mockServerlog(
-        $id,
+        $log_id,
         $output,
         $status = '',
         $started_at = null,
@@ -106,7 +106,7 @@ class ServerLogChangedTest extends TestCase
     ) {
         $log = m::mock(ServerLog::class);
         $log->shouldDeferMissing();
-        $log->shouldReceive('getAttribute')->once()->with('id')->andReturn($id);
+        $log->shouldReceive('getAttribute')->once()->with('id')->andReturn($log_id);
         $log->shouldReceive('getAttribute')->atLeast()->once()->with('output')->andReturn($output);
         $log->shouldReceive('getAttribute')->once()->with('status')->andReturn($status);
         $log->shouldReceive('getAttribute')->atLeast()->once()->with('started_at')->andReturn($started_at);

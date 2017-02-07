@@ -19,14 +19,14 @@ class AbortDeploymentTest extends TestCase
      */
     public function testHandle()
     {
-        $id        = 10;
-        $key       = AbortDeployment::CACHE_KEY_PREFIX . $id;
-        $timestamp = 1452870024;
+        $expected_id        = 10;
+        $key                = AbortDeployment::CACHE_KEY_PREFIX . $expected_id;
+        $timestamp          = 1452870024;
 
         Carbon::setTestNow(Carbon::create(2016, 1, 15, 15, 00, 24, 'UTC'));
 
         $deployment = m::mock(Deployment::class);
-        $deployment->shouldReceive('getAttribute')->once()->with('id')->andReturn($id);
+        $deployment->shouldReceive('getAttribute')->once()->with('id')->andReturn($expected_id);
 
         $cache = app('cache.store');
 

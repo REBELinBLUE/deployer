@@ -61,7 +61,7 @@ class EloquentServerRepositoryTest extends TestCase
      */
     public function testQueueForTesting()
     {
-        $id = 1;
+        $server_id = 1;
 
         $expected = m::mock(Server::class);
         $expected->shouldReceive('isTesting')->once()->andReturn(false);
@@ -71,10 +71,10 @@ class EloquentServerRepositoryTest extends TestCase
         $this->expectsJobs(TestServerConnection::class);
 
         $model = m::mock(Server::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($server_id)->andReturn($expected);
 
         $repository = new EloquentServerRepository($model);
-        $repository->queueForTesting($id);
+        $repository->queueForTesting($server_id);
     }
 
     /**
@@ -82,7 +82,7 @@ class EloquentServerRepositoryTest extends TestCase
      */
     public function testQueueForTestingDoesNotQueueWhenQueued()
     {
-        $id = 1;
+        $server_id = 1;
 
         $expected = m::mock(Server::class);
         $expected->shouldReceive('isTesting')->once()->andReturn(true);
@@ -90,10 +90,10 @@ class EloquentServerRepositoryTest extends TestCase
         $this->doesntExpectJobs(TestServerConnection::class);
 
         $model = m::mock(Server::class);
-        $model->shouldReceive('findOrFail')->once()->with($id)->andReturn($expected);
+        $model->shouldReceive('findOrFail')->once()->with($server_id)->andReturn($expected);
 
         $repository = new EloquentServerRepository($model);
-        $repository->queueForTesting($id);
+        $repository->queueForTesting($server_id);
     }
 
     /**
