@@ -2,19 +2,15 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Providers;
 
-use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Providers\AppServiceProvider;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Providers\AppServiceProvider
  */
 class AppServiceProviderTest extends TestCase
 {
-    public function setUp()
+    public function testBoot()
     {
-        parent::setUp();
-
         $this->markTestIncomplete('not yet implemented');
     }
 }

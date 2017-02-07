@@ -15,6 +15,7 @@ use REBELinBLUE\Deployer\Events\DeploymentFinished;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\User;
@@ -72,7 +73,7 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Execute the command.
      */
-    public function handle()
+    public function handle(Filesystem $filesystem)
     {
         $this->deployment->started_at = date('Y-m-d H:i:s');
         $this->deployment->status     = Deployment::DEPLOYING;
@@ -81,9 +82,9 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->project->status = Project::DEPLOYING;
         $this->deployment->project->save();
 
-        $this->private_key = tempnam(storage_path('app/tmp/'), 'key');
-        file_put_contents($this->private_key, $this->deployment->project->private_key);
-        chmod($this->private_key, 0600);
+        $this->private_key = $filesystem->tempnam(storage_path('app/tmp/'), 'key');
+        $filesystem->put($this->private_key, $this->deployment->project->private_key);
+        $filesystem->chmod($this->private_key, 0600);
 
         $this->release_archive = $this->deployment->project_id . '_' . $this->deployment->release_id . '.tar.gz';
 
@@ -134,11 +135,14 @@ class DeployProject extends Job implements ShouldQueue
         // Notify user or others the deployment has been finished
         event(new DeploymentFinished($this->deployment));
 
-        unlink($this->private_key);
+        $to_delete = [$this->private_key];
 
-        if (file_exists(storage_path('app/' . $this->release_archive))) {
-            unlink(storage_path('app/' . $this->release_archive));
+        $archive = storage_path('app/' . $this->release_archive);
+        if ($filesystem->exists($archive)) {
+            $to_delete[] = $archive;
         }
+
+        $filesystem->unlink($to_delete);
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
@@ -35,22 +36,23 @@ class UpdateGitMirror extends Job implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param Process $process
-     * @param Parser  $parser
+     * @param Process    $process
+     * @param Parser     $parser
+     * @param Filesystem $filesystem
      */
-    public function handle(Process $process, Parser $parser)
+    public function handle(Process $process, Parser $parser, Filesystem $filesystem)
     {
-        $private_key = tempnam(storage_path('app/tmp/'), 'key');
-        file_put_contents($private_key, $this->project->private_key);
-        chmod($private_key, 0600);
+        $private_key = $filesystem->tempnam(storage_path('app/tmp/'), 'key');
+        $filesystem->put($private_key, $this->project->private_key);
+        $filesystem->chmod($private_key, 0600);
 
         $wrapper = $parser->parseFile('tools.SSHWrapperScript', [
             'private_key' => $private_key,
         ]);
 
-        $wrapper_file = tempnam(storage_path('app/tmp/'), 'gitssh');
-        file_put_contents($wrapper_file, $wrapper);
-        chmod($wrapper_file, 0755);
+        $wrapper_file = $filesystem->tempnam(storage_path('app/tmp/'), 'ssh');
+        $filesystem->put($wrapper_file, $wrapper);
+        $filesystem->chmod($wrapper_file, 0755);
 
         $process->setScript('tools.MirrorGitRepository', [
             'wrapper_file' => $wrapper_file,
@@ -58,8 +60,7 @@ class UpdateGitMirror extends Job implements ShouldQueue
             'repository'   => $this->project->repository,
         ])->run();
 
-        unlink($wrapper_file);
-        unlink($private_key);
+        $filesystem->delete([$wrapper_file, $private_key]);
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());

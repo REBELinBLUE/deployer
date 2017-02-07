@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Server;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
@@ -32,16 +33,17 @@ class TestServerConnection extends Job implements ShouldQueue
 
     /**
      * Execute the command.
-     * @param Process $process
+     * @param Process    $process
+     * @param Filesystem $filesystem
      */
-    public function handle(Process $process)
+    public function handle(Process $process, Filesystem $filesystem)
     {
         $this->server->status = Server::TESTING;
         $this->server->save();
 
-        $key = tempnam(storage_path('app/tmp/'), 'key');
-        file_put_contents($key, $this->server->project->private_key);
-        chmod($key, 0600);
+        $key = $filesystem->tempnam(storage_path('app/tmp/'), 'key');
+        $filesystem->put($key, $this->server->project->private_key);
+        $filesystem->chmod($key, 0600);
 
         try {
             $process->setScript('TestServerConnection', [
@@ -62,6 +64,6 @@ class TestServerConnection extends Job implements ShouldQueue
 
         $this->server->save();
 
-        unlink($key);
+        $filesystem->delete($key);
     }
 }
