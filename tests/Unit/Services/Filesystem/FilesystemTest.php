@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Services\Filesystem;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Tests\FilesystemTestCase;
 
 /**
@@ -29,7 +30,7 @@ class FilesystemTest extends FilesystemTestCase
      */
     public function testTempnamUsesPrefix()
     {
-        $prefix = 'PRE';
+        $prefix = 'foo';
 
         $filesystem = new Filesystem();
         $filename   = $filesystem->tempnam($this->workspace, $prefix);
@@ -41,11 +42,23 @@ class FilesystemTest extends FilesystemTestCase
     /**
      * @covers ::tempnam
      */
-    public function testTempnamThrowsExceptionWhenDirectoryDoesNotExist()
+    public function testTempnamThrowsFileNotFoundExceptionWhenDirectoryDoesNotExist()
     {
         $this->expectException(FileNotFoundException::class);
 
         $filesystem = new Filesystem();
         $filesystem->tempnam($this->workspace . DIRECTORY_SEPARATOR . 'dir-does-not-exist');
+    }
+
+    /**
+     * @covers ::tempnam
+     */
+    public function testTempnamThrowsExceptionWhenTempFileCanNotBeCreated()
+    {
+        $this->markTestSkipped('Not sure how to test this, no easy way to force a failure');
+        $this->expectException(IOException::class);
+
+        $filesystem = new Filesystem();
+        $filesystem->tempnam($this->workspace);
     }
 }

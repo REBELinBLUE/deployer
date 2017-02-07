@@ -29,7 +29,7 @@ class Filesystem extends BaseFilesystem
                 return $tmpFile;
             }
 
-            throw new IOException('A temporary file could not be created.');
+            throw new IOException('A temporary file could not be created.'); // @codeCoverageIgnore
         }
 
         throw new FileNotFoundException("Directory does not exist at path {$path}");
