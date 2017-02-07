@@ -89,6 +89,11 @@ phpunit-fast:
 	@echo "\033[32mPHPUnit without slow tests\033[39m"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests" --exclude-group slow
 
+## PHPUnit Tests - Only the slow tests
+phpunit-slow:
+	@echo "\033[32mPHPUnit slow tests only\033[39m"
+	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests" --exclude-group default
+
 ## Runs most tests but excludes PHPMD and slow unit tests
 quicktest: install-dev lint phpcs phpdoc-check phpunit-fast
 

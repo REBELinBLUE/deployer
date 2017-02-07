@@ -277,24 +277,27 @@ class ProjectTest extends TestCase
      */
     public function testGenerateSSHKey()
     {
+        $folder = storage_path('app/tmp');
+
         $expectedPrivateKey = 'a-private-key';
         $expectedPublicKey  = 'a-public-key';
-        $id                 = 12345;
-        $path               = storage_path('app/tmp/sshkey' . $id);
+        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
 
-        File::shouldReceive('get')->once()->with($path)->andReturn($expectedPrivateKey);
-        File::shouldReceive('get')->once()->with($path . '.pub')->andReturn($expectedPublicKey);
-        File::shouldReceive('delete')->once()->with([$path, $path . '.pub']);
+        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('get')->once()->with($expectedPath)->andReturn($expectedPrivateKey);
+        File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
+        File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
 
         $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')->with('tools.GenerateSSHKey', ['key_file' => $path])->andReturnSelf();
+        $process->shouldReceive('setScript')
+                ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath])
+                ->andReturnSelf();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->andReturn(true);
 
         App::instance(Process::class, $process);
 
-        $project     = new StubProject();
-        $project->id = $id;
+        $project = new StubProject();
         $project->generateSSHKey();
 
         $this->assertSame($expectedPrivateKey, $project->private_key);
@@ -308,12 +311,16 @@ class ProjectTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $id   = 12345;
-        $path = storage_path('app/tmp/sshkey' . $id);
+        $folder       = storage_path('app/tmp');
+        $expectedPath = $folder . 'sshkeyA-TMP-FILE-NAME';
+
+        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
 
         /** @var Process $process */
         $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')->with('tools.GenerateSSHKey', ['key_file' => $path])->andReturnSelf();
+        $process->shouldReceive('setScript')
+                ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath])
+                ->andReturnSelf();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->andReturn(false);
         $process->shouldReceive('getErrorOutput');
@@ -321,7 +328,6 @@ class ProjectTest extends TestCase
         App::instance(Process::class, $process);
 
         $project     = new StubProject();
-        $project->id = $id;
         $project->generateSSHKey();
     }
 
@@ -332,18 +338,19 @@ class ProjectTest extends TestCase
     {
         $expectedPublicKey  = 'a-public-key';
         $expectedPrivateKey = 'a-private-key';
-        $id                 = 12345;
-        $path               = storage_path('app/tmp/sshkey' . $id);
+        $folder             = storage_path('app/tmp');
+        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
 
-        File::shouldReceive('put')->once()->with($path, $expectedPrivateKey);
-        File::shouldReceive('chmod')->with($path, 0600);
-        File::shouldReceive('get')->once()->with($path . '.pub')->andReturn($expectedPublicKey);
-        File::shouldReceive('delete')->once()->with([$path, $path . '.pub']);
+        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
+        File::shouldReceive('chmod')->with($expectedPath, 0600);
+        File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
+        File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
 
         /** @var Process $process */
         $process = m::mock(Process::class);
         $process->shouldReceive('setScript')
-                ->with('tools.RegeneratePublicSSHKey', ['key_file' => $path])
+                ->with('tools.RegeneratePublicSSHKey', ['key_file' => $expectedPath])
                 ->andReturnSelf();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->andReturn(true);
@@ -352,7 +359,6 @@ class ProjectTest extends TestCase
 
         $project              = new StubProject();
         $project->private_key = $expectedPrivateKey;
-        $project->id          = $id;
         $project->regeneratePublicKey();
 
         $this->assertSame($expectedPrivateKey, $project->private_key);
@@ -367,16 +373,17 @@ class ProjectTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         $expectedPrivateKey = 'a-private-key';
-        $id                 = 12345;
-        $path               = storage_path('app/tmp/sshkey' . $id);
+        $folder             = storage_path('app/tmp');
+        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
 
-        File::shouldReceive('put')->once()->with($path, $expectedPrivateKey);
-        File::shouldReceive('chmod')->with($path, 0600);
+        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
+        File::shouldReceive('chmod')->with($expectedPath, 0600);
 
         /** @var Runner $process */
         $process = m::mock(Process::class);
         $process->shouldReceive('setScript')
-                ->with('tools.RegeneratePublicSSHKey', ['key_file' => $path])
+                ->with('tools.RegeneratePublicSSHKey', ['key_file' => $expectedPath])
                 ->andReturnSelf();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->andReturn(false);
@@ -386,7 +393,6 @@ class ProjectTest extends TestCase
 
         $project              = new StubProject();
         $project->private_key = $expectedPrivateKey;
-        $project->id          = $id;
         $project->regeneratePublicKey();
     }
 

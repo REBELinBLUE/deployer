@@ -458,10 +458,10 @@ class Project extends Model implements PresentableInterface
      */
     protected function generateSSHKey()
     {
-        /** @var \Illuminate\Filesystem\Filesystem $filesystem */
+        /** @var \REBELinBLUE\Deployer\Services\Filesystem\Filesystem $filesystem */
         $filesystem = app('files');
 
-        $private_key_file = storage_path('app/tmp/sshkey' . $this->id); // FIXME: Change so that ID isn't used as this doesn't exist on creating/saving
+        $private_key_file = $filesystem->tempnam(storage_path('app/tmp'), 'sshkey');
         $public_key_file  = $private_key_file . '.pub';
 
         /** @var Process $process */
@@ -485,10 +485,10 @@ class Project extends Model implements PresentableInterface
      */
     protected function regeneratePublicKey()
     {
-        /** @var \Illuminate\Filesystem\Filesystem $filesystem */
+        /** @var \REBELinBLUE\Deployer\Services\Filesystem\Filesystem $filesystem */
         $filesystem = app('files');
 
-        $private_key_file = storage_path('app/tmp/sshkey' . $this->id);
+        $private_key_file = $filesystem->tempnam(storage_path('app/tmp'), 'sshkey');
         $public_key_file  = $private_key_file . '.pub';
 
         $filesystem->put($private_key_file, $this->private_key);

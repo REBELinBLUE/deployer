@@ -1,6 +1,5 @@
 <?php
 
-
 namespace REBELinBLUE\Deployer\Tests\Unit\stubs;
 
 use Exception;

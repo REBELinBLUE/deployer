@@ -107,8 +107,8 @@ class HandlerTest extends TestCase
     public function testRenderHandlesExpectedExceptionsWithHttpDetails()
     {
         $expected = 'a-whoops-exception-page';
-        $code = 401;
-        $headers = ['foo' => 'bar'];
+        $code     = 401;
+        $headers  = ['foo' => 'bar'];
 
         $exception = m::mock(ExceptionWithHeaders::class);
         $exception->shouldReceive('getHeaders')->once()->andReturn($headers);

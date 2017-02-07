@@ -25,11 +25,7 @@ class WhoopsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /** @var \Illuminate\Config\Repository $config */
-        $config = $this->app->make('config');
-
-        // Only register if debugging is enabled and it is installed, i.e. on dev
-        if (!$config->get('app.debug', false) || !interface_exists(WhoopsHandlerInterface::class, true)) {
+        if (!$this->useWhoops()) {
             return;
         }
 
@@ -55,6 +51,28 @@ class WhoopsServiceProvider extends ServiceProvider
      */
     public function provides()
     {
+        if (!$this->useWhoops()) {
+            return [];
+        }
+
         return [Whoops::class];
+    }
+
+    /**
+     * Determines whether or not whoops should be bound to the service container.
+     *
+     * @return bool
+     */
+    private function useWhoops()
+    {
+        /** @var \Illuminate\Config\Repository $config */
+        $config = $this->app->make('config');
+
+        // Only register if debugging is enabled and it is installed, i.e. on dev
+        if (!$config->get('app.debug', false) || !interface_exists(WhoopsHandlerInterface::class, true)) {
+            return false;
+        }
+
+        return true;
     }
 }

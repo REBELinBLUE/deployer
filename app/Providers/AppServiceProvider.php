@@ -17,6 +17,7 @@ use Illuminate\Support\ServiceProvider;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use NotificationChannels\Webhook\WebhookChannel;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
@@ -154,6 +155,10 @@ class AppServiceProvider extends ServiceProvider
      */
     private function replacePackageDependencies()
     {
+        $this->app->singleton('files', function () {
+            return new Filesystem();
+        });
+
         $this->app->singleton(FakerGenerator::class, function () {
             return FakerFactory::create('en_GB');
         });

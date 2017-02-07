@@ -228,15 +228,19 @@ class ProjectTest extends TestCase
     {
         $expectedPrivateKey = 'a-private-key';
         $expectedPublicKey  = 'a-public-key';
-        $path               = storage_path('app/tmp/sshkey');
+        $folder             = storage_path('app/tmp');
+        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
 
-        File::shouldReceive('get')->once()->with($path)->andReturn($expectedPrivateKey);
-        File::shouldReceive('get')->once()->with($path . '.pub')->andReturn($expectedPublicKey);
-        File::shouldReceive('delete')->once()->with([$path, $path . '.pub']);
+        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('get')->once()->with($expectedPath)->andReturn($expectedPrivateKey);
+        File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
+        File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
 
         /** @var Process $process */
         $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')->with('tools.GenerateSSHKey', ['key_file' => $path])->andReturnSelf();
+        $process->shouldReceive('setScript')
+                ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath])
+                ->andReturnSelf();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->andReturn(true);
         $process->shouldNotReceive('setScript')->with('tools.RegeneratePublicSSHKey')->withAnyArgs();
@@ -264,16 +268,20 @@ class ProjectTest extends TestCase
     {
         $expectedPrivateKey = 'a-private-key';
         $expectedPublicKey  = 'a-public-key';
-        $path               = storage_path('app/tmp/sshkey');
+        $folder             = storage_path('app/tmp');
+        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
 
-        File::shouldReceive('put')->once()->with($path, $expectedPrivateKey);
-        File::shouldReceive('chmod')->with($path, 0600);
-        File::shouldReceive('get')->once()->with($path . '.pub')->andReturn($expectedPublicKey);
-        File::shouldReceive('delete')->once()->with([$path, $path . '.pub']);
+        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
+        File::shouldReceive('chmod')->with($expectedPath, 0600);
+        File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
+        File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
 
         /** @var Process $process */
         $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')->with('tools.RegeneratePublicSSHKey', ['key_file' => $path])->andReturnSelf();
+        $process->shouldReceive('setScript')
+                ->with('tools.RegeneratePublicSSHKey', ['key_file' => $expectedPath])
+                ->andReturnSelf();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->andReturn(true);
         $process->shouldNotReceive('setScript')->with('tools.GenerateSSHKey')->withAnyArgs();
