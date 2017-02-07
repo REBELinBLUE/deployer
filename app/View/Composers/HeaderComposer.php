@@ -8,7 +8,7 @@ use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 /**
  * View composer for the header bar.
  */
-class HeaderComposer
+class HeaderComposer implements ViewComposerInterface
 {
     /**
      * @var DeploymentRepositoryInterface

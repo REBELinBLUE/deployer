@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 /**
  * View composer for the header bar.
  */
-class ThemeComposer
+class ThemeComposer implements ViewComposerInterface
 {
     /**
      * Generates the pending and deploying projects for the view.

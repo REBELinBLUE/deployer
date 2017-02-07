@@ -461,7 +461,7 @@ class Project extends Model implements PresentableInterface
         /** @var \REBELinBLUE\Deployer\Services\Filesystem\Filesystem $filesystem */
         $filesystem = app('files');
 
-        $private_key_file = $filesystem->tempnam(storage_path('app/tmp'), 'sshkey');
+        $private_key_file = $filesystem->tempnam(storage_path('app/tmp'), 'key');
         $public_key_file  = $private_key_file . '.pub';
 
         /** @var Process $process */
@@ -488,7 +488,7 @@ class Project extends Model implements PresentableInterface
         /** @var \REBELinBLUE\Deployer\Services\Filesystem\Filesystem $filesystem */
         $filesystem = app('files');
 
-        $private_key_file = $filesystem->tempnam(storage_path('app/tmp'), 'sshkey');
+        $private_key_file = $filesystem->tempnam(storage_path('app/tmp'), 'key');
         $public_key_file  = $private_key_file . '.pub';
 
         $filesystem->put($private_key_file, $this->private_key);

@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Validators;
 /**
  * Class for validating server hostnames & IP addresses.
  */
-class HostValidator
+class HostValidator implements ValidatorInterface
 {
     /**
      * Validate that the host is either a hostname or IP valid.

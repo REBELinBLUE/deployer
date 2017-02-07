@@ -23,7 +23,7 @@ class UpdateServiceProvider extends ServiceProvider
         $this->app->singleton('deployer.update-check', function (Application $app) {
             $cache = $app->make('cache.store');
             $client = $app->make(Client::class);
-            $token = config('deployer.github_oauth_token');
+            $token = $app->make('config')->get('deployer.github_oauth_token');
 
             return new LatestRelease($cache, $client, $token);
         });

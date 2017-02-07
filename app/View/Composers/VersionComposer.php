@@ -8,7 +8,7 @@ use REBELinBLUE\Deployer\Services\Update\LatestReleaseInterface;
 /**
  * View composer for the update bar.
  */
-class VersionComposer
+class VersionComposer implements ViewComposerInterface
 {
     /**
      * @var LatestReleaseInterface

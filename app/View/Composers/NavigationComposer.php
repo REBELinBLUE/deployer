@@ -8,7 +8,7 @@ use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 /**
  * View composer for the navigation bar.
  */
-class NavigationComposer
+class NavigationComposer implements ViewComposerInterface
 {
     /**
      * @var GroupRepositoryInterface

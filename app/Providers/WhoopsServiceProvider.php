@@ -26,15 +26,13 @@ class WhoopsServiceProvider extends ServiceProvider
     public function register()
     {
         if (!$this->useWhoops()) {
-            return;
+            return false;
         }
 
         $this->app->bind(Whoops::class, function () {
             $whoops = new Whoops();
 
-            /** @var \Illuminate\Http\Request $request */
-            $request = $this->app->make('request');
-            if ($request->expectsJson()) {
+            if ($this->app->make('request')->expectsJson()) {
                 $whoops->pushHandler(new JsonResponseHandler());
             } else {
                 $whoops->pushHandler(new PrettyPageHandler());
@@ -42,6 +40,8 @@ class WhoopsServiceProvider extends ServiceProvider
 
             return $whoops;
         });
+
+        return true;
     }
 
     /**
@@ -65,11 +65,10 @@ class WhoopsServiceProvider extends ServiceProvider
      */
     private function useWhoops()
     {
-        /** @var \Illuminate\Config\Repository $config */
-        $config = $this->app->make('config');
-
         // Only register if debugging is enabled and it is installed, i.e. on dev
-        if (!$config->get('app.debug', false) || !interface_exists(WhoopsHandlerInterface::class, true)) {
+        if (!$this->app->make('config')->get('app.debug', false) ||
+            !interface_exists(WhoopsHandlerInterface::class, true)
+        ) {
             return false;
         }
 

@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Validators;
 /**
  * Class for validating git repository URLs.
  */
-class RepositoryValidator
+class RepositoryValidator implements ValidatorInterface
 {
     /**
      * Validate that the repository URL looks valid.

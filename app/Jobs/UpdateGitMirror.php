@@ -40,7 +40,7 @@ class UpdateGitMirror extends Job implements ShouldQueue
      */
     public function handle(Process $process, Parser $parser)
     {
-        $private_key = tempnam(storage_path('app/tmp/'), 'sshkey');
+        $private_key = tempnam(storage_path('app/tmp/'), 'key');
         file_put_contents($private_key, $this->project->private_key);
         chmod($private_key, 0600);
 

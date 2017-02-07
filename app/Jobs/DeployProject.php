@@ -81,7 +81,7 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->project->status = Project::DEPLOYING;
         $this->deployment->project->save();
 
-        $this->private_key = tempnam(storage_path('app/tmp/'), 'sshkey');
+        $this->private_key = tempnam(storage_path('app/tmp/'), 'key');
         file_put_contents($this->private_key, $this->deployment->project->private_key);
         chmod($this->private_key, 0600);
 

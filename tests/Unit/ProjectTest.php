@@ -283,7 +283,7 @@ class ProjectTest extends TestCase
         $expectedPublicKey  = 'a-public-key';
         $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
 
-        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
         File::shouldReceive('get')->once()->with($expectedPath)->andReturn($expectedPrivateKey);
         File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
         File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
@@ -314,7 +314,7 @@ class ProjectTest extends TestCase
         $folder       = storage_path('app/tmp');
         $expectedPath = $folder . 'sshkeyA-TMP-FILE-NAME';
 
-        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
 
         /** @var Process $process */
         $process = m::mock(Process::class);
@@ -341,7 +341,7 @@ class ProjectTest extends TestCase
         $folder             = storage_path('app/tmp');
         $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
 
-        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
         File::shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
         File::shouldReceive('chmod')->with($expectedPath, 0600);
         File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
@@ -376,7 +376,7 @@ class ProjectTest extends TestCase
         $folder             = storage_path('app/tmp');
         $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
 
-        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
         File::shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
         File::shouldReceive('chmod')->with($expectedPath, 0600);
 

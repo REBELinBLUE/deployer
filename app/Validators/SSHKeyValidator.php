@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Validators;
 /**
  * Class for validating SSH private keys.
  */
-class SSHKeyValidator
+class SSHKeyValidator implements ValidatorInterface
 {
     /**
      * Validate that the SSH key looks valid.

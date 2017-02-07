@@ -62,7 +62,7 @@ class Handler extends ExceptionHandler
 
         // Use whoops if it is bound to the container and the exception is safe to pass to whoops
         if ($this->container->bound(Whoops::class) && $this->isSafeToWhoops($exception)) {
-            return $this->renderExceptionWithWhoops($request, $exception);
+            return $this->renderExceptionWithWhoops($exception);
         }
 
         return parent::render($request, $exception);
@@ -71,12 +71,11 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception using Whoops.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Exception               $exception
+     * @param \Exception $exception
      *
      * @return \Illuminate\Http\Response
      */
-    protected function renderExceptionWithWhoops($request, Exception $exception)
+    protected function renderExceptionWithWhoops(Exception $exception)
     {
         /** @var Whoops $whoops */
         $whoops = $this->container->make(Whoops::class);

@@ -229,9 +229,9 @@ class ProjectTest extends TestCase
         $expectedPrivateKey = 'a-private-key';
         $expectedPublicKey  = 'a-public-key';
         $folder             = storage_path('app/tmp');
-        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
+        $expectedPath       = $folder . 'keyA-TMP-FILE-NAME';
 
-        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
         File::shouldReceive('get')->once()->with($expectedPath)->andReturn($expectedPrivateKey);
         File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
         File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
@@ -269,9 +269,9 @@ class ProjectTest extends TestCase
         $expectedPrivateKey = 'a-private-key';
         $expectedPublicKey  = 'a-public-key';
         $folder             = storage_path('app/tmp');
-        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
+        $expectedPath       = $folder . 'keyA-TMP-FILE-NAME';
 
-        File::shouldReceive('tempnam')->once()->with($folder, 'sshkey')->andReturn($expectedPath);
+        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
         File::shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
         File::shouldReceive('chmod')->with($expectedPath, 0600);
         File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);

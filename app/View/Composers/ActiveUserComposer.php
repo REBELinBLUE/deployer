@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 /**
  * View composer for the active user.
  */
-class ActiveUserComposer
+class ActiveUserComposer implements ViewComposerInterface
 {
     /**
      * Sets the logged in user into a view variable.

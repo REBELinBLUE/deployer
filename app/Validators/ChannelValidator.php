@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Validators;
 /**
  * Class for validating slack channels.
  */
-class ChannelValidator
+class ChannelValidator implements ValidatorInterface
 {
     /**
      * Validate the the channel name is valid for slack, i.e. starts with # or @.
