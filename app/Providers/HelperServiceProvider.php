@@ -10,12 +10,12 @@ use Illuminate\Support\ServiceProvider;
 class HelperServiceProvider extends ServiceProvider
 {
     /**
-     * Register the application services.
+     * Boot the application services.
      */
-    public function register()
+    public function boot()
     {
         /** @var \Illuminate\Filesystem\Filesystem $filesystem */
-        $filesystem = app('files');
+        $filesystem = $this->app->make('files');
         foreach ($filesystem->glob(app_path('Helpers') . '/*Helper.php') as $filename) {
             $filesystem->requireOnce($filename);
         }

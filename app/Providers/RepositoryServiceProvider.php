@@ -38,7 +38,7 @@ use REBELinBLUE\Deployer\Repositories\EloquentVariableRepository;
  */
 class RepositoryServiceProvider extends ServiceProvider
 {
-    public $repositories = [
+    protected $repositories = [
         ChannelRepositoryInterface::class      => EloquentChannelRepository::class,
         CheckUrlRepositoryInterface::class     => EloquentCheckUrlRepository::class,
         CommandRepositoryInterface::class      => EloquentCommandRepository::class,
@@ -54,14 +54,6 @@ class RepositoryServiceProvider extends ServiceProvider
         UserRepositoryInterface::class         => EloquentUserRepository::class,
         VariableRepositoryInterface::class     => EloquentVariableRepository::class,
     ];
-
-    /**
-     * Bootstrap the application services.
-     */
-    public function boot()
-    {
-        //
-    }
 
     /**
      * Bind the repository interface to the implementations.

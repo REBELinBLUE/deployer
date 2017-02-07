@@ -13,7 +13,7 @@ use REBELinBLUE\Deployer\Validators\SSHKeyValidator;
  **/
 class ValidationServiceProvider extends ServiceProvider
 {
-    public $validators = [
+    protected $validators = [
         'channel'    => ChannelValidator::class,
         'repository' => RepositoryValidator::class,
         'sshkey'     => SSHKeyValidator::class,
@@ -26,15 +26,7 @@ class ValidationServiceProvider extends ServiceProvider
     public function boot()
     {
         foreach ($this->validators as $field => $validator) {
-            $this->app->validator->extend($field, $validator . '@validate');
+            $this->app->make('validator')->extend($field, $validator . '@validate');
         }
-    }
-
-    /**
-     * Register the application services.
-     */
-    public function register()
-    {
-        //
     }
 }

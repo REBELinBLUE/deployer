@@ -44,12 +44,4 @@ class EventServiceProvider extends ServiceProvider
         Login::class                => [CreateJwt::class],
         Logout::class               => [ClearJwt::class],
     ];
-
-    /**
-     * Register any other events for your application.
-     */
-    public function boot()
-    {
-        parent::boot();
-    }
 }
