@@ -37,6 +37,7 @@ class UpdateGitReferences extends Job implements ShouldQueue
      */
     public function handle(Process $process)
     {
+        // TODO: Replace model with repository
         $mirror_dir = $this->project->mirrorPath();
 
         $this->project->refs()->delete();
@@ -55,7 +56,7 @@ class UpdateGitReferences extends Job implements ShouldQueue
                         continue;
                     }
 
-                    if (substr($reference, 0, 1) === '*') {
+                    if (starts_with($reference, '*')) {
                         $reference = trim(substr($reference, 1));
                     }
 

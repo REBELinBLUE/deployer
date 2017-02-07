@@ -142,7 +142,7 @@ class DeployProject extends Job implements ShouldQueue
             $to_delete[] = $archive;
         }
 
-        $filesystem->unlink($to_delete);
+        $filesystem->delete($to_delete);
     }
 
     /**

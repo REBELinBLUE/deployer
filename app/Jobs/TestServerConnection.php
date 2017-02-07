@@ -45,12 +45,14 @@ class TestServerConnection extends Job implements ShouldQueue
         $filesystem->put($key, $this->server->project->private_key);
         $filesystem->chmod($key, 0600);
 
+        $prefix = $this->server->id . '_' . $this->server->project_id;
+
         try {
             $process->setScript('TestServerConnection', [
                 'server_id'      => $this->server->id,
                 'project_path'   => $this->server->clean_path,
-                'test_file'      => time() . '_testing_deployer.txt',
-                'test_directory' => time() . '_testing_deployer_dir',
+                'test_file'      => $prefix . '_testing_deployer.txt',
+                'test_directory' => $prefix . '_testing_deployer_dir',
             ])->setServer($this->server, $key)->run();
 
             if (!$process->isSuccessful()) {

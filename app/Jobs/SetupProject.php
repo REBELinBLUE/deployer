@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Template;
+use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 
 /**
  * A class to handle cloning the command templates for the project.
@@ -34,10 +34,11 @@ class SetupProject extends Job
 
     /**
      * Execute the command.
+     * @param TemplateRepositoryInterface $repository
      */
-    public function handle()
+    public function handle(TemplateRepositoryInterface $repository)
     {
-        $template = Template::findOrFail($this->template_id);
+        $template = $repository->getById($this->template_id);
 
         foreach ($template->commands as $command) {
             $data = $command->toArray();

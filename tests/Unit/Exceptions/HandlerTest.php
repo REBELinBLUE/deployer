@@ -18,7 +18,6 @@ use Whoops\RunInterface as WhoopsInterface;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Exceptions\Handler
- * @todo Redo these tests as they are quite fragile because they depend on implementation details hidden in laravel
  */
 class HandlerTest extends TestCase
 {

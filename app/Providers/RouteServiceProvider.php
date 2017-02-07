@@ -23,6 +23,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // FIXME: Replace facade with instances
         Route::pattern('id', '[0-9]+');
         Route::pattern('step', '(clone|install|activate|purge)');
 

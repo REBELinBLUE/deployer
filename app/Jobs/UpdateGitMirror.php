@@ -66,7 +66,7 @@ class UpdateGitMirror extends Job implements ShouldQueue
             throw new \RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());
         }
 
-        $this->project->last_mirrored = date('Y-m-d H:i:s');
+        $this->project->last_mirrored = $this->project->freshTimestamp();
         $this->project->save();
 
         $this->dispatch(new UpdateGitReferences($this->project));
