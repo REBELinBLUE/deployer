@@ -79,6 +79,8 @@ class HandlerTest extends TestCase
     /**
      * @dataProvider provideWhoopsExceptions
      * @covers ::render
+     * @covers ::isSafeToWhoops
+     * @covers ::renderExceptionWithWhoops
      */
     public function testRenderHandlesExpectedExceptionsWhenWhoopsIsBound($class)
     {
@@ -106,6 +108,7 @@ class HandlerTest extends TestCase
     /**
      * @dataProvider provideLaravelExceptions
      * @covers ::render
+     * @covers ::isSafeToWhoops
      */
     public function testRenderHandlesDoesNotPassLaravelExceptionsToWhoops($class)
     {
