@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Mockery as m;
 use REBELinBLUE\Deployer\Exceptions\Handler;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\stubs\ExceptionWithHeaders;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -96,8 +97,32 @@ class HandlerTest extends TestCase
         $this->assertInstanceOf(Response::class, $actual);
         $this->assertSame(500, $actual->getStatusCode());
         $this->assertSame($expected, $actual->getContent());
+    }
 
-        // TODO: Still need to tests headers and status code
+    /**
+     * @covers ::render
+     * @covers ::isSafeToWhoops
+     * @covers ::renderExceptionWithWhoops
+     */
+    public function testRenderHandlesExpectedExceptionsWithHttpDetails()
+    {
+        $expected = 'a-whoops-exception-page';
+        $code = 401;
+        $headers = ['foo' => 'bar'];
+
+        $exception = m::mock(ExceptionWithHeaders::class);
+        $exception->shouldReceive('getHeaders')->once()->andReturn($headers);
+        $exception->shouldReceive('getStatusCode')->once()->andReturn($code);
+
+        $whoops = $this->mockWhoops();
+        $whoops->shouldReceive('handleException')->once()->with($exception)->andReturn($expected);
+
+        $actual = $this->handler->render($this->request, $exception);
+
+        $this->assertInstanceOf(Response::class, $actual);
+        $this->assertSame($code, $actual->getStatusCode());
+        $this->assertSame($expected, $actual->getContent());
+        $this->assertSame('bar', $actual->headers->get('foo'));
     }
 
     public function provideWhoopsExceptions()
