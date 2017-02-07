@@ -200,7 +200,6 @@ class DeploymentPresenterTest extends TestCase
 
     public function provideShortHash()
     {
-        // FIXME: Is this right?
         return $this->fixture('View/Presenters/DeploymentPresenter')['short_hash_translations'];
     }
 
@@ -217,7 +216,7 @@ class DeploymentPresenterTest extends TestCase
         $commands = collect($collection);
 
         $deployment = m::mock(Deployment::class);
-        $deployment->shouldReceive('getAttribute')->atLeast()->times(1)->with('commands')->andReturn($commands);
+        $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('commands')->andReturn($commands);
 
         $presenter = new DeploymentPresenter($deployment);
         $actual    = $presenter->presentOptionalCommandsUsed();
