@@ -39,6 +39,9 @@ class QueueDeploymentTest extends TestCase
      */
     private $commands;
 
+    /**
+     * @todo Improve this, not testing groups, or optional
+     */
     public function setUp()
     {
         parent::setUp();
@@ -67,10 +70,6 @@ class QueueDeploymentTest extends TestCase
         $deployment->shouldReceive('freshTimestamp')->once()->andReturn($timestamp);
         $deployment->shouldReceive('setAttribute')->once()->with('started_at', $timestamp);
         $deployment->shouldReceive('setAttribute')->once()->with('project_id', $project_id);
-        $deployment->shouldReceive('getAttribute')->once()->with('committer')->andReturnNull();
-        $deployment->shouldReceive('setAttribute')->once()->with('committer', Deployment::LOADING);
-        $deployment->shouldReceive('getAttribute')->once()->with('commit')->andReturnNull();
-        $deployment->shouldReceive('setAttribute')->once()->with('commit', Deployment::LOADING);
         $deployment->shouldReceive('save')->once();
 
         // This is happening in deploy project, can we do without this in this test?
@@ -97,6 +96,11 @@ class QueueDeploymentTest extends TestCase
     {
         $this->expectsJobs(DeployProject::class);
 
+        $this->deployment->shouldReceive('getAttribute')->once()->with('committer')->andReturnNull();
+        $this->deployment->shouldReceive('setAttribute')->once()->with('committer', Deployment::LOADING);
+        $this->deployment->shouldReceive('getAttribute')->once()->with('commit')->andReturnNull();
+        $this->deployment->shouldReceive('setAttribute')->once()->with('commit', Deployment::LOADING);
+
         $this->deployment->shouldReceive('setAttribute')->once()->with('is_webhook', true);
         $this->deployment->shouldNotReceive('setAttribute')->with('user_id', m::any());
 
@@ -118,8 +122,38 @@ class QueueDeploymentTest extends TestCase
 
         $this->expectsJobs(DeployProject::class);
 
+
+        $this->deployment->shouldReceive('getAttribute')->once()->with('committer')->andReturnNull();
+        $this->deployment->shouldReceive('setAttribute')->once()->with('committer', Deployment::LOADING);
+        $this->deployment->shouldReceive('getAttribute')->once()->with('commit')->andReturnNull();
+        $this->deployment->shouldReceive('setAttribute')->once()->with('commit', Deployment::LOADING);
+
         $this->deployment->shouldNotReceive('setAttribute')->with('is_webhook', m::type('boolean'));
         $this->deployment->shouldReceive('setAttribute')->once()->with('user_id', $user->id);
+
+        $job = new QueueDeployment($this->project, $this->deployment, []);
+        $job->handle($this->builder, $this->commands);
+    }
+
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::setDeploymentStatus
+     */
+    public function testHandleExistingCommitDetails()
+    {
+        $this->expectsJobs(DeployProject::class);
+
+        $committer = 'bob smith';
+        $commit = 'a-git-commit-hash';
+
+        $this->deployment->shouldReceive('getAttribute')->once()->with('committer')->andReturn($committer);
+        $this->deployment->shouldReceive('setAttribute')->once()->with('committer', $committer);
+        $this->deployment->shouldReceive('getAttribute')->once()->with('commit')->andReturn($commit);
+        $this->deployment->shouldReceive('setAttribute')->once()->with('commit', $commit);
+
+        $this->deployment->shouldReceive('setAttribute')->with('is_webhook', true);
 
         $job = new QueueDeployment($this->project, $this->deployment, []);
         $job->handle($this->builder, $this->commands);

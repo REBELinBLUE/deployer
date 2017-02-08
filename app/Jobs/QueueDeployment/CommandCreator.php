@@ -33,23 +33,36 @@ class CommandCreator
      */
     private $deployment;
 
+    /**
+     * @param DeployStepRepositoryInterface $repository
+     * @param ServerLogRepositoryInterface $log
+     */
     public function __construct(DeployStepRepositoryInterface $repository, ServerLogRepositoryInterface $log)
     {
         $this->repository = $repository;
         $this->log        = $log;
     }
 
-    public function build(array $hooks, Project $project, Deployment $deployment, array $optional = [])
+    /**
+     * Takes the grouped commands and creates instances of the required models.
+     *
+     * @param array $groups
+     * @param Project $project
+     * @param Deployment $deployment
+     * @param array $optional
+     * @todo clean up more
+     */
+    public function build(array $groups, Project $project, Deployment $deployment, array $optional = [])
     {
         $this->project    = $project;
         $this->deployment = $deployment;
 
-        foreach (array_keys($hooks) as $stage) {
+        foreach (array_keys($groups) as $stage) {
             $before = $stage - 1;
             $after  = $stage + 1;
 
-            if (isset($hooks[$stage]['before'])) {
-                foreach ($hooks[$stage]['before'] as $command) {
+            if (isset($groups[$stage]['before'])) {
+                foreach ($groups[$stage]['before'] as $command) {
                     if ($command->optional && !in_array($command->id, $optional, true)) {
                         continue;
                     }
@@ -60,8 +73,8 @@ class CommandCreator
 
             $this->createDeployStep($stage);
 
-            if (isset($hooks[$stage]['after'])) {
-                foreach ($hooks[$stage]['after'] as $command) {
+            if (isset($groups[$stage]['after'])) {
+                foreach ($groups[$stage]['after'] as $command) {
                     if ($command->optional && !in_array($command->id, $optional, true)) {
                         continue;
                     }
