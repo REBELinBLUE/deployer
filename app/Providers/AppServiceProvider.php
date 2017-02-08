@@ -16,7 +16,10 @@ use Illuminate\Notifications\Channels\SlackWebhookChannel;
 use Illuminate\Support\ServiceProvider;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use NotificationChannels\Webhook\WebhookChannel;
+use REBELinBLUE\Deployer\Jobs\QueueDeployment\CommandCreator;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeployStepRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner;
@@ -136,6 +139,13 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerServiceDependencies()
     {
+        $this->app->bind(CommandCreator::class, function (Application $app) {
+            $repository = $app->make(DeployStepRepositoryInterface::class);
+            $log = $app->make(ServerLogRepositoryInterface::class);
+
+            return new CommandCreator($repository, $log);
+        });
+
         $this->app->bind(Parser::class, function (Application $app) {
             return new Parser($app->make('files'));
         });

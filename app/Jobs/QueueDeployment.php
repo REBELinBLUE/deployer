@@ -4,14 +4,10 @@ namespace REBELinBLUE\Deployer\Jobs;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Auth;
-use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
-use REBELinBLUE\Deployer\DeployStep;
+use REBELinBLUE\Deployer\Jobs\QueueDeployment\CommandCreator;
+use REBELinBLUE\Deployer\Jobs\QueueDeployment\GroupedCommandListBuilder;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Repositories\Contracts\DeployStepRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
-use REBELinBLUE\Deployer\Server;
-use REBELinBLUE\Deployer\ServerLog;
 
 /**
  * Generates the required database entries to queue a deployment.
@@ -36,16 +32,6 @@ class QueueDeployment extends Job
     private $optional;
 
     /**
-     * @var DeployStepRepositoryInterface
-     */
-    private $steps;
-
-    /**
-     * @var ServerLogRepositoryInterface
-     */
-    private $log;
-
-    /**
      * QueueDeployment constructor.
      *
      * @param Project    $project
@@ -61,76 +47,22 @@ class QueueDeployment extends Job
 
     /**
      * Execute the command.
+     *
+     * @param GroupedCommandListBuilder $builder
+     * @param CommandCreator            $commands
      */
-    public function handle(DeployStepRepositoryInterface $step, ServerLogRepositoryInterface $log)
+    public function handle(GroupedCommandListBuilder $builder, CommandCreator $commands)
     {
-        $this->steps = $step;
-        $this->log   = $log;
-
         $this->setDeploymentStatus();
 
-        $hooks = $this->buildCommandList();
-
-        foreach (array_keys($hooks) as $stage) {
-            $before = $stage - 1;
-            $after  = $stage + 1;
-
-            if (isset($hooks[$stage]['before'])) {
-                foreach ($hooks[$stage]['before'] as $hook) {
-                    $this->createCommandStep($before, $hook);
-                }
-            }
-
-            $this->createDeployStep($stage);
-
-            if (isset($hooks[$stage]['after'])) {
-                foreach ($hooks[$stage]['after'] as $hook) {
-                    $this->createCommandStep($after, $hook);
-                }
-            }
-        }
+        $commands->build(
+            $builder->groupCommandsByStep($this->project),
+            $this->project,
+            $this->deployment,
+            $this->optional
+        );
 
         $this->dispatch(new DeployProject($this->deployment));
-    }
-
-    /**
-     * Builds up a list of commands to run before/after each stage.
-     *
-     * @return array
-     */
-    private function buildCommandList()
-    {
-        $hooks = [
-            Stage::DO_CLONE    => null,
-            Stage::DO_INSTALL  => null,
-            Stage::DO_ACTIVATE => null,
-            Stage::DO_PURGE    => null,
-        ];
-
-        foreach ($this->project->commands as $command) {
-            $action = $command->step - 1;
-            $when   = ($command->step % 3 === 0 ? 'after' : 'before');
-            if ($when === 'before') {
-                $action = $command->step + 1;
-            }
-
-            // Check if the command is optional, and if it is check it exists in the optional array
-            if ($command->optional && !in_array($command->id, $this->optional, true)) {
-                continue;
-            }
-
-            if (!is_array($hooks[$action])) {
-                $hooks[$action] = [];
-            }
-
-            if (!isset($hooks[$action][$when])) {
-                $hooks[$action][$when] = [];
-            }
-
-            $hooks[$action][$when][] = $command;
-        }
-
-        return $hooks;
     }
 
     /**
@@ -154,53 +86,5 @@ class QueueDeployment extends Job
 
         $this->deployment->project->status = Project::PENDING;
         $this->deployment->project->save();
-    }
-
-    /**
-     * Create an instance of DeployStep and a ServerLog entry for each server assigned to the command.
-     *
-     * @param int   $stage
-     * @param Stage $command
-     */
-    private function createCommandStep($stage, Stage $command)
-    {
-        $step = $this->steps->create([
-            'stage'         => $stage,
-            'deployment_id' => $this->deployment->id,
-            'command_id'    => $command->id,
-        ]);
-
-        foreach ($command->servers as $server) {
-            $this->log->create([
-                'server_id'      => $server->id,
-                'deploy_step_id' => $step->id,
-            ]);
-        }
-    }
-
-    /**
-     * Create an instance of DeployStep and a ServerLog entry for each server which can have code deployed.
-     *
-     * @param int $stage
-     */
-    private function createDeployStep($stage)
-    {
-        $step = $this->steps->create([
-            'stage'         => $stage,
-            'deployment_id' => $this->deployment->id,
-        ]);
-
-        foreach ($this->project->servers as $server) {
-            // If command is null it is preparing one of the 4 default steps so
-            // skip servers which shouldn't have the code deployed
-            if (!$server->deploy_code) {
-                continue;
-            }
-
-            $this->log->create([
-                'server_id'      => $server->id,
-                'deploy_step_id' => $step->id,
-            ]);
-        }
     }
 }
