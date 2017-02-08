@@ -81,7 +81,7 @@ class UpdateGitReferencesTest extends TestCase
         $this->process->shouldReceive('getOutput')->once()->andReturn(implode(PHP_EOL, $branches));
 
         foreach ($tags as $tag) {
-            if ($tag == '') {
+            if ($tag === '    ') { // This is to ensure it is trimmed so and never passed to the repository
                 continue;
             }
 
@@ -93,7 +93,7 @@ class UpdateGitReferencesTest extends TestCase
         }
 
         foreach ($branches as $branch) {
-            if ($branch === ' * master ') {
+            if ($branch === ' * master ') { // Tests that it is trimmed, a leading * is removed and then trimmed again
                 $branch = 'master';
             }
 

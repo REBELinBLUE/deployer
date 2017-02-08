@@ -2,8 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Illuminate\Database\Eloquent\Model;
+use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use REBELinBLUE\Deployer\SharedFile;
+use REBELinBLUE\Deployer\Variable;
 
 /**
  * A class to handle cloning the command templates for the project.
@@ -40,28 +45,40 @@ class SetupProject extends Job
     {
         $template = $repository->getById($this->template_id);
 
-        foreach ($template->commands as $command) {
-            $data = $command->toArray();
+        $template->commands->each(function (Command $command) {
+            $data = $this->getFieldsArray($command);
 
             $this->project->commands()->create($data);
-        }
+        });
 
-        foreach ($template->variables as $variable) {
-            $data = $variable->toArray();
+        $template->variables->each(function (Variable $variable) {
+            $data = $this->getFieldsArray($variable);
 
             $this->project->variables()->create($data);
-        }
+        });
 
-        foreach ($template->sharedFiles as $file) {
-            $data = $file->toArray();
+        $template->sharedFiles->each(function (SharedFile $file) {
+            $data = $this->getFieldsArray($file);
 
             $this->project->sharedFiles()->create($data);
-        }
+        });
 
-        foreach ($template->configFiles as $file) {
-            $data = $file->toArray();
+        $template->configFiles->each(function (ConfigFile $file) {
+            $data = $this->getFieldsArray($file);
 
             $this->project->configFiles()->create($data);
-        }
+        });
+    }
+
+    /**
+     * Filter out the fields which aren't needed.
+     *
+     * @param Model $model
+     *
+     * @return array
+     */
+    private function getFieldsArray(Model $model)
+    {
+        return array_except($model->toArray(), ['target_type', 'target_id']);
     }
 }

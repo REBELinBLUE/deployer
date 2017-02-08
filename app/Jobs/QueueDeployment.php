@@ -123,7 +123,7 @@ class QueueDeployment extends Job
     private function setDeploymentStatus()
     {
         $this->deployment->status     = Deployment::PENDING;
-        $this->deployment->started_at = date('Y-m-d H:i:s');
+        $this->deployment->started_at = $this->deployment->freshTimestamp();
         $this->deployment->project_id = $this->project->id;
 
         if (Auth::check()) {

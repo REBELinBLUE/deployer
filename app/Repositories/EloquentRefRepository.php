@@ -6,7 +6,7 @@ use REBELinBLUE\Deployer\Ref;
 use REBELinBLUE\Deployer\Repositories\Contracts\RefRepositoryInterface;
 
 /**
- * The repository for git branches/tags
+ * The repository for git branches/tags.
  */
 class EloquentRefRepository extends EloquentRepository implements RefRepositoryInterface
 {
