@@ -8,6 +8,9 @@ use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeployStepRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
+use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 
 /**
@@ -33,6 +36,16 @@ class QueueDeployment extends Job
     private $optional;
 
     /**
+     * @var DeployStepRepositoryInterface
+     */
+    private $steps;
+
+    /**
+     * @var ServerLogRepositoryInterface
+     */
+    private $log;
+
+    /**
      * QueueDeployment constructor.
      *
      * @param Project    $project
@@ -49,8 +62,11 @@ class QueueDeployment extends Job
     /**
      * Execute the command.
      */
-    public function handle()
+    public function handle(DeployStepRepositoryInterface $step, ServerLogRepositoryInterface $log)
     {
+        $this->steps = $step;
+        $this->log   = $log;
+
         $this->setDeploymentStatus();
 
         $hooks = $this->buildCommandList();
@@ -148,14 +164,14 @@ class QueueDeployment extends Job
      */
     private function createCommandStep($stage, Stage $command)
     {
-        $step = DeployStep::create([
+        $step = $this->steps->create([
             'stage'         => $stage,
             'deployment_id' => $this->deployment->id,
             'command_id'    => $command->id,
         ]);
 
         foreach ($command->servers as $server) {
-            ServerLog::create([
+            $this->log->create([
                 'server_id'      => $server->id,
                 'deploy_step_id' => $step->id,
             ]);
@@ -169,7 +185,7 @@ class QueueDeployment extends Job
      */
     private function createDeployStep($stage)
     {
-        $step = DeployStep::create([
+        $step = $this->steps->create([
             'stage'         => $stage,
             'deployment_id' => $this->deployment->id,
         ]);
@@ -181,7 +197,7 @@ class QueueDeployment extends Job
                 continue;
             }
 
-            ServerLog::create([
+            $this->log->create([
                 'server_id'      => $server->id,
                 'deploy_step_id' => $step->id,
             ]);

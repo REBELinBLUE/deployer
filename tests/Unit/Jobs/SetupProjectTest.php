@@ -24,6 +24,7 @@ class SetupProjectTest extends TestCase
     /**
      * @covers ::__construct
      * @covers ::handle
+     * @covers ::getFieldsArray
      */
     public function testHandle()
     {

@@ -77,7 +77,7 @@ class UpdateGitReferencesTest extends TestCase
 
         $this->process->shouldReceive('run')->twice();
         $this->process->shouldReceive('isSuccessful')->twice()->andReturn(true);
-        $this->process->shouldReceive('getOutput')->once()->andReturn(implode(PHP_EOL, $tags));
+        $this->process->shouldReceive('getOutput')->once()->andReturn(implode(PHP_EOL, $tags) . PHP_EOL . ' ');
         $this->process->shouldReceive('getOutput')->once()->andReturn(implode(PHP_EOL, $branches));
 
         foreach ($tags as $tag) {
