@@ -72,12 +72,12 @@ class UpdateGitReferencesTest extends TestCase
      */
     public function testHandle()
     {
-        $tags     = ['1.0.0', '0.0.1', '0.0.2', '    '];
+        $tags     = ['1.0.0', '0.0.1', '    ', '0.0.2'];
         $branches = [' * master ', 'develop', 'release', 'bug/12345'];
 
         $this->process->shouldReceive('run')->twice();
         $this->process->shouldReceive('isSuccessful')->twice()->andReturn(true);
-        $this->process->shouldReceive('getOutput')->once()->andReturn(implode(PHP_EOL, $tags) . PHP_EOL . ' ');
+        $this->process->shouldReceive('getOutput')->once()->andReturn(implode(PHP_EOL, $tags));
         $this->process->shouldReceive('getOutput')->once()->andReturn(implode(PHP_EOL, $branches));
 
         foreach ($tags as $tag) {
