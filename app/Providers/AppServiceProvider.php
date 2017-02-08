@@ -16,7 +16,7 @@ use Illuminate\Notifications\Channels\SlackWebhookChannel;
 use Illuminate\Support\ServiceProvider;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use NotificationChannels\Webhook\WebhookChannel;
-use REBELinBLUE\Deployer\Jobs\QueueDeployment\CommandCreator;
+use REBELinBLUE\Deployer\Jobs\QueueDeployment\StepsBuilder;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeployStepRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
@@ -139,11 +139,11 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerServiceDependencies()
     {
-        $this->app->bind(CommandCreator::class, function (Application $app) {
+        $this->app->bind(StepsBuilder::class, function (Application $app) {
             $repository = $app->make(DeployStepRepositoryInterface::class);
             $log = $app->make(ServerLogRepositoryInterface::class);
 
-            return new CommandCreator($repository, $log);
+            return new StepsBuilder($repository, $log);
         });
 
         $this->app->bind(Parser::class, function (Application $app) {

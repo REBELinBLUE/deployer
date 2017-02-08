@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Jobs;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Auth;
 use REBELinBLUE\Deployer\Deployment;
-use REBELinBLUE\Deployer\Jobs\QueueDeployment\CommandCreator;
-use REBELinBLUE\Deployer\Jobs\QueueDeployment\GroupedCommandListBuilder;
+use REBELinBLUE\Deployer\Jobs\QueueDeployment\GroupedCommandListTransformer;
+use REBELinBLUE\Deployer\Jobs\QueueDeployment\StepsBuilder;
 use REBELinBLUE\Deployer\Project;
 
 /**
@@ -48,17 +48,17 @@ class QueueDeployment extends Job
     /**
      * Execute the command.
      *
-     * @param GroupedCommandListBuilder $builder
-     * @param CommandCreator            $commands
+     * @param GroupedCommandListTransformer $transformer
+     * @param StepsBuilder                  $steps
      */
-    public function handle(GroupedCommandListBuilder $builder, CommandCreator $commands)
+    public function handle(GroupedCommandListTransformer $transformer, StepsBuilder $steps)
     {
         $this->setDeploymentStatus();
 
-        $commands->build(
-            $builder->groupCommandsByStep($this->project),
+        $steps->build(
+            $transformer->groupCommandsByDeployStep($this->project),
             $this->project,
-            $this->deployment,
+            $this->deployment->id,
             $this->optional
         );
 
