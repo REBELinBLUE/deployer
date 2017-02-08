@@ -36,7 +36,7 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
      */
     public function handle(Client $client)
     {
-        foreach ($this->links as $link) {
+        $this->links->each(function ($link) use ($client) {
             try {
                 $client->get($link->url);
 
@@ -44,6 +44,6 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
             } catch (\Exception $error) {
                 $link->offline();
             }
-        }
+        });
     }
 }

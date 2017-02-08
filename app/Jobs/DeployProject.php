@@ -75,7 +75,7 @@ class DeployProject extends Job implements ShouldQueue
      */
     public function handle(Filesystem $filesystem)
     {
-        $this->deployment->started_at = date('Y-m-d H:i:s');
+        $this->deployment->started_at = $this->deployment->freshTimestamp();
         $this->deployment->status     = Deployment::DEPLOYING;
         $this->deployment->save();
 
@@ -124,7 +124,7 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         if ($this->deployment->status !== Deployment::ABORTED) {
-            $this->deployment->finished_at = date('Y-m-d H:i:s');
+            $this->deployment->finished_at = $this->deployment->freshTimestamp();
         }
 
         $this->deployment->save();
@@ -255,7 +255,7 @@ class DeployProject extends Job implements ShouldQueue
     {
         foreach ($step->servers as $log) {
             $log->status     = ServerLog::RUNNING;
-            $log->started_at = date('Y-m-d H:i:s');
+            $log->started_at = $log->freshTimestamp();
             $log->save();
 
             $server    = $log->server;
@@ -311,7 +311,7 @@ class DeployProject extends Job implements ShouldQueue
                 }
             }
 
-            $log->finished_at = date('Y-m-d H:i:s');
+            $log->finished_at = $log->freshTimestamp();
             $log->save();
 
             // Throw an exception to prevent any more tasks running
