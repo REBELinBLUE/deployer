@@ -6,9 +6,7 @@ use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Support\Facades\App;
 use Mockery as m;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentUserRepository;
-use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 
 /**

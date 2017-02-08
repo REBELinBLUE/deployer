@@ -7,8 +7,6 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentHeartbeatRepository;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
-use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentHeartbeatRepository

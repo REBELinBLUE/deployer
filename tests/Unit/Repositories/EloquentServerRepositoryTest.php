@@ -7,10 +7,8 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentServerRepository;
 use REBELinBLUE\Deployer\Server;
-use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentServerRepository

@@ -2,12 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 
-use Mockery as m;
 use REBELinBLUE\Deployer\Notification;
 use REBELinBLUE\Deployer\Repositories\Contracts\NotificationRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentNotificationRepository;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
-use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentNotificationRepository

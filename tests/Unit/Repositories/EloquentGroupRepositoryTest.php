@@ -6,8 +6,6 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentGroupRepository;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
-use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentGroupRepository

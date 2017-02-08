@@ -4,10 +4,8 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 
 use Mockery as m;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentTemplateRepository;
 use REBELinBLUE\Deployer\Template;
-use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentTemplateRepository

@@ -3,11 +3,11 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Jobs;
 
 use Mockery as m;
+use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\RefRepositoryInterface;
-use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Jobs\UpdateGitReferences;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\UpdateGitReferences
@@ -42,13 +42,13 @@ class UpdateGitReferencesTest extends TestCase
 
         $process = m::mock(Process::class);
         $process->shouldReceive('setScript')->once()->with('tools.ListGitReferences', [
-            'mirror_path' => $mirror_dir,
-            'git_reference' => 'tag'
+            'mirror_path'   => $mirror_dir,
+            'git_reference' => 'tag',
         ])->andReturnSelf();
 
         $process->shouldReceive('setScript')->once()->with('tools.ListGitReferences', [
-            'mirror_path' => $mirror_dir,
-            'git_reference' => 'branch'
+            'mirror_path'   => $mirror_dir,
+            'git_reference' => 'branch',
         ])->andReturnSelf();
 
         $refs = m::mock(Ref::class); // FIXME: Is this the right class?
@@ -61,9 +61,9 @@ class UpdateGitReferencesTest extends TestCase
 
         $repository = m::mock(RefRepositoryInterface::class);
 
-        $this->process = $process;
+        $this->process    = $process;
         $this->repository = $repository;
-        $this->project = $project;
+        $this->project    = $project;
     }
 
     /**
@@ -72,7 +72,7 @@ class UpdateGitReferencesTest extends TestCase
      */
     public function testHandle()
     {
-        $tags = ['1.0.0', '0.0.1', '0.0.2'];
+        $tags     = ['1.0.0', '0.0.1', '0.0.2'];
         $branches = [' * master ', 'develop', 'release', 'bug/12345'];
 
         $this->process->shouldReceive('run')->twice();
@@ -82,9 +82,9 @@ class UpdateGitReferencesTest extends TestCase
 
         foreach ($tags as $tag) {
             $this->repository->shouldReceive('create')->once()->with([
-                'name' => $tag,
+                'name'       => $tag,
                 'project_id' => $this->project_id,
-                'is_tag' => true
+                'is_tag'     => true,
             ]);
         }
 
@@ -94,9 +94,9 @@ class UpdateGitReferencesTest extends TestCase
             }
 
             $this->repository->shouldReceive('create')->once()->with([
-                'name' => $branch,
+                'name'       => $branch,
                 'project_id' => $this->project_id,
-                'is_tag' => false
+                'is_tag'     => false,
             ]);
         }
 

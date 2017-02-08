@@ -2,12 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 
-use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Repositories\Contracts\ChannelRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentChannelRepository;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
-use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentChannelRepository

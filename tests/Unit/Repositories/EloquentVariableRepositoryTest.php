@@ -2,11 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 
-use Mockery as m;
 use REBELinBLUE\Deployer\Repositories\Contracts\VariableRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentVariableRepository;
-use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Variable;
 
 /**

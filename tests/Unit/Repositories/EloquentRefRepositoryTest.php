@@ -2,12 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 
-use Mockery as m;
 use REBELinBLUE\Deployer\Ref;
 use REBELinBLUE\Deployer\Repositories\Contracts\RefRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentRefRepository;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
-use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentRefRepository

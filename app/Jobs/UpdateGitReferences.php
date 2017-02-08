@@ -33,7 +33,7 @@ class UpdateGitReferences extends Job implements ShouldQueue
 
     /**
      * Execute the job.
-     * @param Process $process
+     * @param Process                $process
      * @param RefRepositoryInterface $repository
      */
     public function handle(Process $process, RefRepositoryInterface $repository)
