@@ -12,17 +12,14 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentSharedFileRepository
  */
-class EloquentSharedFileRepositoryTest extends TestCase
+class EloquentSharedFileRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(SharedFile::class);
-        $repository = new EloquentSharedFileRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(SharedFile::class, EloquentSharedFileRepository::class);
     }
 
     /**
@@ -30,9 +27,10 @@ class EloquentSharedFileRepositoryTest extends TestCase
      */
     public function testImplementsSharedFileRepositoryInterface()
     {
-        $model      = m::mock(SharedFile::class);
-        $repository = new EloquentSharedFileRepository($model);
-
-        $this->assertInstanceOf(SharedFileRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            SharedFile::class,
+            EloquentSharedFileRepository::class,
+            SharedFileRepositoryInterface::class
+        );
     }
 }

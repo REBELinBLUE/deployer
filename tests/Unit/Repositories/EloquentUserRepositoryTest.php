@@ -14,17 +14,14 @@ use REBELinBLUE\Deployer\User;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentUserRepository
  */
-class EloquentUserRepositoryTest extends TestCase
+class EloquentUserRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(User::class);
-        $repository = new EloquentUserRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(User::class, EloquentUserRepository::class);
     }
 
     /**
@@ -32,10 +29,11 @@ class EloquentUserRepositoryTest extends TestCase
      */
     public function testImplementsUserRepositoryInterface()
     {
-        $model      = m::mock(User::class);
-        $repository = new EloquentUserRepository($model);
-
-        $this->assertInstanceOf(UserRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            User::class,
+            EloquentUserRepository::class,
+            UserRepositoryInterface::class
+        );
     }
 
     /**

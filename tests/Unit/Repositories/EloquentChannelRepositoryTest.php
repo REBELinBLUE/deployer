@@ -12,17 +12,14 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentChannelRepository
  */
-class EloquentChannelRepositoryTest extends TestCase
+class EloquentChannelRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(Channel::class);
-        $repository = new EloquentChannelRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(Channel::class, EloquentChannelRepository::class);
     }
 
     /**
@@ -30,9 +27,10 @@ class EloquentChannelRepositoryTest extends TestCase
      */
     public function testImplementsChannelRepositoryInterface()
     {
-        $model      = m::mock(Channel::class);
-        $repository = new EloquentChannelRepository($model);
-
-        $this->assertInstanceOf(ChannelRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            Channel::class,
+            EloquentChannelRepository::class,
+            ChannelRepositoryInterface::class
+        );
     }
 }

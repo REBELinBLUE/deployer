@@ -12,17 +12,14 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentCheckUrlRepository
  */
-class EloquentCheckUrlRepositoryTest extends TestCase
+class EloquentCheckUrlRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(CheckUrl::class);
-        $repository = new EloquentCheckUrlRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(CheckUrl::class, EloquentCheckUrlRepository::class);
     }
 
     /**
@@ -30,9 +27,10 @@ class EloquentCheckUrlRepositoryTest extends TestCase
      */
     public function testImplementsCheckUrlRepositoryInterface()
     {
-        $model      = m::mock(CheckUrl::class);
-        $repository = new EloquentCheckUrlRepository($model);
-
-        $this->assertInstanceOf(CheckUrlRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            CheckUrl::class,
+            EloquentCheckUrlRepository::class,
+            CheckUrlRepositoryInterface::class
+        );
     }
 }

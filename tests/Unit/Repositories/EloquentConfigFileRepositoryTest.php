@@ -12,17 +12,14 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentConfigFileRepository
  */
-class EloquentConfigFileRepositoryTest extends TestCase
+class EloquentConfigFileRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(ConfigFile::class);
-        $repository = new EloquentConfigFileRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(ConfigFile::class, EloquentConfigFileRepository::class);
     }
 
     /**
@@ -30,9 +27,10 @@ class EloquentConfigFileRepositoryTest extends TestCase
      */
     public function testImplementsConfigFileRepositoryInterface()
     {
-        $model      = m::mock(ConfigFile::class);
-        $repository = new EloquentConfigFileRepository($model);
-
-        $this->assertInstanceOf(ConfigFileRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            ConfigFile::class,
+            EloquentConfigFileRepository::class,
+            ConfigFileRepositoryInterface::class
+        );
     }
 }

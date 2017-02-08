@@ -12,17 +12,14 @@ use REBELinBLUE\Deployer\Variable;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentVariableRepository
  */
-class EloquentVariableRepositoryTest extends TestCase
+class EloquentVariableRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(Variable::class);
-        $repository = new EloquentVariableRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(Variable::class, EloquentVariableRepository::class);
     }
 
     /**
@@ -30,9 +27,10 @@ class EloquentVariableRepositoryTest extends TestCase
      */
     public function testImplementsVariableRepositoryInterface()
     {
-        $model      = m::mock(Variable::class);
-        $repository = new EloquentVariableRepository($model);
-
-        $this->assertInstanceOf(VariableRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            Variable::class,
+            EloquentVariableRepository::class,
+            VariableRepositoryInterface::class
+        );
     }
 }

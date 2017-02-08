@@ -12,17 +12,14 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentNotificationRepository
  */
-class EloquentNotificationRepositoryTest extends TestCase
+class EloquentNotificationRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(Notification::class);
-        $repository = new EloquentNotificationRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(Notification::class, EloquentNotificationRepository::class);
     }
 
     /**
@@ -30,9 +27,10 @@ class EloquentNotificationRepositoryTest extends TestCase
      */
     public function testImplementsNotificationRepositoryInterface()
     {
-        $model      = m::mock(Notification::class);
-        $repository = new EloquentNotificationRepository($model);
-
-        $this->assertInstanceOf(NotificationRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            Notification::class,
+            EloquentNotificationRepository::class,
+            NotificationRepositoryInterface::class
+        );
     }
 }

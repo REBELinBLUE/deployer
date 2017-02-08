@@ -12,17 +12,14 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentGroupRepository
  */
-class EloquentGroupRepositoryTest extends TestCase
+class EloquentGroupRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(Group::class);
-        $repository = new EloquentGroupRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(Group::class, EloquentGroupRepository::class);
     }
 
     /**
@@ -30,10 +27,11 @@ class EloquentGroupRepositoryTest extends TestCase
      */
     public function testImplementsGroupRepositoryInterface()
     {
-        $model      = m::mock(Group::class);
-        $repository = new EloquentGroupRepository($model);
-
-        $this->assertInstanceOf(GroupRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            Group::class,
+            EloquentGroupRepository::class,
+            GroupRepositoryInterface::class
+        );
     }
 
     /**

@@ -13,17 +13,14 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentHeartbeatRepository
  */
-class EloquentHeartbeatRepositoryTest extends TestCase
+class EloquentHeartbeatRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(Heartbeat::class);
-        $repository = new EloquentHeartbeatRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(Heartbeat::class, EloquentHeartbeatRepository::class);
     }
 
     /**
@@ -31,10 +28,11 @@ class EloquentHeartbeatRepositoryTest extends TestCase
      */
     public function testImplementsHeartbeatRepositoryInterface()
     {
-        $model      = m::mock(Heartbeat::class);
-        $repository = new EloquentHeartbeatRepository($model);
-
-        $this->assertInstanceOf(HeartbeatRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            Heartbeat::class,
+            EloquentHeartbeatRepository::class,
+            HeartbeatRepositoryInterface::class
+        );
     }
 
     /**

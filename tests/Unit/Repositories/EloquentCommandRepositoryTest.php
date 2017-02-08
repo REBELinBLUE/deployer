@@ -13,17 +13,14 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentCommandRepository
  */
-class EloquentCommandRepositoryTest extends TestCase
+class EloquentCommandRepositoryTest extends EloquentRepositoryTestCase
 {
     /**
      * @covers ::__construct
      */
     public function testExtendsEloquentRepository()
     {
-        $model      = m::mock(Command::class);
-        $repository = new EloquentCommandRepository($model);
-
-        $this->assertInstanceOf(EloquentRepository::class, $repository);
+        $this->assertExtendsEloquentRepository(Command::class, EloquentCommandRepository::class);
     }
 
     /**
@@ -31,10 +28,11 @@ class EloquentCommandRepositoryTest extends TestCase
      */
     public function testImplementsServerRepositoryInterface()
     {
-        $model      = m::mock(Command::class);
-        $repository = new EloquentCommandRepository($model);
-
-        $this->assertInstanceOf(CommandRepositoryInterface::class, $repository);
+        $this->assertImplementsRepositoryInterface(
+            Command::class,
+            EloquentCommandRepository::class,
+            CommandRepositoryInterface::class
+        );
     }
 
     /**
