@@ -5,6 +5,7 @@ var app = app || {};
     var UNTESTED   = 1;
     var FAILED     = 2;
     var TESTING    = 3;
+    var FAILED_FPM = 4;
 
     $('#server_list table').sortable({
         containerSelector: 'table',
@@ -59,6 +60,13 @@ var app = app || {};
         modal.find('.modal-title span').text(title);
     });
 
+    function setupDeployButton() {
+        $('#deploy_project').attr('disabled', 'disabled');
+        if (parseInt($('#server_list span.label-success').length) === parseInt(app.Servers.length)) {
+           $('#deploy_project').removeAttr('disabled');
+        }
+    }
+
     // FIXME: This seems very wrong
     $('#server #server_name').autocomplete({
         serviceUrl: '/servers/autocomplete',
@@ -108,6 +116,8 @@ var app = app || {};
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
+
+                setupDeployButton();
             },
             error: function() {
                 icon.removeClass('fa-refresh fa-spin').addClass('fa-trash');
@@ -226,12 +236,15 @@ var app = app || {};
 
                 if (server) {
                     server.set(data.model);
+                    setupDeployButton();
                 }
             });
 
             app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.Servers.add(data.model);
+
+                    $('#deploy_project').attr('disabled', 'disabled');
                 }
             });
 
@@ -240,6 +253,7 @@ var app = app || {};
 
                 if (server) {
                     app.Servers.remove(server);
+                    setupDeployButton();
                 }
             });
         },
@@ -251,6 +265,8 @@ var app = app || {};
                 $('#no_servers').show();
                 $('#server_list').hide();
             }
+
+            setupDeployButton();
         },
         addOne: function (server) {
 
@@ -293,10 +309,15 @@ var app = app || {};
                 data.status_css = 'warning';
                 data.icon_css   = 'spinner fa-pulse';
                 data.status     = Lang.get('servers.testing');
-            } else if (parseInt(this.model.get('status')) === FAILED) {
+            } else if (parseInt(this.model.get('status')) === FAILED|| parseInt(this.model.get('status')) === FAILED_FPM) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.get('servers.failed');
+
+                if (parseInt(this.model.get('status')) === FAILED_FPM) {
+                    $('#fpm_error').show();
+                    $('#fpm_error #server_user_name').text(this.model.get('user'));
+                }
             }
 
             this.$el.html(this.template(data));
@@ -318,6 +339,8 @@ var app = app || {};
             if (parseInt(this.model.get('status')) === TESTING) {
                 return;
             }
+
+            $('#fpm_error').hide();
 
             this.model.set({
                 status: TESTING

@@ -17,6 +17,7 @@ class Server extends Model
     const UNTESTED   = 1;
     const FAILED     = 2;
     const TESTING    = 3;
+    const FAILED_FPM = 4;
 
     /**
      * The attributes that are mass assignable.
@@ -59,11 +60,21 @@ class Server extends Model
     /**
      * Determines whether the server is currently being testing.
      *
-     * @return bool
+     * @return boolean
      */
     public function isTesting()
     {
         return ($this->status === self::TESTING);
+    }
+
+    /**
+     * Indicates whether the last connection was successful.
+     *
+     * @return boolean
+     */
+    public function isOnline()
+    {
+        return ($this->status === self::SUCCESSFUL);
     }
 
     /**
