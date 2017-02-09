@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Jobs\DeployProject;
 
 use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Jobs\DeployProject\LogFormatter;
 use REBELinBLUE\Deployer\Jobs\DeployProject\SendFileToServer;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
@@ -43,6 +44,11 @@ class SendFileToServerTest extends TestCase
     private $key;
 
     /**
+     * @var Formatter
+     */
+    private $formatter;
+
+    /**
      * @covers ::__construct
      * @covers ::handle
      */
@@ -66,6 +72,8 @@ class SendFileToServerTest extends TestCase
         $log = m::mock(ServerLog::class);
         $log->shouldReceive('getAttribute')->with('server')->andReturn($server);
 
+        $formatter = m::mock(LogFormatter::class);
+
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->with('id')->andReturn($deployment_id);
 
@@ -87,6 +95,7 @@ class SendFileToServerTest extends TestCase
         $this->key         = $key;
         $this->remote_file = $remote_file;
         $this->local_file  = $local_file;
+        $this->formatter   = $formatter;
     }
 
     /**
@@ -124,6 +133,6 @@ class SendFileToServerTest extends TestCase
             $this->key
         );
 
-        $job->handle($this->process);
+        $job->handle($this->process, $this->formatter);
     }
 }

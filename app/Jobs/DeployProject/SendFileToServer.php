@@ -65,11 +65,10 @@ class SendFileToServer
      *
      * @param Process $process
      *
-     * @throws RuntimeException
+     * @param LogFormatter $formatter
      */
-    public function handle(Process $process)
+    public function handle(Process $process, LogFormatter $formatter)
     {
-        // FIXME: Add a LogFormatter
         $output = '';
 
         $process->setScript('deploy.SendFileToServer', [
@@ -80,16 +79,16 @@ class SendFileToServer
             'remote_file' => $this->remote_file,
             'username'    => $this->log->server->user,
             'ip_address'  => $this->log->server->ip_address,
-        ])->run(function ($type, $output_line) use (&$output) {
+        ])->run(function ($type, $output_line) use (&$output, $formatter) {
             if ($type === SymfonyProcess::ERR) {
-                $output .= '<error>' . $output_line . '</error>';
+                $output .= $formatter->error($output_line);
             } else {
                 // Switching sent/received around
                 $output_line = str_replace('received', 'xxx', $output_line);
                 $output_line = str_replace('sent', 'received', $output_line);
                 $output_line = str_replace('xxx', 'sent', $output_line);
 
-                $output .= '<info>' . $output_line . '</info>';
+                $output .= $formatter->info($output_line);
             }
 
             $this->log->output = $output;

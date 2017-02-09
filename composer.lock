@@ -1808,16 +1808,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.34",
+            "version": "1.0.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "469ad53c13ea19a0e54e3e5d70f61227ddcc0299"
+                "reference": "dda7f3ab94158a002d9846a97dc18ebfb7acc062"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/469ad53c13ea19a0e54e3e5d70f61227ddcc0299",
-                "reference": "469ad53c13ea19a0e54e3e5d70f61227ddcc0299",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/dda7f3ab94158a002d9846a97dc18ebfb7acc062",
+                "reference": "dda7f3ab94158a002d9846a97dc18ebfb7acc062",
                 "shasum": ""
             },
             "require": {
@@ -1887,7 +1887,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-01-30T17:41:17+00:00"
+            "time": "2017-02-09T11:33:58+00:00"
         },
         {
             "name": "michele-angioni/multi-language",
@@ -4305,16 +4305,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "f3baf72eb2f58bf275b372540f5b47d25aed910f"
+                "reference": "863ad254da1e44904c8bf8fbcc9f5624834fc71a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/f3baf72eb2f58bf275b372540f5b47d25aed910f",
-                "reference": "f3baf72eb2f58bf275b372540f5b47d25aed910f",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/863ad254da1e44904c8bf8fbcc9f5624834fc71a",
+                "reference": "863ad254da1e44904c8bf8fbcc9f5624834fc71a",
                 "shasum": ""
             },
             "require": {
@@ -4341,11 +4341,6 @@
                 "php-cs-fixer"
             ],
             "type": "application",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "PhpCsFixer\\": "src/"
@@ -4366,7 +4361,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2016-12-01T06:18:06+00:00"
+            "time": "2017-02-08T22:45:53+00:00"
         },
         {
             "name": "fzaninotto/faker",

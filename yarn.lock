@@ -69,8 +69,8 @@ ansicolors@~0.2.1:
   resolved "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.2.1.tgz#be089599097b74a5c9c4a84a0cdbcdb62bd87aef"
 
 aproba@^1.0.3:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.1.0.tgz#4d8f047a318604e18e3c06a0e52230d3d19f147b"
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.1.1.tgz#95d3600f07710aa0e9298c726ad5ecf2eacbabab"
 
 archy@^1.0.0:
   version "1.0.0"

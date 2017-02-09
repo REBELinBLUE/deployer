@@ -2,16 +2,20 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Exception;
+use Illuminate\Cache\Repository as Cache;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
+use REBELinBLUE\Deployer\Jobs\DeployProject\CleanupFailedDeployment;
+use REBELinBLUE\Deployer\Jobs\DeployProject\LogFormatter;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ReleaseArchiver;
 use REBELinBLUE\Deployer\Jobs\DeployProject\SendFileToServer;
 use REBELinBLUE\Deployer\Project;
@@ -21,10 +25,10 @@ use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\User;
+use RuntimeException;
 
 /**
  * Deploys an actual project.
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class DeployProject extends Job implements ShouldQueue
 {
@@ -51,6 +55,21 @@ class DeployProject extends Job implements ShouldQueue
     private $release_archive;
 
     /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
+     * @var Cache
+     */
+    private $cache;
+
+    /**
+     * @var LogFormatter
+     */
+    private $formatter;
+
+    /**
      * DeployProject constructor.
      *
      * @param Deployment $deployment
@@ -74,8 +93,33 @@ class DeployProject extends Job implements ShouldQueue
 
     /**
      * Execute the command.
+     *
+     * @param Filesystem $filesystem
+     * @param Cache      $cache
      */
-    public function handle(Filesystem $filesystem)
+    public function handle(Filesystem $filesystem, Cache $cache, LogFormatter $formatter)
+    {
+        $this->cache      = $cache;
+        $this->filesystem = $filesystem;
+        $this->formatter  = $formatter;
+
+        $this->runDeployment();
+    }
+
+//    /**
+//     * The job failed to process.
+//     *
+//     * @param Exception $exception
+//     */
+//    public function failed(Exception $exception)
+//    {
+//        // FIXME: Clean up
+//    }
+
+    /**
+     * Runs the deployment.
+     */
+    private function runDeployment()
     {
         $this->deployment->started_at = $this->deployment->freshTimestamp();
         $this->deployment->status     = Deployment::DEPLOYING;
@@ -84,9 +128,9 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->project->status = Project::DEPLOYING;
         $this->deployment->project->save();
 
-        $this->private_key = $filesystem->tempnam(storage_path('app/tmp/'), 'key');
-        $filesystem->put($this->private_key, $this->deployment->project->private_key);
-        $filesystem->chmod($this->private_key, 0600);
+        $this->private_key = $this->filesystem->tempnam(storage_path('app/tmp/'), 'key');
+        $this->filesystem->put($this->private_key, $this->deployment->project->private_key);
+        $this->filesystem->chmod($this->private_key, 0600);
 
         $this->release_archive = $this->deployment->project_id . '_' . $this->deployment->release_id . '.tar.gz';
 
@@ -96,15 +140,18 @@ class DeployProject extends Job implements ShouldQueue
             // If the build has been manually triggered get the committer info from the repo
             $this->updateRepoInfo();
 
+            // FIXME: Should there be jobs or just normal cases?
             $this->dispatch(new ReleaseArchiver($this->deployment, $this->release_archive));
 
-            foreach ($this->deployment->steps as $step) {
+            /** @var Collection $steps */
+            $steps = $this->deployment->steps;
+            $steps->each(function (DeployStep $step) {
                 $this->runStep($step);
-            }
+            });
 
             $this->deployment->status          = Deployment::COMPLETED;
             $this->deployment->project->status = Project::FINISHED;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             $this->deployment->status          = Deployment::FAILED;
             $this->deployment->project->status = Project::FAILED;
 
@@ -117,7 +164,11 @@ class DeployProject extends Job implements ShouldQueue
             if (isset($step)) {
                 // Cleanup the release if it has not been activated
                 if ($step->stage <= Stage::DO_ACTIVATE) {
-                    $this->cleanupDeployment();
+                    $this->dispatch(new CleanupFailedDeployment(
+                        $this->deployment,
+                        $this->release_archive,
+                        $this->private_key
+                    ));
                 } else {
                     $this->deployment->status          = Deployment::COMPLETED_WITH_ERRORS;
                     $this->deployment->project->status = Project::FINISHED;
@@ -140,16 +191,15 @@ class DeployProject extends Job implements ShouldQueue
         $to_delete = [$this->private_key];
 
         $archive = storage_path('app/' . $this->release_archive);
-        if ($filesystem->exists($archive)) {
+        if ($this->filesystem->exists($archive)) {
             $to_delete[] = $archive;
         }
 
-        $filesystem->delete($to_delete);
+        $this->filesystem->delete($to_delete);
     }
 
     /**
-     * Clones the repository locally to get the latest log entry and updates
-     * the deployment model.
+     * Clones the repository locally to get the latest log entry and updates the deployment model.
      */
     private function updateRepoInfo()
     {
@@ -164,7 +214,7 @@ class DeployProject extends Job implements ShouldQueue
         ])->run();
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
+            throw new RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
         }
 
         $git_info = $process->getOutput();
@@ -187,46 +237,29 @@ class DeployProject extends Job implements ShouldQueue
     }
 
     /**
-     * Remove left over artifacts from a failed deploy on each server.
-     */
-    private function cleanupDeployment()
-    {
-        foreach ($this->deployment->project->servers as $server) {
-            if (!$server->deploy_code) {
-                continue;
-            }
-
-            /** @var Process $process */
-            $process = app(Process::class);
-            $process->setScript('deploy.CleanupFailedRelease', [
-                'deployment'     => $this->deployment->id,
-                'project_path'   => $server->clean_path,
-                'release_path'   => $server->clean_path . '/releases/' . $this->deployment->release_id,
-                'remote_archive' => $server->clean_path . '/' . $this->release_archive,
-            ])->setServer($server, $this->private_key)->run();
-        }
-    }
-
-    /**
      * Finds all pending steps and marks them as cancelled.
      */
     private function cancelPendingSteps()
     {
-        foreach ($this->deployment->steps as $step) {
-            foreach ($step->servers as $log) {
-                if ($log->status === ServerLog::PENDING) {
-                    $log->status = ServerLog::CANCELLED;
-                    $log->save();
-                }
-            }
-        }
+        /** @var Collection $steps */
+        $steps = $this->deployment->steps;
+        $steps->each(function (DeployStep $step) {
+            /** @var Collection $servers */
+            $servers = $step->servers;
+            $servers->filter(function (ServerLog $log) {
+                return $log->status === ServerLog::PENDING;
+            })->each(function (ServerLog $log) {
+                $log->status = ServerLog::CANCELLED;
+                $log->save();
+            });
+        });
     }
 
     /**
      * Executes the commands for a step.
      *
-     * @param  DeployStep        $step
-     * @throws \RuntimeException
+     * @param  DeployStep       $step
+     * @throws RuntimeException
      */
     private function runStep(DeployStep $step)
     {
@@ -257,7 +290,7 @@ class DeployProject extends Job implements ShouldQueue
                         $log->save();
 
                         // If there is a cache key, kill the process but leave the key
-                        if ($step->stage <= Stage::DO_ACTIVATE && Cache::has($this->cache_key)) {
+                        if ($step->stage <= Stage::DO_ACTIVATE && $this->cache->has($this->cache_key)) {
                             $process->stop(0, SIGINT);
 
                             $output .= $this->logError('SIGINT');
@@ -270,7 +303,7 @@ class DeployProject extends Job implements ShouldQueue
 
                     $log->output = $output;
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $log->output .= $this->logError('[' . $server->ip_address . ']: ' . $e->getMessage());
                 $failed = true;
             }
@@ -278,7 +311,7 @@ class DeployProject extends Job implements ShouldQueue
             $log->status = ($failed ? ServerLog::FAILED : ServerLog::COMPLETED);
 
             // Check if there is a cache key and if so abort
-            if (Cache::pull($this->cache_key) !== null) {
+            if ($this->cache->pull($this->cache_key) !== null) {
                 // Only allow aborting if the release has not yet been activated
                 if ($step->stage <= Stage::DO_ACTIVATE) {
                     $log->status = ServerLog::CANCELLED;
@@ -293,12 +326,12 @@ class DeployProject extends Job implements ShouldQueue
 
             // Throw an exception to prevent any more tasks running
             if ($failed) {
-                throw new \RuntimeException('Failed');
+                throw new RuntimeException('Failed');
             }
 
             // This is a messy way to do it
             if ($cancelled) {
-                throw new \RuntimeException('Cancelled');
+                throw new RuntimeException('Cancelled');
             }
         }
     }
@@ -318,9 +351,11 @@ class DeployProject extends Job implements ShouldQueue
         if ($step->stage === Stage::DO_CLONE) {
             $this->sendFile($local_archive, $remote_archive, $log);
         } elseif ($step->stage === Stage::DO_INSTALL) {
-            foreach ($this->deployment->project->configFiles as $file) {
+            /** @var Collection $files */
+            $files = $this->deployment->project->configFiles;
+            $files->each(function ($file) use ($latest_release_dir, $log) {
                 $this->sendFileFromString($latest_release_dir . '/' . $file->path, $file->content, $log);
-            }
+            });
         }
     }
 
@@ -338,12 +373,15 @@ class DeployProject extends Job implements ShouldQueue
 
         // Generate the export
         $exports = '';
-        foreach ($this->deployment->project->variables as $variable) {
+
+        /** @var Collection $variables */
+        $variables = $this->deployment->project->variables;
+        $variables->each(function ($variable) use (&$exports) {
             $key   = $variable->name;
             $value = $variable->value;
 
             $exports .= "export {$key}={$value}" . PHP_EOL;
-        }
+        });
 
         $user = $server->user;
         if ($step->isCustom()) {
@@ -422,7 +460,7 @@ class DeployProject extends Job implements ShouldQueue
      * @param string    $remote_file
      * @param ServerLog $log
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function sendFile($local_file, $remote_file, ServerLog $log)
     {
@@ -444,13 +482,13 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function sendFileFromString($remote_path, $content, ServerLog $log)
     {
-        $tmp_file = tempnam(storage_path('app/tmp/'), 'tmpfile');
-        file_put_contents($tmp_file, $content);
+        $file = $this->filesystem->tempnam(storage_path('app/tmp/'), 'tmp');
+        $this->filesystem->put($file, $content);
 
         // Upload the file
-        $this->sendFile($tmp_file, $remote_path, $log);
+        $this->sendFile($file, $remote_path, $log);
 
-        unlink($tmp_file);
+        $this->filesystem->delete($file);
     }
 
     /**
@@ -462,7 +500,9 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function configurationFileCommands($release_dir)
     {
-        if (!$this->deployment->project->configFiles->count()) {
+        /** @var Collection $files */
+        $files = $this->deployment->project->configFiles;
+        if (!$files->count()) {
             return '';
         }
 
@@ -470,7 +510,7 @@ class DeployProject extends Job implements ShouldQueue
 
         $script = '';
 
-        foreach ($this->deployment->project->configFiles as $file) {
+        foreach ($files as $file) {
             $script .= $parser->parseFile('deploy.ConfigurationFile', [
                 'deployment' => $this->deployment->id,
                 'path'       => $release_dir . '/' . $file->path,
@@ -490,7 +530,10 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function shareFileCommands($release_dir, $shared_dir)
     {
-        if (!$this->deployment->project->sharedFiles->count()) {
+        /** @var Collection $files */
+        $files = $this->deployment->project->sharedFiles;
+
+        if (!$files->count()) {
             return '';
         }
 
@@ -498,7 +541,7 @@ class DeployProject extends Job implements ShouldQueue
 
         $script = '';
 
-        foreach ($this->deployment->project->sharedFiles as $filecfg) {
+        foreach ($files as $filecfg) {
             $pathinfo = pathinfo($filecfg->file);
             $template = 'File';
 
