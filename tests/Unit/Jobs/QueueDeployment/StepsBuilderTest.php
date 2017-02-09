@@ -14,7 +14,6 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\QueueDeployment\StepsBuilder
- * @todo test optional commands
  */
 class StepsBuilderTest extends TestCase
 {
@@ -133,7 +132,8 @@ class StepsBuilderTest extends TestCase
 
     /**
      * @covers ::__construct
-     * @covers ::build::
+     * @covers ::build
+     * @covers ::createCustomSteps
      * @covers ::createDeployStep
      * @covers ::createCustomSteps
      * @covers ::shouldIncludeCommand
@@ -142,6 +142,7 @@ class StepsBuilderTest extends TestCase
     {
         $command1 = factory(Command::class)->make([
             'stage'         => Command::BEFORE_CLONE,
+            'optional'      => false,
             'deployment_id' => $this->deployment_id,
         ]);
 
@@ -150,6 +151,7 @@ class StepsBuilderTest extends TestCase
 
         $command2 = factory(Command::class)->make([
             'stage'         => Command::AFTER_INSTALL,
+            'optional'      => false,
             'deployment_id' => $this->deployment_id,
         ]);
 
@@ -177,15 +179,17 @@ class StepsBuilderTest extends TestCase
 
     /**
      * @covers ::__construct
-     * @covers ::build::
-     * @covers ::createDeployStep
+     * @covers ::build
      * @covers ::createCustomSteps
+     * @covers ::createDeployStep
+     * @covers ::createCommandStep
      * @covers ::shouldIncludeCommand
      */
     public function testBuildWithAdditionalCommandStepsCreatesServerLogs()
     {
         $command = factory(Command::class)->make([
             'stage'         => Command::BEFORE_CLONE,
+            'optional'      => false,
             'deployment_id' => $this->deployment_id,
         ]);
 
@@ -200,15 +204,100 @@ class StepsBuilderTest extends TestCase
             'command_id'    => $command->id,
         ])->andReturn((object) ['id' => 5]);
 
-        $this->log->shouldReceive('create')->once()->with([
-            'server_id'      => 10,
-            'deploy_step_id' => 5,
+        $this->log->shouldReceive('create')->once()->with(['server_id' => 10, 'deploy_step_id' => 5]);
+        $this->log->shouldReceive('create')->once()->with(['server_id' => 12, 'deploy_step_id' => 5]);
+
+        $builder = new StepsBuilder($this->repository, $this->log);
+        $builder->build($this->grouped, $this->project, $this->deployment_id, []);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::build
+     * @covers ::createCustomSteps
+     * @covers ::createDeployStep
+     * @covers ::createCommandStep
+     * @covers ::shouldIncludeCommand
+     */
+    public function testBuildSkipsOptionalCommandsIfNotSelected()
+    {
+        $command = factory(Command::class)->make([
+            'stage'         => Command::BEFORE_CLONE,
+            'optional'      => true,
+            'deployment_id' => $this->deployment_id,
         ]);
 
-        $this->log->shouldReceive('create')->once()->with([
-            'server_id'      => 12,
-            'deploy_step_id' => 5,
+        $command->id      = 10;
+        $command->servers = $this->servers;
+
+        $this->grouped->get(Command::DO_CLONE)->get('before')->push($command);
+
+        $this->repository->shouldNotReceive('create')->once()->with([
+            'stage'         => Command::BEFORE_CLONE,
+            'deployment_id' => $this->deployment_id,
+            'command_id'    => $command->id,
+        ])->andReturn((object) ['id' => 5]);
+
+        $this->log->shouldNotReceive('create')->once()->with(['server_id' => 10, 'deploy_step_id' => 5]);
+        $this->log->shouldReceive('create')->once()->with(['server_id' => 12, 'deploy_step_id' => 5]);
+
+        $builder = new StepsBuilder($this->repository, $this->log);
+        $builder->build($this->grouped, $this->project, $this->deployment_id, []);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::build
+     * @covers ::createCustomSteps
+     * @covers ::createDeployStep
+     * @covers ::createCommandStep
+     * @covers ::shouldIncludeCommand
+     */
+    public function testBuildIncludesOptionalCommandsIfSelected()
+    {
+        $command1 = factory(Command::class)->make([
+            'stage'         => Command::BEFORE_CLONE,
+            'optional'      => true,
+            'deployment_id' => $this->deployment_id,
         ]);
+
+        $command1->id      = 10;
+        $command1->servers = $this->servers;
+
+        $command2 = factory(Command::class)->make([
+            'stage'         => Command::BEFORE_CLONE,
+            'optional'      => true,
+            'deployment_id' => $this->deployment_id,
+        ]);
+
+        $command2->id      = 11;
+        $command2->servers = $this->servers;
+
+        $this->grouped->get(Command::DO_CLONE)->get('before')->push($command1);
+        $this->grouped->get(Command::DO_CLONE)->get('before')->push($command2);
+
+        $this->repository->shouldReceive('create')->once()->with([
+            'stage'         => Command::BEFORE_CLONE,
+            'deployment_id' => $this->deployment_id,
+            'command_id'    => $command1->id,
+        ])->andReturn((object) ['id' => 5]);
+
+        $this->repository->shouldReceive('create')->once()->with([
+            'stage'         => Command::BEFORE_CLONE,
+            'deployment_id' => $this->deployment_id,
+            'command_id'    => $command1->id,
+        ])->andReturn((object) ['id' => 5]);
+
+        $this->repository->shouldReceive('create')->once()->with([
+            'stage'         => Command::BEFORE_CLONE,
+            'deployment_id' => $this->deployment_id,
+            'command_id'    => $command2->id,
+        ])->andReturn((object) ['id' => 6]);
+
+        $this->log->shouldReceive('create')->once()->with(['server_id' => 10, 'deploy_step_id' => 5]);
+        $this->log->shouldReceive('create')->once()->with(['server_id' => 12, 'deploy_step_id' => 5]);
+        $this->log->shouldReceive('create')->once()->with(['server_id' => 10, 'deploy_step_id' => 6]);
+        $this->log->shouldReceive('create')->once()->with(['server_id' => 12, 'deploy_step_id' => 6]);
 
         $builder = new StepsBuilder($this->repository, $this->log);
         $builder->build($this->grouped, $this->project, $this->deployment_id, []);

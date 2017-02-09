@@ -86,8 +86,7 @@ class StepsBuilder
      */
     private function shouldIncludeCommand(Command $command, $optional = [])
     {
-        return !$command->optional ||
-                ($command->optional && in_array($command->id, $optional, true));
+        return !$command->optional || ($command->optional && in_array($command->id, $optional, true));
     }
 
     /**
