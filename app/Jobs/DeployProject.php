@@ -12,6 +12,8 @@ use REBELinBLUE\Deployer\Command as Stage;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
+use REBELinBLUE\Deployer\Jobs\DeployProject\ReleaseArchiver;
+use REBELinBLUE\Deployer\Jobs\DeployProject\SendFileToServer;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
@@ -94,7 +96,7 @@ class DeployProject extends Job implements ShouldQueue
             // If the build has been manually triggered get the committer info from the repo
             $this->updateRepoInfo();
 
-            $this->createReleaseArchive();
+            $this->dispatch(new ReleaseArchiver($this->deployment, $this->release_archive));
 
             foreach ($this->deployment->steps as $step) {
                 $this->runStep($step);
@@ -182,31 +184,6 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         $this->deployment->save();
-    }
-
-    /**
-     * Creates the archive for the commit to deploy.
-     *
-     * @throws \RuntimeException
-     */
-    private function createReleaseArchive()
-    {
-        $tmp_dir = 'clone_' . $this->deployment->project_id . '_' . $this->deployment->release_id;
-
-        /** @var Process $process */
-        $process = app(Process::class);
-        $process->setScript('deploy.CreateReleaseArchive', [
-            'deployment'      => $this->deployment->id,
-            'mirror_path'     => $this->deployment->project->mirrorPath(),
-            'scripts_path'    => resource_path('scripts/'),
-            'tmp_path'        => storage_path('app/tmp/' . $tmp_dir),
-            'sha'             => $this->deployment->commit,
-            'release_archive' => storage_path('app/' . $this->release_archive),
-        ])->run();
-
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
-        }
     }
 
     /**
@@ -449,38 +426,13 @@ class DeployProject extends Job implements ShouldQueue
      */
     private function sendFile($local_file, $remote_file, ServerLog $log)
     {
-        /** @var Process $process */
-        $process = app(Process::class);
-        $process->setScript('deploy.SendFileToServer', [
-            'deployment'  => $this->deployment->id,
-            'port'        => $log->server->port,
-            'private_key' => $this->private_key,
-            'local_file'  => $local_file,
-            'remote_file' => $remote_file,
-            'username'    => $log->server->user,
-            'ip_address'  => $log->server->ip_address,
-        ]);
-
-        $output = '';
-        $process->run(function ($type, $output_line) use (&$output, &$log) {
-            if ($type === \Symfony\Component\Process\Process::ERR) {
-                $output .= $this->logError($output_line);
-            } else {
-                // Switching sent/received around
-                $output_line = str_replace('received', 'xxx', $output_line);
-                $output_line = str_replace('sent', 'received', $output_line);
-                $output_line = str_replace('xxx', 'sent', $output_line);
-
-                $output .= $this->logSuccess($output_line);
-            }
-
-            $log->output = $output;
-            $log->save();
-        });
-
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
-        }
+        $this->dispatch(new SendFileToServer(
+            $this->deployment,
+            $log,
+            $local_file,
+            $remote_file,
+            $this->private_key
+        ));
     }
 
     /**
