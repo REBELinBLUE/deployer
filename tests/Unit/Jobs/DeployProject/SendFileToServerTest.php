@@ -43,7 +43,7 @@ class SendFileToServerTest extends TestCase
     private $key;
 
     /**
-     * @covers ::__construxt
+     * @covers ::__construct
      * @covers ::handle
      */
     public function setUp()
@@ -90,7 +90,7 @@ class SendFileToServerTest extends TestCase
     }
 
     /**
-     * @covers ::__construxt
+     * @covers ::__construct
      * @covers ::handle
      */
     public function testHandleIsSuccessful()
@@ -102,7 +102,7 @@ class SendFileToServerTest extends TestCase
     }
 
     /**
-     * @covers ::__construxt
+     * @covers ::__construct
      * @covers ::handle
      */
     public function testHandleIsUnsuccessful()
