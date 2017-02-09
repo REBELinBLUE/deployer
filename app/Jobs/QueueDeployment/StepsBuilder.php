@@ -51,28 +51,43 @@ class StepsBuilder
     {
         $this->project = $project;
 
-        foreach (array_keys($grouped) as $stage) {
-            $before = $stage - 1;
-            $after  = $stage + 1;
+        $grouped->each(function ($commands, $step) use ($deployment, $optional) {
+            $this->createCustomSteps($commands->get('before'), $step - 1, $deployment, $optional);
+            $this->createDeployStep($step, $deployment);
+            $this->createCustomSteps($commands->get('after'), $step + 1, $deployment, $optional);
+        });
+    }
 
-//            foreach ($grouped[$stage]['before'] as $command) {
-//                if ($command->optional && !in_array($command->id, $optional, true)) {
-//                    continue;
-//                }
-//
-//                $this->createCommandStep($before, $command);
-//            }
+    /**
+     * Loops through the commands for a specific stage and creates instances.
+     *
+     * @param Collection $commands
+     * @param int        $step
+     * @param int        $deployment
+     * @param array      $optional
+     */
+    private function createCustomSteps(Collection $commands, $step, $deployment, array $optional = [])
+    {
+        $commands->filter(function ($command) use ($optional) {
+            return $this->shouldIncludeCommand($command, $optional);
+        })->each(function ($command) use ($step, $deployment) {
+            $this->createCommandStep($step, $command, $deployment);
+        });
+    }
 
-            $this->createDeployStep($stage, $deployment);
-
-//            foreach ($grouped[$stage]['after'] as $command) {
-//                if ($command->optional && !in_array($command->id, $optional, true)) {
-//                    continue;
-//                }
-//
-//                $this->createCommandStep($after, $command, $deployment);
-//            }
-        }
+    /**
+     * Determines whether a given command should be included based on whether it is included in the array of
+     * optional commands to include.
+     *
+     * @param Command $command
+     * @param array   $optional
+     *
+     * @return bool
+     */
+    private function shouldIncludeCommand(Command $command, $optional = [])
+    {
+        return !$command->optional ||
+                ($command->optional && in_array($command->id, $optional, true));
     }
 
     /**
