@@ -232,14 +232,14 @@ class StepsBuilderTest extends TestCase
 
         $this->grouped->get(Command::DO_CLONE)->get('before')->push($command);
 
-        $this->repository->shouldNotReceive('create')->once()->with([
+        $this->repository->shouldNotReceive('create')->with([
             'stage'         => Command::BEFORE_CLONE,
             'deployment_id' => $this->deployment_id,
             'command_id'    => $command->id,
         ])->andReturn((object) ['id' => 5]);
 
-        $this->log->shouldNotReceive('create')->once()->with(['server_id' => 10, 'deploy_step_id' => 5]);
-        $this->log->shouldReceive('create')->once()->with(['server_id' => 12, 'deploy_step_id' => 5]);
+        $this->log->shouldNotReceive('create')->with(['server_id' => 10, 'deploy_step_id' => 5]);
+        $this->log->shouldNotReceive('create')->with(['server_id' => 12, 'deploy_step_id' => 5]);
 
         $builder = new StepsBuilder($this->repository, $this->log);
         $builder->build($this->grouped, $this->project, $this->deployment_id, []);
@@ -257,7 +257,7 @@ class StepsBuilderTest extends TestCase
     {
         $command1 = factory(Command::class)->make([
             'stage'         => Command::BEFORE_CLONE,
-            'optional'      => true,
+            'optional'      => false,
             'deployment_id' => $this->deployment_id,
         ]);
 
@@ -265,7 +265,7 @@ class StepsBuilderTest extends TestCase
         $command1->servers = $this->servers;
 
         $command2 = factory(Command::class)->make([
-            'stage'         => Command::BEFORE_CLONE,
+            'stage'         => Command::AFTER_INSTALL,
             'optional'      => true,
             'deployment_id' => $this->deployment_id,
         ]);
@@ -274,7 +274,7 @@ class StepsBuilderTest extends TestCase
         $command2->servers = $this->servers;
 
         $this->grouped->get(Command::DO_CLONE)->get('before')->push($command1);
-        $this->grouped->get(Command::DO_CLONE)->get('before')->push($command2);
+        $this->grouped->get(Command::DO_INSTALL)->get('after')->push($command2);
 
         $this->repository->shouldReceive('create')->once()->with([
             'stage'         => Command::BEFORE_CLONE,
@@ -283,13 +283,7 @@ class StepsBuilderTest extends TestCase
         ])->andReturn((object) ['id' => 5]);
 
         $this->repository->shouldReceive('create')->once()->with([
-            'stage'         => Command::BEFORE_CLONE,
-            'deployment_id' => $this->deployment_id,
-            'command_id'    => $command1->id,
-        ])->andReturn((object) ['id' => 5]);
-
-        $this->repository->shouldReceive('create')->once()->with([
-            'stage'         => Command::BEFORE_CLONE,
+            'stage'         => Command::AFTER_INSTALL,
             'deployment_id' => $this->deployment_id,
             'command_id'    => $command2->id,
         ])->andReturn((object) ['id' => 6]);
@@ -300,6 +294,6 @@ class StepsBuilderTest extends TestCase
         $this->log->shouldReceive('create')->once()->with(['server_id' => 12, 'deploy_step_id' => 6]);
 
         $builder = new StepsBuilder($this->repository, $this->log);
-        $builder->build($this->grouped, $this->project, $this->deployment_id, []);
+        $builder->build($this->grouped, $this->project, $this->deployment_id, [11]);
     }
 }
