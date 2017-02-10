@@ -41,9 +41,9 @@ class UpdateRepositoryInfoTest extends TestCase
         parent::setUp();
 
         $deployment_id = 12987;
-        $path = '/var/repositories/mirror.git';
-        $commit = Deployment::LOADING;
-        $branch = 'master'; // FIXME: Branch is not used if $commit is set so this isn't testing that
+        $path          = '/var/repositories/mirror.git';
+        $commit        = Deployment::LOADING;
+        $branch        = 'master'; // FIXME: Branch is not used if $commit is set so this isn't testing that
 
         $repository = m::mock(UserRepositoryInterface::class);
 
@@ -58,9 +58,9 @@ class UpdateRepositoryInfoTest extends TestCase
 
         $process = m::mock(Process::class);
         $process->shouldReceive('setScript')->once()->with('tools.GetCommitDetails', [
-            'deployment'  => $deployment_id,
+            'deployment'    => $deployment_id,
             'mirror_path'   => $path,
-            'git_reference' => $branch
+            'git_reference' => $branch,
         ])->andReturnSelf();
         $process->shouldReceive('run')->once();
 
@@ -124,7 +124,7 @@ class UpdateRepositoryInfoTest extends TestCase
      */
     public function testHandleFindsUserAndSetsUserIfSourceAndUserIdIsEmpty()
     {
-        $id = 1231;
+        $id    = 1231;
         $email = 'admin@example.com';
 
         $user = m::mock(User::class);
@@ -150,7 +150,7 @@ class UpdateRepositoryInfoTest extends TestCase
      */
     public function testHandleFindsUserAndDoesNotSetUserIfSourceAndUserIdIsEmpty()
     {
-        $id = 1231;
+        $id    = 1231;
         $email = 'admin@example.com';
 
         $user = m::mock(User::class);

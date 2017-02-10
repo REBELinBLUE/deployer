@@ -2,13 +2,16 @@
 
 namespace REBELinBLUE\Deployer\Jobs\DeployProject;
 
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use RuntimeException;
 
+/**
+ * Gets the info for the latest release
+ */
 class UpdateRepositoryInfo
 {
     use Dispatchable, SerializesModels;
@@ -31,9 +34,8 @@ class UpdateRepositoryInfo
     /**
      * Execute the job.
      *
-     * @param Process $process
+     * @param Process                 $process
      * @param UserRepositoryInterface $repository
-     * @return void
      */
     public function handle(Process $process, UserRepositoryInterface $repository)
     {
