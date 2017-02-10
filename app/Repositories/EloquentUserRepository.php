@@ -57,4 +57,12 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     {
         return $this->model->where('email_token', $token)->first();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByEmail($email)
+    {
+        return $this->model->where('email', $email)->first();
+    }
 }

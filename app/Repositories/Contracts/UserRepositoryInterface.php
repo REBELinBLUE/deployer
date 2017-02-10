@@ -39,4 +39,11 @@ interface UserRepositoryInterface
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function findByEmailToken($token);
+
+    /**
+     * @param string $email
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function findByEmail($email);
 }

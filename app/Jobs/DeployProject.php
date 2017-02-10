@@ -24,7 +24,6 @@ use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
-use REBELinBLUE\Deployer\User;
 use RuntimeException;
 
 /**
@@ -137,10 +136,12 @@ class DeployProject extends Job implements ShouldQueue
         try {
             $this->dispatch(new UpdateGitMirror($this->deployment->project));
 
-            // If the build has been manually triggered get the committer info from the repo
-            $this->updateRepoInfo();
+            // FIXME: Should these be jobs or just normal cases?
 
-            // FIXME: Should there be jobs or just normal cases?
+
+            // If the build has been manually triggered get the committer info from the repo
+            $this->dispatch(new UpdateRepositoryInfo($this->deployment));
+
             $this->dispatch(new ReleaseArchiver($this->deployment, $this->release_archive));
 
             /** @var Collection $steps */
@@ -161,7 +162,7 @@ class DeployProject extends Job implements ShouldQueue
 
             $this->cancelPendingSteps();
 
-            if (isset($step)) {
+            if (isset($step)) { // FIXME: This no longer works
                 // Cleanup the release if it has not been activated
                 if ($step->stage <= Stage::DO_ACTIVATE) {
                     $this->dispatch(new CleanupFailedDeployment(
@@ -196,44 +197,6 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         $this->filesystem->delete($to_delete);
-    }
-
-    /**
-     * Clones the repository locally to get the latest log entry and updates the deployment model.
-     */
-    private function updateRepoInfo()
-    {
-        $commit = ($this->deployment->commit === Deployment::LOADING ? null : $this->deployment->commit);
-
-        /** @var Process $process */
-        $process = app(Process::class);
-        $process->setScript('tools.GetCommitDetails', [
-            'deployment'    => $this->deployment->id,
-            'mirror_path'   => $this->deployment->project->mirrorPath(),
-            'git_reference' => $commit ?: $this->deployment->branch,
-        ])->run();
-
-        if (!$process->isSuccessful()) {
-            throw new RuntimeException('Could not get repository info - ' . $process->getErrorOutput());
-        }
-
-        $git_info = $process->getOutput();
-
-        list($commit, $committer, $email) = explode("\x09", $git_info);
-
-        $this->deployment->commit          = $commit;
-        $this->deployment->committer       = trim($committer);
-        $this->deployment->committer_email = trim($email);
-
-        if (!$this->deployment->user_id && !$this->deployment->source) {
-            $user = User::where('email', $this->deployment->committer_email)->first();
-
-            if ($user) {
-                $this->deployment->user_id = $user->id;
-            }
-        }
-
-        $this->deployment->save();
     }
 
     /**
