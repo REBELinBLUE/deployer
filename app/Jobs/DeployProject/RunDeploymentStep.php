@@ -6,7 +6,13 @@ use Illuminate\Cache\Repository as Cache;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\DeployStep;
+use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
+use REBELinBLUE\Deployer\Exceptions\DeploymentException;
+use REBELinBLUE\Deployer\Exceptions\FailedDeploymentException;
+use REBELinBLUE\Deployer\Server;
+use REBELinBLUE\Deployer\ServerLog;
 
 /**
  * Runs a step of the deployment
@@ -54,20 +60,34 @@ class RunDeploymentStep implements ShouldQueue
     {
         $this->cache      = $cache;
         $this->formatter  = $formatter;
+
+        /** @var Collection $servers */
+        $servers = $this->step->servers;
+        $servers->each(function (ServerLog $log) {
+            /** @var Server $server */
+            $server    = $log->server;
+            $failed    = false;
+            $cancelled = false;
+
+            $log->status = ServerLog::RUNNING;
+            $log->started_at = $log->freshTimestamp();
+            $log->save();
+
+            try {
+
+            } catch (Exception $e) {
+                $log->output .= $this->logError('[' . $server->ip_address . ']: ' . $e->getMessage());
+                $failed = true;
+            }
+
+            $log->status = ($failed ? ServerLog::FAILED : ServerLog::COMPLETED);
+            $log->finished_at = $log->freshTimestamp();
+            $log->save();
+        });
     }
 }
 
-//
-//foreach ($step->servers as $log) {
-//    $log->status     = ServerLog::RUNNING;
-//    $log->started_at = $log->freshTimestamp();
-//    $log->save();
-//
-//    $server    = $log->server;
-//    $failed    = false;
-//    $cancelled = false;
-//
-//    try {
+
 //        $this->sendFilesForStep($step, $log);
 //
 //        $process = $this->buildScript($step, $server);
@@ -98,12 +118,9 @@ class RunDeploymentStep implements ShouldQueue
 //
 //            $log->output = $output;
 //        }
-//    } catch (Exception $e) {
-//        $log->output .= $this->logError('[' . $server->ip_address . ']: ' . $e->getMessage());
-//        $failed = true;
-//    }
+
 //
-//    $log->status = ($failed ? ServerLog::FAILED : ServerLog::COMPLETED);
+//
 //
 //    // Check if there is a cache key and if so abort
 //    if ($this->cache->pull($this->cache_key) !== null) {
@@ -115,20 +132,18 @@ class RunDeploymentStep implements ShouldQueue
 //            $failed    = false;
 //        }
 //    }
+
 //
-//    $log->finished_at = $log->freshTimestamp();
-//    $log->save();
+//            // Throw an exception to prevent any more tasks running
+//            if ($failed) {
+//                throw new FailedDeploymentException();
+//            }
 //
-//    // Throw an exception to prevent any more tasks running
-//    if ($failed) {
-//        throw new RuntimeException('Failed');
-//    }
-//
-//    // This is a messy way to do it
-//    if ($cancelled) {
-//        throw new RuntimeException('Cancelled');
-//    }
-//}
+//            // This is a messy way to do it
+//            if ($cancelled) {
+//                throw new CancelledDeploymentException();
+//            }
+
 
 //
 //

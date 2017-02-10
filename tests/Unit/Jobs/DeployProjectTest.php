@@ -91,7 +91,6 @@ class DeployProjectTest extends TestCase
     /**
      * @covers ::__construct
      * @covers ::handle
-     * @covers ::archive
      */
     public function testHandle()
     {
@@ -104,7 +103,9 @@ class DeployProjectTest extends TestCase
 
         $this->expectsEvents(DeploymentFinished::class);
 
+        $dispatcher = $this->app->make('events');
+
         $job = new DeployProject($this->deployment);
-        $job->handle($this->filesystem);
+        $job->handle($this->filesystem, $dispatcher);
     }
 }

@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use Exception;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,6 +13,7 @@ use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
+use REBELinBLUE\Deployer\Exceptions\CancelDeploymentException;
 use REBELinBLUE\Deployer\Jobs\DeployProject\CleanupFailedDeployment;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ReleaseArchiver;
 use REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep;
@@ -53,6 +55,11 @@ class DeployProject extends Job implements ShouldQueue
     private $archive;
 
     /**
+     * @var Dispatcher
+     */
+    private $dispatcher;
+
+    /**
      * DeployProject constructor.
      *
      * @param Deployment $deployment
@@ -78,10 +85,12 @@ class DeployProject extends Job implements ShouldQueue
      * Execute the command.
      *
      * @param Filesystem $filesystem
+     * @param Dispatcher $dispatcher
      */
-    public function handle(Filesystem $filesystem)
+    public function handle(Filesystem $filesystem, Dispatcher $dispatcher)
     {
         $this->filesystem = $filesystem;
+        $this->dispatcher = $dispatcher;
 
         $this->deployment->started_at = $this->deployment->freshTimestamp();
         $this->deployment->status     = Deployment::DEPLOYING;
@@ -114,10 +123,19 @@ class DeployProject extends Job implements ShouldQueue
     }
 
     /**
-     * Finds all pending steps and marks them as cancelled.
+     * The job failed to process.
+     *
+     * @param Exception $error
      */
-    private function cancelPendingSteps()
+    public function failed(Exception $error)
     {
+        $this->deployment->status          = Deployment::FAILED;
+        $this->deployment->project->status = Project::FAILED;
+
+        if ($error instanceof CancelDeploymentException) {
+            $this->deployment->status = Deployment::ABORTED;
+        }
+
         /** @var Collection $steps */
         $steps = $this->deployment->steps;
         $steps->each(function (DeployStep $step) {
@@ -130,24 +148,6 @@ class DeployProject extends Job implements ShouldQueue
                 $log->save();
             });
         });
-    }
-
-
-    /**
-     * The job failed to process.
-     *
-     * @param Exception $error
-     */
-    public function failed(Exception $error)
-    {
-        $this->deployment->status          = Deployment::FAILED;
-        $this->deployment->project->status = Project::FAILED;
-
-        if ($error->getMessage() === 'Cancelled') {
-            $this->deployment->status = Deployment::ABORTED;
-        }
-
-        $this->cancelPendingSteps();
 
         if (isset($step)) { // FIXME: This no longer works
             // Cleanup the release if it has not been activated
@@ -178,7 +178,7 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->project->save();
 
         // Notify user or others the deployment has been finished
-        event(new DeploymentFinished($this->deployment)); // FIXME Change to inject the event dispatcher
+        $this->dispatcher->dispatch(new DeploymentFinished($this->deployment));
 
         $to_delete = [$this->private_key];
 
