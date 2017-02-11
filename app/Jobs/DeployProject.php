@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use Exception;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
@@ -13,7 +13,6 @@ use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
-use REBELinBLUE\Deployer\Exceptions\CancelDeploymentException;
 use REBELinBLUE\Deployer\Jobs\DeployProject\CleanupFailedDeployment;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ReleaseArchiver;
 use REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep;
@@ -35,14 +34,14 @@ class DeployProject extends Job implements ShouldQueue
     private $deployment;
 
     /**
-     * @var string
-     */
-    private $cache_key;
-
-    /**
      * @var Filesystem
      */
     private $filesystem;
+
+    /**
+     * @var Dispatcher
+     */
+    private $events;
 
     /**
      * @var string
@@ -55,11 +54,6 @@ class DeployProject extends Job implements ShouldQueue
     private $archive;
 
     /**
-     * @var Dispatcher
-     */
-    private $dispatcher;
-
-    /**
      * DeployProject constructor.
      *
      * @param Deployment $deployment
@@ -67,7 +61,7 @@ class DeployProject extends Job implements ShouldQueue
     public function __construct(Deployment $deployment)
     {
         $this->deployment = $deployment;
-        $this->cache_key  = AbortDeployment::CACHE_KEY_PREFIX . $deployment->id;
+        $this->archive    = $this->deployment->project_id . '_' . $this->deployment->release_id . '.tar.gz';
     }
 
     /**
@@ -87,10 +81,10 @@ class DeployProject extends Job implements ShouldQueue
      * @param Filesystem $filesystem
      * @param Dispatcher $dispatcher
      */
-    public function handle(Filesystem $filesystem, Dispatcher $dispatcher)
+    public function handle(Filesystem $filesystem, Dispatcher $events)
     {
         $this->filesystem = $filesystem;
-        $this->dispatcher = $dispatcher;
+        $this->events     = $events;
 
         $this->deployment->started_at = $this->deployment->freshTimestamp();
         $this->deployment->status     = Deployment::DEPLOYING;
@@ -98,8 +92,6 @@ class DeployProject extends Job implements ShouldQueue
 
         $this->deployment->project->status = Project::DEPLOYING;
         $this->deployment->project->save();
-
-        $this->archive = $this->deployment->project_id . '_' . $this->deployment->release_id . '.tar.gz';
 
         $this->private_key = $this->filesystem->tempnam(storage_path('app/tmp/'), 'key');
         $this->filesystem->put($this->private_key, $this->deployment->project->private_key);
@@ -109,17 +101,21 @@ class DeployProject extends Job implements ShouldQueue
         $this->dispatch(new UpdateRepositoryInfo($this->deployment));
         $this->dispatch(new ReleaseArchiver($this->deployment, $this->archive));
 
-        /** @var Collection $steps */
-        $steps = $this->deployment->steps;
-        $steps->each(function (DeployStep $step) {
-            $this->dispatch(new RunDeploymentStep($step, $this->private_key));
-        });
+        try {
+            /** @var Collection $steps */
+            $steps = $this->deployment->steps;
+            $steps->each(function (DeployStep $step) {
+                $this->dispatch(new RunDeploymentStep($this->deployment, $step, $this->private_key, $this->archive));
+            });
 
-        $this->deployment->status          = Deployment::COMPLETED;
-        $this->deployment->project->status = Project::FINISHED;
-        $this->deployment->finished_at     = $this->deployment->freshTimestamp();
+            $this->deployment->status          = Deployment::COMPLETED;
+            $this->deployment->project->status = Project::FINISHED;
+            $this->deployment->finished_at     = $this->deployment->freshTimestamp();
+        } catch (Exception $error) {
+            $this->fail($error);
+        }
 
-        $this->finish();
+        $this->cleanup();
     }
 
     /**
@@ -127,12 +123,12 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param Exception $error
      */
-    public function failed(Exception $error)
+    private function fail(Exception $error)
     {
         $this->deployment->status          = Deployment::FAILED;
         $this->deployment->project->status = Project::FAILED;
 
-        if ($error instanceof CancelDeploymentException) {
+        if ($error instanceof CancelledDeploymentException) {
             $this->deployment->status = Deployment::ABORTED;
         }
 
@@ -149,28 +145,25 @@ class DeployProject extends Job implements ShouldQueue
             });
         });
 
-        if (isset($step)) { // FIXME: This no longer works
-            // Cleanup the release if it has not been activated
-            if ($step->stage <= Stage::DO_ACTIVATE) {
-                $this->dispatch(new CleanupFailedDeployment(
-                    $this->deployment,
-                    $this->archive,
-                    $this->private_key
-                ));
-            } else {
-                $this->deployment->status          = Deployment::COMPLETED_WITH_ERRORS;
-                $this->deployment->project->status = Project::FINISHED;
-            }
-        }
-
-        $this->finish();
+//        if (isset($step)) { // FIXME: This no longer works
+//            // Cleanup the release if it has not been activated
+//            if ($step->stage <= Stage::DO_ACTIVATE) {
+//                $this->dispatch(new CleanupFailedDeployment(
+//                    $this->deployment,
+//                    $this->archive,
+//                    $this->private_key
+//                ));
+//            } else {
+//                $this->deployment->status          = Deployment::COMPLETED_WITH_ERRORS;
+//                $this->deployment->project->status = Project::FINISHED;
+//            }
+//        }
     }
 
     /**
      * Cleans up when the deployment has finished.
-     * @fixme: should this just be the __destruct method?
      */
-    private function finish()
+    private function cleanup()
     {
         $this->deployment->save();
 
@@ -178,7 +171,7 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->project->save();
 
         // Notify user or others the deployment has been finished
-        $this->dispatcher->dispatch(new DeploymentFinished($this->deployment));
+        $this->events->dispatch(new DeploymentFinished($this->deployment));
 
         $to_delete = [$this->private_key];
 
