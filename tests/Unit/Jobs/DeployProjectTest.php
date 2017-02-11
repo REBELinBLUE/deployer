@@ -8,6 +8,8 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
+use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
+use REBELinBLUE\Deployer\Exceptions\FailedDeploymentException;
 use REBELinBLUE\Deployer\Jobs\DeployProject;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ReleaseArchiver;
 use REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep;
@@ -16,6 +18,7 @@ use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use RuntimeException;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\DeployProject
@@ -49,15 +52,11 @@ class DeployProjectTest extends TestCase
         $archive       = storage_path('app/1_20170105163412.tar.gz');
 
         $started  = Carbon::create(2017, 1, 5, 16, 34, 12, 'UTC');
-        $finished = Carbon::create(2017, 1, 5, 16, 42, 31, 'UTC');
-
-        $steps = new Collection([new DeployStep()]);
 
         $project = m::mock(Project::class);
         $project->shouldReceive('setAttribute')->with('status', Project::DEPLOYING);
         $project->shouldReceive('getAttribute')->with('private_key')->andReturn($private_key);
         $project->shouldReceive('setAttribute')->with('status', Project::FINISHED);
-        $project->shouldReceive('setAttribute')->with('last_run', $finished);
         $project->shouldReceive('save')->twice();
 
         $deployment = m::mock(Deployment::class);
@@ -65,15 +64,11 @@ class DeployProjectTest extends TestCase
         $deployment->shouldReceive('getAttribute')->with('project_id')->andReturn($project_id);
         $deployment->shouldReceive('getAttribute')->with('release_id')->andReturn($release_id);
         $deployment->shouldReceive('freshTimestamp')->once()->andReturn($started);
-        $deployment->shouldReceive('freshTimestamp')->once()->andReturn($finished);
         $deployment->shouldReceive('setAttribute')->with('status', Deployment::DEPLOYING);
         $deployment->shouldReceive('setAttribute')->with('started_at', $started);
         $deployment->shouldReceive('getAttribute')->with('project')->andReturn($project);
-        $deployment->shouldReceive('getAttribute')->with('steps')->andReturn($steps);
         $deployment->shouldReceive('setAttribute')->with('status', Deployment::COMPLETED);
         $deployment->shouldReceive('getAttribute')->with('status')->andReturn(Deployment::COMPLETED);
-        $deployment->shouldReceive('setAttribute')->with('finished_at', $finished);
-        $deployment->shouldReceive('getAttribute')->with('finished_at')->andReturn($finished);
         $deployment->shouldReceive('save')->twice();
 
         $filesystem = m::mock(Filesystem::class);
@@ -83,6 +78,14 @@ class DeployProjectTest extends TestCase
         $filesystem->shouldReceive('exists')->with($archive)->andReturn(true);
         $filesystem->shouldReceive('delete')->with([$key_file, $archive]);
 
+        $this->expectsJobs([
+            UpdateGitMirror::class,
+            UpdateRepositoryInfo::class,
+            ReleaseArchiver::class,
+        ]);
+
+        $this->expectsEvents(DeploymentFinished::class);
+
         $this->project    = $project;
         $this->filesystem = $filesystem;
         $this->deployment = $deployment;
@@ -91,21 +94,101 @@ class DeployProjectTest extends TestCase
     /**
      * @covers ::__construct
      * @covers ::handle
+     * @covers ::cleanup
      */
     public function testHandle()
     {
-        $this->expectsJobs([
-            UpdateGitMirror::class,
-            UpdateRepositoryInfo::class,
-            ReleaseArchiver::class,
-            RunDeploymentStep::class,
-        ]);
+        $this->expectsJobs(RunDeploymentStep::class);
 
-        $this->expectsEvents(DeploymentFinished::class);
+        $steps = new Collection([new DeployStep()]);
 
-        $dispatcher = $this->app->make('events');
+        $this->deployment->shouldReceive('getAttribute')->with('steps')->andReturn($steps);
+
+        $finished = Carbon::create(2017, 1, 5, 16, 42, 31, 'UTC');
+        $this->project->shouldReceive('setAttribute')->with('last_run', $finished);
+        $this->deployment->shouldReceive('freshTimestamp')->once()->andReturn($finished);
+        $this->deployment->shouldReceive('setAttribute')->with('finished_at', $finished);
+        $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturn($finished);
 
         $job = new DeployProject($this->deployment);
-        $job->handle($this->filesystem, $dispatcher);
+        $job->handle($this->filesystem);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::cleanup
+     * @covers ::fail
+     */
+    public function testHandleDealsWithException()
+    {
+        // FIXME: This is a horrible way to test this
+        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andThrow(RuntimeException::class);
+
+        $this->handleMostExceptions();
+
+        $job = new DeployProject($this->deployment);
+        $job->handle($this->filesystem);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::cleanup
+     * @covers ::fail
+     */
+    public function testHandleDealsWithFailedDeploymentException()
+    {
+        // FIXME: This is a horrible way to test this
+        $this->deployment->shouldReceive('getAttribute')
+                         ->once()
+                         ->with('steps')
+                         ->andThrow(FailedDeploymentException::class);
+
+        $this->handleMostExceptions();
+
+        $job = new DeployProject($this->deployment);
+        $job->handle($this->filesystem);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::cleanup
+     * @covers ::fail
+     */
+    public function testHandleDealsWithCancelledDeploymentException()
+    {
+        // FIXME: This is a horrible way to test this
+        $this->deployment->shouldReceive('getAttribute')
+                         ->once()
+                         ->with('steps')
+                         ->andThrow(CancelledDeploymentException::class);
+
+        $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::ABORTED);
+        $this->project->shouldReceive('setAttribute')->with('status', Project::FAILED);
+        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andReturn(new Collection());
+
+        $this->project->shouldReceive('setAttribute')->with('last_run', null);
+        $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturnNull();
+
+        $job = new DeployProject($this->deployment);
+        $job->handle($this->filesystem);
+    }
+
+    /**
+     * @fixme had the cleanup
+     */
+    private function handleMostExceptions()
+    {
+        $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::FAILED);
+        $this->project->shouldReceive('setAttribute')->with('status', Project::FAILED);
+        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andReturn(new Collection());
+
+        $finished = Carbon::create(2017, 1, 5, 16, 42, 31, 'UTC');
+        $this->project->shouldReceive('setAttribute')->with('last_run', $finished);
+        $this->deployment->shouldReceive('freshTimestamp')->once()->andReturn($finished);
+        $this->deployment->shouldReceive('setAttribute')->with('finished_at', $finished);
+        $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturn($finished);
     }
 }

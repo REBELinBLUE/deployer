@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use Exception;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -13,6 +12,7 @@ use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
+use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
 use REBELinBLUE\Deployer\Jobs\DeployProject\CleanupFailedDeployment;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ReleaseArchiver;
 use REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep;
@@ -37,11 +37,6 @@ class DeployProject extends Job implements ShouldQueue
      * @var Filesystem
      */
     private $filesystem;
-
-    /**
-     * @var Dispatcher
-     */
-    private $events;
 
     /**
      * @var string
@@ -82,10 +77,9 @@ class DeployProject extends Job implements ShouldQueue
      * @param Dispatcher $events
      * @internal param Dispatcher $dispatcher
      */
-    public function handle(Filesystem $filesystem, Dispatcher $events)
+    public function handle(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
-        $this->events     = $events;
 
         $this->deployment->started_at = $this->deployment->freshTimestamp();
         $this->deployment->status     = Deployment::DEPLOYING;
@@ -121,15 +115,18 @@ class DeployProject extends Job implements ShouldQueue
 
     /**
      * The job failed to process.
+     * We can't use laravel's built in "failed" method as filesystem and events properties are then unset.
      *
      * @param Exception $error
      */
     private function fail(Exception $error)
     {
-        $this->deployment->status          = Deployment::FAILED;
         $this->deployment->project->status = Project::FAILED;
 
-        if ($error instanceof CancelledDeploymentException) {
+        if (!$error instanceof CancelledDeploymentException) {
+            $this->deployment->status      = Deployment::FAILED;
+            $this->deployment->finished_at = $this->deployment->freshTimestamp();
+        } else {
             $this->deployment->status = Deployment::ABORTED;
         }
 
@@ -172,7 +169,7 @@ class DeployProject extends Job implements ShouldQueue
         $this->deployment->project->save();
 
         // Notify user or others the deployment has been finished
-        $this->events->dispatch(new DeploymentFinished($this->deployment));
+        event(new DeploymentFinished($this->deployment));
 
         $to_delete = [$this->private_key];
 

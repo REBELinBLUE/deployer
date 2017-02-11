@@ -144,4 +144,23 @@ class EloquentUserRepositoryTest extends EloquentRepositoryTestCase
 
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @covers ::findByEmail
+     */
+    public function testGetByEmail()
+    {
+        $email = 'admin@example.com';
+
+        $expected = m::mock(User::class);
+        $expected->shouldReceive('first')->andReturnSelf();
+
+        $model = m::mock(User::class);
+        $model->shouldReceive('where')->once()->with('email', $email)->andReturn($expected);
+
+        $repository = new EloquentUserRepository($model);
+        $actual     = $repository->findByEmail($email);
+
+        $this->assertSame($expected, $actual);
+    }
 }
