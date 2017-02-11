@@ -8,6 +8,7 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
+use REBELinBLUE\Deployer\Jobs\DeployProject;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ReleaseArchiver;
 use REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep;
 use REBELinBLUE\Deployer\Jobs\DeployProject\UpdateRepositoryInfo;
@@ -15,7 +16,6 @@ use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Jobs\DeployProject;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\DeployProject
@@ -42,13 +42,13 @@ class DeployProjectTest extends TestCase
         parent::setUp();
 
         $deployment_id = 10;
-        $project_id = 1;
-        $key_file = '/tmp/ssh.keyfile';
-        $private_key = 'a-git-key';
-        $release_id = 20170105163412;
-        $archive = storage_path('app/1_20170105163412.tar.gz');
+        $project_id    = 1;
+        $key_file      = '/tmp/ssh.keyfile';
+        $private_key   = 'a-git-key';
+        $release_id    = 20170105163412;
+        $archive       = storage_path('app/1_20170105163412.tar.gz');
 
-        $started = Carbon::create(2017, 1, 5, 16, 34, 12, 'UTC');
+        $started  = Carbon::create(2017, 1, 5, 16, 34, 12, 'UTC');
         $finished = Carbon::create(2017, 1, 5, 16, 42, 31, 'UTC');
 
         $steps = new Collection([new DeployStep()]);
@@ -83,7 +83,7 @@ class DeployProjectTest extends TestCase
         $filesystem->shouldReceive('exists')->with($archive)->andReturn(true);
         $filesystem->shouldReceive('delete')->with([$key_file, $archive]);
 
-        $this->project = $project;
+        $this->project    = $project;
         $this->filesystem = $filesystem;
         $this->deployment = $deployment;
     }

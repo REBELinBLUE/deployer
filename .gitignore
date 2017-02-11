@@ -21,6 +21,11 @@ vendor/
 bower_components/
 npm-debug.log
 
+# Compiled files
+public/css/
+public/js/
+public/build/
+public/fonts/
+
 # Include laravel vendor resources
 !*/**/vendor/
-public/

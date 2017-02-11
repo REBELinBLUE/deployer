@@ -10,7 +10,7 @@ use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use RuntimeException;
 
 /**
- * Gets the info for the latest release
+ * Gets the info for the latest release.
  */
 class UpdateRepositoryInfo
 {

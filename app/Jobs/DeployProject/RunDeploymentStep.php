@@ -9,13 +9,12 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
-use REBELinBLUE\Deployer\Exceptions\DeploymentException;
 use REBELinBLUE\Deployer\Exceptions\FailedDeploymentException;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 
 /**
- * Runs a step of the deployment
+ * Runs a step of the deployment.
  */
 class RunDeploymentStep implements ShouldQueue
 {
@@ -45,11 +44,11 @@ class RunDeploymentStep implements ShouldQueue
      * Create a new job instance.
      *
      * @param DeployStep $step
-     * @param string $private_key
+     * @param string     $private_key
      */
     public function __construct(DeployStep $step, $private_key)
     {
-        $this->step = $step;
+        $this->step        = $step;
         $this->private_key = $private_key;
     }
 
@@ -66,15 +65,15 @@ class RunDeploymentStep implements ShouldQueue
         $servers->each(function (ServerLog $log) {
             /** @var Server $server */
             $server    = $log->server;
-            $failed    = false;
-            $cancelled = false;
+//            $failed    = false;
+//            $cancelled = false;
 
             $log->status = ServerLog::RUNNING;
             $log->started_at = $log->freshTimestamp();
             $log->save();
 
             try {
-
+                throw new \Exception('boo');
             } catch (Exception $e) {
                 $log->output .= $this->logError('[' . $server->ip_address . ']: ' . $e->getMessage());
                 $failed = true;
@@ -86,7 +85,6 @@ class RunDeploymentStep implements ShouldQueue
         });
     }
 }
-
 
 //        $this->sendFilesForStep($step, $log);
 //
@@ -143,7 +141,6 @@ class RunDeploymentStep implements ShouldQueue
 //            if ($cancelled) {
 //                throw new CancelledDeploymentException();
 //            }
-
 
 //
 //

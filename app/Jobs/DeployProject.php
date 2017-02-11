@@ -167,7 +167,7 @@ class DeployProject extends Job implements ShouldQueue
     }
 
     /**
-     * Cleans up when the deployment has finished
+     * Cleans up when the deployment has finished.
      * @fixme: should this just be the __destruct method?
      */
     private function finish()

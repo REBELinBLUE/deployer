@@ -6,5 +6,4 @@ use Exception;
 
 abstract class DeploymentException extends Exception
 {
-
 }
