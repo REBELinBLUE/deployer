@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use Exception;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
@@ -79,7 +79,8 @@ class DeployProject extends Job implements ShouldQueue
      * Execute the command.
      *
      * @param Filesystem $filesystem
-     * @param Dispatcher $dispatcher
+     * @param Dispatcher $events
+     * @internal param Dispatcher $dispatcher
      */
     public function handle(Filesystem $filesystem, Dispatcher $events)
     {

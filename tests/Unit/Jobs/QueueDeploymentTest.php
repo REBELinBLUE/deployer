@@ -52,6 +52,7 @@ class QueueDeploymentTest extends TestCase
 
         $deployment_id = 3123;
         $project_id    = 1543;
+        $release_id    = 20170101165625;
         $grouped       = new Collection();
 
         $project = m::mock(Project::class);
@@ -66,6 +67,8 @@ class QueueDeploymentTest extends TestCase
         $deployment->shouldReceive('freshTimestamp')->andReturn($timestamp);
         $deployment->shouldReceive('setAttribute')->once()->with('started_at', $timestamp);
         $deployment->shouldReceive('setAttribute')->once()->with('project_id', $project_id);
+        $deployment->shouldReceive('getAttribute')->with('project_id')->andReturn($project_id);
+        $deployment->shouldReceive('getAttribute')->with('release_id')->andReturn($release_id);
         $deployment->shouldReceive('save')->once();
 
         $builder = m::mock(GroupedCommandListTransformer::class);
