@@ -178,6 +178,11 @@ class RunDeploymentStep
         }
     }
 
+    /**
+     * @param ServerLog $log
+     * @param Server $server
+     * @throws FailedDeploymentException
+     */
     private function runDeploymentStep(ServerLog $log, Server $server)
     {
         $process = $this->buildScript($server);
