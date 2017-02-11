@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Jobs;
 
 use Carbon\Carbon;
+use Illuminate\Queue\Queue;
 use Illuminate\Support\Collection;
 use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
@@ -40,10 +41,118 @@ class DeployProjectTest extends TestCase
      */
     private $deployment;
 
-    public function setUp()
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::cleanup
+     */
+    public function testHandle()
     {
-        parent::setUp();
+        $this->setUpExpections();
+        $this->expectsJobs(RunDeploymentStep::class);
 
+        $steps = new Collection([new DeployStep()]);
+
+        $this->deployment->shouldReceive('getAttribute')->with('steps')->andReturn($steps);
+
+        $finished = Carbon::create(2017, 1, 5, 16, 42, 31, 'UTC');
+        $this->project->shouldReceive('setAttribute')->with('last_run', $finished);
+        $this->deployment->shouldReceive('freshTimestamp')->once()->andReturn($finished);
+        $this->deployment->shouldReceive('setAttribute')->with('finished_at', $finished);
+        $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturn($finished);
+
+        $job = new DeployProject($this->deployment);
+        $job->handle($this->filesystem);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::cleanup
+     * @covers ::fail
+     */
+    public function testHandleDealsWithException()
+    {
+        $this->setUpExpections();
+
+        // FIXME: This is a horrible way to test this
+        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andThrow(RuntimeException::class);
+
+        $this->handleMostExceptions();
+
+        $job = new DeployProject($this->deployment);
+        $job->handle($this->filesystem);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::cleanup
+     * @covers ::fail
+     */
+    public function testHandleDealsWithFailedDeploymentException()
+    {
+        $this->setUpExpections();
+
+        // FIXME: This is a horrible way to test this
+        $this->deployment->shouldReceive('getAttribute')
+                         ->once()
+                         ->with('steps')
+                         ->andThrow(FailedDeploymentException::class);
+
+        $this->handleMostExceptions();
+
+        $job = new DeployProject($this->deployment);
+        $job->handle($this->filesystem);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::cleanup
+     * @covers ::fail
+     */
+    public function testHandleDealsWithCancelledDeploymentException()
+    {
+        $this->setUpExpections();
+
+        // FIXME: This is a horrible way to test this
+        $this->deployment->shouldReceive('getAttribute')
+                         ->once()
+                         ->with('steps')
+                         ->andThrow(CancelledDeploymentException::class);
+
+        $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::ABORTED);
+        $this->project->shouldReceive('setAttribute')->with('status', Project::FAILED);
+        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andReturn(new Collection());
+
+        $this->project->shouldReceive('setAttribute')->with('last_run', null);
+        $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturnNull();
+
+        $job = new DeployProject($this->deployment);
+        $job->handle($this->filesystem);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::queue
+     */
+    public function testQueue()
+    {
+        $deployment = m::mock(Deployment::class);
+        $deployment->shouldReceive('getAttribute')->with('project_id')->andReturn(1);
+        $deployment->shouldReceive('getAttribute')->with('release_id')->andReturn(1);
+
+        $job = new DeployProject($deployment);
+
+        $queue = m::mock(Queue::class);
+        $queue->shouldReceive('pushOn')->once()->with('deployer-high', $job);
+
+        $job->queue($queue, $job);
+    }
+
+    private function setUpExpections()
+    {
         $deployment_id = 10;
         $project_id    = 1;
         $key_file      = '/tmp/ssh.keyfile';
@@ -92,92 +201,7 @@ class DeployProjectTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
-     * @covers ::handle
-     * @covers ::cleanup
-     */
-    public function testHandle()
-    {
-        $this->expectsJobs(RunDeploymentStep::class);
-
-        $steps = new Collection([new DeployStep()]);
-
-        $this->deployment->shouldReceive('getAttribute')->with('steps')->andReturn($steps);
-
-        $finished = Carbon::create(2017, 1, 5, 16, 42, 31, 'UTC');
-        $this->project->shouldReceive('setAttribute')->with('last_run', $finished);
-        $this->deployment->shouldReceive('freshTimestamp')->once()->andReturn($finished);
-        $this->deployment->shouldReceive('setAttribute')->with('finished_at', $finished);
-        $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturn($finished);
-
-        $job = new DeployProject($this->deployment);
-        $job->handle($this->filesystem);
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::handle
-     * @covers ::cleanup
-     * @covers ::fail
-     */
-    public function testHandleDealsWithException()
-    {
-        // FIXME: This is a horrible way to test this
-        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andThrow(RuntimeException::class);
-
-        $this->handleMostExceptions();
-
-        $job = new DeployProject($this->deployment);
-        $job->handle($this->filesystem);
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::handle
-     * @covers ::cleanup
-     * @covers ::fail
-     */
-    public function testHandleDealsWithFailedDeploymentException()
-    {
-        // FIXME: This is a horrible way to test this
-        $this->deployment->shouldReceive('getAttribute')
-                         ->once()
-                         ->with('steps')
-                         ->andThrow(FailedDeploymentException::class);
-
-        $this->handleMostExceptions();
-
-        $job = new DeployProject($this->deployment);
-        $job->handle($this->filesystem);
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::handle
-     * @covers ::cleanup
-     * @covers ::fail
-     */
-    public function testHandleDealsWithCancelledDeploymentException()
-    {
-        // FIXME: This is a horrible way to test this
-        $this->deployment->shouldReceive('getAttribute')
-                         ->once()
-                         ->with('steps')
-                         ->andThrow(CancelledDeploymentException::class);
-
-        $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::ABORTED);
-        $this->project->shouldReceive('setAttribute')->with('status', Project::FAILED);
-        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andReturn(new Collection());
-
-        $this->project->shouldReceive('setAttribute')->with('last_run', null);
-        $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturnNull();
-
-        $job = new DeployProject($this->deployment);
-        $job->handle($this->filesystem);
-    }
-
-    /**
-     * @fixme had the cleanup
+     * @fixme test the cleanup
      */
     private function handleMostExceptions()
     {
