@@ -6,17 +6,20 @@ use Carbon\Carbon;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Collection;
 use Mockery as m;
+use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
 use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
 use REBELinBLUE\Deployer\Exceptions\FailedDeploymentException;
 use REBELinBLUE\Deployer\Jobs\DeployProject;
+use REBELinBLUE\Deployer\Jobs\DeployProject\CleanupFailedDeployment;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ReleaseArchiver;
 use REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep;
 use REBELinBLUE\Deployer\Jobs\DeployProject\UpdateRepositoryInfo;
 use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use RuntimeException;
@@ -122,22 +125,76 @@ class DeployProjectTest extends TestCase
     {
         $this->setUpExpections();
 
+        $this->expectsJobs(CleanupFailedDeployment::class);
+
         // FIXME: This is a horrible way to test this
         $this->deployment->shouldReceive('getAttribute')
                          ->once()
                          ->with('steps')
                          ->andThrow(CancelledDeploymentException::class);
 
-        // FIXME: This also doesn't work correctly, activated is true
-        $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::COMPLETED_WITH_ERRORS);
+        $log = m::mock(ServerLog::class);
+        $log->shouldReceive('getAttribute')->once()->with('status')->andReturn(ServerLog::PENDING);
+        $log->shouldReceive('setAttribute')->once()->with('status', ServerLog::CANCELLED);
+        $log->shouldReceive('save')->once();
+
+        $step = m::mock(DeployStep::class);
+        $step->shouldReceive('getAttribute')->with('servers')->andReturn(new Collection([$log]));
+        $step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::BEFORE_ACTIVATE);
+        $steps = new Collection([$step]);
 
         $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::FAILED);
         $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::ABORTED);
         $this->project->shouldReceive('setAttribute')->with('status', Project::FAILED);
-        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andReturn(new Collection());
+        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andReturn($steps);
 
         $this->project->shouldReceive('setAttribute')->with('last_run', null);
         $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturnNull();
+
+        $job = new DeployProject($this->deployment);
+        $job->handle($this->filesystem);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::cleanup
+     * @covers ::fail
+     */
+    public function testHandleDealsWithFailedDeploymentExceptionWhenActivated()
+    {
+        $this->setUpExpections();
+
+        $this->doesntExpectJobs(CleanupFailedDeployment::class);
+
+        // FIXME: This is a horrible way to test this
+        $this->deployment->shouldReceive('getAttribute')
+            ->once()
+            ->with('steps')
+            ->andThrow(FailedDeploymentException::class);
+
+        $log = m::mock(ServerLog::class);
+        $log->shouldReceive('getAttribute')->once()->with('status')->andReturn(ServerLog::PENDING);
+        $log->shouldReceive('setAttribute')->once()->with('status', ServerLog::CANCELLED);
+        $log->shouldReceive('save')->once();
+
+        $step = m::mock(DeployStep::class);
+        $step->shouldReceive('getAttribute')->with('servers')->andReturn(new Collection([$log]));
+        $step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::AFTER_ACTIVATE);
+        $steps = new Collection([$step]);
+
+        $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::FAILED);
+        $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::COMPLETED_WITH_ERRORS);
+
+        $this->project->shouldReceive('setAttribute')->with('status', Project::FAILED);
+        $this->project->shouldReceive('setAttribute')->with('status', Project::FINISHED);
+        $this->deployment->shouldReceive('getAttribute')->once()->with('steps')->andReturn($steps);
+
+        $finished = Carbon::create(2017, 1, 5, 16, 42, 31, 'UTC');
+        $this->project->shouldReceive('setAttribute')->with('last_run', $finished);
+        $this->deployment->shouldReceive('freshTimestamp')->once()->andReturn($finished);
+        $this->deployment->shouldReceive('setAttribute')->with('finished_at', $finished);
+        $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturn($finished);
 
         $job = new DeployProject($this->deployment);
         $job->handle($this->filesystem);
