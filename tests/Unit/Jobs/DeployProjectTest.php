@@ -106,7 +106,6 @@ class DeployProjectTest extends TestCase
         // FIXME: This also doesn't work correctly, activated is true
         $this->deployment->shouldReceive('setAttribute')->with('status', Deployment::COMPLETED_WITH_ERRORS);
 
-
         $this->project->shouldReceive('setAttribute')->with('status', Project::FINISHED);
 
         $job = new DeployProject($this->deployment);
