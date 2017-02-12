@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Services\Scripts;
 
 use Illuminate\Filesystem\Filesystem;
+use RuntimeException;
 
 /**
  * Class which loads a shell script template and parses any variables.
@@ -59,6 +60,6 @@ class Parser
             return $this->parseString($this->filesystem->get($template), $tokens);
         }
 
-        throw new \RuntimeException('Template ' . $template . ' does not exist');
+        throw new RuntimeException('Template ' . $template . ' does not exist');
     }
 }

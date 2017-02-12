@@ -154,7 +154,9 @@ class AppServiceProvider extends ServiceProvider
             $process = new Process('');
             $process->setTimeout(null);
 
-            return new Runner($app->make(Parser::class), $process);
+            $logger = $app->make('log');
+
+            return new Runner($app->make(Parser::class), $process, $logger);
         });
 
         $this->app->bind(TokenGeneratorInterface::class, TokenGenerator::class);

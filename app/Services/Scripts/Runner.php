@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Services\Scripts;
 
-use Illuminate\Support\Facades\Log;
+use Illuminate\Log\Writer;
 use REBELinBLUE\Deployer\Server;
 use Symfony\Component\Process\Process;
 
@@ -51,15 +51,22 @@ class Runner
     private $parser;
 
     /**
+     * @var Writer
+     */
+    private $logger;
+
+    /**
      * Runner constructor.
      *
      * @param Parser  $parser
      * @param Process $process
+     * @param Writer  $logger
      */
-    public function __construct(Parser $parser, Process $process)
+    public function __construct(Parser $parser, Process $process, Writer $logger)
     {
         $this->parser  = $parser;
         $this->process = $process;
+        $this->logger  = $logger;
     }
 
     /**
@@ -199,7 +206,7 @@ class Runner
 
         $output = $this->parser->parseFile('RunScript' . $wrapper, $tokens);
 
-        Log::debug($output);
+        $this->logger->debug($output);
 
         return $output;
     }

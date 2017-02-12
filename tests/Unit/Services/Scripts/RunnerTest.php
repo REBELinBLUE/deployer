@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Services\Scripts;
 
-use Illuminate\Support\Facades\Log;
+use Illuminate\Log\Writer;
 use Mockery as m;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
@@ -17,14 +17,19 @@ use Symfony\Component\Process\Process;
 class RunnerTest extends TestCase
 {
     /**
-     * @var \Mockery\MockInterface
+     * @var Runner
      */
     private $process;
 
     /**
-     * @var \Mockery\MockInterface
+     * @var Parser
      */
     private $parser;
+
+    /**
+     * @var Writer
+     */
+    private $logger;
 
     protected function setUp()
     {
@@ -34,11 +39,13 @@ class RunnerTest extends TestCase
 
         $this->process = m::mock(Process::class);
         $this->process->shouldReceive('stop');
+
+        $this->logger = m::mock(Writer::class);
     }
 
     public function getRunner()
     {
-        return new Runner($this->parser, $this->process);
+        return new Runner($this->parser, $this->process, $this->logger);
     }
 
     public function getRunnerWithScript($script)
@@ -75,7 +82,7 @@ class RunnerTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $runner = new Runner($this->parser, new Process(''));
+        $runner = new Runner($this->parser, new Process(''), $this->logger);
         $runner->doSomethingUnreal();
     }
 
@@ -189,7 +196,7 @@ class RunnerTest extends TestCase
         $this->process->shouldReceive('setCommandLine')->with($expected);
         $this->process->shouldReceive('run')->andReturnSelf();
 
-        Log::shouldReceive('debug')->with($expected);
+        $this->logger->shouldReceive('debug')->with($expected);
 
         $runner = $this->getRunner();
         $actual = $runner->setScript($script, $tokens, Runner::DIRECT_INPUT)->run();
@@ -219,7 +226,7 @@ class RunnerTest extends TestCase
         $this->process->shouldReceive('setCommandLine')->with($expected);
         $this->process->shouldReceive('run')->with($callback)->andReturnSelf();
 
-        Log::shouldReceive('debug')->with($expected);
+        $this->logger->shouldReceive('debug')->with($expected);
 
         $runner = $this->getRunner();
         $actual = $runner->setScript($script, $tokens, Runner::DIRECT_INPUT)->run($callback);
@@ -268,7 +275,7 @@ class RunnerTest extends TestCase
         $this->process->shouldReceive('setCommandLine')->with($expected);
         $this->process->shouldReceive('run')->andReturnSelf();
 
-        Log::shouldReceive('debug')->with($expected);
+        $this->logger->shouldReceive('debug')->with($expected);
 
         $runner = $this->getRunner();
         $actual = $runner->setServer($server, $private_key, $alternative_user)->setScript($script, $tokens, Runner::DIRECT_INPUT)->run();
