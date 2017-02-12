@@ -4208,6 +4208,11 @@
                 "phpunit/phpunit": ">=4.7.0"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "PHPUnit Printer": "https://www.phpdeployment.org/patches/0003-Pretty-Printer.patch"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "DiabloMedia\\PHPUnit\\Printer\\": "src/DiabloMedia/PHPUnit/Printer"
