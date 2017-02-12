@@ -110,9 +110,9 @@ class DeployProject extends Job implements ShouldQueue
             $this->deployment->finished_at     = $this->deployment->freshTimestamp();
         } catch (Exception $error) {
             $this->fail($error);
+        } finally {
+            $this->cleanup();
         }
-
-        $this->cleanup();
     }
 
     /**
