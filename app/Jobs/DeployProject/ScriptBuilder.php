@@ -39,10 +39,11 @@ class ScriptBuilder
     }
 
     /**
-     * @param Deployment $deployment
-     * @param DeployStep $step
-     * @param string     $release_archive
-     * @param string     $private_key
+     * @param  Deployment $deployment
+     * @param  DeployStep $step
+     * @param  string     $release_archive
+     * @param  string     $private_key
+     * @return $this
      */
     public function setup(Deployment $deployment, DeployStep $step, $release_archive, $private_key)
     {
@@ -50,6 +51,8 @@ class ScriptBuilder
         $this->step            = $step;
         $this->release_archive = $release_archive;
         $this->private_key     = $private_key;
+
+        return $this;
     }
 
     /**
@@ -98,7 +101,7 @@ class ScriptBuilder
      *
      * @return array
      */
-    public function getTokens(Server $server)
+    private function getTokens(Server $server)
     {
         $releases_dir       = $server->clean_path . '/releases';
         $latest_release_dir = $releases_dir . '/' . $this->deployment->release_id;
