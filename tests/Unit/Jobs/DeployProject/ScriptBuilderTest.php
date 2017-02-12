@@ -14,6 +14,7 @@ use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\Services\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Variable;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\DeployProject\ScriptBuilder
@@ -55,6 +56,11 @@ class ScriptBuilderTest extends TestCase
      */
     private $private_key;
 
+    /**
+     * @var Project
+     */
+    private $project;
+
     public function setUp()
     {
         parent::setUp();
@@ -74,7 +80,6 @@ class ScriptBuilderTest extends TestCase
         $parser = m::mock(ScriptParser::class);
 
         $project = m::mock(Project::class);
-        $project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
         $project->shouldReceive('getAttribute')->with('include_dev')->andReturn(true);
         $project->shouldReceive('getAttribute')->with('builds_to_keep')->andReturn(5);
 
@@ -89,18 +94,13 @@ class ScriptBuilderTest extends TestCase
         $deployment->shouldReceive('getAttribute')->with('committer_email')->andReturn($committer_email);
         $deployment->shouldReceive('getAttribute')->with('committer')->andReturn($committer);
 
-        $command = m::mock(Command::class);
-        $command->shouldReceive('getAttribute')->with('user')->andReturnNull();
-
         $step = m::mock(DeployStep::class);
-        //$step->shouldReceive('getAttribute')->with('command')->andReturn($command);
 
         $server = m::mock(Server::class);
         $server->shouldReceive('getAttribute')->with('clean_path')->andReturn($clean_path);
         $server->shouldReceive('getAttribute')->with('user')->andReturn($user);
 
         $process = m::mock(Process::class);
-        $process->shouldReceive('prependScript')->with('')->andReturnSelf();
         $process->shouldReceive('setServer')->with($server, $private_key, $user);
 
         $this->process         = $process;
@@ -108,6 +108,7 @@ class ScriptBuilderTest extends TestCase
         $this->deployment      = $deployment;
         $this->server          = $server;
         $this->step            = $step;
+        $this->project         = $project;
         $this->release_archive = $release_archive;
         $this->private_key     = $private_key;
     }
@@ -118,14 +119,17 @@ class ScriptBuilderTest extends TestCase
      * @covers ::setup
      * @covers ::buildScript
      * @covers ::getScriptForStep
+     * @covers ::exports
      */
     public function testBuildScriptForDeployStep($stage, $script)
     {
-        // FIXME: - Line 115 & 135 not covered
         $this->step->shouldReceive('isCustom')->andReturn(false);
         $this->step->shouldReceive('getAttribute')->with('stage')->andReturn($stage);
 
+        $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
+
         $this->process->shouldReceive('setScript')->with($script, m::type('array'))->andReturnSelf();
+        $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
         $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
@@ -139,6 +143,80 @@ class ScriptBuilderTest extends TestCase
     public function provideDeploySteps()
     {
         return $this->fixture('Jobs/DeployProject/ScriptBuilder')['steps'];
+    }
+
+    public function testBuildCustomScript()
+    {
+        $script = 'ls -la';
+        $user   = 'deploy';
+
+        $command = m::mock(Command::class);
+        $command->shouldReceive('getAttribute')->with('user')->andReturn($user);
+        $command->shouldReceive('getAttribute')->with('script')->andReturn($script);
+
+        $this->step->shouldReceive('getAttribute')->with('command')->andReturn($command);
+
+        $this->step->shouldReceive('isCustom')->andReturn(true);
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::AFTER_CLONE);
+
+        $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
+
+        $this->process->shouldReceive('setScript') // FIXME: Clean up the first parameter?
+                      ->with(m::type('string'), m::type('array'), Process::DIRECT_INPUT)
+                      ->andReturnSelf();
+        $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
+        $this->process->shouldReceive('setServer')->with($this->server, $this->private_key, $user);
+
+        $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
+        $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
+        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+
+        $job = new ScriptBuilder($this->process, $this->parser);
+        $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
+            ->buildScript($this->server);
+    }
+
+    /**
+     * @dataProvider provideDeploySteps
+     * @covers ::__construct
+     * @covers ::setup
+     * @covers ::buildScript
+     * @covers ::getScriptForStep
+     * @covers ::exports
+     */
+    public function testBuildScriptIncludesVariables()
+    {
+        $exports   = 'export VAR=value' . PHP_EOL . 'export FOO=BAR' . PHP_EOL;
+        $variables = new Collection();
+
+        $variable1        = new Variable();
+        $variable1->name  = 'VAR';
+        $variable1->value = 'value';
+        $variables->push($variable1);
+
+        $variable2        = new Variable();
+        $variable2->name  = 'FOO';
+        $variable2->value = 'BAR';
+        $variables->push($variable2);
+
+        $this->step->shouldReceive('isCustom')->andReturn(false);
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::DO_CLONE);
+
+        $this->project->shouldReceive('getAttribute')->with('variables')->andReturn($variables);
+
+        $this->process->shouldReceive('setScript')
+                      ->with('deploy.steps.CreateNewRelease', m::type('array'))
+                      ->andReturnSelf();
+
+        $this->process->shouldReceive('prependScript')->with($exports)->andReturnSelf();
+
+        $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
+        $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
+        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+
+        $job = new ScriptBuilder($this->process, $this->parser);
+        $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
+            ->buildScript($this->server);
     }
 
     /**

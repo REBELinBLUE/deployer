@@ -71,6 +71,24 @@ class ScriptBuilder
 
         $tokens = $this->getTokens($server, $this->deployment, $this->step, $this->release_archive);
 
+        $user = $server->user;
+        if ($this->step->isCustom()) {
+            $user = empty($this->step->command->user) ? $server->user : $this->step->command->user;
+        }
+
+        // Now get the full script
+        return $this->getScriptForStep($tokens)
+                    ->prependScript($this->exports())
+                    ->setServer($server, $this->private_key, $user);
+    }
+
+    /**
+     * Generates the script for exports.
+     *
+     * @return string
+     */
+    private function exports()
+    {
         // Generate the export
         $exports = '';
 
@@ -83,15 +101,7 @@ class ScriptBuilder
             $exports .= "export {$key}={$value}" . PHP_EOL;
         });
 
-        $user = $server->user;
-        if ($this->step->isCustom()) {
-            $user = empty($this->step->command->user) ? $server->user : $this->step->command->user;
-        }
-
-        // Now get the full script
-        return $this->getScriptForStep($tokens)
-                    ->prependScript($exports)
-                    ->setServer($server, $this->private_key, $user);
+        return $exports;
     }
 
     /**
