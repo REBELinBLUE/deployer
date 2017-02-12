@@ -82,7 +82,8 @@ phpunit:
 ## PHPUnit Coverage
 phpunit-coverage:
 	@echo "\033[32mPHPUnit with Code Coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null --testsuite "Unit Tests"
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null --testsuite "Unit Tests" \
+		--printer "PHPUnit_TextUI_ResultPrinter"
 
 ## PHPUnit Tests - Excluding slow tests which touch the database (models)
 phpunit-fast:

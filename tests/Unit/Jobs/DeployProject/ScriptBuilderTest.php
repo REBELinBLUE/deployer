@@ -14,6 +14,7 @@ use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\Services\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\Variable;
 
 /**
@@ -129,12 +130,41 @@ class ScriptBuilderTest extends TestCase
 
         $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
 
-        $this->process->shouldReceive('setScript')->with($script, m::type('array'))->andReturnSelf();
+        $this->process->shouldReceive('setScript')->with($script, m::type('array'))->andReturnSelf();  // FIXME: Should check tokens
         $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
         $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
         $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+
+        $job = new ScriptBuilder($this->process, $this->parser);
+        $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
+            ->buildScript($this->server);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::setup
+     * @covers ::buildScript
+     * @covers ::getTokens
+     * @covers ::getScriptForStep
+     * @covers ::exports
+     */
+    public function testBuildScriptWithSource()
+    {
+        $source = 'github';
+
+        $this->step->shouldReceive('isCustom')->andReturn(false);
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::DO_CLONE);
+
+        $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
+
+        $this->process->shouldReceive('setScript')->withAnyArgs()->andReturnSelf(); // FIXME: Should check tokens
+        $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
+
+        $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
+        $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturnNull();
+        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturn($source);
 
         $job = new ScriptBuilder($this->process, $this->parser);
         $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
@@ -161,7 +191,7 @@ class ScriptBuilderTest extends TestCase
         $this->project->shouldReceive('getAttribute')->with('sharedFiles')->andReturn(new Collection());
 
         $this->process->shouldReceive('setScript')
-                      ->with('deploy.steps.InstallComposerDependencies', m::type('array'))
+                      ->with('deploy.steps.InstallComposerDependencies', m::type('array'))  // FIXME: Should check tokens
                       ->andReturnSelf();
         $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
         $this->process->shouldReceive('appendScript')->with('')->andReturnSelf();
@@ -178,6 +208,38 @@ class ScriptBuilderTest extends TestCase
     public function provideDeploySteps()
     {
         return $this->fixture('Jobs/DeployProject/ScriptBuilder')['steps'];
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::setup
+     * @covers ::buildScript
+     * @covers ::getTokens
+     * @covers ::getScriptForStep
+     * @covers ::exports
+     */
+    public function testBuildScriptWithUser()
+    {
+        $name  = 'bob smith';
+        $email = 'bob.smith@example.com';
+
+        $this->step->shouldReceive('isCustom')->andReturn(false);
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::DO_CLONE);
+
+        $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
+
+        $this->process->shouldReceive('setScript')->withAnyArgs()->andReturnSelf();  // FIXME: Should check tokens
+        $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
+
+        $user = m::mock(User::class);
+        $user->shouldReceive('getAttribute')->with('name')->andReturn($name);
+        $user->shouldReceive('getAttribute')->with('email')->andReturn($email);
+
+        $this->deployment->shouldReceive('getAttribute')->with('user')->andReturn($user);
+
+        $job = new ScriptBuilder($this->process, $this->parser);
+        $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
+            ->buildScript($this->server);
     }
 
     /**
@@ -207,7 +269,7 @@ class ScriptBuilderTest extends TestCase
         $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
 
         $this->process->shouldReceive('setScript') // FIXME: Clean up the first parameter?
-                      ->with(m::type('string'), m::type('array'), Process::DIRECT_INPUT)
+                      ->with(m::type('string'), m::type('array'), Process::DIRECT_INPUT)  // FIXME: Should check tokens
                       ->andReturnSelf();
         $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
         $this->process->shouldReceive('setServer')->with($this->server, $this->private_key, $user);
@@ -251,7 +313,7 @@ class ScriptBuilderTest extends TestCase
         $this->project->shouldReceive('getAttribute')->with('variables')->andReturn($variables);
 
         $this->process->shouldReceive('setScript')
-                      ->with('deploy.steps.CreateNewRelease', m::type('array'))
+                      ->with('deploy.steps.CreateNewRelease', m::type('array'))  // FIXME: Should check tokens
                       ->andReturnSelf();
 
         $this->process->shouldReceive('prependScript')->with($exports)->andReturnSelf();
@@ -263,6 +325,36 @@ class ScriptBuilderTest extends TestCase
         $job = new ScriptBuilder($this->process, $this->parser);
         $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
             ->buildScript($this->server);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::setup
+     * @covers ::buildScript
+     * @covers ::getTokens
+     * @covers ::getScriptForStep
+     * @covers ::exports
+     * @covers ::configurationFileCommands
+     * @covers ::shareFileCommands
+     */
+    public function testIncludesSharedFiles()
+    {
+        $this->markTestIncomplete('not yet done');
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::setup
+     * @covers ::buildScript
+     * @covers ::getTokens
+     * @covers ::getScriptForStep
+     * @covers ::exports
+     * @covers ::configurationFileCommands
+     * @covers ::shareFileCommands
+     */
+    public function testIncludesConfigFiles()
+    {
+        $this->markTestIncomplete('not yet done');
     }
 
     /**
