@@ -118,6 +118,7 @@ class ScriptBuilderTest extends TestCase
      * @covers ::__construct
      * @covers ::setup
      * @covers ::buildScript
+     * @covers ::getTokens
      * @covers ::getScriptForStep
      * @covers ::exports
      */
@@ -140,11 +141,55 @@ class ScriptBuilderTest extends TestCase
             ->buildScript($this->server);
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::setup
+     * @covers ::buildScript
+     * @covers ::getTokens
+     * @covers ::getScriptForStep
+     * @covers ::exports
+     * @covers ::configurationFileCommands
+     * @covers ::shareFileCommands
+     */
+    public function testBuildScriptForInstallStep()
+    {
+        $this->step->shouldReceive('isCustom')->andReturn(false);
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::DO_INSTALL);
+
+        $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
+        $this->project->shouldReceive('getAttribute')->with('configFiles')->andReturn(new Collection());
+        $this->project->shouldReceive('getAttribute')->with('sharedFiles')->andReturn(new Collection());
+
+        $this->process->shouldReceive('setScript')
+                      ->with('deploy.steps.InstallComposerDependencies', m::type('array'))
+                      ->andReturnSelf();
+        $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
+        $this->process->shouldReceive('appendScript')->with('')->andReturnSelf();
+
+        $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
+        $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
+        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+
+        $job = new ScriptBuilder($this->process, $this->parser);
+        $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
+            ->buildScript($this->server);
+    }
+
     public function provideDeploySteps()
     {
         return $this->fixture('Jobs/DeployProject/ScriptBuilder')['steps'];
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::setup
+     * @covers ::buildScript
+     * @covers ::getTokens
+     * @covers ::getScriptForStep
+     * @covers ::exports
+     * @covers ::configurationFileCommands
+     * @covers ::shareFileCommands
+     */
     public function testBuildCustomScript()
     {
         $script = 'ls -la';
@@ -181,6 +226,7 @@ class ScriptBuilderTest extends TestCase
      * @covers ::__construct
      * @covers ::setup
      * @covers ::buildScript
+     * @covers ::getTokens
      * @covers ::getScriptForStep
      * @covers ::exports
      */
