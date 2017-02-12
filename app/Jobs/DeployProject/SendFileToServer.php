@@ -69,16 +69,17 @@ class SendFileToServer
      */
     public function handle(Process $process, LogFormatter $formatter)
     {
-        $output = '';
+        $server = $this->log->server;
 
+        $output = '';
         $process->setScript('deploy.SendFileToServer', [
             'deployment'  => $this->deployment->id,
-            'port'        => $this->log->server->port,
+            'port'        => $server->port,
             'private_key' => $this->key,
             'local_file'  => $this->local_file,
             'remote_file' => $this->remote_file,
-            'username'    => $this->log->server->user,
-            'ip_address'  => $this->log->server->ip_address,
+            'username'    => $server->user,
+            'ip_address'  => $server->ip_address,
         ])->run(function ($type, $output_line) use (&$output, $formatter) {
             if ($type === SymfonyProcess::ERR) {
                 $output .= $formatter->error($output_line);
@@ -95,6 +96,7 @@ class SendFileToServer
             $this->log->save();
         });
 
+        // FIXME: Need the step?
         if (!$process->isSuccessful()) {
             throw new RuntimeException($process->getErrorOutput());
         }

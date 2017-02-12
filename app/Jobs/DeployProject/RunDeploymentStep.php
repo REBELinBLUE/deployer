@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Jobs\DeployProject;
 
+use Exception;
 use Illuminate\Cache\Repository as Cache;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\SerializesModels;
@@ -135,17 +136,18 @@ class RunDeploymentStep
                 $this->runDeploymentStep($log, $server);
 
                 // Check if there is a cache key and if the release has not yet been activated
-                if ($this->cache->pull($this->cache_key) !== null && $this->step->stage <= Command::DO_ACTIVATE) {
+                if ($this->cache->pull($this->cache_key) !== null && $this->canBeCancelled()) {
                     throw new CancelledDeploymentException();
                 }
 
                 $log->status = ServerLog::COMPLETED;
-            } catch (CancelledDeploymentException $e) {
-                $log->status = ServerLog::CANCELLED;
-
-                throw $e;
             } catch (Exception $e) {
-                $log->output .= $this->logError('[' . $server->ip_address . ']: ' . $e->getMessage());
+                if ($e instanceof CancelledDeploymentException) {
+                    $log->status = ServerLog::CANCELLED;
+
+                    throw $e;
+                }
+
                 $log->status = ServerLog::FAILED;
 
                 throw new FailedDeploymentException();
@@ -179,17 +181,21 @@ class RunDeploymentStep
     }
 
     /**
-     * @param  ServerLog                 $log
-     * @param  Server                    $server
+     * @param ServerLog $log
+     * @param Server    $server
+     *
      * @throws FailedDeploymentException
+     * @throws CancelledDeploymentException
      */
     private function runDeploymentStep(ServerLog $log, Server $server)
     {
         $process = $this->buildScript($server);
 
+        $cancelled = false;
+
         if (!empty($process)) {
             $output = '';
-            $process->run(function ($type, $output_line) use (&$output, &$log, $process) {
+            $process->run(function ($type, $output_line) use (&$output, &$log, $process, &$cancelled) {
                 if ($type === SymfonyProcess::ERR) {
                     $output .= $this->formatter->error($output_line);
                 } else {
@@ -200,17 +206,23 @@ class RunDeploymentStep
                 $log->save();
 
                 // If there is a cache key, kill the process but leave the key
-                if ($this->step->stage <= Command::DO_ACTIVATE && $this->cache->has($this->cache_key)) {
+                if ($this->cache->has($this->cache_key) && $this->canBeCancelled()) {
                     $process->stop(0, SIGINT);
 
-                    $output .= $this->logError('SIGINT');
+                    $output .= $this->formatter->error('SIGINT - Cancelled');
+
+                    $cancelled = true;
                 }
             });
 
             $log->output = $output;
 
             if (!$process->isSuccessful()) {
-                throw new FailedDeploymentException();
+                if ($cancelled) {
+                    throw new CancelledDeploymentException();
+                }
+
+                throw new FailedDeploymentException($process->getErrorOutput());
             }
         }
     }
@@ -442,5 +454,15 @@ class RunDeploymentStep
         }
 
         return $tokens;
+    }
+
+    /**
+     * Whether or not the step can be cancelled.
+     *
+     * @return bool
+     */
+    private function canBeCancelled()
+    {
+        return $this->step->stage <= Command::DO_ACTIVATE;
     }
 }

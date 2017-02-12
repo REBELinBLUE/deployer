@@ -9,10 +9,12 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Queue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
 use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
+use REBELinBLUE\Deployer\Exceptions\DeploymentException;
 use REBELinBLUE\Deployer\Jobs\DeployProject\CleanupFailedDeployment;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ReleaseArchiver;
 use REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep;
@@ -122,40 +124,41 @@ class DeployProject extends Job implements ShouldQueue
     private function fail(Exception $error)
     {
         $this->deployment->project->status = Project::FAILED;
+        $this->deployment->status          = Deployment::FAILED;
 
-        if (!$error instanceof CancelledDeploymentException) {
-            $this->deployment->status      = Deployment::FAILED;
-            $this->deployment->finished_at = $this->deployment->freshTimestamp();
-        } else {
+        if ($error instanceof CancelledDeploymentException) {
             $this->deployment->status = Deployment::ABORTED;
+        } else {
+            $this->deployment->finished_at = $this->deployment->freshTimestamp();
         }
+
+        $activated = true;
 
         /** @var Collection $steps */
         $steps = $this->deployment->steps;
-        $steps->each(function (DeployStep $step) {
+        $steps->each(function (DeployStep $step) use (&$activated) {
             /** @var Collection $servers */
             $servers = $step->servers;
             $servers->filter(function (ServerLog $log) {
                 return $log->status === ServerLog::PENDING;
-            })->each(function (ServerLog $log) {
+            })->each(function (ServerLog $log) use ($step, &$activated) {
+                if ($step->stage <= Command::DO_ACTIVATE) {
+                    $activated = false;
+                }
+
                 $log->status = ServerLog::CANCELLED;
                 $log->save();
             });
         });
 
-//        if (isset($step)) { // FIXME: This no longer works
-//            // Cleanup the release if it has not been activated
-//            if ($step->stage <= Stage::DO_ACTIVATE) {
-//                $this->dispatch(new CleanupFailedDeployment(
-//                    $this->deployment,
-//                    $this->archive,
-//                    $this->private_key
-//                ));
-//            } else {
-//                $this->deployment->status          = Deployment::COMPLETED_WITH_ERRORS;
-//                $this->deployment->project->status = Project::FINISHED;
-//            }
-//        }
+        if ($error instanceof DeploymentException) {
+            if (!$activated) {
+                $this->dispatch(new CleanupFailedDeployment($this->deployment, $this->archive, $this->private_key));
+            } else {
+                $this->deployment->status          = Deployment::COMPLETED_WITH_ERRORS;
+                $this->deployment->project->status = Project::FINISHED;
+            }
+        }
     }
 
     /**

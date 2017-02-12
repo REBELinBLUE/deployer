@@ -10,6 +10,7 @@ use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
+use RuntimeException;
 
 /**
  * Updates the git mirror for a project.
@@ -63,7 +64,7 @@ class UpdateGitMirror extends Job implements ShouldQueue
         $filesystem->delete([$wrapper_file, $private_key]);
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());
+            throw new RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());
         }
 
         $this->project->last_mirrored = $this->project->freshTimestamp();
