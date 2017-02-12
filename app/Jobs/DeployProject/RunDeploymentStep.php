@@ -11,6 +11,7 @@ use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
+use REBELinBLUE\Deployer\Exceptions\DeploymentException;
 use REBELinBLUE\Deployer\Exceptions\FailedDeploymentException;
 use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\ServerLog;
@@ -128,7 +129,7 @@ class RunDeploymentStep
                 }
 
                 $log->status = ServerLog::COMPLETED;
-            } catch (Exception $e) {
+            } catch (DeploymentException $e) {
                 if ($e instanceof CancelledDeploymentException) {
                     $log->status = ServerLog::CANCELLED;
 
@@ -152,11 +153,16 @@ class RunDeploymentStep
      */
     private function sendFilesForStep(ServerLog $log)
     {
+        if ($this->step->stage !== Command::DO_CLONE && $this->step->stage !== Command::DO_INSTALL) {
+            return;
+        }
+
         $latest_release_dir = $log->server->clean_path . '/releases/' . $this->deployment->release_id;
-        $remote_archive     = $log->server->clean_path . '/' . $this->release_archive;
-        $local_archive      = storage_path('app/' . $this->release_archive);
 
         if ($this->step->stage === Command::DO_CLONE) {
+            $remote_archive = $log->server->clean_path . '/' . $this->release_archive;
+            $local_archive  = storage_path('app/' . $this->release_archive);
+
             $this->sendFile($local_archive, $remote_archive, $log);
         } elseif ($this->step->stage === Command::DO_INSTALL) {
             /** @var Collection $files */
@@ -175,14 +181,11 @@ class RunDeploymentStep
      */
     private function runDeploymentStepOnServer(ServerLog $log)
     {
-        $server = $log->server;
-
-        $process = $this->builder->buildScript($server);
-
-        $cancelled = false;
+        $process = $this->builder->buildScript($log->server);
 
         if (!empty($process)) {
-            $output = '';
+            $cancelled = false;
+            $output    = '';
             $process->run(function ($type, $output_line) use (&$output, &$log, $process, &$cancelled) {
                 if ($type === Process::ERR) {
                     $output .= $this->formatter->error($output_line);

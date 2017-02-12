@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Jobs\DeployProject;
 
+use Exception;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Deployment;
@@ -60,13 +61,13 @@ class ScriptBuilder
      *
      * @param Server $server
      *
-     * @throws \Exception
+     * @throws Exception
      * @return Process
      */
     public function buildScript(Server $server)
     {
         if (!isset($this->deployment)) {
-            throw new \Exception('Setup has not been called');
+            throw new Exception('Setup has not been called');
         }
 
         $tokens = $this->getTokens($server, $this->deployment, $this->step, $this->release_archive);

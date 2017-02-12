@@ -4,13 +4,13 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Jobs\DeployProject;
 
 use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Exceptions\FailedDeploymentException;
 use REBELinBLUE\Deployer\Jobs\DeployProject\LogFormatter;
 use REBELinBLUE\Deployer\Jobs\DeployProject\SendFileToServer;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use RuntimeException;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\DeployProject\SendFileToServer
@@ -116,7 +116,7 @@ class SendFileToServerTest extends TestCase
      */
     public function testHandleIsUnsuccessful()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(FailedDeploymentException::class);
         $this->process->shouldReceive('isSuccessful')->once()->andReturn(false);
         $this->process->shouldReceive('getErrorOutput')->once();
 

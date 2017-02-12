@@ -5,9 +5,9 @@ namespace REBELinBLUE\Deployer\Jobs\DeployProject;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Exceptions\FailedDeploymentException;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
-use RuntimeException;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
 /**
@@ -96,9 +96,8 @@ class SendFileToServer
             $this->log->save();
         });
 
-        // FIXME: Need the step?
         if (!$process->isSuccessful()) {
-            throw new RuntimeException($process->getErrorOutput());
+            throw new FailedDeploymentException($process->getErrorOutput());
         }
     }
 }

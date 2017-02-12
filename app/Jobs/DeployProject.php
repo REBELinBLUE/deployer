@@ -94,11 +94,11 @@ class DeployProject extends Job implements ShouldQueue
         $this->filesystem->put($this->private_key, $this->deployment->project->private_key);
         $this->filesystem->chmod($this->private_key, 0600);
 
-        $this->dispatch(new UpdateGitMirror($this->deployment->project));
-        $this->dispatch(new UpdateRepositoryInfo($this->deployment));
-        $this->dispatch(new ReleaseArchiver($this->deployment, $this->archive));
-
         try {
+            $this->dispatch(new UpdateGitMirror($this->deployment->project));
+            $this->dispatch(new UpdateRepositoryInfo($this->deployment));
+            $this->dispatch(new ReleaseArchiver($this->deployment, $this->archive));
+
             /** @var Collection $steps */
             $steps = $this->deployment->steps;
             $steps->each(function (DeployStep $step) {
