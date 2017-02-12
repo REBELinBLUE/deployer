@@ -187,8 +187,10 @@ return [
          */
         REBELinBLUE\Deployer\Providers\AppServiceProvider::class,
         REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\GuzzleServiceProvider::class,
         REBELinBLUE\Deployer\Providers\HelperServiceProvider::class,
         REBELinBLUE\Deployer\Providers\LogServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\ProcessServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RepositoryServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RouteServiceProvider::class,
         REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,

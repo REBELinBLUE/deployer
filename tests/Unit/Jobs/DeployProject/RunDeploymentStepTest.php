@@ -9,4 +9,8 @@ use REBELinBLUE\Deployer\Tests\TestCase;
  */
 class RunDeploymentStepTest extends TestCase
 {
+    public function testSkip()
+    {
+        $this->markTestIncomplete('not yet implemented');
+    }
 }

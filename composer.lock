@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7706107f2946d2dcfe6faeb7ae84b329",
+    "content-hash": "07f0a4342f97143a6379e2e69a07de59",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -4188,6 +4188,52 @@
                 "testing"
             ],
             "time": "2016-08-25T13:11:15+00:00"
+        },
+        {
+            "name": "diablomedia/phpunit-pretty-printer",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/diablomedia/phpunit-pretty-printer.git",
+                "reference": "5ad8f7019845fce9341eff0fcdaf2934ce890cfd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/diablomedia/phpunit-pretty-printer/zipball/5ad8f7019845fce9341eff0fcdaf2934ce890cfd",
+                "reference": "5ad8f7019845fce9341eff0fcdaf2934ce890cfd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "phpunit/phpunit": ">=4.7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DiabloMedia\\PHPUnit\\Printer\\": "src/DiabloMedia/PHPUnit/Printer"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ari Pringle",
+                    "email": "ari@diablomedia.com",
+                    "homepage": "https://diablomedia.com"
+                }
+            ],
+            "description": "A PHPUnit result printer that shows per-file test progress and execution times",
+            "homepage": "https://github.com/diablomedia/phpunit-pretty-printer",
+            "keywords": [
+                "phpunit",
+                "printer",
+                "result",
+                "test",
+                "unit"
+            ],
+            "time": "2016-02-16T21:45:23+00:00"
         },
         {
             "name": "doctrine/instantiator",
