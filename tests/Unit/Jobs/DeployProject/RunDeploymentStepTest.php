@@ -7,6 +7,7 @@ use Illuminate\Cache\Repository as Cache;
 use Illuminate\Support\Collection;
 use Mockery as m;
 use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
@@ -19,6 +20,7 @@ use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\stubs\Project;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep
@@ -218,6 +220,52 @@ class RunDeploymentStepTest extends TestCase
         $this->cache->shouldReceive('pull')->with($this->cache_key)->andReturnNull();
 
         $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::DO_CLONE);
+
+        $job = new RunDeploymentStep($this->deployment, $this->step, $this->private_key, $this->release_archive);
+        $job->handle($this->cache, $this->formatter, $this->filesystem, $this->builder);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::run
+     * @covers ::sendFilesForStep
+     * @covers ::runDeploymentStepOnServer
+     * @covers ::sendFileFromString
+     * @covers ::sendFile
+     */
+    public function testRunOnInstallStepUploadsConfigFiles()
+    {
+        $path         = '/var/www/deployer';
+        $config       = 'config.yml';
+        $release_id   = 20171601161556;
+        $content      = 'the-file-content';
+        $tmp          = '/tmp/a-tmp-file-name';
+
+        $log = $this->mockLog();
+
+        $this->expectsJobs(SendFileToServer::class);
+
+        $file = m::mock(ConfigFile::class);
+        $file->shouldReceive('getAttribute')->with('path')->andReturn($config);
+        $file->shouldReceive('getAttribute')->with('content')->andReturn($content);
+
+        $project = m::mock(Project::class);
+        $project->shouldReceive('getAttribute')->with('configFiles')->andReturn(new Collection([$file]));
+
+        $this->server->shouldReceive('getAttribute')->with('clean_path')->andReturn($path);
+        $this->deployment->shouldReceive('getAttribute')->with('release_id')->andReturn($release_id);
+        $this->deployment->shouldReceive('getAttribute')->with('project')->andReturn($project);
+
+        $log->shouldReceive('setAttribute')->with('status', ServerLog::COMPLETED);
+
+        $this->filesystem->shouldReceive('tempnam')->with(storage_path('app/tmp/'), 'tmp')->andReturn($tmp);
+        $this->filesystem->shouldReceive('put')->with($tmp, $content);
+        $this->filesystem->shouldReceive('delete')->with($tmp);
+
+        $this->cache->shouldReceive('pull')->with($this->cache_key)->andReturnNull();
+
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::DO_INSTALL);
 
         $job = new RunDeploymentStep($this->deployment, $this->step, $this->private_key, $this->release_archive);
         $job->handle($this->cache, $this->formatter, $this->filesystem, $this->builder);
