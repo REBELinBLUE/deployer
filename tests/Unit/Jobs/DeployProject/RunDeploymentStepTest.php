@@ -151,6 +151,7 @@ class RunDeploymentStepTest extends TestCase
      * @covers ::run
      * @covers ::sendFilesForStep
      * @covers ::runDeploymentStepOnServer
+     * @covers ::canBeCancelled
      */
     public function testRunWithCacheEntryThrowsCancelledDeploymentException()
     {
@@ -175,6 +176,7 @@ class RunDeploymentStepTest extends TestCase
      * @covers ::run
      * @covers ::sendFilesForStep
      * @covers ::runDeploymentStepOnServer
+     * @covers ::canBeCancelled
      */
     public function testRunWithCacheEntryDoesNotThrowCancelledDeploymentExceptionWhenTooLate()
     {
@@ -197,6 +199,7 @@ class RunDeploymentStepTest extends TestCase
      * @covers ::run
      * @covers ::sendFilesForStep
      * @covers ::runDeploymentStepOnServer
+     * @covers ::sendFile
      */
     public function testRunOnCloneStepUploadsArchive()
     {
