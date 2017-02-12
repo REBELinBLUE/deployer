@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Support\Collection;
 use Mockery as m;
 use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ScriptBuilder;
@@ -13,6 +14,7 @@ use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\Services\Scripts\Parser as ScriptParser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\SharedFile;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\Variable;
@@ -163,7 +165,7 @@ class ScriptBuilderTest extends TestCase
         $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
-        $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturnNull();
+        $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
         $this->deployment->shouldReceive('getAttribute')->with('source')->andReturn($source);
 
         $job = new ScriptBuilder($this->process, $this->parser);
@@ -337,9 +339,40 @@ class ScriptBuilderTest extends TestCase
      * @covers ::configurationFileCommands
      * @covers ::shareFileCommands
      */
-    public function testIncludesSharedFiles()
+    public function testIncludesConfigFiles()
     {
-        $this->markTestIncomplete('not yet done');
+        $path   = 'config.yml';
+        $script = 'a-configuration-file-script';
+
+        $config = m::mock(ConfigFile::class);
+        $config->shouldReceive('getAttribute')->with('path')->andReturn($path);
+
+        $this->step->shouldReceive('isCustom')->andReturn(false);
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::DO_INSTALL);
+
+        $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
+        $this->project->shouldReceive('getAttribute')->with('configFiles')->andReturn(new Collection([$config]));
+        $this->project->shouldReceive('getAttribute')->with('sharedFiles')->andReturn(new Collection());
+
+        $this->parser->shouldReceive('parseFile')->with('deploy.ConfigurationFile', [
+            'deployment' => 12312,
+            'path'       => '/var/www/releases/20170110155645/' . $path,
+        ])->andReturn($script);
+
+        $this->process->shouldReceive('setScript')
+             ->with('deploy.steps.InstallComposerDependencies', m::type('array'))  // FIXME: Should check tokens
+             ->andReturnSelf();
+        $this->process->shouldReceive('prependScript')->once()->with('')->andReturnSelf();
+        $this->process->shouldReceive('prependScript')->once()->with($script . PHP_EOL)->andReturnSelf();
+        $this->process->shouldReceive('appendScript')->with('')->andReturnSelf();
+
+        $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
+        $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(false);
+        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+
+        $job = new ScriptBuilder($this->process, $this->parser);
+        $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
+            ->buildScript($this->server);
     }
 
     /**
@@ -352,9 +385,65 @@ class ScriptBuilderTest extends TestCase
      * @covers ::configurationFileCommands
      * @covers ::shareFileCommands
      */
-    public function testIncludesConfigFiles()
+    public function testIncludesSharedFiles()
     {
-        $this->markTestIncomplete('not yet done');
+        $script = 'a-configuration-file-script';
+
+        $shared = new Collection();
+
+        $file = m::mock(SharedFile::class);
+        $file->shouldReceive('getAttribute')->with('file')->andReturn('/directory/');
+        $shared->push($file);
+
+        $file = m::mock(SharedFile::class);
+        $file->shouldReceive('getAttribute')->with('file')->andReturn('config/file/README');
+        $shared->push($file);
+
+        $file = m::mock(SharedFile::class);
+        $file->shouldReceive('getAttribute')->with('file')->andReturn('config/file/config.yml');
+        $shared->push($file);
+
+        $this->step->shouldReceive('isCustom')->andReturn(false);
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::DO_INSTALL);
+
+        $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
+        $this->project->shouldReceive('getAttribute')->with('configFiles')->andReturn(new Collection());
+        $this->project->shouldReceive('getAttribute')->with('sharedFiles')->andReturn($shared);
+
+        // Test directory
+        $this->parser->shouldReceive('parseFile')->with('deploy.ShareDirectory', [
+            'deployment'  => 12312,
+            'target_file' => '/var/www/releases/20170110155645/directory',
+            'source_file' => '/var/www/shared/directory',
+        ])->andReturn($script);
+
+        // Test file with extension
+        $this->parser->shouldReceive('parseFile')->with('deploy.ShareFile', [
+            'deployment'  => 12312,
+            'target_file' => '/var/www/releases/20170110155645/config/file/config.yml',
+            'source_file' => '/var/www/shared/config.yml',
+        ])->andReturn($script);
+
+        // Test file without extension
+        $this->parser->shouldReceive('parseFile')->with('deploy.ShareFile', [
+            'deployment'  => 12312,
+            'target_file' => '/var/www/releases/20170110155645/config/file/README',
+            'source_file' => '/var/www/shared/README',
+        ])->andReturn($script);
+
+        $this->process->shouldReceive('setScript')
+            ->with('deploy.steps.InstallComposerDependencies', m::type('array'))  // FIXME: Should check tokens
+            ->andReturnSelf();
+        $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
+        $this->process->shouldReceive('appendScript')->with(PHP_EOL . $script . $script . $script)->andReturnSelf();
+
+        $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
+        $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(false);
+        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+
+        $job = new ScriptBuilder($this->process, $this->parser);
+        $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
+            ->buildScript($this->server);
     }
 
     /**
