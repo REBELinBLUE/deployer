@@ -27,6 +27,7 @@ class GroupControllerTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::index
      */
     public function testIndex()
@@ -40,6 +41,7 @@ class GroupControllerTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::store
      */
     public function testStoreCreatesGroup()
@@ -55,6 +57,7 @@ class GroupControllerTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::store
      */
     public function testStoreValidates()
@@ -66,6 +69,7 @@ class GroupControllerTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::update
      */
     public function testUpdateReturnsErrorWhenInvalid()
@@ -76,6 +80,7 @@ class GroupControllerTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::update
      */
     public function testUpdateUpdatesGroup()
@@ -95,6 +100,7 @@ class GroupControllerTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::update
      */
     public function testUpdateValidates()
