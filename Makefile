@@ -77,29 +77,39 @@ phpmd:
 ## PHPUnit Tests
 phpunit:
 	@echo "\033[32mPHPUnit\033[39m"
-	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests"
+	@php vendor/bin/phpunit --no-coverage
 
 ## PHPUnit Coverage
 phpunit-coverage:
-	@echo "\033[32mPHPUnit with Code Coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null --testsuite "Unit Tests" \
+	@echo "\033[32mTests with Code Coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null \
 		--printer "PHPUnit_TextUI_ResultPrinter"
 
 ## PHPUnit Tests - Excluding slow tests which touch the database (models)
 phpunit-fast:
-	@echo "\033[32mPHPUnit without slow tests\033[39m"
+	@echo "\033[32mFast tests\033[39m"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests" --exclude-group slow
 
 ## PHPUnit Tests - Only the slow tests
 phpunit-slow:
-	@echo "\033[32mPHPUnit slow tests only\033[39m"
+	@echo "\033[32mSlow tests only\033[39m"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests" --exclude-group default
+
+## Unit Tests
+phpunit-unit:
+	@echo "\033[32All unit tests\033[39m"
+	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests"
+
+## Integration Tests
+phpunit-integration:
+	@echo "\033[32mAll integration tests\033[39m"
+	@php vendor/bin/phpunit --no-coverage --testsuite "Feature Tests"
 
 ## Runs most tests but excludes PHPMD and slow unit tests
 quicktest: install-dev lint phpcs phpdoc-check phpunit-fast
 
 ## Runs all tests, including slow unit tests and PHPMD
-test: install-dev lint phpcs phpdoc-check phpunit phpmd
+test: install-dev lint phpcs phpdoc-check phpunit phpunit-integration phpmd
 
 ## Prints this help :D
 help:
