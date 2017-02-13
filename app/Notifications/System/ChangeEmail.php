@@ -17,7 +17,7 @@ class ChangeEmail extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @var
+     * @var string
      */
     private $token;
 

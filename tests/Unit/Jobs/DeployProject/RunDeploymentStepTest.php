@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Jobs\DeployProject;
 
 use Carbon\Carbon;
+use Closure;
 use Illuminate\Cache\Repository as Cache;
 use Illuminate\Support\Collection;
 use Mockery as m;
@@ -11,6 +12,7 @@ use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
+use REBELinBLUE\Deployer\Exceptions\FailedDeploymentException;
 use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\Jobs\DeployProject\LogFormatter;
 use REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep;
@@ -21,6 +23,8 @@ use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\stubs\Project;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
+use Symfony\Component\Process\Process as SymfonyProcess;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep
@@ -176,6 +180,50 @@ class RunDeploymentStepTest extends TestCase
      * @covers ::__construct
      * @covers ::handle
      * @covers ::run
+     * @covers ::runDeploymentStepOnServer
+     */
+    public function testRunDeploymentStepOnServerThrowsFailedDeploymentExceptionOnFailure()
+    {
+        $this->expectException(FailedDeploymentException::class);
+
+        $output = '';
+
+//        $type = SymfonyProcess::ERR;
+//        $line = 'a-line-of-output';
+
+        $process = m::mock(Process::class);
+//        $process->shouldReceive('run')->once()->with(m::on(function ($callback) use ($type, $line) {
+//            $callback($type, $line);
+//            $this->assertInstanceOf(Closure::class, $callback);
+//            return true;
+//        }));
+
+        $process->shouldReceive('run')->once()->with(m::type('callable'));
+
+        $process->shouldReceive('isSuccessful')->andReturn(false);
+        $process->shouldReceive('getErrorOutput');
+
+        $log = $this->mockLog($process);
+
+        //$this->formatter->shouldReceive('error')->with($line);
+
+        $log->shouldReceive('setAttribute')->with('output', $output);
+        $log->shouldReceive('setAttribute')->with('status', ServerLog::FAILED);
+
+        $this->cache->shouldReceive('pull')->with($this->cache_key)->andReturnNull();
+
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::BEFORE_INSTALL);
+
+
+
+        $job = new RunDeploymentStep($this->deployment, $this->step, $this->private_key, $this->release_archive);
+        $job->handle($this->cache, $this->formatter, $this->filesystem, $this->builder);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::run
      * @covers ::sendFilesForStep
      * @covers ::runDeploymentStepOnServer
      * @covers ::canBeCancelled
@@ -271,7 +319,7 @@ class RunDeploymentStepTest extends TestCase
         $job->handle($this->cache, $this->formatter, $this->filesystem, $this->builder);
     }
 
-    private function mockLog()
+    private function mockLog($process = null)
     {
         $started_at  = Carbon::create(2017, 2, 1, 12, 45, 54, 'UTC');
         $finished_at = Carbon::create(2017, 2, 1, 12, 47, 12, 'UTC');
@@ -287,7 +335,7 @@ class RunDeploymentStepTest extends TestCase
 
         $this->step->shouldReceive('getAttribute')->with('servers')->andReturn(new Collection([$log]));
 
-        $this->builder->shouldReceive('buildScript')->once()->with($this->server)->andReturnNull();
+        $this->builder->shouldReceive('buildScript')->once()->with($this->server)->andReturn($process);
 
         return $log;
     }

@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Jobs\DeployProject;
 
-use Exception;
 use Illuminate\Cache\Repository as Cache;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\SerializesModels;
@@ -11,7 +10,6 @@ use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Exceptions\CancelledDeploymentException;
-use REBELinBLUE\Deployer\Exceptions\DeploymentException;
 use REBELinBLUE\Deployer\Exceptions\FailedDeploymentException;
 use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\ServerLog;
@@ -129,16 +127,12 @@ class RunDeploymentStep
                 }
 
                 $log->status = ServerLog::COMPLETED;
-            } catch (DeploymentException $e) {
-                if ($e instanceof CancelledDeploymentException) {
-                    $log->status = ServerLog::CANCELLED;
-
-                    throw $e;
-                }
-
+            } catch (CancelledDeploymentException $e) {
+                $log->status = ServerLog::CANCELLED;
+                throw $e;
+            } catch (FailedDeploymentException $e) {
                 $log->status = ServerLog::FAILED;
-
-                throw new FailedDeploymentException();
+                throw $e;
             } finally {
                 $log->finished_at = $log->freshTimestamp();
                 $log->save();
