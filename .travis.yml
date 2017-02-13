@@ -16,7 +16,6 @@ cache:
     - $TRAVIS_BUILD_DIR/node_modules
     - $TRAVIS_BUILD_DIR/bower_components
     - $HOME/.composer/cache
-    - $HOME/.yarn-cache
 
 matrix:
   fast_finish: true
@@ -65,16 +64,11 @@ matrix:
         - postgresql
 
 before_install:
-  - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-  - sudo apt-key adv --keyserver pgp.mit.edu --recv D101F7899D41F3C3
-  - echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-  - sudo apt-get update -qq
-  - sudo apt-get install -y -qq yarn
   - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then phpenv config-rm xdebug.ini; fi
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
-  - travis_retry yarn install --no-progress
+  - travis_retry npm install --no-progress
 
 before_script:
   - make ci
