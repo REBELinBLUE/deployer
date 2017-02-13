@@ -251,6 +251,44 @@ class RunDeploymentStepTest extends TestCase
      * @covers ::__construct
      * @covers ::handle
      * @covers ::run
+     * @covers ::runDeploymentStepOnServer
+     */
+    public function testRunDeploymentStepOnServerWithOutputCancelsDeployment()
+    {
+        $this->expectException(CancelledDeploymentException::class);
+
+        $process = m::mock(Process::class);
+        $process->shouldReceive('run')->once()->with(m::on(function ($callback) {
+            $callback(SymfonyProcess::OUT, 'a-line');
+            $this->assertInstanceOf(Closure::class, $callback);
+
+            return true;
+        }));
+
+        $process->shouldReceive('stop')->once()->with(0, SIGINT);
+        $process->shouldReceive('isSuccessful')->andReturn(false);
+
+        $log = $this->mockLog($process, 1);
+
+        $this->formatter->shouldReceive('info')->with('a-line')->andReturn('a-line');
+        $this->formatter->shouldReceive('error')->with('SIGINT - Cancelled')->andReturn();
+
+        $log->shouldReceive('setAttribute')->with('output', 'a-line');
+        $log->shouldReceive('setAttribute')->with('status', ServerLog::CANCELLED);
+
+        $this->cache->shouldReceive('has')->with($this->cache_key)->andReturn(true);
+        $this->cache->shouldReceive('pull')->with($this->cache_key)->andReturn(true);
+
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::BEFORE_INSTALL);
+
+        $job = new RunDeploymentStep($this->deployment, $this->step, $this->private_key, $this->release_archive);
+        $job->handle($this->cache, $this->formatter, $this->filesystem, $this->builder);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::run
      * @covers ::sendFilesForStep
      * @covers ::runDeploymentStepOnServer
      * @covers ::canBeCancelled
