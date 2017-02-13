@@ -10,7 +10,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Admin\GroupControllerTest
+ * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Admin\GroupController
  */
 class GroupControllerTest extends TestCase
 {
@@ -35,8 +35,8 @@ class GroupControllerTest extends TestCase
 
         $response->assertStatus(Response::HTTP_OK)->assertViewHas(['title', 'groups']);
 
-        /** @var \Robbo\Presenter\View\View $json */
-        $view = $response->getOriginalContent();
+        /** @var \Robbo\Presenter\View\View $view */
+        $view   = $response->getOriginalContent();
         $groups = app(GroupRepositoryInterface::class)->getAll();
 
         $this->assertSame($groups->toJson(), $view->groups->toJson());
@@ -44,17 +44,17 @@ class GroupControllerTest extends TestCase
 
     /**
      * @covers ::__construct
-     * @covers ::
+     * @covers ::store
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
-    public function testStoreCreatesGroup()
+    public function testStore()
     {
         $expected = 'a-new-group';
 
         $response = $this->postJson('/admin/groups', ['name' => $expected]);
 
         $response->assertStatus(Response::HTTP_OK)->assertJson(['name' => $expected]);
-
         $this->assertDatabaseHas('groups', ['name' => $expected]);
     }
 
@@ -62,6 +62,7 @@ class GroupControllerTest extends TestCase
      * @covers ::__construct
      * @covers ::store
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testStoreValidatesNameRequired()
     {
@@ -74,6 +75,7 @@ class GroupControllerTest extends TestCase
      * @covers ::__construct
      * @covers ::store
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testStoreValidatesNameUnique()
     {
@@ -87,7 +89,6 @@ class GroupControllerTest extends TestCase
     /**
      * @covers ::__construct
      * @covers ::update
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
@@ -100,6 +101,7 @@ class GroupControllerTest extends TestCase
      * @covers ::__construct
      * @covers ::update
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testUpdate()
     {
@@ -108,32 +110,31 @@ class GroupControllerTest extends TestCase
         $response = $this->putJson('/admin/groups/2', ['name' => 'Bar']);
 
         $response->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => 'Bar']);
-
-        $this->assertDatabaseHas('groups', ['name' => 'Bar']);
+        $this->assertDatabaseHas('groups', ['id' => 2, 'name' => 'Bar']);
         $this->assertDatabaseMissing('groups', ['name' => 'Foo']);
     }
-
-//    /**
-//     * @covers ::__construct
-//     * @covers ::update
-//     */
-//    public function testUpdateDoesNotErrorIfNameIsNotChanged()
-//    {
-//        factory(Group::class)->create(['name' => 'Foo']);
-//
-//        $response = $this->putJson('/admin/groups/2', ['name' => 'Foo']);
-//
-//        dd($response->getContent());
-//
-//        $response->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => 'Foo']);
-//
-//        $this->assertDatabaseHas('groups', ['name' => 'Foo']);
-//    }
 
     /**
      * @covers ::__construct
      * @covers ::update
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
+     */
+    public function testUpdateDoesNotErrorIfNameIsNotChanged()
+    {
+        factory(Group::class)->create(['name' => 'Foo']);
+
+        $response = $this->putJson('/admin/groups/2', ['name' => 'Foo']);
+
+        $response->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => 'Foo']);
+        $this->assertDatabaseHas('groups', ['id' => 2, 'name' => 'Foo']);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testUpdateValidateNameRequired()
     {
@@ -148,6 +149,7 @@ class GroupControllerTest extends TestCase
      * @covers ::__construct
      * @covers ::update
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testUpdateValidatesNameUnique()
     {
@@ -171,9 +173,8 @@ class GroupControllerTest extends TestCase
         $response = $this->post('/admin/groups/reorder', ['groups' => [3, 1, 2]]);
 
         $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
-
-        $this->assertDatabaseHas('groups', ['name' => 'Bar', 'order' => 0]);
-        $this->assertDatabaseHas('groups', ['name' => 'Projects', 'order' => 1]);
-        $this->assertDatabaseHas('groups', ['name' => 'Foo', 'order' => 2]);
+        $this->assertDatabaseHas('groups', ['id' => 3, 'name' => 'Bar', 'order' => 0]);
+        $this->assertDatabaseHas('groups', ['id' => 1, 'name' => 'Projects', 'order' => 1]);
+        $this->assertDatabaseHas('groups', ['id' => 2, 'name' => 'Foo', 'order' => 2]);
     }
 }

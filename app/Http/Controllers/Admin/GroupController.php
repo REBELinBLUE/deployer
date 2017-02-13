@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
@@ -20,15 +20,22 @@ class GroupController extends Controller
     private $view;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
      * GroupController constructor.
      *
      * @param GroupRepositoryInterface $repository
      * @param ViewFactory              $view
+     * @param Translator               $translator
      */
-    public function __construct(GroupRepositoryInterface $repository, ViewFactory $view)
+    public function __construct(GroupRepositoryInterface $repository, ViewFactory $view, Translator $translator)
     {
         $this->repository = $repository;
         $this->view       = $view;
+        $this->translator = $translator;
     }
 
     /**
@@ -39,7 +46,7 @@ class GroupController extends Controller
     public function index()
     {
         return $this->view->make('admin.groups.listing', [
-            'title'  => Lang::get('groups.manage'),
+            'title'  => $this->translator->trans('groups.manage'),
             'groups' => $this->repository->getAll(),
         ]);
     }
