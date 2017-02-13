@@ -9,6 +9,9 @@ use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 
+/**
+ * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Admin\GroupControllerTest
+ */
 class GroupControllerTest extends TestCase
 {
     use DatabaseMigrations;
@@ -22,6 +25,10 @@ class GroupControllerTest extends TestCase
         $this->actingAs($user)->seeIsAuthenticated();
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::index
+     */
     public function testIndex()
     {
         $response = $this->get('/admin/groups');
@@ -35,6 +42,11 @@ class GroupControllerTest extends TestCase
         $this->assertSame($groups->toJson(), $view->groups->toJson());
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     */
     public function testStoreCreatesGroup()
     {
         $expected = 'a-new-group';
@@ -46,6 +58,11 @@ class GroupControllerTest extends TestCase
         $this->assertDatabaseHas('groups', ['name' => $expected]);
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::store
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     */
     public function testStoreValidatesNameRequired()
     {
         $response = $this->postJson('/admin/groups', ['foo' => 'bar', 'name' => '']);
@@ -53,6 +70,11 @@ class GroupControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::store
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     */
     public function testStoreValidatesNameUnique()
     {
         factory(Group::class)->create(['name' => 'Foo']);
@@ -62,6 +84,11 @@ class GroupControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     */
     public function testUpdateReturnsErrorWhenInvalid()
     {
         $response = $this->putJson('/admin/groups/1000', ['name' => 'Bar']);
@@ -69,6 +96,11 @@ class GroupControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     */
     public function testUpdate()
     {
         factory(Group::class)->create(['name' => 'Foo']);
@@ -81,6 +113,10 @@ class GroupControllerTest extends TestCase
         $this->assertDatabaseMissing('groups', ['name' => 'Foo']);
     }
 
+//    /**
+//     * @covers ::__construct
+//     * @covers ::update
+//     */
 //    public function testUpdateDoesNotErrorIfNameIsNotChanged()
 //    {
 //        factory(Group::class)->create(['name' => 'Foo']);
@@ -94,6 +130,11 @@ class GroupControllerTest extends TestCase
 //        $this->assertDatabaseHas('groups', ['name' => 'Foo']);
 //    }
 
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     */
     public function testUpdateValidateNameRequired()
     {
         factory(Group::class)->create(['name' => 'Foo']);
@@ -103,6 +144,11 @@ class GroupControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
+     */
     public function testUpdateValidatesNameUnique()
     {
         factory(Group::class)->create(['name' => 'Foo']);
@@ -113,6 +159,10 @@ class GroupControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::reorder
+     */
     public function testReorder()
     {
         factory(Group::class)->create(['name' => 'Foo', 'order' => 2]);
