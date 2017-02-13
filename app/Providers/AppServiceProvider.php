@@ -12,6 +12,7 @@ use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
@@ -80,6 +81,10 @@ class AppServiceProvider extends ServiceProvider
         $this->registerAdditionalProviders($this->providers[$env]);
         $this->registerAdditionalMiddleware($this->middleware[$env]);
         $this->registerDependencies();
+
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
+        }
     }
 
     /**

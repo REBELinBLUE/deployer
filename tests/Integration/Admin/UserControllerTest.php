@@ -1,31 +1,20 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Feature\Admin;
+namespace REBELinBLUE\Deployer\Tests\Integration\Admin;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
-use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
 use REBELinBLUE\Deployer\User;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Admin\UserController
  */
-class UserControllerTest extends TestCase
+class UserControllerTest extends AuthenticatedTestCase
 {
     use DatabaseMigrations;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $user = factory(User::class)->create([
-            'email' => 'root@example.com',
-        ]);
-
-        $this->actingAs($user)->seeIsAuthenticated();
-    }
 
     /**
      * @covers ::__construct

@@ -42,7 +42,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function fixture($file)
     {
-        $path = dirname(__FILE__) . '/DataProvider/' . $file . '.yml';
+        $path = dirname(__FILE__) . '/Unit/DataProvider/' . $file . '.yml';
         $data = Yaml::parse(file_get_contents($path), Yaml::PARSE_CONSTANT | YAML::PARSE_EXCEPTION_ON_INVALID_TYPE);
 
         return $data['fixture'];

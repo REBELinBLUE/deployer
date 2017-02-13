@@ -1,29 +1,19 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Feature\Admin;
+namespace REBELinBLUE\Deployer\Tests\Integration\Admin;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Response;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
-use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\User;
+use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Admin\GroupController
  */
-class GroupControllerTest extends TestCase
+class GroupControllerTest extends AuthenticatedTestCase
 {
     use DatabaseMigrations;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $user = factory(User::class)->create();
-
-        $this->actingAs($user)->seeIsAuthenticated();
-    }
 
     /**
      * @covers ::__construct

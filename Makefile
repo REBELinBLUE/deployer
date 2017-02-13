@@ -74,42 +74,40 @@ phpmd:
 	@echo "\033[32mPHP Mess Detector\033[39m"
 	@php vendor/bin/phpmd app text phpmd.xml
 
-## PHPUnit Tests
-phpunit:
-	@echo "\033[32mPHPUnit\033[39m"
-	@php vendor/bin/phpunit --no-coverage
+## Dusk Browser Tests
+dusk:
+	@echo "\033[32mDusk\033[39m"
+	@php artisan dusk
 
-## PHPUnit Coverage
+## Test Coverage
 phpunit-coverage:
 	@echo "\033[32mTests with Code Coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null \
 		--printer "PHPUnit_TextUI_ResultPrinter"
 
-## PHPUnit Tests - Excluding slow tests which touch the database (models)
+## Unit Tests - Excluding slow model tests which touch the database
 phpunit-fast:
-	@echo "\033[32mFast tests\033[39m"
+	@echo "\033[32mFast unit tests\033[39m"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests" --exclude-group slow
 
-## PHPUnit Tests - Only the slow tests
-phpunit-slow:
-	@echo "\033[32mSlow tests only\033[39m"
-	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests" --exclude-group default
-
 ## Unit Tests
-phpunit-unit:
-	@echo "\033[32All unit tests\033[39m"
+phpunit:
+	@echo "\033[32Unit tests\033[39m"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests"
 
 ## Integration Tests
-phpunit-integration:
-	@echo "\033[32mAll integration tests\033[39m"
-	@php vendor/bin/phpunit --no-coverage --testsuite "Feature Tests"
+integration:
+	@echo "\033[32mIntegration tests\033[39m"
+	@php vendor/bin/phpunit --no-coverage --testsuite "Integration Tests"
 
-## Runs most tests but excludes PHPMD and slow unit tests
+## Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
 quicktest: install-dev lint phpcs phpdoc-check phpunit-fast
 
-## Runs all tests, including slow unit tests and PHPMD
-test: install-dev lint phpcs phpdoc-check phpunit phpunit-integration phpmd
+## Runs most tests; but excludes integration & dusk tests
+test: install-dev lint phpcs phpdoc-check phpunit phpmd
+
+## Runs all tests
+fulltest: install-dev lint phpcs phpdoc-check phpunit integration phpmd dusk
 
 ## Prints this help :D
 help:
@@ -176,6 +174,7 @@ ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
 	@$(MAKE) phpunit-coverage
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
+	@$(MAKE) integration
 else
 	@$(MAKE) phpunit-fast
 endif
