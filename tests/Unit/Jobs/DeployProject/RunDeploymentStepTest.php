@@ -21,9 +21,9 @@ use REBELinBLUE\Deployer\Jobs\DeployProject\SendFileToServer;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\stubs\Project;
-use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
 /**
@@ -214,7 +214,46 @@ class RunDeploymentStepTest extends TestCase
 
         $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::BEFORE_INSTALL);
 
+        $job = new RunDeploymentStep($this->deployment, $this->step, $this->private_key, $this->release_archive);
+        $job->handle($this->cache, $this->formatter, $this->filesystem, $this->builder);
+    }
 
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::run
+     * @covers ::runDeploymentStepOnServer
+     * @todo refactor this is horrible!
+     */
+    public function testRunDeploymentStepOnServerWithOutput()
+    {
+        $this->expectException(FailedDeploymentException::class);
+
+        $process = m::mock(Process::class);
+        $process->shouldReceive('run')->once()->with(m::on(function ($callback) {
+            $callback(SymfonyProcess::ERR, 'a-line-of-output' . PHP_EOL);
+            $callback(SymfonyProcess::OUT, 'a-second-line');
+            $this->assertInstanceOf(Closure::class, $callback);
+
+            return true;
+        }));
+
+        $process->shouldReceive('isSuccessful')->andReturn(false);
+        $process->shouldReceive('getErrorOutput');
+
+        $log = $this->mockLog($process, 2);
+
+        $this->formatter->shouldReceive('error')->with('a-line-of-output' . PHP_EOL)->andReturn('err-line' . PHP_EOL);
+        $this->formatter->shouldReceive('info')->with('a-second-line')->andReturn('second-line');
+
+        $log->shouldReceive('setAttribute')->with('output', 'err-line' . PHP_EOL);
+        $log->shouldReceive('setAttribute')->with('output', 'err-line' . PHP_EOL . 'second-line');
+        $log->shouldReceive('setAttribute')->with('status', ServerLog::FAILED);
+
+        $this->cache->shouldReceive('has')->with($this->cache_key)->andReturn(false);
+        $this->cache->shouldReceive('pull')->with($this->cache_key)->andReturnNull();
+
+        $this->step->shouldReceive('getAttribute')->with('stage')->andReturn(Command::BEFORE_INSTALL);
 
         $job = new RunDeploymentStep($this->deployment, $this->step, $this->private_key, $this->release_archive);
         $job->handle($this->cache, $this->formatter, $this->filesystem, $this->builder);
@@ -319,7 +358,7 @@ class RunDeploymentStepTest extends TestCase
         $job->handle($this->cache, $this->formatter, $this->filesystem, $this->builder);
     }
 
-    private function mockLog($process = null)
+    private function mockLog($process = null, $lines_of_output = 0)
     {
         $started_at  = Carbon::create(2017, 2, 1, 12, 45, 54, 'UTC');
         $finished_at = Carbon::create(2017, 2, 1, 12, 47, 12, 'UTC');
@@ -331,7 +370,7 @@ class RunDeploymentStepTest extends TestCase
         $log->shouldReceive('freshTimestamp')->once()->andReturn($started_at);
         $log->shouldReceive('freshTimestamp')->once()->andReturn($finished_at);
         $log->shouldReceive('getAttribute')->with('server')->andReturn($this->server);
-        $log->shouldReceive('save')->twice();
+        $log->shouldReceive('save')->times(2 + $lines_of_output);
 
         $this->step->shouldReceive('getAttribute')->with('servers')->andReturn(new Collection([$log]));
 
