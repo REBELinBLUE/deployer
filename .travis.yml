@@ -68,9 +68,11 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+  - travis_retry npm install
 
 before_script:
   - make ci
+  - gulp
   # - php artisan js-localization:refresh
   - make permissions
 

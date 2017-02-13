@@ -22,8 +22,7 @@ class GroupControllerTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        $this->actingAs($user)
-             ->seeIsAuthenticated();
+        $this->actingAs($user)->seeIsAuthenticated();
     }
 
     /**
@@ -32,12 +31,12 @@ class GroupControllerTest extends TestCase
      */
     public function testIndex()
     {
+        // FIXME: How do I test this?
         //$groups = app(GroupRepositoryInterface::class)->getAll();
 
         $response = $this->get('/admin/groups');
 
-        $response->assertStatus(Response::HTTP_OK)
-                 ->assertViewHas(['title', 'groups']);
+        $response->assertStatus(Response::HTTP_OK)->assertViewHas(['title', 'groups']);
     }
 
     /**
@@ -50,8 +49,7 @@ class GroupControllerTest extends TestCase
 
         $response = $this->postJson('/admin/groups', ['name' => $expected]);
 
-        $response->assertStatus(Response::HTTP_OK)
-                 ->assertJson(['name' => $expected]);
+        $response->assertStatus(Response::HTTP_OK)->assertJson(['name' => $expected]);
 
         $this->assertDatabaseHas('groups', ['name' => $expected]);
     }
@@ -64,8 +62,7 @@ class GroupControllerTest extends TestCase
     {
         $response = $this->postJson('/admin/groups', ['foo' => 'bar', 'name' => '']);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-                 ->assertJsonStructure(['name']);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
     }
 
     /**
@@ -89,27 +86,40 @@ class GroupControllerTest extends TestCase
 
         $response = $this->putJson('/admin/groups/2', ['name' => 'Bar']);
 
-        $response->assertStatus(Response::HTTP_OK)
-                 ->assertJson([
-                     'id'   => 2,
-                     'name' => 'Bar',
-                 ]);
+        $response->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => 'Bar']);
 
         $this->assertDatabaseHas('groups', ['name' => 'Bar']);
         $this->assertDatabaseMissing('groups', ['name' => 'Foo']);
     }
 
     /**
-     * @covers ::__construct
-     * @covers ::update
-     */
+ * @covers ::__construct
+ * @covers ::update
+ */
     public function testUpdateValidates()
     {
         factory(Group::class)->create(['name' => 'Foo']);
 
         $response = $this->putJson('/admin/groups/2', ['foo' => 'bar', 'name' => '']);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-                 ->assertJsonStructure(['name']);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::reorder
+     */
+    public function testReorder()
+    {
+        factory(Group::class)->create(['name' => 'Foo', 'order' => 2]);
+        factory(Group::class)->create(['name' => 'Bar', 'order' => 1]);
+
+        $response = $this->post('/admin/groups/reorder', ['groups' => [3, 1, 2]]);
+
+        $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
+
+        $this->assertDatabaseHas('groups', ['name' => 'Bar', 'order' => 0]);
+        $this->assertDatabaseHas('groups', ['name' => 'Projects', 'order' => 1]);
+        $this->assertDatabaseHas('groups', ['name' => 'Foo', 'order' => 2]);
     }
 }
