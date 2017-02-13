@@ -9,9 +9,6 @@ use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 
-/**
- * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Admin\GroupController
- */
 class GroupControllerTest extends TestCase
 {
     use DatabaseMigrations;
@@ -25,10 +22,6 @@ class GroupControllerTest extends TestCase
         $this->actingAs($user)->seeIsAuthenticated();
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::index
-     */
     public function testIndex()
     {
         $response = $this->get('/admin/groups');
@@ -42,10 +35,6 @@ class GroupControllerTest extends TestCase
         $this->assertSame($groups->toJson(), $view->groups->toJson());
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::store
-     */
     public function testStoreCreatesGroup()
     {
         $expected = 'a-new-group';
@@ -57,21 +46,22 @@ class GroupControllerTest extends TestCase
         $this->assertDatabaseHas('groups', ['name' => $expected]);
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::store
-     */
-    public function testStoreValidates()
+    public function testStoreValidatesNameRequired()
     {
         $response = $this->postJson('/admin/groups', ['foo' => 'bar', 'name' => '']);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::update
-     */
+    public function testStoreValidatesNameUnique()
+    {
+        factory(Group::class)->create(['name' => 'Foo']);
+
+        $response = $this->postJson('/admin/groups', ['name' => 'Foo']);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
+    }
+
     public function testUpdateReturnsErrorWhenInvalid()
     {
         $response = $this->putJson('/admin/groups/1000', ['name' => 'Bar']);
@@ -79,11 +69,7 @@ class GroupControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::update
-     */
-    public function testUpdateUpdatesGroup()
+    public function testUpdate()
     {
         factory(Group::class)->create(['name' => 'Foo']);
 
@@ -95,11 +81,20 @@ class GroupControllerTest extends TestCase
         $this->assertDatabaseMissing('groups', ['name' => 'Foo']);
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::update
-     */
-    public function testUpdateValidates()
+//    public function testUpdateDoesNotErrorIfNameIsNotChanged()
+//    {
+//        factory(Group::class)->create(['name' => 'Foo']);
+//
+//        $response = $this->putJson('/admin/groups/2', ['name' => 'Foo']);
+//
+//        dd($response->getContent());
+//
+//        $response->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => 'Foo']);
+//
+//        $this->assertDatabaseHas('groups', ['name' => 'Foo']);
+//    }
+
+    public function testUpdateValidateNameRequired()
     {
         factory(Group::class)->create(['name' => 'Foo']);
 
@@ -108,10 +103,16 @@ class GroupControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::reorder
-     */
+    public function testUpdateValidatesNameUnique()
+    {
+        factory(Group::class)->create(['name' => 'Foo']);
+        factory(Group::class)->create(['name' => 'Bar']);
+
+        $response = $this->putJson('/admin/groups/2', ['name' => 'Bar']);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJsonStructure(['name']);
+    }
+
     public function testReorder()
     {
         factory(Group::class)->create(['name' => 'Foo', 'order' => 2]);
