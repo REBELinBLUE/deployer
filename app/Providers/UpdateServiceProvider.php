@@ -14,6 +14,15 @@ use REBELinBLUE\Deployer\Services\Update\LatestReleaseInterface;
 class UpdateServiceProvider extends ServiceProvider
 {
     /**
+     * Bootstrap any application services.
+     */
+    public function boot()
+    {
+        // Define a constant for the application version
+        define('APP_VERSION', trim(file_get_contents(__DIR__ . '/../../VERSION')));
+    }
+
+    /**
      * Register the application services.
      */
     public function register()

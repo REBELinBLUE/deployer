@@ -2,9 +2,6 @@
 
 define('LARAVEL_START', microtime(true));
 
-// Define a constant for the application version
-define('APP_VERSION', trim(file_get_contents(__DIR__ . '/../VERSION')));
-
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader

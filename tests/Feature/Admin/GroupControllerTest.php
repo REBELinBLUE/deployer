@@ -31,12 +31,15 @@ class GroupControllerTest extends TestCase
      */
     public function testIndex()
     {
-        // FIXME: How do I test this?
-        //$groups = app(GroupRepositoryInterface::class)->getAll();
-
         $response = $this->get('/admin/groups');
 
         $response->assertStatus(Response::HTTP_OK)->assertViewHas(['title', 'groups']);
+
+        /** @var \Robbo\Presenter\View\View $json */
+        $view = $response->getOriginalContent();
+        $groups = app(GroupRepositoryInterface::class)->getAll();
+
+        $this->assertSame($groups->toJson(), $view->groups->toJson());
     }
 
     /**
@@ -93,9 +96,9 @@ class GroupControllerTest extends TestCase
     }
 
     /**
- * @covers ::__construct
- * @covers ::update
- */
+     * @covers ::__construct
+     * @covers ::update
+     */
     public function testUpdateValidates()
     {
         factory(Group::class)->create(['name' => 'Foo']);
