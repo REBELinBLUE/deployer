@@ -186,17 +186,7 @@ class RunDeploymentStepTest extends TestCase
     {
         $this->expectException(FailedDeploymentException::class);
 
-        $output = '';
-
-//        $type = SymfonyProcess::ERR;
-//        $line = 'a-line-of-output';
-
         $process = m::mock(Process::class);
-//        $process->shouldReceive('run')->once()->with(m::on(function ($callback) use ($type, $line) {
-//            $callback($type, $line);
-//            $this->assertInstanceOf(Closure::class, $callback);
-//            return true;
-//        }));
 
         $process->shouldReceive('run')->once()->with(m::type('callable'));
 
@@ -205,9 +195,7 @@ class RunDeploymentStepTest extends TestCase
 
         $log = $this->mockLog($process);
 
-        //$this->formatter->shouldReceive('error')->with($line);
-
-        $log->shouldReceive('setAttribute')->with('output', $output);
+        $log->shouldReceive('setAttribute')->with('output', '');
         $log->shouldReceive('setAttribute')->with('status', ServerLog::FAILED);
 
         $this->cache->shouldReceive('pull')->with($this->cache_key)->andReturnNull();
