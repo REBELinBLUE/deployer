@@ -45,7 +45,6 @@ class StepsBuilder
      * @param Project    $project
      * @param int        $deployment
      * @param array      $optional
-     * @todo clean up more
      */
     public function build(Collection $grouped, Project $project, $deployment, array $optional = [])
     {
