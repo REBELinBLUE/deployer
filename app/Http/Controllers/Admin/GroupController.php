@@ -15,38 +15,26 @@ use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 class GroupController extends Controller
 {
     /**
-     * @var ViewFactory
-     */
-    private $view;
-
-    /**
-     * @var Translator
-     */
-    private $translator;
-
-    /**
      * GroupController constructor.
      *
      * @param GroupRepositoryInterface $repository
-     * @param ViewFactory              $view
-     * @param Translator               $translator
      */
-    public function __construct(GroupRepositoryInterface $repository, ViewFactory $view, Translator $translator)
+    public function __construct(GroupRepositoryInterface $repository)
     {
         $this->repository = $repository;
-        $this->view       = $view;
-        $this->translator = $translator;
     }
 
     /**
      * Display a listing of the groups.
      *
+     * @param  ViewFactory           $view
+     * @param  Translator            $translator
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(ViewFactory $view, Translator $translator)
     {
-        return $this->view->make('admin.groups.listing', [
-            'title'  => $this->translator->trans('groups.manage'),
+        return $view->make('admin.groups.listing', [
+            'title'  => $translator->trans('groups.manage'),
             'groups' => $this->repository->getAll(),
         ]);
     }

@@ -2,9 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
@@ -23,36 +24,33 @@ class CommandController extends ResourceController
     private $projectRepository;
 
     /**
-     * @var ViewFactory
-     */
-    private $view;
-
-    /**
      * CommandController constructor.
      *
      * @param CommandRepositoryInterface $commandRepository
      * @param ProjectRepositoryInterface $projectRepository
      * @param ViewFactory                $view
+     * @param Translator                 $translator
      */
     public function __construct(
         CommandRepositoryInterface $commandRepository,
-        ProjectRepositoryInterface $projectRepository,
-        ViewFactory $view
+        ProjectRepositoryInterface $projectRepository
     ) {
         $this->repository        = $commandRepository;
         $this->projectRepository = $projectRepository;
-        $this->view              = $view;
     }
 
     /**
      * Display a listing of before/after commands for the supplied stage.
      *
-     * @param int $target_id
-     * @param int $action
+     * @param int          $target_id
+     * @param int          $action
+     * @param Translator   $translator
+     * @param ViewFactory  $view
+     * @param UrlGenerator $url
      *
      * @return \Illuminate\View\View
      */
-    public function listing($target_id, $action)
+    public function listing($target_id, $action, Translator $translator, ViewFactory $view, UrlGenerator $url)
     {
         $types = [
             'clone'    => Command::DO_CLONE,
@@ -65,12 +63,12 @@ class CommandController extends ResourceController
         $target  = 'project';
 
         $breadcrumb = [
-            ['url' => route('projects', ['id' => $project->id]), 'label' => $project->name],
+            ['url' => $url->route('projects', ['id' => $project->id]), 'label' => $project->name],
         ];
 
-        return $this->view->make('commands.listing', [
+        return $view->make('commands.listing', [
             'breadcrumb'  => $breadcrumb,
-            'title'       => Lang::get('commands.' . strtolower($action)),
+            'title'       => $translator->trans('commands.' . strtolower($action)),
             'subtitle'    => $project->name,
             'project'     => $project,
             'target_type' => $target,

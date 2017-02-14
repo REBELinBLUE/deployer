@@ -2,10 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 use Intervention\Image\Facades\Image;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
@@ -46,6 +49,16 @@ class ProfileController extends Controller
     private $view;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * @var Redirector
+     */
+    private $redirect;
+
+    /**
      * ProfileController constructor.
      *
      * @param UserRepositoryInterface $repository
@@ -53,19 +66,25 @@ class ProfileController extends Controller
      * @param LanguageManager         $languageManager
      * @param Settings                $settings
      * @param ViewFactory             $view
+     * @param Translator              $translator
+     * @param Redirector              $redirector
      */
     public function __construct(
         UserRepositoryInterface $repository,
         Google2FA $google2fa,
         LanguageManager $languageManager,
         Settings $settings,
-        ViewFactory $view
+        ViewFactory $view,
+        Translator $translator,
+        Redirector $redirector
     ) {
         $this->repository      = $repository;
         $this->google2fa       = $google2fa;
         $this->languageManager = $languageManager;
         $this->settings        = $settings;
         $this->view            = $view;
+        $this->translator      = $translator;
+        $this->redirect        = $redirector;
     }
 
     /**
@@ -73,13 +92,13 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
         $code = $this->google2fa->generateSecretKey();
-        if ($user->has_two_factor_authentication || old('google_code')) {
-            $code = old('google_code', $user->google2fa_secret);
+        if ($user->has_two_factor_authentication || $request->old('google_code')) {
+            $code = $request->old('google_code', $user->google2fa_secret);
         }
 
         $img = $this->google2fa->getQRCodeGoogleUrl('Deployer', $user->email, $code);
@@ -87,7 +106,7 @@ class ProfileController extends Controller
         return $this->view->make('user.profile', [
             'google_2fa_url'  => $img,
             'google_2fa_code' => $code,
-            'title'           => Lang::get('users.update_profile'),
+            'title'           => $this->translator->trans('users.update_profile'),
             'locales'         => $this->languageManager->getAvailableLanguages(),
             'settings'        => $this->settings,
         ]);
@@ -107,7 +126,7 @@ class ProfileController extends Controller
             'password'
         ), Auth::user()->id);
 
-        return redirect()->to('/');
+        return $this->redirect->to('/');
     }
 
     /**
@@ -125,17 +144,18 @@ class ProfileController extends Controller
             'language'
         ), Auth::user()->id);
 
-        return redirect()->to('/');
+        return $this->redirect->to('/');
     }
 
     /**
      * Send email to change a new email.
      *
+     * @param  Dispatcher $dispatcher
      * @return string
      */
-    public function requestEmail()
+    public function requestEmail(Dispatcher $dispatcher)
     {
-        event(new EmailChangeRequested(Auth::user()));
+        $dispatcher->dispatch(new EmailChangeRequested(Auth::user()));
 
         return 'success';
     }
@@ -172,7 +192,7 @@ class ProfileController extends Controller
             $user->save();
         }
 
-        return redirect()->to('/');
+        return $this->redirect->to('/');
     }
 
     /**
@@ -180,9 +200,10 @@ class ProfileController extends Controller
      *
      * @param Request $request
      *
+     * @param  UrlGenerator $url
      * @return array|string
      */
-    public function upload(Request $request)
+    public function upload(Request $request, UrlGenerator $url)
     {
         $this->validate($request, [
             'file' => 'required|image',
@@ -197,7 +218,7 @@ class ProfileController extends Controller
             $file->move($destinationPath, $filename);
 
             return [
-                'image'   => url($path . '/' . $filename),
+                'image'   => $url->to($path . '/' . $filename),
                 'path'    => $path . '/' . $filename,
                 'message' => 'success',
             ];
@@ -228,9 +249,10 @@ class ProfileController extends Controller
      *
      * @param Request $request
      *
+     * @param  UrlGenerator $url
      * @return array
      */
-    public function avatar(Request $request)
+    public function avatar(Request $request, UrlGenerator $url)
     {
         $path   = $request->get('path', '/placeholder.jpg');
         $image  = Image::make(public_path() . $path);
@@ -255,7 +277,7 @@ class ProfileController extends Controller
         $user->save();
 
         return [
-            'image'   => url($path),
+            'image'   => $url->to($path),
             'success' => true,
         ];
     }
@@ -276,9 +298,9 @@ class ProfileController extends Controller
             if (!$this->google2fa->verifyKey($secret, $request->get('2fa_code'))) {
                 $secret = null;
 
-                return redirect()->back()
-                                 ->withInput($request->only('google_code', 'two_factor'))
-                                 ->withError(Lang::get('auth.invalid_code'));
+                return $this->redirect->back()
+                                      ->withInput($request->only('google_code', 'two_factor'))
+                                      ->withError($this->translator->trans('auth.invalid_code'));
             }
         }
 
@@ -286,6 +308,6 @@ class ProfileController extends Controller
         $user->google2fa_secret = $secret;
         $user->save();
 
-        return redirect()->to('/');
+        return $this->redirect->to('/');
     }
 }

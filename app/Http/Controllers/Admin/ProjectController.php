@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
@@ -17,20 +17,13 @@ use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 class ProjectController extends Controller
 {
     /**
-     * @var ViewFactory
-     */
-    private $view;
-
-    /**
      * ProjectController constructor.
      *
      * @param ProjectRepositoryInterface $repository
-     * @param ViewFactory                $view
      */
-    public function __construct(ProjectRepositoryInterface $repository, ViewFactory $view)
+    public function __construct(ProjectRepositoryInterface $repository)
     {
         $this->repository = $repository;
-        $this->view       = $view;
     }
 
     /**
@@ -40,18 +33,22 @@ class ProjectController extends Controller
      * @param GroupRepositoryInterface    $groupRepository
      * @param Request                     $request
      *
+     * @param  ViewFactory           $view
+     * @param  Translator            $translator
      * @return \Illuminate\View\View
      */
     public function index(
         TemplateRepositoryInterface $templateRepository,
         GroupRepositoryInterface $groupRepository,
-        Request $request
+        Request $request,
+        ViewFactory $view,
+        Translator $translator
     ) {
         $projects = $this->repository->getAll();
 
-        return $this->view->make('admin.projects.listing', [
+        return $view->make('admin.projects.listing', [
             'is_secure' => $request->secure(),
-            'title'     => Lang::get('projects.manage'),
+            'title'     => $translator->trans('projects.manage'),
             'templates' => $templateRepository->getAll(),
             'groups'    => $groupRepository->getAll(),
             'projects'  => $projects->toJson(), // Because PresentableInterface toJson() is not working in the view

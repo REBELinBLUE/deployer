@@ -16,48 +16,26 @@ use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 class UserController extends Controller
 {
     /**
-     * @var ViewFactory
-     */
-    private $view;
-
-    /**
-     * @var Dispatcher
-     */
-    private $dispatcher;
-    /**
-     * @var Translator
-     */
-    private $translator;
-
-    /**
      * UserController constructor.
      *
      * @param UserRepositoryInterface $repository
-     * @param ViewFactory             $view
-     * @param Dispatcher              $dispatcher
-     * @param Translator              $translator
      */
-    public function __construct(
-        UserRepositoryInterface $repository,
-        ViewFactory $view,
-        Dispatcher $dispatcher,
-        Translator $translator
-    ) {
+    public function __construct(UserRepositoryInterface $repository)
+    {
         $this->repository = $repository;
-        $this->view       = $view;
-        $this->dispatcher = $dispatcher;
-        $this->translator = $translator;
     }
 
     /**
      * Display a listing of the users.
      *
+     * @param  ViewFactory           $view
+     * @param  Translator            $translator
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(ViewFactory $view, Translator $translator)
     {
-        return $this->view->make('admin.users.listing', [
-            'title' => $this->translator->trans('users.manage'),
+        return $view->make('admin.users.listing', [
+            'title' => $translator->trans('users.manage'),
             'users' => $this->repository->getAll()->toJson(), // PresentableInterface toJson() is not working in view
         ]);
     }
@@ -67,9 +45,10 @@ class UserController extends Controller
      *
      * @param StoreUserRequest $request
      *
+     * @param  Dispatcher                          $dispatcher
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request, Dispatcher $dispatcher)
     {
         $user = $this->repository->create($request->only(
             'name',
@@ -77,7 +56,7 @@ class UserController extends Controller
             'password'
         ));
 
-        $this->dispatcher->dispatch(new UserWasCreated($user, $request->get('password')));
+        $dispatcher->dispatch(new UserWasCreated($user, $request->get('password')));
 
         return $user;
     }

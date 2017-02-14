@@ -2,8 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreTemplateRequest;
@@ -35,20 +36,36 @@ class TemplateController extends Controller
     private $view;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * @var UrlGenerator
+     */
+    private $url;
+
+    /**
      * TemplateController constructor.
      *
      * @param CommandRepositoryInterface  $commandRepository
      * @param TemplateRepositoryInterface $templateRepository
      * @param ViewFactory                 $view
+     * @param Translator                  $translator
+     * @param UrlGenerator                $url
      */
     public function __construct(
         CommandRepositoryInterface $commandRepository,
         TemplateRepositoryInterface $templateRepository,
-        ViewFactory $view
+        ViewFactory $view,
+        Translator $translator,
+        UrlGenerator $url
     ) {
         $this->repository         = $commandRepository;
         $this->templateRepository = $templateRepository;
         $this->view               = $view;
+        $this->translator         = $translator;
+        $this->url                = $url;
     }
 
     /**
@@ -72,13 +89,19 @@ class TemplateController extends Controller
         $target   = 'template';
 
         $breadcrumb = [
-            ['url' => route('admin.templates.index'), 'label' => Lang::get('templates.label')],
-            ['url' => route('admin.templates.show', ['templates' => $template->id]), 'label' => $template->name],
+            [
+                'url'   => $this->url->route('admin.templates.index'),
+                'label' => $this->translator->trans('templates.label'),
+            ],
+            [
+                'url'   => $this->url->route('admin.templates.show', ['templates' => $template->id]),
+                'label' => $template->name,
+            ],
         ];
 
         return $this->view->make('commands.listing', [
             'breadcrumb'  => $breadcrumb,
-            'title'       => Lang::get('commands.' . strtolower($action)),
+            'title'       => $this->translator->trans('commands.' . strtolower($action)),
             'subtitle'    => $template->name,
             'project'     => $template,
             'target_type' => $target,
@@ -98,7 +121,7 @@ class TemplateController extends Controller
         $templates = $this->templateRepository->getAll();
 
         return $this->view->make('admin.templates.listing', [
-            'title'     => Lang::get('templates.manage'),
+            'title'     => $this->translator->trans('templates.manage'),
             'templates' => $templates->toJson(), // Because PresentableInterface toJson() is not working in the view
         ]);
     }
@@ -116,7 +139,10 @@ class TemplateController extends Controller
 
         return $this->view->make('admin.templates.details', [
             'breadcrumb' => [
-                ['url' => route('admin.templates.index'), 'label' => Lang::get('templates.label')],
+                [
+                    'url'   => $this->url->route('admin.templates.index'),
+                    'label' => $this->translator->trans('templates.label'),
+                ],
             ],
             'title'        => $template->name,
             'sharedFiles'  => $template->sharedFiles,

@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
@@ -95,16 +96,17 @@ class WebhookController extends Controller
      *
      * @param int $project_id
      *
+     * @param  UrlGenerator          $url
      * @return \Illuminate\View\View
      */
-    public function refresh($project_id)
+    public function refresh($project_id, UrlGenerator $url)
     {
         $project = $this->projectRepository->getById($project_id);
         $project->generateHash();
         $project->save();
 
         return [
-            'url' => route('webhook.deploy', $project->hash),
+            'url' => $url->route('webhook.deploy', $project->hash),
         ];
     }
 

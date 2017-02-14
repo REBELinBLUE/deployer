@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
@@ -29,20 +29,28 @@ class DashboardController extends Controller
     private $projectRepository;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
      * DashboardController constructor.
      *
      * @param DeploymentRepositoryInterface $deploymentRepository
      * @param ProjectRepositoryInterface    $projectRepository
      * @param ViewFactory                   $view
+     * @param Translator                    $translator
      */
     public function __construct(
         DeploymentRepositoryInterface $deploymentRepository,
         ProjectRepositoryInterface $projectRepository,
-        ViewFactory $view
+        ViewFactory $view,
+        Translator $translator
     ) {
         $this->view                 = $view;
         $this->deploymentRepository = $deploymentRepository;
         $this->projectRepository    = $projectRepository;
+        $this->translator           = $translator;
     }
 
     /**
@@ -66,7 +74,7 @@ class DashboardController extends Controller
         ksort($projects_by_group);
 
         return $this->view->make('dashboard.index', [
-            'title'     => Lang::get('dashboard.title'),
+            'title'     => $this->translator->trans('dashboard.title'),
             'latest'    => $this->buildTimelineData($this->deploymentRepository),
             'projects'  => $projects_by_group,
         ]);
