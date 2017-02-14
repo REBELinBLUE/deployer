@@ -48,7 +48,6 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.1",
         "block8/php-docblock-checker": "^1.1",
-        "diablomedia/phpunit-pretty-printer": "^1.0",
         "filp/whoops": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.0",
         "fzaninotto/faker": "~1.5",
@@ -108,9 +107,6 @@
             },
             "robclancy/presenter": {
                 "Laravel 5.4 support": "https://www.phpdeployment.org/patches/0001-Presenter.patch"
-            },
-            "diablomedia/phpunit-pretty-printer": {
-                "PHPUnit Printer": "https://www.phpdeployment.org/patches/0003-Pretty-Printer.patch"
             }
         }
     },

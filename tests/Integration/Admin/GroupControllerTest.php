@@ -44,7 +44,7 @@ class GroupControllerTest extends AuthenticatedTestCase
 
         $response = $this->postJson('/admin/groups', ['name' => $expected]);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson(['name' => $expected]);
+        $response->assertStatus(Response::HTTP_CREATED)->assertJson(['name' => $expected]);
         $this->assertDatabaseHas('groups', ['name' => $expected]);
     }
 

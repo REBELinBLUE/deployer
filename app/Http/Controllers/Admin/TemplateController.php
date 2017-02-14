@@ -6,7 +6,8 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreTemplateRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
@@ -16,6 +17,8 @@ use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
  */
 class TemplateController extends Controller
 {
+    use ResourceController;
+
     /**
      * The command repository.
      *

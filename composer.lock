@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0350db8d21532bc3a4eb784d8e78f246",
+    "content-hash": "a80dc864c220837bf0d846cec2980ca3",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -2876,16 +2876,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.5",
+            "version": "v5.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "cd142238a339459b10da3d8234220963f392540c"
+                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/cd142238a339459b10da3d8234220963f392540c",
-                "reference": "cd142238a339459b10da3d8234220963f392540c",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
+                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
                 "shasum": ""
             },
             "require": {
@@ -2926,7 +2926,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2016-12-29T10:02:40+00:00"
+            "time": "2017-02-13T07:52:53+00:00"
         },
         {
             "name": "symfony/console",
@@ -4023,16 +4023,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.2.3",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "a7fc2ec489aada6062d3a63ddc915004a21e38af"
+                "reference": "555d3e37009bdb78f5d8bcea6eb8a816529a5cfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/a7fc2ec489aada6062d3a63ddc915004a21e38af",
-                "reference": "a7fc2ec489aada6062d3a63ddc915004a21e38af",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/555d3e37009bdb78f5d8bcea6eb8a816529a5cfa",
+                "reference": "555d3e37009bdb78f5d8bcea6eb8a816529a5cfa",
                 "shasum": ""
             },
             "require": {
@@ -4085,7 +4085,7 @@
                 "phpstorm",
                 "sublime"
             ],
-            "time": "2017-01-05T21:20:42+00:00"
+            "time": "2017-02-13T19:20:12+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -4188,57 +4188,6 @@
                 "testing"
             ],
             "time": "2016-08-25T13:11:15+00:00"
-        },
-        {
-            "name": "diablomedia/phpunit-pretty-printer",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/diablomedia/phpunit-pretty-printer.git",
-                "reference": "5ad8f7019845fce9341eff0fcdaf2934ce890cfd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/diablomedia/phpunit-pretty-printer/zipball/5ad8f7019845fce9341eff0fcdaf2934ce890cfd",
-                "reference": "5ad8f7019845fce9341eff0fcdaf2934ce890cfd",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.0",
-                "phpunit/phpunit": ">=4.7.0"
-            },
-            "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "PHPUnit Printer": "https://www.phpdeployment.org/patches/0003-Pretty-Printer.patch"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "DiabloMedia\\PHPUnit\\Printer\\": "src/DiabloMedia/PHPUnit/Printer"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ari Pringle",
-                    "email": "ari@diablomedia.com",
-                    "homepage": "https://diablomedia.com"
-                }
-            ],
-            "description": "A PHPUnit result printer that shows per-file test progress and execution times",
-            "homepage": "https://github.com/diablomedia/phpunit-pretty-printer",
-            "keywords": [
-                "phpunit",
-                "printer",
-                "result",
-                "test",
-                "unit"
-            ],
-            "time": "2016-02-16T21:45:23+00:00"
         },
         {
             "name": "doctrine/instantiator",

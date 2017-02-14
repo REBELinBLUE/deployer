@@ -2,18 +2,28 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Group management controller.
  */
 class GroupController extends Controller
 {
+    use ResourceController;
+
+    /**
+     * @var ResponseFactory
+     */
+    private $response;
+
     /**
      * GroupController constructor.
      *
@@ -43,14 +53,15 @@ class GroupController extends Controller
      * Store a newly created group in storage.
      *
      * @param StoreGroupRequest $request
+     * @param ResponseFactory   $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreGroupRequest $request)
+    public function store(StoreGroupRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**

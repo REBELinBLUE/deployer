@@ -3,14 +3,17 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Http\Request;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 
 /**
  * Server management controller.
  */
-class ServerController extends ResourceController
+class ServerController extends Controller
 {
+    use ResourceController;
+
     /**
      * ServerController constructor.
      *

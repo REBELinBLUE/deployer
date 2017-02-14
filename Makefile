@@ -82,8 +82,7 @@ dusk:
 ## Test Coverage
 phpunit-coverage:
 	@echo "\033[32mTests with Code Coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null \
-		--printer "PHPUnit_TextUI_ResultPrinter"
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null
 
 ## Unit Tests - Excluding slow model tests which touch the database
 phpunit-fast:

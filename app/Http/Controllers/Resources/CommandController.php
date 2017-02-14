@@ -7,6 +7,7 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
@@ -14,8 +15,10 @@ use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 /**
  * Controller for managing commands.
  */
-class CommandController extends ResourceController
+class CommandController extends Controller
 {
+    use ResourceController;
+
     /**
      * The project repository.
      *

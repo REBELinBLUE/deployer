@@ -2,14 +2,17 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreConfigFileRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\ConfigFileRepositoryInterface;
 
 /**
  * Manage the configuration files for a project.
  */
-class ConfigFileController extends ResourceController
+class ConfigFileController extends Controller
 {
+    use ResourceController;
+
     /**
      * ConfigFileController constructor.
      *

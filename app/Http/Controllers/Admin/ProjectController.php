@@ -2,20 +2,25 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * The controller for managing projects.
  */
 class ProjectController extends Controller
 {
+    use ResourceController;
+
     /**
      * ProjectController constructor.
      *
@@ -59,12 +64,13 @@ class ProjectController extends Controller
      * Store a newly created project in storage.
      *
      * @param StoreProjectRequest $request
+     * @param ResponseFactory     $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreProjectRequest $request)
+    public function store(StoreProjectRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name',
             'repository',
             'branch',
@@ -76,7 +82,7 @@ class ProjectController extends Controller
             'allow_other_branch',
             'include_dev',
             'private_key'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**

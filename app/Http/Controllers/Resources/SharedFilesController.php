@@ -2,14 +2,17 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreSharedFileRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\SharedFileRepositoryInterface;
 
 /**
  * Controller for managing files.
  */
-class SharedFilesController extends ResourceController
+class SharedFilesController extends Controller
 {
+    use ResourceController;
+
     /**
      * SharedFilesController constructor.
      *

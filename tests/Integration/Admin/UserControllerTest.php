@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Admin\UserController
+ * @todo test validation
  */
 class UserControllerTest extends AuthenticatedTestCase
 {
@@ -54,7 +55,7 @@ class UserControllerTest extends AuthenticatedTestCase
             'password_confirmation' => $password,
         ]);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => $name, 'email' => $email]);
+        $response->assertStatus(Response::HTTP_CREATED)->assertJson(['id' => 2, 'name' => $name, 'email' => $email]);
         $this->assertDatabaseHas('users', ['id' => 2, 'name' => $name, 'email' => $email]);
     }
 
@@ -83,29 +84,39 @@ class UserControllerTest extends AuthenticatedTestCase
     }
 
     /**
-     * @covers \REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController::destroy
-     */
-    public function testDelete()
-    {
-        $email = 'admin@example.com';
-        $name = 'John';
-
-        factory(User::class)->create(['name' => $name, 'email' => $email]);
-
-        $response = $this->deleteJson('/admin/users/2');
-
-        $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
-
-        $this->assertDatabaseMissing('users', ['name' => $name, 'email' => $email, 'deleted_at' => null]);
-    }
-
-    /**
      * @covers ::__construct
      * @covers ::update
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
         $response = $this->putJson('/admin/users/1000', ['name' => 'Bob', 'email' => 'bob@example.com']);
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @covers \REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController::destroy
+     */
+    public function testDelete()
+    {
+        $email = 'admin@example.com';
+        $name  = 'John';
+
+        factory(User::class)->create(['name' => $name, 'email' => $email]);
+
+        $response = $this->deleteJson('/admin/users/2');
+
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+
+        $this->assertDatabaseMissing('users', ['name' => $name, 'email' => $email, 'deleted_at' => null]);
+    }
+
+    /**
+     * @covers \REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController::destroy
+     */
+    public function testDeleteReturnsErrorWhenInvalid()
+    {
+        $response = $this->deleteJson('/admin/users/1000');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
