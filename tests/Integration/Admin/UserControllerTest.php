@@ -83,6 +83,23 @@ class UserControllerTest extends AuthenticatedTestCase
     }
 
     /**
+     * @covers \REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController::destroy
+     */
+    public function testDelete()
+    {
+        $email = 'admin@example.com';
+        $name = 'John';
+
+        factory(User::class)->create(['name' => $name, 'email' => $email]);
+
+        $response = $this->deleteJson('/admin/users/2');
+
+        $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
+
+        $this->assertDatabaseMissing('users', ['name' => $name, 'email' => $email, 'deleted_at' => null]);
+    }
+
+    /**
      * @covers ::__construct
      * @covers ::update
      */
