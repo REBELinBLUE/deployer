@@ -111,6 +111,7 @@ fulltest: install-dev lint phpcs phpdoc-check phpunit integration phpmd dusk
 
 ## Prints this help :D
 help:
+	@echo "\nUsage: make <target>\n\nThe following targets are available:\n";
 	@awk -v skip=1 \
 		'/^##/ { sub(/^[#[:blank:]]*/, "", $$0); doc_h=$$0; doc=""; skip=0; next } \
 		 skip  { next } \
