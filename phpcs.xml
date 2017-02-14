@@ -9,6 +9,12 @@
     <file>config</file>
     <file>resources/lang</file>
 
+    <config phpcs-only="true" name="ignore_warnings_on_exit" value="1"/>
+
+    <arg value="vvv" />
+    <arg value="p" />
+    <arg value="e" />
+    <arg name="colors" />
     <arg name="encoding" value="UTF-8" />
     <arg name="extensions" value="php" />
 

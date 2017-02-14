@@ -62,7 +62,7 @@ permissions:
 ## PHP Coding Standards (PSR-2)
 phpcs:
 	@echo "\033[32mPHP Code Sniffer\033[39m"
-	@php vendor/bin/phpcs -n --standard=phpcs.xml
+	@php vendor/bin/phpcs --standard=phpcs.xml
 
 ## PHPDoc Checker
 phpdoc-check:
