@@ -81,10 +81,6 @@ class AppServiceProvider extends ServiceProvider
         $this->registerAdditionalProviders($this->providers[$env]);
         $this->registerAdditionalMiddleware($this->middleware[$env]);
         $this->registerDependencies();
-
-        if ($this->app->environment('local', 'testing') && class_exists(DuskServiceProvider::class, true)) {
-            $this->app->register(DuskServiceProvider::class);
-        }
     }
 
     /**
@@ -125,6 +121,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(TokenGeneratorInterface::class, TokenGenerator::class);
+        
+        if ($this->app->environment('local', 'testing') && class_exists(DuskServiceProvider::class, true)) {
+            $this->app->register(DuskServiceProvider::class);
+        }
 
         $this->replaceBuiltinPackageDependencies();
     }
