@@ -82,7 +82,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerAdditionalMiddleware($this->middleware[$env]);
         $this->registerDependencies();
 
-        if ($this->app->environment('local', 'testing')) {
+        if ($this->app->environment('local', 'testing') && class_exists(DuskServiceProvider::class, true)) {
             $this->app->register(DuskServiceProvider::class);
         }
     }
