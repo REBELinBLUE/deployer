@@ -2,9 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreSharedFileRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\SharedFileRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller for managing files.
@@ -27,17 +29,18 @@ class SharedFilesController extends Controller
      * Store a newly created file in storage.
      *
      * @param StoreSharedFileRequest $request
+     * @param ResponseFactory        $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreSharedFileRequest $request)
+    public function store(StoreSharedFileRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name',
             'file',
             'target_type',
             'target_id'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**

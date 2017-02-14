@@ -298,14 +298,14 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $expectedCommit        = '1234abcd';
         $expectedCommitUrl     = 'http://git.example.com/';
         $expectedRoom          = '#channel';
-        $expectedMessage       = 'the hipchat message <a href="' . $expectedDeploymentUrl . '">#' . $expectedId . '</a>';
-        $expectedTitle         = 'the hipchat message #' . $expectedId;
+        $expectedMessage       = 'hipchat message <a href="' . $expectedDeploymentUrl . '">#' . $expectedId . '</a>';
+        $expectedTitle         = 'hipchat message #' . $expectedId;
 
         Lang::shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
         Lang::shouldReceive('get')->once()->with('notifications.commit')->andReturn('commit');
         Lang::shouldReceive('get')->once()->with('notifications.committer')->andReturn('committer');
         Lang::shouldReceive('get')->once()->with('notifications.branch')->andReturn('branch');
-        Lang::shouldReceive('get')->once()->with($message)->andReturn('the hipchat message %s');
+        Lang::shouldReceive('get')->once()->with($message)->andReturn('hipchat message %s');
 
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedProjectName);

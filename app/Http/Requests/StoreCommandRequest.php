@@ -28,7 +28,7 @@ class StoreCommandRequest extends Request
         ];
 
         // On edit we don't require the step or the project_id
-        if ($this->get('id')) {
+        if ($this->route('command')) {
             unset($rules['step']);
         }
 

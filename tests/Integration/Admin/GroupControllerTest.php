@@ -79,17 +79,6 @@ class GroupControllerTest extends AuthenticatedTestCase
     /**
      * @covers ::__construct
      * @covers ::update
-     */
-    public function testUpdateReturnsErrorWhenInvalid()
-    {
-        $response = $this->putJson('/admin/groups/1000', ['name' => 'Bar']);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::update
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
@@ -102,6 +91,17 @@ class GroupControllerTest extends AuthenticatedTestCase
         $response->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => 'Bar']);
         $this->assertDatabaseHas('groups', ['id' => 2, 'name' => 'Bar']);
         $this->assertDatabaseMissing('groups', ['name' => 'Foo']);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     */
+    public function testUpdateReturnsErrorWhenInvalid()
+    {
+        $response = $this->putJson('/admin/groups/1000', ['name' => 'Bar']);
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**

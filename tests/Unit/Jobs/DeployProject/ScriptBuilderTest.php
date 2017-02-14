@@ -132,7 +132,9 @@ class ScriptBuilderTest extends TestCase
 
         $this->project->shouldReceive('getAttribute')->with('variables')->andReturn(new Collection());
 
-        $this->process->shouldReceive('setScript')->with($script, m::type('array'))->andReturnSelf();  // FIXME: Should check tokens
+        $this->process->shouldReceive('setScript')
+                      ->with($script, m::type('array'))
+                      ->andReturnSelf();  // FIXME: Should check tokens
         $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
@@ -193,7 +195,7 @@ class ScriptBuilderTest extends TestCase
         $this->project->shouldReceive('getAttribute')->with('sharedFiles')->andReturn(new Collection());
 
         $this->process->shouldReceive('setScript')
-                      ->with('deploy.steps.InstallComposerDependencies', m::type('array'))  // FIXME: Should check tokens
+                      ->with('deploy.steps.InstallComposerDependencies', m::type('array')) // FIXME: Should check tokens
                       ->andReturnSelf();
         $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
         $this->process->shouldReceive('appendScript')->with('')->andReturnSelf();

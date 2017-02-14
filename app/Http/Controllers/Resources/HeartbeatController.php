@@ -2,9 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller for managing notifications.
@@ -45,16 +47,17 @@ class HeartbeatController extends Controller
      * Store a newly created heartbeat in storage.
      *
      * @param StoreHeartbeatRequest $request
+     * @param ResponseFactory       $response
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreHeartbeatRequest $request)
+    public function store(StoreHeartbeatRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name',
             'interval',
             'project_id'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**

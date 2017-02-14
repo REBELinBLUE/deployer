@@ -278,7 +278,9 @@ class RunnerTest extends TestCase
         $this->logger->shouldReceive('debug')->with($expected);
 
         $runner = $this->getRunner();
-        $actual = $runner->setServer($server, $private_key, $alternative_user)->setScript($script, $tokens, Runner::DIRECT_INPUT)->run();
+        $actual = $runner->setServer($server, $private_key, $alternative_user)
+                         ->setScript($script, $tokens, Runner::DIRECT_INPUT)
+                         ->run();
 
         $this->assertSame($this->process, $actual);
     }

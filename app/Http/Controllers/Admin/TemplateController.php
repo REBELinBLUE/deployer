@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
@@ -11,6 +12,7 @@ use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreTemplateRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller for managing deployment template.
@@ -163,13 +165,14 @@ class TemplateController extends Controller
      *
      * @param StoreTemplateRequest $request
      *
+     * @param  ResponseFactory                     $response
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function store(StoreTemplateRequest $request)
+    public function store(StoreTemplateRequest $request, ResponseFactory $response)
     {
-        return $this->templateRepository->create($request->only(
+        return $response->json($this->templateRepository->create($request->only(
             'name'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**

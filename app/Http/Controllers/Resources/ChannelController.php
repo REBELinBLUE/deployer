@@ -2,9 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreChannelRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\ChannelRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller for managing notifications.
@@ -27,10 +29,11 @@ class ChannelController extends Controller
      * Store a newly created notification in storage.
      *
      * @param StoreChannelRequest $request
+     * @param ResponseFactory     $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreChannelRequest $request)
+    public function store(StoreChannelRequest $request, ResponseFactory $response)
     {
         $input = $request->only(
             'name',
@@ -48,7 +51,7 @@ class ChannelController extends Controller
 
         $input['config'] = $request->configOnly();
 
-        return $this->repository->create($input);
+        return $response->json($this->repository->create($input), Response::HTTP_CREATED);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Integration;
+namespace REBELinBLUE\Deployer\Tests\Integration\Auth;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 

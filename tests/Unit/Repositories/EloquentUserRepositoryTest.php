@@ -105,10 +105,10 @@ class EloquentUserRepositoryTest extends EloquentRepositoryTestCase
      */
     public function testUpdateByIdEncryptsPassword()
     {
-        $model_id               = 1;
-        $expectedPassword       = 'a-hashed-password';
-        $fields                 = ['foo' => 'bar', 'password' => 'password'];
-        $update                 = ['foo' => 'bar', 'password' => $expectedPassword]; // This is what is expected to be passed to update
+        $model_id         = 1;
+        $expectedPassword = 'a-hashed-password';
+        $fields           = ['foo' => 'bar', 'password' => 'password'];
+        $update           = ['foo' => 'bar', 'password' => $expectedPassword];
 
         $mock = m::mock(Hasher::class);
         $mock->shouldReceive('make')->andReturn($expectedPassword);

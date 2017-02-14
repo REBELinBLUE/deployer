@@ -13,10 +13,11 @@ return [
     'webhook'                 => 'Webhook',
     'rollback'                => 'Rollback',
     'rollback_title'          => 'Rollback to a previous deployment',
-    'expert'                  => 'You should not rollback to previous deployments unless you a confident you can perform any additional ' .
-                                 'cleanup which may be required.',
-    'rollback_warning'        => 'When rolling back to a previous deployment you may need to manually connect to your servers and run ' .
-                                 'any database rollbacks or similar, this can not be done automatically.',
+    'expert'                  => 'You should not rollback to previous deployments unless you a confident you can ' .
+                                 'perform any additional cleanup which may be required.',
+    'rollback_warning'        => 'When rolling back to a previous deployment you may need to manually connect to ' .
+                                 'your servers and run any database rollbacks or similar, this can not be done ' .
+                                 'automatically.',
     'caution'                 => 'Caution!',
     'cancel'                  => 'Cancel',
     'loading'                 => 'Loading',
@@ -46,14 +47,16 @@ return [
     'refresh_tags'            => 'Check for new tags',
     'tag'                     => 'A tag',
     'branch'                  => 'Branch',
-    'warning'                 => 'The deployment could not be started, please make sure you have entered all required values.',
+    'warning'                 => 'The deployment could not be started, please make sure you have entered all ' .
+                                 'required values.',
     'describe_reason'         => 'Please describe briefly the reason for this deployment',
     'optional'                => 'Select the optional deploy steps to run',
     'very_long_time'          => 'A very long time!',
     'hour'                    => ':time hour|:time hours',
     'minute'                  => ':time minute|:time minutes',
     'second'                  => ':time second|:time seconds',
-    'repo_failure'            => 'There was an error retrieving the repository information, please check that the URL is correct and that the SSH key has been added',
+    'repo_failure'            => 'There was an error retrieving the repository information, please check that the ' .
+                                 'URL is correct and that the SSH key has been added',
     'repo_failure_head'       => 'Problem with the repository',
 
     // Notifications

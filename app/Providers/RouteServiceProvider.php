@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Route;
 
 /**
  * The route service provider.
@@ -23,9 +22,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // FIXME: Replace facade with instances
-        Route::pattern('id', '[0-9]+');
-        Route::pattern('step', '(clone|install|activate|purge)');
+        $this->pattern('id', '[0-9]+');
+        $this->pattern('step', '(clone|install|activate|purge)');
 
         parent::boot();
     }
@@ -47,19 +45,13 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         // Authentication screen
-        Route::middleware('web')
-              ->namespace($this->namespace)
-              ->group(base_path('routes/auth.php'));
+        $this->middleware('web')->namespace($this->namespace)->group(base_path('routes/auth.php'));
 
         // Logged in routes
-        Route::middleware(['web', 'auth', 'jwt'])
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+        $this->middleware(['web', 'auth', 'jwt'])->namespace($this->namespace)->group(base_path('routes/web.php'));
 
         // Admin routes
-        Route::middleware(['web', 'auth', 'jwt'])
-             ->namespace($this->namespace)
-             ->group(base_path('routes/admin.php'));
+        $this->middleware(['web', 'auth', 'jwt'])->namespace($this->namespace)->group(base_path('routes/admin.php'));
     }
 
     /**
@@ -67,8 +59,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapHookRoutes()
     {
-        Route::middleware([])
-             ->namespace($this->namespace)
-             ->group(base_path('routes/hooks.php'));
+        $this->namespace($this->namespace)->group(base_path('routes/hooks.php'));
     }
 }

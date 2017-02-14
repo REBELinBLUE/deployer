@@ -11,7 +11,8 @@ return [
 
     // Password reset email
     'reset_subject'      => 'Your Password Reset Link',
-    'reset_header'       => 'You are receiving this email because we received a password reset request for your account.',
+    'reset_header'       => 'You are receiving this email because we received a password reset ' .
+                            'request for your account.',
     'reset_below'        => 'Click the button below to reset your password:',
     'reset'              => 'Reset Password',
     'reset_footer'       => 'If you did not request a password reset, no further action is required.',

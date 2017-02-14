@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
@@ -11,6 +12,7 @@ use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller for managing commands.
@@ -85,12 +87,13 @@ class CommandController extends Controller
      * Store a newly created command in storage.
      *
      * @param StoreCommandRequest $request
+     * @param ResponseFactory     $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreCommandRequest $request)
+    public function store(StoreCommandRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name',
             'user',
             'target_type',
@@ -100,7 +103,7 @@ class CommandController extends Controller
             'optional',
             'default_on',
             'servers'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**

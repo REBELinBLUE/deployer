@@ -2,9 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreVariableRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\VariableRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Variable management controller.
@@ -27,17 +29,18 @@ class VariableController extends Controller
      * Store a newly created variable in storage.
      *
      * @param StoreVariableRequest $request
+     * @param ResponseFactory      $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreVariableRequest $request)
+    public function store(StoreVariableRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name',
             'value',
             'target_type',
             'target_id'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**
