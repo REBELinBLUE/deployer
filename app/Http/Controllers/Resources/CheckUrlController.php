@@ -16,13 +16,6 @@ class CheckUrlController extends Controller
     use ResourceController;
 
     /**
-     * The CheckURL repository.
-     *
-     * @var CheckUrlRepositoryInterface
-     */
-    protected $repository;
-
-    /**
      * CheckUrlController constructor.
      *
      * @param CheckUrlRepositoryInterface $repository
