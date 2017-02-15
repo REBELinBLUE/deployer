@@ -22,13 +22,6 @@ class TemplateController extends Controller
     use ResourceController;
 
     /**
-     * The command repository.
-     *
-     * @var CommandRepositoryInterface
-     */
-    protected $repository;
-
-    /**
      * The template repository.
      *
      * @var TemplateRepositoryInterface
