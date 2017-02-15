@@ -11,7 +11,6 @@ env:
   - DB=sqlite
 
 cache:
-  yarn: true
   directories:
     - $TRAVIS_BUILD_DIR/vendor
     - $TRAVIS_BUILD_DIR/node_modules
@@ -65,12 +64,12 @@ matrix:
         - postgresql
 
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - npm config set loglevel silent
   - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then phpenv config-rm xdebug.ini; fi
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
-  - travis_retry yarn install
+  - travis_retry npm install --quiet
 
 before_script:
   - make ci
