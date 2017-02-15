@@ -174,13 +174,16 @@ endif
 phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
 	@echo "\033[32mUnit Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null \
-		--testsuite "Unit Tests" --exclude-group slow
+	@php vendor/bin/phpunit --coverage-php=storage/tmp/coverage/ --coverage-clover=/dev/null \
+		--coverage-text=/dev/null --testsuite "Unit Tests" --exclude-group slow
 	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null \
-		--testsuite "Unit Tests" --exclude-group default
+	@php vendor/bin/phpunit --coverage-php=storage/tmp/coverage/ --coverage-clover=/dev/null \
+		--coverage-text=/dev/null --testsuite "Unit Tests" --exclude-group default
 	@echo "\033[32mIntegration Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null --testsuite "Integration Tests"
+	@php vendor/bin/phpunit --coverage-php=storage/tmp/coverage/ --coverage-clover=/dev/null \
+		--coverage-text=/dev/null --testsuite "Integration Tests"
+	@echo "\033[32mMerging coverage\033[39m"
+	@php vendor/bin/phpcov merge storage/tmp/coverage/ --clover coverage.xml
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
 	@$(MAKE) integration
