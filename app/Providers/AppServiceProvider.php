@@ -137,9 +137,5 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('files', function () {
             return new Filesystem();
         });
-
-        $this->app->singleton(FakerGenerator::class, function () {
-            return FakerFactory::create('en_GB');
-        });
     }
 }
