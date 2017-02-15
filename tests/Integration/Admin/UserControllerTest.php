@@ -48,14 +48,13 @@ class UserControllerTest extends AuthenticatedTestCase
 
         $this->expectsEvents(UserWasCreated::class);
 
-        $response = $this->postJson('/admin/users', [
+        $this->postJson('/admin/users', [
             'name'                  => $name,
             'email'                 => $email,
             'password'              => $password,
             'password_confirmation' => $password,
-        ]);
+        ])->assertStatus(Response::HTTP_CREATED)->assertJson(['id' => 2, 'name' => $name, 'email' => $email]);
 
-        $response->assertStatus(Response::HTTP_CREATED)->assertJson(['id' => 2, 'name' => $name, 'email' => $email]);
         $this->assertDatabaseHas('users', ['id' => 2, 'name' => $name, 'email' => $email]);
     }
 
@@ -73,12 +72,11 @@ class UserControllerTest extends AuthenticatedTestCase
 
         factory(User::class)->create(['name' => $original, 'email' => $email]);
 
-        $response = $this->putJson('/admin/users/2', [
+        $this->putJson('/admin/users/2', [
             'name'  => $updated,
             'email' => $email,
-        ]);
+        ])->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => $updated, 'email' => $email]);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => $updated, 'email' => $email]);
         $this->assertDatabaseHas('users', ['id' => 2, 'name' => $updated, 'email' => $email]);
         $this->assertDatabaseMissing('users', ['name' => $original, 'email' => $email]);
     }
@@ -89,9 +87,8 @@ class UserControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/admin/users/1000', ['name' => 'Bob', 'email' => 'bob@example.com']);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->putJson('/admin/users/1000', ['name' => 'Bob', 'email' => 'bob@example.com'])
+             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -104,9 +101,7 @@ class UserControllerTest extends AuthenticatedTestCase
 
         factory(User::class)->create(['name' => $name, 'email' => $email]);
 
-        $response = $this->deleteJson('/admin/users/2');
-
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->deleteJson('/admin/users/2')->assertStatus(Response::HTTP_NO_CONTENT);
 
         $this->assertDatabaseMissing('users', ['name' => $name, 'email' => $email, 'deleted_at' => null]);
     }
@@ -116,8 +111,6 @@ class UserControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/admin/users/1000');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/admin/users/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

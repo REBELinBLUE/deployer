@@ -65,9 +65,8 @@ class ProjectControllerTest extends AuthenticatedTestCase
             'id' => 1,
         ], array_except($input, ['template_id']));
 
-        $response = $this->postJson('/admin/projects', $input);
+        $this->postJson('/admin/projects', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 
-        $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
         $this->assertDatabaseHas('projects', $output);
     }
 
@@ -105,9 +104,8 @@ class ProjectControllerTest extends AuthenticatedTestCase
             'name' => $updated,
         ]);
 
-        $response = $this->putJson('/admin/projects/1', $input);
+        $this->putJson('/admin/projects/1', $input)->assertStatus(Response::HTTP_OK)->assertJson($input);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
         $this->assertDatabaseHas('projects', ['name' => $updated]);
         $this->assertDatabaseMissing('projects', ['name' => $original]);
     }
@@ -130,9 +128,7 @@ class ProjectControllerTest extends AuthenticatedTestCase
             'include_dev'        => false,
         ];
 
-        $response = $this->putJson('/admin/projects/1000', $input);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->putJson('/admin/projects/1000', $input)->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -144,9 +140,7 @@ class ProjectControllerTest extends AuthenticatedTestCase
 
         factory(Project::class)->create(['name' => $name]);
 
-        $response = $this->deleteJson('/admin/projects/1');
-
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->deleteJson('/admin/projects/1')->assertStatus(Response::HTTP_NO_CONTENT);
 
         $this->assertDatabaseMissing('projects', ['name' => $name, 'deleted_at' => null]);
     }
@@ -156,8 +150,6 @@ class ProjectControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/admin/projects/1000');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/admin/projects/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

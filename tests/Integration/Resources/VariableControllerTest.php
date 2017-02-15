@@ -36,9 +36,8 @@ class VariableControllerTest extends AuthenticatedTestCase
             'id' => 1,
         ], $input);
 
-        $response = $this->postJson('/variables', $input);
+        $this->postJson('/variables', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 
-        $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
         $this->assertDatabaseHas('variables', $output);
     }
 
@@ -65,9 +64,8 @@ class VariableControllerTest extends AuthenticatedTestCase
             'name' => $updated,
         ]);
 
-        $response = $this->putJson('/variables/1', $input);
+        $this->putJson('/variables/1', $input)->assertStatus(Response::HTTP_OK)->assertJson($input);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
         $this->assertDatabaseHas('variables', ['name' => $updated]);
         $this->assertDatabaseMissing('variables', ['name' => $original]);
     }
@@ -95,9 +93,8 @@ class VariableControllerTest extends AuthenticatedTestCase
 
         factory(Variable::class)->create(['name' => $name]);
 
-        $response = $this->deleteJson('/variables/1');
+        $this->deleteJson('/variables/1')->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('variables', ['name' => $name, 'deleted_at' => null]);
     }
 
@@ -106,8 +103,6 @@ class VariableControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/variables/1000');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/variables/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

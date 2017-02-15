@@ -36,9 +36,8 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
             'id' => 1,
         ], $input);
 
-        $response = $this->postJson('/check-url', $input);
+        $this->postJson('/check-url', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 
-        $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
         $this->assertDatabaseHas('check_urls', $output);
     }
 
@@ -66,9 +65,8 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
             'name' => $updated,
         ]);
 
-        $response = $this->putJson('/check-url/1', $input);
+        $this->putJson('/check-url/1', $input)->assertStatus(Response::HTTP_OK)->assertJson($input);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
         $this->assertDatabaseHas('check_urls', ['name' => $updated]);
         $this->assertDatabaseMissing('check_urls', ['name' => $original]);
     }
@@ -79,13 +77,11 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/check-url/1000', [
+        $this->putJson('/check-url/1000', [
             'name'   => 'My Site',
             'url'    => 'http://www.example.com',
             'period' => 5,
-        ]);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        ])->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -97,9 +93,8 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
 
         factory(CheckUrl::class)->create(['name' => $name]);
 
-        $response = $this->deleteJson('/check-url/1');
+        $this->deleteJson('/check-url/1')->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('check_urls', ['name' => $name, 'deleted_at' => null]);
     }
 
@@ -108,8 +103,6 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/check-url/1000');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/check-url/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

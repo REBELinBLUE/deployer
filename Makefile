@@ -62,7 +62,7 @@ permissions:
 ## PHP Coding Standards (PSR-2)
 phpcs:
 	@echo "\033[32mPHP Code Sniffer\033[39m"
-	@php vendor/bin/phpcs --standard=phpcs.xml
+	@php vendor/bin/phpcs
 
 ## PHPDoc Checker
 phpdoc-check:
@@ -72,7 +72,8 @@ phpdoc-check:
 ## PHP Mess Detector
 phpmd:
 	@echo "\033[32mPHP Mess Detector\033[39m"
-	@php vendor/bin/phpmd app text phpmd.xml
+	@if [ -f phpmd.xml ]; then php vendor/bin/phpmd app text phpmd.xml; fi
+	@if [ ! -f phpmd.xml ]; then php vendor/bin/phpmd app text phpmd.xml.dist; fi
 
 ## PHP Copy/Paste Detector
 phpcpd:
@@ -87,7 +88,7 @@ dusk:
 ## Test Coverage
 coverage:
 	@echo "\033[32mAll tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null
+	@php vendor/bin/phpunit --coverage-html=storage/app/tmp/coverage/
 
 ## Unit Tests - Excluding slow model tests which touch the database
 phpunit-fast:
@@ -173,17 +174,18 @@ endif
 # Run the PHPUnit tests for Travis CI
 phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
-	@echo "\033[32mUnit Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-php=storage/tmp/coverage/ --coverage-clover=/dev/null \
-		--coverage-text=/dev/null --testsuite "Unit Tests" --exclude-group slow
-	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-php=storage/tmp/coverage/ --coverage-clover=/dev/null \
-		--coverage-text=/dev/null --testsuite "Unit Tests" --exclude-group default
-	@echo "\033[32mIntegration Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-php=storage/tmp/coverage/ --coverage-clover=/dev/null \
-		--coverage-text=/dev/null --testsuite "Integration Tests"
-	@echo "\033[32mMerging coverage\033[39m"
-	@php vendor/bin/phpcov merge storage/tmp/coverage/ --clover coverage.xml
+#	@mkdir tmp/
+#	@echo "\033[32mUnit Tests with coverage\033[39m"
+#	@php vendor/bin/phpunit --coverage-php=tmp/ --testsuite "Unit Tests" --exclude-group slow
+#	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
+#	@php vendor/bin/phpunit --coverage-php=tmp/ --testsuite "Unit Tests" --exclude-group default
+#	@echo "\033[32mIntegration Tests with coverage\033[39m"
+#	@php vendor/bin/phpunit --coverage-php=stmp/ --testsuite "Integration Tests"
+#	@echo "\033[32mMerging coverage\033[39m"
+#	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
+#	@rm -rf tmp/
+	@echo "\033[32mAll Tests with coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
 	@$(MAKE) integration

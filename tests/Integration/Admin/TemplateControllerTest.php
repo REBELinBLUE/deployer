@@ -24,9 +24,10 @@ class TemplateControllerTest extends AuthenticatedTestCase
     {
         $expected = 'a-new-template';
 
-        $response = $this->postJson('/admin/templates', ['name' => $expected]);
+        $this->postJson('/admin/templates', ['name' => $expected])
+             ->assertStatus(Response::HTTP_CREATED)
+             ->assertJson(['name' => $expected]);
 
-        $response->assertStatus(Response::HTTP_CREATED)->assertJson(['name' => $expected]);
         $this->assertDatabaseHas('templates', ['name' => $expected]);
     }
 
@@ -40,9 +41,10 @@ class TemplateControllerTest extends AuthenticatedTestCase
     {
         factory(Template::class)->create(['name' => 'Foo']);
 
-        $response = $this->putJson('/admin/templates/1', ['name' => 'Bar']);
+        $this->putJson('/admin/templates/1', ['name' => 'Bar'])
+             ->assertStatus(Response::HTTP_OK)
+             ->assertJson(['id' => 1, 'name' => 'Bar']);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson(['id' => 1, 'name' => 'Bar']);
         $this->assertDatabaseHas('templates', ['id' => 1, 'name' => 'Bar']);
         $this->assertDatabaseMissing('templates', ['name' => 'Foo']);
     }
@@ -53,9 +55,7 @@ class TemplateControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/admin/templates/1000', ['name' => 'Bar']);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->putJson('/admin/templates/1000', ['name' => 'Bar'])->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -69,9 +69,7 @@ class TemplateControllerTest extends AuthenticatedTestCase
 
         factory(Template::class)->create(['name' => $name]);
 
-        $response = $this->deleteJson('/admin/templates/1');
-
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->deleteJson('/admin/templates/1')->assertStatus(Response::HTTP_NO_CONTENT);
 
         $this->assertDatabaseMissing('templates', ['name' => $name, 'deleted_at' => null]);
     }
@@ -81,8 +79,6 @@ class TemplateControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/admin/templates/1000');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/admin/templates/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

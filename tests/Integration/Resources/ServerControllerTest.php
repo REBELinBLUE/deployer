@@ -39,9 +39,8 @@ class ServerControllerTest extends AuthenticatedTestCase
             'id' => 1,
         ], $input);
 
-        $response = $this->postJson('/servers', $input);
+        $this->postJson('/servers', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 
-        $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
         $this->assertDatabaseHas('servers', $output);
     }
 
@@ -72,9 +71,8 @@ class ServerControllerTest extends AuthenticatedTestCase
             'ip_address' => $updated,
         ]);
 
-        $response = $this->putJson('/servers/1', $input);
+        $this->putJson('/servers/1', $input)->assertStatus(Response::HTTP_OK)->assertJson($input);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
         $this->assertDatabaseHas('servers', ['ip_address' => $updated]);
         $this->assertDatabaseMissing('servers', ['ip_address' => $original]);
     }
@@ -85,16 +83,14 @@ class ServerControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/servers/1000', [
+        $this->putJson('/servers/1000', [
             'name'        => 'Web',
             'user'        => 'deploy',
             'ip_address'  => '127.0.0.1',
             'port'        => 22,
             'deploy_code' => true,
             'path'        => '/var/www',
-        ]);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        ])->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -106,9 +102,8 @@ class ServerControllerTest extends AuthenticatedTestCase
 
         factory(Server::class)->create(['name' => $name]);
 
-        $response = $this->deleteJson('/servers/1');
+        $this->deleteJson('/servers/1')->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('servers', ['name' => $name, 'deleted_at' => null]);
     }
 
@@ -117,8 +112,6 @@ class ServerControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/servers/1000');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/servers/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

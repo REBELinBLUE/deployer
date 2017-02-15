@@ -5,8 +5,6 @@ namespace REBELinBLUE\Deployer\Providers;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Clockwork\Support\Laravel\ClockworkMiddleware;
 use Clockwork\Support\Laravel\ClockworkServiceProvider;
-use Faker\Factory as FakerFactory;
-use Faker\Generator as FakerGenerator;
 use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
 use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use Illuminate\Database\Eloquent\Relations\Relation;

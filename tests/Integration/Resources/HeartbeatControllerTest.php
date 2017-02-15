@@ -35,9 +35,8 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
             'id' => 1,
         ], $input);
 
-        $response = $this->postJson('/heartbeats', $input);
+        $this->postJson('/heartbeats', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 
-        $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
         $this->assertDatabaseHas('heartbeats', $output);
     }
 
@@ -64,9 +63,8 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
             'name' => $updated,
         ]);
 
-        $response = $this->putJson('/heartbeats/1', $input);
+        $this->putJson('/heartbeats/1', $input)->assertStatus(Response::HTTP_OK)->assertJson($input);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
         $this->assertDatabaseHas('heartbeats', ['name' => $updated]);
         $this->assertDatabaseMissing('heartbeats', ['name' => $original]);
     }
@@ -77,12 +75,10 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/heartbeats/1000', [
+        $this->putJson('/heartbeats/1000', [
             'name'     => 'My Cronjob',
             'interval' => 5,
-        ]);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        ])->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -94,9 +90,8 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
 
         factory(Heartbeat::class)->create(['name' => $name]);
 
-        $response = $this->deleteJson('/heartbeats/1');
+        $this->deleteJson('/heartbeats/1')->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('heartbeats', ['name' => $name, 'deleted_at' => null]);
     }
 
@@ -105,8 +100,6 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/heartbeats/1000');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/heartbeats/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

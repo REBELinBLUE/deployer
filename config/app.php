@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale'       => env('APP_LOCALE', 'en'),
     'faker_locale' => 'en_GB',
 
     /*

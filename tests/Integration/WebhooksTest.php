@@ -64,9 +64,10 @@ class WebhooksTest extends TestCase
         $now = Carbon::create(2017, 1, 2, 15, 15, 0, 'UTC');
         Carbon::setTestNow($now);
 
-        $response = $this->dontSeeIsAuthenticated()->getJson('/heartbeat/' . $heartbeat->hash);
-
-        $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
+        $this->dontSeeIsAuthenticated()
+             ->getJson('/heartbeat/' . $heartbeat->hash)
+             ->assertStatus(Response::HTTP_OK)
+             ->assertExactJson(['success' => true]);
 
         $this->assertDatabaseHas('heartbeats', ['id' => 1, 'last_activity' => $now, 'status' => Heartbeat::OK]);
     }

@@ -30,9 +30,9 @@ class StoreCommandRequest extends Request
         // On edit we don't require the step or the project_id
         if ($this->route('command')) {
             unset($rules['step']);
+            unset($rules['target_id']);
+            unset($rules['target_type']);
         }
-
-        // FIXME: Unset target_type/target_id
 
         return $rules;
     }

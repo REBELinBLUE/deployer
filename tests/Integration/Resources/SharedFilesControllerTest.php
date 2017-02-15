@@ -36,9 +36,8 @@ class SharedFilesControllerTest extends AuthenticatedTestCase
             'id' => 1,
         ], $input);
 
-        $response = $this->postJson('/shared-files', $input);
+        $this->postJson('/shared-files', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 
-        $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
         $this->assertDatabaseHas('shared_files', $output);
     }
 
@@ -65,9 +64,8 @@ class SharedFilesControllerTest extends AuthenticatedTestCase
             'name' => $updated,
         ]);
 
-        $response = $this->putJson('/shared-files/1', $input);
+        $this->putJson('/shared-files/1', $input)->assertStatus(Response::HTTP_OK)->assertJson($input);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
         $this->assertDatabaseHas('shared_files', ['name' => $updated]);
         $this->assertDatabaseMissing('shared_files', ['name' => $original]);
     }
@@ -78,12 +76,10 @@ class SharedFilesControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/shared-files/1000', [
+        $this->putJson('/shared-files/1000', [
             'name'       => 'Config',
             'file'       => '.env',
-        ]);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        ])->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -95,9 +91,8 @@ class SharedFilesControllerTest extends AuthenticatedTestCase
 
         factory(SharedFile::class)->create(['file' => $file]);
 
-        $response = $this->deleteJson('/shared-files/1');
+        $this->deleteJson('/shared-files/1')->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('shared_files', ['file' => $file, 'deleted_at' => null]);
     }
 
@@ -106,8 +101,6 @@ class SharedFilesControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/shared-files/1000');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/shared-files/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

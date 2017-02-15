@@ -37,9 +37,8 @@ class ConfigFileControllerTest extends AuthenticatedTestCase
             'id' => 1,
         ], $input);
 
-        $response = $this->postJson('/config-file', $input);
+        $this->postJson('/config-file', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 
-        $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
         $this->assertDatabaseHas('config_files', $output);
     }
 
@@ -67,9 +66,8 @@ class ConfigFileControllerTest extends AuthenticatedTestCase
             'path' => $updated,
         ]);
 
-        $response = $this->putJson('/config-file/1', $input);
+        $this->putJson('/config-file/1', $input)->assertStatus(Response::HTTP_OK)->assertJson($input);
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
         $this->assertDatabaseHas('config_files', ['path' => $updated]);
         $this->assertDatabaseMissing('config_files', ['path' => $original]);
     }
@@ -80,13 +78,11 @@ class ConfigFileControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/config-file/1000', [
+        $this->putJson('/config-file/1000', [
             'name'    => 'Config',
             'path'    => '.env',
             'content' => 'lorem ipsum',
-        ]);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        ])->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -98,9 +94,8 @@ class ConfigFileControllerTest extends AuthenticatedTestCase
 
         factory(ConfigFile::class)->create(['path' => $file]);
 
-        $response = $this->deleteJson('/config-file/1');
+        $this->deleteJson('/config-file/1')->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('config_files', ['path' => $file, 'deleted_at' => null]);
     }
 
@@ -109,8 +104,6 @@ class ConfigFileControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/config-file/1000');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/config-file/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }
