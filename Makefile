@@ -85,8 +85,8 @@ dusk:
 	@php artisan dusk
 
 ## Test Coverage
-phpunit-coverage:
-	@echo "\033[32mTests with Code Coverage\033[39m"
+coverage:
+	@echo "\033[32mAll tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null
 
 ## Unit Tests - Excluding slow model tests which touch the database
@@ -136,9 +136,6 @@ reset: clean
 	-rm database/backups/*
 	-git checkout -- public/build/ 2> /dev/null # Exists on the release branch
 
-# Alias for phpunit-coverage
-coverage: phpunit-coverage
-
 # Seed the database
 seed:
 	@echo "\033[32mSeed the database\033[39m"
@@ -176,7 +173,14 @@ endif
 # Run the PHPUnit tests for Travis CI
 phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
-	@$(MAKE) phpunit-coverage
+	@echo "\033[32mUnit Tests with coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null \
+		--testsuite "Unit Tests" --exclude-group slow
+	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null \
+		--testsuite "Unit Tests" --exclude-group default
+	@echo "\033[32mIntegration Tests with coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text=/dev/null --testsuite "Integration Tests"
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
 	@$(MAKE) integration

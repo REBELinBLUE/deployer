@@ -18,6 +18,7 @@ class StoreServerRequest extends Request
             'name'         => 'required|max:255',
             'user'         => 'required|max:255',
             'ip_address'   => 'required|host',
+            'deploy_code'  => 'boolean',
             'port'         => 'required|integer|min:0|max:65535',
             'path'         => 'required',
             'add_commands' => 'boolean',
@@ -26,6 +27,7 @@ class StoreServerRequest extends Request
 
         if ($this->route('server')) {
             unset($rules['project_id']);
+            unset($rules['add_commands']);
         }
 
         return $rules;

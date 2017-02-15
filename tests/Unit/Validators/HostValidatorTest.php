@@ -14,7 +14,7 @@ class HostValidatorTest extends TestCase
     {
         parent::setUp();
 
-        if (!gethostbyname('www.google.com')) {
+        if (!filter_var(gethostbyname('www.example.com'), FILTER_VALIDATE_IP)) {
             $this->markTestSkipped('The test can not be run as there was no active network connection');
         }
     }

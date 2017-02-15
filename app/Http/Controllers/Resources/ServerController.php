@@ -64,7 +64,6 @@ class ServerController extends Controller
             'ip_address',
             'port',
             'path',
-            'project_id',
             'deploy_code'
         ), $server_id);
     }

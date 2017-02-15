@@ -55,7 +55,7 @@ class ConfigFileControllerTest extends AuthenticatedTestCase
         $updated  = 'config.yml';
 
         /** @var ConfigFile $file */
-        $file = factory(ConfigFile::class)->create(['name' => 'Config', 'path' => $original]);
+        $file = factory(ConfigFile::class)->create(['path' => $original]);
 
         $data = array_only($file->fresh()->toArray(), [
             'name',
@@ -64,14 +64,14 @@ class ConfigFileControllerTest extends AuthenticatedTestCase
         ]);
 
         $input = array_merge($data, [
-            'name' => $updated,
+            'path' => $updated,
         ]);
 
         $response = $this->putJson('/config-file/1', $input);
 
         $response->assertStatus(Response::HTTP_OK)->assertJson($input);
-        $this->assertDatabaseHas('config_files', ['name' => $updated]);
-        $this->assertDatabaseMissing('config_files', ['name' => $original]);
+        $this->assertDatabaseHas('config_files', ['path' => $updated]);
+        $this->assertDatabaseMissing('config_files', ['path' => $original]);
     }
 
     /**
@@ -101,7 +101,7 @@ class ConfigFileControllerTest extends AuthenticatedTestCase
         $response = $this->deleteJson('/config-file/1');
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
-        $this->assertDatabaseMissing('config_files', ['file' => $file, 'deleted_at' => null]);
+        $this->assertDatabaseMissing('config_files', ['path' => $file, 'deleted_at' => null]);
     }
 
     /**
