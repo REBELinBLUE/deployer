@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\View\Presenters;
 
 use Illuminate\Support\Facades\Lang;
+use RuntimeException;
 
 /**
  * View presenter for calculating the runtime in a readable format.
@@ -12,12 +13,13 @@ trait RuntimePresenter
     /**
      * Converts a number of seconds into a more human readable format.
      *
+     * @throws RuntimeException
      * @return string
      */
     public function presentReadableRuntime()
     {
         if (!$this->getObject() instanceof RuntimeInterface) {
-            throw new \RuntimeException('Model must implement RuntimeInterface');
+            throw new RuntimeException('Model must implement RuntimeInterface');
         }
 
         $seconds = $this->getObject()->runtime();

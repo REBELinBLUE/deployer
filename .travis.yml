@@ -85,6 +85,7 @@ script:
   # - make phpmd
   - make phpunit-ci
   - make phpdoc-check
+  - make phpcpd
   - make lines
 
   # Clear the compiled file and then try to install without the dev dependencies to ensure everything still works

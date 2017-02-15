@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Listeners;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Session\Store;
-use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use Tymon\JWTAuth\JWTAuth;
 
@@ -34,9 +33,9 @@ class CreateJwt
     /**
      * Create a new middleware instance.
      *
-     * @param JWTAuth        $auth
-     * @param Store          $session
-     * @param TokenGenerator $generator
+     * @param JWTAuth                 $auth
+     * @param Store                   $session
+     * @param TokenGeneratorInterface $generator
      */
     public function __construct(JWTAuth $auth, Store $session, TokenGeneratorInterface $generator)
     {
@@ -48,7 +47,7 @@ class CreateJwt
     /**
      * Handle the event.
      *
-     * @param Login|\REBELinBLUE\Deployer\Events\JsonWebTokenExpired $event
+     * @param Login $event
      */
     public function handle(Login $event)
     {

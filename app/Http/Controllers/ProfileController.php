@@ -90,6 +90,8 @@ class ProfileController extends Controller
     /**
      * View user profile.
      *
+     * @param Request $request
+     *
      * @return \Illuminate\View\View
      */
     public function index(Request $request)

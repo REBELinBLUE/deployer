@@ -57,7 +57,7 @@ class ChannelController extends Controller
     /**
      * Update the specified notification in storage.
      *
-     * @param $channel_id
+     * @param int                 $channel_id
      * @param StoreChannelRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

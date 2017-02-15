@@ -34,8 +34,8 @@ class CleanupFailedDeployment
      * Create a new job instance.
      *
      * @param Deployment $deployment
-     * @param $release_archive
-     * @param $private_key
+     * @param string     $release_archive
+     * @param string     $private_key
      */
     public function __construct(Deployment $deployment, $release_archive, $private_key)
     {

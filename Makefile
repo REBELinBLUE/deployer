@@ -74,6 +74,11 @@ phpmd:
 	@echo "\033[32mPHP Mess Detector\033[39m"
 	@php vendor/bin/phpmd app text phpmd.xml
 
+## PHP Copy/Paste Detector
+phpcpd:
+	@echo "\033[32mPHP Copy/Paste Detector\033[39m"
+	@php vendor/bin/phpcpd --progress app/
+
 ## Dusk Browser Tests
 dusk:
 	@echo "\033[32mDusk\033[39m"
@@ -91,7 +96,7 @@ phpunit-fast:
 
 ## Unit Tests
 phpunit:
-	@echo "\033[32Unit tests\033[39m"
+	@echo "\033[32mUnit tests\033[39m"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests"
 
 ## Integration Tests
@@ -100,13 +105,13 @@ integration:
 	@php vendor/bin/phpunit --no-coverage --testsuite "Integration Tests"
 
 ## Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
-quicktest: install-dev lint phpcs phpdoc-check phpunit-fast
+quicktest: install-dev lint phpcs phpdoc-check phpcpd phpunit-fast
 
 ## Runs most tests; but excludes integration & dusk tests
-test: install-dev lint phpcs phpdoc-check phpunit phpmd
+test: install-dev lint phpcs phpdoc-check phpunit phpcpd phpmd
 
 ## Runs all tests
-fulltest: install-dev lint phpcs phpdoc-check phpunit integration phpmd dusk
+fulltest: install-dev lint phpcs phpdoc-check phpunit integration phpcpd phpmd dusk
 
 ## Prints this help :D
 help:

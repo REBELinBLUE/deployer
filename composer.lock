@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a80dc864c220837bf0d846cec2980ca3",
+    "content-hash": "abd007eb0cdfc17c30243c6bb2ced7c0",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -1621,16 +1621,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.11",
+            "version": "v5.4.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9cee8db07cfac13a3a49d17388c9ced4c52e17ac"
+                "reference": "707f32d32dce58232f7a860e0a1d62caf6f9dbfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9cee8db07cfac13a3a49d17388c9ced4c52e17ac",
-                "reference": "9cee8db07cfac13a3a49d17388c9ced4c52e17ac",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/707f32d32dce58232f7a860e0a1d62caf6f9dbfc",
+                "reference": "707f32d32dce58232f7a860e0a1d62caf6f9dbfc",
                 "shasum": ""
             },
             "require": {
@@ -1746,7 +1746,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-02-10T19:40:54+00:00"
+            "time": "2017-02-15T14:31:32+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -4138,21 +4138,21 @@
         },
         {
             "name": "block8/php-docblock-checker",
-            "version": "1.2.1",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Block8/php-docblock-checker.git",
-                "reference": "cc5c91466d472bc83b295eedc6fd21d8fe200957"
+                "reference": "1e4076d322323b6eaee44ab364565dc4a279e466"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Block8/php-docblock-checker/zipball/cc5c91466d472bc83b295eedc6fd21d8fe200957",
-                "reference": "cc5c91466d472bc83b295eedc6fd21d8fe200957",
+                "url": "https://api.github.com/repos/Block8/php-docblock-checker/zipball/1e4076d322323b6eaee44ab364565dc4a279e466",
+                "reference": "1e4076d322323b6eaee44ab364565dc4a279e466",
                 "shasum": ""
             },
             "require": {
+                "nikic/php-parser": "3.*",
                 "php": ">=5.3.3",
-                "phpunit/php-token-stream": "1.*",
                 "symfony/console": "3.*"
             },
             "require-dev": {
@@ -4187,7 +4187,7 @@
                 "phpci",
                 "testing"
             ],
-            "time": "2017-02-15T14:06:32+00:00"
+            "time": "2017-02-15T17:17:41+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -5968,6 +5968,56 @@
             "description": "Traverses array structures and object graphs to enumerate all referenced objects",
             "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
             "time": "2016-11-19T07:35:10+00:00"
+        },
+        {
+            "name": "sebastian/phpcpd",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/phpcpd.git",
+                "reference": "d7006078b75a34c9250831c3453a2e256a687615"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpcpd/zipball/d7006078b75a34c9250831c3453a2e256a687615",
+                "reference": "d7006078b75a34c9250831c3453a2e256a687615",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7.0",
+                "phpunit/php-timer": "^1.0.6",
+                "sebastian/finder-facade": "^1.1",
+                "sebastian/version": "^2.0",
+                "symfony/console": "^3.0"
+            },
+            "bin": [
+                "phpcpd"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
+                }
+            ],
+            "description": "Copy/Paste Detector (CPD) for PHP code.",
+            "homepage": "https://github.com/sebastianbergmann/phpcpd",
+            "time": "2017-02-05T07:48:01+00:00"
         },
         {
             "name": "sebastian/recursion-context",

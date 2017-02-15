@@ -20,11 +20,6 @@ class GroupController extends Controller
     use ResourceController;
 
     /**
-     * @var ResponseFactory
-     */
-    private $response;
-
-    /**
      * GroupController constructor.
      *
      * @param GroupRepositoryInterface $repository
@@ -67,7 +62,7 @@ class GroupController extends Controller
     /**
      * Update the specified group in storage.
      *
-     * @param $group_id
+     * @param int               $group_id
      * @param StoreGroupRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

@@ -69,7 +69,7 @@ class RunDeploymentStep
      * @param Deployment $deployment
      * @param DeployStep $step
      * @param string     $private_key
-     * @param $release_archive
+     * @param string     $release_archive
      */
     public function __construct(Deployment $deployment, DeployStep $step, $private_key, $release_archive)
     {

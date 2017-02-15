@@ -29,7 +29,7 @@ class ReleaseArchiver
      * Create a new job instance.
      *
      * @param Deployment $deployment
-     * @param $path
+     * @param string     $path
      */
     public function __construct(Deployment $deployment, $path)
     {

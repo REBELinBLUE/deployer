@@ -192,7 +192,7 @@ class DeploymentController extends Controller
     /**
      * Queue a project to have the git mirror updated.
      *
-     * @param $project_id
+     * @param int $project_id
      *
      * @return array
      */

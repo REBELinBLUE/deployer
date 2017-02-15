@@ -57,6 +57,7 @@
         "phploc/phploc": "~3.0",
         "phpmd/phpmd": "~2.4",
         "phpunit/phpunit": "~5.7",
+        "sebastian/phpcpd": "^3.0",
         "spatie/laravel-migrate-fresh": "dev-php56",
         "squizlabs/php_codesniffer": "~2.5",
         "symfony/yaml": "^3.2",

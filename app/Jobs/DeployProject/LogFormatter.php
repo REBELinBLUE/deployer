@@ -10,7 +10,7 @@ class LogFormatter
     /**
      * Format an error message.
      *
-     * @param $message
+     * @param string $message
      *
      * @return string
      */
@@ -22,7 +22,7 @@ class LogFormatter
     /**
      * Format an info message.
      *
-     * @param $message
+     * @param string $message
      *
      * @return string
      */
