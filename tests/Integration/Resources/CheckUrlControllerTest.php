@@ -4,7 +4,9 @@ namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\CheckUrl;
+use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\CheckUrlController
@@ -24,26 +26,26 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
         factory(Project::class)->create();
 
         $input = [
-            'name'  => 'My site',
-            'url'   => 'http://www.example.com',
-            'period' => 30,
-            'project_id' => 1
+            'name'       => 'My site',
+            'url'        => 'http://www.example.com',
+            'period'     => 30,
+            'project_id' => 1,
         ];
 
         $output = array_merge([
-            'id' => 1
+            'id' => 1,
         ], $input);
 
         $response = $this->postJson('/check-url', $input);
 
         $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
-        $this->assertDatabaseHas('checkurls', $output);
+        $this->assertDatabaseHas('check_urls', $output);
     }
 
     /**
      * @covers ::__construct
      * @covers ::update
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreUserRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreCheckUrlRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testUpdate()
@@ -67,8 +69,8 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
         $response = $this->putJson('/check-url/1', $input);
 
         $response->assertStatus(Response::HTTP_OK)->assertJson($input);
-        $this->assertDatabaseHas('checkurls', ['name' => $updated]);
-        $this->assertDatabaseMissing('checkurls', ['name' => $original]);
+        $this->assertDatabaseHas('check_urls', ['name' => $updated]);
+        $this->assertDatabaseMissing('check_urls', ['name' => $original]);
     }
 
     /**
@@ -78,9 +80,9 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
     public function testUpdateReturnsErrorWhenInvalid()
     {
         $response = $this->putJson('/check-url/1000', [
-            'name' => 'My Site',
-            'url' => 'http://www.example.com',
-            'period' => 5
+            'name'   => 'My Site',
+            'url'    => 'http://www.example.com',
+            'period' => 5,
         ]);
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
@@ -99,7 +101,7 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $this->assertDatabaseMissing('checkurls', ['name' => $name, 'deleted_at' => null]);
+        $this->assertDatabaseMissing('check_urls', ['name' => $name, 'deleted_at' => null]);
     }
 
     /**

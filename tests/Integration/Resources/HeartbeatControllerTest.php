@@ -2,35 +2,112 @@
 
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Heartbeat;
-use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\HeartbeatController
  */
-class HeartbeatControllerTest extends TestCase
+class HeartbeatControllerTest extends AuthenticatedTestCase
 {
     use DatabaseMigrations;
 
     /**
      * @covers ::__construct
-     * @covers ::ping
+     * @covers ::store
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
-    public function testPing()
+    public function testStore()
     {
+        factory(Project::class)->create();
+
+        $input = [
+            'name'       => 'My Cronjob',
+            'interval'   => 5,
+            'project_id' => 1,
+        ];
+
+        $output = array_merge([
+            'id' => 1,
+        ], $input);
+
+        $response = $this->postJson('/heartbeats', $input);
+
+        $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
+        $this->assertDatabaseHas('heartbeats', $output);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
+     */
+    public function testUpdate()
+    {
+        $original = 'My Cronjob';
+        $updated  = 'Your Cronjob';
+
         /** @var Heartbeat $heartbeat */
-        $heartbeat = factory(Heartbeat::class)->create()->fresh();
+        $heartbeat = factory(Heartbeat::class)->create(['name' => $original]);
 
-        $now = Carbon::create(2017, 1, 2, 15, 15, 0, 'UTC');
-        Carbon::setTestNow($now);
+        $data = array_only($heartbeat->fresh()->toArray(), [
+            'name',
+            'interval',
+        ]);
 
-        $response = $this->dontSeeIsAuthenticated()->getJson('/heartbeat/' . $heartbeat->hash);
+        $input = array_merge($data, [
+            'name' => $updated,
+        ]);
 
-        $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
+        $response = $this->putJson('/heartbeats/1', $input);
 
-        $this->assertDatabaseHas('heartbeats', ['id' => 1, 'last_activity' => $now, 'status' => Heartbeat::OK]);
+        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
+        $this->assertDatabaseHas('heartbeats', ['name' => $updated]);
+        $this->assertDatabaseMissing('heartbeats', ['name' => $original]);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     */
+    public function testUpdateReturnsErrorWhenInvalid()
+    {
+        $response = $this->putJson('/heartbeats/1000', [
+            'name'     => 'My Cronjob',
+            'interval' => 5,
+        ]);
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @covers \REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController::destroy
+     */
+    public function testDelete()
+    {
+        $name = 'My Cronjob';
+
+        factory(Heartbeat::class)->create(['name' => $name]);
+
+        $response = $this->deleteJson('/heartbeats/1');
+
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+
+        $this->assertDatabaseMissing('heartbeats', ['name' => $name, 'deleted_at' => null]);
+    }
+
+    /**
+     * @covers \REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController::destroy
+     */
+    public function testDeleteReturnsErrorWhenInvalid()
+    {
+        $response = $this->deleteJson('/heartbeats/1000');
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

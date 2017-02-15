@@ -14,10 +14,16 @@ class StoreHeartbeatRequest extends Request
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name'       => 'required|max:255',
             'interval'   => 'required|integer',
             'project_id' => 'required|integer|exists:projects,id',
         ];
+
+        if ($this->route('heartbeat')) {
+            unset($rules['project_id']);
+        }
+
+        return $rules;
     }
 }

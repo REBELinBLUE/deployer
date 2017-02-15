@@ -6,20 +6,21 @@ use Carbon\Carbon;
 use DOMDocument;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Deployment;
+use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\DashboardController
+ * Test for end-points which are webhooks which don't require logging in.
  */
-class DashboardControllerTest extends TestCase
+class WebhooksTest extends TestCase
 {
     use DatabaseMigrations;
 
     /**
-     * @covers ::__construct
-     * @covers ::cctray
+     * @covers \REBELinBLUE\Deployer\Http\Controllers\DashboardController::__construct
+     * @covers \REBELinBLUE\Deployer\Http\Controllers\DashboardController::cctray
      */
     public function testCctray()
     {
@@ -49,5 +50,24 @@ class DashboardControllerTest extends TestCase
 
         // FIXME: Change this to also care about attributes!
         $this->assertEqualXMLStructure($expected->firstChild, $actual->firstChild);
+    }
+
+    /**
+     * @covers \REBELinBLUE\Deployer\Http\Controllers\Resources\HeartbeatController::__construct
+     * @covers \REBELinBLUE\Deployer\Http\Controllers\Resources\HeartbeatController::ping
+     */
+    public function testPing()
+    {
+        /** @var Heartbeat $heartbeat */
+        $heartbeat = factory(Heartbeat::class)->create()->fresh();
+
+        $now = Carbon::create(2017, 1, 2, 15, 15, 0, 'UTC');
+        Carbon::setTestNow($now);
+
+        $response = $this->dontSeeIsAuthenticated()->getJson('/heartbeat/' . $heartbeat->hash);
+
+        $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
+
+        $this->assertDatabaseHas('heartbeats', ['id' => 1, 'last_activity' => $now, 'status' => Heartbeat::OK]);
     }
 }

@@ -14,11 +14,17 @@ class StoreCheckUrlRequest extends Request
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name'       => 'required|max:255',
             'url'        => 'required|url',
             'period'     => 'required',
             'project_id' => 'required|integer|exists:projects,id',
         ];
+
+        if ($this->route('check_url')) {
+            unset($rules['project_id']);
+        }
+
+        return $rules;
     }
 }
