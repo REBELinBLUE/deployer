@@ -9,7 +9,7 @@ use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\ConfigFilesController
+ * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\ConfigFileController
  */
 class ConfigFileControllerTest extends AuthenticatedTestCase
 {
