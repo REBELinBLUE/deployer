@@ -67,7 +67,7 @@ phpcs:
 ## PHPDoc Checker
 phpdoc-check:
 	@echo "\033[32mPHPDocblock Checker\033[39m"
-	@php vendor/bin/phpdoccheck --directory=app
+	@php vendor/bin/phpdoccheck --directory=app --files-per-line 60
 
 ## PHP Mess Detector
 phpmd:
