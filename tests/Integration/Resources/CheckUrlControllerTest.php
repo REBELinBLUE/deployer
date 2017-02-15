@@ -100,7 +100,6 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
         $response = $this->deleteJson('/check-url/1');
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
-
         $this->assertDatabaseMissing('check_urls', ['name' => $name, 'deleted_at' => null]);
     }
 

@@ -14,7 +14,7 @@ class StoreServerRequest extends Request
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name'         => 'required|max:255',
             'user'         => 'required|max:255',
             'ip_address'   => 'required|host',
@@ -23,5 +23,11 @@ class StoreServerRequest extends Request
             'add_commands' => 'boolean',
             'project_id'   => 'required|integer|exists:projects,id',
         ];
+
+        if ($this->route('server')) {
+            unset($rules['project_id']);
+        }
+
+        return $rules;
     }
 }

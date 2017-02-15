@@ -3,22 +3,22 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
+use REBELinBLUE\Deployer\Variable;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\HeartbeatController
+ * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\VariableController
  */
-class HeartbeatControllerTest extends AuthenticatedTestCase
+class VariableControllerTest extends AuthenticatedTestCase
 {
     use DatabaseMigrations;
 
     /**
      * @covers ::__construct
      * @covers ::store
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreVariableRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testStore()
@@ -26,49 +26,50 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
         factory(Project::class)->create();
 
         $input = [
-            'name'       => 'My Cronjob',
-            'interval'   => 5,
-            'project_id' => 1,
+            'name'        => 'SYMFONY_ENV',
+            'value'       => 'prod',
+            'target_type' => 'project',
+            'target_id'   => 1,
         ];
 
         $output = array_merge([
             'id' => 1,
         ], $input);
 
-        $response = $this->postJson('/heartbeats', $input);
+        $response = $this->postJson('/variables', $input);
 
         $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
-        $this->assertDatabaseHas('heartbeats', $output);
+        $this->assertDatabaseHas('variables', $output);
     }
 
     /**
      * @covers ::__construct
      * @covers ::update
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreVariableRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testUpdate()
     {
-        $original = 'My Cronjob';
-        $updated  = 'Your Cronjob';
+        $original = 'prod';
+        $updated  = 'dev';
 
-        /** @var Heartbeat $heartbeat */
-        $heartbeat = factory(Heartbeat::class)->create(['name' => $original]);
+        /** @var Variable $variable */
+        $variable = factory(Variable::class)->create(['name' => 'SYMFONY_ENV', 'value' => $original]);
 
-        $data = array_only($heartbeat->fresh()->toArray(), [
+        $data = array_only($variable->fresh()->toArray(), [
             'name',
-            'interval',
+            'value',
         ]);
 
         $input = array_merge($data, [
             'name' => $updated,
         ]);
 
-        $response = $this->putJson('/heartbeats/1', $input);
+        $response = $this->putJson('/variables/1', $input);
 
         $response->assertStatus(Response::HTTP_OK)->assertJson($input);
-        $this->assertDatabaseHas('heartbeats', ['name' => $updated]);
-        $this->assertDatabaseMissing('heartbeats', ['name' => $original]);
+        $this->assertDatabaseHas('variables', ['name' => $updated]);
+        $this->assertDatabaseMissing('variables', ['name' => $original]);
     }
 
     /**
@@ -77,9 +78,9 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/heartbeats/1000', [
-            'name'     => 'My Cronjob',
-            'interval' => 5,
+        $response = $this->putJson('/variables/1000', [
+            'name'       => 'SYMFONY_ENV',
+            'value'      => 'prod',
         ]);
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
@@ -90,14 +91,14 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testDelete()
     {
-        $name = 'My Cronjob';
+        $name = 'SYMFONY_ENV';
 
-        factory(Heartbeat::class)->create(['name' => $name]);
+        factory(Variable::class)->create(['name' => $name]);
 
-        $response = $this->deleteJson('/heartbeats/1');
+        $response = $this->deleteJson('/variables/1');
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
-        $this->assertDatabaseMissing('heartbeats', ['name' => $name, 'deleted_at' => null]);
+        $this->assertDatabaseMissing('variables', ['name' => $name, 'deleted_at' => null]);
     }
 
     /**
@@ -105,7 +106,7 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/heartbeats/1000');
+        $response = $this->deleteJson('/variables/1000');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }

@@ -3,22 +3,22 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use REBELinBLUE\Deployer\Heartbeat;
+use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\HeartbeatController
+ * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\ConfigFilesController
  */
-class HeartbeatControllerTest extends AuthenticatedTestCase
+class ConfigFileControllerTest extends AuthenticatedTestCase
 {
     use DatabaseMigrations;
 
     /**
-     * @covers ::__construct
+     * @cover ::__construct
      * @covers ::store
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreConfigFileRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testStore()
@@ -26,49 +26,52 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
         factory(Project::class)->create();
 
         $input = [
-            'name'       => 'My Cronjob',
-            'interval'   => 5,
-            'project_id' => 1,
+            'name'        => 'Environment Config',
+            'path'        => '.env',
+            'content'     => 'lorem ipsum',
+            'target_type' => 'project',
+            'target_id'   => 1,
         ];
 
         $output = array_merge([
             'id' => 1,
         ], $input);
 
-        $response = $this->postJson('/heartbeats', $input);
+        $response = $this->postJson('/config-file', $input);
 
         $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
-        $this->assertDatabaseHas('heartbeats', $output);
+        $this->assertDatabaseHas('config_files', $output);
     }
 
     /**
      * @covers ::__construct
      * @covers ::update
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreConfigFileRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testUpdate()
     {
-        $original = 'My Cronjob';
-        $updated  = 'Your Cronjob';
+        $original = 'config.xml';
+        $updated  = 'config.yml';
 
-        /** @var Heartbeat $heartbeat */
-        $heartbeat = factory(Heartbeat::class)->create(['name' => $original]);
+        /** @var ConfigFile $file */
+        $file = factory(ConfigFile::class)->create(['name' => 'Config', 'path' => $original]);
 
-        $data = array_only($heartbeat->fresh()->toArray(), [
+        $data = array_only($file->fresh()->toArray(), [
             'name',
-            'interval',
+            'path',
+            'content',
         ]);
 
         $input = array_merge($data, [
             'name' => $updated,
         ]);
 
-        $response = $this->putJson('/heartbeats/1', $input);
+        $response = $this->putJson('/config-file/1', $input);
 
         $response->assertStatus(Response::HTTP_OK)->assertJson($input);
-        $this->assertDatabaseHas('heartbeats', ['name' => $updated]);
-        $this->assertDatabaseMissing('heartbeats', ['name' => $original]);
+        $this->assertDatabaseHas('config_files', ['name' => $updated]);
+        $this->assertDatabaseMissing('config_files', ['name' => $original]);
     }
 
     /**
@@ -77,9 +80,10 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/heartbeats/1000', [
-            'name'     => 'My Cronjob',
-            'interval' => 5,
+        $response = $this->putJson('/config-file/1000', [
+            'name'    => 'Config',
+            'path'    => '.env',
+            'content' => 'lorem ipsum',
         ]);
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
@@ -90,14 +94,14 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testDelete()
     {
-        $name = 'My Cronjob';
+        $file = 'config.yml';
 
-        factory(Heartbeat::class)->create(['name' => $name]);
+        factory(ConfigFile::class)->create(['path' => $file]);
 
-        $response = $this->deleteJson('/heartbeats/1');
+        $response = $this->deleteJson('/config-file/1');
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
-        $this->assertDatabaseMissing('heartbeats', ['name' => $name, 'deleted_at' => null]);
+        $this->assertDatabaseMissing('config_files', ['file' => $file, 'deleted_at' => null]);
     }
 
     /**
@@ -105,7 +109,7 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/heartbeats/1000');
+        $response = $this->deleteJson('/config-file/1000');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }

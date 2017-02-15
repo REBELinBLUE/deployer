@@ -14,7 +14,7 @@ class StoreChannelRequest extends Request
      */
     public function rules()
     {
-        return array_merge([
+        $rules = array_merge([
             'name'                       => 'required|max:255',
             'project_id'                 => 'required|integer|exists:projects,id',
             'type'                       => 'required|in:slack,hipchat,twilio,mail,custom',
@@ -27,6 +27,12 @@ class StoreChannelRequest extends Request
             'on_heartbeat_still_missing' => 'boolean',
             'on_heartbeat_recovered'     => 'boolean',
         ], $this->configRules());
+
+        if ($this->route('notification')) {
+            unset($rules['project_id']);
+        }
+
+        return $rules;
     }
 
     /**

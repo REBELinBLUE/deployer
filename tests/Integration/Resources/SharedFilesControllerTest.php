@@ -3,22 +3,22 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\SharedFile;
 use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\HeartbeatController
+ * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Resources\SharedFilesController
  */
-class HeartbeatControllerTest extends AuthenticatedTestCase
+class SharedFilesControllerTest extends AuthenticatedTestCase
 {
     use DatabaseMigrations;
 
     /**
      * @covers ::__construct
      * @covers ::store
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreSharedFileRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testStore()
@@ -26,49 +26,50 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
         factory(Project::class)->create();
 
         $input = [
-            'name'       => 'My Cronjob',
-            'interval'   => 5,
-            'project_id' => 1,
+            'name'        => 'Environment Config',
+            'file'        => '.env',
+            'target_type' => 'project',
+            'target_id'   => 1,
         ];
 
         $output = array_merge([
             'id' => 1,
         ], $input);
 
-        $response = $this->postJson('/heartbeats', $input);
+        $response = $this->postJson('/shared-files', $input);
 
         $response->assertStatus(Response::HTTP_CREATED)->assertJson($output);
-        $this->assertDatabaseHas('heartbeats', $output);
+        $this->assertDatabaseHas('shared_files', $output);
     }
 
     /**
      * @covers ::__construct
      * @covers ::update
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreSharedFileRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testUpdate()
     {
-        $original = 'My Cronjob';
-        $updated  = 'Your Cronjob';
+        $original = 'config.xml';
+        $updated  = 'config.yml';
 
-        /** @var Heartbeat $heartbeat */
-        $heartbeat = factory(Heartbeat::class)->create(['name' => $original]);
+        /** @var SharedFile $file */
+        $file = factory(SharedFile::class)->create(['name' => 'Config', 'file' => $original]);
 
-        $data = array_only($heartbeat->fresh()->toArray(), [
+        $data = array_only($file->fresh()->toArray(), [
             'name',
-            'interval',
+            'file',
         ]);
 
         $input = array_merge($data, [
             'name' => $updated,
         ]);
 
-        $response = $this->putJson('/heartbeats/1', $input);
+        $response = $this->putJson('/shared-files/1', $input);
 
         $response->assertStatus(Response::HTTP_OK)->assertJson($input);
-        $this->assertDatabaseHas('heartbeats', ['name' => $updated]);
-        $this->assertDatabaseMissing('heartbeats', ['name' => $original]);
+        $this->assertDatabaseHas('shared_files', ['name' => $updated]);
+        $this->assertDatabaseMissing('shared_files', ['name' => $original]);
     }
 
     /**
@@ -77,9 +78,9 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $response = $this->putJson('/heartbeats/1000', [
-            'name'     => 'My Cronjob',
-            'interval' => 5,
+        $response = $this->putJson('/shared-files/1000', [
+            'name'       => 'Config',
+            'file'       => '.env',
         ]);
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
@@ -90,14 +91,14 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testDelete()
     {
-        $name = 'My Cronjob';
+        $file = 'config.yml';
 
-        factory(Heartbeat::class)->create(['name' => $name]);
+        factory(SharedFile::class)->create(['file' => $file]);
 
-        $response = $this->deleteJson('/heartbeats/1');
+        $response = $this->deleteJson('/shared-files/1');
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
-        $this->assertDatabaseMissing('heartbeats', ['name' => $name, 'deleted_at' => null]);
+        $this->assertDatabaseMissing('shared_files', ['file' => $file, 'deleted_at' => null]);
     }
 
     /**
@@ -105,7 +106,7 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $response = $this->deleteJson('/heartbeats/1000');
+        $response = $this->deleteJson('/shared-files/1000');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }

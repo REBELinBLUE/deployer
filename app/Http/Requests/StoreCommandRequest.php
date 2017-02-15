@@ -32,6 +32,8 @@ class StoreCommandRequest extends Request
             unset($rules['step']);
         }
 
+        // FIXME: Unset target_type/target_id
+
         return $rules;
     }
 }
