@@ -85,7 +85,7 @@ dusk:
 	@echo "\033[32mDusk\033[39m"
 	@php artisan dusk
 
-## Test Coverage
+## Test Coverage HTML
 coverage:
 	@echo "\033[32mAll tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-html=storage/app/tmp/coverage/
@@ -174,18 +174,16 @@ endif
 # Run the PHPUnit tests for Travis CI
 phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
-#	@mkdir tmp/
-#	@echo "\033[32mUnit Tests with coverage\033[39m"
-#	@php vendor/bin/phpunit --coverage-php=tmp/ --testsuite "Unit Tests" --exclude-group slow
-#	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
-#	@php vendor/bin/phpunit --coverage-php=tmp/ --testsuite "Unit Tests" --exclude-group default
-#	@echo "\033[32mIntegration Tests with coverage\033[39m"
-#	@php vendor/bin/phpunit --coverage-php=stmp/ --testsuite "Integration Tests"
-#	@echo "\033[32mMerging coverage\033[39m"
-#	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
-#	@rm -rf tmp/
-	@echo "\033[32mAll Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover=coverage.xml
+	@mkdir tmp/
+	@echo "\033[32mFast Unit Tests with coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
+	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
+	@echo "\033[32mIntegration Tests with coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
+	@echo "\033[32mMerging coverage\033[39m"
+	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
+	@rm -rf tmp/
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
 	@$(MAKE) integration

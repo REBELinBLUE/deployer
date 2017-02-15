@@ -73,9 +73,9 @@ examples/ export-ignore
 .codecov.yml export-ignore
 .travis.yml export-ignore
 .styleci.yml export-ignore
-.php_cs export-ignore
-phpcs.xml export-ignore
-phpmd.xml export-ignore
+.php_cs.dist export-ignore
+phpcs.xml.dist export-ignore
+phpmd.xml.dist export-ignore
 phpunit.xml.dist export-ignore
 Makefile export-ignore
 

@@ -21,6 +21,7 @@ auth.json
 node_modules/
 vendor/
 bower_components/
+tmp/
 npm-debug.log
 
 # Include laravel vendor resources
