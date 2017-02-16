@@ -161,7 +161,7 @@ class GroupControllerTest extends AuthenticatedTestCase
         factory(Group::class)->create(['name' => 'Foo', 'order' => 2]);
         factory(Group::class)->create(['name' => 'Bar', 'order' => 1]);
 
-        $this->post('/admin/groups/reorder', ['groups' => [3, 1, 2]])
+        $this->postJson('/admin/groups/reorder', ['groups' => [3, 1, 2]])
              ->assertStatus(Response::HTTP_OK)
              ->assertExactJson(['success' => true]);
 

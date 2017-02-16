@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -119,21 +120,24 @@ class CommandControllerTest extends AuthenticatedTestCase
         $this->deleteJson('/commands/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
-//
-//    /**
-//     * @covers ::__construct
-//     * @covers ::reorder
-//     */
-//    public function testReorder()
-//    {
-//        factory(Group::class)->create(['name' => 'Foo', 'order' => 2]);
-//        factory(Group::class)->create(['name' => 'Bar', 'order' => 1]);
-//
-//        $response = $this->post('/admin/groups/reorder', ['groups' => [3, 1, 2]]);
-//
-//        $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
-//        $this->assertDatabaseHas('groups', ['id' => 3, 'name' => 'Bar', 'order' => 0]);
-//        $this->assertDatabaseHas('groups', ['id' => 1, 'name' => 'Projects', 'order' => 1]);
-//        $this->assertDatabaseHas('groups', ['id' => 2, 'name' => 'Foo', 'order' => 2]);
-//    }
+    /**
+     * @covers ::__construct
+     * @covers ::reorder
+     */
+    public function testReorder()
+    {
+        $project = factory(Project::class)->create();
+
+        $target = ['target_type' => 'project', 'target_id' => $project->id];
+        factory(Command::class)->create(array_merge(['name' => 'Baz', 'order' => 0], $target));
+        factory(Command::class)->create(array_merge(['name' => 'Foo', 'order' => 2], $target));
+        factory(Command::class)->create(array_merge(['name' => 'Bar', 'order' => 1], $target));
+
+        $response = $this->postJson('/projects/1/commands/reorder', ['commands' => [3, 1, 2]]);
+
+        $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
+        $this->assertDatabaseHas('commands', ['id' => 3, 'name' => 'Bar', 'order' => 0]);
+        $this->assertDatabaseHas('commands', ['id' => 1, 'name' => 'Baz', 'order' => 1]);
+        $this->assertDatabaseHas('commands', ['id' => 2, 'name' => 'Foo', 'order' => 2]);
+    }
 }

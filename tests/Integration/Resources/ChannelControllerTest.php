@@ -54,37 +54,49 @@ class ChannelControllerTest extends AuthenticatedTestCase
         $this->assertDatabaseHas('channels', $output);
     }
 
-//
-//    /**
-//     * @covers ::__construct
-//     * @covers ::update
-//     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreCheckUrlRequest
-//     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
-//     */
-//    public function testUpdate()
-//    {
-//        $original = 'My site';
-//        $updated  = 'Your site';
-//
-//        /** @var CheckUrl $url */
-//        $url = factory(CheckUrl::class)->create(['name' => $original]);
-//
-//        $data = array_only($url->fresh()->toArray(), [
-//            'name',
-//            'url',
-//            'period',
-//        ]);
-//
-//        $input = array_merge($data, [
-//            'name' => $updated,
-//        ]);
-//
-//        $response = $this->putJson('/check-url/1', $input);
-//
-//        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
-//        $this->assertDatabaseHas('check_urls', ['name' => $updated]);
-//        $this->assertDatabaseMissing('check_urls', ['name' => $original]);
-//    }
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreCheckUrlRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
+     */
+    public function testUpdate()
+    {
+        $this->markTestSkipped('Events are not working correctly when mocked!');
+        $original = 'Notify Me!';
+        $updated  = 'Notify You!';
+
+        /** @var Channel $channel */
+        $channel = factory(Channel::class)->create([
+            'type'   => 'custom',
+            'config' => ['url' => 'http://www.example.com'],
+            'name'   => $original,
+        ]);
+
+        $data = array_only($channel->fresh()->toArray(), [
+            'name'                      ,
+            'type'                      ,
+            'on_deployment_success'     ,
+            'on_deployment_failure'     ,
+            'on_link_down'              ,
+            'on_link_still_down'        ,
+            'on_link_recovered'         ,
+            'on_heartbeat_missing'      ,
+            'on_heartbeat_still_missing',
+            'on_heartbeat_recovered'    ,
+        ]);
+
+        $input = array_merge($data, [
+            'name' => $updated,
+            'url'  => $channel->routeNotificationForWebhook(),
+        ]);
+
+        $response = $this->putJson('/channels/1', $input);
+
+        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
+        $this->assertDatabaseHas('channels', ['name' => $updated]);
+        $this->assertDatabaseMissing('channels', ['name' => $original]);
+    }
 
     /**
      * @covers ::__construct

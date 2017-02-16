@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
@@ -113,5 +114,84 @@ class ServerControllerTest extends AuthenticatedTestCase
     public function testDeleteReturnsErrorWhenInvalid()
     {
         $this->deleteJson('/servers/1000')->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::test
+     */
+    public function testTest()
+    {
+        $this->markTestSkipped('Job dispatching not working on test');
+        $name = 'localhost';
+
+        factory(Server::class)->create(['name' => $name]);
+
+        $this->expectsJobs(TestServerConnection::class);
+
+        $this->postJson('/servers/1/test')->assertStatus(Response::HTTP_OK);
+
+        $this->assertDatabaseHas('servers', ['name' => $name, 'status' => Server::TESTING]);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::test
+     */
+    public function testTestReturnsErrorWhenInvalid()
+    {
+        $this->postJson('/servers/1000/test')->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::reorder
+     */
+    public function testReorder()
+    {
+        $project = factory(Project::class)->create();
+
+        factory(Server::class)->create(['name' => 'Localhost', 'order' => 0, 'project_id' => $project->id]);
+        factory(Server::class)->create(['name' => 'Foo', 'order' => 2, 'project_id' => $project->id]);
+        factory(Server::class)->create(['name' => 'Bar', 'order' => 1, 'project_id' => $project->id]);
+
+        $this->postJson('/servers/reorder', ['servers' => [3, 1, 2]])
+             ->assertStatus(Response::HTTP_OK)
+             ->assertExactJson(['success' => true]);
+
+        $this->assertDatabaseHas('servers', ['id' => 3, 'name' => 'Bar', 'order' => 0]);
+        $this->assertDatabaseHas('servers', ['id' => 1, 'name' => 'Localhost', 'order' => 1]);
+        $this->assertDatabaseHas('servers', ['id' => 2, 'name' => 'Foo', 'order' => 2]);
+    }
+
+    /**
+     * @dataProvider provideAutoComplete
+     * @covers ::__construct
+     * @covers ::autoComplete
+     */
+    public function testAutoComplete($query, $result)
+    {
+        $project = factory(Project::class)->create();
+
+        factory(Server::class)->create(['name' => 'Localhost', 'project_id' => $project->id]);
+        factory(Server::class)->create(['name' => 'Foo', 'project_id' => $project->id]);
+        factory(Server::class)->create(['name' => 'Bar', 'project_id' => $project->id]);
+
+        $this->getJson('/servers/autocomplete?query=' . $query)
+             ->assertStatus(Response::HTTP_OK)
+             ->assertJson(['query' => $query, 'suggestions' => $result]);
+    }
+
+    public function provideAutoComplete()
+    {
+        return [
+            ['localhost',   [['name' => 'Localhost']]],
+            ['LoCALHo',     [['name' => 'Localhost']]],
+            ['host',        [['name' => 'Localhost']]],
+            ['local',       [['name' => 'Localhost']]],
+            ['o',           [['name' => 'Localhost'], ['name' => 'Foo']]],
+            ['',            []],
+            ['google',      []],
+        ];
     }
 }

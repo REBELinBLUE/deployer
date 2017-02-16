@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/andywer/laravel-js-localization.git",
-                "reference": "a73b4569d7acb28af757cabd51df602263179445"
+                "reference": "be35ca18cbb7587efdccb4a8e6cce766626ee58f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andywer/laravel-js-localization/zipball/a73b4569d7acb28af757cabd51df602263179445",
-                "reference": "a73b4569d7acb28af757cabd51df602263179445",
+                "url": "https://api.github.com/repos/andywer/laravel-js-localization/zipball/be35ca18cbb7587efdccb4a8e6cce766626ee58f",
+                "reference": "be35ca18cbb7587efdccb4a8e6cce766626ee58f",
                 "shasum": ""
             },
             "require": {
@@ -59,7 +59,7 @@
                 "messages",
                 "translation"
             ],
-            "time": "2017-01-26T14:59:07+00:00"
+            "time": "2017-02-16T13:36:39+00:00"
         },
         {
             "name": "backup-manager/backup-manager",
@@ -239,16 +239,16 @@
         },
         {
             "name": "creativeorange/gravatar",
-            "version": "1.0.9",
+            "version": "1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/creativeorange/gravatar.git",
-                "reference": "06cfcd2754fe0678298da1d244ab17231368d291"
+                "reference": "a0e84f0c8e8922ad151168d6ebd8db6a1b2d8cd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/creativeorange/gravatar/zipball/06cfcd2754fe0678298da1d244ab17231368d291",
-                "reference": "06cfcd2754fe0678298da1d244ab17231368d291",
+                "url": "https://api.github.com/repos/creativeorange/gravatar/zipball/a0e84f0c8e8922ad151168d6ebd8db6a1b2d8cd2",
+                "reference": "a0e84f0c8e8922ad151168d6ebd8db6a1b2d8cd2",
                 "shasum": ""
             },
             "require": {
@@ -279,7 +279,7 @@
                 "gravatar",
                 "laravel"
             ],
-            "time": "2016-07-27T16:49:05+00:00"
+            "time": "2017-02-15T22:07:40+00:00"
         },
         {
             "name": "cweagans/composer-patches",
@@ -4597,16 +4597,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "54353b68369dc7f2f07b9809a0d24bab5ccc6886"
+                "reference": "804bf2ef20de7d86caac1aff433c761399b55e56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/54353b68369dc7f2f07b9809a0d24bab5ccc6886",
-                "reference": "54353b68369dc7f2f07b9809a0d24bab5ccc6886",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/804bf2ef20de7d86caac1aff433c761399b55e56",
+                "reference": "804bf2ef20de7d86caac1aff433c761399b55e56",
                 "shasum": ""
             },
             "require": {
@@ -4648,7 +4648,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2017-02-01T16:55:39+00:00"
+            "time": "2017-02-15T20:21:39+00:00"
         },
         {
             "name": "mockery/mockery",
