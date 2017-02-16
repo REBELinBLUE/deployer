@@ -19,23 +19,23 @@ fix:
 	@php vendor/bin/php-cs-fixer --no-interaction fix
 
 ## Install dependencies
-install: permissions
+install: permissions ##@install Install dependencies
 	composer install --optimize-autoloader --no-dev --no-suggest --prefer-dist
 	yarn install --production
 
 ## Install dev dependencies
-install-dev: permissions
+install-dev: permissions ##@install Install dev dependencies
 	composer install --no-suggest --prefer-dist
 	yarn install
 
 ## PHP Parallel Lint
-lint:
+lint: ##@tests PHP Parallel Lint
 	@echo "\033[32mPHP Parallel Lint\033[39m"
 	@rm -rf bootstrap/cache/*.php
 	@php vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan
 
 ## PHP Lines of Code
-lines:
+lines: ##@tests PHP Lines of Code
 	@echo "\033[32mLines of Code Statistics\033[39m"
 	@php vendor/bin/phploc --count-tests app/ database/ resources/ tests/
 
@@ -194,3 +194,26 @@ endif
 # Create release
 release: test
 	@/usr/local/bin/create-release
+
+#COLORS
+GREEN  := $(shell tput -Txterm setaf 2)
+WHITE  := $(shell tput -Txterm setaf 7)
+YELLOW := $(shell tput -Txterm setaf 3)
+RESET  := $(shell tput -Txterm sgr0)
+
+# Add the following 'help' target to your Makefile
+# And add help text after each target name starting with '\#\#'
+# A category can be added with @category
+HELP_FUN = %help; \
+	while(<>) { push @{$$help{$$2 // 'options'}}, [$$1, $$3] if /^([a-zA-Z\-]+)\s*:.*\#\#(?:@([a-zA-Z\-]+))?\s(.*)$$/ }; \
+	print "usage: make [target]\n\n"; \
+	for (sort keys %help) { \
+	print "${WHITE}$$_:${RESET}\n"; \
+	for (@{$$help{$$_}}) { \
+	$$sep = " " x (32 - length $$_->[0]); \
+	print "  ${YELLOW}$$_->[0]${RESET}$$sep${GREEN}$$_->[1]${RESET}\n"; \
+	}; \
+	print "\n"; }
+
+help2: ##@other Show this help.
+	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
