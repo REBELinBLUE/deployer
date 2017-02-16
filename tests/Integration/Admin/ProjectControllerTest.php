@@ -31,9 +31,9 @@ class ProjectControllerTest extends AuthenticatedTestCase
 
         /** @var \Robbo\Presenter\View\View $view */
         $view      = $response->getOriginalContent();
-        $projects  = app(ProjectRepositoryInterface::class)->getAll();
-        $templates = app(TemplateRepositoryInterface::class)->getAll();
-        $groups    = app(GroupRepositoryInterface::class)->getAll();
+        $projects  = $this->app->make(ProjectRepositoryInterface::class)->getAll();
+        $templates = $this->app->make(TemplateRepositoryInterface::class)->getAll();
+        $groups    = $this->app->make(GroupRepositoryInterface::class)->getAll();
 
         $this->assertSame($projects->toJson(), $view->projects);
         $this->assertSame($templates->toJson(), $view->templates->toJson());

@@ -29,7 +29,7 @@ class UserControllerTest extends AuthenticatedTestCase
 
         /** @var \Robbo\Presenter\View\View $view */
         $view  = $response->getOriginalContent();
-        $users = app(UserRepositoryInterface::class)->getAll();
+        $users = $this->app->make(UserRepositoryInterface::class)->getAll();
 
         $this->assertSame($users->toJson(), $view->users);
     }

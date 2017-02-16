@@ -20,7 +20,7 @@ class ParserTest extends TestCase
     {
         $expected = 'This is a script';
 
-        $parser = app(Parser::class);
+        $parser = $this->app->make(Parser::class);
         $actual = $parser->parseString($expected);
 
         $this->assertSame($expected, $actual);
@@ -32,7 +32,7 @@ class ParserTest extends TestCase
      */
     public function testParseStringParsersTokens($input, $expected, array $tokens)
     {
-        $parser = app(Parser::class);
+        $parser = $this->app->make(Parser::class);
         $actual = $parser->parseString($input, $tokens);
 
         $this->assertSame($expected, $actual);
@@ -45,7 +45,7 @@ class ParserTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $parser = app(Parser::class);
+        $parser = $this->app->make(Parser::class);
         $parser->parseFile('a-file-which-does-not-exist');
     }
 

@@ -78,7 +78,12 @@ dusk: ##@tests Dusk Browser Tests
 
 coverage: ##@tests Test Coverage HTML
 	@echo "\033[32mAll tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-html=storage/app/tmp/coverage/
+	@mkdir tmp/
+	@php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
+	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
+	@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
+	@php vendor/bin/phpcov merge tmp/ --html storage/app/tmp/coverage/
+	@rm -rf tmp/
 
 phpunit-fast: ##@tests Unit Tests - Excluding slow model tests which touch the database
 	@echo "\033[32mFast unit tests\033[39m"
@@ -112,6 +117,7 @@ reset: clean
 	rm -rf .env.prev _ide_helper_models.php _ide_helper.php .phpstorm.meta.php .php_cs.cache
 	-rm database/database.sqlite
 	-rm database/backups/*
+	-rm .phpunit-cas.db
 	-git checkout -- public/build/ 2> /dev/null # Exists on the release branch
 
 # Generates helper files for IDEs

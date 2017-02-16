@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Admin;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Template;
 use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +15,50 @@ use Symfony\Component\HttpFoundation\Response;
 class TemplateControllerTest extends AuthenticatedTestCase
 {
     use DatabaseMigrations;
+
+    /**
+     * @dataProvider provideSteps
+     * @covers ::__construct
+     * @covers ::listing
+     */
+    public function testListing($url, $before, $after, $other, $action)
+    {
+        factory(Template::class)->create();
+
+        factory(Command::class)->create(['target_type' => 'template', 'target_id' => 1, 'step' => $before]);
+        factory(Command::class)->create(['target_type' => 'template', 'target_id' => 1, 'step' => $after]);
+        factory(Command::class)->create(['target_type' => 'template', 'target_id' => 1, 'step' => $other]);
+
+        $response = $this->getJson('/admin/templates/1/commands/' . $url);
+
+        $response->assertStatus(Response::HTTP_OK)
+                 ->assertViewHas(['title', 'breadcrumb', 'subtitle', 'project', 'action', 'commands'])
+                 ->assertViewHas('target_type', 'template')
+                 ->assertViewHas('target_id', 1)
+                 ->assertViewHas('action', $action);
+
+        /** @var \Robbo\Presenter\View\View $view */
+        $view     = $response->getOriginalContent();
+        $commands = $this->app->make(CommandRepositoryInterface::class)->getForDeployStep(1, 'template', $action);
+
+        $this->assertSame($commands->toJson(), $view->commands->toJson());
+    }
+
+    public function provideSteps()
+    {
+        return [
+            ['clone', Command::BEFORE_CLONE, Command::AFTER_CLONE, Command::AFTER_PURGE, Command::DO_CLONE],
+            ['install', Command::BEFORE_INSTALL, Command::AFTER_INSTALL, Command::AFTER_ACTIVATE, Command::DO_INSTALL],
+            [
+                'activate',
+                Command::BEFORE_ACTIVATE,
+                Command::AFTER_ACTIVATE,
+                Command::AFTER_INSTALL,
+                Command::DO_ACTIVATE,
+            ],
+            ['purge', Command::BEFORE_PURGE, Command::AFTER_PURGE, Command::AFTER_CLONE, Command::DO_PURGE],
+        ];
+    }
 
     /**
      * @covers ::__construct

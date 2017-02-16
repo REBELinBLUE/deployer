@@ -33,6 +33,15 @@
             </exclude>
         </whitelist>
     </filter>
+    <!-- Some listeners which are useful in development but not on the CI, rename the tag to listeners to use -->
+    <useful-listeners>
+        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
+        <listener class="PHPUnit\Runner\CleverAndSmart\TestListener">
+            <arguments>
+                <object class="PHPUnit\Runner\CleverAndSmart\Storage\Sqlite3Storage" />
+            </arguments>
+        </listener>
+    </useful-listeners>
     <php>
         <env name="APP_ENV" value="testing" />
         <env name="APP_URL" value="http://localhost" />

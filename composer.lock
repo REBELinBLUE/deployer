@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1817f371cddf7ff203e3d7108275e7c9",
+    "content-hash": "938a7607d004e30e5e3fb6787d0fe2df",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -4596,6 +4596,54 @@
             "time": "2015-12-15T10:42:16+00:00"
         },
         {
+            "name": "johnkary/phpunit-speedtrap",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/johnkary/phpunit-speedtrap.git",
+                "reference": "ad242a6e84b0d63d2e50832babad77d6d545bc0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/johnkary/phpunit-speedtrap/zipball/ad242a6e84b0d63d2e50832babad77d6d545bc0a",
+                "reference": "ad242a6e84b0d63d2e50832babad77d6d545bc0a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6",
+                "phpunit/phpunit": ">=4.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "JohnKary": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Kary",
+                    "email": "john@johnkary.net"
+                }
+            ],
+            "description": "Find slow tests in your PHPUnit test suite",
+            "homepage": "https://github.com/johnkary/phpunit-speedtrap",
+            "keywords": [
+                "phpunit",
+                "profile",
+                "slow"
+            ],
+            "time": "2017-02-13T15:22:35+00:00"
+        },
+        {
             "name": "laravel/dusk",
             "version": "v1.0.6",
             "source": {
@@ -4649,6 +4697,47 @@
                 "webdriver"
             ],
             "time": "2017-02-15T20:21:39+00:00"
+        },
+        {
+            "name": "lstrojny/phpunit-clever-and-smart",
+            "version": "0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lstrojny/phpunit-clever-and-smart.git",
+                "reference": "f1766f3fd77c0fbc9093261e5f8e664b65fa11d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lstrojny/phpunit-clever-and-smart/zipball/f1766f3fd77c0fbc9093261e5f8e664b65fa11d9",
+                "reference": "f1766f3fd77c0fbc9093261e5f8e664b65fa11d9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-sqlite3": "*",
+                "phpunit/phpunit": "*"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1",
+                "symfony/process": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPUnit\\Runner\\CleverAndSmart": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Strojny",
+                    "email": "lars@strojny.net"
+                }
+            ],
+            "description": "A clever test runner for PHPUnit",
+            "time": "2014-03-13T17:41:39+00:00"
         },
         {
             "name": "mockery/mockery",

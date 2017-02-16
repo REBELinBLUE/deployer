@@ -5,6 +5,7 @@
 # Dev files
 .php_cs.cache
 .php_cs
+.phpunit-cas.db
 phpunit.xml
 phpcs.xml
 phpmd.xml

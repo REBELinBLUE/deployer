@@ -11,7 +11,11 @@ use Illuminate\Support\Str;
 class TokenGenerator implements TokenGeneratorInterface
 {
     /**
-     * {@inheritdoc}
+     * Generate a random string.
+     *
+     * @param  int    $length
+     * @return string
+     * @see Str::random()
      */
     public function generateRandom($length = 32)
     {

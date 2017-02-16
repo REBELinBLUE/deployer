@@ -101,7 +101,7 @@ class TemplateController extends Controller
             'breadcrumb'  => $breadcrumb,
             'title'       => $this->translator->trans('commands.' . strtolower($action)),
             'subtitle'    => $template->name,
-            'project'     => $template,
+            'project'     => $template, // FIXME: Name this to 'target'
             'target_type' => $target,
             'target_id'   => $template->id,
             'action'      => $types[$action],

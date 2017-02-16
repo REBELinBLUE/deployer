@@ -9,7 +9,6 @@ interface TokenGeneratorInterface
      *
      * @param  int    $length
      * @return string
-     * @see Str::random()
      */
     public function generateRandom($length = 32);
 }

@@ -28,7 +28,7 @@ class AbortDeploymentTest extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->once()->with('id')->andReturn($expected_id);
 
-        $cache = app('cache.store');
+        $cache = $this->app->make('cache.store');
 
         $job = new AbortDeployment($deployment);
         $job->handle($cache);

@@ -27,7 +27,7 @@ class LatestReleaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->cache = app('cache.store');
+        $this->cache = $this->app->make('cache.store');
     }
 
     /**

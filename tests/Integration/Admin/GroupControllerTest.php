@@ -27,7 +27,7 @@ class GroupControllerTest extends AuthenticatedTestCase
 
         /** @var \Robbo\Presenter\View\View $view */
         $view   = $response->getOriginalContent();
-        $groups = app(GroupRepositoryInterface::class)->getAll();
+        $groups = $this->app->make(GroupRepositoryInterface::class)->getAll();
 
         $this->assertSame($groups->toJson(), $view->groups->toJson());
     }
