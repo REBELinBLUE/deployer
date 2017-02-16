@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Tests\Integration\Admin;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 use REBELinBLUE\Deployer\Template;
 use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,41 @@ use Symfony\Component\HttpFoundation\Response;
 class TemplateControllerTest extends AuthenticatedTestCase
 {
     use DatabaseMigrations;
+
+    /**
+     * @covers ::__construct
+     * @covers ::index
+     */
+    public function testIndex()
+    {
+        factory(Template::class, 3)->create();
+
+        $response = $this->get('/admin/templates');
+
+        $response->assertStatus(Response::HTTP_OK)->assertViewHas(['title', 'templates']);
+
+        /** @var \Robbo\Presenter\View\View $view */
+        $view      = $response->getOriginalContent();
+        $templates = $this->app->make(TemplateRepositoryInterface::class)->getAll();
+
+        $this->assertSame($templates->toJson(), $view->templates);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::index
+     */
+    public function testIndexWithNoGroups()
+    {
+        $response = $this->get('/admin/templates');
+
+        $response->assertStatus(Response::HTTP_OK)->assertViewHas(['title', 'templates']);
+
+        /** @var \Robbo\Presenter\View\View $view */
+        $view = $response->getOriginalContent();
+
+        $this->assertSame('[]', $view->templates);
+    }
 
     /**
      * @dataProvider provideSteps
@@ -58,6 +94,24 @@ class TemplateControllerTest extends AuthenticatedTestCase
             ],
             ['purge', Command::BEFORE_PURGE, Command::AFTER_PURGE, Command::AFTER_CLONE, Command::DO_PURGE],
         ];
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::show
+     */
+    public function testShow()
+    {
+        $this->markTestIncomplete('not yet done');
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::show
+     */
+    public function testShowReturnsErrorWhenInvalid()
+    {
+        $this->getJson('/admin/templates/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**

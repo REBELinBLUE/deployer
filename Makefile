@@ -60,7 +60,6 @@ phpcs: ##@tests PHP Coding Standards (PSR-2)
 	@php vendor/bin/phpcs
 
 phpdoc-check: ##@tests PHPDoc Checker
-	@echo "\033[32mPHPDocblock Checker\033[39m"
 	@php vendor/bin/phpdoccheck --directory=app --files-per-line 60
 
 phpmd: ##@tests PHP Mess Detector
