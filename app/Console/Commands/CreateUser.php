@@ -3,9 +3,11 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Validation\Factory;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
+use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use RuntimeException;
 
 /**
@@ -53,20 +55,21 @@ class CreateUser extends Command
     /**
      * Execute the console command.
      *
-     * @throws \RuntimeException
+     * @param Dispatcher $dispatcher
+     * @param Factory $validation
      */
-    public function handle()
+    public function handle(Dispatcher $dispatcher, Factory $validation, TokenGeneratorInterface $generator)
     {
         $arguments  = $this->argument();
         $send_email = (!$this->option('no-email'));
 
         $password_generated = false;
         if (!$arguments['password']) {
-            $arguments['password'] = str_random(15);
+            $arguments['password'] = $generator->generateRandom(15);
             $password_generated    = true;
         }
 
-        $validator = Validator::make($arguments, [
+        $validator = $validation->make($arguments, [
             'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users,email',
             'password' => 'required|min:6',
@@ -83,7 +86,7 @@ class CreateUser extends Command
         if ($send_email) {
             $message = 'The user has been created and their account details have been emailed to ' . $user->email;
 
-            event(new UserWasCreated($user, $arguments['password']));
+            $dispatcher->dispatch(new UserWasCreated($user, $arguments['password']));
         } elseif ($password_generated) {
             $message .= ', however you elected to not email the account details to them. ';
             $message .= 'Their password is ' . $arguments['password'];
