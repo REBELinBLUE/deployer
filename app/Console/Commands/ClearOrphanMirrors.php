@@ -3,7 +3,9 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
@@ -34,19 +36,25 @@ class ClearOrphanMirrors extends Command
      * @var Process
      */
     private $process;
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
 
     /**
      * ClearOrphanMirrors constructor.
      *
      * @param ProjectRepositoryInterface $repository
      * @param Process                    $process
+     * @param Filesystem                 $filesystem
      */
-    public function __construct(ProjectRepositoryInterface $repository, Process $process)
+    public function __construct(ProjectRepositoryInterface $repository, Process $process, Filesystem $filesystem)
     {
         parent::__construct();
 
         $this->repository = $repository;
         $this->process    = $process;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -62,9 +70,9 @@ class ClearOrphanMirrors extends Command
             }
         });
 
-        $current_mirrors = collect($current_mirrors);
+        $current_mirrors = new Collection($current_mirrors);
 
-        $all_mirrors = collect(glob(storage_path('app/mirrors/') . '*.git'));
+        $all_mirrors = new Collection($this->filesystem->glob(storage_path('app/mirrors/') . '*.git'));
 
         // Compare the 2 collections get a list of mirrors which are no longer in use
         $orphan_mirrors = $all_mirrors->diff($current_mirrors);
@@ -78,9 +86,9 @@ class ClearOrphanMirrors extends Command
             ])->run();
 
             if ($this->process->isSuccessful()) {
-                $this->info('Deleted ' . basename($mirror_dir));
+                $this->info('Deleted ' . $this->filesystem->basename($mirror_dir));
             } else {
-                $this->info('Failed to delete ' . basename($mirror_dir));
+                $this->info('Failed to delete ' . $this->filesystem->basename($mirror_dir));
             }
         }
     }

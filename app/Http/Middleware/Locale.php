@@ -4,12 +4,27 @@ namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use MicheleAngioni\MultiLanguage\LanguageManager;
 
 /**
  * Sets the applications locale based on the user's language.
  */
 class Locale
 {
+    /**
+     * @var LanguageManager
+     */
+    private $languageManager;
+
+    /**
+     * Locale constructor.
+     * @param LanguageManager $languageManager
+     */
+    public function __construct(LanguageManager $languageManager)
+    {
+        $this->languageManager = $languageManager;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -22,7 +37,7 @@ class Locale
     {
         $user = Auth::user();
         if ($user && $user->language) {
-            resolve('locale')->setLocale($user->language);
+            $this->languageManager->setLocale($user->language);
         }
 
         return $next($request);

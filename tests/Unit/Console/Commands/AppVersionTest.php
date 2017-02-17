@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 
 use Mockery as m;
-use REBELinBLUE\Deployer\Services\Update\LatestReleaseInterface;
 use REBELinBLUE\Deployer\Console\Commands\AppVersion;
+use REBELinBLUE\Deployer\Services\Update\LatestReleaseInterface;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\AppVersion

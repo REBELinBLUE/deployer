@@ -136,4 +136,66 @@ class EloquentRepositoryTest extends TestCase
         $repository = new StubEloquentRepository($model);
         $repository->deleteById($model_id);
     }
+
+    /**
+     * @covers ::chunk
+     */
+    public function testChunk()
+    {
+        $expected = 'a-model';
+        $count    = 10;
+        $callback = function () {
+            // Empty function
+        };
+
+        $model = m::mock(StubModel::class);
+        $model->shouldReceive('chunk')->once()->with($count, $callback)->andReturn($expected);
+
+        $repository = new StubEloquentRepository($model);
+        $actual     = $repository->chunk($count, $callback);
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @covers ::chunkWhereIn
+     */
+    public function testChunkWhereIn()
+    {
+        $expected = 'a-model';
+        $count    = 10;
+        $field    = 'status';
+        $values   = ['test', 'test2'];
+        $callback = function () {
+            // Empty function
+        };
+
+        $model = m::mock(StubModel::class);
+        $model->shouldReceive('whereIn')->once()->with($field, $values, 'and', false)->andReturnSelf();
+        $model->shouldReceive('chunk')->once()->with($count, $callback)->andReturn($expected);
+
+        $repository = new StubEloquentRepository($model);
+        $actual     = $repository->chunkWhereIn($field, $values, $count, $callback);
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @covers ::updateStatusAll
+     */
+    public function testUpdateStatusAll()
+    {
+        $expected = 'a-model';
+        $original = 'open';
+        $updated  = 'closed';
+
+        $model = m::mock(StubModel::class);
+        $model->shouldReceive('where')->once()->with('status', '=', $original)->andReturnSelf();
+        $model->shouldReceive('update')->once()->with(['status' => $updated])->andReturn($expected);
+
+        $repository = new StubEloquentRepository($model);
+        $actual     = $repository->updateStatusAll($original, $updated);
+
+        $this->assertSame($expected, $actual);
+    }
 }

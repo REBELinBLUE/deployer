@@ -55,9 +55,7 @@ class AppVersion extends Command
         if (!$this->release->isUpToDate()) {
             $this->line($this->updateBanner());
             $this->line('');
-            $this->table(['Installed Release', 'Current Release'], [
-                [APP_VERSION, $latest_release],
-            ]);
+            $this->table(['Installed Release', 'Current Release'], [[APP_VERSION, $latest_release]]);
         } else {
             $this->line('You are already running the latest version <comment>' . APP_VERSION . '</comment>');
         }

@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Auth;
 use REBELinBLUE\Deployer\Events\JsonWebTokenExpired;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -20,13 +21,20 @@ class RefreshJsonWebToken
     protected $auth;
 
     /**
+     * @var Dispatcher
+     */
+    private $dispatcher;
+
+    /**
      * RefreshJsonWebToken constructor.
      *
-     * @param JWTAuth $auth
+     * @param JWTAuth    $auth
+     * @param Dispatcher $dispatcher
      */
-    public function __construct(JWTAuth $auth)
+    public function __construct(JWTAuth $auth, Dispatcher $dispatcher)
     {
-        $this->auth = $auth;
+        $this->auth       = $auth;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -69,7 +77,7 @@ class RefreshJsonWebToken
 
         // If there is no valid token, generate one
         if (!$has_valid_token) {
-            event(new JsonWebTokenExpired($authenticated_user));
+            $this->dispatcher->dispatch(new JsonWebTokenExpired($authenticated_user));
         }
 
         return $next($request);

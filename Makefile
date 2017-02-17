@@ -26,6 +26,7 @@ install-dev: ##@development Install dev dependencies
 install-dev: permissions
 	composer install --no-suggest --prefer-dist
 	yarn install
+	bower install
 
 lint: ##@tests PHP Parallel Lint
 	@echo "\033[32mPHP Parallel Lint\033[39m"
@@ -101,7 +102,7 @@ test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
 test: install-dev lint phpcs phpdoc-check phpunit phpcpd phpmd
 
 fulltest: ##@shortcuts Runs all tests
-fulltest: install-dev lint phpcs phpdoc-check phpunit integration phpcpd phpmd dusk
+fulltest: build lint phpcs phpdoc-check phpunit integration phpcpd phpmd dusk
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----- The targets below won't show in help because the descriptions only have 1 hash at the beginning ----- #
@@ -126,7 +127,7 @@ ide:
 
 # Update all dependencies (also git add lockfiles)
 update-deps: permissions
-	composer update
+	composer update --no-suggest --prefer-dist
 	yarn upgrade
 	git add composer.lock yarn.lock
 
@@ -147,28 +148,20 @@ else
 endif
 
 # Run the PHPUnit tests for Travis CI
-phpunit-ci-step1:
+phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
 	@echo "\033[32mFast Unit Tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
+	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
+	@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
+	@echo "\033[32mMerging coverage\033[39m"
+	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
 	@$(MAKE) integration
 else
 	@$(MAKE) phpunit-fast
-endif
-
-phpunit-ci-step2:
-ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
-	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
-endif
-
-phpunit-ci-step3:
-ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
-	@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
-	@echo "\033[32mMerging coverage\033[39m"
-	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
 endif
 
 # Create release

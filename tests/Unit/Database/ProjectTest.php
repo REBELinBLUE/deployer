@@ -198,8 +198,8 @@ class ProjectTest extends TestCase
         $generator = m::mock(TokenGeneratorInterface::class);
         $generator->shouldNotReceive('generateRandom')->withAnyArgs();
 
-        App::instance(Process::class, $process);
-        App::instance(TokenGeneratorInterface::class, $generator);
+        $this->app->instance(Process::class, $process);
+        $this->app->instance(TokenGeneratorInterface::class, $generator);
 
         /** @var Project $project */
         $project = factory(Project::class)->make([
@@ -245,7 +245,7 @@ class ProjectTest extends TestCase
         $process->shouldReceive('isSuccessful')->andReturn(true);
         $process->shouldNotReceive('setScript')->with('tools.RegeneratePublicSSHKey')->withAnyArgs();
 
-        App::instance(Process::class, $process);
+        $this->app->instance(Process::class, $process);
 
         /** @var Project $project */
         $project = factory(Project::class)->make([
@@ -286,7 +286,7 @@ class ProjectTest extends TestCase
         $process->shouldReceive('isSuccessful')->andReturn(true);
         $process->shouldNotReceive('setScript')->with('tools.GenerateSSHKey')->withAnyArgs();
 
-        App::instance(Process::class, $process);
+        $this->app->instance(Process::class, $process);
 
         /** @var Project $project */
         $project = factory(Project::class)->make([

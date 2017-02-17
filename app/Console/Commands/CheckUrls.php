@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
@@ -57,7 +58,7 @@ class CheckUrls extends Command
     {
         $period = [];
 
-        $minute = (int) (date('i'));
+        $minute = (int) (Carbon::now()->format('i'));
         if ($minute === 0) {
             $period = [60, 30, 10, 5];
         } else {

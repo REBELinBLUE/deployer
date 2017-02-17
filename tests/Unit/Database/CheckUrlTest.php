@@ -92,7 +92,7 @@ class CheckUrlTest extends TestCase
         $client = m::mock(HttpClient::class);
         $client->shouldReceive('get')->once()->with($url);
 
-        App::instance(HttpClient::class, $client);
+        $this->app->instance(HttpClient::class, $client);
 
         /** @var CheckUrl $url */
         $url = factory(CheckUrl::class)->create([
