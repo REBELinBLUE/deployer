@@ -48,4 +48,20 @@ interface ProjectRepositoryInterface
      * @return array
      */
     public function refreshBranches($model_id);
+
+    /**
+     * @param int      $count
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function chunk($count, callable $callback);
+
+    /**
+     * @param int $original
+     * @param int $updated
+     *
+     * @return bool
+     */
+    public function updateStatusAll($original, $updated);
 }

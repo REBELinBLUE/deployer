@@ -7,7 +7,7 @@ use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 use REBELinBLUE\Deployer\Template;
-use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
+use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

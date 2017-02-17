@@ -80,4 +80,47 @@ abstract class EloquentRepository
 
         return $model->delete();
     }
+
+    /**
+     * Chunk the results of the query.
+     *
+     * @param int      $count
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function chunk($count, callable $callback)
+    {
+        return $this->model->chunk($count, $callback);
+    }
+
+    /**
+     * Runs where query in chunk.
+     *
+     * @param string   $field
+     * @param array    $values
+     * @param int      $count
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function chunkWhereIn($field, array $values, $count, callable $callback)
+    {
+        return $this->model->whereIn($field, $values, 'and', false)
+                           ->chunk($count, $callback);
+    }
+
+    /**
+     * Updates all instances with a specific status.
+     *
+     * @param int $original
+     * @param int $updated
+     *
+     * @return bool
+     */
+    public function updateStatusAll($original, $updated)
+    {
+        return $this->model->where('status', '=', $original)
+                           ->update(['status' => $updated]);
+    }
 }

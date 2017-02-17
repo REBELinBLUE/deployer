@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
+use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
 use REBELinBLUE\Deployer\Variable;
 use Symfony\Component\HttpFoundation\Response;
 

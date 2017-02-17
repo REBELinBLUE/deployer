@@ -27,4 +27,14 @@ interface CheckUrlRepositoryInterface
      * @return bool
      */
     public function deleteById($model_id);
+
+    /**
+     * @param string   $field
+     * @param array    $values
+     * @param int      $count
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function chunkWhereIn($field, array $values, $count, callable $callback);
 }

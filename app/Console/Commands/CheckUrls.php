@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
-use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
+use REBELinBLUE\Deployer\Repositories\Contracts\CheckUrlRepositoryInterface;
 
 /**
  * Schedule the url check.
@@ -32,6 +32,23 @@ class CheckUrls extends Command
     protected $description = 'Request the project check URL and notify when failed.';
 
     /**
+     * @var CheckUrlRepositoryInterface
+     */
+    private $repository;
+
+    /**
+     * CheckUrls constructor.
+     *
+     * @param CheckUrlRepositoryInterface $repository
+     */
+    public function __construct(CheckUrlRepositoryInterface $repository)
+    {
+        parent::__construct();
+
+        $this->repository = $repository;
+    }
+
+    /**
      * Execute the console command.
      *
      * @return bool
@@ -54,7 +71,7 @@ class CheckUrls extends Command
         }
 
         if (count($period)) {
-            CheckUrl::whereIn('period', $period)->chunk(self::URLS_TO_CHECK, function (Collection $urls) {
+            $this->repository->chunkWhereIn('period', $period, self::URLS_TO_CHECK, function (Collection $urls) {
                 $this->dispatch(new RequestProjectCheckUrl($urls));
             });
         }

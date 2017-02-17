@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Response;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
-use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
+use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Http\Controllers\Admin\GroupController

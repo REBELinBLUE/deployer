@@ -37,4 +37,12 @@ interface HeartbeatRepositoryInterface
      * @return bool
      */
     public function deleteById($model_id);
+
+    /**
+     * @param int      $count
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function chunk($count, callable $callback);
 }

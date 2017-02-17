@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
-use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
@@ -26,15 +26,37 @@ class ClearOrphanMirrors extends Command
     protected $description = 'Purges git mirrors which are no longer in use by projects';
 
     /**
-     * Execute the console command.
+     * @var ProjectRepositoryInterface
+     */
+    private $repository;
+
+    /**
+     * @var Process
+     */
+    private $process;
+
+    /**
+     * ClearOrphanMirrors constructor.
      *
-     * @return mixed
+     * @param ProjectRepositoryInterface $repository
+     * @param Process                    $process
+     */
+    public function __construct(ProjectRepositoryInterface $repository, Process $process)
+    {
+        parent::__construct();
+
+        $this->repository = $repository;
+        $this->process    = $process;
+    }
+
+    /**
+     * Execute the console command.
      */
     public function handle()
     {
         $current_mirrors = [];
 
-        Project::chunk(10, function ($projects) use (&$current_mirrors) {
+        $this->repository->chunk(100, function ($projects) use (&$current_mirrors) {
             foreach ($projects as $project) {
                 $current_mirrors[] = $project->mirrorPath();
             }
@@ -51,13 +73,11 @@ class ClearOrphanMirrors extends Command
 
         // Now loop through the mirrors and delete them from storage
         foreach ($orphan_mirrors as $mirror_dir) {
-            /** @var Process $process */
-            $process = app(Process::class);
-            $process->setScript('tools.RemoveMirrorDirectory', [
+            $this->process->setScript('tools.RemoveMirrorDirectory', [
                 'mirror_path' => $mirror_dir,
             ])->run();
 
-            if ($process->isSuccessful()) {
+            if ($this->process->isSuccessful()) {
                 $this->info('Deleted ' . basename($mirror_dir));
             } else {
                 $this->info('Failed to delete ' . basename($mirror_dir));

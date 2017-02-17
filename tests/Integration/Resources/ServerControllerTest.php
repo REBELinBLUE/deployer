@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
-use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
+use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -129,7 +129,7 @@ class ServerControllerTest extends AuthenticatedTestCase
 
         $this->expectsJobs(TestServerConnection::class);
 
-        $this->postJson('/servers/1/test')->assertStatus(Response::HTTP_OK);
+        $this->postJson('/servers/1/test')->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
 
         $this->assertDatabaseHas('servers', ['name' => $name, 'status' => Server::TESTING]);
     }

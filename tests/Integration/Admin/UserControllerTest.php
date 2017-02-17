@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Tests\Integration\Admin;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
-use REBELinBLUE\Deployer\Tests\AuthenticatedTestCase;
+use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
 use REBELinBLUE\Deployer\User;
 use Symfony\Component\HttpFoundation\Response;
 

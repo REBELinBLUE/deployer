@@ -18,4 +18,12 @@ interface ServerLogRepositoryInterface
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function getById($model_id);
+
+    /**
+     * @param int $original
+     * @param int $updated
+     *
+     * @return bool
+     */
+    public function updateStatusAll($original, $updated);
 }

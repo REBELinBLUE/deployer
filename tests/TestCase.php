@@ -26,7 +26,7 @@ abstract class TestCase extends BaseTestCase
         $generator = m::mock(TokenGeneratorInterface::class);
         $generator->shouldReceive('generateRandom')->with(m::type('int'))->andReturn($token);
 
-        App::instance(TokenGeneratorInterface::class, $generator);
+        $this->app->instance(TokenGeneratorInterface::class, $generator);
 
         return $generator;
     }

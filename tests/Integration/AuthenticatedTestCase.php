@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests;
+namespace REBELinBLUE\Deployer\Tests\Integration;
 
 use REBELinBLUE\Deployer\User;
 

@@ -2,35 +2,24 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Validation\Factory;
-use Illuminate\Foundation\Application;
 use Mockery as m;
 use REBELinBLUE\Deployer\Console\Commands\CreateUser;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
-use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 use RuntimeException;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\NullOutput;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\CreateUser
  */
-class CreateUserTest extends TestCase
+class CreateUserTest extends CommandTestCase
 {
     /**
      * @var UserRepositoryInterface
      */
     private $repository;
-
-    /**
-     * @var Dispatcher
-     */
-    private $dispatcher;
 
     /**
      * @var Factory
@@ -46,37 +35,14 @@ class CreateUserTest extends TestCase
     {
         parent::setUp();
 
-        $repository = m::mock(UserRepositoryInterface::class);
-        $dispatcher = m::mock(Dispatcher::class);
-        $validation = m::mock(Factory::class);
-        $generator  = m::mock(TokenGeneratorInterface::class);
+        $this->repository = m::mock(UserRepositoryInterface::class);
+        $this->generator  = m::mock(TokenGeneratorInterface::class);
+        $this->validation = m::mock(Factory::class);
 
-        $app = new Application();
-
-//        $dispatcher = $this->app->make(Dispatcher::class);
-
-//        $app->bind('validator', function () {
-//            return m::mock(Factory::class);
-//        });
-
-        $app->bind(TokenGeneratorInterface::class, function () use (&$generator) {
-            return $generator;
+        // Can't use the real validator as it checks that the email doesn't exist in the DB
+        $this->app->bind(Factory::class, function () {
+            return $this->validation;
         });
-
-        // FIXME: Hmm no we should use the real validator?
-        $app->bind(Factory::class, function () use (&$validation) {
-            return $validation;
-        });
-
-        $app->bind(Dispatcher::class, function () use (&$dispatcher) {
-            return $dispatcher;
-        });
-
-        $this->repository = $repository;
-        $this->dispatcher = $dispatcher;
-        $this->validation = $validation;
-        $this->generator  = $generator;
-        $this->app        = $app;
     }
 
     /**
@@ -85,8 +51,8 @@ class CreateUserTest extends TestCase
      */
     public function testHandle()
     {
-        $name  = 'Jill';
-        $email = 'jill@example.com';
+        $name     = 'Jill';
+        $email    = 'jill@example.com';
         $password = 'qwErtY1$R';
         $this->generator->shouldReceive('generateRandom')->with(15)->andReturn($password);
         $this->validation->shouldReceive('make')->andReturnSelf();
@@ -96,15 +62,14 @@ class CreateUserTest extends TestCase
         $user->shouldReceive('getAttribute')->with('email')->andReturn($email);
 
         $this->repository->shouldReceive('create')->with([
-            'name' => $name,
-            'email' => $email,
-            'password' => $password
+            'name'     => $name,
+            'email'    => $email,
+            'password' => $password,
         ])->andReturn($user);
 
-        // FIXME: Can't we use the "real" mock dispatcher?
-        $this->dispatcher->shouldReceive('dispatch')->with(m::type(UserWasCreated::class));
+        $this->expectsEvents(UserWasCreated::class);
 
-        $command = new CreateUser($this->repository);
+        $command = new CreateUser($this->repository, $this->generator);
         $command->setLaravel($this->app);
 
         $output = $this->runCommand($command, ['name' => $name, 'email' => $email]);
@@ -113,15 +78,14 @@ class CreateUserTest extends TestCase
         $this->assertNotContains($password, $output);
     }
 
-
     /**
      * @covers ::__construct
      * @covers ::handle
      */
     public function testHandleShouldNotSendEmail()
     {
-        $name  = 'Jill';
-        $email = 'jill@example.com';
+        $name     = 'Jill';
+        $email    = 'jill@example.com';
         $password = 'qwErtY1$R';
         $this->generator->shouldReceive('generateRandom')->with(15)->andReturn($password);
         $this->validation->shouldReceive('make')->andReturnSelf();
@@ -131,14 +95,14 @@ class CreateUserTest extends TestCase
         $user->shouldReceive('getAttribute')->with('email')->andReturn($email);
 
         $this->repository->shouldReceive('create')->with([
-            'name' => $name,
-            'email' => $email,
-            'password' => $password
+            'name'     => $name,
+            'email'    => $email,
+            'password' => $password,
         ])->andReturn($user);
 
-        $this->dispatcher->shouldNotReceive('dispatch')->with(m::type(UserWasCreated::class));
+        $this->doesntexpectEvents(UserWasCreated::class);
 
-        $command = new CreateUser($this->repository);
+        $command = new CreateUser($this->repository, $this->generator);
         $command->setLaravel($this->app);
 
         $output = $this->runCommand($command, ['name' => $name, 'email' => $email, '--no-email' => true]);
@@ -153,9 +117,9 @@ class CreateUserTest extends TestCase
      */
     public function testHandleThrowsExceptionOnValidationError()
     {
-        $name  = 'Jill';
-        $email = 'jill@example.com';
-        $password = 'qwErtY1$R';
+        $name     = 'Jill';
+        $email    = 'not-a-valid-email-address';
+        $password = 'a';
 
         $this->validation->shouldReceive('make')->andReturnSelf();
         $this->validation->shouldReceive('passes')->andReturn(false);
@@ -163,19 +127,11 @@ class CreateUserTest extends TestCase
         $this->validation->shouldReceive('first')->andReturnSelf();
 
         $this->expectException(RuntimeException::class);
+        $this->doesntexpectEvents(UserWasCreated::class);
 
-        $command = new CreateUser($this->repository);
+        $command = new CreateUser($this->repository, $this->generator);
         $command->setLaravel($this->app);
 
         $this->runCommand($command, ['name' => $name, 'email' => $email, 'password' => $password]);
-    }
-
-    protected function runCommand($command, $input = [])
-    {
-        $output = new BufferedOutput();
-
-        $command->run(new ArrayInput($input), $output);
-
-        return $output->fetch();
     }
 }

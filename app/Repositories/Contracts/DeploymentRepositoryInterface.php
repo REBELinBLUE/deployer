@@ -34,6 +34,14 @@ interface DeploymentRepositoryInterface
     public function abortQueued($project_id);
 
     /**
+     * @param int $original
+     * @param int $updated
+     *
+     * @return bool
+     */
+    public function updateStatusAll($original, $updated);
+
+    /**
      * @param int    $model_id
      * @param string $reason
      * @param array  $optional

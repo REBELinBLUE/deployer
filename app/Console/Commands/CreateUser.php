@@ -41,15 +41,24 @@ class CreateUser extends Command
     private $repository;
 
     /**
+     * @var TokenGeneratorInterface
+     */
+    private $generator;
+
+    /**
      * Create a new command instance..
      *
      * @param UserRepositoryInterface $repository
+     * @param TokenGeneratorInterface $generator
      */
-    public function __construct(UserRepositoryInterface $repository)
-    {
-        $this->repository = $repository;
-
+    public function __construct(
+        UserRepositoryInterface $repository,
+        TokenGeneratorInterface $generator
+    ) {
         parent::__construct();
+
+        $this->repository = $repository;
+        $this->generator  = $generator;
     }
 
     /**
@@ -58,14 +67,14 @@ class CreateUser extends Command
      * @param Dispatcher $dispatcher
      * @param Factory    $validation
      */
-    public function handle(Dispatcher $dispatcher, Factory $validation, TokenGeneratorInterface $generator)
+    public function handle(Dispatcher $dispatcher, Factory $validation)
     {
         $arguments  = $this->argument();
         $send_email = (!$this->option('no-email'));
 
         $password_generated = false;
         if (!$arguments['password']) {
-            $arguments['password'] = $generator->generateRandom(15);
+            $arguments['password'] = $this->generator->generateRandom(15);
             $password_generated    = true;
         }
 

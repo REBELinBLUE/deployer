@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Tests\Browser;
 
 use Laravel\Dusk\Browser;
-use REBELinBLUE\Deployer\Tests\DuskTestCase;
 
 class ExampleTest extends DuskTestCase
 {
