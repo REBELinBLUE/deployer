@@ -110,12 +110,5 @@ Elixir(function(mix) {
         'public/js/ie.js',
         'public/js/vendor.js'
     ])
-    .copy('public/fonts', 'public/build/fonts');
-    // .remove([
-    //     'public/css',
-    //     'public/js',
-    //     'public/fonts'
-    //     //bower_path + '/localization.js' // removing this breaks watch
-    // ])
-    //.lang();
+    .copy('public/fonts', 'public/build/fonts');;
 });
