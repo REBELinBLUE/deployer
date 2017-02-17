@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Integration;
 
+use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 
 /**
