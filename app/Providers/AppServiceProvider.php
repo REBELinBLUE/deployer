@@ -8,16 +8,13 @@ use Clockwork\Support\Laravel\ClockworkServiceProvider;
 use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
 use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
-use MicheleAngioni\MultiLanguage\LanguageManager;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use REBELinBLUE\Deployer\Template;
-use Themsaid\Langman\LangmanServiceProvider;
 
 /**
  * The application service provider.
@@ -36,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
         'local' => [
             IdeHelperServiceProvider::class,
             ClockworkServiceProvider::class,
-            LangmanServiceProvider::class,
         ],
     ];
 
@@ -110,28 +106,16 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Registers the Language Manager and guzzle.
+     * Registers the dependencies and replace built in ones with extended classes.
      */
     private function registerDependencies()
     {
-        $this->app->singleton('locale', function (Application $app) {
-            return $app->make(LanguageManager::class);
-        });
-
         $this->app->bind(TokenGeneratorInterface::class, TokenGenerator::class);
 
         if ($this->app->environment('local', 'testing') && class_exists(DuskServiceProvider::class, true)) {
             $this->app->register(DuskServiceProvider::class);
         }
 
-        $this->replaceBuiltinPackageDependencies();
-    }
-
-    /**
-     * Replace dependencies register by laravel and packages.
-     */
-    private function replaceBuiltinPackageDependencies()
-    {
         $this->app->singleton('files', function () {
             return new Filesystem();
         });

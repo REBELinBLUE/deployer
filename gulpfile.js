@@ -4,12 +4,11 @@ const shell  = require('gulp-shell');
 const bower  = require('gulp-bower');
                require('laravel-elixir-remove');
 
-// FIXME: Change to generate the localised file! with php artisan js-localization:export
-// Elixir.extend('lang', function () {
-//    new Elixir.Task('lang', function () {
-//        return gulp.src('').pipe(shell('php artisan js-localization:refresh'));
-//    });
-// });
+Elixir.extend('lang', function () {
+   new Elixir.Task('lang', function () {
+       return gulp.src('').pipe(shell('php artisan js-localization:export --quiet'));
+   });
+});
 
 Elixir.extend('bower', function() {
     new Elixir.Task('bower', function() {
@@ -42,6 +41,7 @@ const paths = {
 Elixir(function(mix) {
     mix
     .bower()
+    .lang()
     .styles([
         paths.admin_lte   + '/bootstrap/css/bootstrap.css',
         paths.select2     + '/select2.css',
@@ -82,6 +82,7 @@ Elixir(function(mix) {
         paths.ace             + '/mode-ini.js'
     ], 'public/js/vendor.js', bower_path)
     .scripts([
+        '../../../' + bower_path + '/messages.js',
         'app.js',
         'projects.js',
         'templates.js',

@@ -5,8 +5,7 @@
 build: ##@development Frontend build
 build: install-dev
 	@-rm -rf public/build
-	#@php artisan js-localization:export
-	gulp
+	gulp --silent
 	@rm -rf public/css public/fonts public/js
 
 clean: ##@development Clean cache, logs and other temporary files
@@ -26,7 +25,6 @@ install-dev: ##@development Install dev dependencies
 install-dev: permissions
 	composer install --no-suggest --prefer-dist
 	yarn install
-	bower install
 
 lint: ##@tests PHP Parallel Lint
 	@echo "\033[32mPHP Parallel Lint\033[39m"

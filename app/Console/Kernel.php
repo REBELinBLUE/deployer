@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use JsLocalization\Console\ExportCommand;
 use REBELinBLUE\Deployer\Console\Commands\AppVersion;
 use REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats;
 use REBELinBLUE\Deployer\Console\Commands\CheckUrls;
@@ -40,6 +41,7 @@ class Kernel extends ConsoleKernel
         InstallApp::class,
         UpdateApp::class,
         AppVersion::class,
+        ExportCommand::class,
     ];
 
     /**
