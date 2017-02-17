@@ -29,9 +29,12 @@
             <directory suffix=".php">./app/</directory>
             <exclude>
                 <directory suffix=".php">./app/Helpers</directory>
-                <directory suffix=".php">./routes</directory>
+                <directory>./vendor</directory>
             </exclude>
         </whitelist>
+        <blacklist>
+            <directory>./vendor</directory>
+        </blacklist>
     </filter>
     <!-- Some listeners which are useful in development but not on the CI, rename the tag to listeners to use -->
     <useful-listeners>

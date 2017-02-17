@@ -75,7 +75,7 @@ dusk: ##@tests Dusk Browser Tests
 
 coverage: ##@tests Test Coverage HTML
 	@echo "\033[32mAll tests with coverage\033[39m"
-	@mkdir tmp/
+	@mkdir -p tmp/
 	@php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
 	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
 	@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
