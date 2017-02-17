@@ -3,8 +3,9 @@
 .SILENT:
 
 build: ##@development Frontend build
-build: install-dev localise
+build: install-dev
 	@-rm -rf public/build
+	#@php artisan js-localization:export
 	gulp
 	@rm -rf public/css public/fonts public/js
 
@@ -34,9 +35,6 @@ lint: ##@tests PHP Parallel Lint
 lines: ##@tests PHP Lines of Code
 	@echo "\033[32mLines of Code Statistics\033[39m"
 	@php vendor/bin/phploc --count-tests app/ database/ resources/ tests/
-
-localise: ##@production Runs the artisan js localisation refresh command
-	@php artisan js-localization:refresh
 
 migrate: ##@production Migrate the database
 	@echo "\033[32mMigrate the database\033[39m"
@@ -149,23 +147,28 @@ else
 endif
 
 # Run the PHPUnit tests for Travis CI
-phpunit-ci:
+phpunit-ci-step1:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
-	@mkdir tmp/
 	@echo "\033[32mFast Unit Tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
-	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
-	@echo "\033[32mIntegration Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
-	@echo "\033[32mMerging coverage\033[39m"
-	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
-	@rm -rf tmp/
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
 	@$(MAKE) integration
 else
 	@$(MAKE) phpunit-fast
+endif
+
+phpunit-ci-step2:
+ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
+	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
+	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
+endif
+
+phpunit-ci-step3:
+ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
+	@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
+	@echo "\033[32mMerging coverage\033[39m"
+	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
 endif
 
 # Create release

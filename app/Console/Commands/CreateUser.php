@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Validation\Factory;
+use Illuminate\Contracts\Validation\Factory;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
@@ -56,7 +56,7 @@ class CreateUser extends Command
      * Execute the console command.
      *
      * @param Dispatcher $dispatcher
-     * @param Factory $validation
+     * @param Factory    $validation
      */
     public function handle(Dispatcher $dispatcher, Factory $validation, TokenGeneratorInterface $generator)
     {

@@ -74,6 +74,7 @@ install:
   - travis_retry npm install --quiet
 
 before_script:
+  - mkdir $TRAVIS_BUILD_DIR/tmp/
   - make ci
   - gulp
   # - php artisan js-localization:refresh
@@ -86,7 +87,9 @@ script:
   - make rollback
   - make phpcs
   # - make phpmd
-  - make phpunit-ci
+  - make phpunit-ci-step1
+  - make phpunit-ci-step2
+  - make phpunit-ci-step3
   - make phpdoc-check
   - make phpcpd
   - make lines
@@ -97,6 +100,7 @@ script:
   - php artisan app:version
 
 after_script:
+  - rm -rf $TRAVIS_BUILD_DIR/tmp/
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
   - cat $TRAVIS_BUILD_DIR/.env
 
