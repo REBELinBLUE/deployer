@@ -129,40 +129,6 @@ update-deps: permissions
 	yarn upgrade
 	git add composer.lock yarn.lock
 
-# Create the .env file for Travis CI
-ci:
-	@cp -f $(TRAVIS_BUILD_DIR)/tests/.env.travis $(TRAVIS_BUILD_DIR)/.env
-ifeq "$(DB)" "sqlite"
-	@sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
-	@sed -i 's/DB_DATABASE=deployer//g' .env
-	@sed -i 's/DB_USERNAME=travis//g' .env
-	@touch $(TRAVIS_BUILD_DIR)/database/database.sqlite
-else ifeq "$(DB)" "pgsql"
-	@sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g" .env
-	@sed -i "s/DB_USERNAME=travis/DB_USERNAME=postgres/g" .env
-	@psql -c 'CREATE DATABASE deployer;' -U postgres;
-else
-	@mysql -e 'CREATE DATABASE deployer;'
-endif
-
-# Run the PHPUnit unit tests for Travis CI
-phpunit-ci:
-ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
-	@echo "\033[32mUnit Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
-else ifeq "$(DB)" "sqlite"
-	@$(MAKE) phpunit
-endif
-
-# Run the PHPUnit integration tests for Travis CI
-integration-ci:
-ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
-	@echo "\033[32mIntegration tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Integration Tests"
-else ifeq "$(DB)" "sqlite"
-	@$(MAKE) integration
-endif
-
 # Create release
 release: test
 	@/usr/local/bin/create-release

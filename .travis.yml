@@ -40,7 +40,10 @@ before_install:
   - . $HOME/.nvm/nvm.sh
   - nvm install stable
   - nvm use stable
-  - if [[ "$TRAVIS_PHP_VERSION" != "7.1" ]]; then phpenv config-rm xdebug.ini; fi
+  - |
+    if [[ "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
+      phpenv config-rm xdebug.ini;
+    fi
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
@@ -48,7 +51,20 @@ install:
 
 before_script:
   - mkdir $TRAVIS_BUILD_DIR/tmp/
-  - make ci
+  - |
+    cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
+    if [[ "$DB" = "sqlite" ]]; then
+      sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
+      sed -i 's/DB_DATABASE=deployer//g' .env
+      sed -i 's/DB_USERNAME=travis//g' .env
+      touch $TRAVIS_BUILD_DIR/database/database.sqlite
+    elsif [[ "$DB" = "pgsql" ]]; then
+      sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g" .env
+      sed -i "s/DB_USERNAME=travis/DB_USERNAME=postgres/g" .env
+      psql -c 'CREATE DATABASE deployer;' -U postgres;
+    else
+      mysql -e 'CREATE DATABASE deployer;'
+    fi
   - gulp
   - make permissions
 
@@ -59,10 +75,26 @@ script:
   - make rollback
   - make phpcs
   # - make phpmd
-  - if [[ "$TEST_SUITE" = "unit" ]]; then make phpunit-ci; fi
-  - if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE; fi
-  - if [[ "$TEST_SUITE" = "integration" ]]; then make integration-ci; fi
-  - if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE; fi
+  - |
+    if [[ "$TEST_SUITE" = "unit" ]]; then
+      if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
+        echo "\033[32mUnit Tests with coverage\033[39m"
+        php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
+        bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE;
+      else
+        make phpunit
+      fi
+    fi
+  - |
+    if [[ "$TEST_SUITE" = "integration" ]]; then
+      if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
+        echo "\033[32mIntegration tests with coverage\033[39m"
+        php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Integration Tests"
+        bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE;
+      else
+        make integration;
+      fi
+    fi
   - make phpdoc-check
   - make phpcpd
   - make lines
