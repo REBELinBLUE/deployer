@@ -82,15 +82,18 @@ class AddTargetableAttributes extends Migration
 
             $table = $instance->getTable();
 
+            $connection = config('database.default');
+            $driver = config('database.connections.' . $connection . '.driver');
+
             // You can't drop a column in SQLite
-            if (config('database.default') !== 'sqlite') {
+            if ($driver !== 'sqlite') {
                 DB::statement("ALTER TABLE {$table} DROP COLUMN project_id");
             }
 
-            if (config('database.default') === 'mysql') {
+            if ($driver === 'mysql') {
                 DB::statement("ALTER TABLE {$table} MODIFY target_id INT(11) NOT NULL");
                 DB::statement("ALTER TABLE {$table} MODIFY target_type VARCHAR(255) NOT NULL");
-            } elseif (config('database.default') === 'pgsql') {
+            } elseif ($driver === 'pgsql') {
                 DB::statement("ALTER TABLE {$table} ALTER COLUMN target_id SET NOT NULL");
                 DB::statement("ALTER TABLE {$table} ALTER COLUMN target_type SET NOT NULL");
             }

@@ -22,7 +22,8 @@ class CreateProjectFilesTable extends Migration
             $table->softDeletes();
 
             // Needed so that the sqlite tests continue to run
-            if (config('database.default') !== 'sqlite') {
+            $connection = config('database.default');
+            if (config('database.connections.' . $connection . '.driver') !== 'sqlite') {
                 $table->unsignedInteger('project_id');
                 $table->foreign('project_id')->references('id')->on('projects');
             }
