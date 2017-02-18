@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ConfigFileControllerTest extends AuthenticatedTestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /**
      * @cover ::__construct

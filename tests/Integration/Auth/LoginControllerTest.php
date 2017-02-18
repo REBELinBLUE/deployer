@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Integration\Auth;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use REBELinBLUE\Deployer\Tests\TestCase;
 
@@ -11,7 +11,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
  */
 class LoginControllerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     public function testAuthenticationRequired()
     {

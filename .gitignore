@@ -1,6 +1,7 @@
 # Configuration
 .env
 .env.prev
+.env.backup
 
 # Dev files
 .php_cs.cache

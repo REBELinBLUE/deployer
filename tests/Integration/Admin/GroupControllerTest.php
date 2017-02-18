@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Integration\Admin;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
@@ -13,7 +13,7 @@ use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
  */
 class GroupControllerTest extends AuthenticatedTestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /**
      * @covers ::__construct

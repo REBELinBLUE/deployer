@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\tests\Integration;
 
 use Carbon\Carbon;
 use DOMDocument;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Project;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class WebhooksTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /**
      * @covers \REBELinBLUE\Deployer\Http\Controllers\DashboardController::__construct
