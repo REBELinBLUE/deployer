@@ -148,7 +148,7 @@ endif
 # Run the PHPUnit unit tests for Travis CI
 phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
-	@echo "\033[32mFast Unit Tests with coverage\033[39m"
+	@echo "\033[32mUnit Tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
@@ -160,7 +160,7 @@ endif
 integration-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
 	@echo "\033[32mIntegration tests\033[39m"
-	@php vendor/bin/phpunit  --coverage-clover coverage.xml --testsuite "Integration Tests"
+	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Integration Tests"
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) integration
 endif
