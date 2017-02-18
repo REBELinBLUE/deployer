@@ -4,10 +4,13 @@ namespace REBELinBLUE\Deployer\Tests\Integration\Admin;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use REBELinBLUE\Deployer\SharedFile;
 use REBELinBLUE\Deployer\Template;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
+use REBELinBLUE\Deployer\Variable;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -102,7 +105,41 @@ class TemplateControllerTest extends AuthenticatedTestCase
      */
     public function testShow()
     {
-        $this->markTestIncomplete('not yet done');
+        $shared    = 5;
+        $variables = 3;
+        $config    = 1;
+
+        /** @var Template $template */
+        $template = factory(Template::class)->create();
+
+        factory(SharedFile::class, $shared)->create(['target_type' => 'template', 'target_id' => 1]);
+        factory(ConfigFile::class, $config)->create(['target_type' => 'template', 'target_id' => 1]);
+        factory(Variable::class, $variables)->create(['target_type' => 'template', 'target_id' => 1]);
+
+        $response = $this->get('/admin/templates/1');
+
+        $response->assertStatus(Response::HTTP_OK)
+                 ->assertViewHas([
+                     'breadcrumb', 'title', 'route',
+                     'sharedFiles', 'configFiles', 'variables', 'project',
+                 ])
+                 ->assertViewHas('target_type', 'template')
+                 ->assertViewHas('target_id', 1);
+
+        $template = $template->fresh();
+
+        /** @var \Robbo\Presenter\View\View $view */
+        $view = $response->getOriginalContent();
+        $this->assertSame($template->toJson(), $view->project->toJson());
+
+        $this->assertSame($shared, $view->sharedFiles->count());
+        $this->assertSame($template->sharedFiles->toJson(), $view->sharedFiles->toJson());
+
+        $this->assertSame($config, $view->configFiles->count());
+        $this->assertSame($template->configFiles->toJson(), $view->configFiles->toJson());
+
+        $this->assertSame($variables, $view->variables->count());
+        $this->assertSame($template->variables->toJson(), $view->variables->toJson());
     }
 
     /**

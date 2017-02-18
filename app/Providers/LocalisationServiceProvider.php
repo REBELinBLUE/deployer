@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use JsLocalization\Caching\ConfigCachingService;
 use JsLocalization\Caching\MessageCachingService;

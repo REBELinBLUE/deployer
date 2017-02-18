@@ -146,7 +146,7 @@ class TemplateController extends Controller
             'sharedFiles'  => $template->sharedFiles,
             'configFiles'  => $template->configFiles,
             'variables'    => $template->variables,
-            'project'      => $template,
+            'project'      => $template, // fixme: change to target
             'target_type'  => 'template',
             'target_id'    => $template->id,
             'route'        => 'admin.templates.commands.step',
