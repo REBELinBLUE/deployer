@@ -152,7 +152,7 @@ ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
 	@php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
 	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
-	@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
+	#@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
 	@echo "\033[32mMerging coverage\033[39m"
 	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
 else ifeq "$(DB)" "sqlite"

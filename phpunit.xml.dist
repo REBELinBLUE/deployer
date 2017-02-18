@@ -46,6 +46,7 @@
         </listener>
     </useful-listeners>
     <php>
+        <ini name="memory_limit" value="2048M" />
         <env name="APP_ENV" value="testing" />
         <env name="APP_URL" value="http://localhost" />
         <env name="APP_DEBUG" value="true" />

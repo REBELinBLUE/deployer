@@ -67,7 +67,6 @@ before_install:
   - . $HOME/.nvm/nvm.sh
   - nvm install stable
   - nvm use stable
-  - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
   - if [[ "$TRAVIS_PHP_VERSION" != "7.0" ]]; then phpenv config-rm xdebug.ini; fi
 
 install:
