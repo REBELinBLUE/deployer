@@ -158,7 +158,7 @@ endif
 # Run the PHPUnit integration tests for Travis CI
 integration-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
-	@echo "\033[32mIntegration tests\033[39m"
+	@echo "\033[32mIntegration tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Integration Tests"
 	@bash <(curl -s https://codecov.io/bash) -cF integration
 else ifeq "$(DB)" "sqlite"
