@@ -152,8 +152,6 @@ ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
 	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
-else
-	@$(MAKE) phpunit-fast
 endif
 
 # Run the PHPUnit integration tests for Travis CI

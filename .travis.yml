@@ -21,86 +21,16 @@ cache:
 matrix:
   fast_finish: true
   include:
-    - php: 5.6
-      env: DB=mysql TEST_SUITE=unit
-      services:
-        - mysql
-    - php: 5.6
-      env: DB=mysql TEST_SUITE=integration
+    - php: 7.0
+      env: DB=mysql
       services:
         - mysql
     - php: 7.0
-      env: DB=mysql TEST_SUITE=unit
-      services:
-        - mysql
-    - php: 7.0
-      env: DB=mysql TEST_SUITE=integration
-      services:
-        - mysql
-    - php: 7.1
-      env: DB=mysql TEST_SUITE=unit
-      services:
-        - mysql
-    - php: 7.1
-      env: DB=mysql TEST_SUITE=integration
-      services:
-        - mysql
-    - php: 5.6
-      env: DB=maria TEST_SUITE=unit
-      addons:
-        mariadb: 10.1
-    - php: 5.6
-      env: DB=maria TEST_SUITE=integration
+      env: DB=maria
       addons:
         mariadb: 10.1
     - php: 7.0
-      env: DB=maria TEST_SUITE=unit
-      addons:
-        mariadb: 10.1
-    - php: 7.0
-      env: DB=maria TEST_SUITE=integration
-      addons:
-        mariadb: 10.1
-    - php: 7.1
-      env: DB=maria TEST_SUITE=unit
-      addons:
-        mariadb: 10.1
-    - php: 7.1
-      env: DB=maria TEST_SUITE=integration
-      addons:
-        mariadb: 10.1
-    - php: 5.6
-      env: DB=pgsql TEST_SUITE=unit
-      addons:
-        postgresql: "9.3"
-      services:
-        - postgresql
-    - php: 5.6
-      env: DB=pgsql TEST_SUITE=integration
-      addons:
-        postgresql: "9.3"
-      services:
-        - postgresql
-    - php: 7.0
-      env: DB=pgsql TEST_SUITE=unit
-      addons:
-        postgresql: "9.3"
-      services:
-        - postgresql
-    - php: 7.0
-      env: DB=pgsql TEST_SUITE=integration
-      addons:
-        postgresql: "9.3"
-      services:
-        - postgresql
-    - php: 7.1
-      env: DB=pgsql TEST_SUITE=unit
-      addons:
-        postgresql: "9.3"
-      services:
-        - postgresql
-    - php: 7.1
-      env: DB=pgsql TEST_SUITE=integration
+      env: DB=pgsql
       addons:
         postgresql: "9.3"
       services:
@@ -120,7 +50,6 @@ before_script:
   - mkdir $TRAVIS_BUILD_DIR/tmp/
   - make ci
   - gulp
-  # - php artisan js-localization:refresh
   - make permissions
 
 script:
@@ -147,7 +76,6 @@ after_script:
   - rm -rf $TRAVIS_BUILD_DIR/tmp/
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
   - cat $TRAVIS_BUILD_DIR/.env
-
 
 notifications:
   email: false
