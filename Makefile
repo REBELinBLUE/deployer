@@ -150,6 +150,7 @@ phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
 	@echo "\033[32mUnit Tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
+	@bash <(curl -s https://codecov.io/bash) -cF unit
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
 endif
@@ -159,6 +160,7 @@ integration-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
 	@echo "\033[32mIntegration tests\033[39m"
 	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Integration Tests"
+	@bash <(curl -s https://codecov.io/bash) -cF integration
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) integration
 endif
