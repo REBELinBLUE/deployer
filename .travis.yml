@@ -80,7 +80,6 @@ script:
       if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then
         echo -e "\033[32mUnit Tests with coverage\033[39m"
         php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
-        bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE;
       else
         make phpunit
       fi
@@ -90,7 +89,6 @@ script:
       if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then
         echo -e "\033[32mIntegration tests with coverage\033[39m"
         php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Integration Tests"
-        bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE;
       else
         make integration;
       fi
@@ -105,9 +103,14 @@ script:
   - php artisan app:version
 
 after_script:
-  - rm -rf $TRAVIS_BUILD_DIR/tmp/
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
   - cat $TRAVIS_BUILD_DIR/.env
+
+after_success:
+  - |
+    if [[ -f coverage.xml ]]; then
+      bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE;
+    fi
 
 notifications:
   email: false
