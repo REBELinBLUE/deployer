@@ -59,8 +59,8 @@ script:
   - make rollback
   - make phpcs
   # - make phpmd
-  - make phpunit-ci
-  - make integration-ci
+  - if [[ "$TEST_SUITE" = "unit" ]]; then make phpunit-ci; fi
+  - if [[ "$TEST_SUITE" = "integration" ]]; then make integration-ci; fi
   - make phpdoc-check
   - make phpcpd
   - make lines
