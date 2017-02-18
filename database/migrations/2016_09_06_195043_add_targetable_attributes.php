@@ -83,7 +83,7 @@ class AddTargetableAttributes extends Migration
             $table = $instance->getTable();
 
             $connection = config('database.default');
-            $driver = config('database.connections.' . $connection . '.driver');
+            $driver     = config('database.connections.' . $connection . '.driver');
 
             // You can't drop a column in SQLite
             if ($driver !== 'sqlite') {
