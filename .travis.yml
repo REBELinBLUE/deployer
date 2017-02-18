@@ -87,7 +87,7 @@ script:
   - make rollback
   - make phpcs
   # - make phpmd
-  - travis_wait 60 make phpunit-ci
+  - make phpunit-ci
   - make phpdoc-check
   - make phpcpd
   - make lines
