@@ -122,12 +122,11 @@ class ServerControllerTest extends AuthenticatedTestCase
      */
     public function testTest()
     {
-        $this->markTestSkipped('Job dispatching not working on test');
+        $this->withoutEvents()->expectsJobs(TestServerConnection::class);
+
         $name = 'localhost';
 
         factory(Server::class)->create(['name' => $name]);
-
-        $this->expectsJobs(TestServerConnection::class);
 
         $this->postJson('/servers/1/test')->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
 

@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Channel;
+use REBELinBLUE\Deployer\Notifications\System\NewTestNotification;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,8 +24,7 @@ class ChannelControllerTest extends AuthenticatedTestCase
      */
     public function testStore()
     {
-        $this->markTestSkipped('Events are not working correctly when mocked!');
-        $this->withoutEvents();
+        $this->withoutEvents()->withoutNotifications();
 
         factory(Project::class)->create();
 
@@ -62,7 +62,6 @@ class ChannelControllerTest extends AuthenticatedTestCase
      */
     public function testUpdate()
     {
-        $this->markTestSkipped('Events are not working correctly when mocked!');
         $original = 'Notify Me!';
         $updated  = 'Notify You!';
 
@@ -73,17 +72,19 @@ class ChannelControllerTest extends AuthenticatedTestCase
             'name'   => $original,
         ]);
 
+        $this->withoutEvents()->expectsNotification($channel, NewTestNotification::class);
+
         $data = array_only($channel->fresh()->toArray(), [
-            'name'                      ,
-            'type'                      ,
-            'on_deployment_success'     ,
-            'on_deployment_failure'     ,
-            'on_link_down'              ,
-            'on_link_still_down'        ,
-            'on_link_recovered'         ,
-            'on_heartbeat_missing'      ,
+            'name',
+            'type',
+            'on_deployment_success',
+            'on_deployment_failure',
+            'on_link_down',
+            'on_link_still_down',
+            'on_link_recovered',
+            'on_heartbeat_missing',
             'on_heartbeat_still_missing',
-            'on_heartbeat_recovered'    ,
+            'on_heartbeat_recovered',
         ]);
 
         $input = array_merge($data, [
@@ -91,9 +92,13 @@ class ChannelControllerTest extends AuthenticatedTestCase
             'url'  => $channel->routeNotificationForWebhook(),
         ]);
 
-        $response = $this->putJson('/channels/1', $input);
+        $output = array_merge([
+            'id' => 1,
+        ], array_except($input, ['url']));
 
-        $response->assertStatus(Response::HTTP_OK)->assertJson($input);
+        $response = $this->putJson('/notifications/1', $input);
+
+        $response->assertStatus(Response::HTTP_OK)->assertJson($output);
         $this->assertDatabaseHas('channels', ['name' => $updated]);
         $this->assertDatabaseMissing('channels', ['name' => $original]);
     }
@@ -126,8 +131,7 @@ class ChannelControllerTest extends AuthenticatedTestCase
      */
     public function testDelete()
     {
-        $this->markTestSkipped('Events are not working correctly when mocked!');
-        $this->withoutEvents();
+        $this->withoutEvents()->withoutNotifications();
 
         $name = 'My Notification';
 
