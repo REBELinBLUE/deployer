@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CheckUrlControllerTest extends AuthenticatedTestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     /**
      * @covers ::__construct

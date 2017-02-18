@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ServerControllerTest extends AuthenticatedTestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     /**
      * @covers ::__construct

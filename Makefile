@@ -75,20 +75,11 @@ dusk: ##@tests Dusk Browser Tests
 coverage: ##@tests Test Coverage HTML
 	@echo "\033[32mAll tests with coverage\033[39m"
 	@mkdir -p tmp/
-	@mv -f .env .env.backup
-	@cp -f tests/.env.travis .env
-	@sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
-	@sed -i 's/DB_DATABASE=deployer//g' .env
-	@sed -i 's/DB_USERNAME=travis//g' .env
-	@touch database/database.sqlite
-	@php artisan migrate --force --quiet
 	@php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
 	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
 	@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
 	@php vendor/bin/phpcov merge tmp/ --html storage/app/tmp/coverage/
 	@rm -rf tmp/
-	@rm -f .env
-	@mv -f .env.backup .env
 
 phpunit-fast: ##@tests Unit Tests - Excluding slow model tests which touch the database
 	@echo "\033[32mFast unit tests\033[39m"
@@ -99,17 +90,8 @@ phpunit: ##@tests Unit Tests
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests"
 
 integration: ##@tests Integration Tests
-	@mv -f .env .env.backup
-	@cp -f tests/.env.travis .env
-	@sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
-	@sed -i 's/DB_DATABASE=deployer//g' .env
-	@sed -i 's/DB_USERNAME=travis//g' .env
-	@touch database/database.sqlite
-	@php artisan migrate --force --quiet
 	@echo "\033[32mIntegration tests\033[39m"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Integration Tests"
-	@rm -f .env
-	@mv -f .env.backup .env
 
 quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
 quicktest: install-dev lint phpcs phpdoc-check phpcpd phpunit-fast
@@ -166,8 +148,6 @@ endif
 # Run the PHPUnit tests for Travis CI
 phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
-	@touch database/database.sqlite
-	@php artisan migrate --force --quiet
 	@echo "\033[32mFast Unit Tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
 	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
@@ -177,8 +157,7 @@ ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
 	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
-	@echo "\033[32mIntegration tests\033[39m"
-	@php vendor/bin/phpunit --no-coverage --testsuite "Integration Tests"
+	@$(MAKE) integration
 else
 	@$(MAKE) phpunit-fast
 endif
@@ -206,12 +185,5 @@ HELP_FUN = %help; \
 
 # Prints the help
 help:
-	# @awk -v skip=1 \
-	# 	'/^##/ { sub(/^[#[:blank:]]*/, "", $$0); doc_h=$$0; doc=""; skip=0; next } \
-	# 	 skip  { next } \
-	# 	 /^#/  { doc=doc "\n" substr($$0, 2); next } \
-	# 	 /:/   { sub(/:.*/, "", $$0); printf "\033[34m%-30s\033[0m\033[1m%s\033[0m %s\n", $$0, doc_h, doc; skip=1 }' \
-	# 	$(MAKEFILE_LIST)
 	@echo "\nUsage: make ${YELLOW}<target>${RESET}\n\nThe following targets are available:\n";
 	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
-
