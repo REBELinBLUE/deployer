@@ -21,15 +21,15 @@ cache:
 matrix:
   fast_finish: true
   include:
-    - php: 7.1
+    - php: 7.0
       env: DB=mysql
       services:
         - mysql
-    - php: 7.1
+    - php: 7.0
       env: DB=maria
       addons:
         mariadb: 10.1
-    - php: 7.1
+    - php: 7.0
       env: DB=pgsql
       addons:
         postgresql: "9.3"
@@ -41,7 +41,7 @@ before_install:
   - nvm install stable
   - nvm use stable
   - |
-    if [[ "$TRAVIS_PHP_VERSION" != "5.6" ]]; then
+    if [[ "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
       phpenv config-rm xdebug.ini;
     fi
 
@@ -77,7 +77,7 @@ script:
   # - make phpmd
   - |
     if [[ "$TEST_SUITE" = "unit" ]]; then
-      if [[ "$TRAVIS_PHP_VERSION" = "5.6" ]]; then
+      if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
         echo -e "\033[32mUnit Tests with coverage\033[39m"
         php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
       else
@@ -86,7 +86,7 @@ script:
     fi
   - |
     if [[ "$TEST_SUITE" = "integration" ]]; then
-      if [[ "$TRAVIS_PHP_VERSION" = "5.6" ]]; then
+      if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
         echo -e "\033[32mIntegration tests with coverage\033[39m"
         php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Integration Tests"
       else
