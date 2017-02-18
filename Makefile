@@ -145,21 +145,24 @@ else
 	@mysql -e 'CREATE DATABASE deployer;'
 endif
 
-# Run the PHPUnit tests for Travis CI
+# Run the PHPUnit unit tests for Travis CI
 phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
 	@echo "\033[32mFast Unit Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
-	@echo "\033[32mSlow Unit Tests with coverage\033[39m"
-	@php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
-	#@php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
-	@echo "\033[32mMerging coverage\033[39m"
-	@php vendor/bin/phpcov merge tmp/ --clover coverage.xml
+	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
 else ifeq "$(DB)" "sqlite"
 	@$(MAKE) phpunit
-	@$(MAKE) integration
 else
 	@$(MAKE) phpunit-fast
+endif
+
+# Run the PHPUnit integration tests for Travis CI
+integration-ci:
+ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
+	@echo "\033[32mIntegration tests\033[39m"
+	@php vendor/bin/phpunit  --coverage-clover coverage.xml --testsuite "Integration Tests"
+else ifeq "$(DB)" "sqlite"
+	@$(MAKE) integration
 endif
 
 # Create release
