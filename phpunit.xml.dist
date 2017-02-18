@@ -36,6 +36,9 @@
             <directory>./vendor</directory>
         </blacklist>
     </filter>
+    <logging>
+        <log type="coverage-text" target="php://stdout" lowUpperBound="50" highLowerBound="80" />
+    </logging>
     <!-- Some listeners which are useful in development but not on the CI, rename the tag to listeners to use -->
     <useful-listeners>
         <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
