@@ -147,7 +147,7 @@ endif
 
 # Run the PHPUnit unit tests for Travis CI
 phpunit-ci:
-ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
+ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
 	@echo "\033[32mUnit Tests with coverage\033[39m"
 	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
 else ifeq "$(DB)" "sqlite"
@@ -156,7 +156,7 @@ endif
 
 # Run the PHPUnit integration tests for Travis CI
 integration-ci:
-ifeq "$(TRAVIS_PHP_VERSION)" "7.0"
+ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
 	@echo "\033[32mIntegration tests\033[39m"
 	@php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Integration Tests"
 else ifeq "$(DB)" "sqlite"
@@ -167,7 +167,7 @@ endif
 release: test
 	@/usr/local/bin/create-release
 
-# Colors
+# Colours
 GREEN  := $(shell tput -Txterm setaf 2)
 WHITE  := $(shell tput -Txterm setaf 7)
 YELLOW := $(shell tput -Txterm setaf 3)
