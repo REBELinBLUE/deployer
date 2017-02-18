@@ -51,8 +51,8 @@ install:
 
 before_script:
   - mkdir $TRAVIS_BUILD_DIR/tmp/
+  - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
   - |
-    cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
     if [[ "$DB" = "sqlite" ]]; then
       sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
       sed -i 's/DB_DATABASE=deployer//g' .env
