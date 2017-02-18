@@ -8,9 +8,8 @@ php:
   - 7.1
 
 env:
-  - DB=sqlite
-  - TEST_SUITE=unit
-  - TEST_SUITE=integration
+  - DB=sqlite TEST_SUITE=unit
+  - DB=sqlite TEST_SUITE=integration
 
 cache:
   directories:
