@@ -60,7 +60,9 @@ script:
   - make phpcs
   # - make phpmd
   - if [[ "$TEST_SUITE" = "unit" ]]; then make phpunit-ci; fi
+  - if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE; fi
   - if [[ "$TEST_SUITE" = "integration" ]]; then make integration-ci; fi
+  - if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE; fi
   - make phpdoc-check
   - make phpcpd
   - make lines
