@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 
-use Illuminate\Console\Application;
-use Illuminate\Console\Command;
+use Illuminate\Foundation\Console\DownCommand;
+use Illuminate\Foundation\Console\UpCommand;
 use Mockery as m;
 use REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment;
 use REBELinBLUE\Deployer\Deployment;
@@ -12,12 +12,12 @@ use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment
+ * @todo: mock laravel so that the isDownForMaintenance branch can be tested
  */
 class ClearStalledDeploymentTest extends CommandTestCase
 {
@@ -28,27 +28,6 @@ class ClearStalledDeploymentTest extends CommandTestCase
      */
     public function testHandle()
     {
-        $this->markTestSkipped('Not yet working');
-//        $this->expectsJobs(RequestProjectCheckUrl::class);
-//
-//        Carbon::setTestNow(Carbon::create(2017, 2, 1, 15, $minute, 00, 'UTC'));
-//
-//        $repository = m::mock(CheckUrlRepositoryInterface::class);
-//
-//        $repository->shouldReceive('chunkWhereIn')
-//            ->once()
-//            ->with('period', $periods, CheckUrls::URLS_TO_CHECK, m::on(function ($callback) {
-//                $this->assertInstanceOf(Closure::class, $callback);
-//
-//                $callback(collect([new CheckUrl()]));
-//
-//                return true;
-//            }));
-
-        $application = m::mock(Application::class);
-        $application->shouldReceive('call')->once()->with('down');
-        $application->shouldReceive('call')->once()->with('up');
-
         $log = m::mock(ServerLogRepositoryInterface::class);
         $log->shouldReceive('updateStatusAll')->once()->with(ServerLog::PENDING, ServerLog::CANCELLED);
         $log->shouldReceive('updateStatusAll')->once()->with(ServerLog::RUNNING, ServerLog::FAILED);
@@ -62,27 +41,57 @@ class ClearStalledDeploymentTest extends CommandTestCase
         $project->shouldReceive('updateStatusAll')->once()->with(Project::DEPLOYING, Project::FAILED);
         $project->shouldReceive('updateStatusAll')->once()->with(Project::PENDING, Project::FAILED);
 
+        $down = m::mock(DownCommand::class);
+        $down->shouldReceive('run');
+
+        $up = m::mock(UpCommand::class);
+        $up->shouldReceive('run');
+
+        $console = m::mock(ConsoleApplication::class)->makePartial();
+        $console->__construct();
+        $console->shouldReceive('find')->with('down')->andReturn($down);
+        $console->shouldReceive('find')->with('up')->andReturn($up);
+
         $command = new ClearStalledDeployment($log, $deployment, $project);
-        $command->setLaravel($application);
+        $command->setLaravel($this->app);
+        $command->setApplication($console);
 
-//        $tester = new CommandTester($command);
-//        $tester->setInputs(['yes']);
-//        $tester->execute([]);
+        $tester = new CommandTester($command);
+        $tester->setInputs(['yes']);
+        $tester->execute([]);
 
-        $output = $this->runCommand($command);
+        $this->assertContains('Switch to maintenance mode now?', $tester->getDisplay());
     }
 
-    protected function runCommand(Command $command, $input = [])
+    /**
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::cleanupDeployments
+     */
+    public function testHandleWhenConfirmationDenied()
     {
-        $output = m::mock(OutputInterface::class);
-        $output->shouldReceive('getVerbosity');
-        $output->shouldReceive('getFormatter');
-        $output->shouldReceive('confirm')->with(m::type('string'))->andReturn(true);
+        $log = m::mock(ServerLogRepositoryInterface::class);
+        $log->shouldNotReceive('updateStatusAll');
 
-        $input = new ArrayInput($input);
+        $deployment = m::mock(DeploymentRepositoryInterface::class);
+        $deployment->shouldNotReceive('updateStatusAll');
 
-        $command->run($input, $output);
+        $project = m::mock(ProjectRepositoryInterface::class);
+        $project->shouldNotReceive('updateStatusAll');
 
-        return $output->fetch();
+        $console = m::mock(ConsoleApplication::class)->makePartial();
+        $console->__construct();
+        $console->shouldNotReceive('find')->with('down');
+        $console->shouldNotReceive('find')->with('up');
+
+        $command = new ClearStalledDeployment($log, $deployment, $project);
+        $command->setLaravel($this->app);
+        $command->setApplication($console);
+
+        $tester = new CommandTester($command);
+        $tester->setInputs(['no']);
+        $tester->execute([]);
+
+        $this->assertContains('Switch to maintenance mode now?', $tester->getDisplay());
     }
 }
