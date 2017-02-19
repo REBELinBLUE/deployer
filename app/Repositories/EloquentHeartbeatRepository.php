@@ -21,7 +21,10 @@ class EloquentHeartbeatRepository extends EloquentRepository implements Heartbea
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $hash
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return Heartbeat
      */
     public function getByHash($hash)
     {

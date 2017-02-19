@@ -21,7 +21,11 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new instance of the model.
+     *
+     * @param array $fields
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields)
     {
@@ -57,7 +61,12 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     }
 
     /**
-     * {@inheritdoc}
+     * Updates an instance by it's ID.
+     *
+     * @param array $fields
+     * @param int   $model_id
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(array $fields, $model_id)
     {
@@ -81,7 +90,13 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the commands for a deployment step.
+     *
+     * @param int    $target_id
+     * @param string $target
+     * @param int    $step
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getForDeployStep($target_id, $target, $step)
     {

@@ -27,7 +27,11 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new instance of the model.
+     *
+     * @param array $fields
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields)
     {
@@ -49,7 +53,9 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $model_id
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function abort($model_id)
     {
@@ -64,9 +70,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Gets all pending and running deployments for a project and aborts them.
-     *
-     * {@inheritdoc}
+     * @param int $project_id
      */
     public function abortQueued($project_id)
     {
@@ -88,9 +92,12 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * Creates a new deployment based on a previous one.
+     * @param int    $model_id
+     * @param string $reason
+     * @param array  $optional
      *
-     * {@inheritdoc}
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function rollback($model_id, $reason = '', array $optional = [])
     {
@@ -108,7 +115,10 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $project_id
+     * @param int $paginate
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getLatest($project_id, $paginate = 15)
     {
@@ -120,7 +130,9 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $project_id
+     *
+     * @return Deployment
      */
     public function getLatestSuccessful($project_id)
     {
@@ -132,7 +144,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getTimeline()
     {
@@ -147,7 +159,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getPending()
     {
@@ -155,7 +167,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getRunning()
     {
@@ -163,8 +175,9 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * {@inheritdoc}
-     * @see DeploymentRepository::getBetweenDates()
+     * @param int $project_id
+     *
+     * @return int
      */
     public function getTodayCount($project_id)
     {
@@ -174,8 +187,9 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     }
 
     /**
-     * {@inheritdoc}
-     * @see DeploymentRepository::getBetweenDates()
+     * @param int $project_id
+     *
+     * @return int
      */
     public function getLastWeekCount($project_id)
     {

@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Events\HeartbeatMissed;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
@@ -34,31 +35,25 @@ class CheckHeartbeats extends Command
     private $repository;
 
     /**
-     * @var Dispatcher
-     */
-    private $dispatcher;
-
-    /**
      * CheckHeartbeats constructor.
      *
      * @param HeartbeatRepositoryInterface $repository
-     * @param Dispatcher                   $dispatcher
      */
-    public function __construct(HeartbeatRepositoryInterface $repository, Dispatcher $dispatcher)
+    public function __construct(HeartbeatRepositoryInterface $repository)
     {
         parent::__construct();
 
         $this->repository = $repository;
-        $this->dispatcher = $dispatcher;
     }
 
     /**
      * Execute the console command.
+     * @param Dispatcher $dispatcher
      */
-    public function handle()
+    public function handle(Dispatcher $dispatcher)
     {
-        $this->repository->chunk(10, function ($heartbeats) {
-            foreach ($heartbeats as $heartbeat) {
+        $this->repository->chunk(10, function (Collection $heartbeats) use ($dispatcher) {
+            $heartbeats->each(function ($heartbeat) use ($dispatcher) {
                 $last_heard_from = $heartbeat->last_activity;
                 if (!$last_heard_from) {
                     $last_heard_from = $heartbeat->created_at;
@@ -73,9 +68,9 @@ class CheckHeartbeats extends Command
                     $heartbeat->missed = $missed;
                     $heartbeat->save();
 
-                    $this->dispatcher->dispatch(new HeartbeatMissed($heartbeat));
+                    $dispatcher->dispatch(new HeartbeatMissed($heartbeat));
                 }
-            }
+            });
         });
     }
 }
