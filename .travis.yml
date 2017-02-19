@@ -87,11 +87,11 @@ script:
   - |
     if [[ "$TEST_SUITE" = "integration" ]]; then
       if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
-        echo -e "\033[32mIntegration tests with coverage\033[39m"
-        php vendor/bin/phpunit --configuration integration-phpunit.xml.dist \
-            --coverage-clover coverage.xml --testsuite "Integration Tests"
+        #echo -e "\033[32mIntegration tests with coverage\033[39m"
+        #php vendor/bin/phpunit ---coverage-clover coverage.xml --testsuite "Integration Tests"
+        make integration
       else
-        make integration;
+        make integration
       fi
     fi
   - make phpdoc-check
