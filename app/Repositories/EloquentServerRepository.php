@@ -35,7 +35,11 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new instance of the model.
+     *
+     * @param array $fields
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields)
     {
@@ -70,7 +74,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $server_id
      */
     public function queueForTesting($server_id)
     {
@@ -85,7 +89,9 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
+     *
+     * @return mixed
      */
     public function queryByName($name)
     {

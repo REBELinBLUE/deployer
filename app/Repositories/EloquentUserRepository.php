@@ -21,7 +21,11 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new instance of the model.
+     *
+     * @param array $fields
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields)
     {
@@ -31,7 +35,12 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * {@inheritdoc}
+     * Updates an instance by it's ID.
+     *
+     * @param array $fields
+     * @param int   $model_id
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(array $fields, $model_id)
     {
@@ -51,7 +60,9 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $token
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function findByEmailToken($token)
     {
@@ -59,7 +70,9 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $email
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function findByEmail($email)
     {

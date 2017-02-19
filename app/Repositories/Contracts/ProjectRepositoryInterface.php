@@ -2,6 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
+use Carbon\Carbon;
+
 interface ProjectRepositoryInterface
 {
     /**
@@ -64,4 +66,13 @@ interface ProjectRepositoryInterface
      * @return bool
      */
     public function updateStatusAll($original, $updated);
+
+    /**
+     * @param Carbon $last_mirrored_since
+     * @param $count
+     * @param callable $callback
+     *
+     * @return Collection
+     */
+    public function getLastMirroredBefore(Carbon $last_mirrored_since, $count, callable $callback);
 }

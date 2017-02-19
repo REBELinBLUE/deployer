@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
 /**
  * Updates the mirrors for all git repositories.
@@ -34,18 +35,31 @@ class UpdateGitMirrors extends Command
     protected $description = 'Pulls in updates for git mirrors';
 
     /**
+     * @var ProjectRepositoryInterface
+     */
+    private $repository;
+
+    /**
+     * UpdateGitMirrors constructor.
+     * @param ProjectRepositoryInterface $repository
+     */
+    public function __construct(ProjectRepositoryInterface $repository)
+    {
+        parent::__construct();
+
+        $this->repository = $repository;
+    }
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function handle()
     {
-        $last_mirrored_since = Carbon::now()->subMinutes(self::UPDATE_FREQUENCY_MINUTES);
-        $todo                = self::UPDATES_TO_QUEUE;
+        $last_since = Carbon::now()->subMinutes(self::UPDATE_FREQUENCY_MINUTES);
 
-        // FIXME: Clean this up
-        $projects = Project::where('last_mirrored', '<', $last_mirrored_since)->orWhereNull('last_mirrored');
-        $projects->chunk($todo, function (Collection $projects) {
+        $this->repository->getLastMirroredBefore($last_since, self::UPDATES_TO_QUEUE, function (Collection $projects) {
             $projects->each(function (Project $project) {
                 $this->dispatch(new UpdateGitMirror($project));
             });
