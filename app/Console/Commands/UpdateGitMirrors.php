@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 
@@ -44,10 +45,10 @@ class UpdateGitMirrors extends Command
 
         // FIXME: Clean this up
         $projects = Project::where('last_mirrored', '<', $last_mirrored_since)->orWhereNull('last_mirrored');
-        $projects->chunk($todo, function ($projects) {
-            foreach ($projects as $project) {
+        $projects->chunk($todo, function (Collection $projects) {
+            $projects->each(function (Project $project) {
                 $this->dispatch(new UpdateGitMirror($project));
-            }
+            });
         });
     }
 }

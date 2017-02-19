@@ -76,7 +76,5 @@ class CheckUrls extends Command
                 $this->dispatch(new RequestProjectCheckUrl($urls));
             });
         }
-
-        return true;
     }
 }

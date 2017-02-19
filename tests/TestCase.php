@@ -9,7 +9,6 @@ use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @todo Test associations on models
  * @todo Check jobs and events receive expected parameters
  */
 abstract class TestCase extends BaseTestCase

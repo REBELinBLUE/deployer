@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
@@ -64,10 +65,10 @@ class ClearOrphanMirrors extends Command
     {
         $current_mirrors = [];
 
-        $this->repository->chunk(100, function ($projects) use (&$current_mirrors) {
-            foreach ($projects as $project) {
+        $this->repository->chunk(100, function (Collection $projects) use (&$current_mirrors) {
+            $projects->each(function (Project $project) use (&$current_mirrors) {
                 $current_mirrors[] = $project->mirrorPath();
-            }
+            }); // FIXME: Use pluck
         });
 
         $current_mirrors = new Collection($current_mirrors);

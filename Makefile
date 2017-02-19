@@ -81,7 +81,7 @@ coverage: ##@tests Test Coverage HTML
 		--testsuite "Unit Tests" --exclude-group default
 	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=tmp/integration.cov \
 		--testsuite "Integration Tests"
-	@php vendor/bin/phpcov merge tmp/ --text php://stdout --html storage/app/tmp/coverage/
+	@php vendor/bin/phpcov merge tmp/ --html storage/app/tmp/coverage/
 	@rm -rf tmp/
 
 phpunit-fast: ##@tests Unit Tests - Excluding slow model tests which touch the database
