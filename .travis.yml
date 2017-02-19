@@ -8,8 +8,8 @@ php:
   - 7.1
 
 env:
-  - DB=sqlite TEST_SUITE=unit
-  - DB=sqlite TEST_SUITE=integration
+  - DB=sqlite
+  - DB=sqlite
 
 cache:
   directories:
@@ -76,23 +76,18 @@ script:
   - make phpcs
   # - make phpmd
   - |
-    if [[ "$TEST_SUITE" = "unit" ]]; then
-      if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
-        echo -e "\033[32mUnit Tests with coverage\033[39m"
-        php vendor/bin/phpunit --coverage-clover coverage.xml --testsuite "Unit Tests"
-      else
-        make phpunit
-      fi
-    fi
-  - |
-    if [[ "$TEST_SUITE" = "integration" ]]; then
-      if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
-        #echo -e "\033[32mIntegration tests with coverage\033[39m"
-        #php vendor/bin/phpunit ---coverage-clover coverage.xml --testsuite "Integration Tests"
-        make integration
-      else
-        make integration
-      fi
+    if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
+      mkdir -p tmp/
+      echo -e "\033[32mFast Unit Tests with coverage\033[39m"
+      php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
+      echo -e "\033[32mSlow Unit Tests with coverage\033[39m"
+      php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
+      echo -e "\033[32mIntegration Tests with coverage\033[39m"
+      php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
+      php vendor/bin/phpcov merge tmp/ --clover coverage.xml
+      rm -rf tmp/
+    else
+      make phpunit
     fi
   - make phpdoc-check
   - make phpcpd
@@ -110,7 +105,7 @@ after_script:
 after_success:
   - |
     if [[ -f coverage.xml ]]; then
-      bash <(curl -s https://codecov.io/bash) -cF $TEST_SUITE;
+      bash <(curl -s https://codecov.io/bash)
     fi
 
 notifications:
