@@ -44,6 +44,7 @@ class AppVersionTest extends CommandTestCase
     /**
      * @covers ::__construct
      * @covers ::handle
+     * @covers ::updateBanner
      */
     public function testHandleWhenOutdated()
     {

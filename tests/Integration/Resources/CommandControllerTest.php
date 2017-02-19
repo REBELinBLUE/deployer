@@ -64,7 +64,7 @@ class CommandControllerTest extends AuthenticatedTestCase
     /**
      * @covers ::__construct
      * @covers ::store
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreVariableRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testStore()
@@ -95,7 +95,7 @@ class CommandControllerTest extends AuthenticatedTestCase
     /**
      * @covers ::__construct
      * @covers ::update
-     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreVariableRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
      */
     public function testUpdate()
