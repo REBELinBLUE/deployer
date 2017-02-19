@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Mockery as m;
 use REBELinBLUE\Deployer\Jobs\SetupProject;
@@ -220,6 +221,30 @@ class EloquentProjectRepositoryTest extends EloquentRepositoryTestCase
 
         $repository = new EloquentProjectRepository($model);
         $actual     = $repository->create($fields);
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @covers ::getLastMirroredBefore
+     */
+    public function testGetLastMirroredBefore()
+    {
+        $expected = m::mock(Project::class);
+
+        $count    = 10;
+        $last     = Carbon::create(2017, 2, 5, 16, 45, 00, 'UTC');
+        $callback = function () {
+            // Empty callback
+        };
+
+        $model = m::mock(Project::class);
+        $model->shouldReceive('where')->once()->with('last_mirrored', '<', $last)->andReturnSelf();
+        $model->shouldReceive('orWhereNull')->once()->with('last_mirrored')->andReturnSelf();
+        $model->shouldReceive('chunk')->once()->with($count, $callback)->andReturn($expected);
+
+        $repository = new EloquentProjectRepository($model);
+        $actual     = $repository->getLastMirroredBefore($last, $count, $callback);
 
         $this->assertSame($expected, $actual);
     }
