@@ -1,8 +1,9 @@
 <?php
 
 return [
+
     'manage'            => 'Управление проектами',
-    'warning'           => 'Проект не может быть сохранен. Пожалуйста, проверьте форму ниже.',
+    'warning'           => 'Проект не может быть сохunauthenticatedста, проверьте форму ниже.',
     'none'              => 'Сейчас не настроено ни одного проекта',
     'name'              => 'Название',
     'awesome'           => 'Мое великолепное приложение',
@@ -35,14 +36,15 @@ return [
     'ssh_key'           => 'SSH-ключ',
     'ssh_key_info'      => 'Если у вас есть специальный приватный ключ, который вы хотите использовать, то вставьте ' .
                            'его сюда. Ключь не должен иметь passphrase пароля',
-    'ssh_key_example'   => 'SSH-ключ будет сгенерирован автоматически, если вы оставите поле пустым. Это рекомендуемое поведение.',
+    'ssh_key_example'   => 'SSH-ключ будет сгенерирован автоматически, если вы оставите поле пустым. Это ' .
+                           'рекомендуемое поведение.',
     'deploy_project'    => 'Собрать проект',
     'deploy'            => 'Собрать',
     'redeploy'          => 'Пересобрать',
     'server_keys'       => 'This key must be added to the server\'s <code>~/.ssh/authorized_keys</code> ' .
                            'for each user you wish to run commands as.',
     'git_keys'          => 'The key will also need to be added to the <strong>Deploy Keys</strong> ' .
-                           'for you repository unless you are using a public/unautheticated URL.',
+                           'for you repository unless you are using a public/unauthenticated URL.',
     'finished'          => 'Закончена',
     'pending'           => 'Ожидает',
     'deploying'         => 'Собирается',
@@ -54,4 +56,5 @@ return [
     'insecure'          => 'Your Deployer installation is not running over a secure connection, it is recommended ' .
                            'that you let Deployer generate an SSH key rather than supply one yourself so that the ' .
                            'private key is not transmitted over an insecure connection.',
+
 ];

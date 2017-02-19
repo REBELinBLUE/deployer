@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'label'             => 'Heartbeats',
     'tab_label'         => 'Health Checks',
     'create'            => 'Add a new heartbeat',
@@ -33,4 +34,5 @@ return [
     'recovered_sms_message' => ':job for the project ":project" has recovered',
     'missing_subject'       => 'The heartbeat failed to check-in',
     'recovered_subject'     => 'The heartbeat has recovered',
+
 ];

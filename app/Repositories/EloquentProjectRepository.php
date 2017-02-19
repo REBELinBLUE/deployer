@@ -119,7 +119,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
      * Gets the projects last mirrored before the provided date.
      *
      * @param Carbon $last_mirrored_since
-     * @param $count
+     * @param int $count
      * @param callable $callback
      *
      * @return Collection

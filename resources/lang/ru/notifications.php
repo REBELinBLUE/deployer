@@ -1,13 +1,14 @@
 <?php
 
 return [
+
     // Slack
     'test_slack_message'      => 'This is a test to ensure the notification is setup correctly, if you ' .
-        'can see this it means it is! :+1:',
+                                  'can see this it means it is! :+1:',
     'test_message'            => 'This is a test to ensure the notification is setup correctly, if you have ' .
-        'received this it means it is!',
+                                  'received this it means it is!',
     'test_hipchat_message'    => 'This is a test to ensure the notification is setup correctly, if you ' .
-        'can see this it means it is! (corpsethumb)',
+                                  'can see this it means it is! (corpsethumb)',
     'test_subject'            => 'Test Notification',
 
     // Slack & Hipchat
@@ -26,4 +27,5 @@ return [
     'last_committer'          => 'Last committer',
     'last_commit'             => 'Last commit',
     'reason'                  => 'Deployment reason - :reason',
+
 ];

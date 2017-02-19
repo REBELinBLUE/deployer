@@ -43,7 +43,7 @@ return [
     'server_keys'       => 'This key must be added to the server\'s <code>~/.ssh/authorized_keys</code> ' .
                            'for each user you wish to run commands as.',
     'git_keys'          => 'The key will also need to be added to the <strong>Deploy Keys</strong> ' .
-                           'for you repository unless you are using a public/unautheticated URL.',
+                           'for you repository unless you are using a public/unauthenticated URL.',
     'finished'          => 'Finished',
     'pending'           => 'Pending',
     'deploying'         => 'Deploying',

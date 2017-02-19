@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'label'                 => 'Сборки',
     'latest'                => 'Последние сборки',
     'none'                  => 'Пока здесь нет ни одной сборки.',
@@ -12,10 +13,10 @@ return [
     'webhook'               => 'Webhook',
     'rollback'              => 'Откат',
     'rollback_title'        => 'Откат к предыдущей сборке',
-    'expert'                => 'You should not rollback to previous deployments unless you a confident you can perform any additional ' .
-                               'cleanup which may be required.',
-    'rollback_warning'      => 'When rolling back to a previous deployment you may need to manually connect to your servers and run ' .
-                               'any database rollbacks or similar, this can not be done automatically.',
+    'expert'                => 'You should not rollback to previous deployments unless you a confident you can ' .
+                               'perform any additional cleanup which may be required.',
+    'rollback_warning'      => 'When rolling back to a previous deployment you may need to manually connect to your ' .
+                               'servers and run any database rollbacks or similar, this can not be done automatically.',
     'caution'               => 'Осторожно!',
     'cancel'                => 'Отмена',
     'loading'               => 'Загрузка',
@@ -45,14 +46,16 @@ return [
     'refresh_tags'          => 'Проверить новые метки',
     'tag'                   => 'Метка',
     'branch'                => 'Ветка',
-    'warning'               => 'The deployment could not be started, please make sure you have entered all required values.',
+    'warning'               => 'The deployment could not be started, please make sure you have entered ' .
+                               'all required values.',
     'describe_reason'       => 'Please describe briefly the reason for this deployment',
     'optional'              => 'Выберите опциональные шаги сборки для старта',
     'very_long_time'        => 'Очень давно!',
     'hour'                  => 'часов\: :time',
     'minute'                => 'минут\: :time',
     'second'                => 'секунд\: :time',
-    'repo_failure'          => 'There was an error retrieving the repository information, please check that the URL is correct and that the SSH key has been added',
+    'repo_failure'          => 'There was an error retrieving the repository information, please check that ' .
+                               'the URL is correct and that the SSH key has been added',
     'repo_failure_head'     => 'Проблема с репозиторием',
 
     // Notifications
@@ -66,4 +69,5 @@ return [
     'failed_email_message'    => 'The deployment has failed',
     'success_email_subject'   => 'Deployment Finished',
     'failure_email_subject'   => 'Deployment Failed',
+
 ];
