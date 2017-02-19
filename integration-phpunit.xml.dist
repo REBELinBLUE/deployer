@@ -20,12 +20,9 @@
         <testsuite name="Integration Tests">
             <directory suffix="Test.php">./tests/Integration</directory>
         </testsuite>
-        <testsuite name="Unit Tests">
-            <directory suffix="Test.php">./tests/Unit</directory>
-        </testsuite>
     </testsuites>
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="false">
             <directory suffix=".php">./app/</directory>
             <exclude>
                 <directory suffix=".php">./app/Helpers</directory>
@@ -36,21 +33,6 @@
             <directory>./vendor</directory>
         </blacklist>
     </filter>
-    <![CDATA[
-        <!-- Some options which are useful in development but not on the CI, rename the CDATA to use -->
-        <logging>
-            <log type="coverage-text" target="php://stdout" lowUpperBound="50" highLowerBound="80" />
-        </logging>
-
-        <listeners>
-            <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
-            <listener class="PHPUnit\Runner\CleverAndSmart\TestListener">
-                <arguments>
-                    <object class="PHPUnit\Runner\CleverAndSmart\Storage\Sqlite3Storage" />
-                </arguments>
-            </listener>
-        </listeners>
-    ]]>
     <php>
         <ini name="memory_limit" value="2048M" />
         <env name="APP_ENV" value="testing" />
