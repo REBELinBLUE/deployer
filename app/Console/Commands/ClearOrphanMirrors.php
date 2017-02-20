@@ -34,10 +34,6 @@ class ClearOrphanMirrors extends Command
     private $repository;
 
     /**
-     * @var Process
-     */
-    private $process;
-    /**
      * @var Filesystem
      */
     private $filesystem;
@@ -49,12 +45,11 @@ class ClearOrphanMirrors extends Command
      * @param Process                    $process
      * @param Filesystem                 $filesystem
      */
-    public function __construct(ProjectRepositoryInterface $repository, Process $process, Filesystem $filesystem)
+    public function __construct(ProjectRepositoryInterface $repository, Filesystem $filesystem)
     {
         parent::__construct();
 
         $this->repository = $repository;
-        $this->process    = $process;
         $this->filesystem = $filesystem;
     }
 
@@ -63,17 +58,16 @@ class ClearOrphanMirrors extends Command
      */
     public function handle()
     {
-        $current_mirrors = [];
-
+        $current_mirrors = new Collection();
         $this->repository->chunk(100, function (Collection $projects) use (&$current_mirrors) {
-            $projects->each(function (Project $project) use (&$current_mirrors) {
-                $current_mirrors[] = $project->mirrorPath();
-            }); // FIXME: Use pluck
+            $projects->transform(function (Project $item) {
+                return $item->mirrorPath();
+            });
+
+            $current_mirrors = $current_mirrors->merge($projects);
         });
 
-        $current_mirrors = new Collection($current_mirrors);
-
-        $all_mirrors = new Collection($this->filesystem->glob(storage_path('app/mirrors/') . '*.git'));
+        $all_mirrors = new Collection($this->filesystem->glob(storage_path('app/mirrors') . '/*.git'));
 
         // Compare the 2 collections get a list of mirrors which are no longer in use
         $orphan_mirrors = $all_mirrors->diff($current_mirrors);
@@ -81,16 +75,14 @@ class ClearOrphanMirrors extends Command
         $this->info('Found ' . $orphan_mirrors->count() . ' orphaned mirrors');
 
         // Now loop through the mirrors and delete them from storage
-        foreach ($orphan_mirrors as $mirror_dir) {
-            $this->process->setScript('tools.RemoveMirrorDirectory', [
-                'mirror_path' => $mirror_dir,
-            ])->run();
+        $orphan_mirrors->each(function ($mirror_dir) {
+            $name = $this->filesystem->basename($mirror_dir);
 
-            if ($this->process->isSuccessful()) {
-                $this->info('Deleted ' . $this->filesystem->basename($mirror_dir));
+            if ($this->filesystem->deleteDirectory($mirror_dir)) {
+                $this->info('Deleted ' . $name);
             } else {
-                $this->info('Failed to delete ' . $this->filesystem->basename($mirror_dir));
+                $this->error('Failed to delete ' . $name);
             }
-        }
+        });
     }
 }

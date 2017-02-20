@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 
@@ -10,6 +11,8 @@ use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
  */
 class ClearOldKeys extends Command
 {
+    const KEEP_FILES_FOR_HOURS = 12;
+
     /**
      * The name and signature of the console command.
      *
@@ -48,24 +51,26 @@ class ClearOldKeys extends Command
      */
     public function handle()
     {
-        $tmp_dir = storage_path('app/tmp/');
+        $tmp_dir = storage_path('app/tmp');
 
         // Clear out old SSH key files and archives
-        $keys     = $this->filesystem->glob($tmp_dir . '*key*');
-        $tmp      = $this->filesystem->glob($tmp_dir . '*tmp*');
-        $archives = $this->filesystem->glob(storage_path('app/') . '*.tar.gz');
+        $keys     = $this->filesystem->glob($tmp_dir . '/*key*');
+        $tmp      = $this->filesystem->glob($tmp_dir . '/*tmp*');
+        $archives = $this->filesystem->glob(storage_path('app') . '/*.tar.gz');
+        $files    = array_merge($keys, $archives, $tmp);
 
-        $files   = array_merge($keys, $archives, $tmp_dir);
-        $folders = $this->filesystem->glob($tmp . 'clone_*'); // cloned copies of code
+        $folders = $this->filesystem->glob($tmp_dir . '/clone_*'); // cloned copies of code
 
         $this->info('Found ' . count($files) . ' files and ' . count($folders) . ' folders to purge');
+
+        $minimum_age = Carbon::now()->subHours(self::KEEP_FILES_FOR_HOURS)->timestamp;
 
         // Now loop through the temp files and delete them from storage
         foreach (array_merge($files, $folders) as $path) {
             $file = $this->filesystem->basename($path);
 
             // Don't delete recently created files as a precaution, 12 hours is more than enough
-            if ($this->filesystem->lastModified($path) > strtotime('-12 hours')) {
+            if ($this->filesystem->lastModified($path) >= $minimum_age) {
                 $this->info('Skipping ' . $file);
                 continue;
             }

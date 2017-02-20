@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Collection;
@@ -12,6 +13,8 @@ use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
  */
 class ClearOrphanAvatars extends Command
 {
+    const KEEP_FILES_FOR_MINUTES = 15;
+
     /**
      * The name and signature of the console command.
      *
@@ -74,14 +77,17 @@ class ClearOrphanAvatars extends Command
 
         $this->info('Found ' . $orphan_avatars->count() . ' orphaned avatars');
 
+        $minimum_age = Carbon::now()->subMinutes(self::KEEP_FILES_FOR_MINUTES)->timestamp;
+
         // Now loop through the avatars and delete them from storage
-        foreach ($orphan_avatars as $avatar) {
+        $orphan_avatars->each(function ($avatar) use ($minimum_age) {
             $avatarPath = public_path() . $avatar;
 
             // Don't delete recently created files as they could be temp files from the uploader
-            if ($this->filesystem->lastModified($avatarPath) > strtotime('-15 minutes')) {
+            if ($this->filesystem->lastModified($avatarPath) >= $minimum_age) {
                 $this->info('Skipping ' . $avatar);
-                continue;
+
+                return;
             }
 
             if (!$this->filesystem->delete($avatarPath)) {
@@ -89,6 +95,6 @@ class ClearOrphanAvatars extends Command
             } else {
                 $this->info('Deleted ' . $avatar);
             }
-        }
+        });
     }
 }
