@@ -12,6 +12,7 @@ use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
+use REBELinBLUE\Deployer\Tests\TestCase;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -19,7 +20,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment
  * @todo: mock laravel so that the isDownForMaintenance branch can be tested
  */
-class ClearStalledDeploymentTest extends CommandTestCase
+class ClearStalledDeploymentTest extends TestCase
 {
     /**
      * @covers ::__construct
@@ -58,7 +59,9 @@ class ClearStalledDeploymentTest extends CommandTestCase
 
         $tester = new CommandTester($command);
         $tester->setInputs(['yes']);
-        $tester->execute([]);
+        $tester->execute([
+            'command' => 'deployer:cleanup',
+        ]);
 
         $this->assertContains('Switch to maintenance mode now?', $tester->getDisplay());
     }
@@ -90,7 +93,9 @@ class ClearStalledDeploymentTest extends CommandTestCase
 
         $tester = new CommandTester($command);
         $tester->setInputs(['no']);
-        $tester->execute([]);
+        $tester->execute([
+            'command' => 'deployer:cleanup',
+        ]);
 
         $this->assertContains('Switch to maintenance mode now?', $tester->getDisplay());
     }

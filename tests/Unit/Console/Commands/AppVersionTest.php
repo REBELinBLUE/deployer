@@ -5,22 +5,28 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 use Mockery as m;
 use REBELinBLUE\Deployer\Console\Commands\AppVersion;
 use REBELinBLUE\Deployer\Services\Update\LatestReleaseInterface;
+use REBELinBLUE\Deployer\Tests\TestCase;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\AppVersion
  */
-class AppVersionTest extends CommandTestCase
+class AppVersionTest extends TestCase
 {
-    /**
-     * @var LatestReleaseInterface
-     */
     private $release;
+
+    private $console;
 
     public function setUp()
     {
         parent::setUp();
 
+        $console = m::mock(ConsoleApplication::class)->makePartial();
+        $console->__construct();
+
         $this->release = m::mock(LatestReleaseInterface::class);
+        $this->console = $console;
     }
 
     /**
@@ -34,8 +40,14 @@ class AppVersionTest extends CommandTestCase
 
         $command = new AppVersion($this->release);
         $command->setLaravel($this->app);
+        $command->setApplication($this->console);
 
-        $output = $this->runCommand($command);
+        $tester = new CommandTester($command);
+        $tester->execute([
+            'command' => 'app:version',
+        ]);
+
+        $output = $tester->getDisplay();
 
         $this->assertContains('already running the latest version', $output);
         $this->assertNotContains('There is an update available', $output);
@@ -55,8 +67,14 @@ class AppVersionTest extends CommandTestCase
 
         $command = new AppVersion($this->release);
         $command->setLaravel($this->app);
+        $command->setApplication($this->console);
 
-        $output = $this->runCommand($command);
+        $tester = new CommandTester($command);
+        $tester->execute([
+            'command' => 'app:version',
+        ]);
+
+        $output = $tester->getDisplay();
 
         $this->assertNotContains('already running the latest version', $output);
         $this->assertContains('There is an update available!', $output);

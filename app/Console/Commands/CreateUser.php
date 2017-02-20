@@ -69,7 +69,12 @@ class CreateUser extends Command
      */
     public function handle(Dispatcher $dispatcher, Factory $validation)
     {
-        $arguments  = $this->argument();
+        $arguments = [
+            'name'     => $this->argument('name'),
+            'email'    => $this->argument('email'),
+            'password' => $this->argument('password'),
+        ];
+
         $send_email = (!$this->option('no-email'));
 
         $password_generated = false;

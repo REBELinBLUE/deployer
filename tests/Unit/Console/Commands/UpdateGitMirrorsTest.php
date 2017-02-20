@@ -9,12 +9,31 @@ use REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors;
 use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Tests\TestCase;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors
  */
-class UpdateGitMirrorsTest extends CommandTestCase
+class UpdateGitMirrorsTest extends TestCase
 {
+    private $repository;
+    private $console;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $console = m::mock(ConsoleApplication::class)->makePartial();
+        $console->__construct();
+
+        $repository = m::mock(ProjectRepositoryInterface::class);
+
+        $this->repository = $repository;
+        $this->console    = $console;
+    }
+
     /**
      * @covers ::__construct
      * @covers ::handle
@@ -32,20 +51,24 @@ class UpdateGitMirrorsTest extends CommandTestCase
             return $date->format('c') === $since->format('c');
         });
 
-        $repository = m::mock(ProjectRepositoryInterface::class);
-        $repository->shouldReceive('getLastMirroredBefore')
-                   ->with($compareDate, 3, m::on(function ($callback) {
-                       $this->assertInstanceOf(Closure::class, $callback);
+        $compareCallback = m::on(function ($callback) {
+            $this->assertInstanceOf(Closure::class, $callback);
 
-                       $callback(collect([new Project()]));
+            $callback(collect([new Project()]));
 
-                       return true;
-                   }));
+            return true;
+        });
 
-        $command = new UpdateGitMirrors($repository);
+        $this->repository->shouldReceive('getLastMirroredBefore')->with($compareDate, 3, $compareCallback);
+
+        $command = new UpdateGitMirrors($this->repository);
         $command->setLaravel($this->app);
+        $command->setApplication($this->console);
 
-        $this->runCommand($command);
+        $tester = new CommandTester($command);
+        $tester->execute([
+            'command' => 'deployer:update-mirrors',
+        ]);
     }
 
     /**
@@ -65,19 +88,23 @@ class UpdateGitMirrorsTest extends CommandTestCase
             return $date->format('c') === $since->format('c');
         });
 
-        $repository = m::mock(ProjectRepositoryInterface::class);
-        $repository->shouldReceive('getLastMirroredBefore')
-            ->with($compareDate, 3, m::on(function ($callback) {
-                $this->assertInstanceOf(Closure::class, $callback);
+        $compareCallback = m::on(function ($callback) {
+            $this->assertInstanceOf(Closure::class, $callback);
 
-                $callback(collect());
+            $callback(collect());
 
-                return true;
-            }));
+            return true;
+        });
 
-        $command = new UpdateGitMirrors($repository);
+        $this->repository->shouldReceive('getLastMirroredBefore')->with($compareDate, 3, $compareCallback);
+
+        $command = new UpdateGitMirrors($this->repository);
         $command->setLaravel($this->app);
+        $command->setApplication($this->console);
 
-        $this->runCommand($command);
+        $tester = new CommandTester($command);
+        $tester->execute([
+            'command' => 'deployer:update-mirrors',
+        ]);
     }
 }

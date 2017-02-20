@@ -9,12 +9,31 @@ use REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats;
 use REBELinBLUE\Deployer\Events\HeartbeatMissed;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
+use REBELinBLUE\Deployer\Tests\TestCase;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\CheckHeartbeats
  */
-class CheckHeartbeatsTest extends CommandTestCase
+class CheckHeartbeatsTest extends TestCase
 {
+    private $repository;
+    private $console;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $console = m::mock(ConsoleApplication::class)->makePartial();
+        $console->__construct();
+
+        $repository = m::mock(HeartbeatRepositoryInterface::class);
+
+        $this->repository = $repository;
+        $this->console    = $console;
+    }
+
     /**
      * @covers ::__construct
      * @covers ::handle
@@ -23,11 +42,9 @@ class CheckHeartbeatsTest extends CommandTestCase
     {
         $this->expectsEvents(HeartbeatMissed::class);
 
-        $repository = m::mock(HeartbeatRepositoryInterface::class);
-
         Carbon::setTestNow(Carbon::create(2017, 2, 1, 15, 00, 00, 'UTC'));
 
-        $repository->shouldReceive('chunk')->once()->with(10, m::on(function ($callback) {
+        $this->repository->shouldReceive('chunk')->once()->with(10, m::on(function ($callback) {
             $this->assertInstanceOf(Closure::class, $callback);
 
             $heartbeat = $this->mockHeartbeat();
@@ -40,10 +57,14 @@ class CheckHeartbeatsTest extends CommandTestCase
             return true;
         }));
 
-        $command = new CheckHeartbeats($repository);
+        $command = new CheckHeartbeats($this->repository);
         $command->setLaravel($this->app);
+        $command->setApplication($this->console);
 
-        $this->runCommand($command);
+        $tester = new CommandTester($command);
+        $tester->execute([
+            'command' => 'deployer:heartbeats',
+        ]);
     }
 
     /**
@@ -56,9 +77,7 @@ class CheckHeartbeatsTest extends CommandTestCase
 
         Carbon::setTestNow(Carbon::create(2017, 1, 1, 15, 50, 00, 'UTC'));
 
-        $repository = m::mock(HeartbeatRepositoryInterface::class);
-
-        $repository->shouldReceive('chunk')->once()->with(10, m::on(function ($callback) {
+        $this->repository->shouldReceive('chunk')->once()->with(10, m::on(function ($callback) {
             $this->assertInstanceOf(Closure::class, $callback);
 
             $heartbeat = $this->mockHeartbeat();
@@ -71,10 +90,14 @@ class CheckHeartbeatsTest extends CommandTestCase
             return true;
         }));
 
-        $command = new CheckHeartbeats($repository);
+        $command = new CheckHeartbeats($this->repository);
         $command->setLaravel($this->app);
+        $command->setApplication($this->console);
 
-        $this->runCommand($command);
+        $tester = new CommandTester($command);
+        $tester->execute([
+            'command' => 'deployer:heartbeats',
+        ]);
     }
 
     private function mockHeartbeat()

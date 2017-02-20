@@ -8,41 +8,42 @@ use REBELinBLUE\Deployer\Console\Commands\CreateUser;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
+use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 use RuntimeException;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\CreateUser
  */
-class CreateUserTest extends CommandTestCase
+class CreateUserTest extends TestCase
 {
-    /**
-     * @var UserRepositoryInterface
-     */
     private $repository;
 
-    /**
-     * @var Factory
-     */
     private $validation;
 
-    /**
-     * @var TokenGeneratorInterface
-     */
     private $generator;
+
+    private $console;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->repository = m::mock(UserRepositoryInterface::class);
-        $this->generator  = m::mock(TokenGeneratorInterface::class);
-        $this->validation = m::mock(Factory::class);
-
         // Can't use the real validator as it checks that the email doesn't exist in the DB
         $this->app->bind(Factory::class, function () {
             return $this->validation;
         });
+
+        $console = m::mock(ConsoleApplication::class)->makePartial();
+        $console->__construct();
+
+        $this->repository = m::mock(UserRepositoryInterface::class);
+        $this->generator  = m::mock(TokenGeneratorInterface::class);
+        $this->validation = m::mock(Factory::class);
+
+        $this->console = $console;
     }
 
     /**
@@ -71,8 +72,16 @@ class CreateUserTest extends CommandTestCase
 
         $command = new CreateUser($this->repository, $this->generator);
         $command->setLaravel($this->app);
+        $command->setApplication($this->console);
 
-        $output = $this->runCommand($command, ['name' => $name, 'email' => $email]);
+        $tester = new CommandTester($command);
+        $tester->execute([
+            'command' => 'deployer:create-user',
+            'name'    => $name,
+            'email'   => $email,
+        ]);
+
+        $output = $tester->getDisplay();
 
         $this->assertContains($email, $output);
         $this->assertNotContains($password, $output);
@@ -104,8 +113,17 @@ class CreateUserTest extends CommandTestCase
 
         $command = new CreateUser($this->repository, $this->generator);
         $command->setLaravel($this->app);
+        $command->setApplication($this->console);
 
-        $output = $this->runCommand($command, ['name' => $name, 'email' => $email, '--no-email' => true]);
+        $tester = new CommandTester($command);
+        $tester->execute([
+            'command'    => 'deployer:create-user',
+            'name'       => $name,
+            'email'      => $email,
+            '--no-email' => true,
+        ]);
+
+        $output = $tester->getDisplay();
 
         $this->assertNotContains($email, $output);
         $this->assertContains($password, $output);
@@ -131,7 +149,14 @@ class CreateUserTest extends CommandTestCase
 
         $command = new CreateUser($this->repository, $this->generator);
         $command->setLaravel($this->app);
+        $command->setApplication($this->console);
 
-        $this->runCommand($command, ['name' => $name, 'email' => $email, 'password' => $password]);
+        $tester = new CommandTester($command);
+        $tester->execute([
+            'command'  => 'deployer:create-user',
+            'name'     => $name,
+            'email'    => $email,
+            'password' => $password,
+        ]);
     }
 }
