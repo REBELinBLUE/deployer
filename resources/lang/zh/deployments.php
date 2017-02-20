@@ -60,5 +60,5 @@ return [
     'success_email_message'   => '部署成功',
     'failed_email_message'    => '部署失败',
     'success_email_subject'   => '部署完成',
-    'failure_email_subject'   => '部署失败',
+    'failed_email_subject'    => '部署失败',
 ];

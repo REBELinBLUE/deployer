@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "938a7607d004e30e5e3fb6787d0fe2df",
+    "content-hash": "cc900abcc9365bd790f9b1706b0a9f7d",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -1551,6 +1551,9 @@
                 "phpunit/phpunit": "4.*"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": []
+            },
             "autoload": {
                 "psr-4": {
                     "NotificationChannels\\Twilio\\": "src"

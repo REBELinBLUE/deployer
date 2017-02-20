@@ -69,6 +69,6 @@ return [
     'success_email_message'   => 'The deployment was successful',
     'failed_email_message'    => 'The deployment has failed',
     'success_email_subject'   => 'Deployment Finished',
-    'failure_email_subject'   => 'Deployment Failed',
+    'failed_email_subject'    => 'Deployment Failed',
 
 ];

@@ -109,6 +109,9 @@
             },
             "robclancy/presenter": {
                 "Laravel 5.4 support": "https://www.phpdeployment.org/patches/0001-Presenter.patch"
+            },
+            "laravel-notification-channels/twilio": {
+                "5.4 bug fix": "https://www.phpdeployment.org/patches/0003-dependency-resolution-bug.patch"
             }
         }
     },
