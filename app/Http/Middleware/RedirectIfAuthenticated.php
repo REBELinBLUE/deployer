@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -10,6 +11,19 @@ use Illuminate\Support\Facades\Auth;
  */
 class RedirectIfAuthenticated
 {
+    /**
+     * @var Redirector
+     */
+    private $redirector;
+
+    /**
+     * @param Redirector $redirector
+     */
+    public function __construct(Redirector $redirector)
+    {
+        $this->redirector = $redirector;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -22,7 +36,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/');
+            return $this->redirector->to('/');
         }
 
         return $next($request);

@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer;
 
+use Creativeorange\Gravatar\Gravatar;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -83,7 +84,8 @@ class User extends Authenticatable implements PresentableInterface
      */
     public function getPresenter()
     {
-        return new UserPresenter($this);
+        // FIXME: Horrible!
+        return new UserPresenter($this, app(Gravatar::class));
     }
 
     /**

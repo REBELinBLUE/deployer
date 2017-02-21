@@ -56,6 +56,8 @@ class ClearOldKeysTest extends TestCase
      */
     public function testHandle()
     {
+        Carbon::setTestNow(Carbon::create(2017, 1, 1, 12, 00, 00, 'UTC'));
+
         $timestamp = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC')->timestamp;
 
         $this->filesystem->shouldReceive('lastModified')->andReturn($timestamp);
@@ -122,6 +124,8 @@ class ClearOldKeysTest extends TestCase
      */
     public function testHandleDeletionFailure()
     {
+        Carbon::setTestNow(Carbon::create(2016, 5, 4, 11, 00, 00, 'UTC'));
+
         $timestamp = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC')->timestamp;
 
         $this->filesystem->shouldReceive('lastModified')->andReturn($timestamp);

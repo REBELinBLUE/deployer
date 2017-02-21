@@ -61,6 +61,8 @@ class ClearOrphanAvatarsTest extends TestCase
      */
     public function testHandle()
     {
+        Carbon::setTestNow(Carbon::create(2017, 1, 1, 12, 00, 00, 'UTC'));
+
         $timestamp = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC')->timestamp;
 
         $this->filesystem->shouldReceive('lastModified')->andReturn($timestamp);
@@ -124,7 +126,9 @@ class ClearOrphanAvatarsTest extends TestCase
      */
     public function testHandleDeletionFailure()
     {
-        $timestamp = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC')->timestamp;
+        Carbon::setTestNow(Carbon::create(2017, 1, 1, 12, 00, 00, 'UTC'));
+
+        $timestamp = Carbon::create(2015, 1, 1, 11, 30, 00, 'UTC')->timestamp;
 
         $this->filesystem->shouldReceive('lastModified')->andReturn($timestamp);
 

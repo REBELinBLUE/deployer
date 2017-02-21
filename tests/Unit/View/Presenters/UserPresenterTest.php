@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\View\Presenters;
 
-use Creativeorange\Gravatar\Facades\Gravatar;
+use Creativeorange\Gravatar\Gravatar;
 use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
@@ -23,7 +23,10 @@ class UserPresenterTest extends TestCase
         $user = m::mock(User::class);
         $user->shouldReceive('getAttribute')->atLeast()->times(1)->with('avatar')->andReturn($expected);
 
-        $presenter = new UserPresenter($user);
+        $gravatar = m::mock(Gravatar::class);
+        $gravatar->shouldNotReceive('get');
+
+        $presenter = new UserPresenter($user, $gravatar);
         $actual    = $presenter->presentAvatarUrl();
 
         $this->assertSame(config('app.url') . '/' . $expected, $actual);
@@ -37,13 +40,14 @@ class UserPresenterTest extends TestCase
         $email    = 'user@example.com';
         $expected = 'a-gravatar-url';
 
+        $gravatar = m::mock(Gravatar::class);
+        $gravatar->shouldReceive('get')->once()->with($email)->andReturn($expected);
+
         $user = m::mock(User::class);
         $user->shouldReceive('getAttribute')->once()->with('avatar')->andReturn(false);
         $user->shouldReceive('getAttribute')->atLeast()->times(1)->with('email')->andReturn($email);
 
-        Gravatar::shouldReceive('get')->once()->with($email)->andReturn($expected);
-
-        $presenter = new UserPresenter($user);
+        $presenter = new UserPresenter($user, $gravatar);
         $actual    = $presenter->presentAvatarUrl();
 
         $this->assertSame($expected, $actual);

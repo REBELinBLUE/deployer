@@ -4,6 +4,8 @@ namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use REBELinBLUE\Deployer\Events\JsonWebTokenExpired;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -26,15 +28,31 @@ class RefreshJsonWebToken
     private $dispatcher;
 
     /**
-     * RefreshJsonWebToken constructor.
-     *
-     * @param JWTAuth    $auth
-     * @param Dispatcher $dispatcher
+     * @var Redirector
      */
-    public function __construct(JWTAuth $auth, Dispatcher $dispatcher)
-    {
+    private $redirector;
+
+    /**
+     * @var ResponseFactory
+     */
+    private $response;
+
+    /**
+     * @param JWTAuth         $auth
+     * @param Dispatcher      $dispatcher
+     * @param Redirector      $redirector
+     * @param ResponseFactory $response
+     */
+    public function __construct(
+        JWTAuth $auth,
+        Dispatcher $dispatcher,
+        Redirector $redirector,
+        ResponseFactory $response
+    ) {
         $this->auth       = $auth;
         $this->dispatcher = $dispatcher;
+        $this->redirector = $redirector;
+        $this->response   = $response;
     }
 
     /**
@@ -68,10 +86,10 @@ class RefreshJsonWebToken
                 $has_valid_token = false;
             } catch (JWTException $e) {
                 if ($request->ajax()) {
-                    return response('Unauthorized.', 401);
+                    return $this->response->make('Unauthorized.', 401);
                 }
 
-                return redirect()->guest('login');
+                return $this->redirector->guest('login');
             }
         }
 
