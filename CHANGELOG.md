@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.0.41](https://github.com/REBELinBLUE/deployer/tree/0.0.41) (2017-02-21)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.40...0.0.41)
+## [0.0.42](https://github.com/REBELinBLUE/deployer/tree/0.0.42) (2017-02-21)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.40...0.0.42)
 
 **Implemented enhancements:**
 
@@ -9,18 +9,15 @@
 - Hipchat notifications [\#159](https://github.com/REBELinBLUE/deployer/issues/159)
 - Notify of URL recovery [\#158](https://github.com/REBELinBLUE/deployer/issues/158)
 - Rebuild notifications [\#297](https://github.com/REBELinBLUE/deployer/pull/297) ([REBELinBLUE](https://github.com/REBELinBLUE))
-- \[FEATURE\] Add Chinese language [\#295](https://github.com/REBELinBLUE/deployer/pull/295) ([aiddroid](https://github.com/aiddroid))
+- Added Chinese language [\#295](https://github.com/REBELinBLUE/deployer/pull/295) ([aiddroid](https://github.com/aiddroid))
 
 **Closed issues:**
 
-- Can't deploy using ftp [\#311](https://github.com/REBELinBLUE/deployer/issues/311)
-- Add option to remove old deployment logs [\#144](https://github.com/REBELinBLUE/deployer/issues/144)
 - github + bitbucket repository support [\#49](https://github.com/REBELinBLUE/deployer/issues/49)
 
 **Merged pull requests:**
 
-- \[IMPROVEMENT\] Added partial russian translation [\#315](https://github.com/REBELinBLUE/deployer/pull/315) ([corpsee](https://github.com/corpsee))
-- \[IMPROVEMENT\] update translation for Chinese language [\#306](https://github.com/REBELinBLUE/deployer/pull/306) ([aiddroid](https://github.com/aiddroid))
+- Added partial Russian translation [\#315](https://github.com/REBELinBLUE/deployer/pull/315) ([corpsee](https://github.com/corpsee))
 - Allowing Rocket.chat webhooks [\#303](https://github.com/REBELinBLUE/deployer/pull/303) ([axeloz](https://github.com/axeloz))
 
 ## [0.0.40](https://github.com/REBELinBLUE/deployer/tree/0.0.40) (2016-11-24)
