@@ -8,16 +8,12 @@
 - Newly pushed branches not being displayed for deployment [\#240](https://github.com/REBELinBLUE/deployer/issues/240)
 - Hipchat notifications [\#159](https://github.com/REBELinBLUE/deployer/issues/159)
 - Notify of URL recovery [\#158](https://github.com/REBELinBLUE/deployer/issues/158)
+- Added partial Russian translation [\#315](https://github.com/REBELinBLUE/deployer/pull/315) ([corpsee](https://github.com/corpsee))
 - Rebuild notifications [\#297](https://github.com/REBELinBLUE/deployer/pull/297) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Added Chinese language [\#295](https://github.com/REBELinBLUE/deployer/pull/295) ([aiddroid](https://github.com/aiddroid))
 
-**Closed issues:**
+**Fixed bugs:**
 
-- github + bitbucket repository support [\#49](https://github.com/REBELinBLUE/deployer/issues/49)
-
-**Merged pull requests:**
-
-- Added partial Russian translation [\#315](https://github.com/REBELinBLUE/deployer/pull/315) ([corpsee](https://github.com/corpsee))
 - Allowing Rocket.chat webhooks [\#303](https://github.com/REBELinBLUE/deployer/pull/303) ([axeloz](https://github.com/axeloz))
 
 ## [0.0.40](https://github.com/REBELinBLUE/deployer/tree/0.0.40) (2016-11-24)
