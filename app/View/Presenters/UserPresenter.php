@@ -15,7 +15,7 @@ class UserPresenter extends Presenter
     /**
      * UserPresenter constructor.
      *
-     * @param mixed $object
+     * @param mixed    $object
      * @param Gravatar $gravatar
      */
     public function __construct($object, Gravatar $gravatar)
