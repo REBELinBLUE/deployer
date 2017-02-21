@@ -1,5 +1,28 @@
 # Change Log
 
+## [0.0.41](https://github.com/REBELinBLUE/deployer/tree/0.0.41) (2017-02-21)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.40...0.0.41)
+
+**Implemented enhancements:**
+
+- Newly pushed branches not being displayed for deployment [\#240](https://github.com/REBELinBLUE/deployer/issues/240)
+- Hipchat notifications [\#159](https://github.com/REBELinBLUE/deployer/issues/159)
+- Notify of URL recovery [\#158](https://github.com/REBELinBLUE/deployer/issues/158)
+- Rebuild notifications [\#297](https://github.com/REBELinBLUE/deployer/pull/297) ([REBELinBLUE](https://github.com/REBELinBLUE))
+- \[FEATURE\] Add Chinese language [\#295](https://github.com/REBELinBLUE/deployer/pull/295) ([aiddroid](https://github.com/aiddroid))
+
+**Closed issues:**
+
+- Can't deploy using ftp [\#311](https://github.com/REBELinBLUE/deployer/issues/311)
+- Add option to remove old deployment logs [\#144](https://github.com/REBELinBLUE/deployer/issues/144)
+- github + bitbucket repository support [\#49](https://github.com/REBELinBLUE/deployer/issues/49)
+
+**Merged pull requests:**
+
+- \[IMPROVEMENT\] Added partial russian translation [\#315](https://github.com/REBELinBLUE/deployer/pull/315) ([corpsee](https://github.com/corpsee))
+- \[IMPROVEMENT\] update translation for Chinese language [\#306](https://github.com/REBELinBLUE/deployer/pull/306) ([aiddroid](https://github.com/aiddroid))
+- Allowing Rocket.chat webhooks [\#303](https://github.com/REBELinBLUE/deployer/pull/303) ([axeloz](https://github.com/axeloz))
+
 ## [0.0.40](https://github.com/REBELinBLUE/deployer/tree/0.0.40) (2016-11-24)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.39...0.0.40)
 
@@ -52,6 +75,11 @@
 - Installer gets into an infinite loop if there are PDO drivers loaded before MySQL [\#254](https://github.com/REBELinBLUE/deployer/pull/254) ([moxx](https://github.com/moxx))
 - Incorrect Lang variables [\#239](https://github.com/REBELinBLUE/deployer/pull/239) ([uLow](https://github.com/uLow))
 
+**Closed issues:**
+
+- Acting strange [\#233](https://github.com/REBELinBLUE/deployer/issues/233)
+- Custom deployment templates [\#174](https://github.com/REBELinBLUE/deployer/issues/174)
+
 ## [0.0.36](https://github.com/REBELinBLUE/deployer/tree/0.0.36) (2016-05-30)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.35...0.0.36)
 
@@ -82,7 +110,9 @@
 
 **Closed issues:**
 
+- Deployer callback URL - Laravel error [\#225](https://github.com/REBELinBLUE/deployer/issues/225)
 - Process Output don't show full log [\#219](https://github.com/REBELinBLUE/deployer/issues/219)
+- node socket server exited itself [\#218](https://github.com/REBELinBLUE/deployer/issues/218)
 - Split Vagrant machine into a seperate repository [\#214](https://github.com/REBELinBLUE/deployer/issues/214)
 
 ## [0.0.34](https://github.com/REBELinBLUE/deployer/tree/0.0.34) (2016-04-26)
@@ -121,6 +151,10 @@
 - Exception when project has deployments but none are 'completed' [\#188](https://github.com/REBELinBLUE/deployer/issues/188)
 - Throttling interferes with heartbeart URLS [\#153](https://github.com/REBELinBLUE/deployer/issues/153)
 
+**Closed issues:**
+
+- Don't delete failed deployments when in debug mode [\#181](https://github.com/REBELinBLUE/deployer/issues/181)
+
 **Merged pull requests:**
 
 - Added HTTP and Node instructions to Install section [\#185](https://github.com/REBELinBLUE/deployer/pull/185) ([Patabugen](https://github.com/Patabugen))
@@ -141,6 +175,11 @@
 
 - Refresh JWT when it expires [\#180](https://github.com/REBELinBLUE/deployer/issues/180)
 - SQLite installation no longer works [\#169](https://github.com/REBELinBLUE/deployer/issues/169)
+
+**Closed issues:**
+
+- Aborting a deployment before the git info has been loaded leaves the committer etc as "Loading..." [\#150](https://github.com/REBELinBLUE/deployer/issues/150)
+- Persistent file permissions [\#93](https://github.com/REBELinBLUE/deployer/issues/93)
 
 ## [0.0.29](https://github.com/REBELinBLUE/deployer/tree/0.0.29) (2016-02-05)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.28...0.0.29)
@@ -206,6 +245,12 @@
 - Security issue with socket.io coding [\#135](https://github.com/REBELinBLUE/deployer/issues/135)
 - How to make a Symfony application deploy [\#133](https://github.com/REBELinBLUE/deployer/issues/133)
 - Fatal error when deploy starts [\#91](https://github.com/REBELinBLUE/deployer/issues/91)
+
+**Closed issues:**
+
+- Provide composer auth details [\#132](https://github.com/REBELinBLUE/deployer/issues/132)
+- websocket not updates the screen [\#125](https://github.com/REBELinBLUE/deployer/issues/125)
+- Add the option for a full clone [\#101](https://github.com/REBELinBLUE/deployer/issues/101)
 
 ## [0.0.22](https://github.com/REBELinBLUE/deployer/tree/0.0.22) (2015-11-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.21...0.0.22)
