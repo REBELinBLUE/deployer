@@ -2,19 +2,25 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\TemplateRepositoryInterface;
-use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * The controller for managing projects.
  */
 class ProjectController extends Controller
 {
+    use ResourceController;
+
     /**
      * ProjectController constructor.
      *
@@ -32,18 +38,22 @@ class ProjectController extends Controller
      * @param GroupRepositoryInterface    $groupRepository
      * @param Request                     $request
      *
+     * @param  ViewFactory           $view
+     * @param  Translator            $translator
      * @return \Illuminate\View\View
      */
     public function index(
         TemplateRepositoryInterface $templateRepository,
         GroupRepositoryInterface $groupRepository,
-        Request $request
+        Request $request,
+        ViewFactory $view,
+        Translator $translator
     ) {
         $projects = $this->repository->getAll();
 
-        return view('admin.projects.listing', [
+        return $view->make('admin.projects.listing', [
             'is_secure' => $request->secure(),
-            'title'     => Lang::get('projects.manage'),
+            'title'     => $translator->trans('projects.manage'),
             'templates' => $templateRepository->getAll(),
             'groups'    => $groupRepository->getAll(),
             'projects'  => $projects->toJson(), // Because PresentableInterface toJson() is not working in the view
@@ -54,12 +64,13 @@ class ProjectController extends Controller
      * Store a newly created project in storage.
      *
      * @param StoreProjectRequest $request
+     * @param ResponseFactory     $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreProjectRequest $request)
+    public function store(StoreProjectRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name',
             'repository',
             'branch',
@@ -71,7 +82,7 @@ class ProjectController extends Controller
             'allow_other_branch',
             'include_dev',
             'private_key'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**

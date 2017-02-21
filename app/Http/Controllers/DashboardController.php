@@ -2,10 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Response;
-use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Contracts\View\Factory as ViewFactory;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
 /**
  * The dashboard controller.
@@ -13,18 +14,53 @@ use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 class DashboardController extends Controller
 {
     /**
-     * The main page of the dashboard.
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
+     * @var DeploymentRepositoryInterface
+     */
+    private $deploymentRepository;
+
+    /**
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * DashboardController constructor.
      *
      * @param DeploymentRepositoryInterface $deploymentRepository
      * @param ProjectRepositoryInterface    $projectRepository
+     * @param ViewFactory                   $view
+     * @param Translator                    $translator
+     */
+    public function __construct(
+        DeploymentRepositoryInterface $deploymentRepository,
+        ProjectRepositoryInterface $projectRepository,
+        ViewFactory $view,
+        Translator $translator
+    ) {
+        $this->view                 = $view;
+        $this->deploymentRepository = $deploymentRepository;
+        $this->projectRepository    = $projectRepository;
+        $this->translator           = $translator;
+    }
+
+    /**
+     * The main page of the dashboard.
      *
      * @return \Illuminate\View\View
      */
-    public function index(
-        DeploymentRepositoryInterface $deploymentRepository,
-        ProjectRepositoryInterface $projectRepository
-    ) {
-        $projects = $projectRepository->getAll();
+    public function index()
+    {
+        $projects = $this->projectRepository->getAll();
 
         $projects_by_group = [];
         foreach ($projects as $project) {
@@ -37,9 +73,9 @@ class DashboardController extends Controller
 
         ksort($projects_by_group);
 
-        return view('dashboard.index', [
-            'title'     => Lang::get('dashboard.title'),
-            'latest'    => $this->buildTimelineData($deploymentRepository),
+        return $this->view->make('dashboard.index', [
+            'title'     => $this->translator->trans('dashboard.title'),
+            'latest'    => $this->buildTimelineData($this->deploymentRepository),
             'projects'  => $projects_by_group,
         ]);
     }
@@ -47,27 +83,43 @@ class DashboardController extends Controller
     /**
      * Returns the timeline.
      *
-     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @return \Illuminate\View\View
+     */
+    public function timeline()
+    {
+        return $this->view->make('dashboard.timeline', [
+            'latest' => $this->buildTimelineData($this->deploymentRepository),
+        ]);
+    }
+
+    /**
+     * Generates an XML file for CCTray.
+     *
+     * @param ResponseFactory $response
      *
      * @return \Illuminate\View\View
      */
-    public function timeline(DeploymentRepositoryInterface $deploymentRepository)
+    public function cctray(ResponseFactory $response)
     {
-        return view('dashboard.timeline', [
-            'latest' => $this->buildTimelineData($deploymentRepository),
-        ]);
+        $projects = $this->projectRepository->getAll();
+
+        foreach ($projects as $project) {
+            $project->latest_deployment = $project->deployments->first();
+        }
+
+        return $response->view('cctray', [
+            'projects' => $projects,
+        ])->header('Content-Type', 'application/xml');
     }
 
     /**
      * Builds the data for the timeline.
      *
-     * @param DeploymentRepositoryInterface $deploymentRepository
-     *
      * @return array
      */
-    private function buildTimelineData(DeploymentRepositoryInterface $deploymentRepository)
+    private function buildTimelineData()
     {
-        $deployments = $deploymentRepository->getTimeline();
+        $deployments = $this->deploymentRepository->getTimeline();
 
         $deploys_by_date = [];
         foreach ($deployments as $deployment) {
@@ -81,25 +133,5 @@ class DashboardController extends Controller
         }
 
         return $deploys_by_date;
-    }
-
-    /**
-     * Generates an XML file for CCTray.
-     *
-     * @param ProjectRepositoryInterface $projectRepository
-     *
-     * @return \Illuminate\View\View
-     */
-    public function cctray(ProjectRepositoryInterface $projectRepository)
-    {
-        $projects = $projectRepository->getAll();
-
-        foreach ($projects as $project) {
-            $project->latest_deployment = $project->deployments->first();
-        }
-
-        return Response::view('cctray', [
-            'projects' => $projects,
-        ])->header('Content-Type', 'application/xml');
     }
 }

@@ -2,14 +2,19 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\ConfigFileRepositoryInterface;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreConfigFileRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ConfigFileRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Manage the configuration files for a project.
  */
-class ConfigFileController extends ResourceController
+class ConfigFileController extends Controller
 {
+    use ResourceController;
+
     /**
      * ConfigFileController constructor.
      *
@@ -24,18 +29,19 @@ class ConfigFileController extends ResourceController
      * Store a newly created resource in storage.
      *
      * @param StoreConfigFileRequest $request
+     * @param ResponseFactory        $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreConfigFileRequest $request)
+    public function store(StoreConfigFileRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name',
             'path',
             'content',
             'target_type',
             'target_id'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**

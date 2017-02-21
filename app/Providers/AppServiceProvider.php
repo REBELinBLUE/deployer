@@ -2,9 +2,18 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Clockwork\Support\Laravel\ClockworkMiddleware;
+use Clockwork\Support\Laravel\ClockworkServiceProvider;
+use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
+use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
+use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use REBELinBLUE\Deployer\Template;
 
 /**
@@ -19,12 +28,11 @@ class AppServiceProvider extends ServiceProvider
      */
     private $providers = [
         'production' => [
-            'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
+            HTMLMinServiceProvider::class,
         ],
         'local' => [
-            'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-            'Clockwork\Support\Laravel\ClockworkServiceProvider',
-            'Themsaid\Langman\LangmanServiceProvider',
+            IdeHelperServiceProvider::class,
+            ClockworkServiceProvider::class,
         ],
     ];
 
@@ -35,10 +43,10 @@ class AppServiceProvider extends ServiceProvider
      */
     private $middleware = [
         'production' => [
-            'GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware',
+            MinifyMiddleware::class,
         ],
         'local' => [
-            'Clockwork\Support\Laravel\ClockworkMiddleware',
+            ClockworkMiddleware::class,
         ],
     ];
 
@@ -60,12 +68,13 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $env = 'production';
-        if ($this->app->environment() === 'local') {
+        if ($this->app->environment('local', 'testing')) {
             $env = 'local';
         }
 
         $this->registerAdditionalProviders($this->providers[$env]);
         $this->registerAdditionalMiddleware($this->middleware[$env]);
+        $this->registerDependencies();
     }
 
     /**
@@ -94,5 +103,21 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->router->pushMiddlewareToGroup('web', $middleware);
             }
         }
+    }
+
+    /**
+     * Registers the dependencies and replace built in ones with extended classes.
+     */
+    private function registerDependencies()
+    {
+        $this->app->bind(TokenGeneratorInterface::class, TokenGenerator::class);
+
+        if ($this->app->environment('local', 'testing') && class_exists(DuskServiceProvider::class, true)) {
+            $this->app->register(DuskServiceProvider::class);
+        }
+
+        $this->app->singleton('files', function () {
+            return new Filesystem();
+        });
     }
 }

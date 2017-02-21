@@ -2,16 +2,17 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
-use REBELinBLUE\Deployer\Http\Webhooks\Beanstalkapp;
-use REBELinBLUE\Deployer\Http\Webhooks\Bitbucket;
-use REBELinBLUE\Deployer\Http\Webhooks\Custom;
-use REBELinBLUE\Deployer\Http\Webhooks\Github;
-use REBELinBLUE\Deployer\Http\Webhooks\Gitlab;
-use REBELinBLUE\Deployer\Http\Webhooks\Gogs;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Services\Webhooks\Beanstalkapp;
+use REBELinBLUE\Deployer\Services\Webhooks\Bitbucket;
+use REBELinBLUE\Deployer\Services\Webhooks\Custom;
+use REBELinBLUE\Deployer\Services\Webhooks\Github;
+use REBELinBLUE\Deployer\Services\Webhooks\Gitlab;
+use REBELinBLUE\Deployer\Services\Webhooks\Gogs;
 
 /**
  * The deployment webhook controller.
@@ -91,6 +92,25 @@ class WebhookController extends Controller
     }
 
     /**
+     * Generates a new webhook URL.
+     *
+     * @param int $project_id
+     *
+     * @param  UrlGenerator          $url
+     * @return \Illuminate\View\View
+     */
+    public function refresh($project_id, UrlGenerator $url)
+    {
+        $project = $this->projectRepository->getById($project_id);
+        $project->generateHash();
+        $project->save();
+
+        return [
+            'url' => $url->route('webhook.deploy', $project->hash),
+        ];
+    }
+
+    /**
      * Goes through the various webhook integrations as checks if the request is for them and parses it.
      * Then adds the various additional details required to trigger a deployment.
      *
@@ -164,23 +184,5 @@ class WebhookController extends Controller
         }
 
         return $payload;
-    }
-
-    /**
-     * Generates a new webhook URL.
-     *
-     * @param int $project_id
-     *
-     * @return \Illuminate\View\View
-     */
-    public function refresh($project_id)
-    {
-        $project = $this->projectRepository->getById($project_id);
-        $project->generateHash();
-        $project->save();
-
-        return [
-            'url' => route('webhook.deploy', $project->hash),
-        ];
     }
 }

@@ -18,6 +18,7 @@
                     <th>{{ Lang::get('checkUrls.title') }}</th>
                     <th>{{ Lang::get('checkUrls.url') }}</th>
                     <th>{{ Lang::get('checkUrls.frequency') }}</th>
+                    <th>{{ Lang::get('checkUrls.last_seen') }}</th>
                     <th>{{ Lang::get('checkUrls.last_status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -31,9 +32,16 @@
 
 @push('templates')
     <script type="text/template" id="checkUrls-template">
-        <td><%- title %></td>
+        <td><%- name %></td>
         <td><%- url %></td>
         <td><%- interval_label %></td>
+        <td>
+            <% if (has_run) { %>
+                <%- formatted_date %>
+            <% } else { %>
+                {{ Lang::get('app.never') }}
+            <% } %>
+        </td>
         <td>
             <span class="label label-<%- status_css %>">
                 <i class="fa fa-<%-icon_css %>"></i>

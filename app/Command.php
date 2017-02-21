@@ -28,19 +28,19 @@ class Command extends Model
     const AFTER_PURGE     = 12;
 
     /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = ['created_at', 'deleted_at', 'updated_at'];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['name', 'user', 'script', 'target_type', 'target_id',
                            'step', 'order', 'optional', 'default_on', ];
+
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'deleted_at', 'updated_at'];
 
     /**
      * The attributes that should be casted to native types.

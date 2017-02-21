@@ -5,21 +5,18 @@ namespace REBELinBLUE\Deployer\Validators;
 /**
  * Class for validating slack channels.
  */
-class ChannelValidator
+class ChannelValidator implements ValidatorInterface
 {
     /**
      * Validate the the channel name is valid for slack, i.e. starts with # or @.
      *
-     * @param string $attribute
-     * @param string $value
-     * @param array  $parameters
+     * @param array $args
      *
      * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function validate($attribute, $value, $parameters)
+    public function validate(...$args)
     {
+        $value           = $args[1];
         $first_character = substr($value, 0, 1);
 
         return (($first_character === '#' || $first_character === '@') && strlen($value) > 1);

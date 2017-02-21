@@ -2,10 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Jobs\SetupProject;
+use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
 /**
  * The project repository.
@@ -35,8 +38,9 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
-     * {@inheritdoc}
-     * @dispatches SetupProject
+     * @param array $fields
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields)
     {
@@ -64,7 +68,11 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $fields
+     * @param int   $model_id
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(array $fields, $model_id)
     {
@@ -84,10 +92,42 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $hash
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getByHash($hash)
     {
         return $this->model->where('hash', $hash)->firstOrFail();
+    }
+
+    /**
+     * @param int $model_id
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return array
+     */
+    public function refreshBranches($model_id)
+    {
+        $project = $this->getById($model_id);
+
+        $this->dispatch(new UpdateGitMirror($project));
+    }
+
+    /**
+     * Gets the projects last mirrored before the provided date.
+     *
+     * @param Carbon   $last_mirrored_since
+     * @param int      $count
+     * @param callable $callback
+     *
+     * @return Collection
+     */
+    public function getLastMirroredBefore(Carbon $last_mirrored_since, $count, callable $callback)
+    {
+        return $this->model->where('last_mirrored', '<', $last_mirrored_since)
+                           ->orWhereNull('last_mirrored')
+                           ->chunk($count, $callback);
     }
 }

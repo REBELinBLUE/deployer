@@ -9,7 +9,7 @@ use REBELinBLUE\Deployer\ServerLog;
 /**
  * Event which fires when the server log content has changed.
  */
-class ServerOutputChanged extends Event implements ShouldBroadcast
+class ServerOutputChanged implements ShouldBroadcast
 {
     use SerializesModels;
 

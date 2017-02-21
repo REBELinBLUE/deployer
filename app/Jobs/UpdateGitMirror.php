@@ -2,17 +2,20 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Scripts\Parser as ScriptParser;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\Scripts\Parser;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
+use RuntimeException;
 
 /**
  * Updates the git mirror for a project.
  */
-class UpdateGitMirror extends Job
+class UpdateGitMirror extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
@@ -33,38 +36,38 @@ class UpdateGitMirror extends Job
 
     /**
      * Execute the job.
-     * @throws \RuntimeException
-     * @dispatches UpdateGitReferences
+     *
+     * @param Process    $process
+     * @param Parser     $parser
+     * @param Filesystem $filesystem
      */
-    public function handle()
+    public function handle(Process $process, Parser $parser, Filesystem $filesystem)
     {
-        $private_key = tempnam(storage_path('app/tmp/'), 'sshkey');
-        file_put_contents($private_key, $this->project->private_key);
-        chmod($private_key, 0600);
+        $private_key = $filesystem->tempnam(storage_path('app/tmp/'), 'key');
+        $filesystem->put($private_key, $this->project->private_key);
+        $filesystem->chmod($private_key, 0600);
 
-        $wrapper = with(new ScriptParser)->parseFile('tools.SSHWrapperScript', [
+        $wrapper = $parser->parseFile('tools.SSHWrapperScript', [
             'private_key' => $private_key,
         ]);
 
-        $wrapper_file = tempnam(storage_path('app/tmp/'), 'gitssh');
-        file_put_contents($wrapper_file, $wrapper);
-        chmod($wrapper_file, 0755);
+        $wrapper_file = $filesystem->tempnam(storage_path('app/tmp/'), 'ssh');
+        $filesystem->put($wrapper_file, $wrapper);
+        $filesystem->chmod($wrapper_file, 0755);
 
-        $process = new Process('tools.MirrorGitRepository', [
+        $process->setScript('tools.MirrorGitRepository', [
             'wrapper_file' => $wrapper_file,
             'mirror_path'  => $this->project->mirrorPath(),
             'repository'   => $this->project->repository,
-        ]);
-        $process->run();
+        ])->run();
 
-        unlink($wrapper_file);
-        unlink($private_key);
+        $filesystem->delete([$wrapper_file, $private_key]);
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());
+            throw new RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());
         }
 
-        $this->project->last_mirrored = date('Y-m-d H:i:s');
+        $this->project->last_mirrored = $this->project->freshTimestamp();
         $this->project->save();
 
         $this->dispatch(new UpdateGitReferences($this->project));

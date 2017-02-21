@@ -1,2 +1,6 @@
 ### Generate SSH Key
-ssh-keygen -t rsa -b 2048 -f {{ key_file }} -N "" -C "deploy@deployer"
+if [ -f {{ key_file }} ]; then
+    rm -f {{ key_file }}
+fi
+
+ssh-keygen -q -t rsa -b 2048 -f {{ key_file }} -N "" -C "deploy@deployer"

@@ -4,11 +4,11 @@ const shell  = require('gulp-shell');
 const bower  = require('gulp-bower');
                require('laravel-elixir-remove');
 
-// Elixir.extend('lang', function () {
-//    new Elixir.Task('lang', function () {
-//        return gulp.src('').pipe(shell('php artisan js-localization:refresh'));
-//    });
-// });
+Elixir.extend('lang', function () {
+   new Elixir.Task('lang', function () {
+       return gulp.src('').pipe(shell('php artisan js-localization:export --quiet'));
+   });
+});
 
 Elixir.extend('bower', function() {
     new Elixir.Task('bower', function() {
@@ -26,6 +26,7 @@ const paths = {
     'moment'          : bower_path + '/moment',
     'jquery'          : bower_path + '/jquery',
     'jquery_sortable' : bower_path + '/jquery-sortable',
+    'jquery_complete' : bower_path + '/devbridge-autocomplete',
     'fontawesome'     : bower_path + '/fontawesome',
     'socketio_client' : bower_path + '/socket.io-client',
     'ionicons'        : bower_path + '/ionicons',
@@ -40,6 +41,7 @@ const paths = {
 Elixir(function(mix) {
     mix
     .bower()
+    .lang()
     .styles([
         paths.admin_lte   + '/bootstrap/css/bootstrap.css',
         paths.select2     + '/select2.css',
@@ -62,6 +64,7 @@ Elixir(function(mix) {
     .scripts([
         paths.jquery          + '/dist/jquery.js',
         paths.jquery_sortable + '/source/js/jquery-sortable.js',
+        paths.jquery_complete + '/dist/jquery.autocomplete.js',
         paths.underscore      + '/underscore.js',
         paths.moment          + '/moment.js',
         paths.admin_lte       + '/bootstrap/js/bootstrap.js',
@@ -79,13 +82,13 @@ Elixir(function(mix) {
         paths.ace             + '/mode-ini.js'
     ], 'public/js/vendor.js', bower_path)
     .scripts([
+        '../../../' + bower_path + '/messages.js',
         'app.js',
         'projects.js',
         'templates.js',
         'servers.js',
         'heartbeats.js',
         'notifications.js',
-        'notifyEmails.js',
         'shareFiles.js',
         'configFiles.js',
         'checkUrls.js',
@@ -107,12 +110,5 @@ Elixir(function(mix) {
         'public/js/ie.js',
         'public/js/vendor.js'
     ])
-    .copy('public/fonts', 'public/build/fonts');
-    // .remove([
-    //     'public/css',
-    //     'public/js',
-    //     'public/fonts'
-    //     //bower_path + '/localization.js' // removing this breaks watch
-    // ])
-    //.lang();
+    .copy('public/fonts', 'public/build/fonts');;
 });

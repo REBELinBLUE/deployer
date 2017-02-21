@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ config('app.locale') }}">
     <head>
         <meta charset="UTF-8" />
         <title>{{ Lang::get('app.name') }}</title>
@@ -57,7 +57,6 @@
         </div>
 
         <script src="{{ elixir('js/vendor.js') }}"></script>
-        <script src="/js-localization/messages"></script>
         <script src="{{ elixir('js/app.js') }}"></script>
 
         @stack('templates')

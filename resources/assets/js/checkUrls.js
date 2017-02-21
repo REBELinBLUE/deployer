@@ -1,8 +1,9 @@
 var app = app || {};
 
 (function ($) {
-    var SUCCESS = 0;
-    var FAILED = 1;
+    var ONLINE   = 0;
+    var UNTESTED = 1;
+    var OFFLINE  = 2;
 
     $('#checkurl').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -19,10 +20,9 @@ var app = app || {};
             $('.btn-danger', modal).show();
         } else {
             $('#url_id').val('');
-            $('#title').val('');
-            $('#url').val('');
+            $('#url_name').val('');
+            $('#url_url').val('');
             $('#period_5').prop('checked', true);
-            //$('#is_report').prop('checked', false);
         }
 
         modal.find('.modal-title span').text(title);
@@ -75,11 +75,10 @@ var app = app || {};
         }
 
         url.save({
-            title:      $('#title').val(),
-            url:        $('#url').val(),
-            is_report:  true, // $('#is_report').prop('checked'),
+            name:       $('#url_name').val(),
+            url:        $('#url_url').val(),
             period:     parseInt($('input[name=period]:checked').val()),
-            project_id: $('input[name="project_id"]').val()
+            project_id: parseInt($('input[name="project_id"]').val())
         }, {
             wait: true,
             success: function(model, response, options) {
@@ -108,7 +107,7 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        var parent = element.parent('div');
+                        var parent = element.parents('div.form-group');
                         parent.addClass('has-error');
                         parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
@@ -208,24 +207,26 @@ var app = app || {};
             data.status_css = 'primary';
             data.icon_css   = 'question';
             data.status     = Lang.get('checkUrls.untested');
+            data.has_run    = false;
 
-            if (parseInt(data.last_status) === FAILED) {
+            if (parseInt(this.model.get('status')) === OFFLINE) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.get('checkUrls.failed');
-            } else if (parseInt(data.last_status) === SUCCESS) {
+                data.has_run    = data.last_seen ? true : false;
+            } else if (parseInt(this.model.get('status')) === ONLINE) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
                 data.status     = Lang.get('checkUrls.successful');
+                data.has_run    = true;
+            }
+
+            data.formatted_date = '';
+            if (data.has_run) {
+                data.formatted_date = moment(data.last_seen).format('Do MMMM YYYY h:mm:ss A');
             }
 
             data.interval_label = data.period + ' ' + Lang.get('checkUrls.length');
-
-            // data.report = Lang.get('app.no');
-
-            // if (data.is_report) {
-            //     data.report = Lang.get('app.ues');
-            // }
 
             this.$el.html(this.template(data));
 
@@ -233,10 +234,9 @@ var app = app || {};
         },
         editUrl: function() {
             $('#url_id').val(this.model.id);
-            $('#title').val(this.model.get('title'));
-            $('#url').val(this.model.get('url'));
+            $('#url_name').val(this.model.get('name'));
+            $('#url_url').val(this.model.get('url'));
             $('#period_' + this.model.get('period')).prop('checked', true);
-            $('#is_report').prop('checked', this.model.get('is_report'));
         }
     });
 

@@ -4,9 +4,11 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
 
 /**
@@ -29,6 +31,40 @@ class ClearStalledDeployment extends Command
     protected $description = 'Cancels any stalled deployments so new deployments can be run';
 
     /**
+     * @var ServerLogRepositoryInterface
+     */
+    private $logRepository;
+
+    /**
+     * @var DeploymentRepositoryInterface
+     */
+    private $deploymentRepository;
+
+    /**
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
+    /**
+     * ClearStalledDeployment constructor.
+     *
+     * @param ServerLogRepositoryInterface  $logRepository
+     * @param DeploymentRepositoryInterface $deploymentRepository
+     * @param ProjectRepositoryInterface    $projectRepository
+     */
+    public function __construct(
+        ServerLogRepositoryInterface $logRepository,
+        DeploymentRepositoryInterface $deploymentRepository,
+        ProjectRepositoryInterface $projectRepository
+    ) {
+        parent::__construct();
+
+        $this->logRepository        = $logRepository;
+        $this->deploymentRepository = $deploymentRepository;
+        $this->projectRepository    = $projectRepository;
+    }
+
+    /**
      * Execute the console command.
      */
     public function handle()
@@ -36,10 +72,16 @@ class ClearStalledDeployment extends Command
         $bring_back_up = false;
 
         // Check the app is offline, if not ask the user if it can be brought down
-        if (!App::isDownForMaintenance()) {
-            $this->error(Lang::get('app.not_down'));
+        if (!$this->laravel->isDownForMaintenance()) {
+            $this->error(
+                'You must switch to maintenance mode before running this command, ' .
+                'this will ensure that no new deployments are started'
+            );
 
-            if (!$this->confirm(Lang::get('app.switch_down'))) {
+            if (!$this->confirm(
+                'Switch to maintenance mode now? The app will switch ' .
+                'back to live mode once cleanup is finished'
+            )) {
                 return;
             }
 
@@ -62,23 +104,20 @@ class ClearStalledDeployment extends Command
     public function cleanupDeployments()
     {
         // Mark any pending steps as cancelled
-        ServerLog::where('status', '=', ServerLog::PENDING)
-                 ->update(['status' => ServerLog::CANCELLED]);
+        $this->logRepository->updateStatusAll(ServerLog::PENDING, ServerLog::CANCELLED);
 
         // Mark any running steps as failed
-        ServerLog::where('status', '=', ServerLog::RUNNING)
-                 ->update(['status' => ServerLog::FAILED]);
+        $this->logRepository->updateStatusAll(ServerLog::RUNNING, ServerLog::FAILED);
 
         // Mark any running/pending deployments as failed
-        Deployment::whereIn('status', [Deployment::DEPLOYING, Deployment::PENDING])
-                  ->update(['status' => Deployment::FAILED]);
+        $this->deploymentRepository->updateStatusAll(Deployment::DEPLOYING, Deployment::FAILED);
+        $this->deploymentRepository->updateStatusAll(Deployment::PENDING, Deployment::FAILED);
 
         // Mark any aborting deployments as aborted
-        Deployment::whereIn('status', [Deployment::ABORTING])
-                  ->update(['status' => Deployment::ABORTED]);
+        $this->deploymentRepository->updateStatusAll(Deployment::ABORTING, Deployment::ABORTED);
 
         // Mark any deploying/pending projects as failed
-        Project::whereIn('status', [Project::DEPLOYING, Project::PENDING])
-               ->update(['status' => Project::FAILED]);
+        $this->projectRepository->updateStatusAll(Project::DEPLOYING, Project::FAILED);
+        $this->projectRepository->updateStatusAll(Project::PENDING, Project::FAILED);
     }
 }

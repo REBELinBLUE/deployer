@@ -14,10 +14,15 @@ class CreateVariablesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('value');
-            $table->unsignedInteger('project_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('project_id')->references('id')->on('projects');
+
+            // Needed so that the sqlite tests continue to run
+            $connection = config('database.default');
+            if (config('database.connections.' . $connection . '.driver') !== 'sqlite') {
+                $table->unsignedInteger('project_id');
+                $table->foreign('project_id')->references('id')->on('projects');
+            }
         });
     }
 

@@ -8,7 +8,7 @@ use REBELinBLUE\Deployer\User;
 /**
  * Event which is fired when a user is created.
  */
-class UserWasCreated extends Event
+class UserWasCreated
 {
     use SerializesModels;
 

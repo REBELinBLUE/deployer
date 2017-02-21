@@ -2,18 +2,25 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Lang;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use REBELinBLUE\Deployer\Command;
-use REBELinBLUE\Deployer\Contracts\Repositories\CommandRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\TemplateRepositoryInterface;
-use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreTemplateRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller for managing deployment template.
  */
 class TemplateController extends Controller
 {
+    use ResourceController;
+
     /**
      * The template repository.
      *
@@ -22,24 +29,41 @@ class TemplateController extends Controller
     private $templateRepository;
 
     /**
-     * The command repository.
-     *
-     * @var CommandRepositoryInterface
+     * @var ViewFactory
      */
-    protected $repository;
+    private $view;
+
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * @var UrlGenerator
+     */
+    private $url;
 
     /**
      * TemplateController constructor.
      *
      * @param CommandRepositoryInterface  $commandRepository
      * @param TemplateRepositoryInterface $templateRepository
+     * @param ViewFactory                 $view
+     * @param Translator                  $translator
+     * @param UrlGenerator                $url
      */
     public function __construct(
         CommandRepositoryInterface $commandRepository,
-        TemplateRepositoryInterface $templateRepository
+        TemplateRepositoryInterface $templateRepository,
+        ViewFactory $view,
+        Translator $translator,
+        UrlGenerator $url
     ) {
         $this->repository         = $commandRepository;
         $this->templateRepository = $templateRepository;
+        $this->view               = $view;
+        $this->translator         = $translator;
+        $this->url                = $url;
     }
 
     /**
@@ -63,15 +87,21 @@ class TemplateController extends Controller
         $target   = 'template';
 
         $breadcrumb = [
-            ['url' => route('admin.templates.index'), 'label' => Lang::get('templates.label')],
-            ['url' => route('admin.templates.show', ['templates' => $template->id]), 'label' => $template->name],
+            [
+                'url'   => $this->url->route('admin.templates.index'),
+                'label' => $this->translator->trans('templates.label'),
+            ],
+            [
+                'url'   => $this->url->route('admin.templates.show', ['templates' => $template->id]),
+                'label' => $template->name,
+            ],
         ];
 
-        return view('commands.listing', [
+        return $this->view->make('commands.listing', [
             'breadcrumb'  => $breadcrumb,
-            'title'       => Lang::get('commands.' . strtolower($action)),
+            'title'       => $this->translator->trans('commands.' . strtolower($action)),
             'subtitle'    => $template->name,
-            'project'     => $template,
+            'project'     => $template, // FIXME: Name this to 'target'
             'target_type' => $target,
             'target_id'   => $template->id,
             'action'      => $types[$action],
@@ -88,8 +118,8 @@ class TemplateController extends Controller
     {
         $templates = $this->templateRepository->getAll();
 
-        return view('admin.templates.listing', [
-            'title'     => Lang::get('templates.manage'),
+        return $this->view->make('admin.templates.listing', [
+            'title'     => $this->translator->trans('templates.manage'),
             'templates' => $templates->toJson(), // Because PresentableInterface toJson() is not working in the view
         ]);
     }
@@ -105,15 +135,18 @@ class TemplateController extends Controller
     {
         $template = $this->templateRepository->getById($template_id);
 
-        return view('admin.templates.details', [
+        return $this->view->make('admin.templates.details', [
             'breadcrumb' => [
-                ['url' => route('admin.templates.index'), 'label' => Lang::get('templates.label')],
+                [
+                    'url'   => $this->url->route('admin.templates.index'),
+                    'label' => $this->translator->trans('templates.label'),
+                ],
             ],
             'title'        => $template->name,
             'sharedFiles'  => $template->sharedFiles,
             'configFiles'  => $template->configFiles,
             'variables'    => $template->variables,
-            'project'      => $template,
+            'project'      => $template, // fixme: change to target
             'target_type'  => 'template',
             'target_id'    => $template->id,
             'route'        => 'admin.templates.commands.step',
@@ -125,13 +158,14 @@ class TemplateController extends Controller
      *
      * @param StoreTemplateRequest $request
      *
+     * @param  ResponseFactory                     $response
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function store(StoreTemplateRequest $request)
+    public function store(StoreTemplateRequest $request, ResponseFactory $response)
     {
-        return $this->templateRepository->create($request->only(
+        return $response->json($this->templateRepository->create($request->only(
             'name'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**

@@ -6,8 +6,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Ref;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\Repositories\Contracts\RefRepositoryInterface;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
  * Updates the list of tags and branches in a project.
@@ -33,19 +33,20 @@ class UpdateGitReferences extends Job implements ShouldQueue
 
     /**
      * Execute the job.
+     * @param Process                $process
+     * @param RefRepositoryInterface $repository
      */
-    public function handle()
+    public function handle(Process $process, RefRepositoryInterface $repository)
     {
         $mirror_dir = $this->project->mirrorPath();
 
         $this->project->refs()->delete();
 
         foreach (['tag', 'branch'] as $ref) {
-            $process = new Process('tools.ListGitReferences', [
+            $process->setScript('tools.ListGitReferences', [
                 'mirror_path'   => $mirror_dir,
                 'git_reference' => $ref,
-            ]);
-            $process->run();
+            ])->run();
 
             if ($process->isSuccessful()) {
                 foreach (explode(PHP_EOL, trim($process->getOutput())) as $reference) {
@@ -55,11 +56,11 @@ class UpdateGitReferences extends Job implements ShouldQueue
                         continue;
                     }
 
-                    if (substr($reference, 0, 1) === '*') {
+                    if (starts_with($reference, '*')) {
                         $reference = trim(substr($reference, 1));
                     }
 
-                    Ref::create([
+                    $repository->create([
                         'name'       => $reference,
                         'project_id' => $this->project->id,
                         'is_tag'     => ($ref === 'tag'),

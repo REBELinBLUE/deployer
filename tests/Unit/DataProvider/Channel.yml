@@ -1,0 +1,16 @@
+fixture:
+  events: # Events which can trigger a channel notification
+    - deployment_success
+    - deployment_failure
+    - link_down
+    - link_still_down
+    - link_recovered
+    - heartbeat_missing
+    - heartbeat_still_missing
+    - heartbeat_recovered
+  types:
+    - !php/const:REBELinBLUE\Deployer\Channel::EMAIL
+    - !php/const:REBELinBLUE\Deployer\Channel::SLACK
+    - !php/const:REBELinBLUE\Deployer\Channel::HIPCHAT
+    - !php/const:REBELinBLUE\Deployer\Channel::TWILIO
+    - !php/const:REBELinBLUE\Deployer\Channel::WEBHOOK

@@ -2,16 +2,20 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
-use REBELinBLUE\Deployer\Contracts\Repositories\ServerRepositoryInterface;
-use REBELinBLUE\Deployer\Http\Requests;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Server management controller.
  */
-class ServerController extends ResourceController
+class ServerController extends Controller
 {
+    use ResourceController;
+
     /**
      * ServerController constructor.
      *
@@ -26,12 +30,13 @@ class ServerController extends ResourceController
      * Store a newly created server in storage.
      *
      * @param StoreServerRequest $request
+     * @param ResponseFactory    $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreServerRequest $request)
+    public function store(StoreServerRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name',
             'user',
             'ip_address',
@@ -40,7 +45,7 @@ class ServerController extends ResourceController
             'project_id',
             'deploy_code',
             'add_commands'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**
@@ -59,7 +64,6 @@ class ServerController extends ResourceController
             'ip_address',
             'port',
             'path',
-            'project_id',
             'deploy_code'
         ), $server_id);
     }
@@ -101,6 +105,28 @@ class ServerController extends ResourceController
 
         return [
             'success' => true,
+        ];
+    }
+
+    /**
+     * Get server suggestions by name from the existed servers.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function autoComplete(Request $request)
+    {
+        $servers = [];
+        $query   = $request->get('query');
+
+        if ($query) {
+            $servers = $this->repository->queryByName($query);
+        }
+
+        return [
+            'query'       => $query,
+            'suggestions' => $servers,
         ];
     }
 }

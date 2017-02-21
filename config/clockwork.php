@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -64,10 +64,10 @@ return array(
     |
     */
 
-    'filter' => array(
+    'filter' => [
         'routes',    // collecting routes data on every request might use a lot of disk space
-        'viewsData', // collecting views data, including all variables passed to the view on every request might use a lot of disk space
-    ),
+        'viewsData', // collecting views data, including all variables passed to the view on every request
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -79,9 +79,9 @@ return array(
     |
     */
 
-    'filter_uris' => array(
+    'filter_uris' => [
         '/__clockwork/.*', // disable collecting data for clockwork-web assets
-    ),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -95,9 +95,9 @@ return array(
     |
     */
 
-    'additional_data_sources' => array(
+    'additional_data_sources' => [
 
-    ),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -111,8 +111,8 @@ return array(
     |
     */
 
-    'headers' => array(
+    'headers' => [
         // 'Accept' => 'application/vnd.com.whatever.v1+json',
-    )
+    ],
 
-);
+];

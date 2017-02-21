@@ -31,7 +31,7 @@
 
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">{{ Lang::get('users.theme') }}</h3>
+                <h3 class="box-title">{{ Lang::get('users.settings') }}</h3>
             </div>
             <div class="box-body">
                 <form action="{{ route('profile.settings') }}" method="post">
@@ -39,17 +39,31 @@
                     <div class="form-group">
                         <label for="skin">{{ Lang::get('users.skin') }}</label>
                         <select name="skin" id="skin" class="form-control">
-                            @foreach (['yellow', 'red', 'green', 'purple', 'blue'] as $colour)
-                                <option value="{{ $colour }}" @if ($colour === $theme) selected @endif>{{ Lang::get('users.' . $colour ) }}</option>
-                                <option value="{{ $colour }}-light" @if ($colour . '-light' === $theme) selected @endif>{{ Lang::get('users.with_sidebar', ['colour' => Lang::get('users.' . $colour)]) }}</option>
+                            @foreach ($settings->themes() as $colour)
+                                @if (!str_contains($colour, '-light'))
+                                    <option value="{{ $colour }}" @if ($colour === $theme) selected @endif>{{ Lang::get('users.' . $colour ) }}</option>
+                                    <option value="{{ $colour }}-light" @if ($colour . '-light' === $theme) selected @endif>{{ Lang::get('users.with_sidebar', ['colour' => Lang::get('users.' . $colour)]) }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="scheme">{{ Lang::get('users.console') }}</label>
                         <select name="scheme" id="scheme" class="form-control">
-                            @foreach (['default', 'afterglow', 'monokai','dawn', 'solarized-dark', 'solarized-light'] as $scheme)
+                            <option value="" @if ($logged_in_user->scheme === null) selected @endif>{{ Lang::get('users.default' ) }}</option>
+                            @foreach ($settings->schemes() as $scheme)
                                 <option value="{{ $scheme }}" @if ($scheme === $logged_in_user->scheme) selected @endif>{{ ucwords(str_replace('-', ' ', $scheme)) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="language">{{ Lang::get('users.language') }}</label>
+                        <select name="language" id="language" class="form-control">
+                            @foreach ($locales as $locale)
+                                <option value="{{ $locale }}" @if ($locale === $logged_in_user->language) selected @endif>
+                                    {{ locale_get_display_name($locale, $locale) }}
+                                    @if ($locale !== $logged_in_user->language) ({{ locale_get_display_name($locale, $logged_in_user->language) }}) @endif
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -91,7 +105,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="avatar">
-                            <img src="{{ url('upload/picture.jpg') }}" class="img-rounded img-responsive" />
+                            <img src="{{ url('placeholder.jpg') }}" class="img-rounded img-responsive" />
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -143,7 +157,7 @@
                         </label>
 
                         <span class="help-block">
-                            {!! Lang::get('users.2fa_help') !!}
+                            {!! Lang::get('users.2fa_help', ['url' => 'https://support.google.com/accounts/answer/1066447?hl=en']) !!}
                         </span>
                     </div>
 

@@ -25,51 +25,41 @@
                             <div class="tab-pane active" id="project_details">
                                 <div class="form-group">
                                     <label for="project_name">{{ Lang::get('projects.name') }}</label>
-                                    <input type="text" class="form-control" name="name" id="project_name" placeholder="{{ Lang::get('projects.awesome') }}" />
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                                        <input type="text" class="form-control" name="name" id="project_name" placeholder="{{ Lang::get('projects.awesome') }}" />
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="project_group_id">{{ Lang::get('projects.group') }}</label>
-                                    <select id="project_group_id" name="group_id" class="form-control">
-                                        @foreach($groups as $group)
-                                            <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-book"></i></div>
+                                        <select id="project_group_id" name="group_id" class="form-control">
+                                            @foreach($groups as $group)
+                                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 @if (count($templates) > 0)
                                 <div class="form-group" id="template-list">
                                     <label for="project_template_id">{{ Lang::get('templates.type') }}</label>
-                                    <select id="project_template_id" name="template_id" class="form-control">
-                                        <option value="">{{ Lang::get('templates.custom') }}</option>
-                                        @foreach ($templates as $template)
-                                            <option value="{{ $template->id }}">{{ $template->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-tasks"></i></div>
+                                        <select id="project_template_id" name="template_id" class="form-control">
+                                            <option value="">{{ Lang::get('templates.custom') }}</option>
+                                            @foreach ($templates as $template)
+                                                <option value="{{ $template->id }}">{{ $template->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 @endif
                                 <div class="form-group">
                                     <label for="project_url">{{ Lang::get('projects.url') }}</label>
-                                    <input type="text" class="form-control" name="url" id="project_url" placeholder="http://www.example.com" />
-                                </div>
-                            </div>
-
-                            <div class="tab-pane" id="project_build">
-
-                                <div class="form-group">
-                                    <label for="project_builds_to_keep">{{ Lang::get('projects.builds') }}</label>
-                                    <input type="number" class="form-control" name="builds_to_keep" min="1" max="20" id="project_builds_to_keep" placeholder="10" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="project_build_url">{{ Lang::get('projects.image') }}</label>
-                                    <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('projects.ci_image') }}"></i>
-                                    <input type="text" class="form-control" name="build_url" id="project_build_url" placeholder="http://ci.example.com/status.png?project=1" />
-                                </div>
-                                <div class="form-group">
-                                    <label>{{ Lang::get('projects.options') }}</label>
-                                    <div class="checkbox">
-                                        <label for="project_include_dev">
-                                            <input type="checkbox" value="1" name="include_dev" id="project_include_dev" />
-                                            {{ Lang::get('projects.include_dev') }}
-                                        </label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-external-link"></i></div>
+                                        <input type="text" class="form-control" name="url" id="project_url" placeholder="http://www.example.com" />
                                     </div>
                                 </div>
                             </div>
@@ -77,11 +67,17 @@
                             <div class="tab-pane" id="project_repo">
                                 <div class="form-group">
                                     <label for="project_repository">{{ Lang::get('projects.repository_url') }}</label>
-                                    <input type="text" class="form-control" name="repository" id="project_repository" placeholder="git&#64;git.example.com:repositories/project.git" />
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-git"></i></div>
+                                        <input type="text" class="form-control" name="repository" id="project_repository" placeholder="git&#64;git.example.com:repositories/project.git" />
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="project_branch">{{ Lang::get('projects.branch') }}</label>
-                                    <input type="text" class="form-control" name="branch" id="project_branch"  placeholder="master" />
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-code-fork"></i></div>
+                                        <input type="text" class="form-control" name="branch" id="project_branch"  placeholder="master" />
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>{{ Lang::get('projects.options') }}</label>
@@ -89,6 +85,34 @@
                                         <label for="project_allow_other_branch">
                                             <input type="checkbox" value="1" name="allow_other_branch" id="project_allow_other_branch" />
                                             {{ Lang::get('projects.change_branch') }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="project_build">
+                                <div class="form-group">
+                                    <label for="project_builds_to_keep">{{ Lang::get('projects.builds') }}</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-archive"></i></div>
+                                        <input type="number" class="form-control" name="builds_to_keep" min="1" max="20" id="project_builds_to_keep" placeholder="10" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="project_build_url">{{ Lang::get('projects.image') }}</label>
+                                    <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('projects.ci_image') }}"></i>
+
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-picture-o"></i></div>
+                                        <input type="text" class="form-control" name="build_url" id="project_build_url" placeholder="http://ci.example.com/status.png?project=1" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ Lang::get('projects.options') }}</label>
+                                    <div class="checkbox">
+                                        <label for="project_include_dev">
+                                            <input type="checkbox" value="1" name="include_dev" id="project_include_dev" />
+                                            {{ Lang::get('projects.include_dev') }}
                                         </label>
                                     </div>
                                 </div>

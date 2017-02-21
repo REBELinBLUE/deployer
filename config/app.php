@@ -77,7 +77,8 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale'       => env('APP_LOCALE', 'en'),
+    'faker_locale' => 'en_GB',
 
     /*
     |--------------------------------------------------------------------------
@@ -88,7 +89,7 @@ return [
     | is not available. You may change the value to correspond to any of
     | the language folders that are provided through your application.
     |
-     */
+    */
 
     'fallback_locale' => 'en',
 
@@ -101,7 +102,7 @@ return [
     | to a random, 32 character string, otherwise these encrypted strings
     | will not be safe. Please do this before deploying an application!
     |
-     */
+    */
 
     'key' => env('APP_KEY', 'SomeRandomString'),
 
@@ -122,7 +123,7 @@ return [
 
     'log' => env('APP_LOG', 'single'),
 
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    'log_level' => env('APP_LOG_LEVEL', 'error'),
 
     /*
     |--------------------------------------------------------------------------
@@ -166,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Laravel\Tinker\TinkerServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Robbo\Presenter\PresenterServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
@@ -174,21 +176,28 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
         BackupManager\Laravel\Laravel5ServiceProvider::class,
-        JsLocalization\JsLocalizationServiceProvider::class,
         Fideloper\Proxy\TrustedProxyServiceProvider::class,
+        MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider::class,
+        MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider::class,
+        NotificationChannels\Twilio\TwilioProvider::class,
+        NotificationChannels\HipChat\HipChatServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
         REBELinBLUE\Deployer\Providers\AppServiceProvider::class,
-        REBELinBLUE\Deployer\Providers\AuthServiceProvider::class,
-        // REBELinBLUE\Deployer\Providers\BroadcastServiceProvider::class,
         REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\GuzzleServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\HelperServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\LogServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\LocalisationServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\ProcessServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RepositoryServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RouteServiceProvider::class,
         REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ValidationServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\WhoopsServiceProvider::class,
 
     ],
 
@@ -209,6 +218,8 @@ return [
         'Artisan'      => Illuminate\Support\Facades\Artisan::class,
         'Auth'         => Illuminate\Support\Facades\Auth::class,
         'Blade'        => Illuminate\Support\Facades\Blade::class,
+        'Broadcast'    => Illuminate\Support\Facades\Broadcast::class,
+        'Bus'          => Illuminate\Support\Facades\Bus::class,
         'Cache'        => Illuminate\Support\Facades\Cache::class,
         'Config'       => Illuminate\Support\Facades\Config::class,
         'Cookie'       => Illuminate\Support\Facades\Cookie::class,

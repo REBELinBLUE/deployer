@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'label'                 => 'URL 测试',
+    'create'                => '添加新的 URL',
+    'edit'                  => '编辑 URL',
+    'none'                  => '你可以添加部署完成后会定期请求的 URL',
+    'title'                 => '标题',
+    'titleTip'              => 'Admin 面板',
+    'url'                   => 'URL',
+    'frequency'             => '频率',
+    'length'                => '分钟',
+    'warning'               => '链接无法保存，请检查下面的表单',
+    'last_status'           => '状态',
+    'successful'            => '在线',
+    'failed'                => '离线',
+    'untested'              => '未知',
+    'down_message'          => ':link 似乎已经挂掉',
+    'last_seen'             => 'Last Seen',
+    'recovered_message'     => ':link 已恢复上线',
+    'down_sms_message'      => '项目 ":project" 的 :link 似乎已离线！ 最后时间 :last',
+    'never_sms_message'     => '项目 ":project" 的 :link 似乎已离线！ 从未上线过',
+    'recovered_sms_message' => '项目 ":project" 的 :link 已恢复上线！',
+    'down_subject'          => 'URL 已离线',
+    'recovered_subject'     => 'URL 已恢复上线',
+];

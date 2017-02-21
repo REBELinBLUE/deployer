@@ -1,0 +1,60 @@
+fixture: # A set of data for populating references
+  ordered:
+    tags:
+      - 2.0.0
+      - 1.0.0
+      - 1.0.0-RC1
+      - 1.0.0-beta
+      - 1.0.0-alpha
+      - 0.0.2
+      - 0.0.1
+      - blah
+    branches:
+      - bug/1234
+      - develop
+      - feature/email
+      - refactor/update
+      - release
+  dataset:
+    -
+      name: develop
+      is_tag: false
+    -
+      name: release
+      is_tag: false
+    -
+      name: master
+      is_tag: false
+    -
+      name: 2.0.0
+      is_tag: true
+    -
+      name: bug/1234
+      is_tag: false
+    -
+      name: 0.0.1
+      is_tag: true
+    -
+      name: refactor/update
+      is_tag: false
+    -
+      name: blah
+      is_tag: true
+    -
+      name: feature/email
+      is_tag: false
+    -
+      name: 1.0.0-RC1
+      is_tag: true
+    -
+      name: 1.0.0-beta
+      is_tag: true
+    -
+      name: 1.0.0-alpha
+      is_tag: true
+    -
+      name: 1.0.0
+      is_tag: true
+    -
+      name: 0.0.2
+      is_tag: true

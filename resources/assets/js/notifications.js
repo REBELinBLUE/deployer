@@ -5,27 +5,70 @@ var app = app || {};
     $('#notification').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
-        var title = Lang.get('notifications.create');
 
         $('.btn-danger', modal).hide();
         $('.callout-danger', modal).hide();
+        $('.callout-warning', modal).hide();
         $('.has-error', modal).removeClass('has-error');
         $('.label-danger', modal).remove();
 
         if (button.hasClass('btn-edit')) {
-            title = Lang.get('notifications.edit');
             $('.btn-danger', modal).show();
         } else {
             $('#notification_id').val('');
             $('#notification_name').val('');
-            $('#notification_webhook').val('');
-            $('#notification_channel').val('');
-            $('#notification_icon').val('');
-            $('#notification_failure_only').prop('checked', true);
+            $('#notification_type').val('');
+            $('#notification :input[id^=notification_config]').val('');
+            $('#notification .channel-config input[type=checkbox]').prop('checked', true);
+            $('#notification .modal-footer').hide();
+            $('.channel-config').hide();
+            $('#channel-type').show();
+            modal.find('.modal-title span').text(Lang.get('channels.create'));
+        }
+    });
+
+    $('#notification #channel-type a.btn-app').on('click', function(event) {
+        var button = $(event.currentTarget);
+        var modal = $('#notification');
+
+        if (button.attr('disabled')) {
+            $('.callout-warning', modal).show();
+            return;
         }
 
-        modal.find('.modal-title span').text(title);
+        $('.callout-warning', modal).hide();
+
+        var type = button.data('type');
+        setTitleWithIcon(type, 'create');
     });
+
+    function setTitleWithIcon(type, action) {
+        $('#notification .modal-title span').text(Lang.get('channels.' + action + '_' + type));
+
+        var element = $('#notification .modal-title i').removeClass().addClass('fa');
+        var icon = 'cogs';
+
+        if (type === 'slack') {
+            icon = 'slack';
+        } else if (type === 'hipchat') {
+            element.addClass('fa-flip-horizontal');
+            icon = 'comment-o';
+        } else if (type === 'mail') {
+            icon = 'envelope-o';
+        } else if (type === 'twilio') {
+            icon = 'mobile';
+        }
+
+        element.addClass('fa-' + icon);
+
+        $('#notification .modal-footer').show();
+        $('.channel-config').hide();
+        $('#channel-type').hide();
+        $('#channel-name').show();
+        $('#channel-triggers').show();
+        $('#channel-config-' + type).show();
+        $('#notification_type').val(type);
+    }
 
     // FIXME: This seems very wrong
     $('#notification button.btn-delete').on('click', function (event) {
@@ -75,14 +118,28 @@ var app = app || {};
             var notification = new app.Notification();
         }
 
-        notification.save({
-            name:         $('#notification_name').val(),
-            webhook:      $('#notification_webhook').val(),
-            channel:      $('#notification_channel').val(),
-            icon:         $('#notification_icon').val(),
-            project_id:   $('input[name="project_id"]').val(),
-            failure_only: $('#notification_failure_only').is(':checked')
-        }, {
+        var data = {
+          config:                     null,
+          name:                       $('#notification_name').val(),
+          type:                       $('#notification_type').val(),
+          project_id:                 parseInt($('input[name="project_id"]').val()),
+          on_deployment_success:      $('#notification_on_deployment_success').is(':checked'),
+          on_deployment_failure:      $('#notification_on_deployment_failure').is(':checked'),
+          on_link_down:               $('#notification_on_link_down').is(':checked'),
+          on_link_still_down:         $('#notification_on_link_still_down').is(':checked'),
+          on_link_recovered:          $('#notification_on_link_recovered').is(':checked'),
+          on_heartbeat_missing:       $('#notification_on_heartbeat_missing').is(':checked'),
+          on_heartbeat_still_missing: $('#notification_on_heartbeat_still_missing').is(':checked'),
+          on_heartbeat_recovered:     $('#notification_on_heartbeat_recovered').is(':checked')
+        };
+
+        $('#notification #channel-config-' + data.type + ' :input[id^=notification_config]').each(function(key, field) {
+            var name = $(field).attr('name');
+
+            data[name] = $(field).val();
+        });
+
+        notification.save(data, {
             wait: true,
             success: function(model, response, options) {
                 dialog.modal('hide');
@@ -110,7 +167,7 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        var parent = element.parent('div');
+                        var parent = element.parents('div.form-group');
                         parent.addClass('has-error');
                         parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
@@ -122,8 +179,6 @@ var app = app || {};
             }
         });
     });
-
-
 
     app.Notification = Backbone.Model.extend({
         urlRoot: '/notifications'
@@ -152,7 +207,7 @@ var app = app || {};
             this.listenTo(app.Notifications, 'all', this.render);
 
 
-            app.listener.on('notification:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+            app.listener.on('channel:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
                 var notification = app.Notifications.get(parseInt(data.model.id));
 
                 if (server) {
@@ -160,13 +215,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('notification:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
+            app.listener.on('channel:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.Notifications.add(data.model);
                 }
             });
 
-            app.listener.on('notification:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
+            app.listener.on('channel:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var notification = app.Notifications.get(parseInt(data.model.id));
 
                 if (notification) {
@@ -184,7 +239,6 @@ var app = app || {};
             }
         },
         addOne: function (notification) {
-
             var view = new app.NotificationView({
                 model: notification
             });
@@ -211,18 +265,48 @@ var app = app || {};
         render: function () {
             var data = this.model.toJSON();
 
+            data.icon = 'cogs';
+            data.label = Lang.get('channels.custom');
+
+            if (this.model.get('type') !== 'custom') {
+                data.label = Lang.get('channels.' + this.model.get('type'));
+            }
+
+            if (this.model.get('type') === 'slack') {
+                data.icon = 'slack';
+            } else if (this.model.get('type') === 'hipchat') {
+                data.icon = 'comment-o fa-flip-horizontal';
+            } else if (this.model.get('type') === 'mail') {
+                data.icon = 'envelope-o';
+            } else if (this.model.get('type') === 'twilio') {
+                data.icon = 'mobile';
+            }
+
             this.$el.html(this.template(data));
 
             return this;
         },
         editNotification: function() {
+            var type = this.model.get('type');
+
+            $.each(this.model.get('config'), function(field, value) {
+                $('#channel-config-' + type + ' #notification_config_' + field).val(value);
+            });
+
             // FIXME: Sure this is wrong?
             $('#notification_id').val(this.model.id);
             $('#notification_name').val(this.model.get('name'));
-            $('#notification_webhook').val(this.model.get('webhook'));
-            $('#notification_channel').val(this.model.get('channel'));
-            $('#notification_icon').val(this.model.get('icon'));
-            $('#notification_failure_only').prop('checked', (this.model.get('failure_only') === true));
+            $('#notification_type').val(type);
+            $('#notification_on_deployment_success').prop('checked', (this.model.get('on_deployment_success') === true));
+            $('#notification_on_deployment_failure').prop('checked', (this.model.get('on_deployment_failure') === true));
+            $('#notification_on_link_down').prop('checked', (this.model.get('on_link_down') === true));
+            $('#notification_on_link_still_down').prop('checked', (this.model.get('on_link_still_down') === true));
+            $('#notification_on_link_recovered').prop('checked', (this.model.get('on_link_recovered') === true));
+            $('#notification_on_heartbeat_missing').prop('checked', (this.model.get('on_heartbeat_missing') === true));
+            $('#notification_on_heartbeat_still_missing').prop('checked', (this.model.get('on_heartbeat_still_missing') === true));
+            $('#notification_on_heartbeat_recovered').prop('checked', (this.model.get('on_heartbeat_recovered') === true));
+
+            setTitleWithIcon(this.model.get('type'), 'edit');
         }
     });
 })(jQuery);

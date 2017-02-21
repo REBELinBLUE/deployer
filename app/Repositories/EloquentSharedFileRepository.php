@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\SharedFileRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\SharedFileRepositoryInterface;
 use REBELinBLUE\Deployer\SharedFile;
 
 /**

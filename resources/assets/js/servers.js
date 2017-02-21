@@ -60,6 +60,34 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
+    $('#server #server_name').autocomplete({
+        serviceUrl: '/servers/autocomplete',
+        dataType: 'json',
+        noCache: true,
+        preserveInput: true,
+        transformResult: function (response) {
+            return {
+                suggestions: $.map(response.suggestions, function (dataItem) {
+                    var value = dataItem.name + ' (' + dataItem.user + '@' + dataItem.ip_address + ')';
+                    return {
+                      value: value,
+                      data: dataItem
+                    };
+                })
+            };
+        },
+        onSelect: function (suggestion) {
+            var server = suggestion.data;
+            $('#server_name').val(server.name);
+            $('#server_address').val(server.ip_address);
+            $('#server_port').val(server.port);
+            $('#server_user').val(server.user);
+            $('#server_path').val(server.path);
+            $('#server_deploy_code').prop('checked', server.deploy_code);
+        }
+    });
+
+    // FIXME: This seems very wrong
     $('#server button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
@@ -114,7 +142,7 @@ var app = app || {};
             user:         $('#server_user').val(),
             path:         $('#server_path').val(),
             deploy_code:  $('#server_deploy_code').is(':checked'),
-            project_id:   $('input[name="project_id"]').val(),
+            project_id:   parseInt($('input[name="project_id"]').val()),
             add_commands: $('#server_commands').is(':checked')
         }, {
             wait: true,
@@ -144,7 +172,7 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        var parent = element.parent('div');
+                        var parent = element.parents('div.form-group');
                         parent.addClass('has-error');
                         parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
@@ -297,7 +325,7 @@ var app = app || {};
 
             var that = this;
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 //url: '/projects/' + this.model.get('project_id') + this.model.urlRoot + '/' + this.model.id + '/test'
                 url: this.model.urlRoot + '/' + this.model.id + '/test'
             }).fail(function (response) {

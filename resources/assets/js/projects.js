@@ -1,10 +1,64 @@
 var app = app || {};
 
 (function ($) {
-    $('select.deployment-source').select2({
-        width: '100%',
+    var selectOptions = {
+        width: '80%',
         minimumResultsForSearch: 6
+    };
+
+    $('select.deployment-source').select2(selectOptions);
+
+    if ($('div.tab-content #deployments').length > 0) {
+        app.listener.on('project:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+            if (parseInt(data.model.id) === parseInt(app.project_id)) {
+                resetOptions('select.deployment-source#deployment_branch', data.model.branches);
+                resetOptions('select.deployment-source#deployment_tag', data.model.tags.reverse());
+
+                var dialog = $('.modal#reason');
+                resetDialog(dialog);
+            }
+        });
+    }
+
+    function resetOptions(selector, data) {
+        var options = selectOptions;
+        options.data = data;
+
+        $('option', selector).remove();
+
+        $(selector).select2('destroy');
+        $(selector).select2(options);
+    }
+
+    $('button.btn-refresh-branches').on('click', function (event) {
+        var target = $(event.currentTarget);
+        var project_id = target.data('project-id');
+        var icon = $('i', target);
+        var dialog = target.parents('.modal');
+
+        if ($('.fa-spin', target).length > 0) {
+            return;
+        }
+
+        $(':input', dialog).not('.close').attr('disabled', 'disabled');
+        $('button.close', dialog).hide();
+
+        icon.addClass('fa-spin');
+
+        $.ajax({
+            type: 'POST',
+            url: '/projects/' + project_id + '/refresh'
+        }).fail(function () {
+            // FIXME: Show error?
+            resetDialog(dialog);
+        });
     });
+
+    function resetDialog(dialog) {
+        $(':input', dialog).not('.close').removeAttr('disabled');
+        $('button.close', dialog).show();
+        $('i.fa-spin', dialog).removeClass('fa-spin');
+    }
 
     $('.deployment-source:radio').on('change', function (event) {
         var target = $(event.currentTarget);
@@ -44,7 +98,7 @@ var app = app || {};
         $('button.close', dialog).hide();
     });
 
-   // FIXME: This seems very wrong
+    // FIXME: This seems very wrong
     $('#project').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
@@ -68,6 +122,7 @@ var app = app || {};
             $('#project_repository').val('');
             $('#project_branch').val('master');
             $('#project_group_id').val($("#project_group_id option:first").val());
+            $('#project_template_id').val($("#project_template_id option:first").val());
             $('#project_builds_to_keep').val(10);
             $('#project_url').val('');
             $('#project_build_url').val('');
@@ -131,11 +186,11 @@ var app = app || {};
             name:               $('#project_name').val(),
             repository:         $('#project_repository').val(),
             branch:             $('#project_branch').val(),
-            group_id:           $('#project_group_id').val(),
+            group_id:           parseInt($('#project_group_id').val()),
             builds_to_keep:     $('#project_builds_to_keep').val(),
             url:                $('#project_url').val(),
             build_url:          $('#project_build_url').val(),
-            template_id:        $('#project_template_id') ? $('#project_template_id').val() : null,
+            template_id:        $('#project_template_id') ? parseInt($('#project_template_id').val()) : null,
             allow_other_branch: $('#project_allow_other_branch').is(':checked'),
             include_dev:        $('#project_include_dev').is(':checked'),
             private_key:        $('#project_private_key').val()
@@ -167,7 +222,7 @@ var app = app || {};
                     var name = element.attr('name');
 
                     if (typeof errors[name] !== 'undefined') {
-                        var parent = element.parent('div');
+                        var parent = element.parents('div.form-group');
                         parent.addClass('has-error');
                         parent.append($('<span>').attr('class', 'label label-danger').text(errors[name]));
                     }
@@ -179,6 +234,16 @@ var app = app || {};
                 dialog.find('input').removeAttr('disabled');
             }
         });
+    });
+
+    $('#project_group_id').select2({
+        width: '100%',
+        minimumResultsForSearch: Infinity
+    });
+
+    $('#project_template_id').select2({
+        width: '100%',
+        minimumResultsForSearch: Infinity
     });
 
     app.Project = Backbone.Model.extend({

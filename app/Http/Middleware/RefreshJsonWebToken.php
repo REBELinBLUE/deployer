@@ -3,6 +3,9 @@
 namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use REBELinBLUE\Deployer\Events\JsonWebTokenExpired;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -20,13 +23,36 @@ class RefreshJsonWebToken
     protected $auth;
 
     /**
-     * RefreshJsonWebToken constructor.
-     *
-     * @param JWTAuth $auth
+     * @var Dispatcher
      */
-    public function __construct(JWTAuth $auth)
-    {
-        $this->auth = $auth;
+    private $dispatcher;
+
+    /**
+     * @var Redirector
+     */
+    private $redirector;
+
+    /**
+     * @var ResponseFactory
+     */
+    private $response;
+
+    /**
+     * @param JWTAuth         $auth
+     * @param Dispatcher      $dispatcher
+     * @param Redirector      $redirector
+     * @param ResponseFactory $response
+     */
+    public function __construct(
+        JWTAuth $auth,
+        Dispatcher $dispatcher,
+        Redirector $redirector,
+        ResponseFactory $response
+    ) {
+        $this->auth       = $auth;
+        $this->dispatcher = $dispatcher;
+        $this->redirector = $redirector;
+        $this->response   = $response;
     }
 
     /**
@@ -37,12 +63,10 @@ class RefreshJsonWebToken
      * @param string|null              $guard
      *
      * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     *
-     * @fires JsonWebTokenExpired
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $autheticated_user = Auth::guard($guard)->user();
+        $authenticated_user = Auth::guard($guard)->user();
 
         $has_valid_token = false;
 
@@ -53,7 +77,7 @@ class RefreshJsonWebToken
             try {
                 $token_user = $this->auth->authenticate($token);
 
-                if ($token_user->id !== $autheticated_user->id) {
+                if ($token_user->id !== $authenticated_user->id) {
                     throw new JWTException('Token does not belong to the authenticated user');
                 }
 
@@ -62,16 +86,16 @@ class RefreshJsonWebToken
                 $has_valid_token = false;
             } catch (JWTException $e) {
                 if ($request->ajax()) {
-                    return response('Unauthorized.', 401);
-                } else {
-                    return redirect()->guest('login');
+                    return $this->response->make('Unauthorized.', 401);
                 }
+
+                return $this->redirector->guest('login');
             }
         }
 
         // If there is no valid token, generate one
         if (!$has_valid_token) {
-            event(new JsonWebTokenExpired($autheticated_user));
+            $this->dispatcher->dispatch(new JsonWebTokenExpired($authenticated_user));
         }
 
         return $next($request);

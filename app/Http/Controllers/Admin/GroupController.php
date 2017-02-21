@@ -2,17 +2,23 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
-use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
-use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController as Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Group management controller.
  */
 class GroupController extends Controller
 {
+    use ResourceController;
+
     /**
      * GroupController constructor.
      *
@@ -26,12 +32,14 @@ class GroupController extends Controller
     /**
      * Display a listing of the groups.
      *
+     * @param  ViewFactory           $view
+     * @param  Translator            $translator
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(ViewFactory $view, Translator $translator)
     {
-        return view('admin.groups.listing', [
-            'title'  => Lang::get('groups.manage'),
+        return $view->make('admin.groups.listing', [
+            'title'  => $translator->trans('groups.manage'),
             'groups' => $this->repository->getAll(),
         ]);
     }
@@ -40,20 +48,21 @@ class GroupController extends Controller
      * Store a newly created group in storage.
      *
      * @param StoreGroupRequest $request
+     * @param ResponseFactory   $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreGroupRequest $request)
+    public function store(StoreGroupRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
+        return $response->json($this->repository->create($request->only(
             'name'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**
      * Update the specified group in storage.
      *
-     * @param $group_id
+     * @param int               $group_id
      * @param StoreGroupRequest $request
      *
      * @return \Illuminate\Database\Eloquent\Model

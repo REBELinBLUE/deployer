@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -10,6 +12,26 @@ use Illuminate\Support\Facades\Auth;
  */
 class Authenticate
 {
+    /**
+     * @var Redirector
+     */
+    private $redirector;
+
+    /**
+     * @var ResponseFactory
+     */
+    private $response;
+
+    /**
+     * @param Redirector      $redirector
+     * @param ResponseFactory $response
+     */
+    public function __construct(Redirector $redirector, ResponseFactory $response)
+    {
+        $this->redirector = $redirector;
+        $this->response   = $response;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -23,10 +45,10 @@ class Authenticate
     {
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax()) {
-                return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest('login');
+                return $this->response->make('Unauthorized.', 401);
             }
+
+            return $this->redirector->guest('login');
         }
 
         return $next($request);

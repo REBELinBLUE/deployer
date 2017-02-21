@@ -2,7 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use REBELinBLUE\Deployer\Deployment;
 
 /**
@@ -29,9 +30,14 @@ class AbortDeployment extends Job
 
     /**
      * Execute the job.
+     *
+     * @param CacheRepository $cache
      */
-    public function handle()
+    public function handle(CacheRepository $cache)
     {
-        Cache::put(self::CACHE_KEY_PREFIX . $this->deployment->id, time(), 3600);
+        $timestamp = Carbon::now()->getTimestamp();
+        $key       = self::CACHE_KEY_PREFIX . $this->deployment->id;
+
+        $cache->put($key, $timestamp, 3600);
     }
 }

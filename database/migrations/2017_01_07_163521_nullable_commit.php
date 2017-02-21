@@ -8,8 +8,6 @@ class NullableCommit extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -22,12 +20,10 @@ class NullableCommit extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('deployments', function (Blueprint $table) {
             $table->string('committer')->nullable(false)->change();
             $table->string('commit')->nullable(false)->change();
             $table->string('committer_email')->nullable(false)->change();

@@ -5,22 +5,18 @@ namespace REBELinBLUE\Deployer\Validators;
 /**
  * Class for validating SSH private keys.
  */
-class SSHKeyValidator
+class SSHKeyValidator implements ValidatorInterface
 {
     /**
      * Validate that the SSH key looks valid.
      *
-     * @param string $attribute
-     * @param string $value
-     * @param array  $parameters
+     * @param array $args
      *
      * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function validate($attribute, $value, $parameters)
+    public function validate(...$args)
     {
-        $value = trim($value);
+        $value = trim($args[1]);
 
         // Check for start marker for SSH key
         if (!preg_match('/^-----BEGIN (.*) PRIVATE KEY-----/i', $value)) {

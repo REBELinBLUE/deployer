@@ -4,11 +4,15 @@
 
 # Dev files
 .php_cs.cache
-.vagrant/
+.php_cs
+.phpunit-cas.db
 phpunit.xml
+phpcs.xml
+phpmd.xml
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
+coverage.xml
 
 # Composer files
 composer.phar
@@ -18,6 +22,7 @@ auth.json
 node_modules/
 vendor/
 bower_components/
+tmp/
 npm-debug.log
 
 # Include laravel vendor resources

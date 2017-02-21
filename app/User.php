@@ -2,12 +2,13 @@
 
 namespace REBELinBLUE\Deployer;
 
+use Creativeorange\Gravatar\Gravatar;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use REBELinBLUE\Deployer\Notifications\ResetPassword as ResetPasswordNotification;
-use REBELinBLUE\Deployer\Presenters\UserPresenter;
+use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
 use Robbo\Presenter\PresentableInterface;
 
 /**
@@ -48,29 +49,6 @@ class User extends Authenticatable implements PresentableInterface
     ];
 
     /**
-     * Generate a change email token.
-     *
-     * @return string
-     */
-    public function requestEmailToken()
-    {
-        $this->email_token = str_random(40);
-        $this->save();
-
-        return $this->email_token;
-    }
-
-    /**
-     * Gets the view presenter.
-     *
-     * @return UserPresenter
-     */
-    public function getPresenter()
-    {
-        return new UserPresenter($this);
-    }
-
-    /**
      * A hack to allow avatar_url to be called on the result of Auth::user().
      *
      * @param string $key
@@ -84,6 +62,30 @@ class User extends Authenticatable implements PresentableInterface
         }
 
         return parent::__get($key);
+    }
+
+    /**
+     * Generate a change email token.
+     *
+     * @return string
+     */
+    public function requestEmailToken()
+    {
+        $this->email_token = token(40);
+        $this->save();
+
+        return $this->email_token;
+    }
+
+    /**
+     * Gets the view presenter.
+     *
+     * @return UserPresenter
+     */
+    public function getPresenter()
+    {
+        // FIXME: Horrible!
+        return new UserPresenter($this, app(Gravatar::class));
     }
 
     /**
@@ -105,6 +107,6 @@ class User extends Authenticatable implements PresentableInterface
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new ResetPasswordNotification($token));
+        $this->notify(new ResetPassword($token));
     }
 }

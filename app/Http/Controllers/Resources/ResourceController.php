@@ -2,12 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use REBELinBLUE\Deployer\Http\Controllers\Controller;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Generic Controller class.
  */
-abstract class ResourceController extends Controller
+trait ResourceController
 {
     /**
      * The model repository.
@@ -19,16 +20,17 @@ abstract class ResourceController extends Controller
     /**
      * Remove the specified model from storage.
      *
-     * @param int $model_id
+     * @param int             $model_id
+     * @param ResponseFactory $response
      *
      * @return array
      */
-    public function destroy($model_id)
+    public function destroy($model_id, ResponseFactory $response)
     {
         $this->repository->deleteById($model_id);
 
-        return [
+        return $response->json([
             'success' => true,
-        ];
+        ], Response::HTTP_NO_CONTENT);
     }
 }

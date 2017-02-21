@@ -1,0 +1,49 @@
+fixture:
+  - # Empty value
+    host: ''
+    expected: false
+  - # Null value
+    host: null
+    expected: false
+  - # Out of Range IP
+    host: 266.0.0.1
+    expected: false
+  - # Loopback
+    host: 127.0.0.1
+    expected: true
+  - # IPv6 Loopback
+    host: ::1
+    expected: true
+  - # Valid IP
+    host: 8.8.8.8
+    expected: true
+  - # Invalid Hostname
+    host: bar
+    expected: false
+  - # Localhost
+    host: localhost
+    expected: true
+  - # Google
+    host: google.com
+    expected: true
+  - # Invalid character IPv6
+    host: '[::1'
+    expected: false
+  - # Invalid hostname character
+    host: :google.com
+    expected: false
+  - # Web address
+    host: http://www.google.com
+    expected: false
+  - # With path
+    host: localhost/path
+    expected: false
+  #- # Unicode
+  #  host: президент.рф
+  #  expected: true
+  - # IDNA
+    host: xn--d1abbgf6aiiy.xn--p1ai
+    expected: true
+  #- # Multibyte
+  #  host: 스타벅스코리아.com
+  #  expected: true

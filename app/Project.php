@@ -4,11 +4,10 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
-use REBELinBLUE\Deployer\Presenters\ProjectPresenter;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
+use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
 use Robbo\Presenter\PresentableInterface;
 use UnexpectedValueException;
 use Version\Compare as VersionCompare;
@@ -27,16 +26,6 @@ class Project extends Model implements PresentableInterface
     const NOT_DEPLOYED = 4;
 
     /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
-                         'updated_at', 'servers', 'commands', 'hash', 'notifyEmails',
-                         'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-                         'notifications', 'deployments', 'shareFiles', 'configFiles', 'last_mirrored', ];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -46,18 +35,22 @@ class Project extends Model implements PresentableInterface
                            'private_key', ];
 
     /**
-     * The fields which should be treated as Carbon instances.
+     * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $dates = ['last_run', 'last_mirrored'];
+    protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
+                         'updated_at', 'servers', 'commands', 'hash',
+                         'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
+                         'notifications', 'deployments', 'shareFiles', 'configFiles', ];
 
     /**
      * Additional attributes to include in the JSON representation.
      *
      * @var array
      */
-    protected $appends = ['group_name', 'webhook_url', 'repository_path', 'repository_url', 'branch_url'];
+    protected $appends = ['group_name', 'webhook_url', 'repository_path', 'repository_url',
+                          'branch_url', 'tags', 'branches', ];
 
     /**
      * The attributes that should be casted to native types.
@@ -72,6 +65,13 @@ class Project extends Model implements PresentableInterface
         'allow_other_branch' => 'boolean',
         'include_dev'        => 'boolean',
     ];
+
+    /**
+     * The fields which should be treated as Carbon instances.
+     *
+     * @var array
+     */
+    protected $dates = ['last_run', 'last_mirrored'];
 
     /**
      * The heart beats status count.
@@ -125,7 +125,7 @@ class Project extends Model implements PresentableInterface
      */
     public function generateHash()
     {
-        $this->attributes['hash'] = Str::random(60);
+        $this->attributes['hash'] = token(60);
     }
 
     /**
@@ -137,14 +137,26 @@ class Project extends Model implements PresentableInterface
     {
         $info = [];
 
-        if (preg_match('#^(.+)@(.+):([0-9]*)\/?(.+)\.git$#', $this->repository, $matches)) {
+        if (preg_match('#^(.+)://(.+)@(.+):([0-9]*)\/?(.+)\.git$#', $this->repository, $matches)) {
+            $info['scheme']    = strtolower($matches[1]);
+            $info['user']      = $matches[2];
+            $info['domain']    = $matches[3];
+            $info['port']      = $matches[4];
+            $info['reference'] = $matches[5];
+        } elseif (preg_match('#^(.+)@(.+):([0-9]*)\/?(.+)\.git$#', $this->repository, $matches)) {
+            $info['scheme']    = 'git';
             $info['user']      = $matches[1];
             $info['domain']    = $matches[2];
             $info['port']      = $matches[3];
             $info['reference'] = $matches[4];
-        } elseif (preg_match('#^https?#', $this->repository)) {
+        } elseif (preg_match('#^https?://#i', $this->repository)) {
             $data = parse_url($this->repository);
 
+            if (!$data) {
+                return $info;
+            }
+
+            $info['scheme']    = strtolower($data['scheme']);
             $info['user']      = isset($data['user']) ? $data['user'] : '';
             $info['domain']    = $data['host'];
             $info['port']      = isset($data['port']) ? $data['port'] : '';
@@ -184,7 +196,16 @@ class Project extends Model implements PresentableInterface
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            return 'http://' . $info['domain'] . '/' . $info['reference'];
+            if (!isset($info['scheme']) || !starts_with($info['scheme'], 'http')) {
+                $info['scheme'] = 'http';
+            }
+
+            // Always serve github links over HTTPS
+            if (ends_with($info['domain'], 'github.com')) {
+                $info['scheme'] = 'https';
+            }
+
+            return $info['scheme'] . '://' . $info['domain'] . '/' . $info['reference'];
         }
 
         return false;
@@ -215,13 +236,22 @@ class Project extends Model implements PresentableInterface
 
         if (isset($info['domain']) && isset($info['reference'])) {
             $path = 'tree';
-            if (preg_match('/bitbucket/', $info['domain'])) {
+            if (str_contains($info['domain'], 'bitbucket')) {
                 $path = 'commits/branch';
+            }
+
+            if (!isset($info['scheme']) || !starts_with($info['scheme'], 'http')) {
+                $info['scheme'] = 'http';
+            }
+
+            // Always serve github links over HTTPS
+            if (ends_with($info['domain'], 'github.com')) {
+                $info['scheme'] = 'https';
             }
 
             $branch = (is_null($alternative) ? $this->branch : $alternative);
 
-            return 'http://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $branch;
+            return $info['scheme'] . '://' . $info['domain'] . '/' . $info['reference'] . '/' . $path . '/' . $branch;
         }
 
         return false;
@@ -262,7 +292,7 @@ class Project extends Model implements PresentableInterface
             $missed = 0;
 
             foreach ($this->checkUrls as $link) {
-                if ($link->last_status) {
+                if (!$link->isHealthy()) {
                     $missed++;
                 }
             }
@@ -294,77 +324,30 @@ class Project extends Model implements PresentableInterface
     }
 
     /**
-     * Generates an SSH key and sets the private/public key properties.
-     */
-    protected function generateSSHKey()
-    {
-        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
-        unlink($key);
-
-        $process = new Process('tools.GenerateSSHKey', [
-            'key_file' => $key,
-        ]);
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
-        }
-
-        $this->attributes['private_key'] = file_get_contents($key);
-        $this->attributes['public_key']  = file_get_contents($key . '.pub');
-
-        unlink($key);
-        unlink($key . '.pub');
-    }
-
-    /**
-     * Generates an SSH key and sets the private/public key properties.
-     */
-    protected function regeneratePublicKey()
-    {
-        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
-        file_put_contents($key, $this->private_key);
-        chmod($key, 0600);
-
-        $process = new Process('tools.RegeneratePublicSSHKey', [
-            'key_file' => $key,
-        ]);
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
-        }
-
-        $this->attributes['public_key']  = file_get_contents($key . '.pub');
-
-        unlink($key);
-        unlink($key . '.pub');
-    }
-
-    /**
      * Gets the list of all tags for the project.
      *
      * @return \Illuminate\Support\Collection
      */
-    public function tags()
+    public function getTagsAttribute()
     {
         $tags = $this->refs()
                      ->where('is_tag', true)
                      ->pluck('name')
                      ->toArray();
 
-        $compare = new VersionCompare;
+        $compare = new VersionCompare();
 
         // Sort the tags, if compare throws an exception it isn't a value version string so just do a strnatcmp
+        // See #258 - Can remove the @ when dropping PHP 5 support
         @usort($tags, function ($first, $second) use ($compare) {
             try {
                 return $compare->compare($first, $second);
             } catch (UnexpectedValueException $error) {
-                return strnatcmp($first, $second);
+                return strnatcmp($second, $first); // Move unknown versions to be bottle, swap round to move to top
             }
         });
 
-        return collect($tags);
+        return collect($tags)->reverse()->values();
     }
 
     /**
@@ -372,7 +355,7 @@ class Project extends Model implements PresentableInterface
      *
      * @return array
      */
-    public function branches()
+    public function getBranchesAttribute()
     {
         return $this->refs()
                     ->where('is_tag', false)
@@ -396,7 +379,7 @@ class Project extends Model implements PresentableInterface
     /**
      * Belongs to relationship.
      *
-     * @return Group
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function group()
     {
@@ -406,7 +389,7 @@ class Project extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return Server
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function servers()
     {
@@ -417,7 +400,7 @@ class Project extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return Heartbeat
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function heartbeats()
     {
@@ -428,18 +411,7 @@ class Project extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return Notification
-     */
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class)
-                    ->orderBy('name');
-    }
-
-    /**
-     * Has many relationship.
-     *
-     * @return Deployment
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function deployments()
     {
@@ -450,17 +422,18 @@ class Project extends Model implements PresentableInterface
     /**
      * Has many relationship.
      *
-     * @return SharedFile
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function notifyEmails()
+    public function channels()
     {
-        return $this->hasMany(NotifyEmail::class);
+        return $this->hasMany(Channel::class)
+                    ->orderBy('name');
     }
 
     /**
      * Has many urls to check.
      *
-     * @return CheckUrl
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function checkUrls()
     {
@@ -472,11 +445,67 @@ class Project extends Model implements PresentableInterface
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      *
-     * @see Project::tags()
-     * @see Project::branches()
+     * @see Project::getTagsAttribute()
+     * @see Project::getBranchesAttribute()
      */
     public function refs()
     {
         return $this->hasMany(Ref::class);
+    }
+
+    /**
+     * Generates an SSH key and sets the private/public key properties.
+     */
+    protected function generateSSHKey()
+    {
+        /** @var \REBELinBLUE\Deployer\Services\Filesystem\Filesystem $filesystem */
+        $filesystem = app('files');
+
+        $private_key_file = $filesystem->tempnam(storage_path('app/tmp'), 'key');
+        $public_key_file  = $private_key_file . '.pub';
+
+        /** @var Process $process */
+        $process = app(Process::class);
+        $process->setScript('tools.GenerateSSHKey', [
+            'key_file' => $private_key_file,
+        ])->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process->getErrorOutput());
+        }
+
+        $this->attributes['private_key'] = $filesystem->get($private_key_file);
+        $this->attributes['public_key']  = $filesystem->get($public_key_file);
+
+        $filesystem->delete([$private_key_file, $public_key_file]);
+    }
+
+    /**
+     * Generates an SSH key and sets the private/public key properties.
+     */
+    protected function regeneratePublicKey()
+    {
+        /** @var \REBELinBLUE\Deployer\Services\Filesystem\Filesystem $filesystem */
+        $filesystem = app('files');
+
+        $private_key_file = $filesystem->tempnam(storage_path('app/tmp'), 'key');
+        $public_key_file  = $private_key_file . '.pub';
+
+        $filesystem->put($private_key_file, $this->private_key);
+        $filesystem->chmod($private_key_file, 0600);
+
+        /** @var Process $process */
+        $process = app(Process::class);
+        $process->setScript('tools.RegeneratePublicSSHKey', [
+            'key_file' => $private_key_file,
+        ])->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process->getErrorOutput());
+        }
+
+        $this->attributes['public_key'] = $filesystem->get($public_key_file);
+
+        $filesystem->delete([$private_key_file, $public_key_file]);
     }
 }

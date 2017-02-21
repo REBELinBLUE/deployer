@@ -1,0 +1,62 @@
+fixture:
+  statuses: # All the possible deployment statuses
+    - !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED
+    - !php/const:REBELinBLUE\Deployer\Deployment::PENDING
+    - !php/const:REBELinBLUE\Deployer\Deployment::DEPLOYING
+    - !php/const:REBELinBLUE\Deployer\Deployment::FAILED
+    - !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
+    - !php/const:REBELinBLUE\Deployer\Deployment::ABORTED
+    - !php/const:REBELinBLUE\Deployer\Deployment::ABORTING
+  short_commits: # Examples of how commit hashes are expected to be converted to short commit hashes
+    -
+      commit: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+      expected: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+    -
+      commit: 4caa57ae1957062de2aae3b2545802a1033c661f
+      expected: 4caa57a
+    -
+      commit: a-really-long-commit-hash-which-is-not-in-sha1-format
+      expected: a-reall
+  commit_urls: # The URLs which are expected for a commit
+    -
+      details:
+        domain: github.com
+        reference: REBELinBLUE/deployer
+      commit: ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+      expected: http://github.com/REBELinBLUE/deployer/commit/ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+    -
+      details:
+        domain: git.example.com
+        reference: REBELinBLUE/deployer
+      commit: ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+      expected: http://git.example.com/REBELinBLUE/deployer/commit/ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+    -
+      details:
+        domain: bitbucket.org
+        reference: REBELinBLUE/deployer
+      commit: ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+      expected: http://bitbucket.org/REBELinBLUE/deployer/commits/ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+    -
+      details:
+        domain: bitbucket.com
+        reference: REBELinBLUE/deployer
+      commit: ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+      expected: http://bitbucket.com/REBELinBLUE/deployer/commits/ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+    -
+      details:
+        domain: www.bitbucket.com
+        reference: REBELinBLUE/deployer
+      commit: ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+      expected: http://www.bitbucket.com/REBELinBLUE/deployer/commits/ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
+  empty_access_details: # Data for empty access details
+    -
+      domain: null
+      reference: null
+    -
+      domain: null
+      reference: blah
+    -
+      domain: blah
+      reference: null
+    -
+      foo: bar

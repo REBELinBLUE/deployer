@@ -2,20 +2,18 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\CheckUrlRepositoryInterface;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreCheckUrlRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\CheckUrlRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller for managing URLs.
  */
-class CheckUrlController extends ResourceController
+class CheckUrlController extends Controller
 {
-    /**
-     * The CheckURL repository.
-     *
-     * @var CheckUrlRepositoryInterface
-     */
-    protected $repository;
+    use ResourceController;
 
     /**
      * CheckUrlController constructor.
@@ -31,18 +29,18 @@ class CheckUrlController extends ResourceController
      * Store a newly created URL in storage.
      *
      * @param StoreCheckUrlRequest $request
+     * @param ResponseFactory      $response
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreCheckUrlRequest $request)
+    public function store(StoreCheckUrlRequest $request, ResponseFactory $response)
     {
-        return $this->repository->create($request->only(
-            'title',
+        return $response->json($this->repository->create($request->only(
+            'name',
             'url',
-            'is_report',
             'period',
             'project_id'
-        ));
+        )), Response::HTTP_CREATED);
     }
 
     /**
@@ -56,9 +54,8 @@ class CheckUrlController extends ResourceController
     public function update($url_id, StoreCheckUrlRequest $request)
     {
         return $this->repository->updateById($request->only(
-            'title',
+            'name',
             'url',
-            'is_report',
             'period'
         ), $url_id);
     }

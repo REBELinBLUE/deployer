@@ -1,3 +1,5 @@
 *
 !.gitignore
-!mirrors
+!mirrors/
+!public/
+!tmp/

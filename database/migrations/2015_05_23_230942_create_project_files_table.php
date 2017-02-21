@@ -18,10 +18,15 @@ class CreateProjectFilesTable extends Migration
             $table->string('name');
             $table->text('path');
             $table->text('content');
-            $table->unsignedInteger('project_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('project_id')->references('id')->on('projects');
+
+            // Needed so that the sqlite tests continue to run
+            $connection = config('database.default');
+            if (config('database.connections.' . $connection . '.driver') !== 'sqlite') {
+                $table->unsignedInteger('project_id');
+                $table->foreign('project_id')->references('id')->on('projects');
+            }
         });
     }
 

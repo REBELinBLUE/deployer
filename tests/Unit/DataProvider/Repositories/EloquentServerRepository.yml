@@ -1,0 +1,5 @@
+fixture:
+  - # has commands
+    add_commands: true
+  - # does not have commands
+    add_commands: false

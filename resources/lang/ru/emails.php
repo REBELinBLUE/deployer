@@ -1,0 +1,33 @@
+<?php
+
+return [
+
+    // Account creation email
+    'created'          => 'Your account has been created!',
+    'creation_subject' => 'Account Creation',
+    'username'         => 'Your username is :username',
+    'login_now'        => 'Login Now',
+    'password'         => 'Your password is :password',
+
+    // Password reset email
+    'reset_subject'    => 'Your Password Reset Link',
+    'reset_header'     => 'You are receiving this email because we received a password reset request for your account.',
+    'reset_below'      => 'Click the button below to reset your password:',
+    'reset'            => 'Reset Password',
+    'reset_footer'     => 'If you did not request a password reset, no further action is required.',
+
+    // Change email address email
+    'confirm_email'    => 'Your Login Reset Link',
+    'change_header'    => 'You are receiving this email because we received a email change request for your account.',
+    'change_below'     => 'Click the button below to change the email address you use to login',
+    'login_change'     => 'Change Email Address',
+    'change_footer'    => 'If you did not request an email change, no further action is required.',
+
+    // Others
+    'welcome'          => 'Hello :name',
+    'whoops'           => 'Whoops!',
+    'regards'          => 'Regards,',
+    'action'           => 'If you’re having trouble clicking the ":action" button, copy and paste the URL below ' .
+                          'into your web browser:',
+
+];

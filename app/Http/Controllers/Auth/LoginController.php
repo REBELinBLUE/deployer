@@ -2,11 +2,13 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 
+use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Session;
-use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
+use Illuminate\Routing\Redirector;
+use Illuminate\Session\SessionManager; // FIXME: Shouldn't this be a contract?
+use PragmaRX\Google2FA\Contracts\Google2FA;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
 /**
@@ -29,13 +31,35 @@ class LoginController extends Controller
     private $google2fa;
 
     /**
+     * @var ViewFactory
+     */
+    private $view;
+
+    /**
+     * @var SessionManager
+     */
+    private $session;
+
+    /**
+     * @var Redirector
+     */
+    private $redirect;
+
+    /**
      * AuthController constructor.
      *
-     * @param Google2FA $google2fa
+     * @param Google2FA      $google2fa
+     * @param ViewFactory    $view
+     * @param SessionManager $session
+     * @param Redirector     $redirect
+     * @internal param Translator $translator
      */
-    public function __construct(Google2FA $google2fa)
+    public function __construct(Google2FA $google2fa, ViewFactory $view, SessionManager $session, Redirector $redirect)
     {
         $this->google2fa  = $google2fa;
+        $this->view       = $view;
+        $this->session    = $session;
+        $this->redirect   = $redirect;
 
         $this->middleware('guest', ['except' => 'logout']);
     }
@@ -48,10 +72,10 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         if ($this->guard()->viaRemember()) {
-            return redirect()->route('dashboard');
+            return $this->redirect->route('dashboard');
         }
 
-        return view('auth.login');
+        return $this->view->make('auth.login');
     }
 
     /**
@@ -79,12 +103,12 @@ class LoginController extends Controller
             $auth->once($credentials);
 
             if ($auth->user()->has_two_factor_authentication) {
-                Session::put('2fa_user_id', $auth->user()->id);
-                Session::put('2fa_remember', $request->has('remember'));
+                $this->session->put('2fa_user_id', $auth->user()->id);
+                $this->session->put('2fa_remember', $request->has('remember'));
 
                 $this->clearLoginAttempts($request);
 
-                return redirect()->route('auth.twofactor');
+                return $this->redirect->route('auth.twofactor');
             }
 
             $auth->attempt($credentials, $request->has('remember'));
@@ -106,7 +130,7 @@ class LoginController extends Controller
      */
     public function showTwoFactorAuthenticationForm()
     {
-        return view('auth.twofactor');
+        return $this->view->make('auth.twofactor');
     }
 
     /**
@@ -114,12 +138,13 @@ class LoginController extends Controller
      *
      * @param Request $request
      *
+     * @param  Translator                        $translator
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function twoFactorAuthenticate(Request $request)
+    public function twoFactorAuthenticate(Request $request, Translator $translator)
     {
-        $user_id  = Session::pull('2fa_user_id');
-        $remember = Session::pull('2fa_login_remember');
+        $user_id  = $this->session->pull('2fa_user_id');
+        $remember = $this->session->pull('2fa_login_remember');
 
         if ($user_id) {
             $auth = $this->guard();
@@ -132,11 +157,11 @@ class LoginController extends Controller
 
             $auth->logout();
 
-            return redirect()->route('auth.login')
-                             ->withError(Lang::get('auth.invalid_code'));
+            return $this->redirect->route('auth.login')
+                                  ->withError($translator->trans('auth.invalid_code'));
         }
 
-        return redirect()->route('auth.login')
-                         ->withError(Lang::get('auth.invalid_code'));
+        return $this->redirect->route('auth.login')
+                              ->withError($translator->trans('auth.invalid_code'));
     }
 }

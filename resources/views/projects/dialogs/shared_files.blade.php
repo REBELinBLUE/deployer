@@ -17,12 +17,18 @@
 
                     <div class="form-group">
                         <label for="name">{{ Lang::get('sharedFiles.name') }}</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="{{ Lang::get('sharedFiles.cache') }}" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-tag"></i></div>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="{{ Lang::get('sharedFiles.cache') }}" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="file">{{ Lang::get('sharedFiles.file') }}</label>
                         <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ Lang::get('sharedFiles.example') }}"></i>
-                        <input type="text" class="form-control" id="file" name="file" placeholder="storage/" />
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-files-o"></i></div>
+                            <input type="text" class="form-control" id="file" name="file" placeholder="storage/" />
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

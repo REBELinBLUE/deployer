@@ -7,73 +7,106 @@ php:
   - 7.0
   - 7.1
 
+env:
+  - DB=sqlite
+  - DB=sqlite
+
 cache:
   directories:
+    - $TRAVIS_BUILD_DIR/vendor
+    - $TRAVIS_BUILD_DIR/node_modules
+    - $TRAVIS_BUILD_DIR/bower_components
     - $HOME/.composer/cache
 
-services:
-  - mysql
-  - postgresql
-  - redis-server
-
-addons:
-  postgresql: "9.3"
-  mariadb: "10.1"
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.0
+      env: DB=mysql
+      services:
+        - mysql
+    - php: 7.0
+      env: DB=maria
+      addons:
+        mariadb: 10.1
+    - php: 7.0
+      env: DB=pgsql
+      addons:
+        postgresql: "9.3"
+      services:
+        - postgresql
 
 before_install:
-  - if [[ $TRAVIS_PHP_VERSION == 5.6 ]]; then phpenv config-rm xdebug.ini; fi
-  - curl -L https://github.com/kr/beanstalkd/archive/v1.9.tar.gz | tar xz -C /tmp
-  - cd /tmp/beanstalkd-1.9/
-  - make
-  - ./beanstalkd 2>&1 >/dev/null &
-  - cd $TRAVIS_BUILD_DIR
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - |
+    if [[ "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
+      phpenv config-rm xdebug.ini;
+    fi
 
 install:
-  - composer install --no-interaction --no-scripts --prefer-dist --no-suggest
-
-env:
-  - DB=mysql DB_USERNAME=travis
-  - DB=pgsql DB_USERNAME=postgres
-  # - DB=sqlite - SQLite is currently broken
+  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+  - travis_retry npm install --quiet
 
 before_script:
-    - cp -f .env.example .env
-    - php artisan key:generate
-    - sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
-    - sed -i 's/APP_DEBUG=false/APP_DEBUG=true/g' .env
-    - sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=$DB/g" .env
-    - sed -i "s/DB_USERNAME=deployer/DB_USERNAME=$DB_USERNAME/g" .env
-    - sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=/g' .env
-    - sed -i 's/SOCKET_SSL_KEY_FILE=//g' .env
-    - sed -i 's/SOCKET_SSL_CERT_FILE=//g' .env
-    - sed -i 's/SOCKET_SSL_CA_FILE=//g' .env
-    - sed -i 's/SOCKET_SSL_KEY_PASSPHRASE=//g' .env
-    - sed -i 's/REDIS_PASSWORD=null//g' .env
-    - sed -i 's/TRUSTED_PROXIES=//g' .env
-    - sed -i 's/GITHUB_OAUTH_TOKEN=//g' .env
-    - sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32 ; echo)/g" .env
-    - sed -i '/^#/ d' .env
-    - sed -i '/^[[:blank:]]*$/d' .env
-    # - php artisan jwt:generate --force
-    - cat .env
-    - if [[ "$DB" == "mysql" ]] ; then mysql -e 'CREATE DATABASE deployer;'; fi
-    - if [[ "$DB" == "pgsql" ]] ; then psql -c 'CREATE DATABASE deployer;' -U postgres; fi
-    - if [[ "$DB" == "sqlite" ]] ; then touch $TRAVIS_BUILD_DIR/database/database.sqlite; fi
-    # - php artisan optimize
-    - php artisan js-localization:refresh
-    - php artisan migrate --seed --env="testing"
-    - chmod -R 777 storage/
-    - chmod -R 777 bootstrap/
-    - chmod -R 777 public/upload/
-    - sleep 5
-    - php -S 127.0.0.1:8000 -t public/ 2>&1 >/dev/null &
+  - mkdir $TRAVIS_BUILD_DIR/tmp/
+  - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
+  - |
+    if [[ "$DB" = "sqlite" ]]; then
+      sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
+      sed -i 's/DB_DATABASE=deployer//g' .env
+      sed -i 's/DB_USERNAME=travis//g' .env
+      touch $TRAVIS_BUILD_DIR/database/database.sqlite
+    elif [[ "$DB" = "pgsql" ]]; then
+      sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g" .env
+      sed -i "s/DB_USERNAME=travis/DB_USERNAME=postgres/g" .env
+      psql -c 'CREATE DATABASE deployer;' -U postgres;
+    else
+      mysql -e 'CREATE DATABASE deployer;'
+    fi
+  - gulp
+  - make permissions
 
 script:
-  - vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/
-  - vendor/bin/phpcs -p --standard=PSR2 app/
-  # - vendor/bin/phpmd app text phpmd.xml
-  - vendor/bin/phpunit
-  - vendor/bin/phpdoccheck --directory=app
+  - make lint
+  - make migrate
+  - make seed
+  - make rollback
+  - make phpcs
+  # - make phpmd
+  - |
+    if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
+      mkdir -p tmp/
+      echo -e "\033[32mFast Unit Tests with coverage\033[39m"
+      php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
+      echo -e "\033[32mSlow Unit Tests with coverage\033[39m"
+      php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
+      echo -e "\033[32mIntegration Tests with coverage\033[39m"
+      php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
+      php vendor/bin/phpcov merge tmp/ --clover coverage.xml
+      rm -rf tmp/
+    else
+      make phpunit
+    fi
+  - make phpdoc-check
+  - make phpcpd
+  - make lines
+
+  # Clear the compiled file and then try to install without the dev dependencies to ensure everything still works
+  - travis_retry composer install --no-dev --no-interaction --prefer-dist --no-suggest --quiet
+  - php artisan optimize
+  - php artisan app:version
 
 after_script:
   - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
+  - cat $TRAVIS_BUILD_DIR/.env
+
+after_success:
+  - |
+    if [[ -f coverage.xml ]]; then
+      bash <(curl -s https://codecov.io/bash)
+    fi
+
+notifications:
+  email: false

@@ -21,10 +21,10 @@ class StoreUserRequest extends Request
         ];
 
         // On edit change the password validator
-        if ($this->get('id')) {
-            $rules['email'] .= ',' . $this->get('id');
+        if ($this->route('user')) {
+            $rules['email'] .= ',' . $this->route('user');
 
-            if ($this->get('password') !== '') {
+            if (!empty($this->get('password', null))) {
                 $rules['password'] = 'min:6';
             } else {
                 unset($rules['password']);

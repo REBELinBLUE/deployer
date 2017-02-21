@@ -3,12 +3,13 @@
 namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 
 /**
  * Event which fires when the server status has changed.
  */
-class ModelCreated extends Event implements ShouldBroadcast
+class ModelCreated implements ShouldBroadcast
 {
     use SerializesModels;
 
@@ -25,10 +26,10 @@ class ModelCreated extends Event implements ShouldBroadcast
     /**
      * ModelCreated constructor.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string                              $channel
+     * @param Model  $model
+     * @param string $channel
      */
-    public function __construct($model, $channel)
+    public function __construct(Model $model, $channel)
     {
         $this->model   = $model;
         $this->channel = $channel;

@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\User;
 
 /**
@@ -21,7 +21,11 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new instance of the model.
+     *
+     * @param array $fields
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields)
     {
@@ -31,7 +35,12 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * {@inheritdoc}
+     * Updates an instance by it's ID.
+     *
+     * @param array $fields
+     * @param int   $model_id
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(array $fields, $model_id)
     {
@@ -51,10 +60,22 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $token
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function findByEmailToken($token)
     {
         return $this->model->where('email_token', $token)->first();
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function findByEmail($email)
+    {
+        return $this->model->where('email', $email)->first();
     }
 }

@@ -2,11 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use REBELinBLUE\Deployer\Contracts\Repositories\HeartbeatRepositoryInterface;
 use REBELinBLUE\Deployer\Heartbeat;
+use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
 
 /**
- * The shared file repository.
+ * The heartbeat repository.
  */
 class EloquentHeartbeatRepository extends EloquentRepository implements HeartbeatRepositoryInterface
 {
@@ -21,7 +21,10 @@ class EloquentHeartbeatRepository extends EloquentRepository implements Heartbea
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $hash
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return Heartbeat
      */
     public function getByHash($hash)
     {

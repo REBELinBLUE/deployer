@@ -13,14 +13,12 @@ class AddTargetableAttributes extends Migration
 
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance  = new $className;
+            $instance  = new $className();
 
             $table = $instance->getTable();
 
@@ -49,7 +47,7 @@ class AddTargetableAttributes extends Migration
         // Now loop through the relations and set the target details
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance  = new $className;
+            $instance  = new $className();
 
             foreach ($instance->all() as $row) {
                 $row->target_id   = $row->project_id;
@@ -62,7 +60,7 @@ class AddTargetableAttributes extends Migration
 
                 $row->save();
             }
-        };
+        }
 
         // Remove any deleted non templates from group 1 to group 2
         Project::where('is_template', false)
@@ -80,19 +78,22 @@ class AddTargetableAttributes extends Migration
         // Remove the unneeded project ID column
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance  = new $className;
+            $instance  = new $className();
 
             $table = $instance->getTable();
 
+            $connection = config('database.default');
+            $driver     = config('database.connections.' . $connection . '.driver');
+
             // You can't drop a column in SQLite
-            if (config('database.default') !== 'sqlite') {
+            if ($driver !== 'sqlite') {
                 DB::statement("ALTER TABLE {$table} DROP COLUMN project_id");
             }
 
-            if (config('database.default') === 'mysql') {
+            if ($driver === 'mysql') {
                 DB::statement("ALTER TABLE {$table} MODIFY target_id INT(11) NOT NULL");
                 DB::statement("ALTER TABLE {$table} MODIFY target_type VARCHAR(255) NOT NULL");
-            } elseif (config('database.default') === 'pgsql') {
+            } elseif ($driver === 'pgsql') {
                 DB::statement("ALTER TABLE {$table} ALTER COLUMN target_id SET NOT NULL");
                 DB::statement("ALTER TABLE {$table} ALTER COLUMN target_type SET NOT NULL");
             }
@@ -101,20 +102,17 @@ class AddTargetableAttributes extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
-            $instance  = new $className;
+            $instance  = new $className();
 
             $table = $instance->getTable();
 
             Schema::table($table, function (Blueprint $table) {
-                $table->dropColumn('target_id');
-                $table->dropColumn('target_type');
+                $table->dropColumn(['target_id', 'target_type']);
             });
         }
     }

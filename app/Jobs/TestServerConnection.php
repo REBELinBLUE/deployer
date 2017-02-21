@@ -5,8 +5,9 @@ namespace REBELinBLUE\Deployer\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use REBELinBLUE\Deployer\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Server;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 
 /**
  * Tests if a server can successfully be SSHed into.
@@ -32,26 +33,27 @@ class TestServerConnection extends Job implements ShouldQueue
 
     /**
      * Execute the command.
+     * @param Process    $process
+     * @param Filesystem $filesystem
      */
-    public function handle()
+    public function handle(Process $process, Filesystem $filesystem)
     {
         $this->server->status = Server::TESTING;
         $this->server->save();
 
-        $key = tempnam(storage_path('app/tmp/'), 'sshkey');
-        file_put_contents($key, $this->server->project->private_key);
-        chmod($key, 0600);
+        $key = $filesystem->tempnam(storage_path('app/tmp/'), 'key');
+        $filesystem->put($key, $this->server->project->private_key);
+        $filesystem->chmod($key, 0600);
+
+        $prefix = $this->server->id . '_' . $this->server->project_id;
 
         try {
-            $process = new Process('TestServerConnection', [
+            $process->setScript('TestServerConnection', [
                 'server_id'      => $this->server->id,
                 'project_path'   => $this->server->clean_path,
-                'test_file'      => time() . '_testing_deployer.txt',
-                'test_directory' => time() . '_testing_deployer_dir',
-            ]);
-
-            $process->setServer($this->server, $key)
-                    ->run();
+                'test_file'      => $prefix . '_testing_deployer.txt',
+                'test_directory' => $prefix . '_testing_deployer_dir',
+            ])->setServer($this->server, $key)->run();
 
             if (!$process->isSuccessful()) {
                 $this->server->status = Server::FAILED;
@@ -64,6 +66,6 @@ class TestServerConnection extends Job implements ShouldQueue
 
         $this->server->save();
 
-        unlink($key);
+        $filesystem->delete($key);
     }
 }

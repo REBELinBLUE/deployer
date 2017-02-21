@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use REBELinBLUE\Deployer\Contracts\Repositories\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Server;
 
 /**
@@ -35,7 +35,11 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new instance of the model.
+     *
+     * @param array $fields
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $fields)
     {
@@ -70,8 +74,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * {@inheritdoc}
-     * @dispatches TestServerConnection
+     * @param int $server_id
      */
     public function queueForTesting($server_id)
     {
@@ -83,5 +86,17 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
 
             $this->dispatch(new TestServerConnection($server));
         }
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function queryByName($name)
+    {
+        return $this->model
+                    ->where('name', 'LIKE', "%{$name}%")
+                    ->get();
     }
 }

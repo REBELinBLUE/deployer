@@ -5,7 +5,8 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Facades\Lang;
+use REBELinBLUE\Deployer\Events\UrlDown;
+use REBELinBLUE\Deployer\Events\UrlUp;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
@@ -16,12 +17,16 @@ class CheckUrl extends Model
 {
     use SoftDeletes, BroadcastChanges, DispatchesJobs;
 
+    const ONLINE   = 0;
+    const UNTESTED = 1;
+    const OFFLINE  = 2;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['title', 'url', 'project_id', 'period', 'is_report'];
+    protected $fillable = ['name', 'url', 'project_id', 'period'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -38,13 +43,20 @@ class CheckUrl extends Model
     protected $casts = [
         'id'         => 'integer',
         'project_id' => 'integer',
-        'is_report'  => 'boolean',
+        'missed'     => 'integer',
         'period'     => 'integer',
+        'status'     => 'integer',
     ];
 
     /**
+     * The fields which should be treated as Carbon instances.
+     *
+     * @var array
+     */
+    protected $dates = ['last_seen'];
+
+    /**
      * Override the boot method to bind model event listeners.
-     * @dispatches RequestProjectCheckUrl
      */
     public static function boot()
     {
@@ -52,8 +64,8 @@ class CheckUrl extends Model
 
         // When saving the model, if the URL has changed we need to test it
         static::saved(function (CheckUrl $model) {
-            if (is_null($model->last_status)) {
-                $model->dispatch(new RequestProjectCheckUrl([$model]));
+            if ($model->status === self::UNTESTED) {
+                $model->dispatch(new RequestProjectCheckUrl(collect([$model])));
             }
         });
     }
@@ -66,10 +78,46 @@ class CheckUrl extends Model
     public function setUrlAttribute($value)
     {
         if (!array_key_exists('url', $this->attributes) || $value !== $this->attributes['url']) {
-            $this->attributes['last_status'] = null;
+            $this->attributes['status']    = self::UNTESTED;
+            $this->attributes['last_seen'] = null;
         }
 
         $this->attributes['url'] = $value;
+    }
+
+    /**
+     * Flags the link as healthy.
+     *
+     * @return bool
+     */
+    public function online()
+    {
+        $isCurrentlyHealthy = ($this->status === self::UNTESTED || $this->isHealthy());
+
+        $this->status    = self::ONLINE;
+        $this->missed    = 0;
+        $this->last_seen = $this->freshTimestamp();
+
+        if (!$isCurrentlyHealthy) {
+            event(new UrlUp($this));
+        }
+
+        return $this->save();
+    }
+
+    /**
+     * Flags the link as down.
+     *
+     * @return bool
+     */
+    public function offline()
+    {
+        $this->status    = self::OFFLINE;
+        $this->missed    = $this->missed + 1;
+
+        event(new UrlDown($this));
+
+        return $this->save();
     }
 
     /**
@@ -83,37 +131,12 @@ class CheckUrl extends Model
     }
 
     /**
-     * Generates a slack payload for the link failure.
+     * Determines whether the URL is currently online.
      *
-     * @return array
+     * @return bool
      */
-    public function notificationPayload()
+    public function isHealthy()
     {
-        $message = Lang::get('checkUrls.message', ['link' => $this->title]);
-
-        $payload = [
-            'attachments' => [
-                [
-                    'fallback' => $message,
-                    'text'     => $message,
-                    'color'    => 'danger',
-                    'fields'   => [
-                        [
-                            'title' => Lang::get('notifications.project'),
-                            'value' => sprintf(
-                                '<%s|%s>',
-                                route('projects', ['id' => $this->project_id]),
-                                $this->project->name
-                            ),
-                            'short' => true,
-                        ],
-                    ],
-                    'footer' => Lang::get('app.name'),
-                    'ts'     => time(),
-                ],
-            ],
-        ];
-
-        return $payload;
+        return ($this->status === self::ONLINE);
     }
 }

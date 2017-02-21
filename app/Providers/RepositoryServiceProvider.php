@@ -3,29 +3,35 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use REBELinBLUE\Deployer\Contracts\Repositories\CheckUrlRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\CommandRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ConfigFileRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\DeploymentRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\GroupRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\HeartbeatRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\NotificationRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\NotifyEmailRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\ServerRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\SharedFileRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\TemplateRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\UserRepositoryInterface;
-use REBELinBLUE\Deployer\Contracts\Repositories\VariableRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ChannelRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\CheckUrlRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ConfigFileRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\DeployStepRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\NotificationRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\RefRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\SharedFileRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\VariableRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\EloquentChannelRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentCheckUrlRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentCommandRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentConfigFileRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentDeploymentRepository;
+use REBELinBLUE\Deployer\Repositories\EloquentDeployStepRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentGroupRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentHeartbeatRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentNotificationRepository;
-use REBELinBLUE\Deployer\Repositories\EloquentNotifyEmailRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentProjectRepository;
+use REBELinBLUE\Deployer\Repositories\EloquentRefRepository;
+use REBELinBLUE\Deployer\Repositories\EloquentServerLogRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentServerRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentSharedFileRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentTemplateRepository;
@@ -38,30 +44,25 @@ use REBELinBLUE\Deployer\Repositories\EloquentVariableRepository;
  */
 class RepositoryServiceProvider extends ServiceProvider
 {
-    public $repositories = [
+    protected $repositories = [
+        ChannelRepositoryInterface::class      => EloquentChannelRepository::class,
         CheckUrlRepositoryInterface::class     => EloquentCheckUrlRepository::class,
         CommandRepositoryInterface::class      => EloquentCommandRepository::class,
         ConfigFileRepositoryInterface::class   => EloquentConfigFileRepository::class,
         DeploymentRepositoryInterface::class   => EloquentDeploymentRepository::class,
+        DeployStepRepositoryInterface::class   => EloquentDeployStepRepository::class,
         GroupRepositoryInterface::class        => EloquentGroupRepository::class,
         HeartbeatRepositoryInterface::class    => EloquentHeartbeatRepository::class,
         NotificationRepositoryInterface::class => EloquentNotificationRepository::class,
-        NotifyEmailRepositoryInterface::class  => EloquentNotifyEmailRepository::class,
         ProjectRepositoryInterface::class      => EloquentProjectRepository::class,
+        RefRepositoryInterface::class          => EloquentRefRepository::class,
+        ServerLogRepositoryInterface::class    => EloquentServerLogRepository::class,
         ServerRepositoryInterface::class       => EloquentServerRepository::class,
         SharedFileRepositoryInterface::class   => EloquentSharedFileRepository::class,
         TemplateRepositoryInterface::class     => EloquentTemplateRepository::class,
         UserRepositoryInterface::class         => EloquentUserRepository::class,
         VariableRepositoryInterface::class     => EloquentVariableRepository::class,
     ];
-
-    /**
-     * Bootstrap the application services.
-     */
-    public function boot()
-    {
-        //
-    }
 
     /**
      * Bind the repository interface to the implementations.

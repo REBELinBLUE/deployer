@@ -3,10 +3,10 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\CheckUrl;
-use REBELinBLUE\Deployer\Contracts\Repositories\CheckUrlRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\CheckUrlRepositoryInterface;
 
 /**
- * The notification email repository.
+ * The check url repository.
  */
 class EloquentCheckUrlRepository extends EloquentRepository implements CheckUrlRepositoryInterface
 {

@@ -16,7 +16,6 @@ class CreateCommandsTable extends Migration
             $table->string('name');
             $table->text('user');
             $table->text('script');
-            $table->unsignedInteger('project_id');
             $table->enum('step', [Command::BEFORE_CLONE, Command::AFTER_CLONE,
                                   Command::BEFORE_INSTALL, Command::AFTER_INSTALL,
                                   Command::BEFORE_ACTIVATE, Command::AFTER_ACTIVATE,
@@ -24,7 +23,13 @@ class CreateCommandsTable extends Migration
             $table->unsignedInteger('order')->default('0');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('project_id')->references('id')->on('projects');
+
+            // Needed so that the sqlite tests continue to run
+            $connection = config('database.default');
+            if (config('database.connections.' . $connection . '.driver') !== 'sqlite') {
+                $table->unsignedInteger('project_id');
+                $table->foreign('project_id')->references('id')->on('projects');
+            }
         });
     }
 

@@ -1,0 +1,25 @@
+fixture:
+  - # Empty value
+    channel: ''
+    expected: false
+  - # Null value
+    channel: null
+    expected: false
+  - # No prefix
+    channel: channel
+    expected: false
+  - # Invalid prefix
+    channel: $channel
+    expected: false
+  - # Only hash
+    channel: #
+    expected: false
+  - # Only at
+    channel: '@'
+    expected: false
+  - # Valid channel
+    channel: '#channel'
+    expected: true
+  - # Valid person
+    channel: '@username'
+    expected: true

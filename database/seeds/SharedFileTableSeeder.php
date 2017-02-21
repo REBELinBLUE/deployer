@@ -17,13 +17,6 @@ class SharedFileTableSeeder extends Seeder
         ]);
 
         SharedFile::create([
-            'name'        => 'Uploads',
-            'file'        => '/public/upload/',
-            'target_type' => 'project',
-            'target_id'   => 1,
-        ]);
-
-        SharedFile::create([
             'name'        => 'README',
             'file'        => 'README.md',
             'target_type' => 'project',

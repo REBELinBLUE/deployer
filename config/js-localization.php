@@ -8,7 +8,17 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'locales' => [env('APP_LOCALE', 'en')],
+    'locales' => ['en', 'zh', 'ru'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Define the target to save the exported messages to
+    |--------------------------------------------------------------------------
+    |
+    | Directory for storing the static files generated when using file storage.
+    |
+    */
+    'storage_path' => base_path('bower_components/'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,11 +52,12 @@ return [
         'templates'     => ['create', 'edit'],
         'sharedFiles'   => ['create', 'edit'],
         'configFiles'   => ['create', 'edit'],
-        'notifications' => ['create', 'edit'],
-        'notifyEmails'  => ['create', 'edit'],
+        'channels'      => ['create', 'edit', 'custom', 'slack', 'hipchat', 'twilio', 'mail', 'create_slack',
+                            'create_hipchat', 'create_twilio', 'create_mail', 'create_custom', 'edit_slack',
+                            'edit_hipchat', 'edit_twilio', 'edit_mail', 'edit_custom', ],
         'servers'       => ['create', 'edit', 'successful', 'testing', 'failed', 'untested'],
         'heartbeats'    => ['create', 'edit', 'ok', 'untested', 'missing', 'interval_10', 'interval_30',
-                            'interval_60', 'interval_120', 'interval_720', 'interval_1440', 'interval_10080', ]
+                            'interval_60', 'interval_120', 'interval_720', 'interval_1440', 'interval_10080', ],
     ],
 
     /*

@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Route;
 
 /**
  * The route service provider.
@@ -23,16 +22,14 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::pattern('id', '[0-9]+');
-        Route::pattern('step', '(clone|install|activate|purge)');
+        $this->pattern('id', '[0-9]+');
+        $this->pattern('step', '(clone|install|activate|purge)');
 
         parent::boot();
     }
 
     /**
      * Define the routes for the application.
-     *
-     * @return void
      */
     public function map()
     {
@@ -44,40 +41,24 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "web" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
      */
     protected function mapWebRoutes()
     {
         // Authentication screen
-        Route::group([
-            'middleware' => 'web',
-            'namespace'  => $this->namespace,
-        ], function ($router) {
-            require base_path('routes/auth.php');
-        });
+        $this->middleware('web')->namespace($this->namespace)->group(base_path('routes/auth.php'));
 
         // Logged in routes
-        Route::group([
-            'middleware' => ['web', 'auth', 'jwt'],
-            'namespace'  => $this->namespace,
-        ], function ($router) {
-            require base_path('routes/web.php');
-            require base_path('routes/admin.php');
-        });
+        $this->middleware(['web', 'auth', 'jwt'])->namespace($this->namespace)->group(base_path('routes/web.php'));
+
+        // Admin routes
+        $this->middleware(['web', 'auth', 'jwt'])->namespace($this->namespace)->group(base_path('routes/admin.php'));
     }
 
     /**
      * Define the "webhook" routes for the application.
-     *
-     * @return void
      */
     protected function mapHookRoutes()
     {
-        Route::group([
-            'namespace' => $this->namespace,
-        ], function ($router) {
-            require base_path('routes/hooks.php');
-        });
+        $this->namespace($this->namespace)->group(base_path('routes/hooks.php'));
     }
 }

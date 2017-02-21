@@ -1,0 +1,207 @@
+fixture:
+  paths: # Test data for repository path
+    -
+      repo: http://www.github.com/REBELinBLUE/deployer.git
+      expected: REBELinBLUE/deployer
+    -
+      repo: https://www.github.com/REBELinBLUE/deployer.git
+      expected: REBELinBLUE/deployer
+    -
+      repo: ssh://git@bitbucket.org:REBELinBLUE/deployer.git
+      expected: REBELinBLUE/deployer
+    -
+      repo: git://git@bitbucket.org:REBELinBLUE/deployer.git
+      expected: REBELinBLUE/deployer
+    -
+      repo: git@github.com:REBELinBLUE/deployer.git
+      expected: REBELinBLUE/deployer
+    -
+      repo: git+https://git@github.com:REBELinBLUE/deployer.git
+      expected: REBELinBLUE/deployer
+    -
+      repo: https://git.example.com:8080/REBELinBLUE/deployer.git
+      expected: REBELinBLUE/deployer
+  running: # Project statuses which should be considered running
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      expected: true
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      expected: true
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      expected: false
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      expected: false
+    -
+      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      expected: false
+  branch_url: # Fixture for getBranchUrlAttribute
+    -
+      repository: http://www.github.com/REBELinBLUE/deployer.git
+      branch: master
+      expected: https://www.github.com/REBELinBLUE/deployer/tree/master
+    -
+      repository: https://www.bitbucket.com/REBELinBLUE/deployer.git
+      branch: master
+      expected: https://www.bitbucket.com/REBELinBLUE/deployer/commits/branch/master
+    -
+      repository: ssh://git@bitbucket.org:REBELinBLUE/deployer.git
+      branch: master
+      expected: http://bitbucket.org/REBELinBLUE/deployer/commits/branch/master
+    -
+      repository: git://git@github.com:REBELinBLUE/deployer.git
+      branch: develop
+      expected: https://github.com/REBELinBLUE/deployer/tree/develop
+    -
+      repository: git@github.com:REBELinBLUE/deployer.git
+      branch: master
+      expected: https://github.com/REBELinBLUE/deployer/tree/master
+    -
+      repository: git+https://git@github.com:REBELinBLUE/deployer.git
+      branch: master
+      expected: https://github.com/REBELinBLUE/deployer/tree/master
+    -
+      repository: http://git.example.com/REBELinBLUE/deployer.git
+      branch: release
+      expected: http://git.example.com/REBELinBLUE/deployer/tree/release
+    -
+      repository: https://git.example.com:8080/REBELinBLUE/deployer.git
+      branch: release
+      expected: https://git.example.com/REBELinBLUE/deployer/tree/release
+  malformed_url: # URLs which can not be parsed
+    - file:///var/git/repositories/REBELinBLUE/deployer.git
+    - http://:80
+    - http:///www.github.com/REBELinBLUE/deployer.git
+    - http://user@:80
+  repository_mirror_folder: # The filename safe version of URLs
+    -
+      url: http://www.github.com/REBELinBLUE/deployer.git
+      expected: http___www.github.com_REBELinBLUE_deployer.git
+    -
+      url: https://www.github.com/REBELinBLUE/deployer.git
+      expected: https___www.github.com_REBELinBLUE_deployer.git
+    -
+      url: ssh://git@bitbucket.org:REBELinBLUE/deployer.git
+      expected: ssh___git_bitbucket.org_REBELinBLUE_deployer.git
+    -
+      url: git://git@bitbucket.org:REBELinBLUE/deployer.git
+      expected: git___git_bitbucket.org_REBELinBLUE_deployer.git
+    -
+      url: git+https://git@github.com:REBELinBLUE/deployer.git
+      expected: git_https___git_github.com_REBELinBLUE_deployer.git
+    -
+      url: file:///var/git/repositories/REBELinBLUE/deployer.git
+      expected: file____var_git_repositories_REBELinBLUE_deployer.git
+    -
+      url: https://git.example.com:8080/REBELinBLUE/deployer.git
+      expected: https___git.example.com_8080_REBELinBLUE_deployer.git
+  access_details:
+    -
+      repo: http://www.github.com/REBELinBLUE/deployer.git
+      scheme: http
+      user: ''
+      domain: www.github.com
+      port: ''
+      reference: REBELinBLUE/deployer
+    -
+      repo: HTTP://www.github.com/REBELinBLUE/deployer.git
+      scheme: http
+      user: ''
+      domain: www.github.com
+      port: ''
+      reference: REBELinBLUE/deployer
+    -
+      repo: https://www.github.com/REBELinBLUE/deployer.git
+      scheme: https
+      user: ''
+      domain: www.github.com
+      port: ''
+      reference: REBELinBLUE/deployer
+    -
+      repo: ssh://git@bitbucket.org:REBELinBLUE/deployer.git
+      scheme: ssh
+      user: git
+      domain: bitbucket.org
+      port: ''
+      reference: REBELinBLUE/deployer
+    -
+      repo: git://git@bitbucket.org:REBELinBLUE/deployer.git
+      scheme: git
+      user: git
+      domain: bitbucket.org
+      port: ''
+      reference: REBELinBLUE/deployer
+    -
+      repo: GIT://git@bitbucket.org:REBELinBLUE/deployer.git
+      scheme: git
+      user: git
+      domain: bitbucket.org
+      port: ''
+      reference: REBELinBLUE/deployer
+    -
+      repo: git@github.com:REBELinBLUE/deployer.git
+      scheme: git
+      user: git
+      domain: github.com
+      port: ''
+      reference: REBELinBLUE/deployer
+    -
+      repo: git+https://git@github.com:REBELinBLUE/deployer.git
+      scheme: git+https
+      user: git
+      domain: github.com
+      port: ''
+      reference: REBELinBLUE/deployer
+    -
+      repo: https://git.example.com:8080/REBELinBLUE/deployer.git
+      scheme: https
+      user: ''
+      domain: git.example.com
+      port: 8080
+      reference: REBELinBLUE/deployer
+  repo_url_to_web_url: # Fixture for getRepositoryUrlAttribute
+    -
+      repository: http://www.github.com/REBELinBLUE/deployer.git
+      expected: https://www.github.com/REBELinBLUE/deployer
+    -
+      repository: https://www.github.com/REBELinBLUE/deployer.git
+      expected: https://www.github.com/REBELinBLUE/deployer
+    -
+      repository: ssh://git@bitbucket.org:REBELinBLUE/deployer.git
+      expected: http://bitbucket.org/REBELinBLUE/deployer
+    -
+      repository: git://git@github.com:REBELinBLUE/deployer.git
+      expected: https://github.com/REBELinBLUE/deployer
+    -
+      repository: git@github.com:REBELinBLUE/deployer.git
+      expected: https://github.com/REBELinBLUE/deployer
+    -
+      repository: git+https://git@github.com:REBELinBLUE/deployer.git
+      expected: https://github.com/REBELinBLUE/deployer
+    -
+      repository: http://git.example.com/REBELinBLUE/deployer.git
+      expected: http://git.example.com/REBELinBLUE/deployer
+    -
+      repository: https://git.example.com:8080/REBELinBLUE/deployer.git
+      expected: https://git.example.com/REBELinBLUE/deployer
+  health:
+    -
+      healthy: 0
+      missing: 0
+    -
+      healthy: 1
+      missing: 0
+    -
+      healthy: 1
+      missing: 1
+    -
+      healthy: 0
+      missing: 1
+    -
+      healthy: 2
+      missing: 1
+    -
+      healthy: 2
+      missing: 2
