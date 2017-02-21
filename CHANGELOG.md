@@ -1,13 +1,13 @@
 # Change Log
 
-## [0.0.42](https://github.com/REBELinBLUE/deployer/tree/0.0.42) (2017-02-21)
-[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.40...0.0.42)
+## [0.0.41](https://github.com/REBELinBLUE/deployer/tree/0.0.41) (2017-02-21)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.40...0.0.41)
 
 **Implemented enhancements:**
 
 - Newly pushed branches not being displayed for deployment [\#240](https://github.com/REBELinBLUE/deployer/issues/240)
 - Hipchat notifications [\#159](https://github.com/REBELinBLUE/deployer/issues/159)
-- Notify of URL recovery [\#158](https://github.com/REBELinBLUE/deployer/issues/158)
+- Notify on URL recovery [\#158](https://github.com/REBELinBLUE/deployer/issues/158)
 - Added partial Russian translation [\#315](https://github.com/REBELinBLUE/deployer/pull/315) ([corpsee](https://github.com/corpsee))
 - Rebuild notifications [\#297](https://github.com/REBELinBLUE/deployer/pull/297) ([REBELinBLUE](https://github.com/REBELinBLUE))
 - Added Chinese language [\#295](https://github.com/REBELinBLUE/deployer/pull/295) ([aiddroid](https://github.com/aiddroid))
