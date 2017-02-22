@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc900abcc9365bd790f9b1706b0a9f7d",
+    "content-hash": "c778dc41e442dbfdfd29d4252073cd88",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -2834,35 +2834,25 @@
         },
         {
             "name": "robclancy/presenter",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/robclancy/presenter.git",
-                "reference": "ab8a18d69c452688a184a0f8b044d53b0cdc5f2e"
+                "reference": "45b7f97a9e03db6aa052b6070bb2f4704ffec86b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robclancy/presenter/zipball/ab8a18d69c452688a184a0f8b044d53b0cdc5f2e",
-                "reference": "ab8a18d69c452688a184a0f8b044d53b0cdc5f2e",
+                "url": "https://api.github.com/repos/robclancy/presenter/zipball/45b7f97a9e03db6aa052b6070bb2f4704ffec86b",
+                "reference": "45b7f97a9e03db6aa052b6070bb2f4704ffec86b",
                 "shasum": ""
             },
-            "require": {
-                "php": ">=5.4.0"
-            },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.1",
                 "illuminate/view": "4.2.*",
                 "mockery/mockery": "0.7.2",
                 "phpunit/phpunit": "3.7.*"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3-dev"
-                },
-                "patches_applied": {
-                    "Laravel 5.4 support": "https://www.phpdeployment.org/patches/0001-Presenter.patch"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Robbo\\Presenter\\": "src/"
@@ -2875,16 +2865,16 @@
             "authors": [
                 {
                     "name": "Robbo",
-                    "email": "mail@robertclancy.net"
+                    "email": "robbo.clancy@gmail.com"
                 }
             ],
-            "description": "This is a simple library to help make a Presenter for your objects.",
+            "description": "Decorate your objects using presenters. Primarily to keep presentation logic out of your models.",
             "keywords": [
                 "decorator",
                 "laravel",
                 "presenter"
             ],
-            "time": "2015-03-14T08:14:37+00:00"
+            "time": "2017-02-22T07:43:54+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
