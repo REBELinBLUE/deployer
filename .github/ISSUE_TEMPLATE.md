@@ -1,7 +1,7 @@
 Before submitting your issue, please make sure that you've checked all of the checkboxes below.
 
 - [ ] You're running the [latest release](https://github.com/REBElinBLUE/deployer/releases/latest) version of Deployer.
-- [ ] Ensure that you're running at least PHP 5.5.9, you can check this by running `php -v`
+- [ ] Ensure that you're running at least PHP 5.6.4, you can check this by running `php -v`
 - [ ] You've ran `composer install --no-dev` from the root of your installation.
 - [ ] You've ran `npm install --production` from the root of your installation.
 - [ ] You've ran `rm -rf bootstrap/cache/*` from the root of your installation.
