@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.0.42](https://github.com/REBELinBLUE/deployer/tree/0.0.42) (2017-02-21)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.41...0.0.42)
+
 ## [0.0.41](https://github.com/REBELinBLUE/deployer/tree/0.0.41) (2017-02-21)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.40...0.0.41)
 
@@ -68,6 +71,11 @@
 - Installer gets into an infinite loop if there are PDO drivers loaded before MySQL [\#254](https://github.com/REBELinBLUE/deployer/pull/254) ([moxx](https://github.com/moxx))
 - Incorrect Lang variables [\#239](https://github.com/REBELinBLUE/deployer/pull/239) ([uLow](https://github.com/uLow))
 
+**Closed issues:**
+
+- Acting strange [\#233](https://github.com/REBELinBLUE/deployer/issues/233)
+- Custom deployment templates [\#174](https://github.com/REBELinBLUE/deployer/issues/174)
+
 ## [0.0.36](https://github.com/REBELinBLUE/deployer/tree/0.0.36) (2016-05-30)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.35...0.0.36)
 
@@ -98,7 +106,9 @@
 
 **Closed issues:**
 
+- Deployer callback URL - Laravel error [\#225](https://github.com/REBELinBLUE/deployer/issues/225)
 - Process Output don't show full log [\#219](https://github.com/REBELinBLUE/deployer/issues/219)
+- node socket server exited itself [\#218](https://github.com/REBELinBLUE/deployer/issues/218)
 - Split Vagrant machine into a seperate repository [\#214](https://github.com/REBELinBLUE/deployer/issues/214)
 
 ## [0.0.34](https://github.com/REBELinBLUE/deployer/tree/0.0.34) (2016-04-26)
@@ -137,6 +147,10 @@
 - Exception when project has deployments but none are 'completed' [\#188](https://github.com/REBELinBLUE/deployer/issues/188)
 - Throttling interferes with heartbeart URLS [\#153](https://github.com/REBELinBLUE/deployer/issues/153)
 
+**Closed issues:**
+
+- Don't delete failed deployments when in debug mode [\#181](https://github.com/REBELinBLUE/deployer/issues/181)
+
 **Merged pull requests:**
 
 - Added HTTP and Node instructions to Install section [\#185](https://github.com/REBELinBLUE/deployer/pull/185) ([Patabugen](https://github.com/Patabugen))
@@ -157,6 +171,11 @@
 
 - Refresh JWT when it expires [\#180](https://github.com/REBELinBLUE/deployer/issues/180)
 - SQLite installation no longer works [\#169](https://github.com/REBELinBLUE/deployer/issues/169)
+
+**Closed issues:**
+
+- Aborting a deployment before the git info has been loaded leaves the committer etc as "Loading..." [\#150](https://github.com/REBELinBLUE/deployer/issues/150)
+- Persistent file permissions [\#93](https://github.com/REBELinBLUE/deployer/issues/93)
 
 ## [0.0.29](https://github.com/REBELinBLUE/deployer/tree/0.0.29) (2016-02-05)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.28...0.0.29)
@@ -223,6 +242,12 @@
 - How to make a Symfony application deploy [\#133](https://github.com/REBELinBLUE/deployer/issues/133)
 - Fatal error when deploy starts [\#91](https://github.com/REBELinBLUE/deployer/issues/91)
 
+**Closed issues:**
+
+- Provide composer auth details [\#132](https://github.com/REBELinBLUE/deployer/issues/132)
+- websocket not updates the screen [\#125](https://github.com/REBELinBLUE/deployer/issues/125)
+- Add the option for a full clone [\#101](https://github.com/REBELinBLUE/deployer/issues/101)
+
 ## [0.0.22](https://github.com/REBELinBLUE/deployer/tree/0.0.22) (2015-11-15)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.21...0.0.22)
 
@@ -237,6 +262,10 @@
 - Error 500 after redirect from / to /auth/login [\#126](https://github.com/REBELinBLUE/deployer/issues/126)
 - Production CSS is broken [\#111](https://github.com/REBELinBLUE/deployer/issues/111)
 - Fix database timeout issue with worker daemon. [\#116](https://github.com/REBELinBLUE/deployer/pull/116) ([dancryer](https://github.com/dancryer))
+
+**Closed issues:**
+
+- Socket.io not working when changing from apache2 to ngnix. [\#120](https://github.com/REBELinBLUE/deployer/issues/120)
 
 ## [0.0.21](https://github.com/REBELinBLUE/deployer/tree/0.0.21) (2015-10-10)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.20...0.0.21)
