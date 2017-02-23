@@ -529,7 +529,7 @@ class InstallApp extends Command
     private function generateKey()
     {
         $this->info('Generating application key');
-        $this->callSilent('key:generate');
+        $this->callSilent('key:generate', ['--force' => true]);
     }
 
     /**
