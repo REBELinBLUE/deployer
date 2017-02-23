@@ -88,8 +88,8 @@
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "([ -f .env ] && [ -n \"$TRAVIS\" ] && sed -i 's/DB_TYPE=/DB_CONNECTION=/g' .env) || exit 0",
-            "([ -f .env ] && [ -n \"$TRAVIS\" ] && php artisan optimize) || exit 0"
+            "([ -f .env ] && [ -z \"$TRAVIS\" ] && sed -i 's/DB_TYPE=/DB_CONNECTION=/g' .env) || exit 0",
+            "([ -f .env ] && [ -z \"$TRAVIS\" ] && php artisan optimize) || exit 0"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"
