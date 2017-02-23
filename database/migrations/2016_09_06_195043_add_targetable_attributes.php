@@ -16,6 +16,9 @@ class AddTargetableAttributes extends Migration
      */
     public function up()
     {
+        $connection = config('database.default');
+        $driver     = config('database.connections.' . $connection . '.driver');
+
         foreach ($this->relations as $relation) {
             $className = "REBELinBLUE\\Deployer\\$relation";
             $instance  = new $className();
@@ -28,8 +31,8 @@ class AddTargetableAttributes extends Migration
                 $table->string('target_type')->nullable();
             });
 
-            if (config('database.default') !== 'sqlite') {
-                $drop = config('database.default') === 'mysql' ? 'FOREIGN KEY' : 'CONSTRAINT';
+            if ($driver !== 'sqlite') {
+                $drop = $driver === 'mysql' ? 'FOREIGN KEY' : 'CONSTRAINT';
 
                 DB::statement("ALTER TABLE {$table} DROP {$drop} {$table}_project_id_foreign");
             }
