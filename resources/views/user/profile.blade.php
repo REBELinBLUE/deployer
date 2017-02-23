@@ -61,8 +61,12 @@
                         <select name="language" id="language" class="form-control">
                             @foreach ($locales as $locale)
                                 <option value="{{ $locale }}" @if ($locale === $logged_in_user->language) selected @endif>
-                                    {{ locale_get_display_name($locale, $locale) }}
-                                    @if ($locale !== $logged_in_user->language) ({{ locale_get_display_name($locale, $logged_in_user->language) }}) @endif
+                                    @if (function_exists('locale_get_display_name'))
+                                        {{ locale_get_display_name($locale, $locale) }}
+                                        @if ($locale !== $logged_in_user->language ) ({{ locale_get_display_name($locale, $logged_in_user->language) }}) @endif
+                                    @else
+                                        {{ $locale }}
+                                    @endif
                                 </option>
                             @endforeach
                         </select>
