@@ -90,4 +90,7 @@ yarn.lock -diff
 *.blade.php linguist-language=HTML
 
 # Remove compiled assets from github statistics
-public/build/* linguist-vendored
+public/build/rev-manifest.json linguist-vendored
+public/build/css/*.css linguist-vendored
+public/build/js/* linguist-vendored
+public/build/font/* linguist-vendored
