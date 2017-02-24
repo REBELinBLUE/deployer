@@ -35,10 +35,6 @@ See the [wiki](https://github.com/REBELinBLUE/deployer/wiki) for information on 
 * Configure the web server, database or other services
 * [Run a test suite or check code quality](http://phptesting.org)
 
-## Note about usage in production
-
-The `master` branch of this repository is a development branch and **should not** be used in production. Changes are merged into the `release` branch when they are considered stable and may then be tagged for release at any time. It is recommended that you use the latest tag [release](https://github.com/REBELinBLUE/deployer/releases) for production. For information on contributing see [contribution guidelines](/.github/CONTRIBUTING.md).
-
 ## License
 
 Deployer is licensed under [The MIT License (MIT)](/LICENSE.md).

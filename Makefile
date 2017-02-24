@@ -112,12 +112,11 @@ fulltest: build lint phpcs phpdoc-check phpunit integration phpcpd phpmd dusk
 # Clean everything (cache, logs, compiled assets, dependencies, etc)
 reset: clean
 	rm -rf vendor/ node_modules/ bower_components/
-	rm -rf public/build/ storage/app/mirrors/* storage/app/tmp/* storage/app/public/*  storage/app/*.tar.gz
+	rm -rf pstorage/app/mirrors/* storage/app/tmp/* storage/app/public/*  storage/app/*.tar.gz
 	rm -rf .env.prev _ide_helper_models.php _ide_helper.php .phpstorm.meta.php .php_cs.cache
 	-rm database/database.sqlite
 	-rm database/backups/*
 	-rm .phpunit-cas.db
-	-git checkout -- public/build/ 2> /dev/null # Exists on the release branch
 
 # Generates helper files for IDEs
 ide:

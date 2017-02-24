@@ -1,4 +1,6 @@
 css/
 js/
-build/
 fonts/
+!build/css
+!build/fonts
+!build/js
