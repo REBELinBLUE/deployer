@@ -88,3 +88,6 @@ yarn.lock -diff
 
 # Consider blade files as HTML
 *.blade.php linguist-language=HTML
+
+# Remove compiled assets from github statistics
+public/build/* linguist-vendored
