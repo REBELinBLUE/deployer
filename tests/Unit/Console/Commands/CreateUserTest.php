@@ -56,8 +56,7 @@ class CreateUserTest extends TestCase
         $email    = 'jill@example.com';
         $password = 'qwErtY1$R';
         $this->generator->shouldReceive('generateRandom')->with(15)->andReturn($password);
-        $this->validation->shouldReceive('make')->andReturnSelf();
-        $this->validation->shouldReceive('passes')->andReturn(true);
+        $this->validation->shouldReceive('make->passes')->andReturn(true);
 
         $user = m::mock(User::class);
         $user->shouldReceive('getAttribute')->with('email')->andReturn($email);
@@ -97,8 +96,7 @@ class CreateUserTest extends TestCase
         $email    = 'jill@example.com';
         $password = 'qwErtY1$R';
         $this->generator->shouldReceive('generateRandom')->with(15)->andReturn($password);
-        $this->validation->shouldReceive('make')->andReturnSelf();
-        $this->validation->shouldReceive('passes')->andReturn(true);
+        $this->validation->shouldReceive('make->passes')->andReturn(true);
 
         $user = m::mock(User::class);
         $user->shouldReceive('getAttribute')->with('email')->andReturn($email);
@@ -141,8 +139,7 @@ class CreateUserTest extends TestCase
 
         $this->validation->shouldReceive('make')->andReturnSelf();
         $this->validation->shouldReceive('passes')->andReturn(false);
-        $this->validation->shouldReceive('errors')->andReturnSelf();
-        $this->validation->shouldReceive('first')->andReturnSelf();
+        $this->validation->shouldReceive('errors->first')->andReturnSelf();
 
         $this->expectException(RuntimeException::class);
         $this->doesntexpectEvents(UserWasCreated::class);

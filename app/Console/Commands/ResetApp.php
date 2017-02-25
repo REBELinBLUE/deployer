@@ -2,11 +2,19 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use Illuminate\Console\Command;
+use Illuminate\Contracts\Events\Dispatcher;
+use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
+use REBELinBLUE\Deployer\Events\RestartSocketServer;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+
 /**
  * A console command for clearing all data and setting up again.
  */
-class ResetApp extends UpdateApp
+class ResetApp extends Command
 {
+    use OutputStyles;
+
     /**
      * The name and signature of the console command.
      *
@@ -22,35 +30,79 @@ class ResetApp extends UpdateApp
     protected $description = 'Used during development to clear the database and logs';
 
     /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
+     * ResetApp constructor.
+     *
+     * @param Filesystem $filesystem
+     */
+    public function __construct(Filesystem $filesystem)
+    {
+        parent::__construct();
+
+        $this->filesystem = $filesystem;
+    }
+
+    /**
      * Execute the console command.
      *
-     * @return mixed
+     * @param  Dispatcher $dispatcher
+     * @return int
      */
-    public function handle()
+    public function handle(Dispatcher $dispatcher)
     {
         if (!$this->verifyNotProduction()) {
-            return;
+            return -1;
         }
 
-        $this->app = $this->laravel;
+        $this->callSilent('down');
 
+        $this->resetDatabase();
         $this->clearLogs();
-        $this->updateConfiguration();
-        $this->resetDB();
-        $this->clearCaches(false);
         $this->restartQueue();
-        $this->restartSocket();
+        $this->restartSocket($dispatcher);
+
+        $this->callSilent('up');
+
+        return 0;
     }
 
     /**
      * Resets the database.
      */
-    protected function resetDB()
+    protected function resetDatabase()
     {
-        $this->info('Resetting the database');
+        $this->filesystem->touch(base_path('vendor/autoload.php'));
+        $this->filesystem->touch(base_path('node_modules/.install'));
+
+        $this->callSilent('app:update');
+        $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
+    }
+
+    /**
+     * Restarts the queues.
+     */
+    protected function restartQueue()
+    {
+        $this->info('Restarting the queue');
         $this->line('');
-        $this->call('migrate:fresh', ['--seed' => true]);
+        $this->call('queue:flush');
+        $this->call('queue:restart');
         $this->line('');
+    }
+
+    /**
+     * Restarts the socket server.
+     *
+     * @param Dispatcher $dispatcher
+     */
+    protected function restartSocket(Dispatcher $dispatcher)
+    {
+        $this->info('Restarting the socket server');
+        $dispatcher->dispatch(new RestartSocketServer());
     }
 
     /**
@@ -61,9 +113,8 @@ class ResetApp extends UpdateApp
         $this->info('Removing log files');
         $this->line('');
 
-        foreach (glob(storage_path('logs/') . '*.log') as $file) {
-            unlink($file);
-        }
+        $logs = $this->filesystem->glob(storage_path('logs') . '*.log');
+        $this->filesystem->delete($logs);
     }
 
     /**
@@ -73,12 +124,11 @@ class ResetApp extends UpdateApp
      */
     private function verifyNotProduction()
     {
-        if (config('app.env') !== 'local') {
-            $this->block([
+        if (!$this->laravel->environment('local')) {
+            $this->failure(
                 'Deployer is not in development mode!',
-                PHP_EOL,
-                'This command does not run in production as its purpose is to wipe your database',
-            ]);
+                'This command does not run in production as its purpose is to wipe your database'
+            );
 
             return false;
         }

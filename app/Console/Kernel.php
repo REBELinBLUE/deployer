@@ -14,6 +14,7 @@ use REBELinBLUE\Deployer\Console\Commands\ClearOrphanMirrors;
 use REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment;
 use REBELinBLUE\Deployer\Console\Commands\CreateUser;
 use REBELinBLUE\Deployer\Console\Commands\InstallApp;
+use REBELinBLUE\Deployer\Console\Commands\MakeRepositoryCommand;
 use REBELinBLUE\Deployer\Console\Commands\ResetApp;
 use REBELinBLUE\Deployer\Console\Commands\UpdateApp;
 use REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors;
@@ -42,6 +43,7 @@ class Kernel extends ConsoleKernel
         UpdateApp::class,
         AppVersion::class,
         ExportCommand::class,
+        MakeRepositoryCommand::class,
     ];
 
     /**

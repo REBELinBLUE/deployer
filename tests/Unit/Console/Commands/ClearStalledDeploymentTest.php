@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\DownCommand;
 use Illuminate\Foundation\Console\UpCommand;
 use Mockery as m;
@@ -53,8 +54,11 @@ class ClearStalledDeploymentTest extends TestCase
         $console->shouldReceive('find')->with('down')->andReturn($down);
         $console->shouldReceive('find')->with('up')->andReturn($up);
 
+        $app = m::mock(Application::class)->makePartial();
+        $app->shouldReceive('isDownForMaintenance')->andReturn(false);
+
         $command = new ClearStalledDeployment($log, $deployment, $project);
-        $command->setLaravel($this->app);
+        $command->setLaravel($app);
         $command->setApplication($console);
 
         $tester = new CommandTester($command);
@@ -87,8 +91,11 @@ class ClearStalledDeploymentTest extends TestCase
         $console->shouldNotReceive('find')->with('down');
         $console->shouldNotReceive('find')->with('up');
 
+        $app = m::mock(Application::class)->makePartial();
+        $app->shouldReceive('isDownForMaintenance')->andReturn(false);
+
         $command = new ClearStalledDeployment($log, $deployment, $project);
-        $command->setLaravel($this->app);
+        $command->setLaravel($app);
         $command->setApplication($console);
 
         $tester = new CommandTester($command);

@@ -2,15 +2,16 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
-use DateTimeZone;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Validator;
 use PDO;
 use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
-use Symfony\Component\Console\Helper\FormatterHelper;
+use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
+use REBELinBLUE\Deployer\Console\Commands\Traits\WriteEnvFile;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
@@ -19,7 +20,7 @@ use Symfony\Component\Process\ProcessBuilder;
  */
 class InstallApp extends Command
 {
-    use AskAndValidate;
+    use AskAndValidate, WriteEnvFile, OutputStyles;
 
     /**
      * The name and signature of the console command.
@@ -38,18 +39,43 @@ class InstallApp extends Command
     /**
      * @var ConfigRepository
      */
-    private $config;
+    protected $config;
+
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
+     * @var TokenGeneratorInterface
+     */
+    private $tokenGenerator;
 
     /**
      * InstallApp constructor.
      *
-     * @param ConfigRepository $config
+     * @param ConfigRepository        $config
+     * @param Filesystem              $filesystem
+     * @param Dispatcher              $dispatcher
+     * @param TokenGeneratorInterface $tokenGenerator
      */
-    public function __construct(ConfigRepository $config = null)
-    {
+    public function __construct(
+        ConfigRepository $config,
+        Filesystem $filesystem,
+        Dispatcher $dispatcher,
+        TokenGeneratorInterface $tokenGenerator
+    ) {
         parent::__construct();
 
-        $this->config = $config;
+        $this->config         = $config;
+        $this->filesystem     = $filesystem;
+        $this->dispatcher     = $dispatcher;
+        $this->tokenGenerator = $tokenGenerator;
     }
 
     /**
@@ -67,8 +93,8 @@ class InstallApp extends Command
 
         $config = base_path('.env');
 
-        if (!file_exists($config)) {
-            copy(base_path('.env.example'), $config);
+        if (!$this->filesystem->exists($config)) {
+            $this->filesystem->copy(base_path('.env.dist'), $config);
             $this->config->set('app.key', 'SomeRandomString');
         }
 
@@ -183,98 +209,13 @@ class InstallApp extends Command
     }
 
     /**
-     * Writes the configuration data to the config file.
-     *
-     * @param array $input The config data to write
-     *
-     * @return bool
-     */
-    protected function writeEnvFile(array $input)
-    {
-        $this->info('Writing configuration file');
-
-        $path   = base_path('.env');
-        $config = file_get_contents($path);
-
-        // Move the socket value to the correct key
-        if (isset($input['app']['socket'])) {
-            $input['socket']['url'] = $input['app']['socket'];
-            unset($input['app']['socket']);
-        }
-
-        if (isset($input['app']['ssl'])) {
-            foreach ($input['app']['ssl'] as $key => $value) {
-                $input['socket']['ssl_' . $key] = $value;
-            }
-
-            unset($input['app']['ssl']);
-        }
-
-        foreach ($input as $section => $data) {
-            foreach ($data as $key => $value) {
-                $env = strtoupper($section . '_' . $key);
-
-                $config = preg_replace('/' . $env . '=(.*)/', $env . '=' . $value, $config);
-            }
-        }
-
-        // Remove SSL certificate keys if not using HTTPS
-        if (substr($input['socket']['url'], 0, 5) !== 'https') {
-            foreach (['key', 'cert', 'ca'] as $key) {
-                $key = strtoupper($key);
-
-                $config = preg_replace('/SOCKET_SSL_' . $key . '_FILE=(.*)[\n]/', '', $config);
-            }
-
-            $config = preg_replace('/SOCKET_SSL_KEY_PASSPHRASE=(.*)[\n]/', '', $config);
-        }
-
-        // Remove keys not needed for sqlite
-        if ($input['db']['connection'] === 'sqlite') {
-            foreach (['host', 'database', 'username', 'password'] as $key) {
-                $key = strtoupper($key);
-
-                $config = preg_replace('/DB_' . $key . '=(.*)[\n]/', '', $config);
-            }
-        }
-
-        // Remove keys not needed by SMTP
-        if ($input['mail']['driver'] !== 'smtp') {
-            foreach (['host', 'port', 'username', 'password'] as $key) {
-                $key = strtoupper($key);
-
-                $config = preg_replace('/MAIL_' . $key . '=(.*)[\n]/', '', $config);
-            }
-        }
-
-        // Remove redis password if null
-        $config = preg_replace('/REDIS_PASSWORD=null[\n]/', '', $config);
-
-        // Remove github keys if not needed, only really exists on my dev copy
-        if (!isset($input['github']) || empty($input['github']['oauth_token'])) {
-            $config = preg_replace('/GITHUB_OAUTH_TOKEN=(.*)[\n]/', '', $config);
-        }
-
-        // Remove trusted_proxies if not set
-        if (!isset($input['trusted']) || !isset($input['trusted']['proxied'])) {
-            $config = preg_replace('/TRUSTED_PROXIES=(.*)[\n]/', '', $config);
-        }
-
-        // Remove comments
-        $config = preg_replace('/#(.*)[\n]/', '', $config);
-        $config = preg_replace('/[\n]{3,}/m', PHP_EOL . PHP_EOL, $config);
-
-        return file_put_contents($path, trim($config) . PHP_EOL);
-    }
-
-    /**
      * Generates a key for JWT.
      *
      * @return string
      */
     protected function generateJWTKey()
     {
-        return str_random(32);
+        return $this->tokenGenerator->generateRandom(32);
     }
 
     /**
@@ -311,15 +252,14 @@ class InstallApp extends Command
 
     /**
      * Clears all Laravel caches.
-     * @param bool $silent
      */
-    protected function clearCaches($silent = true)
+    protected function clearCaches()
     {
-        $this->callCommand('clear-compiled', [], $silent);
-        $this->callCommand('cache:clear', [], $silent);
-        $this->callCommand('route:clear', [], $silent);
-        $this->callCommand('config:clear', [], $silent);
-        $this->callCommand('view:clear', [], $silent);
+        $this->call('clear-compiled');
+        $this->call('cache:clear');
+        $this->call('route:clear');
+        $this->call('config:clear');
+        $this->call('view:clear');
     }
 
     /**
@@ -334,174 +274,23 @@ class InstallApp extends Command
         }
     }
 
-    /**
-     * Checks the system meets all the requirements needed to run Deployer.
-     *
-     * @return bool
-     */
-    protected function checkRequirements()
-    {
-        $errors = false;
-
-        // Check PHP version:
-        if (!version_compare(PHP_VERSION, '5.6.4', '>=')) {
-            $this->error('PHP 5.6.4 or higher is required');
-            $errors = true;
-        }
-
-        // Check for required PHP extensions
-        $required_extensions = ['PDO', 'curl', 'gd', 'json',
-                                'tokenizer', 'openssl', 'mbstring',
-                               ];
-
-        foreach ($required_extensions as $extension) {
-            if (!extension_loaded($extension)) {
-                $this->error('Extension required: ' . $extension);
-                $errors = true;
-            }
-        }
-
-        if (!count($this->getDatabaseDrivers())) {
-            $this->error(
-                'At least 1 PDO driver is required. Either sqlite, mysql or pgsql, check your php.ini file'
-            );
-            $errors = true;
-        }
-
-        // Functions needed by symfony process
-        $required_functions = ['proc_open'];
-
-        foreach ($required_functions as $function) {
-            if (!function_exists($function)) {
-                $this->error('Function required: ' . $function . '. Is it disabled in php.ini?');
-                $errors = true;
-            }
-        }
-
-        // Programs needed in $PATH
-        $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash', 'php'];
-
-        foreach ($required_commands as $command) {
-            $process = new Process('which ' . $command);
-            $process->setTimeout(null);
-            $process->run();
-
-            if (!$process->isSuccessful()) {
-                $this->error('Program not found in path: ' . $command);
-                $errors = true;
-            }
-        }
-
-        $required_one = ['node', 'nodejs'];
-        $found        = false;
-        foreach ($required_one as $command) {
-            $process = new Process('which ' . $command);
-            $process->setTimeout(null);
-            $process->run();
-
-            if ($process->isSuccessful()) {
-                $found = true;
-                break;
-            }
-        }
-
-        if (!$found) {
-            $this->error('node.js was not found');
-            $errors = true;
-        }
-
-        // Files and directories which need to be writable
-        $writable = ['.env', 'storage', 'storage/logs', 'storage/app', 'storage/app/mirrors', 'storage/app/tmp',
-                     'storage/app/public', 'storage/framework', 'storage/framework/cache',
-                     'storage/framework/sessions', 'storage/framework/views', 'bootstrap/cache',
-                    ];
-
-        foreach ($writable as $path) {
-            if (!is_writable(base_path($path))) {
-                $this->error($path . ' is not writable');
-                $errors = true;
-            }
-        }
-
-        // Check that redis is running
-        try {
-            Redis::connection()->ping();
-        } catch (\Exception $e) {
-            $this->error('Redis is not running');
-            $errors = true;
-        }
-
-        if (config('queue.default') === 'beanstalkd') {
-            $connected = Queue::connection()->getPheanstalk()
-                                            ->getConnection()
-                                            ->isServiceListening();
-
-            if (!$connected) {
-                $this->error('Beanstalkd is not running');
-                $errors = true;
-            }
-        }
-
-        if ($errors) {
-            $this->line('');
-            $this->block('Deployer cannot be installed. Please review the errors above before continuing.');
-            $this->line('');
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * A wrapper around symfony's formatter helper to output a block.
-     *
-     * @param string|array $messages Messages to output
-     * @param string       $type     The type of message to output
-     */
-    protected function block($messages, $type = 'error')
-    {
-        $output = [];
-
-        if (!is_array($messages)) {
-            $messages = (array) $messages;
-        }
-
-        foreach ($messages as $message) {
-            $output[] = trim($message);
-        }
-
-        $formatter = new FormatterHelper();
-        $this->line($formatter->formatBlock($output, $type, true));
-    }
-
-    /**
-     * Outputs a header block.
-     *
-     * @param string $header The text to output
-     */
-    protected function header($header)
-    {
-        $this->block($header, 'question');
-    }
-
-    /**
-     * Calls an artisan command and optionally silences the output.
-     *
-     * @param string $command
-     * @param array  $arguments
-     * @param bool   $silent
-     */
-    protected function callCommand($command, array $arguments = [], $silent = false)
-    {
-        if ($silent) {
-            $this->callSilent($command, $arguments);
-
-            return;
-        }
-
-        $this->call($command, $arguments);
-    }
+//    /**
+//     * Calls an artisan command and optionally silences the output.
+//     *
+//     * @param string $command
+//     * @param array  $arguments
+//     * @param bool   $silent
+//     */
+//    protected function callCommand($command, array $arguments = [], $silent = false)
+//    {
+//        if ($silent) {
+//            $this->callSilent($command, $arguments);
+//
+//            return;
+//        }
+//
+//        $this->call($command, $arguments);
+//    }
 
     /**
      * Validates the answer is a URL.
@@ -789,7 +578,7 @@ class InstallApp extends Command
     private function verifyDatabaseDetails(array $database)
     {
         if ($database['connection'] === 'sqlite') {
-            return touch(database_path('database.sqlite'));
+            return $this->filesystem->touch(database_path('database.sqlite'));
         }
 
         try {
@@ -829,7 +618,7 @@ class InstallApp extends Command
      */
     private function verifyNotInstalled()
     {
-        if (config('app.key') !== false && config('app.key') !== 'SomeRandomString') {
+        if ($this->config->get('app.key') !== false && $this->config->get('app.key') !== 'SomeRandomString') {
             $this->block([
                 'You have already installed Deployer!',
                 PHP_EOL,
@@ -840,70 +629,5 @@ class InstallApp extends Command
         }
 
         return true;
-    }
-
-    /**
-     * Gets an array of available PDO drivers which are supported by Laravel.
-     *
-     * @return array
-     */
-    private function getDatabaseDrivers()
-    {
-        $available = collect(PDO::getAvailableDrivers());
-
-        return array_values($available->intersect(['mysql', 'pgsql', 'sqlite'])->all());
-    }
-
-    /**
-     * Gets a list of timezone regions.
-     *
-     * @return array
-     */
-    private function getTimezoneRegions()
-    {
-        return [
-            'UTC'        => DateTimeZone::UTC,
-            'Africa'     => DateTimeZone::AFRICA,
-            'America'    => DateTimeZone::AMERICA,
-            'Antarctica' => DateTimeZone::ANTARCTICA,
-            'Asia'       => DateTimeZone::ASIA,
-            'Atlantic'   => DateTimeZone::ATLANTIC,
-            'Australia'  => DateTimeZone::AUSTRALIA,
-            'Europe'     => DateTimeZone::EUROPE,
-            'Indian'     => DateTimeZone::INDIAN,
-            'Pacific'    => DateTimeZone::PACIFIC,
-        ];
-    }
-
-    /**
-     * Gets a list of available locations in the supplied region.
-     *
-     * @param int $region The region constant
-     *
-     * @return array
-     *
-     * @see DateTimeZone
-     */
-    private function getTimezoneLocations($region)
-    {
-        $locations = [];
-
-        foreach (DateTimeZone::listIdentifiers($region) as $timezone) {
-            $locations[] = substr($timezone, strpos($timezone, '/') + 1);
-        }
-
-        return $locations;
-    }
-
-    /**
-     * Gets a list of the available locales.
-     *
-     * @return array
-     */
-    private function getLocales()
-    {
-        $manager = resolve('locale');
-
-        return $manager->getAvailableLanguages();
     }
 }

@@ -3,10 +3,10 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Jobs;
 
 use Mockery as m;
+use REBELinBLUE\Deployer\Jobs\QueueUpdateGitMirror;
 use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Jobs\QueueUpdateGitMirror;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\QueueUpdateGitMirror

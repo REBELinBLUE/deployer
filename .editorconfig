@@ -23,7 +23,7 @@ max_line_length = 120
 [*.{yml,json}]
 indent_size = 2
 
-[composer.{json,lock}]
+[{composer.json,bower.json}]
 indent_size=4
 
 [*.md]

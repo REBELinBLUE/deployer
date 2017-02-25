@@ -11,6 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\AppVersion
+ * @fixme: clean up duplicate CommandTester code
  */
 class AppVersionTest extends TestCase
 {

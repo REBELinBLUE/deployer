@@ -82,7 +82,7 @@ class ClearStalledDeployment extends Command
                 'Switch to maintenance mode now? The app will switch ' .
                 'back to live mode once cleanup is finished'
             )) {
-                return;
+                return -1;
             }
 
             $bring_back_up = true;

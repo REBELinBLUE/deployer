@@ -37,9 +37,9 @@ matrix:
         - postgresql
 
 before_install:
-  - . $HOME/.nvm/nvm.sh
-  - nvm install stable
-  - nvm use stable
+  # - . $HOME/.nvm/nvm.sh
+  # - nvm install stable
+  # - nvm use stable
   - |
     if [[ "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
       phpenv config-rm xdebug.ini;
@@ -47,7 +47,7 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
-  - travis_retry npm install --quiet
+  # - travis_retry npm install --quiet
 
 before_script:
   - mkdir $TRAVIS_BUILD_DIR/tmp/
@@ -65,7 +65,7 @@ before_script:
     else
       mysql -e 'CREATE DATABASE deployer;'
     fi
-  - gulp
+  # - gulp
   - make permissions
 
 script:
