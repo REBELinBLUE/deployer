@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands\Traits;
 
+// FIXME: Move this to a class?
 trait WriteEnvFile
 {
     /**

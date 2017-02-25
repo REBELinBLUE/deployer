@@ -45,6 +45,7 @@ class RequirementsTest extends TestCase
      * @covers ::extensionCheck
      * @covers ::hasDatabaseDriver
      * @covers ::disabledFunctionCheck
+     * @covers ::requiredSystemCommands
      * @covers ::nodeJsCommand
      * @covers ::checkPermissions
      * @covers ::checkRedisConnection
@@ -113,6 +114,7 @@ class RequirementsTest extends TestCase
      * @covers ::extensionCheck
      * @covers ::hasDatabaseDriver
      * @covers ::disabledFunctionCheck
+     * @covers ::requiredSystemCommands
      * @covers ::nodeJsCommand
      * @covers ::checkPermissions
      * @covers ::checkRedisConnection
