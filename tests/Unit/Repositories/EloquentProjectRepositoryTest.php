@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Mockery as m;
+use REBELinBLUE\Deployer\Jobs\QueueUpdateGitMirror;
 use REBELinBLUE\Deployer\Jobs\SetupProject;
-use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentProjectRepository;
@@ -98,7 +98,7 @@ class EloquentProjectRepositoryTest extends EloquentRepositoryTestCase
     {
         $model_id = 1;
 
-        $this->expectsJobs(UpdateGitMirror::class);
+        $this->expectsJobs(QueueUpdateGitMirror::class);
 
         $model = m::mock(Project::class);
         $model->shouldReceive('findOrFail')->once()->with($model_id)->andReturnSelf();
@@ -113,7 +113,7 @@ class EloquentProjectRepositoryTest extends EloquentRepositoryTestCase
     public function testRefreshBranchesThrowsModelNotFoundException()
     {
         $model_id = 1;
-        $this->doesntExpectJobs(UpdateGitMirror::class);
+        $this->doesntExpectJobs(QueueUpdateGitMirror::class);
 
         $this->expectException(ModelNotFoundException::class);
 

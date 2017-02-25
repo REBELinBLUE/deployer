@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Closure;
 use Mockery as m;
 use REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors;
-use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
+use REBELinBLUE\Deployer\Jobs\QueueUpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -40,7 +40,7 @@ class UpdateGitMirrorsTest extends TestCase
      */
     public function testHandle()
     {
-        $this->expectsJobs(UpdateGitMirror::class);
+        $this->expectsJobs(QueueUpdateGitMirror::class);
 
         $now = Carbon::create(2017, 2, 5, 12, 45, 00, 'UTC');
         Carbon::setTestNow($now);
@@ -77,7 +77,7 @@ class UpdateGitMirrorsTest extends TestCase
      */
     public function testHandleWithNoProjectsToUpdate()
     {
-        $this->doesntExpectJobs(UpdateGitMirror::class);
+        $this->doesntExpectJobs(QueueUpdateGitMirror::class);
 
         $now = Carbon::create(2017, 2, 5, 12, 45, 00, 'UTC');
         Carbon::setTestNow($now);

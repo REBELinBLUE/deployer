@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use REBELinBLUE\Deployer\Jobs\QueueUpdateGitMirror;
 use REBELinBLUE\Deployer\Jobs\SetupProject;
-use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
@@ -112,7 +112,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     {
         $project = $this->getById($model_id);
 
-        $this->dispatch(new UpdateGitMirror($project));
+        $this->dispatch(new QueueUpdateGitMirror($project));
     }
 
     /**

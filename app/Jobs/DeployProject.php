@@ -76,8 +76,6 @@ class DeployProject extends Job implements ShouldQueue
      * Execute the command.
      *
      * @param Filesystem $filesystem
-     * @param Dispatcher $events
-     * @internal param Dispatcher $dispatcher
      */
     public function handle(Filesystem $filesystem)
     {

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
-use REBELinBLUE\Deployer\Jobs\UpdateGitMirror;
+use REBELinBLUE\Deployer\Jobs\QueueUpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
@@ -61,7 +61,7 @@ class UpdateGitMirrors extends Command
 
         $this->repository->getLastMirroredBefore($last_since, self::UPDATES_TO_QUEUE, function (Collection $projects) {
             $projects->each(function (Project $project) {
-                $this->dispatch(new UpdateGitMirror($project));
+                $this->dispatch(new QueueUpdateGitMirror($project));
             });
         });
     }

@@ -2,9 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
@@ -14,10 +12,11 @@ use RuntimeException;
 
 /**
  * Updates the git mirror for a project.
+ * This is not queued as DeployProject needs it to run in sequence.
  */
-class UpdateGitMirror extends Job implements ShouldQueue
+class UpdateGitMirror extends Job
 {
-    use InteractsWithQueue, SerializesModels, DispatchesJobs;
+    use SerializesModels, DispatchesJobs;
 
     /**
      * @var Project
