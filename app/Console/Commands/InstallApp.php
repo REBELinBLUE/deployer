@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Validation\Factory as Validator;
 use PDO;
 use REBELinBLUE\Deployer\Console\Commands\Installer\EnvFile;
 use REBELinBLUE\Deployer\Console\Commands\Installer\Requirements;
@@ -68,6 +68,11 @@ class InstallApp extends Command
     private $builder;
 
     /**
+     * @var Validator
+     */
+    private $validation;
+
+    /**
      * InstallApp constructor.
      *
      * @param ConfigRepository        $config
@@ -76,6 +81,7 @@ class InstallApp extends Command
      * @param Requirements            $requirements
      * @param EnvFile                 $writer
      * @param ProcessBuilder          $builder
+     * @param Validator               $validation
      */
     public function __construct(
         ConfigRepository $config,
@@ -83,16 +89,19 @@ class InstallApp extends Command
         TokenGeneratorInterface $tokenGenerator,
         Requirements $requirements,
         EnvFile $writer,
-        ProcessBuilder $builder
+        ProcessBuilder $builder,
+        Validator $validation
     ) {
         parent::__construct();
 
-        $this->config         = $config;
-        $this->filesystem     = $filesystem;
-        $this->tokenGenerator = $tokenGenerator;
-        $this->requirements   = $requirements;
-        $this->env            = $writer;
-        $this->builder        = $builder;
+        $this->config          = $config;
+        $this->filesystem      = $filesystem;
+        $this->tokenGenerator  = $tokenGenerator;
+        $this->requirements    = $requirements;
+        $this->env             = $writer;
+        $this->builder         = $builder;
+        $this->validation      = $validation;
+        // FIXME: Move some of these to handle? See CreateUser - env, requirements
     }
 
     /**
@@ -306,7 +315,7 @@ class InstallApp extends Command
      */
     protected function validateUrl($answer)
     {
-        $validator = Validator::make(['url' => $answer], [
+        $validator = $this->validation->make(['url' => $answer], [
             'url' => 'url',
         ]);
 
@@ -437,7 +446,7 @@ class InstallApp extends Command
         }
 
         $path_callback = function ($answer) {
-            $validator = Validator::make(['path' => $answer], [
+            $validator = $this->validation->make(['path' => $answer], [
                 'path' => 'required',
             ]);
 
@@ -496,7 +505,7 @@ class InstallApp extends Command
             $host = $this->ask('Host', 'localhost');
 
             $port = $this->askAndValidate('Port', [], function ($answer) {
-                $validator = Validator::make(['port' => $answer], [
+                $validator = $this->validation->make(['port' => $answer], [
                     'port' => 'integer',
                 ]);
 
@@ -519,7 +528,7 @@ class InstallApp extends Command
         $from_name = $this->ask('From name', 'Deployer');
 
         $from_address = $this->askAndValidate('From address', [], function ($answer) {
-            $validator = Validator::make(['from_address' => $answer], [
+            $validator = $this->validation->make(['from_address' => $answer], [
                 'from_address' => 'email',
             ]);
 
@@ -549,7 +558,7 @@ class InstallApp extends Command
         $name = $this->ask('Name', 'Admin');
 
         $email_address = $this->askAndValidate('Email address', [], function ($answer) {
-            $validator = Validator::make(['email_address' => $answer], [
+            $validator = $this->validation->make(['email_address' => $answer], [
                 'email_address' => 'email',
             ]);
 
@@ -561,7 +570,7 @@ class InstallApp extends Command
         });
 
         $password = $this->askSecretAndValidate('Password', [], function ($answer) {
-            $validator = Validator::make(['password' => $answer], [
+            $validator = $this->validation->make(['password' => $answer], [
                 'password' => 'min:6',
             ]);
 

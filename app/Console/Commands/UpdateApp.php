@@ -81,7 +81,7 @@ class UpdateApp extends Command
         $this->filesystem   = $filesystem;
         $this->repository   = $repository;
         $this->requirements = $requirements;
-        $this->env          = $writer;
+        $this->env          = $writer; // TODO: Move to handle
     }
 
     /**
@@ -119,7 +119,11 @@ class UpdateApp extends Command
         }
 
         $this->backupDatabase();
-        $this->updateConfiguration();
+
+        // Write the file to disk
+        $this->info('Updating configuration file');
+        $this->env->update();
+
         $this->clearCaches();
         $this->migrate();
         $this->optimize();
@@ -181,16 +185,6 @@ class UpdateApp extends Command
             '--destinationPath' => $date,
             '--compression'     => 'gzip',
         ]);
-    }
-
-    /**
-     * Checks for new configuration values in .env.dist and copy them to .env.
-     */
-    protected function updateConfiguration()
-    {
-        // Write the file to disk
-        $this->info('Updating configuration file');
-        $this->env->update();
     }
 
     /**

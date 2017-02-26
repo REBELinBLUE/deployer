@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\KeyGenerateCommand;
 use Illuminate\Foundation\Console\OptimizeCommand;
@@ -34,6 +35,7 @@ class InstallAppTest extends TestCase
     private $laravel;
     private $env;
     private $builder;
+    private $validation;
 
     public function setUp()
     {
@@ -42,14 +44,15 @@ class InstallAppTest extends TestCase
         $console = m::mock(ConsoleApplication::class)->makePartial();
         $console->__construct();
 
-        $this->console      = $console;
-        $this->requirements = m::mock(Requirements::class);
-        $this->config       = m::mock(ConfigRepository::class);
-        $this->filesystem   = m::mock(Filesystem::class);
-        $this->generator    = m::mock(TokenGenerator::class);
-        $this->env          = m::mock(EnvFile::class);
-        $this->builder      = m::mock(ProcessBuilder::class);
-        $this->laravel      = m::mock(Application::class)->makePartial();
+        $this->console       = $console;
+        $this->requirements  = m::mock(Requirements::class);
+        $this->config        = m::mock(ConfigRepository::class);
+        $this->filesystem    = m::mock(Filesystem::class);
+        $this->generator     = m::mock(TokenGenerator::class);
+        $this->env           = m::mock(EnvFile::class);
+        $this->builder       = m::mock(ProcessBuilder::class);
+        $this->validation    = m::mock(Factory::class);
+        $this->laravel       = m::mock(Application::class)->makePartial();
 
         $this->laravel->shouldReceive('make')->andReturnUsing(function ($arg) {
             return $this->app->make($arg);
@@ -125,12 +128,14 @@ class InstallAppTest extends TestCase
         $this->console->shouldReceive('find')->once()->with('config:cache')->andReturn($command);
         $this->console->shouldReceive('find')->once()->with('route:cache')->andReturn($command);
 
-        $env              = base_path('.env');
-        $dist             = base_path('.env.dist');
-        $expectedToken    = 'a-random-app-key';
-        $expectedName     = 'Admin';
-        $expectedEmail    = 'admin@example.com';
-        $expectedPassword = 'a-password-input';
+        $env                = base_path('.env');
+        $dist               = base_path('.env.dist');
+        $expectedToken      = 'a-random-app-key';
+        $expectedName       = 'Admin';
+        $expectedEmail      = 'admin@example.com';
+        $expectedPassword   = 'a-password-input';
+        $expectedHipchatUrl = 'http://hooks.hipchat.com';
+        $expectedFrom       = 'deployer@example.com';
 
         $this->filesystem->shouldReceive('exists')->with($env)->andReturn(false);
         $this->filesystem->shouldReceive('copy')->with($dist, $env);
@@ -172,6 +177,13 @@ class InstallAppTest extends TestCase
         $process->shouldReceive('stop')->andReturnSelf();
         $process->shouldReceive('isSuccessful')->andReturn(true);
 
+        $rules = m::type('array');
+        $this->validation->shouldReceive('make')->with(['url' => $expectedHipchatUrl], $rules)->andReturnSelf();
+        $this->validation->shouldReceive('make')->with(['from_address' => $expectedFrom], $rules)->andReturnSelf();
+        $this->validation->shouldReceive('make')->with(['email_address' => $expectedEmail], $rules)->andReturnSelf();
+        $this->validation->shouldReceive('make')->with(['password' => $expectedPassword], $rules)->andReturnSelf();
+        $this->validation->shouldReceive('passes')->andReturn(true);
+
         $tester = $this->runCommand($this->laravel, [
             // Database details
             'sqlite',
@@ -185,7 +197,7 @@ class InstallAppTest extends TestCase
 
             // Hipchat
             'yes',
-            'http://hooks.hipchat.com',
+            $expectedHipchatUrl,
             'a-hipchat-token',
 
             // Twilio
@@ -197,7 +209,7 @@ class InstallAppTest extends TestCase
             // Mail
             'sendmail',
             'Deployer',
-            'deployer@example.com',
+            $expectedFrom,
 
             // Admin details
             $expectedName,
@@ -228,7 +240,8 @@ class InstallAppTest extends TestCase
             $this->generator,
             $this->requirements,
             $this->env,
-            $this->builder
+            $this->builder,
+            $this->validation
         );
 
         $command->setLaravel($app ?: $this->app);
@@ -236,9 +249,13 @@ class InstallAppTest extends TestCase
 
         $tester = new CommandTester($command);
         $tester->setInputs($inputs);
-        $tester->execute([
-            'command' => 'app:install',
-        ]);
+        try {
+            $tester->execute([
+                'command' => 'app:install',
+            ]);
+        } catch (\Exception $error) {
+            dd($error);
+        }
 
         return $tester;
     }

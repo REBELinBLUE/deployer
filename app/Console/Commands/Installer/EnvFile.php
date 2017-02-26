@@ -94,7 +94,7 @@ class EnvFile
     }
 
     /**
-     * Updates the configuration file based on the dist file.
+     * Checks for new configuration values in .env.dist and copy them to .env.
      *
      * @return bool
      */
