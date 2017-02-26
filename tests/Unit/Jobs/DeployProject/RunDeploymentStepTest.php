@@ -18,12 +18,12 @@ use REBELinBLUE\Deployer\Jobs\DeployProject\LogFormatter;
 use REBELinBLUE\Deployer\Jobs\DeployProject\RunDeploymentStep;
 use REBELinBLUE\Deployer\Jobs\DeployProject\ScriptBuilder;
 use REBELinBLUE\Deployer\Jobs\DeployProject\SendFileToServer;
+use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Project;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
 /**

@@ -51,6 +51,7 @@ class RegeneratePublicKey extends Job
             'key_file' => $private_key_file,
         ])->run();
 
+        // FIXME: Delete files
         if (!$process->isSuccessful()) {
             throw new RuntimeException($process->getErrorOutput());
         }
