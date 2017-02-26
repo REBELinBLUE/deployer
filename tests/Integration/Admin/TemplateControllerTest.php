@@ -200,7 +200,7 @@ class TemplateControllerTest extends AuthenticatedTestCase
      */
     public function testDelete()
     {
-        $this->markTestSkipped('Not working for some reason');
+        $this->markTestIncomplete('Not working for some reason');
         $name = 'Foo';
 
         factory(Template::class)->create(['name' => $name]);

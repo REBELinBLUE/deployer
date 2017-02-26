@@ -6,16 +6,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\File;
 use Mockery as m;
 use REBELinBLUE\Deployer\Project;
-use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\Tests\Unit\stubs\Project as StubProject;
 use REBELinBLUE\Deployer\Tests\Unit\Traits\ProductRelations;
 use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
-use RuntimeException;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Project
@@ -270,130 +266,6 @@ class ProjectTest extends TestCase
     public function provideBranchUrl()
     {
         return $this->fixture('Project')['branch_url'];
-    }
-
-    /**
-     * @covers ::generateSSHKey
-     */
-    public function testGenerateSSHKey()
-    {
-        $folder = storage_path('app/tmp');
-
-        $expectedPrivateKey = 'a-private-key';
-        $expectedPublicKey  = 'a-public-key';
-        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
-
-        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
-        File::shouldReceive('get')->once()->with($expectedPath)->andReturn($expectedPrivateKey);
-        File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
-        File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
-
-        $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')
-                ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath])
-                ->andReturnSelf();
-        $process->shouldReceive('run')->once();
-        $process->shouldReceive('isSuccessful')->andReturn(true);
-
-        App::instance(Process::class, $process);
-
-        $project = new StubProject();
-        $project->generateSSHKey();
-
-        $this->assertSame($expectedPrivateKey, $project->private_key);
-        $this->assertSame($expectedPublicKey, $project->public_key);
-    }
-
-    /**
-     * @covers ::generateSSHKey
-     */
-    public function testGenerateSSHKeyShouldThrowExceptionOnFailure()
-    {
-        $this->expectException(RuntimeException::class);
-
-        $folder       = storage_path('app/tmp');
-        $expectedPath = $folder . 'sshkeyA-TMP-FILE-NAME';
-
-        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
-
-        /** @var Process $process */
-        $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')
-                ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath])
-                ->andReturnSelf();
-        $process->shouldReceive('run')->once();
-        $process->shouldReceive('isSuccessful')->andReturn(false);
-        $process->shouldReceive('getErrorOutput');
-
-        App::instance(Process::class, $process);
-
-        $project     = new StubProject();
-        $project->generateSSHKey();
-    }
-
-    /**
-     * @covers ::regeneratePublicKey
-     */
-    public function testRegeneratePublicKey()
-    {
-        $expectedPublicKey  = 'a-public-key';
-        $expectedPrivateKey = 'a-private-key';
-        $folder             = storage_path('app/tmp');
-        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
-
-        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
-        File::shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
-        File::shouldReceive('chmod')->with($expectedPath, 0600);
-        File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
-        File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
-
-        /** @var Process $process */
-        $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')
-                ->with('tools.RegeneratePublicSSHKey', ['key_file' => $expectedPath])
-                ->andReturnSelf();
-        $process->shouldReceive('run')->once();
-        $process->shouldReceive('isSuccessful')->andReturn(true);
-
-        App::instance(Process::class, $process);
-
-        $project              = new StubProject();
-        $project->private_key = $expectedPrivateKey;
-        $project->regeneratePublicKey();
-
-        $this->assertSame($expectedPrivateKey, $project->private_key);
-        $this->assertSame($expectedPublicKey, $project->public_key);
-    }
-
-    /**
-     * @covers ::regeneratePublicKey
-     */
-    public function testRegeneratePublicKeyShouldThrowExceptionOnFailure()
-    {
-        $this->expectException(RuntimeException::class);
-
-        $expectedPrivateKey = 'a-private-key';
-        $folder             = storage_path('app/tmp');
-        $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
-
-        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
-        File::shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
-        File::shouldReceive('chmod')->with($expectedPath, 0600);
-
-        /** @var Runner $process */
-        $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')
-                ->with('tools.RegeneratePublicSSHKey', ['key_file' => $expectedPath])
-                ->andReturnSelf();
-        $process->shouldReceive('run')->once();
-        $process->shouldReceive('isSuccessful')->andReturn(false);
-        $process->shouldReceive('getErrorOutput');
-
-        App::instance(Process::class, $process);
-
-        $project              = new StubProject();
-        $project->private_key = $expectedPrivateKey;
-        $project->regeneratePublicKey();
     }
 
     /**

@@ -4,11 +4,12 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Database;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\File;
 use Mockery as m;
 use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Heartbeat;
+use REBELinBLUE\Deployer\Jobs\GenerateKey;
+use REBELinBLUE\Deployer\Jobs\RegeneratePublicKey;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Ref;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
@@ -226,41 +227,22 @@ class ProjectTest extends TestCase
      */
     public function testBootBindsSavingEventToGenerateKeypair()
     {
-        $this->markTestSkipped("broken right now");
-
-        $expectedPrivateKey = 'a-private-key';
-        $expectedPublicKey  = 'a-public-key';
-        $folder             = storage_path('app/tmp');
-        $expectedPath       = $folder . 'keyA-TMP-FILE-NAME';
-
-        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
-        File::shouldReceive('get')->once()->with($expectedPath)->andReturn($expectedPrivateKey);
-        File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
-        File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
-
-        /** @var Process $process */
-        $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')
-                ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath])
-                ->andReturnSelf();
-        $process->shouldReceive('run')->once();
-        $process->shouldReceive('isSuccessful')->andReturn(true);
-        $process->shouldNotReceive('setScript')->with('tools.RegeneratePublicSSHKey')->withAnyArgs();
-
-        $this->app->instance(Process::class, $process);
+        $this->markTestIncomplete('broken right now');
 
         /** @var Project $project */
         $project = factory(Project::class)->make([
             'hash' => 'a-fake-hash',
         ]);
 
+        $project->private_key = '';
+        $project->public_key  = '';
+
+        $this->expectsJobs(GenerateKey::class);
+
         $this->assertEmpty($project->private_key);
         $this->assertEmpty($project->public_key);
 
         $project->save();
-
-        $this->assertSame($expectedPrivateKey, $project->private_key);
-        $this->assertSame($expectedPublicKey, $project->public_key);
     }
 
     /**
@@ -268,29 +250,10 @@ class ProjectTest extends TestCase
      */
     public function testBootBindsSavingEventToRegeneratePublicKeyWhenPrivateKeyProvided()
     {
-        $this->markTestSkipped("broken right now");
+        $this->markTestIncomplete('broken right now');
 
         $expectedPrivateKey = 'a-private-key';
         $expectedPublicKey  = 'a-public-key';
-        $folder             = storage_path('app/tmp');
-        $expectedPath       = $folder . 'keyA-TMP-FILE-NAME';
-
-        File::shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
-        File::shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
-        File::shouldReceive('chmod')->with($expectedPath, 0600);
-        File::shouldReceive('get')->once()->with($expectedPath . '.pub')->andReturn($expectedPublicKey);
-        File::shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
-
-        /** @var Process $process */
-        $process = m::mock(Process::class);
-        $process->shouldReceive('setScript')
-                ->with('tools.RegeneratePublicSSHKey', ['key_file' => $expectedPath])
-                ->andReturnSelf();
-        $process->shouldReceive('run')->once();
-        $process->shouldReceive('isSuccessful')->andReturn(true);
-        $process->shouldNotReceive('setScript')->with('tools.GenerateSSHKey')->withAnyArgs();
-
-        $this->app->instance(Process::class, $process);
 
         /** @var Project $project */
         $project = factory(Project::class)->make([
@@ -300,6 +263,8 @@ class ProjectTest extends TestCase
 
         $this->assertSame($expectedPrivateKey, $project->private_key);
         $this->assertEmpty($project->public_key);
+
+        $this->expectsJobs(RegeneratePublicKey::class);
 
         $project->save();
 

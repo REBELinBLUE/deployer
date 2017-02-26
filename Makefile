@@ -2,6 +2,12 @@
 .PHONY: help
 .SILENT:
 
+# Colours
+GREEN  := $(shell tput -Txterm setaf 2)
+WHITE  := $(shell tput -Txterm setaf 7)
+YELLOW := $(shell tput -Txterm setaf 3)
+RESET  := $(shell tput -Txterm sgr0)
+
 build: ##@development Frontend build
 build: install-dev
 	@-rm -rf public/build
@@ -27,24 +33,24 @@ install-dev: permissions
 	yarn install
 
 lint: ##@tests PHP Parallel Lint
-	@echo "\033[32mPHP Parallel Lint\033[39m"
+	@echo "${GREEN}PHP Parallel Lint${RESET}"
 	@rm -rf bootstrap/cache/*.php
 	@php vendor/bin/parallel-lint app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan
 
 lines: ##@tests PHP Lines of Code
-	@echo "\033[32mLines of Code Statistics\033[39m"
+	@echo "${GREEN}Lines of Code Statistics${RESET}"
 	@php vendor/bin/phploc --count-tests app/ database/ resources/ tests/
 
 migrate: ##@production Migrate the database
-	@echo "\033[32mMigrate the database\033[39m"
+	@echo "${GREEN}Migrate the database${RESET}"
 	@php artisan migrate
 
 rollback: ##@development Rollback the previous database migration
-	@echo "\033[32mRollback the database\033[39m"
+	@echo "${GREEN}Rollback the database${RESET}"
 	@php artisan migrate:rollback
 
 seed: #@development Seed the database
-	@echo "\033[32mSeed the database\033[39m"
+	@echo "${GREEN}Seed the database${RESET}"
 	@php artisan db:seed
 
 permissions: ##@production Fix permissions
@@ -53,47 +59,42 @@ permissions: ##@production Fix permissions
 	chmod 777 storage/app/mirrors/ storage/app/tmp/ storage/app/public/
 
 phpcs: ##@tests PHP Coding Standards (PSR-2)
-	@echo "\033[32mPHP Code Sniffer\033[39m"
+	@echo "${GREEN}PHP Code Sniffer${RESET}"
 	@php vendor/bin/phpcs
 
 phpdoc-check: ##@tests PHPDoc Checker
 	@php vendor/bin/phpdoccheck --directory=app --files-per-line 60
 
 phpmd: ##@tests PHP Mess Detector
-	@echo "\033[32mPHP Mess Detector\033[39m"
+	@echo "${GREEN}PHP Mess Detector${RESET}"
 	@if [ -f phpmd.xml ]; then php vendor/bin/phpmd app text phpmd.xml; fi
 	@if [ ! -f phpmd.xml ]; then php vendor/bin/phpmd app text phpmd.xml.dist; fi
 
 phpcpd: ##@tests PHP Copy/Paste Detector
-	@echo "\033[32mPHP Copy/Paste Detector\033[39m"
+	@echo "${GREEN}PHP Copy/Paste Detector${RESET}"
 	@php vendor/bin/phpcpd --progress app/
 
 dusk: ##@tests Dusk Browser Tests
-	@echo "\033[32mDusk\033[39m"
+	@echo "${GREEN}Dusk${RESET}"
 	@php artisan dusk
 
 coverage: ##@tests Test Coverage HTML
-	@echo "\033[32mAll tests with coverage\033[39m"
-	@mkdir -p tmp/
-	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=tmp/unit.cov \
-		--testsuite "Unit Tests" --exclude-group slow
-	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=tmp/slow.cov \
-		--testsuite "Unit Tests" --exclude-group default
-	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=tmp/integration.cov \
-		--testsuite "Integration Tests"
-	@phpdbg -qrr vendor/bin/phpcov merge tmp/ --html storage/app/tmp/coverage/
-	@rm -rf tmp/
+	@echo "${GREEN}All tests with coverage${RESET}"
+	@phpdbg -qrr vendor/bin/phpunit \
+				--coverage-text=/dev/null \
+				--coverage-html=storage/app/tmp/coverage \
+				--coverage-clover storage/app/tmp/coverage.xml
 
 phpunit-fast: ##@tests Unit Tests - Excluding slow model tests which touch the database
-	@echo "\033[32mFast unit tests\033[39m"
+	@echo "${GREEN}Fast unit tests${RESET}"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests" --exclude-group slow
 
 phpunit: ##@tests Unit Tests
-	@echo "\033[32mUnit tests\033[39m"
+	@echo "${GREEN}Unit tests${RESET}"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests"
 
 integration: ##@tests Integration Tests
-	@echo "\033[32mIntegration tests\033[39m"
+	@echo "${GREEN}Integration tests${RESET}"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Integration Tests"
 
 quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
@@ -134,12 +135,6 @@ update-deps: permissions
 # Create release
 release: test
 	@/usr/local/bin/create-release
-
-# Colours
-GREEN  := $(shell tput -Txterm setaf 2)
-WHITE  := $(shell tput -Txterm setaf 7)
-YELLOW := $(shell tput -Txterm setaf 3)
-RESET  := $(shell tput -Txterm sgr0)
 
 HELP_FUN = %help; \
 	while(<>) { push @{$$help{$$2 // 'options'}}, [$$1, $$3] \
