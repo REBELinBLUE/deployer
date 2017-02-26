@@ -258,7 +258,6 @@ class InstallApp extends Command
             base_path('artisan'), 'migrate', '--force',
         ])->setWorkingDirectory(base_path())
           ->getProcess()
-          //->setTty(true)
           ->setTimeout(null);
 
         $process->run(function ($type, $buffer) {
@@ -428,7 +427,6 @@ class InstallApp extends Command
                 'nginx',
             ])->setWorkingDirectory(base_path())
               ->getProcess()
-              //->setTty(true)
               ->setTimeout(null);
 
             $process->run();
