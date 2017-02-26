@@ -3,10 +3,13 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Admin;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Mockery as m;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -48,8 +51,6 @@ class ProjectControllerTest extends AuthenticatedTestCase
      */
     public function testStore()
     {
-        $this->markTestIncomplete('Broken');
-
         $input = [
             'name'               => 'My Site',
             'repository'         => 'git@git.example.com:namespace/repository.git',
@@ -62,6 +63,25 @@ class ProjectControllerTest extends AuthenticatedTestCase
             'include_dev'        => false,
             'template_id'        => '',
         ];
+
+        // Override the dependencies from the job so that it doesn't actually run a process
+        $this->app->bind(Process::class, function () {
+            $process = m::mock(Process::class);
+            $process->shouldReceive('setScript->run');
+            $process->shouldReceive('isSuccessful')->andReturn(true);
+
+            return $process;
+        });
+
+        $this->app->bind(Filesystem::class, function () {
+            $filesystem = m::mock(Filesystem::class);
+            $filesystem->shouldReceive('tempnam')->andReturn('a-key-file');
+            $filesystem->shouldReceive('get')->with('a-key-file')->andReturn('private-key');
+            $filesystem->shouldReceive('get')->with('a-key-file.pub')->andReturn('private-key');
+            $filesystem->shouldReceive('delete');
+
+            return $filesystem;
+        });
 
         $output = array_merge([
             'id' => 1,
