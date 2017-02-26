@@ -4,14 +4,16 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Validator;
 use PDO;
+use REBELinBLUE\Deployer\Console\Commands\Installer\EnvFile;
+use REBELinBLUE\Deployer\Console\Commands\Installer\Requirements;
 use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
+use REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions;
 use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
-use REBELinBLUE\Deployer\Console\Commands\Traits\WriteEnvFile;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
+use RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
@@ -20,7 +22,7 @@ use Symfony\Component\Process\ProcessBuilder;
  */
 class InstallApp extends Command
 {
-    use AskAndValidate, WriteEnvFile, OutputStyles;
+    use AskAndValidate, OutputStyles, GetAvailableOptions;
 
     /**
      * The name and signature of the console command.
@@ -47,35 +49,43 @@ class InstallApp extends Command
     protected $filesystem;
 
     /**
-     * @var Dispatcher
-     */
-    protected $dispatcher;
-
-    /**
      * @var TokenGeneratorInterface
      */
     private $tokenGenerator;
+
+    /**
+     * @var Requirements
+     */
+    private $requirements;
+
+    /**
+     * @var EnvFile
+     */
+    private $writer;
 
     /**
      * InstallApp constructor.
      *
      * @param ConfigRepository        $config
      * @param Filesystem              $filesystem
-     * @param Dispatcher              $dispatcher
      * @param TokenGeneratorInterface $tokenGenerator
+     * @param Requirements            $requirements
+     * @param EnvFile                 $writer
      */
     public function __construct(
         ConfigRepository $config,
         Filesystem $filesystem,
-        Dispatcher $dispatcher,
-        TokenGeneratorInterface $tokenGenerator
+        TokenGeneratorInterface $tokenGenerator,
+        Requirements $requirements,
+        EnvFile $writer
     ) {
         parent::__construct();
 
         $this->config         = $config;
         $this->filesystem     = $filesystem;
-        $this->dispatcher     = $dispatcher;
         $this->tokenGenerator = $tokenGenerator;
+        $this->requirements   = $requirements;
+        $this->env            = $writer;
     }
 
     /**
@@ -85,7 +95,9 @@ class InstallApp extends Command
      */
     public function handle()
     {
-        if (!$this->verifyNotInstalled()) {
+        $this->line('');
+
+        if (!$this->verifyNotInstalled() || !$this->requirements->check($this)) {
             return -1;
         }
 
@@ -98,36 +110,40 @@ class InstallApp extends Command
             $this->config->set('app.key', 'SomeRandomString');
         }
 
+        $this->block(' -- Welcome to Deployer -- ', 'fg=white;bg=green;options=bold');
         $this->line('');
-        $this->block(' -- Welcome to Deployer -- ', 'fg=black;bg=green;options=bold');
-        $this->line('');
-
-        if (!$this->checkRequirements()) {
-            return -1;
-        }
 
         $this->line('Please answer the following questions:');
         $this->line('');
 
         $config = [
             'db'      => $this->getDatabaseInformation(),
-            'app'     => $this->getInstallInformation(),
+//            'app'     => $this->getInstallInformation(),
             'hipchat' => $this->getHipchatInformation(),
             'twilio'  => $this->getTwilioInformation(),
             'mail'    => $this->getEmailInformation(),
+        ];
+
+        $config['app'] = [
+            'url'      => 'http://localhost',
+            'timezone' => 'UTC',
+            'socket'   => 'http://localhost:6001',
+            'ssl'      => null,
+            'locale'   => 'en',
         ];
 
         $admin = $this->getAdminInformation();
 
         $config['jwt']['secret'] = $this->generateJWTKey();
 
-        $this->writeEnvFile($config);
+        $this->info('Writing configuration file');
+        //$this->env->save($config);
 
         $this->info('Generating JWT key');
         $this->generateKey();
-        $this->migrate();
 
-        $this->createAdminUser($admin['name'], $admin['email'], $admin['password']);
+        //$this->migrate();
+        //$this->createAdminUser($admin['name'], $admin['email'], $admin['password']);
 
         $this->clearCaches();
         $this->optimize();
@@ -157,6 +173,8 @@ class InstallApp extends Command
             $this->comment($instruction);
             $this->line('');
         }
+
+        return 0;
     }
 
     /**
@@ -244,7 +262,7 @@ class InstallApp extends Command
         });
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process);
+            throw new RuntimeException($process);
         }
 
         $this->line('');
@@ -255,11 +273,11 @@ class InstallApp extends Command
      */
     protected function clearCaches()
     {
-        $this->call('clear-compiled');
-        $this->call('cache:clear');
-        $this->call('route:clear');
-        $this->call('config:clear');
-        $this->call('view:clear');
+        $this->callSilent('clear-compiled');
+        $this->callSilent('cache:clear');
+        $this->callSilent('route:clear');
+        $this->callSilent('config:clear');
+        $this->callSilent('view:clear');
     }
 
     /**
@@ -267,30 +285,12 @@ class InstallApp extends Command
      */
     protected function optimize()
     {
-        if ($this->getLaravel()->environment() !== 'local') {
+        if (!$this->laravel->environment('local')) {
             $this->call('optimize', ['--force' => true]);
             $this->call('config:cache');
             $this->call('route:cache');
         }
     }
-
-//    /**
-//     * Calls an artisan command and optionally silences the output.
-//     *
-//     * @param string $command
-//     * @param array  $arguments
-//     * @param bool   $silent
-//     */
-//    protected function callCommand($command, array $arguments = [], $silent = false)
-//    {
-//        if ($silent) {
-//            $this->callSilent($command, $arguments);
-//
-//            return;
-//        }
-//
-//        $this->call($command, $arguments);
-//    }
 
     /**
      * Validates the answer is a URL.
@@ -306,7 +306,7 @@ class InstallApp extends Command
         ]);
 
         if (!$validator->passes()) {
-            throw new \RuntimeException($validator->errors()->first('url'));
+            throw new RuntimeException($validator->errors()->first('url'));
         }
 
         return preg_replace('#/$#', '', $answer);
@@ -342,7 +342,7 @@ class InstallApp extends Command
         $process->run();
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process);
+            throw new RuntimeException($process);
         }
     }
 
@@ -431,11 +431,11 @@ class InstallApp extends Command
             ]);
 
             if (!$validator->passes()) {
-                throw new \RuntimeException($validator->errors()->first('path'));
+                throw new RuntimeException($validator->errors()->first('path'));
             }
 
             if (!file_exists($answer)) {
-                throw new \RuntimeException('File does not exist');
+                throw new RuntimeException('File does not exist');
             }
 
             return $answer;
@@ -490,7 +490,7 @@ class InstallApp extends Command
                 ]);
 
                 if (!$validator->passes()) {
-                    throw new \RuntimeException($validator->errors()->first('port'));
+                    throw new RuntimeException($validator->errors()->first('port'));
                 }
 
                 return $answer;
@@ -513,7 +513,7 @@ class InstallApp extends Command
             ]);
 
             if (!$validator->passes()) {
-                throw new \RuntimeException($validator->errors()->first('from_address'));
+                throw new RuntimeException($validator->errors()->first('from_address'));
             }
 
             return $answer;
@@ -543,7 +543,7 @@ class InstallApp extends Command
             ]);
 
             if (!$validator->passes()) {
-                throw new \RuntimeException($validator->errors()->first('email_address'));
+                throw new RuntimeException($validator->errors()->first('email_address'));
             }
 
             return $answer;
@@ -555,7 +555,7 @@ class InstallApp extends Command
             ]);
 
             if (!$validator->passes()) {
-                throw new \RuntimeException($validator->errors()->first('password'));
+                throw new RuntimeException($validator->errors()->first('password'));
             }
 
             return $answer;
@@ -601,11 +601,10 @@ class InstallApp extends Command
 
             return true;
         } catch (\Exception $error) {
-            $this->block([
+            $this->failure(
                 'Deployer could not connect to the database with the details provided. Please try again.',
-                PHP_EOL,
-                $error->getMessage(),
-            ]);
+                $error->getMessage()
+            );
         }
 
         return false;
@@ -619,11 +618,10 @@ class InstallApp extends Command
     private function verifyNotInstalled()
     {
         if ($this->config->get('app.key') !== false && $this->config->get('app.key') !== 'SomeRandomString') {
-            $this->block([
+            $this->failure(
                 'You have already installed Deployer!',
-                PHP_EOL,
-                'If you were trying to update Deployer, please use "php artisan app:update" instead.',
-            ]);
+                'If you were trying to update Deployer, please use "php artisan app:update" instead.'
+            );
 
             return false;
         }

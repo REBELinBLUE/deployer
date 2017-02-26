@@ -14,6 +14,7 @@ use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
 class UserPresenterTest extends TestCase
 {
     /**
+     * @covers ::__construct
      * @covers ::presentAvatarUrl
      */
     public function testPresentAvatarUrlReturnsUploadedAvatar()
@@ -33,6 +34,7 @@ class UserPresenterTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::presentAvatarUrl
      */
     public function testPresentAvatarDefaultsToGravatar()

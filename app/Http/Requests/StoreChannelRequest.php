@@ -124,9 +124,8 @@ class StoreChannelRequest extends Request
             case 'mail':
                 return $this->mailRules();
             case 'custom':
+            default:
                 return $this->customRules();
         }
-
-        return [];
     }
 }

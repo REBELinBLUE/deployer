@@ -10,6 +10,7 @@ use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\OptimizeCommand;
 use Mockery as m;
+use REBELinBLUE\Deployer\Console\Commands\Installer\EnvFile;
 use REBELinBLUE\Deployer\Console\Commands\Installer\Requirements;
 use REBELinBLUE\Deployer\Console\Commands\UpdateApp;
 use REBELinBLUE\Deployer\Events\RestartSocketServer;
@@ -26,11 +27,13 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class UpdateAppTest extends TestCase
 {
+    protected $filesystem;
     private $console;
-    private $filesystem;
     private $config;
     private $repository;
     private $laravel;
+    private $requirements;
+    private $env;
 
     public function setUp()
     {
@@ -39,20 +42,17 @@ class UpdateAppTest extends TestCase
         $console = m::mock(ConsoleApplication::class)->makePartial();
         $console->__construct();
 
-        $requirements = m::mock(Requirements::class);
-        $requirements->shouldReceive('check')->atMost(1)->with(m::type(UpdateApp::class))->andReturn(true);
-
-        $this->config     = m::mock(ConfigRepository::class);
-        $this->filesystem = m::mock(Filesystem::class);
-        $this->repository = m::mock(DeploymentRepositoryInterface::class);
-        $this->laravel    = m::mock(Application::class)->makePartial();
+        $this->console      = $console;
+        $this->config       = m::mock(ConfigRepository::class);
+        $this->filesystem   = m::mock(Filesystem::class);
+        $this->repository   = m::mock(DeploymentRepositoryInterface::class);
+        $this->requirements = m::mock(Requirements::class);
+        $this->env          = m::mock(EnvFile::class);
+        $this->laravel      = m::mock(Application::class)->makePartial();
 
         $this->laravel->shouldReceive('make')->andReturnUsing(function ($arg) {
             return $this->app->make($arg);
         });
-
-        $this->requirements = $requirements;
-        $this->console      = $console;
     }
 
     /**
@@ -200,6 +200,28 @@ class UpdateAppTest extends TestCase
     /**
      * @covers ::__construct
      * @covers ::handle
+     * @covers ::checkCanInstall
+     */
+    public function testCheckRequirements()
+    {
+        $now = Carbon::create(2017, 2, 1, 12, 5, 15, 'UTC');
+        Carbon::setTestNow($now);
+
+        $this->config->shouldReceive('get')->with('app.key')->andReturn('a-valid-key');
+        $this->filesystem->shouldReceive('get')->with(base_path('.env'))->andReturn('config-file-content');
+        $this->filesystem->shouldReceive('lastModified')->andReturn($now->timestamp);
+        $this->repository->shouldReceive('getRunning->count')->andReturn(0);
+        $this->repository->shouldReceive('getPending->count')->andReturn(0);
+        $this->requirements->shouldReceive('check')->with(m::type(UpdateApp::class))->andReturn(false);
+
+        $tester = $this->runCommand();
+
+        $this->assertSame(-1, $tester->getStatusCode());
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::handle
      * @covers ::composerOutdated
      * @covers ::nodeOutdated
      * @covers ::checkCanInstall
@@ -224,7 +246,7 @@ class UpdateAppTest extends TestCase
     /**
      * @covers ::<public>
      * @covers ::<protected>
-     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\WriteEnvFile::writeEnvFile
+     * @covers ::<private>
      */
     public function testHandleSuccessful()
     {
@@ -235,56 +257,7 @@ class UpdateAppTest extends TestCase
         $this->laravel->shouldReceive('isDownForMaintenance')->andReturn(false);
         $this->laravel->shouldReceive('environment')->with('local')->andReturn(false);
 
-        $prev = base_path('.env.prev');
-        $env  = base_path('.env');
-        $dist = base_path('.env.dist');
-
-        $my_config = <<< EOF
-APP_ENV=local
-APP_DEBUG=true
-
-APP_URL=http://deployer.app
-SOCKET_URL=http://deployer.app
-DB_CONNECTION=sqlite
-
-THIS_SHOULD_BE_REMOVED
-
-MAIL_DRIVER=sendmail
-EOF;
-
-        $original_config = <<< EOF
-APP_ENV=production
-APP_DEBUG=false
-
-# Comment, should be stripped
-APP_URL=http://localhost
-SOCKET_URL=http://localhost
-DB_CONNECTION=sqlite
-
-MAIL_DRIVER=sendmail
-FOO_BAR=fizz
-EOF;
-
-        $new_config = <<< EOF
-APP_ENV=local
-APP_DEBUG=true
-
-APP_URL=http://deployer.app
-SOCKET_URL=http://deployer.app
-DB_CONNECTION=sqlite
-
-MAIL_DRIVER=sendmail
-FOO_BAR=fizz
-EOF;
-
-        $this->filesystem->shouldReceive('get')->once()->with($env)->andReturn($my_config);
-        $this->filesystem->shouldReceive('copy')->with($env, $prev);
-        $this->filesystem->shouldReceive('copy')->with($dist, $env);
-        $this->filesystem->shouldReceive('get')->once()->with($env)->andReturn($original_config);
-        $this->filesystem->shouldReceive('put')->with($env, trim($new_config) . PHP_EOL);
-        $this->filesystem->shouldReceive('md5')->with($env)->andReturn('hash');
-        $this->filesystem->shouldReceive('md5')->with($prev)->andReturn('hash');
-        $this->filesystem->shouldReceive('delete')->with($prev);
+        $this->env->shouldReceive('update')->andReturn(true);
 
         $command = m::mock(Command::class);
         $command->shouldReceive('run');
@@ -339,7 +312,7 @@ EOF;
         $output = $tester->getDisplay();
 
         $this->assertContains('Switch to maintenance mode now?', $output);
-        $this->assertContains('Writing configuration file', $output);
+        $this->assertContains('Updating configuration file', $output);
         $this->assertContains('Restarting the queue', $output);
         $this->assertContains('Restarting the socket server', $output);
         $this->assertSame(0, $tester->getStatusCode());
@@ -351,7 +324,8 @@ EOF;
             $this->config,
             $this->filesystem,
             $this->repository,
-            $this->requirements
+            $this->requirements,
+            $this->env
         );
 
         $command->setLaravel($app ?: $this->app);
@@ -377,5 +351,7 @@ EOF;
 
         $this->repository->shouldReceive('getRunning->count')->andReturn(0);
         $this->repository->shouldReceive('getPending->count')->andReturn(0);
+
+        $this->requirements->shouldReceive('check')->with(m::type(UpdateApp::class))->andReturn(true);
     }
 }

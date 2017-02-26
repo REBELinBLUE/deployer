@@ -78,6 +78,7 @@ class ResetApp extends Command
         $this->filesystem->touch(base_path('vendor/autoload.php'));
         $this->filesystem->touch(base_path('node_modules/.install'));
 
+        $this->callSilent('migrate', ['--force' => true]);
         $this->callSilent('app:update');
         $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
     }

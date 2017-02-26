@@ -6,9 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
+use REBELinBLUE\Deployer\Console\Commands\Installer\EnvFile;
 use REBELinBLUE\Deployer\Console\Commands\Installer\Requirements;
 use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
-use REBELinBLUE\Deployer\Console\Commands\Traits\WriteEnvFile;
 use REBELinBLUE\Deployer\Events\RestartSocketServer;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
@@ -18,7 +18,7 @@ use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
  */
 class UpdateApp extends Command
 {
-    use WriteEnvFile, OutputStyles;
+    use OutputStyles;
 
     /**
      * The name and signature of the console command.
@@ -55,18 +55,25 @@ class UpdateApp extends Command
     private $requirements;
 
     /**
+     * @var EnvFile
+     */
+    private $env;
+
+    /**
      * UpdateApp constructor.
      *
      * @param ConfigRepository              $config
      * @param Filesystem                    $filesystem
      * @param DeploymentRepositoryInterface $repository
      * @param Requirements                  $requirements
+     * @param EnvFile                       $writer
      */
     public function __construct(
         ConfigRepository $config,
         Filesystem $filesystem,
         DeploymentRepositoryInterface $repository,
-        Requirements $requirements
+        Requirements $requirements,
+        EnvFile $writer
     ) {
         parent::__construct();
 
@@ -74,6 +81,7 @@ class UpdateApp extends Command
         $this->filesystem   = $filesystem;
         $this->repository   = $repository;
         $this->requirements = $requirements;
+        $this->env          = $writer;
     }
 
     /**
@@ -84,6 +92,8 @@ class UpdateApp extends Command
      */
     public function handle(Dispatcher $dispatcher)
     {
+        $this->line('');
+
         if (!$this->checkCanInstall()) {
             return -1;
         }
@@ -178,49 +188,9 @@ class UpdateApp extends Command
      */
     protected function updateConfiguration()
     {
-        $prev     = base_path('.env.prev');
-        $current  = base_path('.env');
-        $dist     = base_path('.env.dist');
-
-        $config = [];
-
-        // Read the current config values into an array for the writeEnvFile method
-        $content = $this->filesystem->get($current);
-        foreach (explode(PHP_EOL, $content) as $line) {
-            $line = trim($line);
-
-            if (empty($line)) {
-                continue;
-            }
-
-            $parts = explode('=', $line);
-
-            if (count($parts) < 2) {
-                continue;
-            }
-
-            $env   = strtolower($parts[0]);
-            $value = trim($parts[1]);
-
-            $section = substr($env, 0, strpos($env, '_'));
-            $key     = substr($env, strpos($env, '_') + 1);
-
-            $config[$section][$key] = $value;
-        }
-
-        // Backup the .env file, just in case it failed because we don't want to lose APP_KEY
-        $this->filesystem->copy($current, $prev);
-
-        // Copy the example file so that new values are copied
-        $this->filesystem->copy($dist, $current);
-
         // Write the file to disk
-        $this->writeEnvFile($config);
-
-        // If the updated .env is the same as the backup remove the backup
-        if ($this->filesystem->md5($current) === $this->filesystem->md5($prev)) {
-            $this->filesystem->delete($prev);
-        }
+        $this->info('Updating configuration file');
+        $this->env->update();
     }
 
     /**
