@@ -64,24 +64,21 @@ class ProjectControllerTest extends AuthenticatedTestCase
             'template_id'        => '',
         ];
 
+        /** @var Process $process */
+        $process = m::mock(Process::class);
+        $process->shouldReceive('setScript->run');
+        $process->shouldReceive('isSuccessful')->andReturn(true);
+
+        /** @var Filesystem $filesystem */
+        $filesystem = m::mock(Filesystem::class);
+        $filesystem->shouldReceive('tempnam')->andReturn('a-key-file');
+        $filesystem->shouldReceive('get')->with('a-key-file')->andReturn('private-key');
+        $filesystem->shouldReceive('get')->with('a-key-file.pub')->andReturn('private-key');
+        $filesystem->shouldReceive('delete');
+
         // Override the dependencies from the job so that it doesn't actually run a process
-        $this->app->bind(Process::class, function () {
-            $process = m::mock(Process::class);
-            $process->shouldReceive('setScript->run');
-            $process->shouldReceive('isSuccessful')->andReturn(true);
-
-            return $process;
-        });
-
-        $this->app->bind(Filesystem::class, function () {
-            $filesystem = m::mock(Filesystem::class);
-            $filesystem->shouldReceive('tempnam')->andReturn('a-key-file');
-            $filesystem->shouldReceive('get')->with('a-key-file')->andReturn('private-key');
-            $filesystem->shouldReceive('get')->with('a-key-file.pub')->andReturn('private-key');
-            $filesystem->shouldReceive('delete');
-
-            return $filesystem;
-        });
+        $this->app->instance(Process::class, $process);
+        $this->app->instance(Filesystem::class, $filesystem);
 
         $output = array_merge([
             'id' => 1,

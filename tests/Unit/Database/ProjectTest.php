@@ -8,10 +8,9 @@ use Mockery as m;
 use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Group;
 use REBELinBLUE\Deployer\Heartbeat;
-use REBELinBLUE\Deployer\Jobs\GenerateKey;
-use REBELinBLUE\Deployer\Jobs\RegeneratePublicKey;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Ref;
+use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -195,12 +194,17 @@ class ProjectTest extends TestCase
         $process = m::mock(Process::class);
         $process->shouldNotReceive('setScript')->withAnyArgs();
 
+        /** @var Filesystem $filesystem */
+        $filesystem = m::mock(Filesystem::class);
+        $filesystem->shouldNotReceive('tempnam')->withAnyArgs();
+
         /** @var TokenGeneratorInterface $generator */
         $generator = m::mock(TokenGeneratorInterface::class);
         $generator->shouldNotReceive('generateRandom')->withAnyArgs();
 
         $this->app->instance(Process::class, $process);
         $this->app->instance(TokenGeneratorInterface::class, $generator);
+        $this->app->instance(Filesystem::class, $filesystem);
 
         /** @var Project $project */
         $project = factory(Project::class)->make([
@@ -227,7 +231,8 @@ class ProjectTest extends TestCase
      */
     public function testBootBindsSavingEventToGenerateKeypair()
     {
-        $this->markTestIncomplete('broken right now');
+        $expectedPrivateKey = 'a-private-key';
+        $expectedPublicKey  = 'a-private-key';
 
         /** @var Project $project */
         $project = factory(Project::class)->make([
@@ -237,12 +242,29 @@ class ProjectTest extends TestCase
         $project->private_key = '';
         $project->public_key  = '';
 
-        $this->expectsJobs(GenerateKey::class);
+        /** @var Process $process */
+        $process = m::mock(Process::class);
+        $process->shouldReceive('setScript->run');
+        $process->shouldReceive('isSuccessful')->andReturn(true);
+
+        /** @var Filesystem $filesystem */
+        $filesystem = m::mock(Filesystem::class);
+        $filesystem->shouldReceive('tempnam')->andReturn('a-key-file');
+        $filesystem->shouldReceive('get')->with('a-key-file')->andReturn($expectedPrivateKey);
+        $filesystem->shouldReceive('get')->with('a-key-file.pub')->andReturn($expectedPublicKey);
+        $filesystem->shouldReceive('delete');
+
+        // Override the dependencies from the job so that it doesn't actually run a process
+        $this->app->instance(Process::class, $process);
+        $this->app->instance(Filesystem::class, $filesystem);
 
         $this->assertEmpty($project->private_key);
         $this->assertEmpty($project->public_key);
 
         $project->save();
+
+        $this->assertSame($expectedPrivateKey, $project->private_key);
+        $this->assertSame($expectedPublicKey, $project->public_key);
     }
 
     /**
@@ -250,8 +272,6 @@ class ProjectTest extends TestCase
      */
     public function testBootBindsSavingEventToRegeneratePublicKeyWhenPrivateKeyProvided()
     {
-        $this->markTestIncomplete('broken right now');
-
         $expectedPrivateKey = 'a-private-key';
         $expectedPublicKey  = 'a-public-key';
 
@@ -259,12 +279,28 @@ class ProjectTest extends TestCase
         $project = factory(Project::class)->make([
             'hash'        => 'a-fake-hash',
             'private_key' => $expectedPrivateKey,
+            'public_key'  => '',
         ]);
 
         $this->assertSame($expectedPrivateKey, $project->private_key);
         $this->assertEmpty($project->public_key);
 
-        $this->expectsJobs(RegeneratePublicKey::class);
+        /** @var Process $process */
+        $process = m::mock(Process::class);
+        $process->shouldReceive('setScript->run');
+        $process->shouldReceive('isSuccessful')->andReturn(true);
+
+        /** @var Filesystem $filesystem */
+        $filesystem = m::mock(Filesystem::class);
+        $filesystem->shouldReceive('tempnam')->andReturn('a-key-file');
+        $filesystem->shouldReceive('put')->with('a-key-file', $expectedPrivateKey);
+        $filesystem->shouldReceive('chmod');
+        $filesystem->shouldReceive('get')->with('a-key-file.pub')->andReturn($expectedPublicKey);
+        $filesystem->shouldReceive('delete');
+
+        // Override the dependencies from the job so that it doesn't actually run a process
+        $this->app->instance(Process::class, $process);
+        $this->app->instance(Filesystem::class, $filesystem);
 
         $project->save();
 
