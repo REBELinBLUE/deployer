@@ -14,7 +14,6 @@ use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use RuntimeException;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
@@ -61,7 +60,12 @@ class InstallApp extends Command
     /**
      * @var EnvFile
      */
-    private $writer;
+    private $env;
+
+    /**
+     * @var ProcessBuilder
+     */
+    private $builder;
 
     /**
      * InstallApp constructor.
@@ -71,13 +75,15 @@ class InstallApp extends Command
      * @param TokenGeneratorInterface $tokenGenerator
      * @param Requirements            $requirements
      * @param EnvFile                 $writer
+     * @param ProcessBuilder          $builder
      */
     public function __construct(
         ConfigRepository $config,
         Filesystem $filesystem,
         TokenGeneratorInterface $tokenGenerator,
         Requirements $requirements,
-        EnvFile $writer
+        EnvFile $writer,
+        ProcessBuilder $builder
     ) {
         parent::__construct();
 
@@ -86,6 +92,7 @@ class InstallApp extends Command
         $this->tokenGenerator = $tokenGenerator;
         $this->requirements   = $requirements;
         $this->env            = $writer;
+        $this->builder        = $builder;
     }
 
     /**
@@ -137,13 +144,13 @@ class InstallApp extends Command
         $config['jwt']['secret'] = $this->generateJWTKey();
 
         $this->info('Writing configuration file');
-        //$this->env->save($config);
+        $this->env->save($config);
 
         $this->info('Generating JWT key');
         $this->generateKey();
 
-        //$this->migrate();
-        //$this->createAdminUser($admin['name'], $admin['email'], $admin['password']);
+        $this->migrate();
+        $this->createAdminUser($admin['name'], $admin['email'], $admin['password']);
 
         $this->clearCaches();
         $this->optimize();
@@ -244,15 +251,14 @@ class InstallApp extends Command
         $this->info('Running database migrations');
         $this->line('');
 
-        $builder = new ProcessBuilder();
-        $builder->setPrefix('php');
+        $this->builder->setPrefix('php');
 
         // Something has changed in laravel 5.3 which means calling the migrate command with call() isn't working
-        $process = $builder->setArguments([
+        $process = $this->builder->setArguments([
             base_path('artisan'), 'migrate', '--force',
-        ])->setWorkingDirectory(base_path('artisan'))
+        ])->setWorkingDirectory(base_path())
           ->getProcess()
-          ->setTty(true)
+          //->setTty(true)
           ->setTimeout(null);
 
         $process->run(function ($type, $buffer) {
@@ -330,12 +336,11 @@ class InstallApp extends Command
      */
     private function createAdminUser($name, $email, $password)
     {
-        $builder = new ProcessBuilder();
-        $builder->setPrefix('php');
+        $this->builder->setPrefix('php');
 
-        $process = $builder->setArguments([
+        $process = $this->builder->setArguments([
             base_path('artisan'), 'deployer:create-user', $name, $email, $password, '--no-email',
-        ])->setWorkingDirectory(base_path('artisan'))
+        ])->setWorkingDirectory(base_path())
           ->getProcess()
           ->setTimeout(null);
 
@@ -416,8 +421,16 @@ class InstallApp extends Command
         // If the URL doesn't have : in twice (the first is in the protocol, the second for the port)
         if (substr_count($socket, ':') === 1) {
             // Check if running on nginx, and if not then add it
-            $process = new Process('which nginx');
-            $process->setTimeout(null);
+            $this->builder->setPrefix('which');
+
+            // Something has changed in laravel 5.3 which means calling the migrate command with call() isn't working
+            $process = $this->builder->setArguments([
+                'nginx',
+            ])->setWorkingDirectory(base_path())
+              ->getProcess()
+              //->setTty(true)
+              ->setTimeout(null);
+
             $process->run();
 
             if (!$process->isSuccessful()) {

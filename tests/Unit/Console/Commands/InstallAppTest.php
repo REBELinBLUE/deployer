@@ -18,6 +18,8 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\InstallApp
@@ -31,6 +33,7 @@ class InstallAppTest extends TestCase
     private $requirements;
     private $laravel;
     private $env;
+    private $builder;
 
     public function setUp()
     {
@@ -45,6 +48,7 @@ class InstallAppTest extends TestCase
         $this->filesystem   = m::mock(Filesystem::class);
         $this->generator    = m::mock(TokenGenerator::class);
         $this->env          = m::mock(EnvFile::class);
+        $this->builder      = m::mock(ProcessBuilder::class);
         $this->laravel      = m::mock(Application::class)->makePartial();
 
         $this->laravel->shouldReceive('make')->andReturnUsing(function ($arg) {
@@ -121,9 +125,12 @@ class InstallAppTest extends TestCase
         $this->console->shouldReceive('find')->once()->with('config:cache')->andReturn($command);
         $this->console->shouldReceive('find')->once()->with('route:cache')->andReturn($command);
 
-        $env           = base_path('.env');
-        $dist          = base_path('.env.dist');
-        $expectedToken = 'a-random-app-key';
+        $env              = base_path('.env');
+        $dist             = base_path('.env.dist');
+        $expectedToken    = 'a-random-app-key';
+        $expectedName     = 'Admin';
+        $expectedEmail    = 'admin@example.com';
+        $expectedPassword = 'a-password-input';
 
         $this->filesystem->shouldReceive('exists')->with($env)->andReturn(false);
         $this->filesystem->shouldReceive('copy')->with($dist, $env);
@@ -135,6 +142,35 @@ class InstallAppTest extends TestCase
 
         $this->filesystem->shouldReceive('touch')->with(database_path('database.sqlite'))->andReturn(true);
         $this->generator->shouldReceive('generateRandom')->andReturn($expectedToken);
+        $this->env->shouldReceive('save')->with(m::type('array'))->andReturn(true);
+
+        $process = m::mock(Process::class);
+        $this->builder->shouldReceive('setPrefix')->with('php')->andReturnSelf();
+        $this->builder->shouldReceive('setArguments')
+                      ->once()
+                      ->with([base_path('artisan'), 'migrate', '--force'])
+                      ->andReturnSelf();
+
+        $this->builder->shouldReceive('setArguments')
+                      ->once()
+                      ->with([
+                          base_path('artisan'),
+                          'deployer:create-user',
+                          $expectedName,
+                          $expectedEmail,
+                          $expectedPassword,
+                          '--no-email',
+                      ])
+                      ->andReturnSelf();
+
+        $this->builder->shouldReceive('setWorkingDirectory')->with(base_path())->andReturnSelf();
+        $this->builder->shouldReceive('getProcess')->andReturn($process);
+
+        //$process->shouldReceive('setTty')->with(true)->andReturnSelf();
+        $process->shouldReceive('setTimeout')->with(null)->andReturnSelf();
+        $process->shouldReceive('run')->andReturnSelf();
+        $process->shouldReceive('stop')->andReturnSelf();
+        $process->shouldReceive('isSuccessful')->andReturn(true);
 
         $tester = $this->runCommand($this->laravel, [
             // Database details
@@ -144,6 +180,8 @@ class InstallAppTest extends TestCase
 //            'deployer',
 //            'deployer',
 //            'secret'
+
+            // App Details
 
             // Hipchat
             'yes',
@@ -162,13 +200,23 @@ class InstallAppTest extends TestCase
             'deployer@example.com',
 
             // Admin details
-            'Admin',
-            'admin@example.com',
-            'password',
+            $expectedName,
+            $expectedEmail,
+            $expectedPassword,
         ]);
         $output = $tester->getDisplay();
 
-        //$this->assertContains('failed!', $output);
+        $this->assertContains('Database details', $output);
+        $this->assertContains('Hipchat setup', $output);
+        $this->assertContains('Twilio setup', $output);
+        $this->assertContains('Email details', $output);
+        $this->assertContains('Admin details', $output);
+        $this->assertContains('Writing configuration file', $output);
+        $this->assertContains('Generating JWT key', $output);
+        $this->assertContains('Generating application key', $output);
+        $this->assertContains('Running database migrations', $output);
+        $this->assertContains('Success!', $output);
+
         $this->assertSame(0, $tester->getStatusCode());
     }
 
@@ -179,22 +227,18 @@ class InstallAppTest extends TestCase
             $this->filesystem,
             $this->generator,
             $this->requirements,
-            $this->env
+            $this->env,
+            $this->builder
         );
 
         $command->setLaravel($app ?: $this->app);
         $command->setApplication($this->console);
 
         $tester = new CommandTester($command);
-
-        try {
-            $tester->setInputs($inputs);
-            $tester->execute([
-                'command' => 'app:install',
-            ]);
-        } catch (\Exception $error) {
-            dd($error);
-        }
+        $tester->setInputs($inputs);
+        $tester->execute([
+            'command' => 'app:install',
+        ]);
 
         return $tester;
     }
