@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1153e9cdd2e52e3f8d619187ebeb49e",
+    "content-hash": "889f13b4f70c180033841530584733ea",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -1686,6 +1686,9 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "5.4-dev"
+                },
+                "patches_applied": {
+                    "Support for PHPDBG in testing": "https://www.phpdeployment.org/patches/0001-Support-PHPDBG.patch"
                 }
             },
             "autoload": {

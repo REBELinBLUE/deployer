@@ -105,6 +105,9 @@
     },
     "extra": {
         "patches": {
+            "laravel/framework": {
+                "Support for PHPDBG in testing": "https://www.phpdeployment.org/patches/0001-Support-PHPDBG.patch"
+            },
             "michele-angioni/multi-language": {
                 "Laravel 5.4 support for PHP 5.6": "https://www.phpdeployment.org/patches/0002-Multilanguage.patch"
             },

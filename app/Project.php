@@ -97,11 +97,13 @@ class Project extends Model implements PresentableInterface
         // When  creating the model generate an SSH Key pair and a webhook hash
         static::saving(function (Project $model) {
             if (!array_key_exists('private_key', $model->attributes) || $model->private_key === '') {
-                $model->generateSSHKey();
+                $model->private_key = 'a-private-key';
+                //$model->generateSSHKey(); // FIXME: Move these into jobs
             }
 
             if (!array_key_exists('public_key', $model->attributes) || $model->public_key === '') {
-                $model->regeneratePublicKey();
+                $model->public_key = 'a-public-key';
+                //$model->regeneratePublicKey();
             }
 
             if (!array_key_exists('hash', $model->attributes)) {

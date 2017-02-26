@@ -40,10 +40,7 @@ before_install:
   # - . $HOME/.nvm/nvm.sh
   # - nvm install stable
   # - nvm use stable
-  - |
-    if [[ "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
-      phpenv config-rm xdebug.ini;
-    fi
+  - phpenv config-rm xdebug.ini
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
@@ -77,15 +74,15 @@ script:
   # - make phpmd
   - |
     if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
-      mkdir -p tmp/
       echo -e "\033[32mFast Unit Tests with coverage\033[39m"
-      php vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
+      phpdbg -qrr vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
       echo -e "\033[32mSlow Unit Tests with coverage\033[39m"
-      php vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
+      phpdbg -qrr vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
       echo -e "\033[32mIntegration Tests with coverage\033[39m"
-      php vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
-      php vendor/bin/phpcov merge tmp/ --clover coverage.xml
+      phpdbg -qrr vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
+      phpdbg -qrr vendor/bin/phpcov merge tmp/ --clover coverage.xml
       rm -rf tmp/
+      mkdir -p tmp/
     else
       make phpunit
     fi
