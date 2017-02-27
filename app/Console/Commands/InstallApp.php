@@ -134,18 +134,10 @@ class InstallApp extends Command
 
         $config = [
             'db'      => $this->getDatabaseInformation(),
-//            'app'     => $this->getInstallInformation(),
+            'app'     => $this->getInstallInformation(),
             'hipchat' => $this->getHipchatInformation(),
             'twilio'  => $this->getTwilioInformation(),
             'mail'    => $this->getEmailInformation(),
-        ];
-
-        $config['app'] = [
-            'url'      => 'http://localhost',
-            'timezone' => 'UTC',
-            'socket'   => 'http://localhost:6001',
-            'ssl'      => null,
-            'locale'   => 'en',
         ];
 
         $admin = $this->getAdminInformation();
@@ -260,14 +252,7 @@ class InstallApp extends Command
         $this->info('Running database migrations');
         $this->line('');
 
-        $this->builder->setPrefix('php');
-
-        // Something has changed in laravel 5.3 which means calling the migrate command with call() isn't working
-        $process = $this->builder->setArguments([
-            base_path('artisan'), 'migrate', '--force',
-        ])->setWorkingDirectory(base_path())
-          ->getProcess()
-          ->setTimeout(null);
+        $process = $this->artisanProcess('migrate', ['--force']);
 
         $process->run(function ($type, $buffer) {
             if ($type === Process::OUT) {
@@ -344,19 +329,36 @@ class InstallApp extends Command
      */
     private function createAdminUser($name, $email, $password)
     {
-        $this->builder->setPrefix('php');
-
-        $process = $this->builder->setArguments([
-            base_path('artisan'), 'deployer:create-user', $name, $email, $password, '--no-email',
-        ])->setWorkingDirectory(base_path())
-          ->getProcess()
-          ->setTimeout(null);
+        $process = $this->artisanProcess('deployer:create-user', [$name, $email, $password, '--no-email']);
 
         $process->run();
 
         if (!$process->isSuccessful()) {
             throw new RuntimeException($process);
         }
+    }
+
+    /**
+     * Generates a Symfony Process instance for an artisan command.
+     *
+     * @param $command
+     * @param array $args
+     *
+     * @return \Symfony\Component\Process\Process
+     */
+    private function artisanProcess($command, array $args = [])
+    {
+        $arguments = array_merge([
+            base_path('artisan'),
+            $command,
+        ], $args);
+
+        $this->builder->setPrefix('php');
+
+        return $this->builder->setArguments($arguments)
+                             ->setWorkingDirectory(base_path())
+                             ->getProcess()
+                             ->setTimeout(null);
     }
 
     /**
@@ -432,11 +434,10 @@ class InstallApp extends Command
             $this->builder->setPrefix('which');
 
             // Something has changed in laravel 5.3 which means calling the migrate command with call() isn't working
-            $process = $this->builder->setArguments([
-                'nginx',
-            ])->setWorkingDirectory(base_path())
-              ->getProcess()
-              ->setTimeout(null);
+            $process = $this->builder->setArguments(['nginx'])
+                                     ->setWorkingDirectory(base_path())
+                                     ->getProcess()
+                                     ->setTimeout(null);
 
             $process->run();
 

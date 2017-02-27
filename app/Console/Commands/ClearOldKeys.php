@@ -54,10 +54,12 @@ class ClearOldKeys extends Command
         $tmp_dir = storage_path('app/tmp');
 
         // Clear out old SSH key files and archives
-        $keys     = $this->filesystem->glob($tmp_dir . '/*key*');
-        $tmp      = $this->filesystem->glob($tmp_dir . '/*tmp*');
-        $archives = $this->filesystem->glob(storage_path('app') . '/*.tar.gz');
-        $files    = array_merge($keys, $archives, $tmp);
+        $files = array_merge(
+            $this->filesystem->glob($tmp_dir . '/*key*'),
+            $this->filesystem->glob($tmp_dir . '/*tmp*'),
+            $this->filesystem->glob($tmp_dir . '/*ssh*'),
+            $this->filesystem->glob(storage_path('app') . '/*.tar.gz')
+        );
 
         $folders = $this->filesystem->glob($tmp_dir . '/clone_*'); // cloned copies of code
 

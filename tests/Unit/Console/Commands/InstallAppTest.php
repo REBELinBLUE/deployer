@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\KeyGenerateCommand;
 use Illuminate\Foundation\Console\OptimizeCommand;
+use MicheleAngioni\MultiLanguage\LanguageManager;
 use Mockery as m;
 use phpmock\mockery\PHPMockery as phpm;
 use REBELinBLUE\Deployer\Console\Commands\InstallApp;
@@ -136,6 +137,7 @@ class InstallAppTest extends TestCase
         $expectedPassword   = 'a-password-input';
         $expectedHipchatUrl = 'http://hooks.hipchat.com';
         $expectedFrom       = 'deployer@example.com';
+        $expectedAppUrl     = 'http://localhost';
 
         $this->filesystem->shouldReceive('exists')->with($env)->andReturn(false);
         $this->filesystem->shouldReceive('copy')->with($dist, $env);
@@ -150,6 +152,9 @@ class InstallAppTest extends TestCase
         $this->env->shouldReceive('save')->with(m::type('array'))->andReturn(true);
 
         $process = m::mock(Process::class);
+        $this->builder->shouldReceive('setPrefix')->with('which')->andReturnSelf();
+        $this->builder->shouldReceive('setArguments')->once()->with(['nginx'])->andReturnSelf();
+
         $this->builder->shouldReceive('setPrefix')->with('php')->andReturnSelf();
         $this->builder->shouldReceive('setArguments')
                       ->once()
@@ -178,11 +183,18 @@ class InstallAppTest extends TestCase
         $process->shouldReceive('isSuccessful')->andReturn(true);
 
         $rules = m::type('array');
+        $this->validation->shouldReceive('make')->with(['url' => $expectedAppUrl], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['url' => $expectedHipchatUrl], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['from_address' => $expectedFrom], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['email_address' => $expectedEmail], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['password' => $expectedPassword], $rules)->andReturnSelf();
         $this->validation->shouldReceive('passes')->andReturn(true);
+
+        $locale = m::mock(LanguageManager::class);
+        $locale->shouldReceive('getAvailableLanguages')->andReturn(['en', 'es', 'de', 'ru']);
+        $this->app->instance('locale', $locale);
+
+        $this->config->shouldReceive('get')->with('app.fallback_locale')->andReturn('de');
 
         $tester = $this->runCommand($this->laravel, [
             // Database details
@@ -194,6 +206,11 @@ class InstallAppTest extends TestCase
 //            'secret'
 
             // App Details
+            $expectedAppUrl,
+            'Europe',
+            'London',
+            $expectedAppUrl,
+            'en',
 
             // Hipchat
             'yes',
@@ -219,6 +236,7 @@ class InstallAppTest extends TestCase
         $output = $tester->getDisplay();
 
         $this->assertContains('Database details', $output);
+        $this->assertContains('Installation details', $output);
         $this->assertContains('Hipchat setup', $output);
         $this->assertContains('Twilio setup', $output);
         $this->assertContains('Email details', $output);

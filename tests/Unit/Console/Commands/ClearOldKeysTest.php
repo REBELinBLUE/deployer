@@ -33,16 +33,19 @@ class ClearOldKeysTest extends TestCase
 
         $filesystem->shouldReceive('glob')->with($tmp_dir . '/*key*')->andReturn(['/var/www/gitkeys']);
         $filesystem->shouldReceive('glob')->with($tmp_dir . '/*tmp*')->andReturn(['/var/www/tmpfile']);
+        $filesystem->shouldReceive('glob')->with($tmp_dir . '/*ssh*')->andReturn(['/var/www/sshwrapper']);
         $filesystem->shouldReceive('glob')->with($app_dir . '/*.tar.gz')->andReturn(['/var/www/mirror.tar.gz']);
         $filesystem->shouldReceive('glob')->with($tmp_dir . '/clone_*')->andReturn(['/var/www/clone_mirror']);
 
         $filesystem->shouldReceive('basename')->with('/var/www/gitkeys')->andReturn('gitkeys');
         $filesystem->shouldReceive('basename')->with('/var/www/tmpfile')->andReturn('tmpfile');
+        $filesystem->shouldReceive('basename')->with('/var/www/sshwrapper')->andReturn('sshwrapper');
         $filesystem->shouldReceive('basename')->with('/var/www/mirror.tar.gz')->andReturn('mirror.tar.gz');
         $filesystem->shouldReceive('basename')->with('/var/www/clone_mirror')->andReturn('clone_mirror');
 
         $filesystem->shouldReceive('isDirectory')->with('/var/www/gitkeys')->andReturn(false);
         $filesystem->shouldReceive('isDirectory')->with('/var/www/tmpfile')->andReturn(false);
+        $filesystem->shouldReceive('isDirectory')->with('/var/www/sshwrapper')->andReturn(false);
         $filesystem->shouldReceive('isDirectory')->with('/var/www/mirror.tar.gz')->andReturn(false);
         $filesystem->shouldReceive('isDirectory')->with('/var/www/clone_mirror')->andReturn(true);
 
@@ -65,6 +68,7 @@ class ClearOldKeysTest extends TestCase
         $this->filesystem->shouldReceive('deleteDirectory')->with('/var/www/clone_mirror')->andReturn(true);
         $this->filesystem->shouldReceive('delete')->with('/var/www/gitkeys')->andReturn(true);
         $this->filesystem->shouldReceive('delete')->with('/var/www/tmpfile')->andReturn(true);
+        $this->filesystem->shouldReceive('delete')->with('/var/www/sshwrapper')->andReturn(true);
         $this->filesystem->shouldReceive('delete')->with('/var/www/mirror.tar.gz')->andReturn(true);
 
         $command = new ClearOldKeys($this->filesystem);
@@ -78,8 +82,10 @@ class ClearOldKeysTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 3 files and 1 folders to purge', $output);
+        $this->assertContains('Found 4 files and 1 folders to purge', $output);
         $this->assertContains('Deleted gitkeys', $output);
+        $this->assertContains('Deleted tmpfile', $output);
+        $this->assertContains('Deleted sshwrapper', $output);
         $this->assertContains('Deleted mirror.tar.gz', $output);
         $this->assertContains('Deleted clone_mirror', $output);
     }
@@ -109,11 +115,15 @@ class ClearOldKeysTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 3 files and 1 folders to purge', $output);
+        $this->assertContains('Found 4 files and 1 folders to purge', $output);
         $this->assertContains('Skipping gitkeys', $output);
+        $this->assertContains('Skipping tmpfile', $output);
+        $this->assertContains('Skipping sshwrapper', $output);
         $this->assertContains('Skipping mirror.tar.gz', $output);
         $this->assertContains('Skipping clone_mirror', $output);
         $this->assertNotContains('Deleted gitkeys', $output);
+        $this->assertNotContains('Deleted tmpfile', $output);
+        $this->assertNotContains('Deleted sshwrapper', $output);
         $this->assertNotContains('Deleted mirror.tar.gz', $output);
         $this->assertNotContains('Deleted clone_mirror', $output);
     }
@@ -132,6 +142,7 @@ class ClearOldKeysTest extends TestCase
 
         $this->filesystem->shouldReceive('deleteDirectory')->with('/var/www/clone_mirror')->andReturn(false);
         $this->filesystem->shouldReceive('delete')->with('/var/www/gitkeys')->andReturn(false);
+        $this->filesystem->shouldReceive('delete')->with('/var/www/sshwrapper')->andReturn(false);
         $this->filesystem->shouldReceive('delete')->with('/var/www/tmpfile')->andReturn(false);
         $this->filesystem->shouldReceive('delete')->with('/var/www/mirror.tar.gz')->andReturn(false);
 
@@ -146,11 +157,15 @@ class ClearOldKeysTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 3 files and 1 folders to purge', $output);
+        $this->assertContains('Found 4 files and 1 folders to purge', $output);
         $this->assertContains('Failed to delete file gitkeys', $output);
+        $this->assertContains('Failed to delete file sshwrapper', $output);
+        $this->assertContains('Failed to delete file tmpfile', $output);
         $this->assertContains('Failed to delete file mirror.tar.gz', $output);
         $this->assertContains('Failed to delete folder clone_mirror', $output);
         $this->assertNotContains('Deleted gitkeys', $output);
+        $this->assertNotContains('Deleted tmpfile', $output);
+        $this->assertNotContains('Deleted sshwrapper', $output);
         $this->assertNotContains('Deleted mirror.tar.gz', $output);
         $this->assertNotContains('Deleted clone_mirror', $output);
     }

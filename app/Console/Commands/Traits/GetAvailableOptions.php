@@ -55,8 +55,7 @@ trait GetAvailableOptions
     {
         $locations = [];
 
-        // Use the function instead of DateTimeZone::listIdentifiers so it can be mocked
-        foreach (timezone_identifiers_list($region) as $timezone) {
+        foreach (DateTimeZone::listIdentifiers($region) as $timezone) {
             $locations[] = substr($timezone, strpos($timezone, '/') + 1);
         }
 
