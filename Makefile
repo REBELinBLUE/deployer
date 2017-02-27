@@ -66,7 +66,7 @@ phpdoc-check: ##@tests PHPDoc Checker
 	@php vendor/bin/phpdoccheck --directory=app --files-per-line 60
 
 phpstan: ##@tests PHPStan
-	@php vendor/bin/phpstan analyse app tests
+	@php vendor/bin/phpstan analyse app/
 
 phpmd: ##@tests PHP Mess Detector
 	@echo "${GREEN}PHP Mess Detector${RESET}"

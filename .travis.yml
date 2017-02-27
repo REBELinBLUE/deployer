@@ -49,6 +49,7 @@ install:
       travis_retry composer install --quiet --no-interaction --prefer-dist --no-scripts --ignore-platform-reqs
       composer remove --quiet --no-interaction --no-scripts --dev phpstan/phpstan
       composer update --quiet --no-interaction --lock --no-scripts
+      rm -rf $TRAVIS_BUILD_DIR/vendor/
     fi
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
   # - travis_retry npm install --quiet
