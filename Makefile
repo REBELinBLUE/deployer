@@ -112,7 +112,7 @@ test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
 test: install-dev lint phpcs phpdoc-check phpunit phpcpd phpmd
 
 fulltest: ##@shortcuts Runs all tests
-fulltest: build lint phpcs phpdoc-check phpunit integration phpcpd phpstan phpmd dusk
+fulltest: lint phpcs phpdoc-check phpunit integration phpcpd phpstan phpmd dusk
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----- The targets below won't show in help because the descriptions only have 1 hash at the beginning ----- #
