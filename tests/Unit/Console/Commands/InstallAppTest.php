@@ -99,6 +99,9 @@ class InstallAppTest extends TestCase
      */
     public function testHandleSuccessful()
     {
+
+        // FIXME: Clean up, lots of duplication
+
         $this->config->shouldReceive('get')->with('app.key')->andReturn(false);
         $this->requirements->shouldReceive('check')->with(m::type(InstallApp::class))->andReturn(true);
 
@@ -142,6 +145,45 @@ class InstallAppTest extends TestCase
         $expectedCert       = '/var/ssl/cert';
         $expectedCa         = '/var/ssl/ca';
 
+        $expectedConfig = [
+            'db' => [
+                'connection' => 'sqlite',
+            ],
+            'app' => [
+                'url'      => $expectedAppUrl,
+                'timezone' => 'Europe/London',
+                'socket'   => $expectedAppUrl . ':6001',
+                'ssl'      => [
+                    'key_file'     => $expectedKey,
+                    'key_password' => 'key-password',
+                    'cert_file'    => $expectedCert,
+                    'ca_file'      => $expectedCa,
+                ],
+                'locale' => 'en',
+            ],
+            'hipchat' => [
+                'token' => 'a-hipchat-token',
+                'url'   => $expectedHipchatUrl,
+            ],
+            'twilio' => [
+                'account_sid' => 'twilio-sid',
+                'auth_token'  => 'twilio-token',
+                'from'        => '+44770812345678',
+            ],
+            'mail' => [
+                'host'         => 'localhost',
+                'port'         => '25',
+                'username'     => 'mailuser',
+                'password'     => 'mailpassword',
+                'from_name'    => 'Deployer',
+                'from_address' => $expectedFrom,
+                'driver'       => 'smtp',
+            ],
+            'jwt' => [
+                'secret' => $expectedToken,
+            ],
+        ];
+
         $this->filesystem->shouldReceive('exists')->with($env)->andReturn(false);
         $this->filesystem->shouldReceive('copy')->with($dist, $env);
         $this->config->shouldReceive('set')->with('app.key', 'SomeRandomString');
@@ -155,7 +197,7 @@ class InstallAppTest extends TestCase
         $this->filesystem->shouldReceive('exists')->with($expectedCert)->andReturn(true);
         $this->filesystem->shouldReceive('exists')->with($expectedCa)->andReturn(true);
         $this->generator->shouldReceive('generateRandom')->andReturn($expectedToken);
-        $this->env->shouldReceive('save')->with(m::type('array'))->andReturn(true);
+        $this->env->shouldReceive('save')->with($expectedConfig)->andReturn(true);
 
         $process = m::mock(Process::class);
         $this->builder->shouldReceive('setPrefix')->with('which')->andReturnSelf();
@@ -191,6 +233,7 @@ class InstallAppTest extends TestCase
         $rules = m::type('array');
         $this->validation->shouldReceive('make')->with(['url' => $expectedAppUrl], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['url' => $expectedHipchatUrl], $rules)->andReturnSelf();
+        $this->validation->shouldReceive('make')->with(['port' => 25], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['from_address' => $expectedFrom], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['email_address' => $expectedEmail], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['password' => $expectedPassword], $rules)->andReturnSelf();
@@ -237,7 +280,11 @@ class InstallAppTest extends TestCase
             '+44770812345678',
 
             // Mail
-            'sendmail',
+            'smtp',
+            'localhost',
+            25,
+            'mailuser',
+            'mailpassword',
             'Deployer',
             $expectedFrom,
 
@@ -247,6 +294,8 @@ class InstallAppTest extends TestCase
             $expectedPassword,
         ]);
         $output = $tester->getDisplay();
+
+        //echo $output;
 
         $this->assertContains('Database details', $output);
         $this->assertContains('Installation details', $output);
