@@ -65,6 +65,9 @@ phpcs: ##@tests PHP Coding Standards (PSR-2)
 phpdoc-check: ##@tests PHPDoc Checker
 	@php vendor/bin/phpdoccheck --directory=app --files-per-line 60
 
+phpstan: ##@tests PHPStan
+	@php vendor/bin/phpstan analyse app tests
+
 phpmd: ##@tests PHP Mess Detector
 	@echo "${GREEN}PHP Mess Detector${RESET}"
 	@if [ -f phpmd.xml ]; then php vendor/bin/phpmd app text phpmd.xml; fi
