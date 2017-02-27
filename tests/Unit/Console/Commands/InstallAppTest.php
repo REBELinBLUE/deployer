@@ -137,7 +137,10 @@ class InstallAppTest extends TestCase
         $expectedPassword   = 'a-password-input';
         $expectedHipchatUrl = 'http://hooks.hipchat.com';
         $expectedFrom       = 'deployer@example.com';
-        $expectedAppUrl     = 'http://localhost';
+        $expectedAppUrl     = 'https://localhost';
+        $expectedKey        = '/var/ssl/private-key';
+        $expectedCert       = '/var/ssl/cert';
+        $expectedCa         = '/var/ssl/ca';
 
         $this->filesystem->shouldReceive('exists')->with($env)->andReturn(false);
         $this->filesystem->shouldReceive('copy')->with($dist, $env);
@@ -148,12 +151,16 @@ class InstallAppTest extends TestCase
         phpm::mock('REBELinBLUE\Deployer\Console\Commands\Traits', 'pdo_drivers')->andReturn(['sqlite', 'mysql']);
 
         $this->filesystem->shouldReceive('touch')->with(database_path('database.sqlite'))->andReturn(true);
+        $this->filesystem->shouldReceive('exists')->with($expectedKey)->andReturn(true);
+        $this->filesystem->shouldReceive('exists')->with($expectedCert)->andReturn(true);
+        $this->filesystem->shouldReceive('exists')->with($expectedCa)->andReturn(true);
         $this->generator->shouldReceive('generateRandom')->andReturn($expectedToken);
         $this->env->shouldReceive('save')->with(m::type('array'))->andReturn(true);
 
         $process = m::mock(Process::class);
         $this->builder->shouldReceive('setPrefix')->with('which')->andReturnSelf();
         $this->builder->shouldReceive('setArguments')->once()->with(['nginx'])->andReturnSelf();
+        $process->shouldReceive('isSuccessful')->once()->andReturn(false);
 
         $this->builder->shouldReceive('setPrefix')->with('php')->andReturnSelf();
         $this->builder->shouldReceive('setArguments')
@@ -176,7 +183,6 @@ class InstallAppTest extends TestCase
         $this->builder->shouldReceive('setWorkingDirectory')->with(base_path())->andReturnSelf();
         $this->builder->shouldReceive('getProcess')->andReturn($process);
 
-        //$process->shouldReceive('setTty')->with(true)->andReturnSelf();
         $process->shouldReceive('setTimeout')->with(null)->andReturnSelf();
         $process->shouldReceive('run')->andReturnSelf();
         $process->shouldReceive('stop')->andReturnSelf();
@@ -188,6 +194,9 @@ class InstallAppTest extends TestCase
         $this->validation->shouldReceive('make')->with(['from_address' => $expectedFrom], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['email_address' => $expectedEmail], $rules)->andReturnSelf();
         $this->validation->shouldReceive('make')->with(['password' => $expectedPassword], $rules)->andReturnSelf();
+        $this->validation->shouldReceive('make')->with(['path' => $expectedKey], $rules)->andReturnSelf();
+        $this->validation->shouldReceive('make')->with(['path' => $expectedCert], $rules)->andReturnSelf();
+        $this->validation->shouldReceive('make')->with(['path' => $expectedCa], $rules)->andReturnSelf();
         $this->validation->shouldReceive('passes')->andReturn(true);
 
         $locale = m::mock(LanguageManager::class);
@@ -210,6 +219,10 @@ class InstallAppTest extends TestCase
             'Europe',
             'London',
             $expectedAppUrl,
+            $expectedKey,
+            'key-password',
+            $expectedCert,
+            $expectedCa,
             'en',
 
             // Hipchat

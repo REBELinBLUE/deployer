@@ -261,7 +261,7 @@ class InstallApp extends Command
         });
 
         if (!$process->isSuccessful()) {
-            throw new RuntimeException($process);
+            throw new RuntimeException($process->getErrorOutput());
         }
 
         $this->line('');
@@ -334,7 +334,7 @@ class InstallApp extends Command
         $process->run();
 
         if (!$process->isSuccessful()) {
-            throw new RuntimeException($process);
+            throw new RuntimeException($process->getErrorOutput());
         }
     }
 
@@ -455,7 +455,7 @@ class InstallApp extends Command
                 throw new RuntimeException($validator->errors()->first('path'));
             }
 
-            if (!file_exists($answer)) {
+            if (!$this->filesystem->exists($answer)) {
                 throw new RuntimeException('File does not exist');
             }
 
