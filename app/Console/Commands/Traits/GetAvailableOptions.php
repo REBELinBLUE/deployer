@@ -63,6 +63,7 @@ trait GetAvailableOptions
     }
 
     // FIXME: Move back to installer!
+
     /**
      * Gets a list of the available locales.
      *

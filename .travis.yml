@@ -43,6 +43,13 @@ before_install:
   - phpenv config-rm xdebug.ini
 
 install:
+  - |
+    # Remove PHPStan which doesn't work on 5.6, leave all other packages as we need to be warned about them
+    if [[ $(phpenv version-name) = "5.6" ]]; then
+      travis_retry composer install --quiet --no-interaction --prefer-dist --no-scripts --ignore-platform-reqs
+      composer remove --quiet --no-interaction --no-scripts --dev phpstan/phpstan
+      composer update --quiet --no-interaction --lock --no-scripts
+    fi
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
   # - travis_retry npm install --quiet
 
@@ -73,16 +80,17 @@ script:
   - make phpcs
   # - make phpmd
   - |
-    if [[ "$TRAVIS_PHP_VERSION" = "7.1" ]]; then
+    if [[ $(phpenv version-name) = "7.1" ]]; then
       echo -e "\033[32mFast Unit Tests with coverage\033[39m"
-      phpdbg -qrr vendor/bin/phpunit --coverage-php=tmp/unit.cov --testsuite "Unit Tests" --exclude-group slow
+      phpdbg -qrr vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov \
+            --testsuite "Unit Tests" --exclude-group slow
       echo -e "\033[32mSlow Unit Tests with coverage\033[39m"
-      phpdbg -qrr vendor/bin/phpunit --coverage-php=tmp/slow.cov --testsuite "Unit Tests" --exclude-group default
+      phpdbg -qrr vendor/bin/phpunit --coverage-php=storage/app/tmp/slow.cov \
+            --testsuite "Unit Tests" --exclude-group default
       echo -e "\033[32mIntegration Tests with coverage\033[39m"
-      phpdbg -qrr vendor/bin/phpunit --coverage-php=tmp/integration.cov --testsuite "Integration Tests"
-      phpdbg -qrr vendor/bin/phpcov merge tmp/ --clover coverage.xml
-      rm -rf tmp/
-      mkdir -p tmp/
+      phpdbg -qrr vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov \
+            --testsuite "Integration Tests"
+      phpdbg -qrr vendor/bin/phpcov merge storage/app/tmp/ --clover coverage.xml
     else
       make phpunit
     fi
