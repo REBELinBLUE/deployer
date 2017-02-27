@@ -14,6 +14,7 @@ use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use RuntimeException;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
@@ -341,7 +342,7 @@ class InstallApp extends Command
     /**
      * Generates a Symfony Process instance for an artisan command.
      *
-     * @param $command
+     * @param string $command
      * @param array $args
      *
      * @return \Symfony\Component\Process\Process

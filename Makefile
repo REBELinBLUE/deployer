@@ -66,7 +66,8 @@ phpdoc-check: ##@tests PHPDoc Checker
 	@php vendor/bin/phpdoccheck --directory=app --files-per-line 60
 
 phpstan: ##@tests PHPStan
-	@php vendor/bin/phpstan analyse app/
+	@if [ -f phpstan.neon ]; then php vendor/bin/phpstan analyse -l 0 -c phpstan.neon app/; fi
+	@if [ ! -f phpstan.neon ]; then php vendor/bin/phpstan analyse -l 0 -c phpstan.dist.neon app/; fi
 
 phpmd: ##@tests PHP Mess Detector
 	@echo "${GREEN}PHP Mess Detector${RESET}"
@@ -111,7 +112,7 @@ test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
 test: install-dev lint phpcs phpdoc-check phpunit phpcpd phpmd
 
 fulltest: ##@shortcuts Runs all tests
-fulltest: build lint phpcs phpdoc-check phpunit integration phpcpd phpmd dusk
+fulltest: build lint phpcs phpdoc-check phpunit integration phpcpd phpstan phpmd dusk
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----- The targets below won't show in help because the descriptions only have 1 hash at the beginning ----- #

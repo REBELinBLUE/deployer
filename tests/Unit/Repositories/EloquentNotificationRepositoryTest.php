@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 
-use REBELinBLUE\Deployer\Notification;
+use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Repositories\Contracts\NotificationRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentNotificationRepository;
 
@@ -16,7 +16,7 @@ class EloquentNotificationRepositoryTest extends EloquentRepositoryTestCase
      */
     public function testExtendsEloquentRepository()
     {
-        $this->assertExtendsEloquentRepository(Notification::class, EloquentNotificationRepository::class);
+        $this->assertExtendsEloquentRepository(Channel::class, EloquentNotificationRepository::class);
     }
 
     /**
@@ -25,7 +25,7 @@ class EloquentNotificationRepositoryTest extends EloquentRepositoryTestCase
     public function testImplementsNotificationRepositoryInterface()
     {
         $this->assertImplementsRepositoryInterface(
-            Notification::class,
+            Channel::class,
             EloquentNotificationRepository::class,
             NotificationRepositoryInterface::class
         );

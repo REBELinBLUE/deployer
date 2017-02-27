@@ -77,6 +77,7 @@ examples/ export-ignore
 phpcs.xml.dist export-ignore
 phpmd.xml.dist export-ignore
 phpunit.xml.dist export-ignore
+phpstan.dist.neon export-ignore
 Makefile export-ignore
 
 composer.lock -diff

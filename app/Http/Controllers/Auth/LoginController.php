@@ -113,7 +113,7 @@ class LoginController extends Controller
 
             $auth->attempt($credentials, $request->has('remember'));
 
-            return $this->sendLoginResponse($request, true);
+            return $this->sendLoginResponse($request);
         }
 
         if (!$lockedOut) {
@@ -152,7 +152,7 @@ class LoginController extends Controller
             $auth->loginUsingId($user_id, $remember);
 
             if ($this->google2fa->verifyKey($auth->user()->google2fa_secret, $request->get('2fa_code'))) {
-                return $this->sendLoginResponse($request, true);
+                return $this->sendLoginResponse($request);
             }
 
             $auth->logout();

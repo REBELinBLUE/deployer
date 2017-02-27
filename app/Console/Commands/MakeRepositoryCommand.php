@@ -63,7 +63,7 @@ class MakeRepositoryCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return int Exit status code
      */
     public function handle()
     {
@@ -83,18 +83,22 @@ class MakeRepositoryCommand extends Command
             ],
         ];
 
-        $this->makeRepository($meta);
+        return $this->makeRepository($meta);
     }
 
     /**
      * Generate the desired repository.
-     * @param array $meta
+     *
+     * @param  array $meta
+     * @return int   Exit status
      */
     protected function makeRepository(array $meta)
     {
         foreach ($meta['filenames'] as $path) {
             if ($this->filesystem->exists(app_path($path))) {
-                return $this->error($path . ' already exists!');
+                $this->error($path . ' already exists!');
+
+                return -1;
             }
         }
 
@@ -102,6 +106,8 @@ class MakeRepositoryCommand extends Command
         $this->createConcrete($meta['namespaces']['repository'], $meta['name'], $meta['filenames']['repository']);
 
         $this->composer->dumpAutoloads();
+
+        return 0;
     }
 
     /**

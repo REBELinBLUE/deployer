@@ -72,7 +72,7 @@ interface ProjectRepositoryInterface
      * @param $count
      * @param callable $callback
      *
-     * @return Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getLastMirroredBefore(Carbon $last_mirrored_since, $count, callable $callback);
 }

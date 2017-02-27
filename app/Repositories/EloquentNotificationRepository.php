@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use REBELinBLUE\Deployer\Notification;
+use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Repositories\Contracts\NotificationRepositoryInterface;
 
 /**
@@ -13,9 +13,9 @@ class EloquentNotificationRepository extends EloquentRepository implements Notif
     /**
      * EloquentNotificationRepository constructor.
      *
-     * @param Notification $model
+     * @param Channel $model
      */
-    public function __construct(Notification $model)
+    public function __construct(Channel $model)
     {
         $this->model = $model;
     }

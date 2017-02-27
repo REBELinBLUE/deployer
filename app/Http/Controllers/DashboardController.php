@@ -75,7 +75,7 @@ class DashboardController extends Controller
 
         return $this->view->make('dashboard.index', [
             'title'     => $this->translator->trans('dashboard.title'),
-            'latest'    => $this->buildTimelineData($this->deploymentRepository),
+            'latest'    => $this->buildTimelineData(),
             'projects'  => $projects_by_group,
         ]);
     }
@@ -88,7 +88,7 @@ class DashboardController extends Controller
     public function timeline()
     {
         return $this->view->make('dashboard.timeline', [
-            'latest' => $this->buildTimelineData($this->deploymentRepository),
+            'latest' => $this->buildTimelineData(),
         ]);
     }
 
