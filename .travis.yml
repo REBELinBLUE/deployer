@@ -55,8 +55,8 @@ install:
   # - travis_retry npm install --quiet
 
 before_script:
-  - mkdir $TRAVIS_BUILD_DIR/tmp/
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
+  - make permissions
   - |
     if [[ "$DB" = "sqlite" ]]; then
       sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
@@ -71,7 +71,6 @@ before_script:
       mysql -e 'CREATE DATABASE deployer;'
     fi
   # - gulp
-  - make permissions
 
 script:
   - make lint
