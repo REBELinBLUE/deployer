@@ -105,6 +105,10 @@ class InstallAppTest extends TestCase
     public function testHandleSuccessful()
     {
         // FIXME: Clean up, lots of duplication
+        // FIXME: Something in this test seems to be creating output
+        //      "stty: 'standard input': Inappropriate ioctl for device"
+        //      when using coreutils from homebrew, it seems to be to do with the secret() input
+        //      because it doesn't hidden when changed to ask()
 
         $this->config->shouldReceive('get')->with('app.key')->andReturn(false);
         $this->requirements->shouldReceive('check')->with(m::type(InstallApp::class))->andReturn(true);
@@ -333,13 +337,9 @@ class InstallAppTest extends TestCase
 
         $tester = new CommandTester($command);
         $tester->setInputs($inputs);
-        try {
-            $tester->execute([
-                'command' => 'app:install',
-            ]);
-        } catch (\Exception $error) {
-            dd($error);
-        }
+        $tester->execute([
+            'command' => 'app:install',
+        ]);
 
         return $tester;
     }
