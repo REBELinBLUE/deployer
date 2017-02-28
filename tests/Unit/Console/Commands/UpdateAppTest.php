@@ -61,6 +61,7 @@ class UpdateAppTest extends TestCase
      * @covers ::handle
      * @covers ::verifyInstalled
      * @covers ::checkCanInstall
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
     public function testVerifyInstalled($key)
     {
@@ -87,6 +88,7 @@ class UpdateAppTest extends TestCase
      * @covers ::handle
      * @covers ::hasDeprecatedConfig
      * @covers ::checkCanInstall
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
     public function testHasDeprecatedConfig()
     {
@@ -107,6 +109,7 @@ class UpdateAppTest extends TestCase
      * @covers ::handle
      * @covers ::composerOutdated
      * @covers ::checkCanInstall
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
     public function testComposerOutdated()
     {
@@ -135,6 +138,7 @@ class UpdateAppTest extends TestCase
      * @covers ::handle
      * @covers ::nodeOutdated
      * @covers ::checkCanInstall
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
     public function testNodeOutdated()
     {
@@ -168,6 +172,7 @@ class UpdateAppTest extends TestCase
      * @covers ::handle
      * @covers ::hasRunningDeployments
      * @covers ::checkCanInstall
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
     public function testHasRunningDeployments($running, $pending)
     {
@@ -201,6 +206,7 @@ class UpdateAppTest extends TestCase
      * @covers ::__construct
      * @covers ::handle
      * @covers ::checkCanInstall
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
     public function testCheckRequirements()
     {
@@ -228,6 +234,7 @@ class UpdateAppTest extends TestCase
      * @covers ::verifyInstalled
      * @covers ::hasDeprecatedConfig
      * @covers ::checkCanInstall
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
     public function testHandleWhenConfirmationDenied()
     {

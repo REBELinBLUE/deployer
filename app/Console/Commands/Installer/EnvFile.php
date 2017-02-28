@@ -57,7 +57,7 @@ class EnvFile
 
         // Remove keys not needed for sqlite
         if ($input['db']['connection'] === 'sqlite') {
-            foreach (['host', 'database', 'username', 'password'] as $key) {
+            foreach (['host', 'database', 'username', 'password', 'port'] as $key) {
                 $key = strtoupper($key);
 
                 $config = preg_replace('/DB_' . $key . '=(.*)[\n]/', '', $config);
@@ -136,6 +136,8 @@ class EnvFile
         // Copy the example file so that new values are copied
         $this->filesystem->copy($dist, $current);
 
+        // FIXME: Not sure these 2 if statements are needed anymore
+
         // Move the socket value to the correct key
         if (isset($config['app']['socket'])) {
             $config['socket']['url'] = $config['app']['socket'];
@@ -150,9 +152,7 @@ class EnvFile
             unset($config['app']['ssl']);
         }
 
-        $result = $this->save($config);
-
-        if (!$result) {
+        if (!$this->save($config)) {
             return false;
         }
 

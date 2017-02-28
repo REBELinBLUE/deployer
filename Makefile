@@ -66,8 +66,7 @@ phpdoc-check: ##@tests PHPDoc Checker
 	@php vendor/bin/phpdoccheck --directory=app --files-per-line 60
 
 phpstan: ##@tests PHPStan
-	@if [ -f phpstan.neon ]; then php vendor/bin/phpstan analyse -l 0 -c phpstan.neon app/; fi
-	@if [ ! -f phpstan.neon ]; then php vendor/bin/phpstan analyse -l 0 -c phpstan.dist.neon app/; fi
+	php vendor/bin/phpstan analyse -l 0 -c phpstan.neon app/
 
 phpmd: ##@tests PHP Mess Detector
 	@echo "${GREEN}PHP Mess Detector${RESET}"
@@ -92,6 +91,7 @@ coverage: ##@tests Test Coverage HTML
 		--testsuite "Integration Tests"
 	@phpdbg -qrr vendor/bin/phpcov merge storage/app/tmp/ \
 		--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
+	@rm storage/app/tmp/*.cov
 
 phpunit-fast: ##@tests Unit Tests - Excluding slow model tests which touch the database
 	@echo "${GREEN}Fast unit tests${RESET}"

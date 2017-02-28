@@ -39,9 +39,6 @@ class InstallAppTest extends TestCase
     private $validator;
     private $manager;
 
-    /**
-     *
-     */
     public function setUp()
     {
         parent::setUp();
@@ -69,6 +66,7 @@ class InstallAppTest extends TestCase
      * @covers ::__construct
      * @covers ::handle
      * @covers ::verifyNotInstalled
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
     public function testVerifyNotInstalled()
     {
@@ -86,6 +84,7 @@ class InstallAppTest extends TestCase
      * @covers ::__construct
      * @covers ::handle
      * @covers ::verifyNotInstalled
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
     public function testCheckRequirements()
     {
@@ -105,7 +104,6 @@ class InstallAppTest extends TestCase
      */
     public function testHandleSuccessful()
     {
-
         // FIXME: Clean up, lots of duplication
 
         $this->config->shouldReceive('get')->with('app.key')->andReturn(false);

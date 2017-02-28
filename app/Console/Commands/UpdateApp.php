@@ -80,7 +80,7 @@ class UpdateApp extends Command
     {
         $this->line('');
 
-        if (!$this->checkCanInstall($requirements) || !$requirements->check($this)) {
+        if (!$this->checkCanInstall() || !$requirements->check($this)) {
             return -1;
         }
 
