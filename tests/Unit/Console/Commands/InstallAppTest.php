@@ -98,25 +98,10 @@ class InstallAppTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
-     * @covers ::handle
-     * @covers ::verifyNotInstalled
-     * @covers ::getTwilioInformation
-     * @covers ::getHipchatInformation
-     * @covers ::getDatabaseInformation
-     * @covers ::getInstallInformation
-     * @covers ::getEmailInformation
-     * @covers ::getAdminInformation
-     * @covers ::verifyDatabaseDetails
-     * @covers ::generateJWTKey
-     * @covers ::migrate
-     * @covers ::clearCaches
-     * @covers ::optimize
-     * @covers ::validateUrl
-     * @covers ::createAdminUser
-     * @covers ::artisanProcess
-     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions::getTimezoneRegions
-     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions::getTimezoneLocations
+     * @covers \REBELinBLUE\Deployer\Console\Commands\InstallApp
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles
      */
     public function testHandleSuccessful()
     {

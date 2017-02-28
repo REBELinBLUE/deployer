@@ -244,20 +244,8 @@ class UpdateAppTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
-     * @covers ::handle
-     * @covers ::composerOutdated
-     * @covers ::nodeOutdated
-     * @covers ::checkCanInstall
-     * @covers ::verifyInstalled
-     * @covers ::hasDeprecatedConfig
-     * @covers ::checkCanInstall
-     * @covers ::backupDatabase
-     * @covers ::clearCaches
-     * @covers ::migrate
-     * @covers ::optimize
-     * @covers ::restartQueue
-     * @covers ::restartSocket
+     * @covers \REBELinBLUE\Deployer\Console\Commands\UpdateApp
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles
      */
     public function testHandleSuccessful()
     {
