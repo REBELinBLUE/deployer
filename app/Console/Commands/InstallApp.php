@@ -72,15 +72,12 @@ class InstallApp extends Command
     /**
      * InstallApp constructor.
      *
-     * @param ConfigRepository            $config
-     * @param Filesystem                  $filesystem
-     * @param TokenGeneratorInterface     $tokenGenerator
-     * @param ProcessBuilder              $builder
-     * @param ValidationFactory|Validator $validator
-     * @param LanguageManager             $manager
-     * @internal param LanguageManager $locale
-     * @internal param Requirements $requirements
-     * @internal param EnvFile $writer
+     * @param ConfigRepository        $config
+     * @param Filesystem              $filesystem
+     * @param TokenGeneratorInterface $tokenGenerator
+     * @param ProcessBuilder          $builder
+     * @param ValidationFactory       $validator
+     * @param LanguageManager         $manager
      */
     public function __construct(
         ConfigRepository $config,
