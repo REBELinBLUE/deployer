@@ -314,12 +314,13 @@ class InstallAppTest extends TestCase
 
     private function runCommand($app = null, array $inputs = [])
     {
+        $this->app->instance(EnvFile::class, $this->env);
+        $this->app->instance(Requirements::class, $this->requirements);
+
         $command = new InstallApp(
             $this->config,
             $this->filesystem,
             $this->generator,
-            $this->requirements,
-            $this->env,
             $this->builder,
             $this->validation
         );

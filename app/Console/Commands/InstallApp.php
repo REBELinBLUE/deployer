@@ -54,16 +54,6 @@ class InstallApp extends Command
     private $tokenGenerator;
 
     /**
-     * @var Requirements
-     */
-    private $requirements;
-
-    /**
-     * @var EnvFile
-     */
-    private $env;
-
-    /**
      * @var ProcessBuilder
      */
     private $builder;
@@ -88,33 +78,30 @@ class InstallApp extends Command
         ConfigRepository $config,
         Filesystem $filesystem,
         TokenGeneratorInterface $tokenGenerator,
-        Requirements $requirements,
-        EnvFile $writer,
         ProcessBuilder $builder,
         Validator $validation
     ) {
         parent::__construct();
 
-        $this->config          = $config;
-        $this->filesystem      = $filesystem;
-        $this->tokenGenerator  = $tokenGenerator;
-        $this->requirements    = $requirements;
-        $this->env             = $writer;
-        $this->builder         = $builder;
-        $this->validation      = $validation;
-        // FIXME: Move some of these to handle? See CreateUser - env, requirements
+        $this->config         = $config;
+        $this->filesystem     = $filesystem;
+        $this->tokenGenerator = $tokenGenerator;
+        $this->builder        = $builder;
+        $this->validation     = $validation;
     }
 
     /**
      * Execute the console command.
      *
+     * @param  EnvFile      $writer
+     * @param  Requirements $requirements
      * @return mixed
      */
-    public function handle()
+    public function handle(EnvFile $writer, Requirements $requirements)
     {
         $this->line('');
 
-        if (!$this->verifyNotInstalled() || !$this->requirements->check($this)) {
+        if (!$this->verifyNotInstalled() || !$requirements->check($this)) {
             return -1;
         }
 
@@ -146,7 +133,7 @@ class InstallApp extends Command
         $config['jwt']['secret'] = $this->generateJWTKey();
 
         $this->info('Writing configuration file');
-        $this->env->save($config);
+        $writer->save($config);
 
         $this->info('Generating JWT key');
         $this->generateKey();
@@ -343,7 +330,7 @@ class InstallApp extends Command
      * Generates a Symfony Process instance for an artisan command.
      *
      * @param string $command
-     * @param array $args
+     * @param array  $args
      *
      * @return \Symfony\Component\Process\Process
      */

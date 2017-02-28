@@ -320,12 +320,13 @@ class UpdateAppTest extends TestCase
 
     private function runCommand($app = null, array $inputs = [])
     {
+        $this->app->instance(EnvFile::class, $this->env);
+        $this->app->instance(Requirements::class, $this->requirements);
+
         $command = new UpdateApp(
             $this->config,
             $this->filesystem,
-            $this->repository,
-            $this->requirements,
-            $this->env
+            $this->repository
         );
 
         $command->setLaravel($app ?: $this->app);

@@ -50,51 +50,37 @@ class UpdateApp extends Command
     private $repository;
 
     /**
-     * @var Requirements
-     */
-    private $requirements;
-
-    /**
-     * @var EnvFile
-     */
-    private $env;
-
-    /**
      * UpdateApp constructor.
      *
      * @param ConfigRepository              $config
      * @param Filesystem                    $filesystem
      * @param DeploymentRepositoryInterface $repository
-     * @param Requirements                  $requirements
-     * @param EnvFile                       $writer
      */
     public function __construct(
         ConfigRepository $config,
         Filesystem $filesystem,
-        DeploymentRepositoryInterface $repository,
-        Requirements $requirements,
-        EnvFile $writer
+        DeploymentRepositoryInterface $repository
     ) {
         parent::__construct();
 
         $this->config       = $config;
         $this->filesystem   = $filesystem;
         $this->repository   = $repository;
-        $this->requirements = $requirements;
-        $this->env          = $writer; // TODO: Move to handle
     }
 
     /**
      * Execute the console command.
      *
-     * @param  Dispatcher $dispatcher
+     * @param  Dispatcher   $dispatcher
+     * @param  Requirements $requirements
+     * @param  EnvFile      $writer
      * @return int
      */
-    public function handle(Dispatcher $dispatcher)
+    public function handle(Dispatcher $dispatcher, Requirements $requirements, EnvFile $writer)
     {
         $this->line('');
 
-        if (!$this->checkCanInstall()) {
+        if (!$this->checkCanInstall($requirements) || !$requirements->check($this)) {
             return -1;
         }
 
@@ -122,7 +108,7 @@ class UpdateApp extends Command
 
         // Write the file to disk
         $this->info('Updating configuration file');
-        $this->env->update();
+        $writer->update();
 
         $this->clearCaches();
         $this->migrate();
@@ -283,8 +269,7 @@ class UpdateApp extends Command
             !$this->hasDeprecatedConfig() &&
             !$this->composerOutdated() &&
             !$this->nodeOutdated() &&
-            !$this->hasRunningDeployments() &&
-            $this->requirements->check($this)
+            !$this->hasRunningDeployments()
         );
     }
 
