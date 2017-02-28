@@ -61,18 +61,4 @@ trait GetAvailableOptions
 
         return $locations;
     }
-
-    // FIXME: Move back to installer!
-
-    /**
-     * Gets a list of the available locales.
-     *
-     * @return array
-     */
-    protected function getLocales()
-    {
-        $manager = resolve('locale');
-
-        return $manager->getAvailableLanguages();
-    }
 }

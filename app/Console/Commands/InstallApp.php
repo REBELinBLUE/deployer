@@ -4,7 +4,8 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Validation\Factory as Validator;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use MicheleAngioni\MultiLanguage\LanguageManager;
 use PDO;
 use REBELinBLUE\Deployer\Console\Commands\Installer\EnvFile;
 use REBELinBLUE\Deployer\Console\Commands\Installer\Requirements;
@@ -59,27 +60,35 @@ class InstallApp extends Command
     private $builder;
 
     /**
-     * @var Validator
+     * @var ValidationFactory
      */
-    private $validation;
+    private $validator;
+
+    /**
+     * @var LanguageManager
+     */
+    private $manager;
 
     /**
      * InstallApp constructor.
      *
-     * @param ConfigRepository        $config
-     * @param Filesystem              $filesystem
-     * @param TokenGeneratorInterface $tokenGenerator
-     * @param Requirements            $requirements
-     * @param EnvFile                 $writer
-     * @param ProcessBuilder          $builder
-     * @param Validator               $validation
+     * @param ConfigRepository            $config
+     * @param Filesystem                  $filesystem
+     * @param TokenGeneratorInterface     $tokenGenerator
+     * @param ProcessBuilder              $builder
+     * @param ValidationFactory|Validator $validator
+     * @param LanguageManager             $manager
+     * @internal param LanguageManager $locale
+     * @internal param Requirements $requirements
+     * @internal param EnvFile $writer
      */
     public function __construct(
         ConfigRepository $config,
         Filesystem $filesystem,
         TokenGeneratorInterface $tokenGenerator,
         ProcessBuilder $builder,
-        Validator $validation
+        ValidationFactory $validator,
+        LanguageManager $manager
     ) {
         parent::__construct();
 
@@ -87,7 +96,8 @@ class InstallApp extends Command
         $this->filesystem     = $filesystem;
         $this->tokenGenerator = $tokenGenerator;
         $this->builder        = $builder;
-        $this->validation     = $validation;
+        $this->validator      = $validator;
+        $this->manager        = $manager;
     }
 
     /**
@@ -174,55 +184,6 @@ class InstallApp extends Command
     }
 
     /**
-     * Prompts for the twilio API details.
-     *
-     * @return array
-     */
-    public function getTwilioInformation()
-    {
-        $this->header('Twilio setup');
-
-        $twilio =  [
-            'account_sid' => '',
-            'auth_token'  => '',
-            'from'        => '',
-        ];
-
-        if ($this->confirm('Do you wish to be able to send notifications using Twilio?')) {
-            $twilio['account_sid'] = $this->ask('Account SID');
-            $twilio['auth_token']  = $this->ask('Auth token');
-            $twilio['from']        = $this->ask('Twilio phone number');
-        }
-
-        return $twilio;
-    }
-
-    /**
-     * Prompts for the hipchat API details.
-     *
-     * @return array
-     */
-    public function getHipchatInformation()
-    {
-        $this->header('Hipchat setup');
-
-        $hipchat = [
-            'token' => '',
-            'url'   => '',
-        ];
-
-        if ($this->confirm('Do you wish to be able to send notifications to Hipchat?')) {
-            $hipchat['url'] = $this->askAndValidate('Webhook URL', [], function ($answer) {
-                return $this->validateUrl($answer);
-            });
-
-            $hipchat['token'] = $this->ask('Token');
-        }
-
-        return $hipchat;
-    }
-
-    /**
      * Generates a key for JWT.
      *
      * @return string
@@ -288,7 +249,7 @@ class InstallApp extends Command
      */
     protected function validateUrl($answer)
     {
-        $validator = $this->validation->make(['url' => $answer], [
+        $validator = $this->validator->make(['url' => $answer], [
             'url' => 'url',
         ]);
 
@@ -297,6 +258,55 @@ class InstallApp extends Command
         }
 
         return preg_replace('#/$#', '', $answer);
+    }
+
+    /**
+     * Prompts for the twilio API details.
+     *
+     * @return array
+     */
+    private function getTwilioInformation()
+    {
+        $this->header('Twilio setup');
+
+        $twilio =  [
+            'account_sid' => '',
+            'auth_token'  => '',
+            'from'        => '',
+        ];
+
+        if ($this->confirm('Do you wish to be able to send notifications using Twilio?')) {
+            $twilio['account_sid'] = $this->ask('Account SID');
+            $twilio['auth_token']  = $this->ask('Auth token');
+            $twilio['from']        = $this->ask('Twilio phone number');
+        }
+
+        return $twilio;
+    }
+
+    /**
+     * Prompts for the hipchat API details.
+     *
+     * @return array
+     */
+    private function getHipchatInformation()
+    {
+        $this->header('Hipchat setup');
+
+        $hipchat = [
+            'token' => '',
+            'url'   => '',
+        ];
+
+        if ($this->confirm('Do you wish to be able to send notifications to Hipchat?')) {
+            $hipchat['url'] = $this->askAndValidate('Webhook URL', [], function ($answer) {
+                return $this->validateUrl($answer);
+            });
+
+            $hipchat['token'] = $this->ask('Token');
+        }
+
+        return $hipchat;
     }
 
     /**
@@ -399,7 +409,7 @@ class InstallApp extends Command
         $this->header('Installation details');
 
         $regions = $this->getTimezoneRegions();
-        $locales = $this->getLocales();
+        $locales = $this->manager->getAvailableLanguages();
 
         $url_callback = function ($answer) {
             return $this->validateUrl($answer);
@@ -435,7 +445,7 @@ class InstallApp extends Command
         }
 
         $path_callback = function ($answer) {
-            $validator = $this->validation->make(['path' => $answer], [
+            $validator = $this->validator->make(['path' => $answer], [
                 'path' => 'required',
             ]);
 
@@ -494,7 +504,7 @@ class InstallApp extends Command
             $host = $this->ask('Host', 'localhost');
 
             $port = $this->askAndValidate('Port', [], function ($answer) {
-                $validator = $this->validation->make(['port' => $answer], [
+                $validator = $this->validator->make(['port' => $answer], [
                     'port' => 'integer',
                 ]);
 
@@ -517,7 +527,7 @@ class InstallApp extends Command
         $from_name = $this->ask('From name', 'Deployer');
 
         $from_address = $this->askAndValidate('From address', [], function ($answer) {
-            $validator = $this->validation->make(['from_address' => $answer], [
+            $validator = $this->validator->make(['from_address' => $answer], [
                 'from_address' => 'email',
             ]);
 
@@ -547,7 +557,7 @@ class InstallApp extends Command
         $name = $this->ask('Name', 'Admin');
 
         $email_address = $this->askAndValidate('Email address', [], function ($answer) {
-            $validator = $this->validation->make(['email_address' => $answer], [
+            $validator = $this->validator->make(['email_address' => $answer], [
                 'email_address' => 'email',
             ]);
 
@@ -559,7 +569,7 @@ class InstallApp extends Command
         });
 
         $password = $this->askSecretAndValidate('Password', [], function ($answer) {
-            $validator = $this->validation->make(['password' => $answer], [
+            $validator = $this->validator->make(['password' => $answer], [
                 'password' => 'min:6',
             ]);
 

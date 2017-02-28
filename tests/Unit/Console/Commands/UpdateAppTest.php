@@ -244,9 +244,20 @@ class UpdateAppTest extends TestCase
     }
 
     /**
-     * @covers ::<public>
-     * @covers ::<protected>
-     * @covers ::<private>
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::composerOutdated
+     * @covers ::nodeOutdated
+     * @covers ::checkCanInstall
+     * @covers ::verifyInstalled
+     * @covers ::hasDeprecatedConfig
+     * @covers ::checkCanInstall
+     * @covers ::backupDatabase
+     * @covers ::clearCaches
+     * @covers ::migrate
+     * @covers ::optimize
+     * @covers ::restartQueue
+     * @covers ::restartSocket
      */
     public function testHandleSuccessful()
     {

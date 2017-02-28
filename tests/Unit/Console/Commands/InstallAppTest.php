@@ -4,7 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Validation\Factory;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\KeyGenerateCommand;
 use Illuminate\Foundation\Console\OptimizeCommand;
@@ -36,8 +36,12 @@ class InstallAppTest extends TestCase
     private $laravel;
     private $env;
     private $builder;
-    private $validation;
+    private $validator;
+    private $manager;
 
+    /**
+     *
+     */
     public function setUp()
     {
         parent::setUp();
@@ -52,7 +56,8 @@ class InstallAppTest extends TestCase
         $this->generator     = m::mock(TokenGenerator::class);
         $this->env           = m::mock(EnvFile::class);
         $this->builder       = m::mock(ProcessBuilder::class);
-        $this->validation    = m::mock(Factory::class);
+        $this->validator     = m::mock(ValidationFactory::class);
+        $this->manager       = m::mock(LanguageManager::class);
         $this->laravel       = m::mock(Application::class)->makePartial();
 
         $this->laravel->shouldReceive('make')->andReturnUsing(function ($arg) {
@@ -93,9 +98,25 @@ class InstallAppTest extends TestCase
     }
 
     /**
-     * @covers ::<public>
-     * @covers ::<protected>
-     * @covers ::<private>
+     * @covers ::__construct
+     * @covers ::handle
+     * @covers ::verifyNotInstalled
+     * @covers ::getTwilioInformation
+     * @covers ::getHipchatInformation
+     * @covers ::getDatabaseInformation
+     * @covers ::getInstallInformation
+     * @covers ::getEmailInformation
+     * @covers ::getAdminInformation
+     * @covers ::verifyDatabaseDetails
+     * @covers ::generateJWTKey
+     * @covers ::migrate
+     * @covers ::clearCaches
+     * @covers ::optimize
+     * @covers ::validateUrl
+     * @covers ::createAdminUser
+     * @covers ::artisanProcess
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions::getTimezoneRegions
+     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions::getTimezoneLocations
      */
     public function testHandleSuccessful()
     {
@@ -231,20 +252,18 @@ class InstallAppTest extends TestCase
         $process->shouldReceive('isSuccessful')->andReturn(true);
 
         $rules = m::type('array');
-        $this->validation->shouldReceive('make')->with(['url' => $expectedAppUrl], $rules)->andReturnSelf();
-        $this->validation->shouldReceive('make')->with(['url' => $expectedHipchatUrl], $rules)->andReturnSelf();
-        $this->validation->shouldReceive('make')->with(['port' => 25], $rules)->andReturnSelf();
-        $this->validation->shouldReceive('make')->with(['from_address' => $expectedFrom], $rules)->andReturnSelf();
-        $this->validation->shouldReceive('make')->with(['email_address' => $expectedEmail], $rules)->andReturnSelf();
-        $this->validation->shouldReceive('make')->with(['password' => $expectedPassword], $rules)->andReturnSelf();
-        $this->validation->shouldReceive('make')->with(['path' => $expectedKey], $rules)->andReturnSelf();
-        $this->validation->shouldReceive('make')->with(['path' => $expectedCert], $rules)->andReturnSelf();
-        $this->validation->shouldReceive('make')->with(['path' => $expectedCa], $rules)->andReturnSelf();
-        $this->validation->shouldReceive('passes')->andReturn(true);
+        $this->validator->shouldReceive('make')->with(['url' => $expectedAppUrl], $rules)->andReturnSelf();
+        $this->validator->shouldReceive('make')->with(['url' => $expectedHipchatUrl], $rules)->andReturnSelf();
+        $this->validator->shouldReceive('make')->with(['port' => 25], $rules)->andReturnSelf();
+        $this->validator->shouldReceive('make')->with(['from_address' => $expectedFrom], $rules)->andReturnSelf();
+        $this->validator->shouldReceive('make')->with(['email_address' => $expectedEmail], $rules)->andReturnSelf();
+        $this->validator->shouldReceive('make')->with(['password' => $expectedPassword], $rules)->andReturnSelf();
+        $this->validator->shouldReceive('make')->with(['path' => $expectedKey], $rules)->andReturnSelf();
+        $this->validator->shouldReceive('make')->with(['path' => $expectedCert], $rules)->andReturnSelf();
+        $this->validator->shouldReceive('make')->with(['path' => $expectedCa], $rules)->andReturnSelf();
+        $this->validator->shouldReceive('passes')->andReturn(true);
 
-        $locale = m::mock(LanguageManager::class);
-        $locale->shouldReceive('getAvailableLanguages')->andReturn(['en', 'es', 'de', 'ru']);
-        $this->app->instance('locale', $locale);
+        $this->manager->shouldReceive('getAvailableLanguages')->andReturn(['en', 'es', 'de', 'ru']);
 
         $this->config->shouldReceive('get')->with('app.fallback_locale')->andReturn('de');
 
@@ -322,7 +341,8 @@ class InstallAppTest extends TestCase
             $this->filesystem,
             $this->generator,
             $this->builder,
-            $this->validation
+            $this->validator,
+            $this->manager
         );
 
         $command->setLaravel($app ?: $this->app);
