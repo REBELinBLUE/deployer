@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 
+use Closure;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
@@ -162,10 +163,10 @@ class InstallAppTest extends TestCase
             'app' => [
                 'url'      => $expectedAppUrl,
                 'timezone' => 'Europe/London',
-                'locale' => 'en',
+                'locale'   => 'en',
             ],
             'socket'   => [
-                'url' => $expectedAppUrl . ':6001',
+                'url'              => $expectedAppUrl . ':6001',
                 'ssl_key_file'     => $expectedKey,
                 'ssl_key_password' => 'key-password',
                 'ssl_cert_file'    => $expectedCert,
@@ -236,9 +237,19 @@ class InstallAppTest extends TestCase
         $this->builder->shouldReceive('getProcess')->andReturn($process);
 
         $process->shouldReceive('setTimeout')->with(null)->andReturnSelf();
-        $process->shouldReceive('run')->andReturnSelf();
         $process->shouldReceive('stop')->andReturnSelf();
         $process->shouldReceive('isSuccessful')->andReturn(true);
+
+        $process->shouldReceive('run')->times(2)->withNoArgs();
+
+        $process->shouldReceive('run')->once()->with(m::on(function ($callback) {
+            // FIXME: Found a way to test the correct method is called
+            $callback(Process::OUT, 'a-second-line');
+            $callback(Process::ERR, 'a-line-of-output');
+            $this->assertInstanceOf(Closure::class, $callback);
+
+            return true;
+        }));
 
         $rules = m::type('array');
         $this->validator->shouldReceive('make')->with(['url' => $expectedAppUrl], $rules)->andReturnSelf();
@@ -303,7 +314,8 @@ class InstallAppTest extends TestCase
         ]);
         $output = $tester->getDisplay();
 
-        //echo $output;
+        $this->assertContains('a-line-of-output', $output);
+        $this->assertContains('a-second-line', $output);
 
         $this->assertContains('Database details', $output);
         $this->assertContains('Installation details', $output);
