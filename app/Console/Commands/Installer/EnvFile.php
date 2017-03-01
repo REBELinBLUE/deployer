@@ -136,31 +136,13 @@ class EnvFile
         // Copy the example file so that new values are copied
         $this->filesystem->copy($dist, $current);
 
-        // FIXME: Not sure these 2 if statements are needed anymore
-
-        // Move the socket value to the correct key
-        if (isset($config['app']['socket'])) {
-            $config['socket']['url'] = $config['app']['socket'];
-            unset($config['app']['socket']);
-        }
-
-        if (isset($config['app']['ssl'])) {
-            foreach ($config['app']['ssl'] as $key => $value) {
-                $config['socket']['ssl_' . $key] = $value;
-            }
-
-            unset($config['app']['ssl']);
-        }
-
-        if (!$this->save($config)) {
-            return false;
-        }
+        $result = $this->save($config);
 
         // If the updated .env is the same as the backup remove the backup
         if ($this->filesystem->md5($current) === $this->filesystem->md5($prev)) {
             $this->filesystem->delete($prev);
         }
 
-        return true;
+        return $result;
     }
 }

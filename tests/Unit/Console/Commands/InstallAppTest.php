@@ -25,6 +25,7 @@ use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\InstallApp
+ * @group noisy
  */
 class InstallAppTest extends TestCase
 {
@@ -160,14 +161,14 @@ class InstallAppTest extends TestCase
             'app' => [
                 'url'      => $expectedAppUrl,
                 'timezone' => 'Europe/London',
-                'socket'   => $expectedAppUrl . ':6001',
-                'ssl'      => [
-                    'key_file'     => $expectedKey,
-                    'key_password' => 'key-password',
-                    'cert_file'    => $expectedCert,
-                    'ca_file'      => $expectedCa,
-                ],
                 'locale' => 'en',
+            ],
+            'socket'   => [
+                'url' => $expectedAppUrl . ':6001',
+                'ssl_key_file'     => $expectedKey,
+                'ssl_key_password' => 'key-password',
+                'ssl_cert_file'    => $expectedCert,
+                'ssl_ca_file'      => $expectedCa,
             ],
             'hipchat' => [
                 'token' => 'a-hipchat-token',

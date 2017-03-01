@@ -195,8 +195,9 @@ EOF;
         $this->filesystem->shouldReceive('copy')->with($this->dist, $this->env);
         $this->filesystem->shouldReceive('get')->once()->with($this->env)->andReturn($config);
         $this->filesystem->shouldReceive('put')->with($this->env, $config)->andReturn(false);
-        $this->filesystem->shouldNotReceive('md5');
-        $this->filesystem->shouldNotReceive('delete');
+        $this->filesystem->shouldReceive('md5')->with($this->env)->andReturn('hash');
+        $this->filesystem->shouldReceive('md5')->with($this->prev)->andReturn('hash');
+        $this->filesystem->shouldReceive('delete')->with($this->prev);
 
         $writer = new EnvFile($this->filesystem);
         $actual = $writer->update();
