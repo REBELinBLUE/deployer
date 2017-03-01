@@ -99,12 +99,13 @@ class InstallAppTest extends TestCase
     }
 
     /**
+     * @dataProvider provideConfiguration
      * @covers \REBELinBLUE\Deployer\Console\Commands\InstallApp
      * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate
      * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions
      * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles
      */
-    public function testHandleSuccessful()
+    public function testHandleSuccessful($dbDriver, $languages)
     {
         // FIXME: Clean up, lots of duplication
         // FIXME: Something in this test seems to be creating output
@@ -263,43 +264,43 @@ class InstallAppTest extends TestCase
         $this->validator->shouldReceive('make')->with(['path' => $expectedCa], $rules)->andReturnSelf();
         $this->validator->shouldReceive('passes')->andReturn(true);
 
-        $this->manager->shouldReceive('getAvailableLanguages')->andReturn(['en', 'es', 'de', 'ru']);
+        $this->manager->shouldReceive('getAvailableLanguages')->andReturn($languages);
 
         $this->config->shouldReceive('get')->with('app.fallback_locale')->andReturn('de');
 
-        $tester = $this->runCommand($this->laravel, [
+        $input = [
             // Database details
-            'sqlite',
-//            'localhost', // Currently can't mock PDO
-//            3306,
-//            'deployer',
-//            'deployer',
-//            'secret'
+            $dbDriver,
+            'db_host' => 'localhost',
+            'db_port' => 3306,
+            'db_name' => 'deployer',
+            'db_user' => 'deployer',
+            'db_pass' => 'secret',
 
             // App Details
             $expectedAppUrl,
             'Europe',
-            'London',
+            'London', // FIXME: Need to test this second prompt doesn't happen if UTC is selected
             $expectedAppUrl,
-            $expectedKey,
+            $expectedKey, // FIXME: Need to set the key isn't asked for if not https
             'key-password',
             $expectedCert,
             $expectedCa,
-            'en',
+            'lang' => 'en',
 
             // Hipchat
-            'yes',
+            'yes', // fixme: need to check the other 2 are not selected if no
             $expectedHipchatUrl,
             'a-hipchat-token',
 
             // Twilio
-            'yes',
+            'yes',  // fixme: need to check the other 3 are not selected if no
             'twilio-sid',
             'twilio-token',
             '+44770812345678',
 
             // Mail
-            'smtp',
+            'smtp',  // fixme: need to check the next 4 are not selected for mail/sendmail
             'localhost',
             25,
             'mailuser',
@@ -311,7 +312,25 @@ class InstallAppTest extends TestCase
             $expectedName,
             $expectedEmail,
             $expectedPassword,
-        ]);
+        ];
+
+        // If only 1 language it is automatically selected
+        if (count($languages) === 1) {
+            unset($input['lang']);
+        }
+
+        // If the driver is SQLite the remaining details are not required
+        if ($dbDriver === 'sqlite') {
+            unset($input['db_host']);
+            unset($input['db_port']);
+            unset($input['db_name']);
+            unset($input['db_user']);
+            unset($input['db_pass']);
+        }
+
+        $input = array_values($input);
+
+        $tester = $this->runCommand($this->laravel, $input);
         $output = $tester->getDisplay();
 
         $this->assertContains('a-line-of-output', $output);
@@ -330,6 +349,15 @@ class InstallAppTest extends TestCase
         $this->assertContains('Success!', $output);
 
         $this->assertSame(0, $tester->getStatusCode());
+    }
+
+    public function provideConfiguration()
+    {
+        return [
+            ['sqlite', ['en']],
+            //['mysql', ['en', 'es', 'de', 'ru']]
+            ['sqlite', ['en', 'es', 'de', 'ru']],
+        ];
     }
 
     private function runCommand($app = null, array $inputs = [])

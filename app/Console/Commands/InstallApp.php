@@ -421,7 +421,9 @@ class InstallApp extends Command
                 $database['password'] = $pass;
             }
 
-            $connectionVerified = $this->verifyDatabaseDetails($database);
+            $connectionVerified = true;
+
+            //$connectionVerified = $this->verifyDatabaseDetails($database);
         }
 
         return $database;
