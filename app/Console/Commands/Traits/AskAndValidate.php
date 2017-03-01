@@ -26,9 +26,7 @@ trait AskAndValidate
 
         if ($secret) {
             $question->setHidden(true);
-        }
-
-        if (count($choices)) {
+        } else {
             $question->setAutocompleterValues($choices);
         }
 

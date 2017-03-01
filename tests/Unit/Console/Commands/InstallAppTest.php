@@ -107,9 +107,10 @@ class InstallAppTest extends TestCase
     {
         // FIXME: Clean up, lots of duplication
         // FIXME: Something in this test seems to be creating output
-        //      "stty: 'standard input': Inappropriate ioctl for device"
-        //      when using coreutils from homebrew, it seems to be to do with the secret() input
-        //      because it doesn't hidden when changed to ask()
+        // When running in unit tests it uses normal input rather than secret.
+        //      This is because, when using coreutils 8.26 on OS X the tests end up outputting
+        //      "stty: 'standard input': Inappropriate ioctl for device" when using a hidden input
+        //      This seems to be something to do with stty.
 
         $this->config->shouldReceive('get')->with('app.key')->andReturn(false);
         $this->requirements->shouldReceive('check')->with(m::type(InstallApp::class))->andReturn(true);
