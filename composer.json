@@ -34,7 +34,7 @@
         "laravel-notification-channels/hipchat": "~0.2",
         "laravel-notification-channels/twilio": "~1.0.2",
         "laravel-notification-channels/webhook": "~1.0.2",
-        "laravel/framework": "5.4.x-dev",
+        "laravel/framework": "^5.4",
         "laravel/tinker": "1.0.*",
         "lubusin/laravel-decomposer": "^1.0",
         "michele-angioni/multi-language": "0.3",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "66997b8f68092a52993d0a507e7ca1a0",
+    "content-hash": "ed2d56b5ffc8dd2254ea82afefd024b0",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -1588,16 +1588,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "5.4.x-dev",
+            "version": "v5.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0fab199d46a750f88c43ac75a087d44fb04c9c13"
+                "reference": "ecc6468b8af30b77566a8519ce8898740ef691d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0fab199d46a750f88c43ac75a087d44fb04c9c13",
-                "reference": "0fab199d46a750f88c43ac75a087d44fb04c9c13",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/ecc6468b8af30b77566a8519ce8898740ef691d7",
+                "reference": "ecc6468b8af30b77566a8519ce8898740ef691d7",
                 "shasum": ""
             },
             "require": {
@@ -1716,7 +1716,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-03-01T23:28:20+00:00"
+            "time": "2017-03-02T14:41:40+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1861,16 +1861,16 @@
         },
         {
             "name": "lubusin/laravel-decomposer",
-            "version": "v1.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lubusIN/laravel-decomposer.git",
-                "reference": "19d04ac0b6da233d3e0565377f5e03b25c9c4204"
+                "reference": "b5ea685bde05dc45679d6102eae4230e0c0b6fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lubusIN/laravel-decomposer/zipball/19d04ac0b6da233d3e0565377f5e03b25c9c4204",
-                "reference": "19d04ac0b6da233d3e0565377f5e03b25c9c4204",
+                "url": "https://api.github.com/repos/lubusIN/laravel-decomposer/zipball/b5ea685bde05dc45679d6102eae4230e0c0b6fb9",
+                "reference": "b5ea685bde05dc45679d6102eae4230e0c0b6fb9",
                 "shasum": ""
             },
             "require": {
@@ -1899,7 +1899,7 @@
                 }
             ],
             "description": "A Laravel package to decompose and list your installed packages and their dependencies",
-            "time": "2017-03-01T12:56:41+00:00"
+            "time": "2017-03-02T13:22:00+00:00"
         },
         {
             "name": "michele-angioni/multi-language",
@@ -4296,20 +4296,21 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.1.6",
+            "version": "2.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "92bdc6800ac6e233c9e161a1768e082389a73530"
+                "reference": "1a8192deae1f35aabc3a73aad19cd07c68091dd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/92bdc6800ac6e233c9e161a1768e082389a73530",
-                "reference": "92bdc6800ac6e233c9e161a1768e082389a73530",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/1a8192deae1f35aabc3a73aad19cd07c68091dd1",
+                "reference": "1a8192deae1f35aabc3a73aad19cd07c68091dd1",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9 || ^7.0"
+                "php": "^5.5.9 || ^7.0",
+                "psr/log": "^1.0.1"
             },
             "require-dev": {
                 "mockery/mockery": "0.9.*",
@@ -4352,7 +4353,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2017-02-18T14:22:27+00:00"
+            "time": "2017-03-02T16:54:56+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
@@ -6268,16 +6269,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.14",
+            "version": "5.7.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4906b8faf23e42612182fd212eb6f4c0f2954b57"
+                "reference": "b99112aecc01f62acf3d81a3f59646700a1849e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4906b8faf23e42612182fd212eb6f4c0f2954b57",
-                "reference": "4906b8faf23e42612182fd212eb6f4c0f2954b57",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b99112aecc01f62acf3d81a3f59646700a1849e5",
+                "reference": "b99112aecc01f62acf3d81a3f59646700a1849e5",
                 "shasum": ""
             },
             "require": {
@@ -6346,7 +6347,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-02-19T07:22:16+00:00"
+            "time": "2017-03-02T15:22:43+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -7790,7 +7791,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "andywer/js-localization": 20,
-        "laravel/framework": 20,
         "spatie/laravel-migrate-fresh": 20
     },
     "prefer-stable": false,
