@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d63454b14ea48a229b7d7ff5c0fcf836",
+    "content-hash": "66997b8f68092a52993d0a507e7ca1a0",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -1588,16 +1588,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.13",
+            "version": "5.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3eebfaa759156e06144892b00bb95304aa5a71c1"
+                "reference": "0fab199d46a750f88c43ac75a087d44fb04c9c13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3eebfaa759156e06144892b00bb95304aa5a71c1",
-                "reference": "3eebfaa759156e06144892b00bb95304aa5a71c1",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0fab199d46a750f88c43ac75a087d44fb04c9c13",
+                "reference": "0fab199d46a750f88c43ac75a087d44fb04c9c13",
                 "shasum": ""
             },
             "require": {
@@ -1716,7 +1716,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-02-22T16:07:04+00:00"
+            "time": "2017-03-01T23:28:20+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1858,6 +1858,48 @@
                 "storage"
             ],
             "time": "2017-02-09T11:33:58+00:00"
+        },
+        {
+            "name": "lubusin/laravel-decomposer",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lubusIN/laravel-decomposer.git",
+                "reference": "19d04ac0b6da233d3e0565377f5e03b25c9c4204"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lubusIN/laravel-decomposer/zipball/19d04ac0b6da233d3e0565377f5e03b25c9c4204",
+                "reference": "19d04ac0b6da233d3e0565377f5e03b25c9c4204",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.3",
+                "illuminate/support": "~5.3",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "illuminate/http": "~5.3",
+                "illuminate/routing": "~5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lubusin\\Decomposer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Harish Toshniwal",
+                    "email": "harish@lubus.in"
+                }
+            ],
+            "description": "A Laravel package to decompose and list your installed packages and their dependencies",
+            "time": "2017-03-01T12:56:41+00:00"
         },
         {
             "name": "michele-angioni/multi-language",
@@ -7748,6 +7790,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "andywer/js-localization": 20,
+        "laravel/framework": 20,
         "spatie/laravel-migrate-fresh": 20
     },
     "prefer-stable": false,

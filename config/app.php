@@ -181,6 +181,7 @@ return [
         MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider::class,
         NotificationChannels\Twilio\TwilioProvider::class,
         NotificationChannels\HipChat\HipChatServiceProvider::class,
+        Lubusin\Decomposer\DecomposerServiceProvider::class,
 
         /*
          * Application Service Providers...
