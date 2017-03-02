@@ -22,8 +22,8 @@ $router->group(['namespace' => 'Resources'/*, 'prefix' => 'projects/{project}'*/
     $router->resource('commands', 'CommandController', $actions);
 });
 
-$router->group(['namespace' => 'Resources', 'prefix' => 'projects/{project}'], function () use ($router) {
-    $router->get('commands/{step}', 'CommandController@listing')->name('commands.step');
+$router->group(['namespace' => 'Resources'], function () use ($router) {
+    $router->get('projects/{project}/commands/{step}', 'CommandController@listing')->name('commands.step');
     $router->post('commands/reorder', 'CommandController@reorder')->name('commands.reorder');
 });
 
