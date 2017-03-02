@@ -72,6 +72,7 @@ class InstallAppTest extends TestCase
      */
     public function testVerifyNotInstalled()
     {
+        $this->filesystem->shouldReceive('exists')->andReturn(true);
         $this->config->shouldReceive('get')->with('app.key')->andReturn('an-existing-key');
 
         $tester = $this->runCommand();
@@ -90,6 +91,7 @@ class InstallAppTest extends TestCase
      */
     public function testCheckRequirements()
     {
+        $this->filesystem->shouldReceive('exists')->andReturn(true);
         $this->config->shouldReceive('get')->with('app.key')->andReturn(false);
         $this->requirements->shouldReceive('check')->with(m::type(InstallApp::class))->andReturn(false);
 
@@ -219,7 +221,7 @@ class InstallAppTest extends TestCase
         $this->builder->shouldReceive('setPrefix')->with('php')->andReturnSelf();
         $this->builder->shouldReceive('setArguments')
                       ->once()
-                      ->with([base_path('artisan'), 'migrate', '--force'])
+                      ->with([base_path('artisan'), 'migrate', '--force', '--ansi'])
                       ->andReturnSelf();
 
         $this->builder->shouldReceive('setArguments')
@@ -231,6 +233,7 @@ class InstallAppTest extends TestCase
                           $expectedEmail,
                           $expectedPassword,
                           '--no-email',
+                          '--ansi',
                       ])
                       ->andReturnSelf();
 

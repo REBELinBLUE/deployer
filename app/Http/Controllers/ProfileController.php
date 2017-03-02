@@ -81,8 +81,8 @@ class ProfileController extends Controller
      *
      * @param Request $request
      *
-     * @param LanguageManager $languageManager
-     * @param Settings $settings
+     * @param  LanguageManager       $languageManager
+     * @param  Settings              $settings
      * @return \Illuminate\View\View
      */
     public function index(Request $request, LanguageManager $languageManager, Settings $settings)
@@ -240,7 +240,7 @@ class ProfileController extends Controller
     /**
      * Set and crop the avatar.
      *
-     * @param Request $request
+     * @param Request      $request
      * @param UrlGenerator $url
      * @param ImageManager $image
      *

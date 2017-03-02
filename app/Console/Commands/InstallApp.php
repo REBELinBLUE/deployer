@@ -108,18 +108,18 @@ class InstallApp extends Command
     {
         $this->line('');
 
-        if (!$this->verifyNotInstalled() || !$requirements->check($this)) {
-            return -1;
-        }
-
-        $this->clearCaches();
-
         $config = base_path('.env');
 
         if (!$this->filesystem->exists($config)) {
             $this->filesystem->copy(base_path('.env.dist'), $config);
             $this->config->set('app.key', 'SomeRandomString');
         }
+
+        if (!$this->verifyNotInstalled() || !$requirements->check($this)) {
+            return -1;
+        }
+
+        $this->clearCaches();
 
         $this->block(' -- Welcome to Deployer -- ', 'fg=white;bg=green;options=bold');
         $this->line('');
@@ -202,6 +202,11 @@ class InstallApp extends Command
         $process = $this->artisanProcess('migrate', ['--force']);
 
         $process->run(function ($type, $buffer) {
+            $buffer = trim($buffer);
+            if (empty($buffer)) {
+                return;
+            }
+
             if ($type === Process::OUT) {
                 $this->line($buffer);
             } else {
@@ -377,7 +382,7 @@ class InstallApp extends Command
         $arguments = array_merge([
             base_path('artisan'),
             $command,
-        ], $args);
+        ], $args, ['--ansi']);
 
         $this->builder->setPrefix('php');
 
