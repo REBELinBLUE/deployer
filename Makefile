@@ -111,7 +111,7 @@ quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, i
 quicktest: install-dev lint phpcs phpdoc-check phpcpd phpunit-fast
 
 test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
-test: install-dev lint phpcs phpdoc-check phpunit phpcpd phpmd
+test: install-dev lint phpcs phpdoc-check phpunit phpcpd phpmd phpstan
 
 fulltest: ##@shortcuts Runs all tests
 fulltest: lint phpcs phpdoc-check phpunit integration phpcpd phpstan phpmd dusk
