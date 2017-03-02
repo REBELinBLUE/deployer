@@ -9,7 +9,7 @@ use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
@@ -32,11 +32,6 @@ class ProfileController extends Controller
      * @var Google2FA
      */
     private $google2fa;
-
-    /**
-     * @var LanguageManager
-     */
-    private $languageManager;
 
     /**
      * @var Settings
@@ -63,8 +58,6 @@ class ProfileController extends Controller
      *
      * @param UserRepositoryInterface $repository
      * @param Google2FA               $google2fa
-     * @param LanguageManager         $languageManager
-     * @param Settings                $settings
      * @param ViewFactory             $view
      * @param Translator              $translator
      * @param Redirector              $redirector
@@ -72,16 +65,12 @@ class ProfileController extends Controller
     public function __construct(
         UserRepositoryInterface $repository,
         Google2FA $google2fa,
-        LanguageManager $languageManager,
-        Settings $settings,
         ViewFactory $view,
         Translator $translator,
         Redirector $redirector
     ) {
         $this->repository      = $repository;
         $this->google2fa       = $google2fa;
-        $this->languageManager = $languageManager;
-        $this->settings        = $settings;
         $this->view            = $view;
         $this->translator      = $translator;
         $this->redirect        = $redirector;
@@ -92,9 +81,11 @@ class ProfileController extends Controller
      *
      * @param Request $request
      *
+     * @param LanguageManager $languageManager
+     * @param Settings $settings
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index(Request $request, LanguageManager $languageManager, Settings $settings)
     {
         $user = Auth::user();
 
@@ -109,8 +100,8 @@ class ProfileController extends Controller
             'google_2fa_url'  => $img,
             'google_2fa_code' => $code,
             'title'           => $this->translator->trans('users.update_profile'),
-            'locales'         => $this->languageManager->getAvailableLanguages(),
-            'settings'        => $this->settings,
+            'locales'         => $languageManager->getAvailableLanguages(),
+            'settings'        => $settings,
         ]);
     }
 
@@ -250,14 +241,15 @@ class ProfileController extends Controller
      * Set and crop the avatar.
      *
      * @param Request $request
+     * @param UrlGenerator $url
+     * @param ImageManager $image
      *
-     * @param  UrlGenerator $url
      * @return array
      */
-    public function avatar(Request $request, UrlGenerator $url)
+    public function avatar(Request $request, UrlGenerator $url, ImageManager $image)
     {
         $path   = $request->get('path', '/placeholder.jpg');
-        $image  = Image::make(public_path() . $path);
+        $image  = $image->make(public_path() . $path);
         $rotate = $request->get('dataRotate');
 
         if ($rotate) {

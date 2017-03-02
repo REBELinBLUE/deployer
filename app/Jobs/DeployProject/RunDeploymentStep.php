@@ -64,6 +64,11 @@ class RunDeploymentStep
     private $builder;
 
     /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
      * Create a new job instance.
      *
      * @param Deployment $deployment

@@ -28,6 +28,26 @@ class ScriptBuilder
     private $process;
 
     /**
+     * @var Deployment
+     */
+    private $deployment;
+
+    /**
+     * @var string
+     */
+    private $private_key;
+
+    /**
+     * @var string
+     */
+    private $release_archive;
+
+    /**
+     * @var DeployStep
+     */
+    private $step;
+
+    /**
      * ScriptBuilder constructor.
      *
      * @param Process      $process
