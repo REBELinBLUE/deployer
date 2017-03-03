@@ -12,7 +12,9 @@ class FixMissedMigrations extends Migration
      */
     public function up()
     {
-        if (config('database.default') === 'mysql') {
+        $connection = config('database.default');
+        $driver     = config('database.connections.' . $connection . '.driver');
+        if ($driver === 'mysql') {
             DB::statement('ALTER TABLE server_logs MODIFY output longtext');
             DB::statement("ALTER TABLE deployments CHANGE status status ENUM('"
                 . Deployment::PENDING . "', '"
@@ -24,7 +26,7 @@ class FixMissedMigrations extends Migration
                 . Deployment::ABORTED . "') DEFAULT '" . Deployment::PENDING . "'");
         }
 
-        if (config('database.default') !== 'sqlite') {
+        if ($driver !== 'sqlite') {
             DB::statement('ALTER TABLE projects DROP COLUMN is_template');
         }
     }
@@ -34,7 +36,9 @@ class FixMissedMigrations extends Migration
      */
     public function down()
     {
-        if (config('database.default') === 'mysql') {
+        $connection = config('database.default');
+        $driver     = config('database.connections.' . $connection . '.driver');
+        if ($driver === 'mysql') {
             DB::statement('ALTER TABLE server_logs MODIFY output text');
             DB::statement("ALTER TABLE deployments CHANGE status status ENUM('"
                 . Deployment::PENDING . "', '"
@@ -44,7 +48,7 @@ class FixMissedMigrations extends Migration
                 . Deployment::COMPLETED_WITH_ERRORS . "') DEFAULT '" . Deployment::PENDING . "'");
         }
 
-        if (config('database.default') !== 'sqlite') {
+        if ($driver !== 'sqlite') {
             Schema::table('projects', function (Blueprint $table) {
                 $table->boolean('is_template')->default(false);
             });

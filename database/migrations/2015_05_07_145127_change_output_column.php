@@ -10,7 +10,9 @@ class ChangeOutputColumn extends Migration
      */
     public function up()
     {
-        if (config('database.default') === 'mysql') {
+        $connection = config('database.default');
+        $driver     = config('database.connections.' . $connection . '.driver');
+        if ($driver === 'mysql') {
             DB::statement('ALTER TABLE server_logs CHANGE output output longtext');
         }
     }
@@ -20,7 +22,9 @@ class ChangeOutputColumn extends Migration
      */
     public function down()
     {
-        if (config('database.default') === 'mysql') {
+        $connection = config('database.default');
+        $driver     = config('database.connections.' . $connection . '.driver');
+        if ($driver === 'mysql') {
             DB::statement('ALTER TABLE server_logs CHANGE output output text');
         }
     }

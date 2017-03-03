@@ -14,7 +14,9 @@ class FixTimestampDefaults extends Migration
      */
     public function up()
     {
-        if (config('database.default') === 'mysql') {
+        $connection = config('database.default');
+        $driver     = config('database.connections.' . $connection . '.driver');
+        if ($driver === 'mysql') {
             DB::statement("SET SESSION sql_mode='ALLOW_INVALID_DATES'");
 
             foreach ($this->tables as $table) {

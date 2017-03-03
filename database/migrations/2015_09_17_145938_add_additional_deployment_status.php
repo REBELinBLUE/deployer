@@ -11,7 +11,9 @@ class AddAdditionalDeploymentStatus extends Migration
      */
     public function up()
     {
-        if (config('database.default') === 'mysql') {
+        $connection = config('database.default');
+        $driver     = config('database.connections.' . $connection . '.driver');
+        if ($driver === 'mysql') {
             DB::statement("ALTER TABLE deployments CHANGE status status ENUM('"
                 . Deployment::PENDING . "', '"
                 . Deployment::DEPLOYING . "', '"
@@ -26,7 +28,9 @@ class AddAdditionalDeploymentStatus extends Migration
      */
     public function down()
     {
-        if (config('database.default') === 'mysql') {
+        $connection = config('database.default');
+        $driver     = config('database.connections.' . $connection . '.driver');
+        if ($driver === 'mysql') {
             DB::statement("ALTER TABLE deployments CHANGE status status ENUM('"
                 . Deployment::PENDING . "', '"
                 . Deployment::DEPLOYING . "', '"

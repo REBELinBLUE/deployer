@@ -15,7 +15,9 @@ class RemoveEnumFields extends Migration
      */
     public function up()
     {
-        if (config('database.default') === 'mysql') {
+        $connection = config('database.default');
+        $driver     = config('database.connections.' . $connection . '.driver');
+        if ($driver === 'mysql') {
             DB::transaction(function () {
                 $this->removeEnum('projects', 'status', Project::NOT_DEPLOYED);
                 $this->removeEnum('servers', 'status', Server::UNTESTED);
