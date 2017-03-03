@@ -4,14 +4,17 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
+use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
 use REBELinBLUE\Deployer\Events\RestartSocketServer;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 
 /**
- * A console command to easily toggle debugging
+ * A console command to easily toggle debugging.
  */
 class DebugApp extends Command
 {
+    use OutputStyles;
+
     /**
      * The name and signature of the console command.
      *
@@ -25,6 +28,7 @@ class DebugApp extends Command
      * @var string
      */
     protected $description = 'Allows debugging to easily be switched on or off';
+
     /**
      * @var Filesystem
      */
@@ -46,7 +50,6 @@ class DebugApp extends Command
      * Execute the console command.
      *
      * @param Dispatcher $dispatcher
-     * @return mixed
      */
     public function handle(Dispatcher $dispatcher)
     {
@@ -54,8 +57,22 @@ class DebugApp extends Command
 
         $content = $this->filesystem->get($env);
 
+        $enable = ($this->argument('status') === 'on');
+
+        $this->line('');
+
+        if ($enable) {
+            $this->block('Enabling debug mode', 'error');
+        } else {
+            $this->block('Disabling debug mode', 'fg=black;bg=green');
+        }
+
+        $this->line('');
+
+        $content = $this->replaceConfigValues($content, $enable);
+
         $this->info('Configuration file updated');
-        $this->filesystem->put($env, $this->replaceConfigValues($content, $this->argument('status') === 'on'));
+        $this->filesystem->put($env, $content);
 
         $this->call('config:clear');
         $this->call('queue:restart');
@@ -64,22 +81,23 @@ class DebugApp extends Command
         $dispatcher->dispatch(new RestartSocketServer());
     }
 
+    /**
+     * @param string $content The content of the config file
+     * @param bool   $enable  Whether to enable debugging
+     *
+     * @return string
+     */
     private function replaceConfigValues($content, $enable = true)
     {
-        $debug = 'true';
-        $level = 'debug';
-
-        if (!$enable) {
-            $debug = 'false';
-            $level = 'error';
-        }
+        $debug = $enable ? 'true' : 'false';
+        $level = $enable ? 'debug' : 'error';
 
         return preg_replace([
             '/APP_DEBUG=(.*)[\n]/',
-            '/APP_LOG_LEVEL=(.*)[\n]/'
+            '/APP_LOG_LEVEL=(.*)[\n]/',
         ], [
             'APP_DEBUG=' . $debug . PHP_EOL,
-            'APP_LOG_LEVEL=' . $level . PHP_EOL
+            'APP_LOG_LEVEL=' . $level . PHP_EOL,
         ], $content);
     }
 }
