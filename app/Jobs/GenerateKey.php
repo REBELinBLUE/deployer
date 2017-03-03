@@ -46,6 +46,7 @@ class GenerateKey extends Job
 
         $process->setScript('tools.GenerateSSHKey', [
             'key_file' => $private_key_file,
+            'project'  => $this->project->name,
         ])->run();
 
         // FIXME: Delete files

@@ -37,6 +37,7 @@ class GenerateKeyTest extends TestCase
         $expectedPrivateKey = 'a-private-key';
         $expectedPublicKey  = 'a-public-key';
         $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
+        $expectedProject    = 'a project';
 
         $this->filesystem->shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
         $this->filesystem->shouldReceive('get')->once()->with($expectedPath)->andReturn($expectedPrivateKey);
@@ -44,12 +45,13 @@ class GenerateKeyTest extends TestCase
         $this->filesystem->shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
 
         $this->process->shouldReceive('setScript')
-                      ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath])
+                      ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath, 'project' => $expectedProject])
                       ->andReturnSelf();
         $this->process->shouldReceive('run')->once();
         $this->process->shouldReceive('isSuccessful')->andReturn(true);
 
-        $project = new Project();
+        $project       = new Project();
+        $project->name = $expectedProject;
 
         $job = new GenerateKey($project);
         $job->handle($this->filesystem, $this->process);
@@ -66,19 +68,23 @@ class GenerateKeyTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $folder       = storage_path('app/tmp');
-        $expectedPath = $folder . 'sshkeyA-TMP-FILE-NAME';
+        $folder          = storage_path('app/tmp');
+        $expectedPath    = $folder . 'sshkeyA-TMP-FILE-NAME';
+        $expectedProject = 'project name';
 
         $this->filesystem->shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
 
         $this->process->shouldReceive('setScript')
-                      ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath])
+                      ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath, 'project' => $expectedProject])
                       ->andReturnSelf();
         $this->process->shouldReceive('run')->once();
         $this->process->shouldReceive('isSuccessful')->andReturn(false);
         $this->process->shouldReceive('getErrorOutput');
 
-        $job = new GenerateKey(new Project());
+        $project       = new Project();
+        $project->name = $expectedProject;
+
+        $job = new GenerateKey($project);
         $job->handle($this->filesystem, $this->process);
     }
 }
