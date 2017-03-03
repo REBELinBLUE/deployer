@@ -13,6 +13,7 @@ use REBELinBLUE\Deployer\Console\Commands\ClearOrphanAvatars;
 use REBELinBLUE\Deployer\Console\Commands\ClearOrphanMirrors;
 use REBELinBLUE\Deployer\Console\Commands\ClearStalledDeployment;
 use REBELinBLUE\Deployer\Console\Commands\CreateUser;
+use REBELinBLUE\Deployer\Console\Commands\DebugApp;
 use REBELinBLUE\Deployer\Console\Commands\InstallApp;
 use REBELinBLUE\Deployer\Console\Commands\MakeRepositoryCommand;
 use REBELinBLUE\Deployer\Console\Commands\ResetApp;
@@ -38,6 +39,7 @@ class Kernel extends ConsoleKernel
         ClearOrphanMirrors::class,
         ClearStalledDeployment::class,
         ClearOldKeys::class,
+        DebugApp::class,
         UpdateGitMirrors::class,
         InstallApp::class,
         UpdateApp::class,
