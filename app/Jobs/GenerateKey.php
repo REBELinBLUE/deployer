@@ -49,14 +49,16 @@ class GenerateKey extends Job
             'project'  => $this->project->name,
         ])->run();
 
-        // FIXME: Delete files
+        $files = [$private_key_file, $public_key_file];
+
         if (!$process->isSuccessful()) {
+            $filesystem->delete($files);
             throw new RuntimeException($process->getErrorOutput());
         }
 
         $this->project->private_key = $filesystem->get($private_key_file);
         $this->project->public_key  = $filesystem->get($public_key_file);
 
-        $filesystem->delete([$private_key_file, $public_key_file]);
+        $filesystem->delete($files);
     }
 }

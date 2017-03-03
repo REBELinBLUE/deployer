@@ -81,6 +81,7 @@ class RegeneratePublicKeyTest extends TestCase
         $this->filesystem->shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
         $this->filesystem->shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
         $this->filesystem->shouldReceive('chmod')->with($expectedPath, 0600);
+        $this->filesystem->shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
 
         $this->process->shouldReceive('setScript')
                       ->with('tools.RegeneratePublicSSHKey', [

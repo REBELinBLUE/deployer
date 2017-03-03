@@ -73,6 +73,7 @@ class GenerateKeyTest extends TestCase
         $expectedProject = 'project name';
 
         $this->filesystem->shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
+        $this->filesystem->shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
 
         $this->process->shouldReceive('setScript')
                       ->with('tools.GenerateSSHKey', ['key_file' => $expectedPath, 'project' => $expectedProject])
