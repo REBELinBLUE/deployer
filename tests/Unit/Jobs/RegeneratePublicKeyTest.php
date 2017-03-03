@@ -37,6 +37,7 @@ class RegeneratePublicKeyTest extends TestCase
         $expectedPrivateKey = 'a-private-key';
         $expectedPublicKey  = 'a-public-key';
         $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
+        $expectedProject    = 'my project';
 
         $this->filesystem->shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
         $this->filesystem->shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
@@ -45,13 +46,17 @@ class RegeneratePublicKeyTest extends TestCase
         $this->filesystem->shouldReceive('delete')->once()->with([$expectedPath, $expectedPath . '.pub']);
 
         $this->process->shouldReceive('setScript')
-                      ->with('tools.RegeneratePublicSSHKey', ['key_file' => $expectedPath])
+                      ->with('tools.RegeneratePublicSSHKey', [
+                          'key_file' => $expectedPath,
+                          'project'  => $expectedProject,
+                      ])
                       ->andReturnSelf();
         $this->process->shouldReceive('run')->once();
         $this->process->shouldReceive('isSuccessful')->andReturn(true);
 
         $project              = new Project();
         $project->private_key = $expectedPrivateKey;
+        $project->name        = $expectedProject;
 
         $job = new RegeneratePublicKey($project);
         $job->handle($this->filesystem, $this->process);
@@ -71,13 +76,17 @@ class RegeneratePublicKeyTest extends TestCase
         $expectedPrivateKey = 'a-private-key';
         $folder             = storage_path('app/tmp');
         $expectedPath       = $folder . 'sshkeyA-TMP-FILE-NAME';
+        $expectedProject    = 'my project';
 
         $this->filesystem->shouldReceive('tempnam')->once()->with($folder, 'key')->andReturn($expectedPath);
         $this->filesystem->shouldReceive('put')->once()->with($expectedPath, $expectedPrivateKey);
         $this->filesystem->shouldReceive('chmod')->with($expectedPath, 0600);
 
         $this->process->shouldReceive('setScript')
-                      ->with('tools.RegeneratePublicSSHKey', ['key_file' => $expectedPath])
+                      ->with('tools.RegeneratePublicSSHKey', [
+                          'key_file' => $expectedPath,
+                          'project'  => $expectedProject,
+                      ])
                       ->andReturnSelf();
         $this->process->shouldReceive('run')->once();
         $this->process->shouldReceive('isSuccessful')->andReturn(false);
@@ -85,6 +94,7 @@ class RegeneratePublicKeyTest extends TestCase
 
         $project              = new Project();
         $project->private_key = $expectedPrivateKey;
+        $project->name        = $expectedProject;
 
         $job = new RegeneratePublicKey($project);
         $job->handle($this->filesystem, $this->process);
