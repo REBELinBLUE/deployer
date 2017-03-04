@@ -164,7 +164,7 @@ endif
 
 # PHPUnit for Travis
 phpunit-ci:
-ifeq "$(phpenv version-name)" "7.1"
+ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
 	@$(MAKE) coverage
 else
 	@$(MAKE) phpunit
