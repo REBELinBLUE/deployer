@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Jobs;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Collection;
 use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
@@ -12,7 +13,6 @@ use REBELinBLUE\Deployer\Jobs\QueueDeployment\GroupedCommandListTransformer;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment\StepsBuilder;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use REBELinBLUE\Deployer\User;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\QueueDeployment
@@ -38,6 +38,11 @@ class QueueDeploymentTest extends TestCase
      * @var StepsBuilder
      */
     private $steps;
+
+    /**
+     * @var Guard
+     */
+    private $auth;
 
     /**
      * @todo Improve this, not testing groups, or optional
@@ -77,10 +82,13 @@ class QueueDeploymentTest extends TestCase
         $steps = m::mock(StepsBuilder::class);
         $steps->shouldReceive('build')->once()->with($grouped, $project, $deployment_id, []);
 
+        $auth = m::mock(Guard::class);
+
         $this->project    = $project;
         $this->deployment = $deployment;
         $this->builder    = $builder;
         $this->steps      = $steps;
+        $this->auth       = $auth;
     }
 
     /**
@@ -92,6 +100,8 @@ class QueueDeploymentTest extends TestCase
     {
         $this->expectsJobs(DeployProject::class);
 
+        $this->auth->shouldReceive('check')->andReturn(false);
+
         $this->deployment->shouldReceive('getAttribute')->with('committer')->andReturnNull();
         $this->deployment->shouldReceive('setAttribute')->once()->with('committer', Deployment::LOADING);
         $this->deployment->shouldReceive('getAttribute')->with('commit')->andReturnNull();
@@ -101,7 +111,7 @@ class QueueDeploymentTest extends TestCase
         $this->deployment->shouldNotReceive('setAttribute')->with('user_id', m::any());
 
         $job = new QueueDeployment($this->project, $this->deployment, []);
-        $job->handle($this->builder, $this->steps);
+        $job->handle($this->builder, $this->steps, $this->auth);
     }
 
     /**
@@ -111,10 +121,10 @@ class QueueDeploymentTest extends TestCase
      */
     public function testHandleWithUser()
     {
-        $user     = new User(['name' => 'John']);
-        $user->id = 6;
+        $expectedId = 6;
 
-        $this->be($user);
+        $this->auth->shouldReceive('check')->andReturn(true);
+        $this->auth->shouldReceive('id')->andReturn($expectedId);
 
         $this->expectsJobs(DeployProject::class);
 
@@ -124,10 +134,10 @@ class QueueDeploymentTest extends TestCase
         $this->deployment->shouldReceive('setAttribute')->once()->with('commit', Deployment::LOADING);
 
         $this->deployment->shouldNotReceive('setAttribute')->with('is_webhook', m::type('boolean'));
-        $this->deployment->shouldReceive('setAttribute')->once()->with('user_id', $user->id);
+        $this->deployment->shouldReceive('setAttribute')->once()->with('user_id', $expectedId);
 
         $job = new QueueDeployment($this->project, $this->deployment, []);
-        $job->handle($this->builder, $this->steps);
+        $job->handle($this->builder, $this->steps, $this->auth);
     }
 
     /**
@@ -142,6 +152,8 @@ class QueueDeploymentTest extends TestCase
         $committer = 'bob smith';
         $commit    = 'a-git-commit-hash';
 
+        $this->auth->shouldReceive('check')->andReturn(false);
+
         $this->deployment->shouldReceive('getAttribute')->with('committer')->andReturn($committer);
         $this->deployment->shouldReceive('setAttribute')->once()->with('committer', $committer);
         $this->deployment->shouldReceive('getAttribute')->with('commit')->andReturn($commit);
@@ -151,7 +163,7 @@ class QueueDeploymentTest extends TestCase
         $this->deployment->shouldNotReceive('setAttribute')->with('user_id', m::any());
 
         $job = new QueueDeployment($this->project, $this->deployment, []);
-        $job->handle($this->builder, $this->steps);
+        $job->handle($this->builder, $this->steps, $this->auth);
     }
 
     /**
@@ -163,10 +175,10 @@ class QueueDeploymentTest extends TestCase
     {
         $this->expectsJobs(DeployProject::class);
 
-        $user     = new User(['name' => 'John']);
-        $user->id = 6;
+        $expectedId = 6;
 
-        $this->be($user);
+        $this->auth->shouldReceive('check')->andReturn(true);
+        $this->auth->shouldReceive('id')->andReturn($expectedId);
 
         $committer = 'bob smith';
         $commit    = 'a-git-commit-hash';
@@ -177,9 +189,9 @@ class QueueDeploymentTest extends TestCase
         $this->deployment->shouldReceive('setAttribute')->once()->with('commit', $commit);
 
         $this->deployment->shouldNotReceive('setAttribute')->with('is_webhook', m::type('boolean'));
-        $this->deployment->shouldReceive('setAttribute')->once()->with('user_id', $user->id);
+        $this->deployment->shouldReceive('setAttribute')->once()->with('user_id', $expectedId);
 
         $job = new QueueDeployment($this->project, $this->deployment, []);
-        $job->handle($this->builder, $this->steps);
+        $job->handle($this->builder, $this->steps, $this->auth);
     }
 }

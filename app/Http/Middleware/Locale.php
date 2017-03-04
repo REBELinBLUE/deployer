@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 
 /**
@@ -17,12 +17,20 @@ class Locale
     private $languageManager;
 
     /**
-     * Locale constructor.
-     * @param LanguageManager $languageManager
+     * @var AuthFactory
      */
-    public function __construct(LanguageManager $languageManager)
+    private $auth;
+
+    /**
+     * Locale constructor.
+     *
+     * @param LanguageManager $languageManager
+     * @param AuthFactory     $auth
+     */
+    public function __construct(LanguageManager $languageManager, AuthFactory $auth)
     {
         $this->languageManager = $languageManager;
+        $this->auth            = $auth;
     }
 
     /**
@@ -30,12 +38,13 @@ class Locale
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
+     * @param string|null              $guard
      *
      * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
-        $user = Auth::user();
+        $user = $this->auth->guard($guard)->user();
         if ($user && $user->language) {
             $this->languageManager->setLocale($user->language);
         }

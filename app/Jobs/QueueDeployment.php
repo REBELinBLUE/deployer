@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Facades\Auth;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment\GroupedCommandListTransformer;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment\StepsBuilder;
@@ -50,10 +50,11 @@ class QueueDeployment extends Job
      *
      * @param GroupedCommandListTransformer $transformer
      * @param StepsBuilder                  $steps
+     * @param Guard                         $auth
      */
-    public function handle(GroupedCommandListTransformer $transformer, StepsBuilder $steps)
+    public function handle(GroupedCommandListTransformer $transformer, StepsBuilder $steps, Guard $auth)
     {
-        $this->setDeploymentStatus();
+        $this->setDeploymentStatus($auth);
 
         $steps->build(
             $transformer->groupCommandsByDeployStep($this->project),
@@ -67,15 +68,17 @@ class QueueDeployment extends Job
 
     /**
      * Sets the deployment to pending.
+     *
+     * @param Guard $auth
      */
-    private function setDeploymentStatus()
+    private function setDeploymentStatus(Guard $auth)
     {
         $this->deployment->status     = Deployment::PENDING;
         $this->deployment->started_at = $this->deployment->freshTimestamp();
         $this->deployment->project_id = $this->project->id;
 
-        if (Auth::check()) {
-            $this->deployment->user_id = Auth::user()->id;
+        if ($auth->check()) {
+            $this->deployment->user_id = $auth->id();
         } else {
             $this->deployment->is_webhook = true;
         }

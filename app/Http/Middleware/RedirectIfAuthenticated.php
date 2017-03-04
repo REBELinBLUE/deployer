@@ -3,8 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Middleware to prevent access to pages when already authenticated.
@@ -17,11 +17,18 @@ class RedirectIfAuthenticated
     private $redirector;
 
     /**
-     * @param Redirector $redirector
+     * @var Factory
      */
-    public function __construct(Redirector $redirector)
+    private $auth;
+
+    /**
+     * @param Redirector  $redirector
+     * @param AuthFactory $auth
+     */
+    public function __construct(Redirector $redirector, AuthFactory $auth)
     {
         $this->redirector = $redirector;
+        $this->auth       = $auth;
     }
 
     /**
@@ -35,7 +42,7 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
+        if ($this->auth->guard($guard)->check()) {
             return $this->redirector->to('/');
         }
 

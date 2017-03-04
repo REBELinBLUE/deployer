@@ -3,10 +3,10 @@
 namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use REBELinBLUE\Deployer\Events\JsonWebTokenExpired;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -18,7 +18,7 @@ use Tymon\JWTAuth\JWTAuth;
 class RefreshJsonWebToken
 {
     /**
-     * @var JWTAuth
+     * @var AuthFactory
      */
     protected $auth;
 
@@ -38,21 +38,29 @@ class RefreshJsonWebToken
     private $response;
 
     /**
-     * @param JWTAuth         $auth
+     * @var JWTAuth
+     */
+    private $jwt;
+
+    /**
+     * @param JWTAuth         $jwt
      * @param Dispatcher      $dispatcher
      * @param Redirector      $redirector
      * @param ResponseFactory $response
+     * @param AuthFactory     $auth
      */
     public function __construct(
-        JWTAuth $auth,
+        JWTAuth $jwt,
         Dispatcher $dispatcher,
         Redirector $redirector,
-        ResponseFactory $response
+        ResponseFactory $response,
+        AuthFactory $auth
     ) {
         $this->auth       = $auth;
         $this->dispatcher = $dispatcher;
         $this->redirector = $redirector;
         $this->response   = $response;
+        $this->jwt        = $jwt;
     }
 
     /**
@@ -66,7 +74,7 @@ class RefreshJsonWebToken
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $authenticated_user = Auth::guard($guard)->user();
+        $authenticated_user = $this->auth->guard($guard)->user();
 
         $has_valid_token = false;
 
@@ -75,7 +83,7 @@ class RefreshJsonWebToken
             $token = $request->session()->get('jwt');
 
             try {
-                $token_user = $this->auth->authenticate($token);
+                $token_user = $this->jwt->authenticate($token);
 
                 if ($token_user->id !== $authenticated_user->id) {
                     throw new JWTException('Token does not belong to the authenticated user');

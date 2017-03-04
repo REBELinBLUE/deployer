@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Generic Request class.
@@ -12,12 +12,25 @@ use Illuminate\Support\Facades\Auth;
 abstract class Request extends FormRequest
 {
     /**
+     * @var Guard
+     */
+    protected $auth;
+
+    /**
+     * @param Guard $auth
+     */
+    public function __construct(Guard $auth)
+    {
+        $this->auth = $auth;
+    }
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
     public function authorize()
     {
-        return Auth::check();
+        return $this->auth->check();
     }
 }

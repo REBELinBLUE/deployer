@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 /**
  * Abstract class for eloquent repositories.
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class EloquentRepository
 {
