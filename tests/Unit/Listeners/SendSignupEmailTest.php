@@ -17,6 +17,7 @@ use REBELinBLUE\Deployer\User;
 class SendSignupEmailTest extends TestCase
 {
     /**
+     * @covers ::__construct
      * @covers ::handle
      */
     public function testHandleDispatchesNotification()

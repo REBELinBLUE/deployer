@@ -17,6 +17,7 @@ use REBELinBLUE\Deployer\User;
 class SendEmailChangeConfirmationTest extends TestCase
 {
     /**
+     * @covers ::__construct
      * @covers ::handle
      */
     public function testHandleDispatchesNotification()
