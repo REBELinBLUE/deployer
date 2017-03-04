@@ -2,7 +2,7 @@
 <html lang="{{ config('app.locale') }}">
     <head>
         <meta charset="UTF-8" />
-        <title>{{ Lang::get('app.name') }}</title>
+        <title>{{ trans('app.name') }}</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
         <link rel="author" href="humans.txt" />
 

@@ -54,7 +54,7 @@ class DeployStepPresenterTest extends TestCase
         $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('command_id')->andReturnNull();
         $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('stage')->andReturn($stage);
 
-        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
 
         $presenter = new DeployStepPresenter($this->translator);
         $presenter->setWrappedObject($step);

@@ -1,24 +1,24 @@
 <div class="box">
     <div class="box-header">
         <div class="pull-right">
-            <button type="button" class="btn btn-default" title="{{ Lang::get('heartbeats.create') }}" data-toggle="modal" data-backdrop="static" data-target="#heartbeat"><span class="fa fa-plus"></span> {{ Lang::get('heartbeats.create') }}</button>
+            <button type="button" class="btn btn-default" title="{{ trans('heartbeats.create') }}" data-toggle="modal" data-backdrop="static" data-target="#heartbeat"><span class="fa fa-plus"></span> {{ trans('heartbeats.create') }}</button>
         </div>
-        <h3 class="box-title">{{ Lang::get('heartbeats.label') }}</h3>
+        <h3 class="box-title">{{ trans('heartbeats.label') }}</h3>
     </div>
 
     <div class="box-body" id="no_heartbeats">
-        <p>{{ Lang::get('heartbeats.none') }}</p>
+        <p>{{ trans('heartbeats.none') }}</p>
     </div>
 
     <div class="box-body table-responsive" id="heartbeat_list">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>{{ Lang::get('heartbeats.name') }}</th>
-                    <th>{{ Lang::get('heartbeats.url') }}</th>
-                    <th>{{ Lang::get('heartbeats.interval') }}</th>
-                    <th>{{ Lang::get('heartbeats.last_check_in') }}</th>
-                    <th>{{ Lang::get('heartbeats.status') }}</th>
+                    <th>{{ trans('heartbeats.name') }}</th>
+                    <th>{{ trans('heartbeats.url') }}</th>
+                    <th>{{ trans('heartbeats.interval') }}</th>
+                    <th>{{ trans('heartbeats.last_check_in') }}</th>
+                    <th>{{ trans('heartbeats.status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -38,7 +38,7 @@
             <% if (has_run) { %>
                 <%- formatted_date %>
             <% } else { %>
-                {{ Lang::get('app.never') }}
+                {{ trans('app.never') }}
             <% } %>
         </td>
         <td>
@@ -46,7 +46,7 @@
         </td>
         <td>
             <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('heartbeats.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#heartbeat"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="{{ trans('heartbeats.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#heartbeat"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>

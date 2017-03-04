@@ -6,10 +6,10 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>{{ Lang::get('users.name') }}</th>
-                        <th>{{ Lang::get('users.email') }}</th>
-                        <th>{{ Lang::get('app.created') }}</th>
-                        <th>{{ Lang::get('users.has_2fa') }}</th>
+                        <th>{{ trans('users.name') }}</th>
+                        <th>{{ trans('users.email') }}</th>
+                        <th>{{ trans('app.created') }}</th>
+                        <th>{{ trans('users.has_2fa') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -25,7 +25,7 @@
 
 @section('right-buttons')
     <div class="pull-right">
-        <button type="button" class="btn btn-default" title="{{ Lang::get('users.create') }}" data-toggle="modal" data-target="#user"><span class="fa fa-plus"></span> {{ Lang::get('users.create') }}</button>
+        <button type="button" class="btn btn-default" title="{{ trans('users.create') }}" data-toggle="modal" data-target="#user"><span class="fa fa-plus"></span> {{ trans('users.create') }}</button>
     </div>
 @stop
 
@@ -45,14 +45,14 @@
         <td><%- created %></td>
         <td>
             <% if (has_two_factor_authentication) { %>
-                {{ Lang::get('app.yes') }}
+                {{ trans('app.yes') }}
             <% } else { %>
-                {{ Lang::get('app.no') }}
+                {{ trans('app.no') }}
             <% } %>
         </td>
         <td>
             <div class="btn-group pull-right">
-                <button class="btn btn-default btn-edit" title="{{ Lang::get('app.edit') }}" data-toggle="modal" data-target="#user" data-user-id="<%- id %>"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-default btn-edit" title="{{ trans('app.edit') }}" data-toggle="modal" data-target="#user" data-user-id="<%- id %>"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>

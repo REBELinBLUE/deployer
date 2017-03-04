@@ -1,5 +1,5 @@
 @if (!count($latest))
-    <p>{{ Lang::get('dashboard.no_deployments') }}</p>
+    <p>{{ trans('dashboard.no_deployments') }}</p>
 @else
 <ul class="timeline">
     @foreach ($latest as $date => $deployments)
@@ -12,7 +12,7 @@
             <i class="fa fa-{{ $deployment->icon }} bg-{{ $deployment->timeline_css_class }}"></i>
             <div class="timeline-item">
                 <span class="time"><i class="fa fa-clock-o"></i> {{ $deployment->started_at->format('g:i:s A') }}</span>
-                <h3 class="timeline-header"><a href="{{ route('projects', ['id' => $deployment->project_id]) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployments', ['id' => $deployment->id]) }}">{{ Lang::get('dashboard.deployment_number', ['id' => $deployment->id]) }}</a> - {{ $deployment->readable_status }}</h3>
+                <h3 class="timeline-header"><a href="{{ route('projects', ['id' => $deployment->project_id]) }}">{{ $deployment->project->name }} </a> - <a href="{{ route('deployments', ['id' => $deployment->id]) }}">{{ trans('dashboard.deployment_number', ['id' => $deployment->id]) }}</a> - {{ $deployment->readable_status }}</h3>
 
                 @if (!empty($deployment->reason))
                 <div class="timeline-body">

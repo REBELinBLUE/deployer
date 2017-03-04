@@ -7,10 +7,10 @@
             @if (!count($projects))
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">{{ Lang::get('dashboard.projects') }}</h3>
+                        <h3 class="box-title">{{ trans('dashboard.projects') }}</h3>
                     </div>
                     <div class="box-body">
-                        <p>{{ Lang::get('dashboard.no_projects') }}</p>
+                        <p>{{ trans('dashboard.no_projects') }}</p>
                     </div>
                 </div>
             @else
@@ -23,9 +23,9 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>{{ Lang::get('projects.name') }}</th>
-                                    <th>{{ Lang::choice('dashboard.latest', 1) }}</th>
-                                    <th>{{ Lang::get('dashboard.status') }}</th>
+                                    <th>{{ trans('projects.name') }}</th>
+                                    <th>{{ trans_choice('dashboard.latest', 1) }}</th>
+                                    <th>{{ trans('dashboard.status') }}</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
@@ -40,9 +40,9 @@
                                     <td>
                                         <div class="btn-group pull-right">
                                             @if(isset($project->url))
-                                            <a href="{{ $group_project->url }}" class="btn btn-default" title="{{ Lang::get('dashboard.site') }}" target="_blank"><i class="fa fa-globe"></i></a>
+                                            <a href="{{ $group_project->url }}" class="btn btn-default" title="{{ trans('dashboard.site') }}" target="_blank"><i class="fa fa-globe"></i></a>
                                             @endif
-                                            <a href="{{ route('projects', ['id' => $group_project->id]) }}" class="btn btn-default" title="{{ Lang::get('dashboard.view') }}"><i class="fa fa-info-circle"></i></a>
+                                            <a href="{{ route('projects', ['id' => $group_project->id]) }}" class="btn btn-default" title="{{ trans('dashboard.view') }}"><i class="fa fa-info-circle"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -58,7 +58,7 @@
         <div class="col-md-5">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">{{ Lang::choice('dashboard.latest', 2) }}</h3>
+                    <h3 class="box-title">{{ trans_choice('dashboard.latest', 2) }}</h3>
                 </div>
                 <div class="box-body" id="timeline">
                     @include('dashboard.timeline')

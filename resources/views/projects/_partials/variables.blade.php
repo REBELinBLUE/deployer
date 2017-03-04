@@ -1,21 +1,21 @@
 <div class="box">
     <div class="box-header">
         <div class="pull-right">
-            <button type="button" class="btn btn-default" title="{{ Lang::get('variables.create') }}" data-toggle="modal" data-backdrop="static" data-target="#variable"><span class="fa fa-plus"></span> {{ Lang::get('variables.create') }}</button>
+            <button type="button" class="btn btn-default" title="{{ trans('variables.create') }}" data-toggle="modal" data-backdrop="static" data-target="#variable"><span class="fa fa-plus"></span> {{ trans('variables.create') }}</button>
         </div>
-        <h3 class="box-title">{{ Lang::get('variables.label') }}</h3>
+        <h3 class="box-title">{{ trans('variables.label') }}</h3>
     </div>
     <div class="box-body">
-        <p>{!! Lang::get('variables.description') !!}</p>
-        <p>{!! Lang::get('variables.example') !!}</p>
+        <p>{!! trans('variables.description') !!}</p>
+        <p>{!! trans('variables.example') !!}</p>
     </div>
 
     <div class="box-body table-responsive" id="variable_list">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>{{ Lang::get('variables.name') }}</th>
-                    <th>{{ Lang::get('variables.value') }}</th>
+                    <th>{{ trans('variables.name') }}</th>
+                    <th>{{ trans('variables.value') }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -32,7 +32,7 @@
         <td><%- value %></td>
         <td>
             <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('variables.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#variable"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="{{ trans('variables.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#variable"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>

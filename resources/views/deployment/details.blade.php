@@ -2,13 +2,13 @@
 
 @section('content')
     @if (!empty($deployment->reason))
-        <p><strong>{{ Lang::get('deployments.reason') }}</strong>: {{ $deployment->reason }}</p>
+        <p><strong>{{ trans('deployments.reason') }}</strong>: {{ $deployment->reason }}</p>
     @endif
     <div class="row">
         <div class="col-xs-12" id="{{ $deployment->repo_failure ? '' : 'repository_error' }}">
             <div class="callout callout-danger">
-                <h4><i class="icon fa fa-ban"></i> {{ Lang::get('deployments.repo_failure_head') }}</h4>
-                <p>{{ Lang::get('deployments.repo_failure') }}</p>
+                <h4><i class="icon fa fa-ban"></i> {{ trans('deployments.repo_failure_head') }}</h4>
+                <p>{{ trans('deployments.repo_failure') }}</p>
             </div>
         </div>
 
@@ -22,11 +22,11 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>{{ Lang::get('deployments.server') }}</th>
-                                <th>{{ Lang::get('deployments.status') }}</th>
-                                <th>{{ Lang::get('deployments.started') }}</th>
-                                <th>{{ Lang::get('deployments.finished') }}</th>
-                                <th>{{ Lang::get('deployments.duration') }}</th>
+                                <th>{{ trans('deployments.server') }}</th>
+                                <th>{{ trans('deployments.status') }}</th>
+                                <th>{{ trans('deployments.started') }}</th>
+                                <th>{{ trans('deployments.finished') }}</th>
+                                <th>{{ trans('deployments.duration') }}</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -62,27 +62,27 @@
             <% if (formatted_start_time) { %>
                 <%- formatted_start_time %>
             <% } else { %>
-                {{ Lang::get('app.not_applicable') }}
+                {{ trans('app.not_applicable') }}
             <% } %>
         </td>
         <td width="15%">
             <% if (formatted_end_time) { %>
                 <%- formatted_end_time %>
             <% } else { %>
-                {{ Lang::get('app.not_applicable') }}
+                {{ trans('app.not_applicable') }}
             <% } %>
         </td>
         <td width="15%">
          <% if (runtime !== null) { %>
                 <%- runtime %>
             <% } else { %>
-                {{ Lang::get('app.not_applicable') }}
+                {{ trans('app.not_applicable') }}
             <% } %>
             </td>
         <td width="10%">
             <div class="btn-group pull-right">
                 <% if (output !== null) { %>
-                    <button type="button" class="btn btn-default" title="{{ Lang::get('deployments.output') }}" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
+                    <button type="button" class="btn btn-default" title="{{ trans('deployments.output') }}" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
                 <% } %>
             </div>
         </td>

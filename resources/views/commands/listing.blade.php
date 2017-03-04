@@ -23,18 +23,18 @@
     <script type="text/template" id="command-template">
         <td data-command-id="<%- id %>"><%- name %></td>
         <td>
-            <%= user ? user : '{{ Lang::get('commands.default') }}' %>
+            <%= user ? user : '{{ trans('commands.default') }}' %>
         </td>
         <td>
             <% if (optional) { %>
-                {{ Lang::get('app.yes') }}
+                {{ trans('app.yes') }}
             <% } else { %>
-                {{ Lang::get('app.no') }}
+                {{ trans('app.no') }}
             <% } %>
         </td>
         <td>
             <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('commands.edit') }}" data-toggle="modal" data-target="#command"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="{{ trans('commands.edit') }}" data-toggle="modal" data-target="#command"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>

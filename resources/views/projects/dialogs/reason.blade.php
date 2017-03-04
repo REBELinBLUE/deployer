@@ -3,24 +3,24 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-comment-o"></i> {{ Lang::get('deployments.reason') }}</h4>
+                <h4 class="modal-title"><i class="fa fa-comment-o"></i> {{ trans('deployments.reason') }}</h4>
             </div>
             <form role="form" method="post" action="{{ route('projects.deploy', ['id' => $project->id]) }}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <div class="modal-body">
                     <div class="callout callout-danger">
-                        <i class="icon fa fa-warning"></i> {{ Lang::get('deployments.warning') }}
+                        <i class="icon fa fa-warning"></i> {{ trans('deployments.warning') }}
                     </div>
 
                     @if ($project->allow_other_branch && (count($branches) || count($tags)))
                     <div class="form-group">
-                        <label for="deployment_source">{{ Lang::get('deployments.source') }}</label>
+                        <label for="deployment_source">{{ trans('deployments.source') }}</label>
                         <ul class="list-unstyled">
                             <li>
                                 <div class="radio">
                                     <label for="deployment_source_default">
-                                        <input type="radio" class="deployment-source" name="source" id="deployment_source_default" value="{{ $project->branch }}" checked /> {{ Lang::get('deployments.default', [ 'branch' => $project->branch ]) }}
+                                        <input type="radio" class="deployment-source" name="source" id="deployment_source_default" value="{{ $project->branch }}" checked /> {{ trans('deployments.default', [ 'branch' => $project->branch ]) }}
                                     </label>
                                 </div>
                             </li>
@@ -29,14 +29,14 @@
                             <li>
                                 <div class="radio">
                                     <label for="deployment_source_branch">
-                                        <input type="radio" class="deployment-source" name="source" id="deployment_source_branch" value="branch" /> {{ Lang::get('deployments.different_branch') }}
+                                        <input type="radio" class="deployment-source" name="source" id="deployment_source_branch" value="branch" /> {{ trans('deployments.different_branch') }}
 
                                         <div class="deployment-source-container">
                                             <select class="form-control deployment-source" name="source_branch" id="deployment_branch">
                                                 @foreach ($branches as $branch)
                                                     <option value="{{ $branch }}">{{ $branch }}</option>
                                                 @endforeach
-                                            </select> <button type="button" class="btn btn-default btn-refresh-branches" data-project-id="{{ $project->id }}" title="{{ Lang::get('deployments.refresh_branches') }}" id="refresh_branches"><i class="fa fa-refresh"></i></button>
+                                            </select> <button type="button" class="btn btn-default btn-refresh-branches" data-project-id="{{ $project->id }}" title="{{ trans('deployments.refresh_branches') }}" id="refresh_branches"><i class="fa fa-refresh"></i></button>
                                         </div>
                                     </label>
                                 </div>
@@ -47,14 +47,14 @@
                             <li>
                                 <div class="radio">
                                     <label for="deployment_source_tag">
-                                        <input type="radio" class="deployment-source" name="source" id="deployment_source_tag" value="tag" /> {{ Lang::get('deployments.tag') }}
+                                        <input type="radio" class="deployment-source" name="source" id="deployment_source_tag" value="tag" /> {{ trans('deployments.tag') }}
 
                                         <div class="deployment-source-container">
                                             <select class="form-control deployment-source" name="source_tag" id="deployment_tag">
                                                 @foreach ($tags as $tag)
                                                     <option value="{{ $tag }}">{{ $tag }}</option>
                                                 @endforeach
-                                            </select> <button type="button" class="btn btn-default btn-refresh-branches" data-project-id="{{ $project->id }}" title="{{ Lang::get('deployments.refresh_tags') }}" id="refresh_tags"><i class="fa fa-refresh"></i></button>
+                                            </select> <button type="button" class="btn btn-default btn-refresh-branches" data-project-id="{{ $project->id }}" title="{{ trans('deployments.refresh_tags') }}" id="refresh_tags"><i class="fa fa-refresh"></i></button>
                                         </div>
                                     </label>
                                 </div>
@@ -65,12 +65,12 @@
                     <hr />
                     @endif
                     <div class="form-group">
-                        <label for="deployment_reason">{{ Lang::get('deployments.describe_reason') }}</label>
+                        <label for="deployment_reason">{{ trans('deployments.describe_reason') }}</label>
                         <textarea rows="10" id="deployment_reason" class="form-control" name="reason" placeholder="For example, Allows users to reset their password"></textarea>
                     </div>
                     @if (count($optional))
                     <div class="form-group">
-                        <label for="command_servers">{{ Lang::get('deployments.optional') }}</label>
+                        <label for="command_servers">{{ trans('deployments.optional') }}</label>
                         <ul class="list-unstyled">
                             @foreach ($optional as $command)
                             <li>
@@ -86,7 +86,7 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary pull-right btn-save"><i class="fa fa-save"></i> {{ Lang::get('projects.deploy') }}</button>
+                    <button type="submit" class="btn btn-primary pull-right btn-save"><i class="fa fa-save"></i> {{ trans('projects.deploy') }}</button>
                 </div>
             </form>
         </div>

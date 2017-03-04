@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title"><i class="fa fa-link"></i> <span>{{ Lang::get('checkUrls.create') }}</span></h4>
+                <h4 class="modal-title"><i class="fa fa-link"></i> <span>{{ trans('checkUrls.create') }}</span></h4>
             </div>
             <form role="form">
                 <input type="hidden" id="url_id" name="id" />
@@ -11,31 +11,31 @@
                 <div class="modal-body">
 
                     <div class="callout callout-danger">
-                        <i class="icon fa fa-warning"></i> {{ Lang::get('checkUrls.warning') }}
+                        <i class="icon fa fa-warning"></i> {{ trans('checkUrls.warning') }}
                     </div>
 
                     <div class="form-group">
-                        <label for="url_name">{{ Lang::get('checkUrls.title') }}</label>
+                        <label for="url_name">{{ trans('checkUrls.title') }}</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-tag"></i></div>
-                            <input type="text" class="form-control" id="url_name" name="name" placeholder="{{ Lang::get('checkUrls.titleTip') }}" />
+                            <input type="text" class="form-control" id="url_name" name="name" placeholder="{{ trans('checkUrls.titleTip') }}" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="url_url">{{ Lang::get('checkUrls.url') }}</label>
+                        <label for="url_url">{{ trans('checkUrls.url') }}</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-external-link"></i></div>
                             <input type="text" class="form-control" id="url_url" name="url" placeholder="http://admin.example.com/" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="period">{{ Lang::get('checkUrls.frequency') }}</label>
+                        <label for="period">{{ trans('checkUrls.frequency') }}</label>
                         <ul class="list-unstyled">
                             @foreach ([5, 10, 30, 60] as $time)
                             <li>
                                 <div class="radio">
                                     <label for="period_{{ $time }}">
-                                        <input type="radio" class="checkurl-period" name="period" id="period_{{ $time }}" value="{{ $time }}" /> {{ $time }} {{ Lang::get('checkUrls.length') }}
+                                        <input type="radio" class="checkurl-period" name="period" id="period_{{ $time }}" value="{{ $time }}" /> {{ $time }} {{ trans('checkUrls.length') }}
                                     </label>
                                 </div>
                             </li>
@@ -44,8 +44,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> {{ Lang::get('app.delete') }}</button>
-                    <button type="button" class="btn btn-primary pull-right btn-save"><i class="fa fa-save"></i> {{ Lang::get('app.save') }}</button>
+                    <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> {{ trans('app.delete') }}</button>
+                    <button type="button" class="btn btn-primary pull-right btn-save"><i class="fa fa-save"></i> {{ trans('app.save') }}</button>
                 </div>
             </form>
         </div>

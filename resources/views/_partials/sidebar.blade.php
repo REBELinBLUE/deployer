@@ -4,7 +4,7 @@
             <li class="{{ Request::is('/') ? 'active' : null }}">
                 <a href="/">
                     <i class="fa fa-dashboard"></i>
-                    <span>{{ Lang::get('app.dashboard') }}</span>
+                    <span>{{ trans('app.dashboard') }}</span>
                 </a>
             </li>
 
@@ -26,14 +26,14 @@
             <li class="treeview {{ Request::is('admin/*') ? 'active' : null }}">
                 <a href="#">
                     <i class="fa fa-gear"></i>
-                    <span>{{ Lang::get('app.admin') }}</span>
+                    <span>{{ trans('app.admin') }}</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{ Request::is('admin/projects') ? 'active' : null }}"><a href="{{ route('admin.projects.index') }}">{{ Lang::get('app.projects') }}</a></li>
-                    <li class="{{ Request::is('admin/templates*') ? 'active' : null }}"><a href="{{ route('admin.templates.index') }}">{{ Lang::get('app.templates') }}</a></li>
-                    <li class="{{ Request::is('admin/groups') ? 'active' : null }}"><a href="{{ route('admin.groups.index') }}">{{ Lang::get('app.groups') }}</a></li>
-                    <li class="{{ Request::is('admin/users') ? 'active' : null }}"><a href="{{ route('admin.users.index') }}">{{ Lang::get('app.users') }}</a></li>
+                    <li class="{{ Request::is('admin/projects') ? 'active' : null }}"><a href="{{ route('admin.projects.index') }}">{{ trans('app.projects') }}</a></li>
+                    <li class="{{ Request::is('admin/templates*') ? 'active' : null }}"><a href="{{ route('admin.templates.index') }}">{{ trans('app.templates') }}</a></li>
+                    <li class="{{ Request::is('admin/groups') ? 'active' : null }}"><a href="{{ route('admin.groups.index') }}">{{ trans('app.groups') }}</a></li>
+                    <li class="{{ Request::is('admin/users') ? 'active' : null }}"><a href="{{ route('admin.users.index') }}">{{ trans('app.users') }}</a></li>
                 </ul>
             </li>
         </ul>

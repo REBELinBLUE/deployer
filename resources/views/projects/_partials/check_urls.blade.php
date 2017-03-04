@@ -1,25 +1,25 @@
 <div class="box">
     <div class="box-header">
         <div class="pull-right">
-            <button type="button" class="btn btn-default" title="{{ Lang::get('checkUrls.create') }}" data-toggle="modal" data-target="#checkurl"><span class="fa fa-plus"></span> {{ Lang::get('checkUrls.create') }}</button>
+            <button type="button" class="btn btn-default" title="{{ trans('checkUrls.create') }}" data-toggle="modal" data-target="#checkurl"><span class="fa fa-plus"></span> {{ trans('checkUrls.create') }}</button>
         </div>
-        <h3 class="box-title">{{ Lang::get('checkUrls.label') }}</h3>
+        <h3 class="box-title">{{ trans('checkUrls.label') }}</h3>
     </div>
 
 
     <div class="box-body" id="no_checkurls">
-        <p>{{ Lang::get('checkUrls.none') }}</p>
+        <p>{{ trans('checkUrls.none') }}</p>
     </div>
 
     <div class="box-body table-responsive">
         <table class="table table-striped" id="checkurl_list">
             <thead>
                 <tr>
-                    <th>{{ Lang::get('checkUrls.title') }}</th>
-                    <th>{{ Lang::get('checkUrls.url') }}</th>
-                    <th>{{ Lang::get('checkUrls.frequency') }}</th>
-                    <th>{{ Lang::get('checkUrls.last_seen') }}</th>
-                    <th>{{ Lang::get('checkUrls.last_status') }}</th>
+                    <th>{{ trans('checkUrls.title') }}</th>
+                    <th>{{ trans('checkUrls.url') }}</th>
+                    <th>{{ trans('checkUrls.frequency') }}</th>
+                    <th>{{ trans('checkUrls.last_seen') }}</th>
+                    <th>{{ trans('checkUrls.last_status') }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -39,7 +39,7 @@
             <% if (has_run) { %>
                 <%- formatted_date %>
             <% } else { %>
-                {{ Lang::get('app.never') }}
+                {{ trans('app.never') }}
             <% } %>
         </td>
         <td>
@@ -50,7 +50,7 @@
         </td>
         <td>
             <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-edit" title="{{ Lang::get('checkUrls.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#checkurl"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-default btn-edit" title="{{ trans('checkUrls.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#checkurl"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>

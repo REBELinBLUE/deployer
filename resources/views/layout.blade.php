@@ -2,7 +2,7 @@
 <html lang="{{ config('app.locale') }}">
     <head>
         <meta charset="UTF-8" />
-        <title>{{ Lang::get('app.name') }}</title>
+        <title>{{ trans('app.name') }}</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
         <link rel="author" href="humans.txt" />
 
@@ -36,8 +36,8 @@
                     @include('_partials.update')
 
                     <div class="alert alert-danger" id="socket_offline">
-                        <h4><i class="icon fa fa-ban"></i> {{ Lang::get('app.socket_error') }}</h4>
-                        {!! Lang::get('app.socket_error_info') !!}
+                        <h4><i class="icon fa fa-ban"></i> {{ trans('app.socket_error') }}</h4>
+                        {!! trans('app.socket_error_info') !!}
                     </div>
 
                     @if(isset($breadcrumb))

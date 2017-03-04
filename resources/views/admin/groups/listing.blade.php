@@ -6,8 +6,8 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>{{ Lang::get('groups.name') }}</th>
-                        <th>{{ Lang::get('groups.projects') }}</th>
+                        <th>{{ trans('groups.name') }}</th>
+                        <th>{{ trans('groups.projects') }}</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -23,7 +23,7 @@
 
 @section('right-buttons')
     <div class="pull-right">
-        <button type="button" class="btn btn-default" title="{{ Lang::get('groups.create') }}" data-toggle="modal" data-target="#group"><span class="fa fa-plus"></span> {{ Lang::get('groups.create') }}</button>
+        <button type="button" class="btn btn-default" title="{{ trans('groups.create') }}" data-toggle="modal" data-target="#group"><span class="fa fa-plus"></span> {{ trans('groups.create') }}</button>
     </div>
 @stop
 
@@ -42,7 +42,7 @@
         <td><%- project_count %></td>
         <td>
             <div class="btn-group pull-right">
-                <button class="btn btn-default btn-edit" title="{{ Lang::get('groups.edit') }}" data-toggle="modal" data-target="#group" data-group-id="<%- id %>"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-default btn-edit" title="{{ trans('groups.edit') }}" data-toggle="modal" data-target="#group" data-group-id="<%- id %>"><i class="fa fa-edit"></i></button>
             </div>
         </td>
     </script>

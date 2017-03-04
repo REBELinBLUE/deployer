@@ -5,10 +5,10 @@
         <div class="col-md-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ Lang::get('commands.label') }}</a></li>
-                    <li><a href="#variables" data-toggle="tab"><span class="fa fa-usd"></span> {{ Lang::get('variables.label') }}</a></li>
-                    <li><a href="#shared-files" data-toggle="tab"><span class="fa fa-folder"></span> {{ Lang::get('sharedFiles.label') }}</a></li>
-                    <li><a href="#config-files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ Lang::get('configFiles.label') }}</a></li>
+                    <li class="active"><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ trans('commands.label') }}</a></li>
+                    <li><a href="#variables" data-toggle="tab"><span class="fa fa-usd"></span> {{ trans('variables.label') }}</a></li>
+                    <li><a href="#shared-files" data-toggle="tab"><span class="fa fa-folder"></span> {{ trans('sharedFiles.label') }}</a></li>
+                    <li><a href="#config-files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ trans('configFiles.label') }}</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="hooks">

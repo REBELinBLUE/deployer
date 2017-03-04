@@ -50,7 +50,7 @@ class ProjectPresenterTest extends TestCase
     {
         $project = $this->mockProjectWithStatus($status);
 
-        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
 
         $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
@@ -114,7 +114,7 @@ class ProjectPresenterTest extends TestCase
 
         $project = $this->mockProjectWithHealthStatus(0, 0);
 
-        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
 
         $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
@@ -175,7 +175,7 @@ class ProjectPresenterTest extends TestCase
 
         $project = $this->mockProjectWithHealthStatus(0, 0, 'heartbeatsStatus');
 
-        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
 
         $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
