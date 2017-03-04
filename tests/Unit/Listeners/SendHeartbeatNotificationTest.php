@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
@@ -45,9 +46,11 @@ class SendHeartbeatNotificationTest extends TestCase
 
         $heartbeat->shouldReceive('getAttribute')->atLeast()->once()->with('project')->andReturn($project);
 
+        $translator = m::mock(Translator::class);
+
         Notification::fake();
 
-        $listener = new SendHeartbeatNotification();
+        $listener = new SendHeartbeatNotification($translator);
         $listener->handle(new $event($heartbeat));
 
         Notification::assertSentTo($channel, $notification);

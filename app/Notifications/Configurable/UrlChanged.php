@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Notifications\Configurable;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Support\Facades\Lang;
 use NotificationChannels\HipChat\Card;
 use NotificationChannels\HipChat\CardAttribute;
 use NotificationChannels\HipChat\CardFormats;
@@ -28,13 +28,20 @@ abstract class UrlChanged extends Notification
     protected $url;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
      * Create a new notification instance.
      *
-     * @param CheckUrl $url
+     * @param CheckUrl   $url
+     * @param Translator $translator
      */
-    public function __construct(CheckUrl $url)
+    public function __construct(CheckUrl $url, Translator $translator)
     {
-        $this->url = $url;
+        $this->url        = $url;
+        $this->translator = $translator;
     }
 
     /**
@@ -48,18 +55,18 @@ abstract class UrlChanged extends Notification
      */
     protected function buildMailMessage($subject, $translation, Channel $notification)
     {
-        $message = Lang::get($translation, ['link' => $this->url->name]);
+        $message = $this->translator->trans($translation, ['link' => $this->url->name]);
 
         if (is_null($this->url->last_seen)) {
-            $last_seen = Lang::get('app.never');
+            $last_seen = $this->translator->trans('app.never');
         } else {
             $last_seen = $this->url->last_seen->diffForHumans();
         }
 
         $table = [
-            Lang::get('notifications.project_name') => $this->url->project->name,
-            Lang::get('heartbeats.last_check_in')   => $last_seen,
-            Lang::get('checkUrls.url')              => $this->url->url,
+            $this->translator->trans('notifications.project_name') => $this->url->project->name,
+            $this->translator->trans('heartbeats.last_check_in')   => $last_seen,
+            $this->translator->trans('checkUrls.url')              => $this->url->url,
         ];
 
         $action = route('projects', ['id' => $this->url->project_id]);
@@ -69,9 +76,9 @@ abstract class UrlChanged extends Notification
                 'name'  => $notification->name,
                 'table' => $table,
             ])
-            ->subject(Lang::get($subject))
+            ->subject($this->translator->trans($subject))
             ->line($message)
-            ->action(Lang::get('notifications.project_details'), $action);
+            ->action($this->translator->trans('notifications.project_details'), $action);
     }
 
     /**
@@ -84,19 +91,19 @@ abstract class UrlChanged extends Notification
      */
     protected function buildSlackMessage($translation, Channel $notification)
     {
-        $message = Lang::get($translation, ['link' => $this->url->name]);
+        $message = $this->translator->trans($translation, ['link' => $this->url->name]);
         $url     = route('projects', ['id' => $this->url->project_id]);
 
         if (is_null($this->url->last_seen)) {
-            $last_seen = Lang::get('app.never');
+            $last_seen = $this->translator->trans('app.never');
         } else {
             $last_seen = $this->url->last_seen->diffForHumans();
         }
 
         $fields = [
-            Lang::get('notifications.project') => sprintf('<%s|%s>', $url, $this->url->project->name),
-            Lang::get('checkUrls.last_seen')   => $last_seen,
-            Lang::get('checkUrls.url')         => $this->url->url,
+            $this->translator->trans('notifications.project') => sprintf('<%s|%s>', $url, $this->url->project->name),
+            $this->translator->trans('checkUrls.last_seen')   => $last_seen,
+            $this->translator->trans('checkUrls.url')         => $this->url->url,
         ];
 
         return (new SlackMessage())
@@ -107,7 +114,7 @@ abstract class UrlChanged extends Notification
                     ->content($message)
                     ->fallback($message)
                     ->fields($fields)
-                    ->footer(Lang::get('app.name'))
+                    ->footer($this->translator->trans('app.name'))
                     ->timestamp($this->url->updated_at);
             });
     }
@@ -144,13 +151,13 @@ abstract class UrlChanged extends Notification
     protected function buildTwilioMessage($translation)
     {
         if (is_null($this->url->last_seen)) {
-            $last_seen = Lang::get('app.never');
+            $last_seen = $this->translator->trans('app.never');
         } else {
             $last_seen = $this->url->last_seen->diffForHumans();
         }
 
         return (new TwilioMessage())
-            ->content(Lang::get($translation, [
+            ->content($this->translator->trans($translation, [
                 'link'    => $this->url->name,
                 'project' => $this->url->project->name,
                 'last'    => $last_seen,
@@ -167,7 +174,7 @@ abstract class UrlChanged extends Notification
      */
     protected function buildHipchatMessage($translation, Channel $notification)
     {
-        $message = Lang::get($translation, ['link' => $this->url->name]);
+        $message = $this->translator->trans($translation, ['link' => $this->url->name]);
         $url     = route('projects', ['id' => $this->url->project_id]);
 
         return (new HipChatMessage())
@@ -182,24 +189,24 @@ abstract class UrlChanged extends Notification
                     ->cardFormat(CardFormats::MEDIUM)
                     ->addAttribute(function (CardAttribute $attribute) {
                         $attribute
-                            ->label(Lang::get('notifications.project'))
+                            ->label($this->translator->trans('notifications.project'))
                             ->value($this->url->project->name)
                             ->url(route('projects', ['id' => $this->url->project_id]));
                     })
                     ->addAttribute(function (CardAttribute $attribute) {
                         if (is_null($this->url->last_seen)) {
-                            $last_seen = Lang::get('app.never');
+                            $last_seen = $this->translator->trans('app.never');
                         } else {
                             $last_seen = $this->url->last_seen->diffForHumans();
                         }
 
                         $attribute
-                            ->label(Lang::get('checkUrls.last_seen'))
+                            ->label($this->translator->trans('checkUrls.last_seen'))
                             ->value($last_seen);
                     })
                     ->addAttribute(function (CardAttribute $attribute) {
                         $attribute
-                            ->label(Lang::get('checkUrls.url'))
+                            ->label($this->translator->trans('checkUrls.url'))
                             ->value($this->url->url)
                             ->url($this->url->url);
                     });

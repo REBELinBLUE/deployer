@@ -2,7 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
+use Mockery as m;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Listeners\SendSignupEmail;
 use REBELinBLUE\Deployer\Notifications\System\NewAccount;
@@ -24,7 +26,9 @@ class SendSignupEmailTest extends TestCase
         $user  = new User();
         $event = new UserWasCreated($user, 'a-new-password');
 
-        $listener = new SendSignupEmail();
+        $translator = m::mock(Translator::class);
+
+        $listener = new SendSignupEmail($translator);
         $listener->handle($event);
 
         Notification::assertSentTo($user, NewAccount::class);

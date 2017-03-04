@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\Configurable;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Lang;
 use Mockery as m;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatRecovered;
@@ -21,12 +20,13 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     {
         $heartbeat = m::mock(Heartbeat::class);
 
-        $notification = new HeartbeatRecovered($heartbeat);
+        $notification = new HeartbeatRecovered($heartbeat, $this->translator);
 
         $this->assertInstanceOf(Notification::class, $notification);
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toTwilio
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildTwilioMessage
      */
@@ -34,12 +34,13 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        Lang::shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toTwilio(HeartbeatRecovered::class, 'heartbeats.recovered_sms_message', null, $expectedDateString);
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toTwilio
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildTwilioMessage
      */
@@ -52,6 +53,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toWebhook
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildWebhookMessage
      */
@@ -61,6 +63,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildMailMessage
      */
@@ -68,7 +71,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        Lang::shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toMail(
             HeartbeatRecovered::class,
@@ -81,6 +84,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildMailMessage
      */
@@ -100,6 +104,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toSlack
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildSlackMessage
      */
@@ -107,7 +112,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        Lang::shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toSlack(
             HeartbeatRecovered::class,
@@ -119,6 +124,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toSlack
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildSlackMessage
      */
@@ -137,6 +143,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toHipchat
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildHipchatMessage
      */
@@ -144,7 +151,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        Lang::shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toHipchat(
             HeartbeatRecovered::class,
@@ -156,6 +163,7 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toHipchat
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildHipchatMessage
      */

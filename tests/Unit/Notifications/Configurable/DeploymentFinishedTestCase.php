@@ -3,9 +3,8 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\Configurable;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Lang;
 use Mockery as m;
 use NotificationChannels\HipChat\CardAttribute;
 use NotificationChannels\HipChat\CardAttributeStyles;
@@ -18,6 +17,15 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 
 abstract class DeploymentFinishedTestCase extends TestCase
 {
+    protected $translator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->translator = m::mock(Translator::class);
+    }
+
     protected function toTwilio($class, $translation)
     {
         $expectedMessage = 'the-message';
@@ -30,15 +38,15 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->once()->with('id')->andReturn($expectedId);
 
-        Lang::shouldReceive('get')
-            ->once()
-            ->with($translation, [
-                'id'      => $expectedId,
-                'project' => $expectedProject,
-            ])
-            ->andReturn($expectedMessage);
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with($translation, [
+                             'id'      => $expectedId,
+                             'project' => $expectedProject,
+                         ])
+                         ->andReturn($expectedMessage);
 
-        $notification = new $class($project, $deployment);
+        $notification = new $class($project, $deployment, $this->translator);
         $twilio       = $notification->toTwilio();
 
         $this->assertSame($expectedMessage, $twilio->content);
@@ -91,9 +99,9 @@ abstract class DeploymentFinishedTestCase extends TestCase
              ->with('deployments', ['id' => $expectedDeploymentId], true)
              ->andReturn($expectedActionUrl);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
-        $notification = new $class($project, $deployment);
+        $notification = new $class($project, $deployment, $this->translator);
         $webhook      = $notification->toWebhook($channel);
         $actual       = $webhook->toArray();
 
@@ -131,21 +139,42 @@ abstract class DeploymentFinishedTestCase extends TestCase
             'last_commit'         => $expectedCommit,
         ];
 
-        Lang::shouldReceive('get')->once()->with($message)->andReturn($expectedMessage);
-        Lang::shouldReceive('get')->once()->with($subject)->andReturn($expectedSubject);
-        Lang::shouldReceive('get')->once()->with('notifications.project_name')->andReturn('project');
-        Lang::shouldReceive('get')->once()->with('notifications.deployed_branch')->andReturn('deployed_branch');
-        Lang::shouldReceive('get')->once()->with('notifications.started_at')->andReturn('started_at');
-        Lang::shouldReceive('get')->once()->with('notifications.finished_at')->andReturn('finished_at');
-        Lang::shouldReceive('get')->once()->with('notifications.last_committer')->andReturn('last_committer');
-        Lang::shouldReceive('get')->once()->with('notifications.last_commit')->andReturn('last_commit');
-        Lang::shouldReceive('get')->once()->with('notifications.deployment_details')->andReturn($expectedActionText);
+        $this->translator->shouldReceive('trans')->once()->with($message)->andReturn($expectedMessage);
+        $this->translator->shouldReceive('trans')->once()->with($subject)->andReturn($expectedSubject);
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with('notifications.project_name')
+                         ->andReturn('project');
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with('notifications.deployed_branch')
+                         ->andReturn('deployed_branch');
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with('notifications.started_at')
+                         ->andReturn('started_at');
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with('notifications.finished_at')
+                         ->andReturn('finished_at');
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with('notifications.last_committer')
+                         ->andReturn('last_committer');
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with('notifications.last_commit')
+                         ->andReturn('last_commit');
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with('notifications.deployment_details')
+                         ->andReturn($expectedActionText);
 
         if ($withReason) {
-            Lang::shouldReceive('get')
-                ->once()
-                ->with('notifications.reason', ['reason' => $expectedReason])
-                ->andReturn($expectedReason);
+            $this->translator->shouldReceive('trans')
+                             ->once()
+                             ->with('notifications.reason', ['reason' => $expectedReason])
+                             ->andReturn($expectedReason);
         }
 
         $project = m::mock(Project::class);
@@ -169,9 +198,9 @@ abstract class DeploymentFinishedTestCase extends TestCase
              ->with('deployments', ['id' => $expectedId], true)
              ->andReturn($expectedActionUrl);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
-        $notification = new $class($project, $deployment);
+        $notification = new $class($project, $deployment, $this->translator);
         $mail         = $notification->toMail($channel);
         $actual       = $mail->toArray();
 
@@ -225,12 +254,12 @@ abstract class DeploymentFinishedTestCase extends TestCase
             $expectedCommitUrl        = false;
         }
 
-        Lang::shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
-        Lang::shouldReceive('get')->once()->with('notifications.commit')->andReturn('commit');
-        Lang::shouldReceive('get')->once()->with('notifications.committer')->andReturn('committer');
-        Lang::shouldReceive('get')->once()->with('notifications.branch')->andReturn('branch');
-        Lang::shouldReceive('get')->once()->with('app.name')->andReturn($expectedAppName);
-        Lang::shouldReceive('get')->once()->with($message)->andReturn('the slack message %s');
+        $this->translator->shouldReceive('trans')->once()->with('notifications.project')->andReturn('project');
+        $this->translator->shouldReceive('trans')->once()->with('notifications.commit')->andReturn('commit');
+        $this->translator->shouldReceive('trans')->once()->with('notifications.committer')->andReturn('committer');
+        $this->translator->shouldReceive('trans')->once()->with('notifications.branch')->andReturn('branch');
+        $this->translator->shouldReceive('trans')->once()->with('app.name')->andReturn($expectedAppName);
+        $this->translator->shouldReceive('trans')->once()->with($message)->andReturn('the slack message %s');
 
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedProjectName);
@@ -243,10 +272,10 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $deployment->shouldReceive('getAttribute')->once()->with('branch')->andReturn($expectedBranchName);
 
         $deployment->shouldReceive('getAttribute')
-            ->atLeast()
-            ->once()
-            ->with('commit_url')
-            ->andReturn($expectedCommitUrl);
+                   ->atLeast()
+                   ->once()
+                   ->with('commit_url')
+                   ->andReturn($expectedCommitUrl);
 
         $deployment->shouldReceive('getAttribute')->once()->with('finished_at')->andReturn($expectedTimestamp);
 
@@ -265,9 +294,9 @@ abstract class DeploymentFinishedTestCase extends TestCase
              ->with('deployments', ['id' => $expectedId], true)
              ->andReturn($expectedUrl);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
-        $notification = new $class($project, $deployment);
+        $notification = new $class($project, $deployment, $this->translator);
         $slack        = $notification->toSlack($channel);
 
         $this->assertSame($expectedIcon, $slack->icon);
@@ -301,11 +330,11 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $expectedMessage       = 'hipchat message <a href="' . $expectedDeploymentUrl . '">#' . $expectedId . '</a>';
         $expectedTitle         = 'hipchat message #' . $expectedId;
 
-        Lang::shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
-        Lang::shouldReceive('get')->once()->with('notifications.commit')->andReturn('commit');
-        Lang::shouldReceive('get')->once()->with('notifications.committer')->andReturn('committer');
-        Lang::shouldReceive('get')->once()->with('notifications.branch')->andReturn('branch');
-        Lang::shouldReceive('get')->once()->with($message)->andReturn('hipchat message %s');
+        $this->translator->shouldReceive('trans')->once()->with('notifications.project')->andReturn('project');
+        $this->translator->shouldReceive('trans')->once()->with('notifications.commit')->andReturn('commit');
+        $this->translator->shouldReceive('trans')->once()->with('notifications.committer')->andReturn('committer');
+        $this->translator->shouldReceive('trans')->once()->with('notifications.branch')->andReturn('branch');
+        $this->translator->shouldReceive('trans')->once()->with($message)->andReturn('hipchat message %s');
 
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedProjectName);
@@ -333,9 +362,9 @@ abstract class DeploymentFinishedTestCase extends TestCase
              ->with('deployments', ['id' => $expectedId], true)
              ->andReturn($expectedDeploymentUrl);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
-        $notification = new $class($project, $deployment);
+        $notification = new $class($project, $deployment, $this->translator);
         $hipchat      = $notification->toHipchat($channel);
 
         $this->assertSame($expectedRoom, $hipchat->room);

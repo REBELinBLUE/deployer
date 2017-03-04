@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
@@ -45,9 +46,11 @@ class SendCheckUrlNotificationTest extends TestCase
 
         $url->shouldReceive('getAttribute')->atLeast()->once()->with('project')->andReturn($project);
 
+        $translator = m::mock(Translator::class);
+
         Notification::fake();
 
-        $listener = new SendCheckUrlNotification();
+        $listener = new SendCheckUrlNotification($translator);
         $listener->handle(new $event($url));
 
         Notification::assertSentTo($channel, $notification);

@@ -70,7 +70,8 @@ class DeploymentFailed extends DeploymentFinished
     /**
      * Gets the Hipchat version of the message.
      *
-     * @param  Channel        $notification
+     * @param Channel $notification
+     *
      * @return HipChatMessage
      */
     public function toHipchat(Channel $notification)

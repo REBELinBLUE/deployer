@@ -33,15 +33,15 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        UserWasCreated::class       => [SendSignupEmail::class],
         DeploymentFinished::class   => [SendDeploymentNotifications::class, TestProjectUrls::class],
+        EmailChangeRequested::class => [SendEmailChangeConfirmation::class],
         HeartbeatMissed::class      => [SendHeartbeatNotification::class],
         HeartbeatRecovered::class   => [SendHeartbeatNotification::class],
-        UrlUp::class                => [SendCheckUrlNotification::class],
-        UrlDown::class              => [SendCheckUrlNotification::class],
-        EmailChangeRequested::class => [SendEmailChangeConfirmation::class],
         JsonWebTokenExpired::class  => [CreateJwt::class],
         Login::class                => [CreateJwt::class],
         Logout::class               => [ClearJwt::class],
+        UrlDown::class              => [SendCheckUrlNotification::class],
+        UrlUp::class                => [SendCheckUrlNotification::class],
+        UserWasCreated::class       => [SendSignupEmail::class],
     ];
 }

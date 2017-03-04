@@ -4,9 +4,9 @@ namespace REBELinBLUE\Deployer\Notifications\System;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\User;
 
 /**
@@ -24,13 +24,20 @@ class ResetPassword extends Notification implements ShouldQueue
     private $token;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
      * Create a notification instance.
      *
-     * @param string $token
+     * @param string     $token
+     * @param Translator $translator
      */
-    public function __construct($token)
+    public function __construct($token, Translator $translator)
     {
-        $this->token = $token;
+        $this->token      = $token;
+        $this->translator = $translator;
     }
 
     /**
@@ -46,7 +53,8 @@ class ResetPassword extends Notification implements ShouldQueue
     /**
      * Build the mail representation of the notification.
      *
-     * @param  User        $user
+     * @param User $user
+     *
      * @return MailMessage
      */
     public function toMail(User $user)
@@ -57,10 +65,10 @@ class ResetPassword extends Notification implements ShouldQueue
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])
-            ->subject(Lang::get('emails.reset_subject'))
-            ->line(Lang::get('emails.reset_header'))
-            ->line(Lang::get('emails.reset_below'))
-            ->action(Lang::get('emails.reset'), $action)
-            ->line(Lang::get('emails.reset_footer'));
+            ->subject($this->translator->trans('emails.reset_subject'))
+            ->line($this->translator->trans('emails.reset_header'))
+            ->line($this->translator->trans('emails.reset_below'))
+            ->action($this->translator->trans('emails.reset'), $action)
+            ->line($this->translator->trans('emails.reset_footer'));
     }
 }

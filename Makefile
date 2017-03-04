@@ -17,6 +17,7 @@ build: install-dev
 clean: ##@development Clean cache, logs and other temporary files
 	rm -rf storage/logs/*.log bootstrap/cache/*.php storage/framework/schedule-* storage/clockwork/*.json
 	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*.php
+	rm -rf database/backups/*.gz
 	-@rm -rf public/css/ public/fonts/ public/js/ # temporary storage of compiled assets
 
 fix: ##@development PHP Coding Standards Fixer

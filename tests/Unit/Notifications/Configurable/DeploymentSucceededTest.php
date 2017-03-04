@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\Configurable;
 
+use Illuminate\Contracts\Translation\Translator;
 use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Notifications\Configurable\DeploymentSucceeded;
@@ -15,18 +16,20 @@ class DeploymentSucceededTest extends DeploymentFinishedTestCase
 {
     /**
      * @covers ::__construct
+     * @covers ::__construct
      */
     public function testExtendsNotification()
     {
         $project    = m::mock(Project::class);
         $deployment = m::mock(Deployment::class);
 
-        $notification = new DeploymentSucceeded($project, $deployment);
+        $notification = new DeploymentSucceeded($project, $deployment, $this->translator);
 
         $this->assertInstanceOf(Notification::class, $notification);
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toTwilio
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildTwilioMessage
      */
@@ -36,6 +39,7 @@ class DeploymentSucceededTest extends DeploymentFinishedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toWebhook
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildWebhookMessage
      */
@@ -45,6 +49,7 @@ class DeploymentSucceededTest extends DeploymentFinishedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildMailMessage
      */
@@ -59,6 +64,7 @@ class DeploymentSucceededTest extends DeploymentFinishedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildMailMessage
      */
@@ -74,6 +80,7 @@ class DeploymentSucceededTest extends DeploymentFinishedTestCase
     }
 
     /*
+     * @covers ::__construct
      * @covers ::toSlack
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildSlackMessage
      */
@@ -83,6 +90,7 @@ class DeploymentSucceededTest extends DeploymentFinishedTestCase
     }
 
     /*
+     * @covers ::__construct
      * @covers ::toSlack
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildSlackMessage
      */
@@ -92,6 +100,7 @@ class DeploymentSucceededTest extends DeploymentFinishedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toHipchat
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildHipchatMessage
      */

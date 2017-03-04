@@ -40,7 +40,7 @@ class CommandPresenterTest extends TestCase
         $expected = 'app.none';
 
         $project = m::mock(Project::class);
-        $project->shouldReceive('getAttribute')->atLeast()->times(1)->with('commands')->andReturn([]);
+        $project->shouldReceive('getAttribute')->atLeast()->once()->with('commands')->andReturn([]);
 
         $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
 
@@ -73,7 +73,7 @@ class CommandPresenterTest extends TestCase
         $commands = collect($collection);
 
         $project = m::mock(Project::class);
-        $project->shouldReceive('getAttribute')->atLeast()->times(1)->with('commands')->andReturn($commands);
+        $project->shouldReceive('getAttribute')->atLeast()->once()->with('commands')->andReturn($commands);
 
         $presenter = new CommandPresenter($this->translator);
         $presenter->setWrappedObject($project);
@@ -121,7 +121,7 @@ class CommandPresenterTest extends TestCase
     private function mockCommand($name, $step)
     {
         $command = m::mock(Command::class);
-        $command->shouldReceive('getAttribute')->atLeast()->times(1)->with('step')->andReturn($step);
+        $command->shouldReceive('getAttribute')->atLeast()->once()->with('step')->andReturn($step);
         $command->shouldReceive('getAttribute')->with('name')->andReturn($name);
 
         return $command;

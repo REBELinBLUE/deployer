@@ -2,15 +2,28 @@
 
 namespace REBELinBLUE\Deployer\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Translation\Translator;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Notifications\System\NewAccount;
 
 /**
  * Sends an email when the user has been created.
  */
-class SendSignupEmail implements ShouldQueue
+class SendSignupEmail
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * Handle the event.
      *
@@ -18,6 +31,6 @@ class SendSignupEmail implements ShouldQueue
      */
     public function handle(UserWasCreated $event)
     {
-        $event->user->notify(new NewAccount($event->password));
+        $event->user->notify(new NewAccount($event->password, $this->translator));
     }
 }

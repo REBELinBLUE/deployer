@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Listeners;
 
+use Illuminate\Contracts\Translation\Translator;
 use REBELinBLUE\Deployer\Events\UrlChanged;
 use REBELinBLUE\Deployer\Notifications\Configurable\UrlDown;
 use REBELinBLUE\Deployer\Notifications\Configurable\UrlRecovered;
@@ -11,6 +12,19 @@ use REBELinBLUE\Deployer\Notifications\Configurable\UrlRecovered;
  **/
 class SendCheckUrlNotification
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * Handle the event.
      *
@@ -33,7 +47,7 @@ class SendCheckUrlNotification
         }
 
         foreach ($link->project->channels->where('on_' . $event, true) as $channel) {
-            $channel->notify(new $notification($link));
+            $channel->notify(new $notification($link, $this->translator));
         }
     }
 }

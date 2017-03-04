@@ -267,7 +267,7 @@ class ProjectPresenterTest extends TestCase
     private function mockProjectWithStatus($status)
     {
         $project = m::mock(Project::class);
-        $project->shouldReceive('getAttribute')->atLeast()->times(1)->with('status')->andReturn($status);
+        $project->shouldReceive('getAttribute')->atLeast()->once()->with('status')->andReturn($status);
 
         return $project;
     }

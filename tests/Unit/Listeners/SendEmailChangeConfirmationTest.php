@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
@@ -27,9 +28,11 @@ class SendEmailChangeConfirmationTest extends TestCase
         $user->shouldReceive('requestEmailToken')->once()->andReturn('an-expected-token');
         $user->shouldDeferMissing();
 
+        $translator = m::mock(Translator::class);
+
         $event = new EmailChangeRequested($user);
 
-        $listener = new SendEmailChangeConfirmation();
+        $listener = new SendEmailChangeConfirmation($translator);
         $listener->handle($event);
 
         Notification::assertSentTo($user, ChangeEmail::class);

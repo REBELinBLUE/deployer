@@ -48,7 +48,8 @@ class HeartbeatMissing extends HeartbeatChanged
     /**
      * Get the webhook version of the notification.
      *
-     * @param  Channel        $notification
+     * @param Channel $notification
+     *
      * @return WebhookMessage
      */
     public function toWebhook(Channel $notification)

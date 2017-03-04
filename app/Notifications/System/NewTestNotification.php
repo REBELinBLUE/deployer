@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Notifications\System;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Support\Facades\Lang;
 use NotificationChannels\HipChat\HipChatMessage;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
@@ -17,9 +17,23 @@ use REBELinBLUE\Deployer\Notifications\Notification;
 class NewTestNotification extends Notification
 {
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    /**
      * Get the mail representation of the notification.
      *
-     * @param  Channel     $notification
+     * @param Channel $notification
+     *
      * @return MailMessage
      */
     public function toMail(Channel $notification)
@@ -28,21 +42,22 @@ class NewTestNotification extends Notification
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $notification->name,
             ])
-            ->subject(Lang::get('notifications.test_subject'))
-            ->line(Lang::get('notifications.test_message'));
+            ->subject($this->translator->trans('notifications.test_subject'))
+            ->line($this->translator->trans('notifications.test_message'));
     }
 
     /**
      * Get the slack version of the notification.
      *
-     * @param  Channel      $notification
+     * @param Channel $notification
+     *
      * @return SlackMessage
      */
     public function toSlack(Channel $notification)
     {
         return (new SlackMessage())
             ->to($notification->config->channel)
-            ->content(Lang::get('notifications.test_slack_message'));
+            ->content($this->translator->trans('notifications.test_slack_message'));
     }
 
     /**
@@ -56,7 +71,7 @@ class NewTestNotification extends Notification
     {
         return (new WebhookMessage())
             ->data([
-                'message' => Lang::get('notifications.test_message'),
+                'message' => $this->translator->trans('notifications.test_message'),
             ])
             ->header('X-Deployer-Project-Id', $notification->project_id)
             ->header('X-Deployer-Notification-Id', $notification->id)
@@ -71,19 +86,20 @@ class NewTestNotification extends Notification
     public function toTwilio()
     {
         return (new TwilioMessage())
-            ->content(Lang::get('notifications.test_message'));
+            ->content($this->translator->trans('notifications.test_message'));
     }
 
     /**
      * Gets the Hipchat version of the message.
      *
-     * @param  Channel        $notification
+     * @param Channel $notification
+     *
      * @return HipChatMessage
      */
     public function toHipchat(Channel $notification)
     {
         return (new HipChatMessage())
             ->room($notification->config->room)
-            ->text(Lang::get('notifications.test_hipchat_message'));
+            ->text($this->translator->trans('notifications.test_hipchat_message'));
     }
 }

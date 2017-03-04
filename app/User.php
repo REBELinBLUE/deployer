@@ -89,6 +89,7 @@ class User extends Authenticatable implements HasPresenter
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new ResetPassword($token));
+        // FIXME: Clean this up?
+        $this->notify(new ResetPassword($token, app('translator')));
     }
 }

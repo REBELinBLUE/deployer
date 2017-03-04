@@ -4,9 +4,9 @@ namespace REBELinBLUE\Deployer\Notifications\System;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\User;
 
 /**
@@ -22,13 +22,20 @@ class ChangeEmail extends Notification implements ShouldQueue
     private $token;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
      * Create a new notification instance.
      *
-     * @param string $token
+     * @param string     $token
+     * @param Translator $translator
      */
-    public function __construct($token)
+    public function __construct($token, Translator $translator)
     {
-        $this->token = $token;
+        $this->token      = $token;
+        $this->translator = $translator;
     }
 
     /**
@@ -44,7 +51,8 @@ class ChangeEmail extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  User        $user
+     * @param User $user
+     *
      * @return MailMessage
      */
     public function toMail(User $user)
@@ -55,10 +63,10 @@ class ChangeEmail extends Notification implements ShouldQueue
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])
-            ->subject(Lang::get('emails.confirm_email'))
-            ->line(Lang::get('emails.change_header'))
-            ->line(Lang::get('emails.change_below'))
-            ->action(Lang::get('emails.login_change'), $action)
-            ->line(Lang::get('emails.change_footer'));
+            ->subject($this->translator->trans('emails.confirm_email'))
+            ->line($this->translator->trans('emails.change_header'))
+            ->line($this->translator->trans('emails.change_below'))
+            ->action($this->translator->trans('emails.login_change'), $action)
+            ->line($this->translator->trans('emails.change_footer'));
     }
 }

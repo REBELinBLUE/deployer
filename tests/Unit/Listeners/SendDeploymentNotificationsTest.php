@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
@@ -42,9 +43,11 @@ class SendDeploymentNotificationsTest extends TestCase
         $deployment->shouldReceive('isAborted')->once()->andReturn(false);
         $deployment->shouldReceive('isSuccessful')->once()->andReturn($isSuccessful);
 
+        $translator = m::mock(Translator::class);
+
         Notification::fake();
 
-        $listener = new SendDeploymentNotifications();
+        $listener = new SendDeploymentNotifications($translator);
         $listener->handle(new DeploymentFinished($deployment));
 
         Notification::assertSentTo($channel, $notification);
@@ -72,9 +75,11 @@ class SendDeploymentNotificationsTest extends TestCase
         $deployment->shouldReceive('isAborted')->once()->andReturn(true);
         $deployment->shouldReceive('isSuccessful')->never()->andReturn(false);
 
+        $translator = m::mock(Translator::class);
+
         Notification::fake();
 
-        $listener = new SendDeploymentNotifications();
+        $listener = new SendDeploymentNotifications($translator);
         $listener->handle(new DeploymentFinished($deployment));
 
         Notification::assertNotSentTo($channel, DeploymentFailed::class);

@@ -4,9 +4,9 @@ namespace REBELinBLUE\Deployer\Notifications\System;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\User;
 
 /**
@@ -22,13 +22,20 @@ class NewAccount extends Notification implements ShouldQueue
     private $password;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
      * Create a new notification instance.
      *
-     * @param string $password
+     * @param string     $password
+     * @param Translator $translator
      */
-    public function __construct($password)
+    public function __construct($password, Translator $translator)
     {
-        $this->password = $password;
+        $this->password   = $password;
+        $this->translator = $translator;
     }
 
     /**
@@ -44,7 +51,8 @@ class NewAccount extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  User        $user
+     * @param User $user
+     *
      * @return MailMessage
      */
     public function toMail(User $user)
@@ -53,10 +61,10 @@ class NewAccount extends Notification implements ShouldQueue
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])
-            ->subject(Lang::get('emails.creation_subject'))
-            ->line(Lang::get('emails.created'))
-            ->line(Lang::get('emails.username', ['username' => $user->email]))
-            ->line(Lang::get('emails.password', ['password' => $this->password]))
-            ->action(Lang::get('emails.login_now'), route('dashboard'));
+            ->subject($this->translator->trans('emails.creation_subject'))
+            ->line($this->translator->trans('emails.created'))
+            ->line($this->translator->trans('emails.username', ['username' => $user->email]))
+            ->line($this->translator->trans('emails.password', ['password' => $this->password]))
+            ->action($this->translator->trans('emails.login_now'), route('dashboard'));
     }
 }

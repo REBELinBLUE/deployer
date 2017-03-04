@@ -12,8 +12,6 @@ Location:   London, England
 
 /* THANKS */
 
-https://github.com/iflamed
-
 Almsaeed Studio for AdminLTE - https://almsaeedstudio.com
 
 /* TECHNOLOGY */

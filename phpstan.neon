@@ -1,7 +1,6 @@
 parameters:
     ignoreErrors:
         - '#Function token not found#'
-        - '#Call to an undefined static method Illuminate\\Support\\Facades\\Lang::get\(\)#'
         - '#Call to an undefined static method Illuminate\\Support\\Facades\\Auth::user\(\)#'
         - '#Call to an undefined static method Illuminate\\Support\\Facades\\Auth::check\(\)#'
         - '#Call to an undefined static method Illuminate\\Support\\Facades\\Auth::guard\(\)#'

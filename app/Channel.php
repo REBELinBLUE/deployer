@@ -76,7 +76,8 @@ class Channel extends Model
 
         // When the notification has been saved queue a test
         static::saved(function (Channel $model) {
-            $model->notify(new NewTestNotification());
+            // FIXME: Change to use an event listener
+            $model->notify(new NewTestNotification(app('translator')));
         });
     }
 

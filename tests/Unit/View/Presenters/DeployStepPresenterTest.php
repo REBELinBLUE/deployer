@@ -31,11 +31,11 @@ class DeployStepPresenterTest extends TestCase
         $expected = 'some command';
 
         $command = m::mock(Command::class);
-        $command->shouldReceive('getAttribute')->atLeast()->times(1)->with('name')->andReturn($expected);
+        $command->shouldReceive('getAttribute')->atLeast()->once()->with('name')->andReturn($expected);
 
         $step = m::mock(DeployStep::class);
-        $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('command_id')->andReturn(1);
-        $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('command')->andReturn($command);
+        $step->shouldReceive('getAttribute')->atLeast()->once()->with('command_id')->andReturn(1);
+        $step->shouldReceive('getAttribute')->atLeast()->once()->with('command')->andReturn($command);
 
         $presenter = new DeployStepPresenter($this->translator);
         $presenter->setWrappedObject($step);
@@ -51,8 +51,8 @@ class DeployStepPresenterTest extends TestCase
     public function testPresentNameReturnsLabel($stage, $expected)
     {
         $step = m::mock(DeployStep::class);
-        $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('command_id')->andReturnNull();
-        $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('stage')->andReturn($stage);
+        $step->shouldReceive('getAttribute')->atLeast()->once()->with('command_id')->andReturnNull();
+        $step->shouldReceive('getAttribute')->atLeast()->once()->with('stage')->andReturn($stage);
 
         $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
 

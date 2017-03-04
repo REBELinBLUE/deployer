@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\View\Presenters;
 
 use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Support\Str;
 use McCool\LaravelAutoPresenter\BasePresenter;
 
 /**
@@ -66,6 +67,6 @@ abstract class Presenter extends BasePresenter
      */
     private function toCamelCase($key)
     {
-        return 'present' . str_replace(' ', '', ucwords(str_replace('_', ' ', strtolower($key))));
+        return Str::camel('present_' . $key);
     }
 }

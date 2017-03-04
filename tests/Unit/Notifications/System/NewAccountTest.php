@@ -2,9 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\System;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Lang;
 use Mockery as m;
 use REBELinBLUE\Deployer\Notifications\System\NewAccount;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -15,18 +14,28 @@ use REBELinBLUE\Deployer\User;
  */
 class NewAccountTest extends TestCase
 {
+    private $translator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->translator = m::mock(Translator::class);
+    }
+
     /**
      * @covers ::__construct
      * @covers ::via
      */
     public function testSendViaEmail()
     {
-        $notification = new NewAccount('a-new-password');
+        $notification = new NewAccount('a-new-password', $this->translator);
 
         $this->assertSame(['mail'], $notification->via());
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      */
     public function testToMail()
@@ -45,11 +54,15 @@ class NewAccountTest extends TestCase
         $user->shouldReceive('getAttribute')->atLeast()->once()->with('name')->andReturn($expectedName);
         $user->shouldReceive('getAttribute')->atLeast()->once()->with('email')->andReturn($expectedEmail);
 
-        Lang::shouldReceive('get')->with('emails.creation_subject')->andReturn($subject);
-        Lang::shouldReceive('get')->with('emails.created')->andReturn($introLine1);
-        Lang::shouldReceive('get')->with('emails.username', ['username' => $expectedEmail])->andReturn($introLine2);
-        Lang::shouldReceive('get')->with('emails.password', ['password' => $expectedPassword])->andReturn($introLine3);
-        Lang::shouldReceive('get')->with('emails.login_now')->andReturn($actionText);
+        $this->translator->shouldReceive('trans')->with('emails.creation_subject')->andReturn($subject);
+        $this->translator->shouldReceive('trans')->with('emails.created')->andReturn($introLine1);
+        $this->translator->shouldReceive('trans')
+                         ->with('emails.username', ['username' => $expectedEmail])
+                         ->andReturn($introLine2);
+        $this->translator->shouldReceive('trans')
+                         ->with('emails.password', ['password' => $expectedPassword])
+                         ->andReturn($introLine3);
+        $this->translator->shouldReceive('trans')->with('emails.login_now')->andReturn($actionText);
 
         // Replace the URL generator so that we can get a known URL
         $mock = m::mock(UrlGenerator::class);
@@ -57,9 +70,9 @@ class NewAccountTest extends TestCase
              ->with('dashboard', [], true)
              ->andReturn($actionUrl);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
-        $notification = new NewAccount($expectedPassword);
+        $notification = new NewAccount($expectedPassword, $this->translator);
         $mail         = $notification->toMail($user);
         $actual       = $mail->toArray();
 

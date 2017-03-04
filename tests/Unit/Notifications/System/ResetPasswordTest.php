@@ -2,9 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\System;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Lang;
 use Mockery as m;
 use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -15,18 +14,28 @@ use REBELinBLUE\Deployer\User;
  */
 class ResetPasswordTest extends TestCase
 {
+    private $translator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->translator = m::mock(Translator::class);
+    }
+
     /**
      * @covers ::__construct
      * @covers ::via
      */
     public function testSendViaEmail()
     {
-        $notification = new ResetPassword('a-new-password');
+        $notification = new ResetPassword('a-new-password', $this->translator);
 
         $this->assertSame(['mail'], $notification->via());
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      */
     public function testToMail()
@@ -43,11 +52,11 @@ class ResetPasswordTest extends TestCase
         $user = m::mock(User::class);
         $user->shouldReceive('getAttribute')->atLeast()->once()->with('name')->andReturn($expectedName);
 
-        Lang::shouldReceive('get')->with('emails.reset_subject')->andReturn($subject);
-        Lang::shouldReceive('get')->with('emails.reset_header')->andReturn($introLine1);
-        Lang::shouldReceive('get')->with('emails.reset_below')->andReturn($introLine2);
-        Lang::shouldReceive('get')->with('emails.reset')->andReturn($actionText);
-        Lang::shouldReceive('get')->with('emails.reset_footer')->andReturn($outroLine1);
+        $this->translator->shouldReceive('trans')->with('emails.reset_subject')->andReturn($subject);
+        $this->translator->shouldReceive('trans')->with('emails.reset_header')->andReturn($introLine1);
+        $this->translator->shouldReceive('trans')->with('emails.reset_below')->andReturn($introLine2);
+        $this->translator->shouldReceive('trans')->with('emails.reset')->andReturn($actionText);
+        $this->translator->shouldReceive('trans')->with('emails.reset_footer')->andReturn($outroLine1);
 
         // Replace the URL generator so that we can get a known URL
         $mock = m::mock(UrlGenerator::class);
@@ -55,9 +64,9 @@ class ResetPasswordTest extends TestCase
              ->with('auth.reset-confirm', ['token' => $expectedToken], true)
              ->andReturn($actionUrl);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
-        $notification = new ResetPassword($expectedToken);
+        $notification = new ResetPassword($expectedToken, $this->translator);
         $mail         = $notification->toMail($user);
         $actual       = $mail->toArray();
 

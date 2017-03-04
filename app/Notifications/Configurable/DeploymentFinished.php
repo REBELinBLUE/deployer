@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Notifications\Configurable;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Support\Facades\Lang;
 use NotificationChannels\HipChat\Card;
 use NotificationChannels\HipChat\CardAttribute;
 use NotificationChannels\HipChat\CardAttributeStyles;
@@ -35,15 +35,22 @@ abstract class DeploymentFinished extends Notification
     protected $deployment;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
      * Create a new notification instance.
      *
      * @param Project    $project
      * @param Deployment $deployment
+     * @param Translator $translator
      */
-    public function __construct(Project $project, Deployment $deployment)
+    public function __construct(Project $project, Deployment $deployment, Translator $translator)
     {
         $this->project    = $project;
         $this->deployment = $deployment;
+        $this->translator = $translator;
     }
 
     /**
@@ -57,15 +64,15 @@ abstract class DeploymentFinished extends Notification
      */
     protected function buildMailMessage($subject, $translation, Channel $notification)
     {
-        $message = Lang::get($translation);
+        $message = $this->translator->trans($translation);
 
         $table = [
-            Lang::get('notifications.project_name')    => $this->project->name,
-            Lang::get('notifications.deployed_branch') => $this->deployment->branch,
-            Lang::get('notifications.started_at')      => $this->deployment->started_at,
-            Lang::get('notifications.finished_at')     => $this->deployment->finished_at,
-            Lang::get('notifications.last_committer')  => $this->deployment->committer,
-            Lang::get('notifications.last_commit')     => $this->deployment->short_commit,
+            $this->translator->trans('notifications.project_name')    => $this->project->name,
+            $this->translator->trans('notifications.deployed_branch') => $this->deployment->branch,
+            $this->translator->trans('notifications.started_at')      => $this->deployment->started_at,
+            $this->translator->trans('notifications.finished_at')     => $this->deployment->finished_at,
+            $this->translator->trans('notifications.last_committer')  => $this->deployment->committer,
+            $this->translator->trans('notifications.last_commit')     => $this->deployment->short_commit,
         ];
 
         $action = route('deployments', ['id' => $this->deployment->id]);
@@ -75,12 +82,12 @@ abstract class DeploymentFinished extends Notification
                 'name'  => $notification->name,
                 'table' => $table,
             ])
-            ->subject(Lang::get($subject))
+            ->subject($this->translator->trans($subject))
             ->line($message)
-            ->action(Lang::get('notifications.deployment_details'), $action);
+            ->action($this->translator->trans('notifications.deployment_details'), $action);
 
         if (!empty($this->deployment->reason)) {
-            $email->line(Lang::get('notifications.reason', ['reason' => $this->deployment->reason]));
+            $email->line($this->translator->trans('notifications.reason', ['reason' => $this->deployment->reason]));
         }
 
         return $email;
@@ -96,21 +103,21 @@ abstract class DeploymentFinished extends Notification
      */
     protected function buildSlackMessage($translation, Channel $notification)
     {
-        $message = Lang::get($translation);
+        $message = $this->translator->trans($translation);
 
         $fields = [
-            Lang::get('notifications.project') => sprintf(
+            $this->translator->trans('notifications.project') => sprintf(
                 '<%s|%s>',
                 route('projects', ['id' => $this->project->id]),
                 $this->project->name
             ),
-            Lang::get('notifications.commit') => $this->deployment->commit_url ? sprintf(
+            $this->translator->trans('notifications.commit') => $this->deployment->commit_url ? sprintf(
                 '<%s|%s>',
                 $this->deployment->commit_url,
                 $this->deployment->short_commit
             ) : $this->deployment->short_commit,
-            Lang::get('notifications.committer') => $this->deployment->committer,
-            Lang::get('notifications.branch')    => $this->deployment->branch,
+            $this->translator->trans('notifications.committer') => $this->deployment->committer,
+            $this->translator->trans('notifications.branch')    => $this->deployment->branch,
         ];
 
         return (new SlackMessage())
@@ -125,7 +132,7 @@ abstract class DeploymentFinished extends Notification
                     )))
                     ->fallback(sprintf($message, '#' . $this->deployment->id))
                     ->fields($fields)
-                    ->footer(Lang::get('app.name'))
+                    ->footer($this->translator->trans('app.name'))
                     ->timestamp($this->deployment->finished_at);
             });
     }
@@ -166,7 +173,7 @@ abstract class DeploymentFinished extends Notification
     protected function buildTwilioMessage($translation)
     {
         return (new TwilioMessage())
-            ->content(Lang::get($translation, [
+            ->content($this->translator->trans($translation, [
                 'id'      => $this->deployment->id,
                 'project' => $this->project->name,
             ]));
@@ -182,7 +189,7 @@ abstract class DeploymentFinished extends Notification
      */
     protected function buildHipchatMessage($translation, Channel $notification)
     {
-        $message = Lang::get($translation);
+        $message = $this->translator->trans($translation);
 
         return (new HipChatMessage())
             ->room($notification->config->room)
@@ -200,24 +207,24 @@ abstract class DeploymentFinished extends Notification
                     ->cardFormat(CardFormats::MEDIUM)
                     ->addAttribute(function (CardAttribute $attribute) {
                         $attribute
-                            ->label(Lang::get('notifications.project'))
+                            ->label($this->translator->trans('notifications.project'))
                             ->value($this->project->name)
                             ->url(route('projects', ['id' => $this->project->id]));
                     })
                     ->addAttribute(function (CardAttribute $attribute) {
                         $attribute
-                            ->label(Lang::get('notifications.commit'))
+                            ->label($this->translator->trans('notifications.commit'))
                             ->value($this->deployment->short_commit)
                             ->url($this->deployment->commit_url);
                     })
                     ->addAttribute(function (CardAttribute $attribute) {
                         $attribute
-                            ->label(Lang::get('notifications.committer'))
+                            ->label($this->translator->trans('notifications.committer'))
                             ->value($this->deployment->committer);
                     })
                     ->addAttribute(function (CardAttribute $attribute) {
                         $attribute
-                            ->label(Lang::get('notifications.branch'))
+                            ->label($this->translator->trans('notifications.branch'))
                             ->style(CardAttributeStyles::GENERAL)
                             ->value($this->deployment->branch);
                     });

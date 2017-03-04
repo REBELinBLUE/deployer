@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Translation\Translator;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
 use REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFailed;
 use REBELinBLUE\Deployer\Notifications\Configurable\DeploymentSucceeded;
@@ -10,8 +10,21 @@ use REBELinBLUE\Deployer\Notifications\Configurable\DeploymentSucceeded;
 /**
  * When a deploy finished, notify the followed user.
  */
-class SendDeploymentNotifications implements ShouldQueue
+class SendDeploymentNotifications
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * Handle the event.
      *
@@ -34,7 +47,7 @@ class SendDeploymentNotifications implements ShouldQueue
         }
 
         foreach ($project->channels->where('on_' . $event, true) as $channel) {
-            $channel->notify(new $notification($project, $deployment));
+            $channel->notify(new $notification($project, $deployment, $this->translator));
         }
     }
 }

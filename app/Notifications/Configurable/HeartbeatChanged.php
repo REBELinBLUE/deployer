@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Notifications\Configurable;
 
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Support\Facades\Lang;
 use NotificationChannels\HipChat\Card;
 use NotificationChannels\HipChat\CardAttribute;
 use NotificationChannels\HipChat\CardFormats;
@@ -28,13 +28,20 @@ abstract class HeartbeatChanged extends Notification
     protected $heartbeat;
 
     /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
      * Create a new notification instance.
      *
-     * @param Heartbeat $heartbeat
+     * @param Heartbeat  $heartbeat
+     * @param Translator $translator
      */
-    public function __construct(Heartbeat $heartbeat)
+    public function __construct(Heartbeat $heartbeat, Translator $translator)
     {
-        $this->heartbeat = $heartbeat;
+        $this->heartbeat  = $heartbeat;
+        $this->translator = $translator;
     }
 
     /**
@@ -48,17 +55,17 @@ abstract class HeartbeatChanged extends Notification
      */
     protected function buildMailMessage($subject, $translation, Channel $notification)
     {
-        $message = Lang::get($translation, ['job' => $this->heartbeat->name]);
+        $message = $this->translator->trans($translation, ['job' => $this->heartbeat->name]);
 
         if (is_null($this->heartbeat->last_activity)) {
-            $heard_from = Lang::get('app.never');
+            $heard_from = $this->translator->trans('app.never');
         } else {
             $heard_from = $this->heartbeat->last_activity->diffForHumans();
         }
 
         $table = [
-            Lang::get('notifications.project_name') => $this->heartbeat->project->name,
-            Lang::get('heartbeats.last_check_in')   => $heard_from,
+            $this->translator->trans('notifications.project_name') => $this->heartbeat->project->name,
+            $this->translator->trans('heartbeats.last_check_in')   => $heard_from,
         ];
 
         $action = route('projects', ['id' => $this->heartbeat->project_id]);
@@ -68,9 +75,9 @@ abstract class HeartbeatChanged extends Notification
                 'name'  => $notification->name,
                 'table' => $table,
             ])
-            ->subject(Lang::get($subject))
+            ->subject($this->translator->trans($subject))
             ->line($message)
-            ->action(Lang::get('notifications.project_details'), $action);
+            ->action($this->translator->trans('notifications.project_details'), $action);
     }
 
     /**
@@ -83,18 +90,22 @@ abstract class HeartbeatChanged extends Notification
      */
     protected function buildSlackMessage($translation, Channel $notification)
     {
-        $message = Lang::get($translation, ['job' => $this->heartbeat->name]);
+        $message = $this->translator->trans($translation, ['job' => $this->heartbeat->name]);
         $url     = route('projects', ['id' => $this->heartbeat->project_id]);
 
         if (is_null($this->heartbeat->last_activity)) {
-            $heard_from = Lang::get('app.never');
+            $heard_from = $this->translator->trans('app.never');
         } else {
             $heard_from = $this->heartbeat->last_activity->diffForHumans();
         }
 
         $fields = [
-            Lang::get('notifications.project')    => sprintf('<%s|%s>', $url, $this->heartbeat->project->name),
-            Lang::get('heartbeats.last_check_in') => $heard_from,
+            $this->translator->trans('notifications.project') => sprintf(
+                '<%s|%s>',
+                $url,
+                $this->heartbeat->project->name
+            ),
+            $this->translator->trans('heartbeats.last_check_in') => $heard_from,
         ];
 
         return (new SlackMessage())
@@ -105,7 +116,7 @@ abstract class HeartbeatChanged extends Notification
                     ->content($message)
                     ->fallback($message)
                     ->fields($fields)
-                    ->footer(Lang::get('app.name'))
+                    ->footer($this->translator->trans('app.name'))
                     ->timestamp($this->heartbeat->updated_at);
             });
     }
@@ -142,13 +153,13 @@ abstract class HeartbeatChanged extends Notification
     protected function buildTwilioMessage($translation)
     {
         if (is_null($this->heartbeat->last_activity)) {
-            $heard_from = Lang::get('app.never');
+            $heard_from = $this->translator->trans('app.never');
         } else {
             $heard_from = $this->heartbeat->last_activity->diffForHumans();
         }
 
         return (new TwilioMessage())
-            ->content(Lang::get($translation, [
+            ->content($this->translator->trans($translation, [
                 'job'     => $this->heartbeat->name,
                 'project' => $this->heartbeat->project->name,
                 'last'    => $heard_from,
@@ -165,7 +176,7 @@ abstract class HeartbeatChanged extends Notification
      */
     protected function buildHipchatMessage($translation, Channel $notification)
     {
-        $message = Lang::get($translation, ['job' => $this->heartbeat->name]);
+        $message = $this->translator->trans($translation, ['job' => $this->heartbeat->name]);
         $url     = route('projects', ['id' => $this->heartbeat->project_id]);
 
         return (new HipChatMessage())
@@ -180,19 +191,19 @@ abstract class HeartbeatChanged extends Notification
                     ->cardFormat(CardFormats::MEDIUM)
                     ->addAttribute(function (CardAttribute $attribute) {
                         $attribute
-                            ->label(Lang::get('notifications.project'))
+                            ->label($this->translator->trans('notifications.project'))
                             ->value($this->heartbeat->project->name)
                             ->url(route('projects', ['id' => $this->heartbeat->project_id]));
                     })
                     ->addAttribute(function (CardAttribute $attribute) {
                         if (is_null($this->heartbeat->last_activity)) {
-                            $heard_from = Lang::get('app.never');
+                            $heard_from = $this->translator->trans('app.never');
                         } else {
                             $heard_from = $this->heartbeat->last_activity->diffForHumans();
                         }
 
                         $attribute
-                            ->label(Lang::get('heartbeats.last_check_in'))
+                            ->label($this->translator->trans('heartbeats.last_check_in'))
                             ->value($heard_from);
                     });
             });

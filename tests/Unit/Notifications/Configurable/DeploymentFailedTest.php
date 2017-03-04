@@ -21,12 +21,13 @@ class DeploymentFailedTest extends DeploymentFinishedTestCase
         $project    = m::mock(Project::class);
         $deployment = m::mock(Deployment::class);
 
-        $notification = new DeploymentFailed($project, $deployment);
+        $notification = new DeploymentFailed($project, $deployment, $this->translator);
 
         $this->assertInstanceOf(Notification::class, $notification);
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toTwilio
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildTwilioMessage
      */
@@ -36,6 +37,7 @@ class DeploymentFailedTest extends DeploymentFinishedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toWebhook
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildWebhookMessage
      */
@@ -45,6 +47,7 @@ class DeploymentFailedTest extends DeploymentFinishedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildMailMessage
      */
@@ -59,6 +62,7 @@ class DeploymentFailedTest extends DeploymentFinishedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildMailMessage
      */
@@ -74,6 +78,7 @@ class DeploymentFailedTest extends DeploymentFinishedTestCase
     }
 
     /*
+     * @covers ::__construct
      * @covers ::toSlack
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildSlackMessage
      */
@@ -83,6 +88,7 @@ class DeploymentFailedTest extends DeploymentFinishedTestCase
     }
 
     /*
+     * @covers ::__construct
      * @covers ::toSlack
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildSlackMessage
      */
@@ -92,6 +98,7 @@ class DeploymentFailedTest extends DeploymentFinishedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toHipchat
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildHipchatMessage
      */

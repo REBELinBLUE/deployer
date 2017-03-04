@@ -3,9 +3,8 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\Configurable;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Lang;
 use Mockery as m;
 use NotificationChannels\HipChat\CardAttribute;
 use NotificationChannels\HipChat\CardFormats;
@@ -17,6 +16,15 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 
 abstract class UrlChangedTestCase extends TestCase
 {
+    protected $translator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->translator = m::mock(Translator::class);
+    }
+
     protected function toTwilio($class, $translation, $expectedDate, $expectedDateString)
     {
         $expectedMessage = 'the-message';
@@ -31,16 +39,16 @@ abstract class UrlChangedTestCase extends TestCase
         $url->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedName);
         $url->shouldReceive('getAttribute')->once()->with('project')->andReturn($project);
 
-        Lang::shouldReceive('get')
-            ->once()
-            ->with($translation, [
-                'link'    => $expectedName,
-                'project' => $expectedProject,
-                'last'    => $expectedDateString,
-            ])
-            ->andReturn($expectedMessage);
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with($translation, [
+                             'link'    => $expectedName,
+                             'project' => $expectedProject,
+                             'last'    => $expectedDateString,
+                         ])
+                         ->andReturn($expectedMessage);
 
-        $notification = new $class($url);
+        $notification = new $class($url, $this->translator);
         $twilio       = $notification->toTwilio();
 
         $this->assertSame($expectedMessage, $twilio->content);
@@ -66,7 +74,7 @@ abstract class UrlChangedTestCase extends TestCase
         $channel->shouldReceive('getAttribute')->once()->with('id')->andReturn($expectedId);
         $channel->shouldReceive('getAttribute')->once()->with('project_id')->andReturn($expectedProjectId);
 
-        $notification = new $class($url);
+        $notification = new $class($url, $this->translator);
         $webhook      = $notification->toWebhook($channel);
         $actual       = $webhook->toArray();
 
@@ -96,16 +104,19 @@ abstract class UrlChangedTestCase extends TestCase
             'url'           => $expectedUrl,
         ];
 
-        Lang::shouldReceive('get')->once()->with($subject)->andReturn($expectedSubject);
-        Lang::shouldReceive('get')->once()->with('notifications.project_details')->andReturn($expectedActionText);
-        Lang::shouldReceive('get')->once()->with('notifications.project_name')->andReturn('project');
-        Lang::shouldReceive('get')->once()->with('heartbeats.last_check_in')->andReturn('last_check_in');
-        Lang::shouldReceive('get')->once()->with('checkUrls.url')->andReturn('url');
+        $this->translator->shouldReceive('trans')->once()->with($subject)->andReturn($expectedSubject);
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with('notifications.project_details')
+                         ->andReturn($expectedActionText);
+        $this->translator->shouldReceive('trans')->once()->with('notifications.project_name')->andReturn('project');
+        $this->translator->shouldReceive('trans')->once()->with('heartbeats.last_check_in')->andReturn('last_check_in');
+        $this->translator->shouldReceive('trans')->once()->with('checkUrls.url')->andReturn('url');
 
-        Lang::shouldReceive('get')
-            ->once()
-            ->with($message, ['link' => $expectedUrlName])
-            ->andReturn($expectedMessage);
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with($message, ['link' => $expectedUrlName])
+                         ->andReturn($expectedMessage);
 
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedProjectName);
@@ -126,9 +137,9 @@ abstract class UrlChangedTestCase extends TestCase
              ->with('projects', ['id' => $expectedProjectId], true)
              ->andReturn($expectedActionUrl);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
-        $notification = new $class($url);
+        $notification = new $class($url, $this->translator);
         $mail         = $notification->toMail($channel);
         $actual       = $mail->toArray();
 
@@ -166,15 +177,15 @@ abstract class UrlChangedTestCase extends TestCase
             'url'           => $expectedUrl,
         ];
 
-        Lang::shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
-        Lang::shouldReceive('get')->once()->with('checkUrls.last_seen')->andReturn('last_check_in');
-        Lang::shouldReceive('get')->once()->with('checkUrls.url')->andReturn('url');
-        Lang::shouldReceive('get')->once()->with('app.name')->andReturn($expectedAppName);
+        $this->translator->shouldReceive('trans')->once()->with('notifications.project')->andReturn('project');
+        $this->translator->shouldReceive('trans')->once()->with('checkUrls.last_seen')->andReturn('last_check_in');
+        $this->translator->shouldReceive('trans')->once()->with('checkUrls.url')->andReturn('url');
+        $this->translator->shouldReceive('trans')->once()->with('app.name')->andReturn($expectedAppName);
 
-        Lang::shouldReceive('get')
-            ->once()
-            ->with($message, ['link' => $expectedUrlName])
-            ->andReturn($expectedMessage);
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with($message, ['link' => $expectedUrlName])
+                         ->andReturn($expectedMessage);
 
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedProjectName);
@@ -195,12 +206,12 @@ abstract class UrlChangedTestCase extends TestCase
         // Replace the URL generator so that we can get a known URL
         $mock = m::mock(UrlGenerator::class);
         $mock->shouldReceive('route')
-            ->with('projects', ['id' => $expectedProjectId], true)
-            ->andReturn($expectedActionUrl);
+             ->with('projects', ['id' => $expectedProjectId], true)
+             ->andReturn($expectedActionUrl);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
-        $notification = new $class($url);
+        $notification = new $class($url, $this->translator);
         $slack        = $notification->toSlack($channel);
 
         $this->assertSame($expectedIcon, $slack->icon);
@@ -228,14 +239,14 @@ abstract class UrlChangedTestCase extends TestCase
         $expectedRoom        = '#channel';
         $expectedActionUrl   = 'http://url.example.com/project';
 
-        Lang::shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
-        Lang::shouldReceive('get')->once()->with('checkUrls.last_seen')->andReturn('last_check_in');
-        Lang::shouldReceive('get')->once()->with('checkUrls.url')->andReturn('url');
+        $this->translator->shouldReceive('trans')->once()->with('notifications.project')->andReturn('project');
+        $this->translator->shouldReceive('trans')->once()->with('checkUrls.last_seen')->andReturn('last_check_in');
+        $this->translator->shouldReceive('trans')->once()->with('checkUrls.url')->andReturn('url');
 
-        Lang::shouldReceive('get')
-            ->once()
-            ->with($message, ['link' => $expectedUrlName])
-            ->andReturn($expectedMessage);
+        $this->translator->shouldReceive('trans')
+                         ->once()
+                         ->with($message, ['link' => $expectedUrlName])
+                         ->andReturn($expectedMessage);
 
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedProjectName);
@@ -258,9 +269,9 @@ abstract class UrlChangedTestCase extends TestCase
              ->with('projects', ['id' => $expectedProjectId], true)
              ->andReturn($expectedActionUrl);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
-        $notification = new $class($url);
+        $notification = new $class($url, $this->translator);
         $hipchat      = $notification->toHipchat($channel);
 
         $this->assertSame($expectedRoom, $hipchat->room);

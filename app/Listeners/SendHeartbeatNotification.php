@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Listeners;
 
+use Illuminate\Contracts\Translation\Translator;
 use REBELinBLUE\Deployer\Events\HeartbeatChanged;
 use REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatMissing;
 use REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatRecovered;
@@ -11,6 +12,19 @@ use REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatRecovered;
  **/
 class SendHeartbeatNotification
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * Handle the event.
      *
@@ -32,7 +46,7 @@ class SendHeartbeatNotification
         }
 
         foreach ($heartbeat->project->channels->where('on_' . $event, true) as $channel) {
-            $channel->notify(new $notification($heartbeat));
+            $channel->notify(new $notification($heartbeat, $this->translator));
         }
     }
 }

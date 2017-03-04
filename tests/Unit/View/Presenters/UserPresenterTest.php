@@ -22,7 +22,7 @@ class UserPresenterTest extends TestCase
         $expected = 'image.jpg';
 
         $user = m::mock(User::class);
-        $user->shouldReceive('getAttribute')->atLeast()->times(1)->with('avatar')->andReturn($expected);
+        $user->shouldReceive('getAttribute')->atLeast()->once()->with('avatar')->andReturn($expected);
 
         $gravatar = m::mock(Gravatar::class);
         $gravatar->shouldNotReceive('get');
@@ -48,7 +48,7 @@ class UserPresenterTest extends TestCase
 
         $user = m::mock(User::class);
         $user->shouldReceive('getAttribute')->once()->with('avatar')->andReturn(false);
-        $user->shouldReceive('getAttribute')->atLeast()->times(1)->with('email')->andReturn($email);
+        $user->shouldReceive('getAttribute')->atLeast()->once()->with('email')->andReturn($email);
 
         $presenter = new UserPresenter($gravatar);
         $presenter->setWrappedObject($user);

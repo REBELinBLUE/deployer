@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Notifications\Configurable;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Lang;
 use Mockery as m;
 use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Notifications\Configurable\UrlRecovered;
@@ -21,12 +20,13 @@ class UrlRecoveredTest extends UrlChangedTestCase
     {
         $url = m::mock(CheckUrl::class);
 
-        $notification = new UrlRecovered($url);
+        $notification = new UrlRecovered($url, $this->translator);
 
         $this->assertInstanceOf(Notification::class, $notification);
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toTwilio
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildTwilioMessage
      */
@@ -34,12 +34,13 @@ class UrlRecoveredTest extends UrlChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        Lang::shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toTwilio(UrlRecovered::class, 'checkUrls.recovered_sms_message', null, $expectedDateString);
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toTwilio
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildTwilioMessage
      */
@@ -52,6 +53,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toWebhook
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildWebhookMessage
      */
@@ -61,6 +63,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildMailMessage
      */
@@ -68,7 +71,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        Lang::shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toMail(
             UrlRecovered::class,
@@ -81,6 +84,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toMail
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildMailMessage
      */
@@ -100,6 +104,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toSlack
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildSlackMessage
      */
@@ -107,7 +112,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        Lang::shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toSlack(
             UrlRecovered::class,
@@ -119,6 +124,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toSlack
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildSlackMessage
      */
@@ -137,6 +143,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toHipchat
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildHipchatMessage
      */
@@ -144,7 +151,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        Lang::shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toHipchat(
             UrlRecovered::class,
@@ -156,6 +163,7 @@ class UrlRecoveredTest extends UrlChangedTestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::toHipchat
      * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildHipchatMessage
      */
