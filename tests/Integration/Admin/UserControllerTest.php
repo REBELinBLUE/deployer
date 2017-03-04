@@ -27,7 +27,7 @@ class UserControllerTest extends AuthenticatedTestCase
 
         $response->assertStatus(Response::HTTP_OK)->assertViewHas(['title', 'users']);
 
-        /** @var \Robbo\Presenter\View\View $view */
+        /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */
         $view  = $response->getOriginalContent();
         $users = $this->app->make(UserRepositoryInterface::class)->getAll();
 

@@ -38,7 +38,7 @@ class CommandControllerTest extends AuthenticatedTestCase
                  ->assertViewHas('target_id', 1)
                  ->assertViewHas('action', $action);
 
-        /** @var \Robbo\Presenter\View\View $view */
+        /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */
         $view     = $response->getOriginalContent();
         $commands = $this->app->make(CommandRepositoryInterface::class)->getForDeployStep(1, 'project', $action);
 

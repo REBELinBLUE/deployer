@@ -32,7 +32,7 @@ class ProjectControllerTest extends AuthenticatedTestCase
         $response->assertStatus(Response::HTTP_OK)
                  ->assertViewHas(['is_secure', 'title', 'templates', 'groups', 'projects']);
 
-        /** @var \Robbo\Presenter\View\View $view */
+        /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */
         $view      = $response->getOriginalContent();
         $projects  = $this->app->make(ProjectRepositoryInterface::class)->getAll();
         $templates = $this->app->make(TemplateRepositoryInterface::class)->getAll();

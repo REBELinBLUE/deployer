@@ -25,7 +25,7 @@ class GroupControllerTest extends AuthenticatedTestCase
 
         $response->assertStatus(Response::HTTP_OK)->assertViewHas(['title', 'groups']);
 
-        /** @var \Robbo\Presenter\View\View $view */
+        /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */
         $view   = $response->getOriginalContent();
         $groups = $this->app->make(GroupRepositoryInterface::class)->getAll();
 

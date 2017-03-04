@@ -32,7 +32,7 @@ class TemplateControllerTest extends AuthenticatedTestCase
 
         $response->assertStatus(Response::HTTP_OK)->assertViewHas(['title', 'templates']);
 
-        /** @var \Robbo\Presenter\View\View $view */
+        /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */
         $view      = $response->getOriginalContent();
         $templates = $this->app->make(TemplateRepositoryInterface::class)->getAll();
 
@@ -49,7 +49,7 @@ class TemplateControllerTest extends AuthenticatedTestCase
 
         $response->assertStatus(Response::HTTP_OK)->assertViewHas(['title', 'templates']);
 
-        /** @var \Robbo\Presenter\View\View $view */
+        /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */
         $view = $response->getOriginalContent();
 
         $this->assertSame('[]', $view->templates);
@@ -76,7 +76,7 @@ class TemplateControllerTest extends AuthenticatedTestCase
                  ->assertViewHas('target_id', 1)
                  ->assertViewHas('action', $action);
 
-        /** @var \Robbo\Presenter\View\View $view */
+        /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */
         $view     = $response->getOriginalContent();
         $commands = $this->app->make(CommandRepositoryInterface::class)->getForDeployStep(1, 'template', $action);
 
@@ -128,7 +128,7 @@ class TemplateControllerTest extends AuthenticatedTestCase
 
         $template = $template->fresh();
 
-        /** @var \Robbo\Presenter\View\View $view */
+        /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */
         $view = $response->getOriginalContent();
         $this->assertSame($template->toJson(), $view->project->toJson());
 
