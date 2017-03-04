@@ -166,8 +166,8 @@ phpunit-ci:
 ifeq "$(phpenv version-name)" "7.1"
 	@$(MAKE) coverage
 else
-	@$(MAKE) integration
 	@$(MAKE) phpunit
+	@$(MAKE) integration
 endif
 
 # Upload code coverage

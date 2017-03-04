@@ -179,7 +179,8 @@ class CheckUrlTest extends TestCase
      */
     public function testBoot()
     {
-        $this->expectsEvents(UrlStatusReset::class);
+        $this->expectsJobs(RequestProjectCheckUrl::class);
+        $this->withoutEvents();
 
         factory(CheckUrl::class)->create();
     }
@@ -189,7 +190,8 @@ class CheckUrlTest extends TestCase
      */
     public function testBootDoesNotDispatchEventIfTested()
     {
-        $this->doesntExpectEvents(UrlStatusReset::class);
+        $this->doesntExpectJobs(RequestProjectCheckUrl::class);
+        $this->withoutEvents();
 
         factory(CheckUrl::class)->create([
             'status' => CheckUrl::ONLINE,
