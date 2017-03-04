@@ -146,6 +146,34 @@ update-deps: permissions
 release: test
 	@/usr/local/bin/create-release
 
+# Create the databases for Travis CI
+travis:
+ifeq "$(DB)" "sqlite"
+	@sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
+	@sed -i 's/DB_DATABASE=deployer//g' .env
+	@sed -i 's/DB_USERNAME=travis//g' .env
+	@touch $(TRAVIS_BUILD_DIR)/database/database.sqlite
+else ifeq "$(DB)" "pgsql"
+	@sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g" .env
+	@sed -i "s/DB_USERNAME=travis/DB_USERNAME=postgres/g" .env
+	@psql -c 'CREATE DATABASE deployer;' -U postgres;
+else
+	@mysql -e 'CREATE DATABASE deployer;'
+endif
+
+# PHPUnit for Travis
+phpunit-ci:
+ifeq "$(phpenv version-name)" "7.1"
+	@$(MAKE) coverage
+else
+	@$(MAKE) integration
+	@$(MAKE) phpunit
+endif
+
+# Upload code coverage
+codecov:
+	@if [ -f coverage.xml ]; then bash <(curl -s https://codecov.io/bash); fi
+
 HELP_FUN = %help; \
 	while(<>) { push @{$$help{$$2 // 'options'}}, [$$1, $$3] \
 	if /^([a-zA-Z\-]+)\s*:.*\#\#(?:@([a-zA-Z\-]+))?\s(.*)$$/ }; \

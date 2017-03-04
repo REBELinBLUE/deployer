@@ -56,19 +56,7 @@ install:
 before_script:
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
   - make permissions
-  - |
-    if [[ "$DB" = "sqlite" ]]; then
-      sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
-      sed -i 's/DB_DATABASE=deployer//g' .env
-      sed -i 's/DB_USERNAME=travis//g' .env
-      touch $TRAVIS_BUILD_DIR/database/database.sqlite
-    elif [[ "$DB" = "pgsql" ]]; then
-      sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g" .env
-      sed -i "s/DB_USERNAME=travis/DB_USERNAME=postgres/g" .env
-      psql -c 'CREATE DATABASE deployer;' -U postgres;
-    else
-      mysql -e 'CREATE DATABASE deployer;'
-    fi
+  - make travis
   # - gulp
 
 script:
@@ -78,22 +66,7 @@ script:
   - make rollback
   - make phpcs
   # - make phpmd
-  - |
-    if [[ $(phpenv version-name) = "7.1" ]]; then
-      echo -e "\033[32mFast Unit Tests with coverage\033[39m"
-      phpdbg -qrr vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov \
-            --testsuite "Unit Tests" --exclude-group slow
-      echo -e "\033[32mSlow Unit Tests with coverage\033[39m"
-      phpdbg -qrr vendor/bin/phpunit --coverage-php=storage/app/tmp/slow.cov \
-            --testsuite "Unit Tests" --exclude-group default
-      echo -e "\033[32mIntegration Tests with coverage\033[39m"
-      phpdbg -qrr vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov \
-            --testsuite "Integration Tests"
-      phpdbg -qrr vendor/bin/phpcov merge storage/app/tmp/ --clover coverage.xml
-    else
-      make phpunit
-      make integration
-    fi
+  - make phpunit-ci
   - make phpdoc-check
   - make phpcpd
   - make lines
@@ -108,10 +81,7 @@ after_script:
   - cat $TRAVIS_BUILD_DIR/.env
 
 after_success:
-  - |
-    if [[ -f coverage.xml ]]; then
-      bash <(curl -s https://codecov.io/bash)
-    fi
+  - make codecov
 
 notifications:
   email: false
