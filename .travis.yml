@@ -82,7 +82,7 @@ after_script:
 
 after_success:
   - |
-    if [[ -f $TRAVIS_BUILD_DIR/storage/app/tmp/coverage.xml ]]; then
+    if [[ -f storage/app/tmp/coverage.xml ]]; then
       mv $TRAVIS_BUILD_DIR/storage/app/tmp/coverage.xml $TRAVIS_BUILD_DIR/coverage.xml
       bash <(curl -s https://codecov.io/bash)
     fi
