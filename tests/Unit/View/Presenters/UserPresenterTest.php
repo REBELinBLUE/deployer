@@ -27,8 +27,9 @@ class UserPresenterTest extends TestCase
         $gravatar = m::mock(Gravatar::class);
         $gravatar->shouldNotReceive('get');
 
-        $presenter = new UserPresenter($user, $gravatar);
-        $actual    = $presenter->presentAvatarUrl();
+        $presenter = new UserPresenter($gravatar);
+        $presenter->setWrappedObject($user);
+        $actual    = $presenter->avatar_url;
 
         $this->assertSame(config('app.url') . '/' . $expected, $actual);
     }
@@ -49,8 +50,9 @@ class UserPresenterTest extends TestCase
         $user->shouldReceive('getAttribute')->once()->with('avatar')->andReturn(false);
         $user->shouldReceive('getAttribute')->atLeast()->times(1)->with('email')->andReturn($email);
 
-        $presenter = new UserPresenter($user, $gravatar);
-        $actual    = $presenter->presentAvatarUrl();
+        $presenter = new UserPresenter($gravatar);
+        $presenter->setWrappedObject($user);
+        $actual    = $presenter->avatar_url;
 
         $this->assertSame($expected, $actual);
     }

@@ -3,13 +3,13 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\View\Presenters\DeployStepPresenter;
-use Robbo\Presenter\PresentableInterface;
 
 /**
  * The deployment step model.
  */
-class DeployStep extends Model implements PresentableInterface
+class DeployStep extends Model implements HasPresenter
 {
     /**
      * The attributes that are mass assignable.
@@ -55,11 +55,11 @@ class DeployStep extends Model implements PresentableInterface
     /**
      * Gets the view presenter.
      *
-     * @return DeployStepPresenter
+     * @return string
      */
-    public function getPresenter()
+    public function getPresenterClass()
     {
-        return new DeployStepPresenter($this);
+        return DeployStepPresenter::class;
     }
 
     /**

@@ -5,19 +5,19 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Jobs\GenerateKey;
 use REBELinBLUE\Deployer\Jobs\RegeneratePublicKey;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
 use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
-use Robbo\Presenter\PresentableInterface;
 use UnexpectedValueException;
 use Version\Compare as VersionCompare;
 
 /**
  * Project model.
  */
-class Project extends Model implements PresentableInterface
+class Project extends Model implements HasPresenter
 {
     use SoftDeletes, BroadcastChanges, ProjectRelations, DispatchesJobs;
 
@@ -216,11 +216,11 @@ class Project extends Model implements PresentableInterface
     /**
      * Gets the view presenter.
      *
-     * @return ProjectPresenter
+     * @return string
      */
-    public function getPresenter()
+    public function getPresenterClass()
     {
-        return new ProjectPresenter($this);
+        return ProjectPresenter::class;
     }
 
     /**

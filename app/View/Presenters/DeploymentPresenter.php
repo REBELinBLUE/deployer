@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\View\Presenters;
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
-use Robbo\Presenter\Presenter;
 
 /**
  * The view presenter for a project class.
@@ -62,7 +61,7 @@ class DeploymentPresenter extends Presenter
      */
     public function presentOptionalCommandsUsed()
     {
-        return $this->getObject()->commands->filter(function (Command $command) {
+        return $this->getWrappedObject()->commands->filter(function (Command $command) {
             return $command->optional;
         })->implode('id', ',');
     }

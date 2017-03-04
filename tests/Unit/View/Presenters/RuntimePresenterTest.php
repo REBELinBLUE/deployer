@@ -7,6 +7,7 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\stubs\Model as StubModel;
 use REBELinBLUE\Deployer\Tests\Unit\stubs\Presenter as StubPresenter;
+use REBELinBLUE\Deployer\User;
 use RuntimeException;
 use stdClass;
 
@@ -22,8 +23,11 @@ class RuntimePresenterTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
+        $invalid = new User();
+
         // Class which doesn't implement the RuntimeInterface
-        $presenter = new StubPresenter(new stdClass());
+        $presenter = new StubPresenter();
+        $presenter->getWrappedObject($invalid);
         $presenter->presentReadableRuntime();
     }
 
@@ -45,7 +49,8 @@ class RuntimePresenterTest extends TestCase
             Lang::shouldReceive('choice')->once()->with($translation, $time, ['time' => $time])->andReturn($key);
         }
 
-        $presenter = new StubPresenter($model);
+        $presenter = new StubPresenter();
+        $presenter->setWrappedObject($model);
         $actual    = $presenter->presentReadableRuntime();
 
         $this->assertSame($expected, $actual);
@@ -69,7 +74,8 @@ class RuntimePresenterTest extends TestCase
 
         Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new StubPresenter($model);
+        $presenter = new StubPresenter();
+        $presenter->setWrappedObject($model);
         $actual    = $presenter->presentReadableRuntime();
 
         $this->assertSame($expected, $actual);

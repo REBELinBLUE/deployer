@@ -35,7 +35,8 @@ class CommandPresenterTest extends TestCase
 
         Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new CommandPresenter($project);
+        $presenter = new CommandPresenter();
+        $presenter->setWrappedObject($project);
         $actual    = $presenter->{$method}();
 
         $this->assertSame($expected, $actual, $method . ' did not translate');
@@ -65,7 +66,8 @@ class CommandPresenterTest extends TestCase
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->atLeast()->times(1)->with('commands')->andReturn($commands);
 
-        $presenter = new CommandPresenter($project);
+        $presenter = new CommandPresenter();
+        $presenter->setWrappedObject($project);
         $actual    = $presenter->{$method}();
 
         $this->assertSame($expected, $actual, $method . ' did not return expected names');

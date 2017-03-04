@@ -2,10 +2,10 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit;
 
+use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\View\Presenters\DeployStepPresenter;
-use Robbo\Presenter\PresentableInterface;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\DeployStep
@@ -19,18 +19,17 @@ class DeployStepTest extends TestCase
     {
         $step = new DeployStep();
 
-        $this->assertInstanceOf(PresentableInterface::class, $step);
+        $this->assertInstanceOf(HasPresenter::class, $step);
     }
 
     /**
-     * @covers ::getPresenter
+     * @covers ::getPresenterClass
      */
-    public function testGetPresenter()
+    public function testGetPresenterClass()
     {
         $step      = new DeployStep();
-        $presenter = $step->getPresenter();
+        $presenter = $step->getPresenterClass();
 
-        $this->assertInstanceOf(DeployStepPresenter::class, $presenter);
-        $this->assertSame($step, $presenter->getObject());
+        $this->assertSame(DeployStepPresenter::class, $presenter);
     }
 }

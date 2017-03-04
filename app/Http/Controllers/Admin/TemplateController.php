@@ -120,7 +120,7 @@ class TemplateController extends Controller
 
         return $this->view->make('admin.templates.listing', [
             'title'     => $this->translator->trans('templates.manage'),
-            'templates' => $templates->toJson(), // Because PresentableInterface toJson() is not working in the view
+            'templates' => $templates->toJson(),
         ]);
     }
 

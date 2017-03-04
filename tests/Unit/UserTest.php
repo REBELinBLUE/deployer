@@ -3,13 +3,12 @@
 namespace REBELinBLUE\Deployer\Tests\Unit;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
-use Robbo\Presenter\PresentableInterface;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\User
@@ -23,7 +22,7 @@ class UserTest extends TestCase
     {
         $user = new User();
 
-        $this->assertInstanceOf(PresentableInterface::class, $user);
+        $this->assertInstanceOf(HasPresenter::class, $user);
     }
 
     /**
@@ -37,31 +36,14 @@ class UserTest extends TestCase
     }
 
     /**
-     * @covers ::getPresenter
+     * @covers ::getPresenterClass
      */
-    public function testGetPresenter()
+    public function testGetPresenterClass()
     {
         $user      = new User();
-        $presenter = $user->getPresenter();
+        $presenter = $user->getPresenterClass();
 
-        $this->assertInstanceOf(UserPresenter::class, $presenter);
-        $this->assertSame($user, $presenter->getObject());
-    }
-
-    /**
-     * @covers ::__get
-     */
-    public function testGetAvatarUrl()
-    {
-        $expected = '/an/image.jpg';
-        $email    = 'user@example.com';
-
-        $user         = new User();
-        $user->avatar = $expected;
-        $user->email  = $email;
-
-        $this->assertSame(config('app.url') . $expected, $user->avatar_url);
-        $this->assertSame($email, $user->email);
+        $this->assertSame(UserPresenter::class, $presenter);
     }
 
     /**

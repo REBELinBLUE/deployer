@@ -7,6 +7,7 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
@@ -119,7 +120,7 @@ class DeploymentController extends Controller
     {
         $deployment = $this->deploymentRepository->getById($deployment_id);
 
-        $output = [];
+        $output = new Collection();
         foreach ($deployment->steps as $step) {
             foreach ($step->servers as $server) {
                 $server->server;
@@ -127,7 +128,7 @@ class DeploymentController extends Controller
                 $server->runtime = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
                 $server->output  = ((is_null($server->output) || !strlen($server->output)) ? null : '');
 
-                $output[] = $server;
+                $output->push($server);
             }
         }
 
@@ -141,7 +142,7 @@ class DeploymentController extends Controller
             'subtitle'   => $project->name,
             'project'    => $project,
             'deployment' => $deployment,
-            'output'     => json_encode($output), // PresentableInterface does not correctly json encode the models
+            'output'     => $output->toJson(),
         ]);
     }
 

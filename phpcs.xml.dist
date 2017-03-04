@@ -21,5 +21,6 @@
     <exclude-pattern>bootstrap/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>database/*</exclude-pattern>
+    <exclude-pattern>tests/Unit/stubs</exclude-pattern>
     <exclude-pattern>*.blade.php</exclude-pattern>
 </ruleset>

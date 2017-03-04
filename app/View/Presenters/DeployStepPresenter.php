@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\View\Presenters;
 
 use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
-use Robbo\Presenter\Presenter;
 
 /**
  * The view presenter for a deploy step class.

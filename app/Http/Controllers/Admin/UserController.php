@@ -41,7 +41,7 @@ class UserController extends Controller
     {
         return $view->make('admin.users.listing', [
             'title' => $translator->trans('users.manage'),
-            'users' => $this->repository->getAll()->toJson(), // PresentableInterface toJson() is not working in view
+            'users' => $this->repository->getAll()->toJson(),
         ]);
     }
 

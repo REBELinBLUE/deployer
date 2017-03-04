@@ -7,6 +7,7 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\View\Presenters\DeploymentPresenter;
 use RuntimeException;
 use stdClass;
@@ -23,8 +24,11 @@ class DeploymentPresenterTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
+        $invalid = new User();
+
         // Class which doesn't implement the RuntimeInterface
-        $presenter = new DeploymentPresenter(new stdClass());
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($invalid);
         $presenter->presentReadableRuntime();
     }
 
@@ -36,7 +40,8 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentCcTrayStatus();
 
         $this->assertSame($expected, $actual);
@@ -57,7 +62,8 @@ class DeploymentPresenterTest extends TestCase
 
         Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentReadableStatus();
 
         $this->assertSame($expected, $actual);
@@ -76,7 +82,8 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentIcon();
 
         $this->assertSame($expected, $actual);
@@ -95,7 +102,8 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentCssClass();
 
         $this->assertSame($expected, $actual);
@@ -114,7 +122,8 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentTimelineCssClass();
 
         $this->assertSame($expected, $actual);
@@ -135,7 +144,8 @@ class DeploymentPresenterTest extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->atLeast()->times(1)->with('committer')->andReturn($expected);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentCommitterName();
 
         $this->assertSame($expected, $actual);
@@ -153,7 +163,8 @@ class DeploymentPresenterTest extends TestCase
 
         Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentCommitterName();
 
         $this->assertSame($expected, $actual);
@@ -174,7 +185,8 @@ class DeploymentPresenterTest extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->atLeast()->times(1)->with('short_commit')->andReturn($expected);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentShortCommitHash();
 
         $this->assertSame($expected, $actual);
@@ -192,7 +204,8 @@ class DeploymentPresenterTest extends TestCase
 
         Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentShortCommitHash();
 
         $this->assertSame($expected, $actual);
@@ -218,7 +231,8 @@ class DeploymentPresenterTest extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('commands')->andReturn($commands);
 
-        $presenter = new DeploymentPresenter($deployment);
+        $presenter = new DeploymentPresenter();
+        $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentOptionalCommandsUsed();
 
         $this->assertSame($expected, $actual);

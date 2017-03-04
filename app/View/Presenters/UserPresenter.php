@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\View\Presenters;
 
 use Creativeorange\Gravatar\Gravatar;
-use Robbo\Presenter\Presenter;
 
 /**
  * The view presenter for a user class.
@@ -18,10 +17,8 @@ class UserPresenter extends Presenter
      * @param mixed    $object
      * @param Gravatar $gravatar
      */
-    public function __construct($object, Gravatar $gravatar)
+    public function __construct(Gravatar $gravatar)
     {
-        parent::__construct($object);
-
         $this->gravatar = $gravatar;
     }
 
@@ -32,10 +29,10 @@ class UserPresenter extends Presenter
      */
     public function presentAvatarUrl()
     {
-        if ($this->getObject()->avatar) {
-            return url($this->getObject()->avatar);
+        if ($this->getWrappedObject()->avatar) {
+            return url($this->getWrappedObject()->avatar);
         }
 
-        return $this->gravatar->get($this->getObject()->email);
+        return $this->gravatar->get($this->getWrappedObject()->email);
     }
 }

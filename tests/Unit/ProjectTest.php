@@ -5,7 +5,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\App;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use Mockery as m;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -21,15 +21,24 @@ class ProjectTest extends TestCase
     use TestsModel, ProductRelations;
 
     /**
-     * @covers ::getPresenter
+     * @covers ::__construct
      */
-    public function testGetPresenter()
+    public function testIsPresentable()
+    {
+        $project = new Project();
+
+        $this->assertInstanceOf(HasPresenter::class, $project);
+    }
+
+    /**
+     * @covers ::getPresenterClass
+     */
+    public function testGetPresenterClass()
     {
         $project   = new Project();
-        $presenter = $project->getPresenter();
+        $presenter = $project->getPresenterClass();
 
-        $this->assertInstanceOf(ProjectPresenter::class, $presenter);
-        $this->assertSame($project, $presenter->getObject());
+        $this->assertSame(ProjectPresenter::class, $presenter);
     }
 
     /**
@@ -61,7 +70,7 @@ class ProjectTest extends TestCase
              ->with('webhook.deploy', $hash, true)
              ->andReturn($expected);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
         $this->mockTokenGenerator($hash);
 

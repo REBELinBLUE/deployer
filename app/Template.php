@@ -3,14 +3,14 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
 use REBELinBLUE\Deployer\View\Presenters\CommandPresenter;
-use Robbo\Presenter\PresentableInterface;
 
 /**
  * Model for templates.
  */
-class Template extends Model implements PresentableInterface
+class Template extends Model implements HasPresenter
 {
     use ProjectRelations;
 
@@ -91,10 +91,10 @@ class Template extends Model implements PresentableInterface
     /**
      * Gets the view presenter.
      *
-     * @return CommandPresenter
+     * @return string
      */
-    public function getPresenter()
+    public function getPresenterClass()
     {
-        return new CommandPresenter($this);
+        return CommandPresenter::class;
     }
 }

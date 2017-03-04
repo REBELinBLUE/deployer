@@ -28,7 +28,8 @@ class DeployStepPresenterTest extends TestCase
         $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('command_id')->andReturn(1);
         $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('command')->andReturn($command);
 
-        $presenter = new DeployStepPresenter($step);
+        $presenter = new DeployStepPresenter();
+        $presenter->setWrappedObject($step);
         $actual    = $presenter->presentName();
 
         $this->assertSame($expected, $actual);
@@ -46,7 +47,8 @@ class DeployStepPresenterTest extends TestCase
 
         Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new DeployStepPresenter($step);
+        $presenter = new DeployStepPresenter();
+        $presenter->setWrappedObject($step);
         $actual    = $presenter->presentName();
 
         $this->assertSame($expected, $actual);

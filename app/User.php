@@ -2,19 +2,18 @@
 
 namespace REBELinBLUE\Deployer;
 
-use Creativeorange\Gravatar\Gravatar;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
-use Robbo\Presenter\PresentableInterface;
 
 /**
  * User model.
  */
-class User extends Authenticatable implements PresentableInterface
+class User extends Authenticatable implements HasPresenter
 {
     use SoftDeletes, BroadcastChanges, Notifiable;
 
@@ -49,22 +48,6 @@ class User extends Authenticatable implements PresentableInterface
     ];
 
     /**
-     * A hack to allow avatar_url to be called on the result of Auth::user().
-     *
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        if ($key === 'avatar_url') {
-            return $this->getPresenter()->avatar_url;
-        }
-
-        return parent::__get($key);
-    }
-
-    /**
      * Generate a change email token.
      *
      * @return string
@@ -80,12 +63,11 @@ class User extends Authenticatable implements PresentableInterface
     /**
      * Gets the view presenter.
      *
-     * @return UserPresenter
+     * @return string
      */
-    public function getPresenter()
+    public function getPresenterClass()
     {
-        // FIXME: Horrible!
-        return new UserPresenter($this, app(Gravatar::class));
+        return UserPresenter::class;
     }
 
     /**

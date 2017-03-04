@@ -2,12 +2,12 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit;
 
+use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Template;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\Traits\ProductRelations;
 use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\CommandPresenter;
-use Robbo\Presenter\PresentableInterface;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Template
@@ -23,19 +23,18 @@ class TemplateTest extends TestCase
     {
         $template = new Template();
 
-        $this->assertInstanceOf(PresentableInterface::class, $template);
+        $this->assertInstanceOf(HasPresenter::class, $template);
     }
 
     /**
-     * @covers ::getPresenter
+     * @covers ::getPresenterClass
      */
-    public function testGetPresenter()
+    public function testGetPresenterClass()
     {
         $template      = new Template();
-        $presenter     = $template->getPresenter();
+        $presenter     = $template->getPresenterClass();
 
-        $this->assertInstanceOf(CommandPresenter::class, $presenter);
-        $this->assertSame($template, $presenter->getObject());
+        $this->assertSame(CommandPresenter::class, $presenter);
     }
 
     /**

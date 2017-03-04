@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Project;
@@ -11,7 +12,6 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\DeploymentPresenter;
 use REBELinBLUE\Deployer\View\Presenters\RuntimeInterface;
-use Robbo\Presenter\PresentableInterface;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Deployment
@@ -49,19 +49,18 @@ class DeploymentTest extends TestCase
     {
         $deployment = new Deployment();
 
-        $this->assertInstanceOf(PresentableInterface::class, $deployment);
+        $this->assertInstanceOf(HasPresenter::class, $deployment);
     }
 
     /**
-     * @covers ::getPresenter
+     * @covers ::getPresenterClass
      */
-    public function testGetPresenter()
+    public function testGetPresenterClass()
     {
         $deployment       = new Deployment();
-        $presenter        = $deployment->getPresenter();
+        $presenter        = $deployment->getPresenterClass();
 
-        $this->assertInstanceOf(DeploymentPresenter::class, $presenter);
-        $this->assertSame($deployment, $presenter->getObject());
+        $this->assertSame(DeploymentPresenter::class, $presenter);
     }
 
     /**

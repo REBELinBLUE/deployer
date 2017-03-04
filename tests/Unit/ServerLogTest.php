@@ -4,11 +4,11 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\Traits\TestsModel;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
-use Robbo\Presenter\PresentableInterface;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\ServerLog
@@ -24,19 +24,18 @@ class ServerLogTest extends TestCase
     {
         $log = new ServerLog();
 
-        $this->assertInstanceOf(PresentableInterface::class, $log);
+        $this->assertInstanceOf(HasPresenter::class, $log);
     }
 
     /**
-     * @covers ::getPresenter
+     * @covers ::getPresenterClass
      */
-    public function testGetPresenter()
+    public function testGetPresenterClass()
     {
         $log       = new ServerLog();
-        $presenter = $log->getPresenter();
+        $presenter = $log->getPresenterClass();
 
-        $this->assertInstanceOf(ServerLogPresenter::class, $presenter);
-        $this->assertSame($log, $presenter->getObject());
+        $this->assertSame(ServerLogPresenter::class, $presenter);
     }
 
     /**
