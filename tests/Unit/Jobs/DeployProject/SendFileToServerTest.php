@@ -41,7 +41,7 @@ class SendFileToServerTest extends TestCase
     /**
      * @var string
      */
-    private $key;
+    private $private_key;
 
     /**
      * @var Formatter
@@ -92,7 +92,7 @@ class SendFileToServerTest extends TestCase
         $this->deployment  = $deployment;
         $this->log         = $log;
         $this->process     = $process;
-        $this->key         = $key;
+        $this->private_key = $key;
         $this->remote_file = $remote_file;
         $this->local_file  = $local_file;
         $this->formatter   = $formatter;
@@ -130,7 +130,7 @@ class SendFileToServerTest extends TestCase
             $this->log,
             $this->local_file,
             $this->remote_file,
-            $this->key
+            $this->private_key
         );
 
         $job->handle($this->process, $this->formatter);

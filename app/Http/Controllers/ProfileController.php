@@ -34,11 +34,6 @@ class ProfileController extends Controller
     private $google2fa;
 
     /**
-     * @var Settings
-     */
-    private $settings;
-
-    /**
      * @var ViewFactory
      */
     private $view;

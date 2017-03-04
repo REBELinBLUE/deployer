@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\View\Presenters;
 
+use Illuminate\Contracts\Translation\Translator;
 use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\stubs\Model;
@@ -12,16 +13,25 @@ use REBELinBLUE\Deployer\Tests\Unit\stubs\Presenter as StubPresenter;
  */
 class PresenterTest extends TestCase
 {
+    private $translator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->translator = m::mock(Translator::class);
+    }
+
     /**
      * @covers ::__get
      * @covers ::toCamelCase
      */
     public function testMagicGet()
     {
-        $model = new Model();
+        $model             = new Model();
         $model->a_property = 'value';
 
-        $presenter = new StubPresenter();
+        $presenter = new StubPresenter($this->translator);
         $presenter->setWrappedObject($model);
 
         $this->assertSame($presenter->foo_bar, $presenter->presentFooBar());
@@ -35,10 +45,10 @@ class PresenterTest extends TestCase
      */
     public function testMagicIsset()
     {
-        $model = new Model();
+        $model             = new Model();
         $model->a_property = 'value';
 
-        $presenter = new StubPresenter();
+        $presenter = new StubPresenter($this->translator);
         $presenter->setWrappedObject($model);
 
         $this->assertTrue(isset($presenter->foo_bar));

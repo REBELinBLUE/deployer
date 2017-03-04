@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\View\Presenters;
 
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Project;
 
 /**
@@ -37,16 +36,16 @@ class ProjectPresenter extends CommandPresenter
     public function presentReadableStatus()
     {
         if ($this->status === Project::FINISHED) {
-            return Lang::get('projects.finished');
+            return $this->translator->get('projects.finished');
         } elseif ($this->status === Project::DEPLOYING) {
-            return Lang::get('projects.deploying');
+            return $this->translator->get('projects.deploying');
         } elseif ($this->status === Project::FAILED) {
-            return Lang::get('projects.failed');
+            return $this->translator->get('projects.failed');
         } elseif ($this->status === Project::PENDING) {
-            return Lang::get('projects.pending');
+            return $this->translator->get('projects.pending');
         }
 
-        return Lang::get('projects.not_deployed');
+        return $this->translator->get('projects.not_deployed');
     }
 
     /**
@@ -189,7 +188,7 @@ class ProjectPresenter extends CommandPresenter
     private function getStatusLabel(array $status)
     {
         if ($status['length'] === 0) {
-            return Lang::get('app.not_applicable');
+            return $this->translator->get('app.not_applicable');
         }
 
         return ($status['length'] - $status['missed']) . ' / ' . $status['length'];

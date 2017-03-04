@@ -312,7 +312,8 @@ class Deployment extends Model implements HasPresenter, RuntimeInterface
         $presenter = $this->getPresenterClass();
 
         /** @var DeploymentPresenter $presenter */
-        $presenter = new $presenter();
+        $presenter = new $presenter(app('translator'));
+
         return $presenter->setWrappedObject($this)->committer_name;
     }
 

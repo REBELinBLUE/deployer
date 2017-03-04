@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\View\Presenters;
 
-use Illuminate\Support\Facades\Lang;
+use Illuminate\Contracts\Translation\Translator;
 use Mockery as m;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -13,6 +13,15 @@ use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
  */
 class ProjectPresenterTest extends TestCase
 {
+    private $translator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->translator = m::mock(Translator::class);
+    }
+
     /**
      * @dataProvider provideCCTrayStatus
      * @covers ::presentCcTrayStatus
@@ -21,7 +30,7 @@ class ProjectPresenterTest extends TestCase
     {
         $project = $this->mockProjectWithStatus($status);
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentCcTrayStatus();
 
@@ -41,9 +50,9 @@ class ProjectPresenterTest extends TestCase
     {
         $project = $this->mockProjectWithStatus($status);
 
-        Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentReadableStatus();
 
@@ -63,7 +72,7 @@ class ProjectPresenterTest extends TestCase
     {
         $project = $this->mockProjectWithStatus($status);
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentIcon();
 
@@ -83,7 +92,7 @@ class ProjectPresenterTest extends TestCase
     {
         $project = $this->mockProjectWithStatus($status);
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentCssClass();
 
@@ -105,9 +114,9 @@ class ProjectPresenterTest extends TestCase
 
         $project = $this->mockProjectWithHealthStatus(0, 0);
 
-        Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentAppStatus();
 
@@ -123,7 +132,7 @@ class ProjectPresenterTest extends TestCase
     {
         $project = $this->mockProjectWithHealthStatus($length, $missed);
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentAppStatus();
 
@@ -144,7 +153,7 @@ class ProjectPresenterTest extends TestCase
     {
         $project = $this->mockProjectWithHealthStatus($length, $missed);
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentAppStatusCss();
 
@@ -166,9 +175,9 @@ class ProjectPresenterTest extends TestCase
 
         $project = $this->mockProjectWithHealthStatus(0, 0, 'heartbeatsStatus');
 
-        Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentHeartBeatStatus();
 
@@ -184,7 +193,7 @@ class ProjectPresenterTest extends TestCase
     {
         $project = $this->mockProjectWithHealthStatus($length, $missed, 'heartbeatsStatus');
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentHeartBeatStatus();
 
@@ -205,7 +214,7 @@ class ProjectPresenterTest extends TestCase
     {
         $project = $this->mockProjectWithHealthStatus($length, $missed, 'heartbeatsStatus');
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentHeartBeatStatusCss();
 
@@ -227,7 +236,7 @@ class ProjectPresenterTest extends TestCase
         $project = m::mock(Project::class);
         $project->shouldReceive('accessDetails')->andReturnNull();
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentTypeIcon();
 
@@ -243,7 +252,7 @@ class ProjectPresenterTest extends TestCase
         $project = m::mock(Project::class);
         $project->shouldReceive('accessDetails')->andReturn(['domain' => $repository]);
 
-        $presenter = new ProjectPresenter();
+        $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->presentTypeIcon();
 

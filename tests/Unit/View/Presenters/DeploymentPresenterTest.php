@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\View\Presenters;
 
-use Illuminate\Support\Facades\Lang;
+use Illuminate\Contracts\Translation\Translator;
 use Mockery as m;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
@@ -10,13 +10,21 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\View\Presenters\DeploymentPresenter;
 use RuntimeException;
-use stdClass;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\View\Presenters\DeploymentPresenter
  */
 class DeploymentPresenterTest extends TestCase
 {
+    private $translator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->translator = m::mock(Translator::class);
+    }
+
     /**
      * @covers ::presentReadableRuntime
      */
@@ -27,7 +35,7 @@ class DeploymentPresenterTest extends TestCase
         $invalid = new User();
 
         // Class which doesn't implement the RuntimeInterface
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($invalid);
         $presenter->presentReadableRuntime();
     }
@@ -40,7 +48,7 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentCcTrayStatus();
 
@@ -60,9 +68,9 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentReadableStatus();
 
@@ -82,7 +90,7 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentIcon();
 
@@ -102,7 +110,7 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentCssClass();
 
@@ -122,7 +130,7 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentTimelineCssClass();
 
@@ -144,7 +152,7 @@ class DeploymentPresenterTest extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->atLeast()->times(1)->with('committer')->andReturn($expected);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentCommitterName();
 
@@ -161,9 +169,9 @@ class DeploymentPresenterTest extends TestCase
         $deployment->shouldReceive('getAttribute')->atLeast()->times(1)->with('committer')->andReturn($committer);
         $deployment->shouldReceive('getAttribute')->atLeast()->times(1)->with('status')->andReturn($status);
 
-        Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentCommitterName();
 
@@ -185,7 +193,7 @@ class DeploymentPresenterTest extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->atLeast()->times(1)->with('short_commit')->andReturn($expected);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentShortCommitHash();
 
@@ -202,9 +210,9 @@ class DeploymentPresenterTest extends TestCase
         $deployment->shouldReceive('getAttribute')->atLeast()->times(1)->with('short_commit')->andReturn($commit);
         $deployment->shouldReceive('getAttribute')->atLeast()->times(1)->with('status')->andReturn($status);
 
-        Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentShortCommitHash();
 
@@ -231,7 +239,7 @@ class DeploymentPresenterTest extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('commands')->andReturn($commands);
 
-        $presenter = new DeploymentPresenter();
+        $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
         $actual    = $presenter->presentOptionalCommandsUsed();
 

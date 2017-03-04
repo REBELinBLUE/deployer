@@ -9,7 +9,7 @@ use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 
 /**
  * A command to make repositories.
- * @todo split into package
+ * @todo Split into package
  */
 class MakeRepositoryCommand extends Command
 {

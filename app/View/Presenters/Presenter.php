@@ -2,15 +2,29 @@
 
 namespace REBELinBLUE\Deployer\View\Presenters;
 
+use Illuminate\Contracts\Translation\Translator;
 use McCool\LaravelAutoPresenter\BasePresenter;
 
 /**
- * Abstract class to allow the presenter methods to be camel case to match the coding style
+ * Abstract class to allow the presenter methods to be camel case to match the coding style.
  */
 abstract class Presenter extends BasePresenter
 {
     /**
-     * Checks if the method exists in camel case, else defers to the parent class
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    /**
+     * Checks if the method exists in camel case, else defers to the parent class.
      *
      * @param string $key
      *
@@ -27,7 +41,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Checks if the method exists in camel case, else defers to the parent class
+     * Checks if the method exists in camel case, else defers to the parent class.
      *
      * @param string $key
      *
@@ -44,7 +58,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Convert a snake_case attribute name to a camelCase method name prefixed with present
+     * Convert a snake_case attribute name to a camelCase method name prefixed with present.
      *
      * @param string $key
      *

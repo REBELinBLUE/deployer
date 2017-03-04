@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;

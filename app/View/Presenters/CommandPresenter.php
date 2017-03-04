@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\View\Presenters;
 
-use Illuminate\Support\Facades\Lang;
 use REBELinBLUE\Deployer\Command;
 
 /**
@@ -127,6 +126,6 @@ class CommandPresenter extends Presenter
             return implode(', ', $commands);
         }
 
-        return Lang::get('app.none');
+        return $this->translator->get('app.none');
     }
 }

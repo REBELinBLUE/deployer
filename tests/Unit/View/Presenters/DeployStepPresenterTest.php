@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\View\Presenters;
 
-use Illuminate\Support\Facades\Lang;
+use Illuminate\Contracts\Translation\Translator;
 use Mockery as m;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\DeployStep;
@@ -14,6 +14,15 @@ use REBELinBLUE\Deployer\View\Presenters\DeployStepPresenter;
  */
 class DeployStepPresenterTest extends TestCase
 {
+    private $translator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->translator = m::mock(Translator::class);
+    }
+
     /**
      * @covers ::presentName
      */
@@ -28,7 +37,7 @@ class DeployStepPresenterTest extends TestCase
         $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('command_id')->andReturn(1);
         $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('command')->andReturn($command);
 
-        $presenter = new DeployStepPresenter();
+        $presenter = new DeployStepPresenter($this->translator);
         $presenter->setWrappedObject($step);
         $actual    = $presenter->presentName();
 
@@ -45,9 +54,9 @@ class DeployStepPresenterTest extends TestCase
         $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('command_id')->andReturnNull();
         $step->shouldReceive('getAttribute')->atLeast()->times(1)->with('stage')->andReturn($stage);
 
-        Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new DeployStepPresenter();
+        $presenter = new DeployStepPresenter($this->translator);
         $presenter->setWrappedObject($step);
         $actual    = $presenter->presentName();
 

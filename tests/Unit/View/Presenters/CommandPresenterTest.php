@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\View\Presenters;
 
-use Lang;
+use Illuminate\Contracts\Translation\Translator;
 use Mockery as m;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Project;
@@ -14,6 +14,15 @@ use REBELinBLUE\Deployer\View\Presenters\CommandPresenter;
  */
 class CommandPresenterTest extends TestCase
 {
+    private $translator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->translator = m::mock(Translator::class);
+    }
+
     /**
      * @dataProvider provideMethods
      * @covers ::presentBeforeClone
@@ -33,9 +42,9 @@ class CommandPresenterTest extends TestCase
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->atLeast()->times(1)->with('commands')->andReturn([]);
 
-        Lang::shouldReceive('get')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
-        $presenter = new CommandPresenter();
+        $presenter = new CommandPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->{$method}();
 
@@ -66,7 +75,7 @@ class CommandPresenterTest extends TestCase
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->atLeast()->times(1)->with('commands')->andReturn($commands);
 
-        $presenter = new CommandPresenter();
+        $presenter = new CommandPresenter($this->translator);
         $presenter->setWrappedObject($project);
         $actual    = $presenter->{$method}();
 

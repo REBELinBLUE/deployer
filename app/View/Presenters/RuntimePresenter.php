@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\View\Presenters;
 
-use Illuminate\Support\Facades\Lang;
 use RuntimeException;
 
 /**
@@ -33,18 +32,18 @@ trait RuntimePresenter
         ];
 
         if ($seconds === 0) {
-            return Lang::choice('deployments.second', 0, ['time' => 0]);
+            return $this->translator->choice('deployments.second', 0, ['time' => 0]);
         }
 
         // If the runtime is more than 3 hours show a simple message
         if ($seconds >= $units['hour'] * 3) {
-            return Lang::get('deployments.very_long_time');
+            return $this->translator->get('deployments.very_long_time');
         }
 
         $readable = '';
         foreach ($units as $name => $divisor) {
             if ($quot = (int) ($seconds / $divisor)) {
-                $readable .= Lang::choice('deployments.' . $name, $quot, ['time' => $quot]) . ', ';
+                $readable .= $this->translator->choice('deployments.' . $name, $quot, ['time' => $quot]) . ', ';
                 $seconds -= $quot * $divisor;
             }
         }
