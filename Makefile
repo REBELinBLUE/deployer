@@ -171,10 +171,6 @@ else
 	@$(MAKE) integration
 endif
 
-# Upload code coverage
-codecov:
-	@if [ -f coverage.xml ]; then /usr/bin/env bash <(curl -s https://codecov.io/bash); fi
-
 HELP_FUN = %help; \
 	while(<>) { push @{$$help{$$2 // 'options'}}, [$$1, $$3] \
 	if /^([a-zA-Z\-]+)\s*:.*\#\#(?:@([a-zA-Z\-]+))?\s(.*)$$/ }; \

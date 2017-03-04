@@ -81,7 +81,10 @@ after_script:
   - cat $TRAVIS_BUILD_DIR/.env
 
 after_success:
-  - make codecov
+  - |
+    if [[ -f coverage.xml ]]; then
+      bash <(curl -s https://codecov.io/bash)
+    fi
 
 notifications:
   email: false
