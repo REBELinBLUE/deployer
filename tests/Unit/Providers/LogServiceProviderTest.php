@@ -16,6 +16,7 @@ class LogServiceProviderTest extends TestCase
 {
     /**
      * @covers ::configureSingleHandler
+     * @covers ::getFileName
      */
     public function testConfigureSingleHandler()
     {
@@ -31,7 +32,7 @@ class LogServiceProviderTest extends TestCase
         $app->shouldReceive('make')->once()->with('config')->andReturn($config);
 
         $writer = m::mock(Writer::class);
-        $writer->shouldReceive('useFiles')->once()->shouldReceive('/tmp/logs/' . $name . 'log', $level);
+        $writer->shouldReceive('useFiles')->once()->with('/tmp/logs/' . $name . '.log', $level);
 
         $log = new LogServiceProvider($app);
         $log->configureSingleHandler($writer);
@@ -39,6 +40,7 @@ class LogServiceProviderTest extends TestCase
 
     /**
      * @covers ::configureDailyHandler
+     * @covers ::getFileName
      */
     public function testConfigureDailyHandler()
     {
@@ -56,7 +58,7 @@ class LogServiceProviderTest extends TestCase
         $app->shouldReceive('storagePath')->once()->andReturn('/tmp');
 
         $writer = m::mock(Writer::class);
-        $writer->shouldReceive('useDailyFiles')->once()->shouldReceive('/tmp/logs/' . $name . 'log', $days, $level);
+        $writer->shouldReceive('useDailyFiles')->once()->with('/tmp/logs/' . $name . '.log', $days, $level);
 
         $log = new LogServiceProvider($app);
         $log->configureDailyHandler($writer);
