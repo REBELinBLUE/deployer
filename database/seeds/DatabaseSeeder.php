@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CommandTableSeeder::class);
         $this->call(ChannelTableSeeder::class);
         $this->call(HeartbeatTableSeeder::class);
-        $this->call(CheckUrlTableSeeder::class);
+        //$this->call(CheckUrlTableSeeder::class);
         $this->call(TemplateTableSeeder::class);
         $this->call(VariableTableSeeder::class);
         $this->call(SharedFileTableSeeder::class);
