@@ -14,6 +14,7 @@ use REBELinBLUE\Deployer\View\Composers\ThemeComposer;
 class ThemeComposerTest extends TestCase
 {
     /**
+     * @covers ::__construct
      * @covers ::compose
      */
     public function testComposeIncludesDefaultTheme()
@@ -31,6 +32,7 @@ class ThemeComposerTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::compose
      */
     public function testComposeIncludesUserTheme()

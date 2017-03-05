@@ -14,8 +14,8 @@ use REBELinBLUE\Deployer\View\Composers\HeaderComposer;
 class HeaderComposerTest extends TestCase
 {
     /**
-     * @covers ::compose
      * @covers ::__construct
+     * @covers ::compose
      */
     public function testCompose()
     {

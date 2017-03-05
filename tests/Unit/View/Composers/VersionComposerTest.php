@@ -15,8 +15,8 @@ use Version\Version;
 class VersionComposerTest extends TestCase
 {
     /**
-     * @covers ::compose
      * @covers ::__construct
+     * @covers ::compose
      */
     public function testCompose()
     {

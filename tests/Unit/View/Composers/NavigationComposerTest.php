@@ -15,8 +15,8 @@ use REBELinBLUE\Deployer\View\Composers\NavigationComposer;
 class NavigationComposerTest extends TestCase
 {
     /**
-     * @covers ::compose
      * @covers ::__construct
+     * @covers ::compose
      */
     public function testComposeWithProject()
     {
@@ -43,6 +43,7 @@ class NavigationComposerTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::compose
      */
     public function testComposeWithoutProject()
