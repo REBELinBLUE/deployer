@@ -17,7 +17,7 @@ class RedirectIfAuthenticated
     private $redirector;
 
     /**
-     * @var Factory
+     * @var AuthFactory
      */
     private $auth;
 

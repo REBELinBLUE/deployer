@@ -8,11 +8,15 @@ use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection;
+use McCool\LaravelAutoPresenter\AutoPresenter;
 use REBELinBLUE\Deployer\Command;
+use REBELinBLUE\Deployer\DeployStep;
+use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
+use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 
 /**
  * The controller for showing the status of deployments.
@@ -111,27 +115,35 @@ class DeploymentController extends Controller
     /**
      * Show the deployment details.
      *
-     * @param int $deployment_id
+     * @param int           $deployment_id
+     * @param UrlGenerator  $url
+     * @param AutoPresenter $presenter
      *
-     * @param  UrlGenerator          $url
      * @return \Illuminate\View\View
      */
-    public function show($deployment_id, UrlGenerator $url)
+    public function show($deployment_id, UrlGenerator $url, AutoPresenter $presenter)
     {
+        /** @var Deployment $deployment */
         $deployment = $this->deploymentRepository->getById($deployment_id);
 
         $output = new Collection();
         foreach ($deployment->steps as $step) {
-            foreach ($step->servers as $server) {
-                $server->server;
+            /** @var DeployStep $step */
+            foreach ($step->servers as $log) {
+                /* @var ServerLog $log */
+                $log->load('server');
 
-                $server->runtime = ($server->runtime() === false ? null : $server->getPresenter()->readable_runtime);
-                $server->output  = ((is_null($server->output) || !strlen($server->output)) ? null : '');
+                /** @var ServerLogPresenter $decorated */
+                $decorated = $presenter->decorate($log);
 
-                $output->push($server);
+                $log->runtime = $log->runtime() === false ? null : $decorated->readable_runtime;
+                $log->output  = ((is_null($log->output) || !strlen($log->output)) ? null : '');
+
+                $output->push($log);
             }
         }
 
+        /** @var Project $project */
         $project = $deployment->project;
 
         return $this->view->make('deployment.details', [
@@ -254,12 +266,18 @@ class DeploymentController extends Controller
      * @param int                          $log_id
      * @param ServerLogRepositoryInterface $repository
      *
+     * @param  AutoPresenter $presenter
      * @return ServerLog
      */
-    public function log($log_id, ServerLogRepositoryInterface $repository)
+    public function log($log_id, ServerLogRepositoryInterface $repository, AutoPresenter $presenter)
     {
-        $log          = $repository->getById($log_id);
-        $log->runtime = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
+        /** @var ServerLog $log */
+        $log = $repository->getById($log_id);
+
+        /** @var ServerLogPresenter $decorated */
+        $decorated = $presenter->decorate($log);
+
+        $log->runtime = $log->runtime() === false ? null : $decorated->readable_runtime;
 
         return $log;
     }
