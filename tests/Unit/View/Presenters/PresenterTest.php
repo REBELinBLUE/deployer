@@ -23,6 +23,7 @@ class PresenterTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::__get
      * @covers ::toCamelCase
      */
@@ -40,6 +41,7 @@ class PresenterTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::__isset
      * @covers ::toCamelCase
      */

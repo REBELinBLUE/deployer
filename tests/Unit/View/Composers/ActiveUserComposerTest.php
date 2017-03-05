@@ -14,6 +14,7 @@ use REBELinBLUE\Deployer\View\Composers\ActiveUserComposer;
 class ActiveUserComposerTest extends TestCase
 {
     /**
+     * @covers ::__construct
      * @covers ::compose
      */
     public function testCompose()
