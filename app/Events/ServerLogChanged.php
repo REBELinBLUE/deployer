@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
+use McCool\LaravelAutoPresenter\AutoPresenter;
 use REBELinBLUE\Deployer\ServerLog;
 
 /**
@@ -46,16 +47,20 @@ class ServerLogChanged implements ShouldBroadcast
     /**
      * ServerLogChanged constructor.
      *
-     * @param ServerLog $log
+     * @param ServerLog     $log
+     * @param AutoPresenter $presenter
      */
-    public function __construct(ServerLog $log)
+    public function __construct(ServerLog $log, AutoPresenter $presenter)
     {
-        $this->status      = $log->status;
-        $this->started_at  = $log->started_at ? $log->started_at->toDateTimeString() : null;
-        $this->finished_at = $log->finished_at ? $log->finished_at->toDateTimeString() : null;
-        $this->log_id      = $log->id;
-        $this->output      = ((is_null($log->output) || !strlen($log->output)) ? null : '');
-        $this->runtime     = ($log->runtime() === false ? null : $log->getPresenter()->readable_runtime);
+        /** @var ServerLogPresenter $decorated */
+        $decorated = $presenter->decorate($log);
+
+        $this->status       = $log->status;
+        $this->started_at   = $log->started_at ? $log->started_at->toDateTimeString() : null;
+        $this->finished_at  = $log->finished_at ? $log->finished_at->toDateTimeString() : null;
+        $this->log_id       = $log->id;
+        $this->output       = ((is_null($log->output) || !strlen($log->output)) ? null : '');
+        $this->runtime      = $log->runtime() === false ? null : $decorated->readable_runtime;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Events;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use McCool\LaravelAutoPresenter\AutoPresenter;
 use Mockery as m;
 use REBELinBLUE\Deployer\Events\ServerLogChanged;
 use REBELinBLUE\Deployer\ServerLog;
@@ -15,12 +16,25 @@ use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
  */
 class ServerLogChangedTest extends TestCase
 {
+    private $presenter;
+    private $decorator;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->presenter = m::mock(ServerLogPresenter::class);
+
+        $this->decorator = m::mock(AutoPresenter::class);
+        $this->decorator->shouldReceive('decorate')->andReturn($this->presenter);
+    }
+
     /**
      * @covers ::broadcastOn
      */
     public function testBroadcastOn()
     {
-        $event = new ServerLogChanged($this->mockServerlog(1, ''));
+        $event = new ServerLogChanged($this->mockServerlog(1, ''), $this->decorator);
         $this->assertSame(['serverlog'], $event->broadcastOn());
     }
 
@@ -29,7 +43,7 @@ class ServerLogChangedTest extends TestCase
      */
     public function testIsBroadcastable()
     {
-        $event = new ServerLogChanged($this->mockServerlog(10, ''));
+        $event = new ServerLogChanged($this->mockServerlog(10, ''), $this->decorator);
         $this->assertInstanceOf(ShouldBroadcast::class, $event);
     }
 
@@ -38,10 +52,13 @@ class ServerLogChangedTest extends TestCase
      */
     public function testAttributesAreSet()
     {
-        $server_id     = 1000;
-        $status        = ServerLog::COMPLETED;
+        $server_id = 1000;
+        $status    = ServerLog::COMPLETED;
 
-        $event = new ServerLogChanged($this->mockServerlog($server_id, 'output-log', $status));
+        $event = new ServerLogChanged(
+            $this->mockServerlog($server_id, 'output-log', $status),
+            $this->decorator
+        );
 
         $this->assertSame($server_id, $event->log_id);
         $this->assertSame($status, $event->status);
@@ -56,7 +73,10 @@ class ServerLogChangedTest extends TestCase
      */
     public function testEmptyLogReturnsNull()
     {
-        $event = new ServerLogChanged($this->mockServerlog(1, '', ServerLog::COMPLETED));
+        $event = new ServerLogChanged(
+            $this->mockServerlog(1, '', ServerLog::COMPLETED),
+            $this->decorator
+        );
 
         $this->assertNull($event->output);
     }
@@ -69,7 +89,10 @@ class ServerLogChangedTest extends TestCase
         $started = Carbon::create(2016, 1, 1, 12, 25, 00, 'UTC');
         $ended   = Carbon::create(2016, 1, 1, 12, 32, 15, 'UTC');
 
-        $event = new ServerLogChanged($this->mockServerlog(1, '', ServerLog::COMPLETED, $started, $ended));
+        $event = new ServerLogChanged(
+            $this->mockServerlog(1, '', ServerLog::COMPLETED, $started, $ended),
+            $this->decorator
+        );
 
         $this->assertSame('2016-01-01 12:25:00', $event->started_at);
         $this->assertSame('2016-01-01 12:32:15', $event->finished_at);
@@ -85,13 +108,12 @@ class ServerLogChangedTest extends TestCase
         $started = Carbon::create(2016, 1, 1, 12, 25, 00, 'UTC');
         $ended   = Carbon::create(2016, 1, 1, 12, 32, 15, 'UTC');
 
-        $presenter = m::mock(ServerLogPresenter::class);
-        $presenter->shouldReceive('presentReadableRuntime')->andReturn($expected);
+        $this->presenter->shouldReceive('presentReadableRuntime')->andReturn($expected);
 
-        $log = $this->mockServerlog(1, '', ServerLog::COMPLETED, $started, $ended, 735);
-        $log->shouldReceive('getPresenter')->once()->andReturn($presenter);
-
-        $event = new ServerLogChanged($log);
+        $event = new ServerLogChanged(
+            $this->mockServerlog(1, '', ServerLog::COMPLETED, $started, $ended, 735),
+            $this->decorator
+        );
 
         $this->assertSame($expected, $event->runtime);
     }
