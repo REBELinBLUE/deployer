@@ -29,6 +29,7 @@ class RequestProjectCheckUrlTest extends TestCase
         $url = $this->mockCheckUrl($expected);
         $url->shouldReceive('online')->once();
         $url->shouldNotReceive('offline');
+        $url->shouldReceive('save');
 
         $links = new Collection();
         $links->push($url);
@@ -51,6 +52,7 @@ class RequestProjectCheckUrlTest extends TestCase
         $url = $this->mockCheckUrl($expected);
         $url->shouldReceive('offline')->once();
         $url->shouldNotReceive('online');
+        $url->shouldReceive('save');
 
         $links = new Collection();
         $links->push($url);
@@ -75,14 +77,14 @@ class RequestProjectCheckUrlTest extends TestCase
         $url1 = $this->mockCheckUrl($expected1);
         $url1->shouldReceive('online')->once();
         $url1->shouldNotReceive('offline');
+        $url1->shouldReceive('save');
 
         $url2 = $this->mockCheckUrl($expected2);
         $url2->shouldReceive('offline')->once();
         $url2->shouldNotReceive('online');
+        $url2->shouldReceive('save');
 
-        $links = new Collection();
-        $links->push($url1);
-        $links->push($url2);
+        $links = new Collection([$url1, $url2]);
 
         $job = new RequestProjectCheckUrl($links);
         $job->handle($client);

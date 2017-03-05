@@ -1,23 +1,24 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
+namespace REBELinBLUE\Deployer\Tests\Unit\Events\Listeners;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
+use REBELinBLUE\Deployer\Events\Listeners\SendHeartbeatNotifications;
 use REBELinBLUE\Deployer\Heartbeat;
-use REBELinBLUE\Deployer\Listeners\SendHeartbeatNotification;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Listeners\SendHeartbeatNotification
+ * @coversDefaultClass \REBELinBLUE\Deployer\Events\Listeners\SendHeartbeatNotifications
  */
-class SendHeartbeatNotificationTest extends TestCase
+class SendHeartbeatNotificationsTest extends TestCase
 {
     /**
      * @dataProvider provideTestNotificationData
+     * @covers ::__construct
      * @covers ::handle
      */
     public function testHandleSendsNotification(
@@ -50,7 +51,7 @@ class SendHeartbeatNotificationTest extends TestCase
 
         Notification::fake();
 
-        $listener = new SendHeartbeatNotification($translator);
+        $listener = new SendHeartbeatNotifications($translator);
         $listener->handle(new $event($heartbeat));
 
         Notification::assertSentTo($channel, $notification);
@@ -58,6 +59,6 @@ class SendHeartbeatNotificationTest extends TestCase
 
     public function provideTestNotificationData()
     {
-        return $this->fixture('Listeners/SendSignupEmail')['notifications'];
+        return $this->fixture('Listeners/SendHeartbeatNotifications')['notifications'];
     }
 }

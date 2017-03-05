@@ -1,19 +1,19 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
+namespace REBELinBLUE\Deployer\Tests\Unit\Events\Listeners;
 
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Session\Store;
 use Mockery as m;
-use REBELinBLUE\Deployer\Listeners\CreateJwt;
+use REBELinBLUE\Deployer\Events\Listeners\CreateJwt;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 use Tymon\JWTAuth\JWTAuth;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Listeners\CreateJwt
+ * @coversDefaultClass \REBELinBLUE\Deployer\Events\Listeners\CreateJwt
  */
 class CreateJwtTest extends TestCase
 {

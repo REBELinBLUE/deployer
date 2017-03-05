@@ -4,10 +4,7 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use McCool\LaravelAutoPresenter\HasPresenter;
-use REBELinBLUE\Deployer\Jobs\GenerateKey;
-use REBELinBLUE\Deployer\Jobs\RegeneratePublicKey;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
 use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
@@ -19,7 +16,7 @@ use Version\Compare as VersionCompare;
  */
 class Project extends Model implements HasPresenter
 {
-    use SoftDeletes, BroadcastChanges, ProjectRelations, DispatchesJobs;
+    use SoftDeletes, BroadcastChanges, ProjectRelations;
 
     const FINISHED     = 0;
     const PENDING      = 1;
@@ -88,29 +85,6 @@ class Project extends Model implements HasPresenter
      * @var array
      */
     protected $checkurlStatus = [];
-
-    /**
-     * Override the boot method to bind model event listeners.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        // When  creating the model generate an SSH Key pair and a webhook hash
-        static::saving(function (Project $model) {
-            if (!array_key_exists('private_key', $model->attributes) || $model->private_key === '') {
-                $model->dispatch(new GenerateKey($model));
-            }
-
-            if (!array_key_exists('public_key', $model->attributes) || $model->public_key === '') {
-                $model->dispatch(new RegeneratePublicKey($model));
-            }
-
-            if (!array_key_exists('hash', $model->attributes)) {
-                $model->generateHash();
-            }
-        });
-    }
 
     /**
      * Determines whether the project is currently being deployed.

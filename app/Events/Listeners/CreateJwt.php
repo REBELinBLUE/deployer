@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Listeners;
+namespace REBELinBLUE\Deployer\Events\Listeners;
 
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;

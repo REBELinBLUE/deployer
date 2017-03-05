@@ -42,9 +42,11 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
                 $client->get($link->url);
 
                 $link->online();
-            } catch (\Exception $error) { // FIXME: Change te exception
+            } catch (\Exception $error) { // FIXME: Change the exception
                 $link->offline();
             }
+
+            $link->save();
         });
     }
 }

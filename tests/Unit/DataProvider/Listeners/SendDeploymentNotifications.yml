@@ -1,5 +1,5 @@
 fixture:
-  notification:
+  notifications:
     -
       notification: REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFailed
       successful: false

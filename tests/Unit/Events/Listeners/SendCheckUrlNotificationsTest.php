@@ -1,23 +1,24 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
+namespace REBELinBLUE\Deployer\Tests\Unit\Events\Listeners;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\CheckUrl;
-use REBELinBLUE\Deployer\Listeners\SendCheckUrlNotification;
+use REBELinBLUE\Deployer\Events\Listeners\SendCheckUrlNotifications;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Listeners\SendCheckUrlNotification
+ * @coversDefaultClass \REBELinBLUE\Deployer\Events\Listeners\SendCheckUrlNotifications
  */
-class SendCheckUrlNotificationTest extends TestCase
+class SendCheckUrlNotificationsTest extends TestCase
 {
     /**
      * @dataProvider provideTestNotificationData
+     * @covers ::__construct
      * @covers ::handle
      */
     public function testHandleSendsNotification(
@@ -50,7 +51,7 @@ class SendCheckUrlNotificationTest extends TestCase
 
         Notification::fake();
 
-        $listener = new SendCheckUrlNotification($translator);
+        $listener = new SendCheckUrlNotifications($translator);
         $listener->handle(new $event($url));
 
         Notification::assertSentTo($channel, $notification);
@@ -58,6 +59,6 @@ class SendCheckUrlNotificationTest extends TestCase
 
     public function provideTestNotificationData()
     {
-        return $this->fixture('Listeners/SendCheckUrlNotification')['notifications'];
+        return $this->fixture('Listeners/SendCheckUrlNotifications')['notifications'];
     }
 }

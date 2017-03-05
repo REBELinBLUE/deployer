@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Repositories;
 
 use Illuminate\Contracts\Hashing\Hasher;
-use Illuminate\Support\Facades\App;
 use Mockery as m;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\EloquentUserRepository;
@@ -48,7 +47,7 @@ class EloquentUserRepositoryTest extends EloquentRepositoryTestCase
         // Replace the hasher so that we can ensure the password is encrypted but that a known value is returned
         $mock = m::mock(Hasher::class);
         $mock->shouldReceive('make')->andReturn($expectedPassword);
-        App::instance('hash', $mock);
+        $this->app->instance('hash', $mock);
 
         $model = m::mock(User::class);
         $model->shouldReceive('create')->once()->with($create)->andReturn($expected);
@@ -112,7 +111,7 @@ class EloquentUserRepositoryTest extends EloquentRepositoryTestCase
 
         $mock = m::mock(Hasher::class);
         $mock->shouldReceive('make')->andReturn($expectedPassword);
-        App::instance('hash', $mock);
+        $this->app->instance('hash', $mock);
 
         $expected = m::mock(User::class);
         $expected->shouldReceive('update')->once()->with($update);

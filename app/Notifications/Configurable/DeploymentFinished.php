@@ -37,7 +37,7 @@ abstract class DeploymentFinished extends Notification
     /**
      * @var Translator
      */
-    private $translator;
+    protected $translator;
 
     /**
      * Create a new notification instance.

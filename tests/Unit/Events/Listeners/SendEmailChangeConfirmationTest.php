@@ -1,18 +1,18 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
+namespace REBELinBLUE\Deployer\Tests\Unit\Events\Listeners;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use REBELinBLUE\Deployer\Events\EmailChangeRequested;
-use REBELinBLUE\Deployer\Listeners\SendEmailChangeConfirmation;
+use REBELinBLUE\Deployer\Events\Listeners\SendEmailChangeConfirmation;
 use REBELinBLUE\Deployer\Notifications\System\ChangeEmail;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Listeners\SendEmailChangeConfirmation
+ * @coversDefaultClass \REBELinBLUE\Deployer\Events\Listeners\SendEmailChangeConfirmation
  */
 class SendEmailChangeConfirmationTest extends TestCase
 {

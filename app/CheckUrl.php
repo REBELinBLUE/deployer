@@ -4,10 +4,6 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use REBELinBLUE\Deployer\Events\UrlDown;
-use REBELinBLUE\Deployer\Events\UrlUp;
-use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
@@ -15,7 +11,7 @@ use REBELinBLUE\Deployer\Traits\BroadcastChanges;
  */
 class CheckUrl extends Model
 {
-    use SoftDeletes, BroadcastChanges, DispatchesJobs;
+    use SoftDeletes, BroadcastChanges;
 
     const ONLINE   = 0;
     const UNTESTED = 1;
@@ -56,21 +52,6 @@ class CheckUrl extends Model
     protected $dates = ['last_seen'];
 
     /**
-     * Override the boot method to bind model event listeners.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        // When saving the model, if the URL has changed we need to test it
-        static::saved(function (CheckUrl $model) {
-            if ($model->status === self::UNTESTED) {
-                $model->dispatch(new RequestProjectCheckUrl(collect([$model])));
-            }
-        });
-    }
-
-    /**
      * Define a mutator to set the status to untested if the URL changes.
      *
      * @param string $value
@@ -92,17 +73,9 @@ class CheckUrl extends Model
      */
     public function online()
     {
-        $isCurrentlyHealthy = ($this->status === self::UNTESTED || $this->isHealthy());
-
         $this->status    = self::ONLINE;
         $this->missed    = 0;
         $this->last_seen = $this->freshTimestamp();
-
-        if (!$isCurrentlyHealthy) {
-            event(new UrlUp($this));
-        }
-
-        return $this->save();
     }
 
     /**
@@ -112,12 +85,8 @@ class CheckUrl extends Model
      */
     public function offline()
     {
-        $this->status    = self::OFFLINE;
-        $this->missed    = $this->missed + 1;
-
-        event(new UrlDown($this));
-
-        return $this->save();
+        $this->status = self::OFFLINE;
+        $this->missed = $this->missed + 1;
     }
 
     /**

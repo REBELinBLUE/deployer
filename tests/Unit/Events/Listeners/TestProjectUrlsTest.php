@@ -1,18 +1,18 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
+namespace REBELinBLUE\Deployer\Tests\Unit\Events\Listeners;
 
 use Illuminate\Support\Collection;
 use Mockery as m;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
+use REBELinBLUE\Deployer\Events\Listeners\TestProjectUrls;
 use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
-use REBELinBLUE\Deployer\Listeners\TestProjectUrls;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Listeners\TestProjectUrls
+ * @coversDefaultClass \REBELinBLUE\Deployer\Events\Listeners\TestProjectUrls
  */
 class TestProjectUrlsTest extends TestCase
 {

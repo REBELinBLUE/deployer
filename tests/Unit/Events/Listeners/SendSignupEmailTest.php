@@ -1,18 +1,18 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
+namespace REBELinBLUE\Deployer\Tests\Unit\Events\Listeners;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
 use Mockery as m;
+use REBELinBLUE\Deployer\Events\Listeners\SendSignupEmail;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
-use REBELinBLUE\Deployer\Listeners\SendSignupEmail;
 use REBELinBLUE\Deployer\Notifications\System\NewAccount;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\User;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Listeners\SendSignupEmail
+ * @coversDefaultClass \REBELinBLUE\Deployer\Events\Listeners\SendSignupEmail
  */
 class SendSignupEmailTest extends TestCase
 {

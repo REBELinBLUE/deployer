@@ -96,10 +96,6 @@ coverage: ##@tests Test Coverage HTML
 		--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
 	@rm storage/app/tmp/*.cov
 
-phpunit-fast: ##@tests Unit Tests - Excluding slow model tests which touch the database
-	@echo "${GREEN}Fast unit tests${RESET}"
-	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests" --exclude-group slow
-
 phpunit: ##@tests Unit Tests
 	@echo "${GREEN}Unit tests${RESET}"
 	@php vendor/bin/phpunit --no-coverage --testsuite "Unit Tests"
@@ -109,7 +105,7 @@ integration: ##@tests Integration Tests
 	@php vendor/bin/phpunit --no-coverage --testsuite "Integration Tests"
 
 quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
-quicktest: install-dev lint phpcs phpdoc-check phpcpd phpunit-fast
+quicktest: install-dev lint phpcs phpdoc-check phpcpd
 
 test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
 test: install-dev lint phpcs phpdoc-check phpunit phpcpd phpmd phpstan

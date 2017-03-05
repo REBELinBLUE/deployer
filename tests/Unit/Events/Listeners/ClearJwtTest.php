@@ -1,14 +1,14 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
+namespace REBELinBLUE\Deployer\Tests\Unit\Events\Listeners;
 
 use Illuminate\Session\Store;
 use Mockery as m;
-use REBELinBLUE\Deployer\Listeners\ClearJwt;
+use REBELinBLUE\Deployer\Events\Listeners\ClearJwt;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Listeners\ClearJwt
+ * @coversDefaultClass \REBELinBLUE\Deployer\Events\Listeners\ClearJwt
  */
 class ClearJwtTest extends TestCase
 {

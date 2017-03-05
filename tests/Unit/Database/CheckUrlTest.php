@@ -3,14 +3,8 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Database;
 
 use Carbon\Carbon;
-use GuzzleHttp\Client as HttpClient;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\App;
-use Mockery as m;
 use REBELinBLUE\Deployer\CheckUrl;
-use REBELinBLUE\Deployer\Events\UrlDown;
-use REBELinBLUE\Deployer\Events\UrlUp;
-use REBELinBLUE\Deployer\Jobs\RequestProjectCheckUrl;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\Traits\BroadcastChanges;
 
@@ -27,11 +21,11 @@ class CheckUrlTest extends TestCase
      */
     public function testOffline()
     {
-        $this->expectsEvents(UrlDown::class);
-
         /** @var CheckUrl $url */
-        $url = factory(CheckUrl::class)->create([
-            'status' => CheckUrl::ONLINE,
+        $url = factory(CheckUrl::class)->make([
+            'project_id' => 1,
+            'status'     => CheckUrl::ONLINE,
+            'missed'     => 0,
         ]);
 
         $url->offline();
@@ -45,12 +39,11 @@ class CheckUrlTest extends TestCase
      */
     public function testOfflineIncreasesMissed()
     {
-        $this->expectsEvents(UrlDown::class);
-
         /** @var CheckUrl $url */
-        $url = factory(CheckUrl::class)->create([
-            'status' => CheckUrl::OFFLINE,
-            'missed' => 5,
+        $url = factory(CheckUrl::class)->make([
+            'project_id' => 1,
+            'status'     => CheckUrl::OFFLINE,
+            'missed'     => 5,
         ]);
 
         $url->offline();
@@ -64,62 +57,10 @@ class CheckUrlTest extends TestCase
      */
     public function testOnline()
     {
-        $this->doesntExpectEvents(UrlUp::class);
-
         /** @var CheckUrl $url */
-        $url = factory(CheckUrl::class)->create([
-            'status' => CheckUrl::ONLINE,
-        ]);
-
-        Carbon::setTestNow(Carbon::create(2016, 1, 1, 12, 15, 00, 'UTC'));
-
-        $url->online();
-
-        $this->assertSame(CheckUrl::ONLINE, $url->status);
-        $this->assertSame(0, $url->missed);
-        $this->assertSameTimestamp('2016-01-01 12:15:00', $url->last_seen);
-    }
-
-    /**
-     * @covers ::online
-     */
-    public function testOnlineDoesNotDispatchEventWhenPreviouslyUntested()
-    {
-        $this->doesntExpectEvents(UrlUp::class);
-
-        $url = 'http://www.example.com';
-
-        $client = m::mock(HttpClient::class);
-        $client->shouldReceive('get')->once()->with($url);
-
-        $this->app->instance(HttpClient::class, $client);
-
-        /** @var CheckUrl $url */
-        $url = factory(CheckUrl::class)->create([
-            'status' => CheckUrl::UNTESTED,
-            'url'    => $url,
-        ]);
-
-        Carbon::setTestNow(Carbon::create(2016, 1, 1, 12, 15, 00, 'UTC'));
-
-        $url->online();
-
-        $this->assertSame(CheckUrl::ONLINE, $url->status);
-        $this->assertSame(0, $url->missed);
-        $this->assertSameTimestamp('2016-01-01 12:15:00', $url->last_seen);
-    }
-
-    /**
-     * @covers ::online
-     */
-    public function testOnlineDispatchesEventPreviouslyOffline()
-    {
-        $this->expectsEvents(UrlUp::class);
-
-        /** @var CheckUrl $url */
-        $url = factory(CheckUrl::class)->create([
-            'status' => CheckUrl::OFFLINE,
-            'missed' => 3,
+        $url = factory(CheckUrl::class)->make([
+            'project_id' => 1,
+            'status'     => CheckUrl::ONLINE,
         ]);
 
         Carbon::setTestNow(Carbon::create(2016, 1, 1, 12, 15, 00, 'UTC'));
@@ -169,30 +110,6 @@ class CheckUrlTest extends TestCase
 
         $this->assertSame(CheckUrl::ONLINE, $url->status);
         $this->assertSameTimestamp('2016-01-01 12:15:00', $url->last_seen);
-    }
-
-    /**
-     * @covers ::boot
-     */
-    public function testBoot()
-    {
-        $this->expectsJobs(RequestProjectCheckUrl::class);
-        $this->withoutEvents();
-
-        factory(CheckUrl::class)->create();
-    }
-
-    /**
-     * @covers ::boot
-     */
-    public function testBootDoesNotDispatchJobIfTested()
-    {
-        $this->doesntExpectJobs(RequestProjectCheckUrl::class);
-        $this->withoutEvents();
-
-        factory(CheckUrl::class)->create([
-            'status' => CheckUrl::ONLINE,
-        ]);
     }
 
     /**

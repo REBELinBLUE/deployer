@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Listeners;
+namespace REBELinBLUE\Deployer\Events\Listeners;
 
 use Illuminate\Session\Store;
 

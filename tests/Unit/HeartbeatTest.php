@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Tests\Unit;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\App;
 use Mockery as m;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -78,7 +77,7 @@ class HeartbeatTest extends TestCase
              ->with('heartbeats', $hash, true)
              ->andReturn($expected);
 
-        App::instance('url', $mock);
+        $this->app->instance('url', $mock);
 
         $this->mockTokenGenerator($hash);
 

@@ -70,21 +70,6 @@ class Heartbeat extends Model
     }
 
     /**
-     * Override the boot method to bind model event listeners.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        // When first creating the model generate a webhook hash
-        static::creating(function (Heartbeat $model) {
-            if (!array_key_exists('hash', $model->attributes)) {
-                $model->generateHash();
-            }
-        });
-    }
-
-    /**
      * Generates a hash for use in the webhook URL.
      */
     public function generateHash()

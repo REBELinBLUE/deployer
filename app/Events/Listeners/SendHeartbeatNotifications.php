@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Listeners;
+namespace REBELinBLUE\Deployer\Events\Listeners;
 
 use Illuminate\Contracts\Translation\Translator;
 use REBELinBLUE\Deployer\Events\HeartbeatChanged;
@@ -10,7 +10,7 @@ use REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatRecovered;
 /**
  * Event handler class for heartbeat notifications.
  **/
-class SendHeartbeatNotification
+class SendHeartbeatNotifications
 {
     /**
      * @var Translator
@@ -36,6 +36,7 @@ class SendHeartbeatNotification
 
         $notification = HeartbeatRecovered::class;
         $event        = 'heartbeat_recovered';
+
         if (!$heartbeat->isHealthy()) {
             $notification = HeartbeatMissing::class;
             $event        = 'heartbeat_missing';

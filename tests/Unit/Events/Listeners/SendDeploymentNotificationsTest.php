@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Tests\Unit\Listeners;
+namespace REBELinBLUE\Deployer\Tests\Unit\Events\Listeners;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\Notification;
@@ -8,14 +8,14 @@ use Mockery as m;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
-use REBELinBLUE\Deployer\Listeners\SendDeploymentNotifications;
+use REBELinBLUE\Deployer\Events\Listeners\SendDeploymentNotifications;
 use REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFailed;
 use REBELinBLUE\Deployer\Notifications\Configurable\DeploymentSucceeded;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Listeners\SendDeploymentNotifications
+ * @coversDefaultClass \REBELinBLUE\Deployer\Events\Listeners\SendDeploymentNotifications
  */
 class SendDeploymentNotificationsTest extends TestCase
 {
@@ -55,7 +55,7 @@ class SendDeploymentNotificationsTest extends TestCase
 
     public function provideTestNotificationData()
     {
-        return $this->fixture('Listeners/SendDeploymentNotifications')['notification'];
+        return $this->fixture('Listeners/SendDeploymentNotifications')['notifications'];
     }
 
     public function testHandleDoesNotSendNotificationWhenAborted()

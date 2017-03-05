@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Listeners;
+namespace REBELinBLUE\Deployer\Events\Listeners;
 
 use Illuminate\Contracts\Translation\Translator;
 use REBELinBLUE\Deployer\Events\UrlChanged;
@@ -10,7 +10,7 @@ use REBELinBLUE\Deployer\Notifications\Configurable\UrlRecovered;
 /**
  * Event handler class for URL notifications.
  **/
-class SendCheckUrlNotification
+class SendCheckUrlNotifications
 {
     /**
      * @var Translator

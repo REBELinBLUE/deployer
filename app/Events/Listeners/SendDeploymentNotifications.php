@@ -1,6 +1,6 @@
 <?php
 
-namespace REBELinBLUE\Deployer\Listeners;
+namespace REBELinBLUE\Deployer\Events\Listeners;
 
 use Illuminate\Contracts\Translation\Translator;
 use REBELinBLUE\Deployer\Events\DeploymentFinished;
@@ -41,6 +41,7 @@ class SendDeploymentNotifications
 
         $notification = DeploymentFailed::class;
         $event        = 'deployment_failure';
+
         if ($deployment->isSuccessful()) {
             $notification = DeploymentSucceeded::class;
             $event        = 'deployment_success';

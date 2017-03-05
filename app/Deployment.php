@@ -78,6 +78,7 @@ class Deployment extends Model implements HasPresenter, RuntimeInterface
     {
         parent::boot();
 
+        // FIXME: Change to use the trait
         static::saved(function (Deployment $model) {
             event(new ModelChanged($model, 'deployment'));
         });

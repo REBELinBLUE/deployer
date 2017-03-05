@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use REBELinBLUE\Deployer\Notifications\System\NewTestNotification;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 /**
@@ -65,20 +64,6 @@ class Channel extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
-    }
-
-    /**
-     * Override the boot method to bind model event listeners.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        // When the notification has been saved queue a test
-        static::saved(function (Channel $model) {
-            // FIXME: Change to use an event listener
-            $model->notify(new NewTestNotification(app('translator')));
-        });
     }
 
     /**

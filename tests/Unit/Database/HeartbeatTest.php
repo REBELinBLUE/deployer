@@ -82,47 +82,6 @@ class HeartbeatTest extends TestCase
     }
 
     /**
-     * @covers ::boot
-     */
-    public function testBoot()
-    {
-        $expected = 'my-fake-token';
-
-        $this->mockTokenGenerator($expected);
-
-        /** @var Heartbeat $heartbeat */
-        $heartbeat = factory(Heartbeat::class)->make();
-
-        $this->assertEmpty($heartbeat->hash);
-
-        $heartbeat->save();
-
-        $this->assertSame($expected, $heartbeat->hash);
-    }
-
-    /**
-     * @covers ::boot
-     */
-    public function testBootShouldNotRegenerateHashIfSet()
-    {
-        $expected = 'my-fake-token';
-
-        // Can not mock the token generator and assert that it doesn't receive a call as the
-        // project class is a dependency of heartbeat and it will
-
-        /** @var Heartbeat $heartbeat */
-        $heartbeat = factory(Heartbeat::class)->make();
-
-        $heartbeat->hash = $expected; // Not "fillable"
-
-        $this->assertSame($expected, $heartbeat->hash);
-
-        $heartbeat->save();
-
-        $this->assertSame($expected, $heartbeat->hash);
-    }
-
-    /**
      * @covers \REBELinBLUE\Deployer\Traits\BroadcastChanges::bootBroadcastChanges
      */
     public function testBroadcastCreatedEvent()
