@@ -110,5 +110,5 @@ Elixir(function(mix) {
         'public/js/ie.js',
         'public/js/vendor.js'
     ])
-    .copy('public/fonts', 'public/build/fonts');;
+    .copy('public/fonts', 'public/build/fonts');
 });

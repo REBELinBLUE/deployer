@@ -185,11 +185,11 @@ class RunDeploymentStep
         if (!empty($process)) {
             $cancelled = false;
             $output    = '';
-            $process->run(function ($type, $output_line) use (&$output, &$log, $process, &$cancelled) {
+            $process->run(function ($type, $line) use (&$output, &$log, $process, &$cancelled) {
                 if ($type === Process::ERR) {
-                    $output .= $this->formatter->error($output_line);
+                    $output .= $this->formatter->error($line);
                 } else {
-                    $output .= $this->formatter->info($output_line);
+                    $output .= $this->formatter->info($line);
                 }
 
                 $log->output = $output;
