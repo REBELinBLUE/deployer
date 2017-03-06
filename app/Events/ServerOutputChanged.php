@@ -19,11 +19,6 @@ class ServerOutputChanged implements ShouldBroadcast
     public $log_id;
 
     /**
-     * @var string
-     */
-    public $output;
-
-    /**
      * ServerOutputChanged constructor.
      *
      * @param ServerLog $log
@@ -31,7 +26,6 @@ class ServerOutputChanged implements ShouldBroadcast
     public function __construct(ServerLog $log)
     {
         $this->log_id = $log->id;
-        $this->output = $log->output;
     }
 
     /**

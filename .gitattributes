@@ -80,8 +80,16 @@ phpunit.xml.dist export-ignore
 phpstan.dist.neon export-ignore
 Makefile export-ignore
 
+#
+## Do not try and merge these files
+#
+
 composer.lock -diff
 yarn.lock -diff
+public/build/js/*.js -diff
+public/build/css/*.css -diff
+*.map -diff
+rev-manifest.json -diff
 
 #
 ## Github config

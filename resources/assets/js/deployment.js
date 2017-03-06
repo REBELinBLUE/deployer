@@ -43,6 +43,7 @@ var app = app || {};
         $('form#abort_' + deployment).trigger('submit');
     });
 
+    var fetchingLog = false;
     $('#log').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var log_id = button.attr('id').replace('log_', '');
@@ -58,6 +59,8 @@ var app = app || {};
         $('#action', modal).text(step);
         log.text('');
 
+        fetchingLog = true;
+
         $.ajax({
             type: 'GET',
             url: '/log/' + log_id
@@ -69,30 +72,47 @@ var app = app || {};
             log.show();
             loader.hide();
 
-
             app.listener.on('serverlog-' + log_id + ':REBELinBLUE\\Deployer\\Events\\ServerOutputChanged', function (data) {
-
-                if (data.id === parseInt(log_id)) {
-                    var output = parseOutput(data.output ? data.output : '');
-
-                    var atBottom = false;
-                    if (log.scrollTop() + log.innerHeight() >= log.get(0).scrollHeight) {
-                        atBottom = true;
-                    }
-
-                    log.html(output);
-
-                    if (atBottom) {
-                        log.scrollTop(log.get(0).scrollHeight);
-                    }
+                if (data.log_id === parseInt(log_id)) {
+                  fetchLog(log, data.log_id);
                 }
             });
-        }).fail(function() {
-
         }).always(function() {
-
+            fetchingLog = false;
         });
     });
+
+    $('#log').on('hide.bs.modal', function () {
+        fetchingLog = false;
+    });
+
+    function fetchLog(element, log_id) {
+        if (fetchingLog) {
+            return;
+        }
+
+        fetchingLog = true;
+
+        $.ajax({
+            type: 'GET',
+            url: '/log/' + log_id
+        }).done(function (data) {
+            var output = parseOutput(data.output ? data.output : '');
+            var atBottom = false;
+
+            if (element.scrollTop() + element.innerHeight() >= element.get(0).scrollHeight) {
+                atBottom = true;
+            }
+
+            element.html(output);
+
+            if (atBottom) {
+                element.scrollTop(element.get(0).scrollHeight);
+            }
+        }).always(function() {
+            fetchingLog = false;
+        });
+    }
 
     // FIXME: There has to be a cleaner way to do this surely?
     function parseOutput(output) {

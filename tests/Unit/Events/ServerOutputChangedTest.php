@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Mockery as m;
 use REBELinBLUE\Deployer\Events\ServerOutputChanged;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -20,7 +19,10 @@ class ServerOutputChangedTest extends TestCase
     {
         $expected_id = 12345;
 
-        $event = new ServerOutputChanged($this->mockServerlog($expected_id));
+        $log     = new ServerLog();
+        $log->id = $expected_id;
+
+        $event = new ServerOutputChanged($log);
         $this->assertSame(['serverlog-' . $expected_id], $event->broadcastOn());
     }
 
@@ -29,16 +31,10 @@ class ServerOutputChangedTest extends TestCase
      */
     public function testIsBroadcastable()
     {
-        $event = new ServerOutputChanged($this->mockServerlog(10));
+        $log     = new ServerLog();
+        $log->id = 10;
+
+        $event = new ServerOutputChanged($log);
         $this->assertInstanceOf(ShouldBroadcast::class, $event);
-    }
-
-    private function mockServerlog($expected_id)
-    {
-        $log = m::mock(ServerLog::class);
-        $log->shouldReceive('getAttribute')->once()->with('id')->andReturn($expected_id);
-        $log->shouldReceive('getAttribute')->once()->with('output')->andReturn(null);
-
-        return $log;
     }
 }
