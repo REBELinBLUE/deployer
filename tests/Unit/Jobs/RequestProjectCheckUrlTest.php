@@ -2,8 +2,12 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Jobs;
 
-use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 use Mockery as m;
 use REBELinBLUE\Deployer\CheckUrl;
@@ -23,10 +27,15 @@ class RequestProjectCheckUrlTest extends TestCase
     {
         $expected = 'http://www.google.com';
 
-        $client = m::mock(Client::class);
-        $client->shouldReceive('get')->once()->with($expected);
+        $mock = new MockHandler([
+            new Response(200),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client  = new Client(['handler' => $handler]);
 
         $url = $this->mockCheckUrl($expected);
+        $url->shouldReceive('setAttribute')->with('last_log', null);
         $url->shouldReceive('online')->once();
         $url->shouldNotReceive('offline');
         $url->shouldReceive('save');
@@ -41,50 +50,118 @@ class RequestProjectCheckUrlTest extends TestCase
     /**
      * @covers ::handle
      * @covers ::__construct
+     * @covers ::generateLog
      */
     public function testHandlesOffline()
     {
-        $expected = 'http://www.google.com';
+        $mockHandler = new MockHandler([
+            new RequestException(
+                'Error Communicating with Server',
+                new Request('GET', '/', ['Host' => 'www.example.com']),
+                null
+            ),
+        ]);
 
-        $client = m::mock(Client::class);
-        $client->shouldReceive('get')->once()->with($expected)->andThrow(Exception::class);
+        $log = <<< EOF
+Error Communicating with Server
 
-        $url = $this->mockCheckUrl($expected);
-        $url->shouldReceive('offline')->once();
-        $url->shouldNotReceive('online');
-        $url->shouldReceive('save');
+--- Request ---
+GET / HTTP/1.1
+Host: www.example.com
+EOF;
 
-        $links = new Collection();
-        $links->push($url);
-
-        $job = new RequestProjectCheckUrl($links);
-        $job->handle($client);
+        $this->mockFailure($mockHandler, $log);
     }
 
     /**
      * @covers ::handle
      * @covers ::__construct
+     * @covers ::generateLog
      */
-    public function testHandlesMultiple()
+    public function testHandlesOfflineWithResponse()
+    {
+        $mockHandler = new MockHandler([
+            new RequestException(
+                '`GET http://www.example.com/` resulted in a `404 Not Found` response:' . PHP_EOL . '<p>content</p>',
+                new Request('GET', '/', ['Host' => 'www.example.com']),
+                new Response(404, ['Content-Type' => 'text/html'], '<p>Not Found</p>')
+            ),
+        ]);
+
+        $log = <<< EOF
+`GET http://www.example.com/` resulted in a `404 Not Found` response
+
+--- Request ---
+GET / HTTP/1.1
+Host: www.example.com
+
+--- Response ---
+HTTP/1.1 404 Not Found
+Content-Type: text/html
+
+<p>Not Found</p>
+EOF;
+
+        $this->mockFailure($mockHandler, $log);
+    }
+
+    /**
+     * @covers ::handle
+     * @covers ::__construct
+     * @covers ::generateLog
+     */
+    public function testHandlesMultipleUrls()
     {
         $expected1 = 'http://www.google.com';
         $expected2 = 'http://www.example.com';
 
-        $client = m::mock(Client::class);
-        $client->shouldReceive('get')->once()->with($expected1);
-        $client->shouldReceive('get')->once()->with($expected2)->andThrow(Exception::class);
+        $mock = new MockHandler([
+            new Response(200),
+            new RequestException(
+                'Error Communicating with Server',
+                new Request('GET', '/', ['Host' => 'www.example.com']),
+                null
+            ),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client  = new Client(['handler' => $handler]);
 
         $url1 = $this->mockCheckUrl($expected1);
+        $url1->shouldReceive('setAttribute')->with('last_log', null);
         $url1->shouldReceive('online')->once();
         $url1->shouldNotReceive('offline');
         $url1->shouldReceive('save');
 
         $url2 = $this->mockCheckUrl($expected2);
+        $url2->shouldReceive('setAttribute')->with('last_log', null);
+        $url2->shouldReceive('setAttribute')->with('last_log', m::type('string'));
         $url2->shouldReceive('offline')->once();
         $url2->shouldNotReceive('online');
         $url2->shouldReceive('save');
 
         $links = new Collection([$url1, $url2]);
+
+        $job = new RequestProjectCheckUrl($links);
+        $job->handle($client);
+    }
+
+    private function mockFailure($mockHandler, $log)
+    {
+        $expected = 'http://www.example.com/';
+
+        $handler = HandlerStack::create($mockHandler);
+        $client  = new Client(['handler' => $handler]);
+
+        $url = $this->mockCheckUrl($expected);
+        $url->shouldReceive('setAttribute')->once()->with('last_log', null);
+        $url->shouldNotReceive('online');
+        $url->shouldReceive('offline')->once();
+        $url->shouldReceive('setAttribute')->once()->with('last_log', $log);
+        $url->shouldReceive('save');
+
+        $links = new Collection();
+        $links->push($url);
 
         $job = new RequestProjectCheckUrl($links);
         $job->handle($client);

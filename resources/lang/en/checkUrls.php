@@ -18,6 +18,8 @@ return [
     'failed'                => 'Offline',
     'untested'              => 'Unknown',
     'last_seen'             => 'Last Seen',
+    'log'                   => 'View Failure Log',
+    'log_title'             => 'Failure Log',
 
     // Notifications
     'down_message'          => ':link appears to be down',
