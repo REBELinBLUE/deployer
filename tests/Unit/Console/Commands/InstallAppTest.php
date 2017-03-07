@@ -246,7 +246,8 @@ class InstallAppTest extends TestCase
         $process->shouldReceive('run')->times(2)->withNoArgs();
 
         $process->shouldReceive('run')->once()->with(m::on(function ($callback) {
-            // FIXME: Found a way to test the correct method is called
+            // FIXME: Find a way to test the correct method is called
+            $callback(Process::OUT, '');
             $callback(Process::OUT, 'a-second-line');
             $callback(Process::ERR, 'a-line-of-output');
             $this->assertInstanceOf(Closure::class, $callback);
