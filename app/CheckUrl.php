@@ -60,6 +60,7 @@ class CheckUrl extends Model
     {
         if (!array_key_exists('url', $this->attributes) || $value !== $this->attributes['url']) {
             $this->attributes['status']    = self::UNTESTED;
+            $this->attributes['last_log']  = null;
             $this->attributes['last_seen'] = null;
         }
 

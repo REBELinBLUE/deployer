@@ -2463,7 +2463,8 @@ var app = app || {};
     app.CheckUrlView = Backbone.View.extend({
         tagName:  'tr',
         events: {
-            'click .btn-edit': 'editUrl'
+            'click .btn-edit': 'editUrl',
+            'click .btn-view': 'viewLog'
         },
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
@@ -2478,12 +2479,14 @@ var app = app || {};
             data.icon_css   = 'question';
             data.status     = Lang.get('checkUrls.untested');
             data.has_run    = false;
+            data.has_log    = false;
 
             if (parseInt(this.model.get('status')) === OFFLINE) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.get('checkUrls.failed');
                 data.has_run    = data.last_seen ? true : false;
+                data.has_log    = data.last_log ? true : false;
             } else if (parseInt(this.model.get('status')) === ONLINE) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
@@ -2501,6 +2504,9 @@ var app = app || {};
             this.$el.html(this.template(data));
 
             return this;
+        },
+        viewLog: function() {
+            $('#response pre').text(this.model.get('last_log'));
         },
         editUrl: function() {
             $('#url_id').val(this.model.id);

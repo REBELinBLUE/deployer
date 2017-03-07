@@ -101,6 +101,7 @@
     @include('projects.dialogs.key')
     @include('projects.dialogs.reason')
     @include('projects.dialogs.redeploy')
+    @include('projects.dialogs.log')
 @stop
 
 @section('right-buttons')

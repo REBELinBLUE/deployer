@@ -29,7 +29,8 @@
     background-color: #51a351 !important;
 }
 
-#log pre {
+#log pre,
+#response pre {
     max-height: 300px;
     max-width: 570px;
     overflow: auto;

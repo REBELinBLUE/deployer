@@ -82,7 +82,7 @@
         <td width="10%">
             <div class="btn-group pull-right">
                 <% if (output !== null) { %>
-                    <button type="button" class="btn btn-default" title="{{ trans('deployments.output') }}" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-copy"></i></button>
+                    <button type="button" class="btn btn-default" title="{{ trans('deployments.output') }}" id="log_<%- id %>" data-toggle="modal" data-backdrop="static" data-target="#log"><i class="fa fa-eye"></i></button>
                 <% } %>
             </div>
         </td>
