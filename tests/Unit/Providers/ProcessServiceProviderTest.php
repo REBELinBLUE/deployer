@@ -20,7 +20,6 @@ class ProcessServiceProviderTest extends TestCase
      */
     public function testRegister()
     {
-
         $app = m::mock(Application::class);
         $app->shouldReceive('bind')->with(StepsBuilder::class, m::type('closure'));
         $app->shouldReceive('bind')->with(Parser::class, m::type('closure'));
