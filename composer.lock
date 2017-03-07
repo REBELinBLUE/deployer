@@ -4314,16 +4314,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.1.7",
+            "version": "2.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "1a8192deae1f35aabc3a73aad19cd07c68091dd1"
+                "reference": "f2950be7da8b8d6c4e77821b6c9d486e36cdc4f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/1a8192deae1f35aabc3a73aad19cd07c68091dd1",
-                "reference": "1a8192deae1f35aabc3a73aad19cd07c68091dd1",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/f2950be7da8b8d6c4e77821b6c9d486e36cdc4f3",
+                "reference": "f2950be7da8b8d6c4e77821b6c9d486e36cdc4f3",
                 "shasum": ""
             },
             "require": {
@@ -4371,7 +4371,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2017-03-02T16:54:56+00:00"
+            "time": "2017-03-07T09:04:45+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
@@ -5279,36 +5279,35 @@
         },
         {
             "name": "nette/robot-loader",
-            "version": "v2.4.2",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/robot-loader.git",
-                "reference": "f23f8885624b249d5ec7bb525b9d6b007ab00293"
+                "reference": "459fc6bf08f0fd7f6889897e3acdff523dbf1159"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/robot-loader/zipball/f23f8885624b249d5ec7bb525b9d6b007ab00293",
-                "reference": "f23f8885624b249d5ec7bb525b9d6b007ab00293",
+                "url": "https://api.github.com/repos/nette/robot-loader/zipball/459fc6bf08f0fd7f6889897e3acdff523dbf1159",
+                "reference": "459fc6bf08f0fd7f6889897e3acdff523dbf1159",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
-                "nette/caching": "~2.2",
-                "nette/finder": "~2.3",
-                "nette/utils": "~2.4",
+                "nette/finder": "^2.3 || ^3.0",
+                "nette/utils": "^2.4 || ^3.0",
                 "php": ">=5.6.0"
             },
             "conflict": {
                 "nette/nette": "<2.2"
             },
             "require-dev": {
-                "nette/tester": "~2.0",
+                "nette/tester": "^2.0",
                 "tracy/tracy": "^2.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -5332,9 +5331,16 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "Nette RobotLoader: comfortable autoloading",
+            "description": "🍀 RobotLoader: high performance and comfortable autoloader that will search and autoload classes within your application.",
             "homepage": "https://nette.org",
-            "time": "2017-01-02T17:15:22+00:00"
+            "keywords": [
+                "autoload",
+                "class",
+                "interface",
+                "nette",
+                "trait"
+            ],
+            "time": "2017-02-10T13:44:22+00:00"
         },
         {
             "name": "nette/utils",

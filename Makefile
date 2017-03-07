@@ -85,13 +85,11 @@ dusk: ##@tests Dusk Browser Tests
 coverage: ##@tests Test Coverage HTML
 	@echo "${GREEN}All tests with coverage${RESET}"
 	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
-		--testsuite "Unit Tests" --exclude-group slow,noisy
+		--testsuite "Unit Tests" --exclude-group slow
 	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
-		--testsuite "Unit Tests" --exclude-group default,noisy
+		--testsuite "Unit Tests" --exclude-group default
 	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
 		--testsuite "Integration Tests"
-	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/buggy.cov \
-		--testsuite "Unit Tests" --exclude-group default,slow
 	@phpdbg -qrr vendor/bin/phpcov merge storage/app/tmp/ \
 		--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
 	@rm storage/app/tmp/*.cov

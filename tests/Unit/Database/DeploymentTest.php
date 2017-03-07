@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
 use REBELinBLUE\Deployer\Events\ModelChanged;
@@ -197,7 +198,7 @@ class DeploymentTest extends TestCase
     {
         $expected = 4;
 
-        /** @var Deployment $step */
+        /** @var Deployment $deployment */
         $deployment = factory(Deployment::class)->create();
 
         $actual = $deployment->steps();
@@ -209,6 +210,54 @@ class DeploymentTest extends TestCase
         $this->assertInstanceOf(HasMany::class, $actual);
         $this->assertSame('deployment_id', $actual->getForeignKeyName());
         $this->assertCount($expected, $deployment->steps);
+    }
+
+    /**
+     * @covers ::getCommandsAttribute
+     * @covers ::loadCommands
+     */
+    public function testCommandAttributeWhenEmpty()
+    {
+        /** @var Deployment $deployment */
+        $deployment = factory(Deployment::class)->create();
+        $actual = $deployment->getCommandsAttribute();
+
+        $this->assertSame(0, $actual->count());
+    }
+
+    /**
+     * @covers ::getCommandsAttribute
+     * @covers ::loadCommands
+     */
+    public function testCommandAttributeWhenNotEmpty()
+    {
+        /** @var Deployment $deployment */
+        $deployment = factory(Deployment::class)->create();
+
+        /** @var DeployStep $step */
+        $step = factory(DeployStep::class)->states('custom')->create([
+            'deployment_id' => $deployment->id,
+        ]);
+
+        $original = $deployment->getCommandsAttribute();
+
+        /** @var Command $command */
+        $command = $original->get(0);
+
+        // Add another step to ensure the value is cached
+        factory(DeployStep::class)->states('custom')->create([
+            'deployment_id' => $deployment->id,
+        ]);
+
+        $cached = $deployment->getCommandsAttribute();
+
+        $this->assertSame(1, $original->count());
+        $this->assertSame(1, $cached->count());
+        $this->assertSame($step->command->id, $command->id);
+        $this->assertSame($step->command->name, $command->name);
+        $this->assertSame($step->command->script, $command->script);
+        $this->assertSame($step->command->user, $command->user);
+        $this->assertSame($step->command->step, $command->step);
     }
 
     private function generateAdditionalDeployments(Project $project, $total = 5)

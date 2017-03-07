@@ -26,7 +26,6 @@ use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\InstallApp
- * @group noisy
  */
 class InstallAppTest extends TestCase
 {
