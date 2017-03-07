@@ -11,7 +11,7 @@ use Whoops\Run as Whoops;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Providers\WhoopsServiceProvider
- * @todp This the binding
+ * @todp Test that the correct type of response is returned
  */
 class WhoopsServiceProviderTest extends TestCase
 {
@@ -87,5 +87,13 @@ class WhoopsServiceProviderTest extends TestCase
         $actual = $whoops->provides();
 
         $this->assertSame([], $actual);
+    }
+
+    /**
+     * @covers ::register
+     */
+    public function testRegisterIsExpectedTypes()
+    {
+        $this->assertInstanceOf(Whoops::class, $this->app->make(Whoops::class));
     }
 }

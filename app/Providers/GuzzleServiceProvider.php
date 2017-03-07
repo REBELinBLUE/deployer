@@ -33,8 +33,6 @@ class GuzzleServiceProvider extends ServiceProvider
         $this->app->alias('HttpClient', HttpClient::class);
         $this->app->when(SlackWebhookChannel::class)->needs(HttpClient::class)->give('HttpClient');
 
-        $client = $this->getClient();
-
         $this->app->bind('HttpClient', function (Application $app) use ($client) {
             return $client($app);
         });
