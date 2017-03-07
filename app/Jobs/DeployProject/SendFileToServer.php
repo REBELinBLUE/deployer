@@ -63,9 +63,10 @@ class SendFileToServer
     /**
      * Execute the job.
      *
-     * @param Process $process
-     *
+     * @param Process      $process
      * @param LogFormatter $formatter
+     *
+     * @throws FailedDeploymentException
      */
     public function handle(Process $process, LogFormatter $formatter)
     {

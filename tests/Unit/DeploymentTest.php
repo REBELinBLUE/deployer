@@ -161,7 +161,7 @@ class DeploymentTest extends TestCase
 
     /**
      * @dataProvider provideStatuses
-     * @covers ::isFailed
+     * @covers ::isAborting
      */
     public function testIsAborting($status)
     {

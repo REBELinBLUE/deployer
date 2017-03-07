@@ -207,8 +207,10 @@ class Deployment extends Model implements HasPresenter, RuntimeInterface
                                                               ->first();
         }
 
-        if (isset(self::$currentDeployment[$this->project_id])) {
-            return (self::$currentDeployment[$this->project_id]->id === $this->id);
+        if (isset(self::$currentDeployment[$this->project_id]) &&
+            self::$currentDeployment[$this->project_id]->id === $this->id
+        ) {
+            return true;
         }
 
         return false;
