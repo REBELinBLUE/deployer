@@ -3,12 +3,12 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Providers;
 
 use Illuminate\Foundation\Application;
+use Mockery as m;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment\StepsBuilder;
 use REBELinBLUE\Deployer\Providers\ProcessServiceProvider;
 use REBELinBLUE\Deployer\Services\Scripts\Parser;
 use REBELinBLUE\Deployer\Services\Scripts\Runner;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use Mockery as m;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Providers\ProcessServiceProvider

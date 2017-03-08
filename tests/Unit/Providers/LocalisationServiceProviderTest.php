@@ -8,8 +8,8 @@ use JsLocalization\Caching\MessageCachingService;
 use JsLocalization\Utils\Helper;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use Mockery as m;
-use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Providers\LocalisationServiceProvider;
+use REBELinBLUE\Deployer\Tests\TestCase;
 use Themsaid\Langman\LangmanServiceProvider;
 
 /**
@@ -17,17 +17,6 @@ use Themsaid\Langman\LangmanServiceProvider;
  */
 class LocalisationServiceProviderTest extends TestCase
 {
-    private function mockApp()
-    {
-        $app = m::mock(Application::class);
-        $app->shouldReceive('singleton')->with('locale', m::type('closure'));
-        $app->shouldReceive('singleton')->with('JsLocalizationMessageCachingService', m::type('closure'));
-        $app->shouldReceive('singleton')->with('JsLocalizationHelper', m::type('closure'));
-        $app->shouldReceive('singleton')->with('JsLocalizationConfigCachingService', m::type('closure'));
-
-        return $app;
-    }
-
     /**
      * @covers ::register
      */
@@ -65,5 +54,16 @@ class LocalisationServiceProviderTest extends TestCase
         $this->assertInstanceOf(MessageCachingService::class, $this->app->make('JsLocalizationMessageCachingService'));
         $this->assertInstanceOf(Helper::class, $this->app->make('JsLocalizationHelper'));
         $this->assertInstanceOf(ConfigCachingService::class, $this->app->make('JsLocalizationConfigCachingService'));
+    }
+
+    private function mockApp()
+    {
+        $app = m::mock(Application::class);
+        $app->shouldReceive('singleton')->with('locale', m::type('closure'));
+        $app->shouldReceive('singleton')->with('JsLocalizationMessageCachingService', m::type('closure'));
+        $app->shouldReceive('singleton')->with('JsLocalizationHelper', m::type('closure'));
+        $app->shouldReceive('singleton')->with('JsLocalizationConfigCachingService', m::type('closure'));
+
+        return $app;
     }
 }

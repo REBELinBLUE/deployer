@@ -220,7 +220,7 @@ class DeploymentTest extends TestCase
     {
         /** @var Deployment $deployment */
         $deployment = factory(Deployment::class)->create();
-        $actual = $deployment->getCommandsAttribute();
+        $actual     = $deployment->getCommandsAttribute();
 
         $this->assertSame(0, $actual->count());
     }
