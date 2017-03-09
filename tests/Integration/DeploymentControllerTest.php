@@ -2,12 +2,15 @@
 
 namespace REBELinBLUE\Deployer\Tests\Integration;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\AbortDeployment;
 use REBELinBLUE\Deployer\Jobs\QueueUpdateGitMirror;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\ServerLog;
+use Mockery as m;
+use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -81,11 +84,9 @@ class DeploymentControllerTest extends AuthenticatedTestCase
      * @covers ::__construct
      * @covers ::log
      */
-    public function testLog()
+    public function testLogWithoutRuntime()
     {
         $this->withoutEvents();
-
-        // FIXME: mock decorator and test
 
         /** @var ServerLog $log */
         $log = factory(ServerLog::class)->create();
@@ -96,6 +97,25 @@ class DeploymentControllerTest extends AuthenticatedTestCase
                  ->assertJson(['runtime' => null]);
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::log
+     */
+    public function testLogWithRuntime()
+    {
+        $this->withoutEvents();
+
+        /** @var ServerLog $log */
+        $log = factory(ServerLog::class)->create([
+            'started_at' => Carbon::create(2017, 1, 1, 12, 00, 00),
+            'finished_at' => Carbon::create(2017, 1, 1, 12, 15, 00),
+        ]);
+
+        $response = $this->getJson('/log/1');
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJson($log->toArray())
+            ->assertJson(['runtime' => '15 minutes']);
+    }
     /**
      * @covers ::__construct
      * @covers ::log
