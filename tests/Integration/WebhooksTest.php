@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class WebhooksTest extends TestCase
 {
+    // FIXME: Move these to the actual controllers
     use DatabaseMigrations;
 
     /**
