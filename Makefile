@@ -144,13 +144,13 @@ release: test
 # Create the databases for Travis CI
 travis:
 ifeq "$(DB)" "sqlite"
-	@sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g" .env
+	@sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env
 	@sed -i 's/DB_DATABASE=deployer//g' .env
 	@sed -i 's/DB_USERNAME=travis//g' .env
 	@touch $(TRAVIS_BUILD_DIR)/database/database.sqlite
 else ifeq "$(DB)" "pgsql"
-	@sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g" .env
-	@sed -i "s/DB_USERNAME=travis/DB_USERNAME=postgres/g" .env
+	@sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g' .env
+	@sed -i 's/DB_USERNAME=travis/DB_USERNAME=postgres/g' .env
 	@psql -c 'CREATE DATABASE deployer;' -U postgres;
 else
 	@mysql -e 'CREATE DATABASE deployer;'
@@ -158,16 +158,8 @@ endif
 
 # PHPUnit for Travis
 phpunit-ci:
-ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
-	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
-		--testsuite "Unit Tests" --exclude-group slow
-	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
-		--testsuite "Unit Tests" --exclude-group default
-	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
-		--testsuite "Integration Tests"
-	@php vendor/bin/phpcov merge storage/app/tmp/ \
-		--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
-	@rm storage/app/tmp/*.cov
+ifeq "$(TRAVIS_PHP_VERSION)" "7.1.0"
+	@$(MAKE) coverage
 else
 	@$(MAKE) phpunit
 	@$(MAKE) integration
