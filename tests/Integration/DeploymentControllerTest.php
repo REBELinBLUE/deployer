@@ -32,8 +32,6 @@ class DeploymentControllerTest extends AuthenticatedTestCase
 
         $this->expectsJobs(QueueUpdateGitMirror::class);
 
-        // FIXME: Test 404
-
         $response = $this->postJson('/projects/1/refresh');
         $response->assertStatus(Response::HTTP_OK)->assertExactJson(['success' => true]);
     }
@@ -113,8 +111,8 @@ class DeploymentControllerTest extends AuthenticatedTestCase
 
         $response = $this->getJson('/log/1');
         $response->assertStatus(Response::HTTP_OK)
-            ->assertJson($log->toArray())
-            ->assertJson(['runtime' => '15 minutes']);
+                 ->assertJson($log->toArray())
+                 ->assertJson(['runtime' => '15 minutes']);
     }
     /**
      * @covers ::__construct

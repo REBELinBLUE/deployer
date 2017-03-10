@@ -2,18 +2,21 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Webhooks\Beanstalkapp;
 use REBELinBLUE\Deployer\Services\Webhooks\Bitbucket;
-use REBELinBLUE\Deployer\Services\Webhooks\Custom;
+use REBELinBLUE\Deployer\Services\Webhooks\Custom as CustomWebhook;
 use REBELinBLUE\Deployer\Services\Webhooks\Github;
 use REBELinBLUE\Deployer\Services\Webhooks\Gitlab;
 use REBELinBLUE\Deployer\Services\Webhooks\Gogs;
 use REBELinBLUE\Deployer\Services\Webhooks\Webhook;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * The deployment webhook controller.
@@ -59,38 +62,38 @@ class WebhookController extends Controller
     ) {
         $this->projectRepository    = $projectRepository;
         $this->deploymentRepository = $deploymentRepository;
-
-        $this->services[] = Custom::class;
     }
 
     /**
      * Handles incoming requests to trigger deploy.
      *
      * @param Request $request
-     * @param string  $hash    The webhook hash
+     * @param ResponseFactory $response
+     * @param string $hash The webhook hash
      *
      * @return \Illuminate\View\View
      */
-    public function webhook(Request $request, $hash)
+    public function webhook(Request $request, ResponseFactory $response, $hash)
     {
         $project = $this->projectRepository->getByHash($hash);
 
-        $success = false;
         if ($project->servers->where('deploy_code', true)->count() > 0) {
             $payload = $this->parseWebhookRequest($request, $project);
 
             if (is_array($payload)) {
                 $this->deploymentRepository->abortQueued($project->id);
-                $this->deploymentRepository->create($payload);
 
-                $success = true;
+                $deployment = $this->deploymentRepository->create($payload);
+
+                return $response->json([
+                    'success'       => true,
+                    'deployment_id' => $deployment->id,
+                ], Response::HTTP_CREATED);
             }
         }
 
-        // FIXME: A different status code on failure?
-        return [
-            'success' => $success,
-        ];
+        // FIXME: This should not be HTTP_OK really
+        return $response->json(['success' => false], Response::HTTP_OK);
     }
 
     /**
@@ -119,20 +122,23 @@ class WebhookController extends Controller
      * @param Request $request
      * @param Project $project
      *
-     * @return array|false Either an array of parameters for the deployment config, or false if it is invalid.
+     * @return array Either an array of parameters for the deployment config, or false if it is invalid.
      */
     private function parseWebhookRequest(Request $request, Project $project)
     {
+        $integration = new CustomWebhook($request);
+
         foreach ($this->services as $service) {
             /** @var Webhook $integration */
-            $integration = new $service($request);
+            $service = new $service($request);
 
-            if ($integration->isRequestOrigin()) {
-                return $this->appendProjectSettings($integration->handlePush(), $request, $project);
+            if ($service->isRequestOrigin()) {
+                $integration = $service;
+                break;
             }
         }
 
-        return false;
+        return $this->appendProjectSettings($integration->handlePush(), $request, $project);
     }
 
     /**
@@ -171,9 +177,9 @@ class WebhookController extends Controller
             $valid     = $project->commands->pluck('id');
             $requested = explode(',', $request->get('commands'));
 
-            $payload['optional'] = collect($requested)->unique()
-                                                      ->intersect($valid)
-                                                      ->toArray();
+            $collection = new Collection($requested);
+
+            $payload['optional'] = $collection->unique()->intersect($valid)->toArray();
         }
 
         // If the webhook is allowed to deploy other branches check if the request has an update_only

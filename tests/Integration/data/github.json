@@ -1,0 +1,219 @@
+{
+  "ref": "refs/heads/master",
+  "before": "7736d9889f805e4ac6a98040b7caa96fa44f7e53",
+  "after": "f99aa366c76589b69ef7cd3278e7f20d72b27127",
+  "created": false,
+  "deleted": false,
+  "forced": false,
+  "base_ref": "refs/heads/tests",
+  "compare": "https://github.com/REBELinBLUE/deployer/compare/7736d9889f80...f99aa366c765",
+  "commits": [
+    {
+      "id": "06836b50cd2d057b7ecd6fbe354f034c4f6b0f9e",
+      "tree_id": "3844601f14e01878007771acb1fa6dfa380e8eb2",
+      "distinct": false,
+      "message": "Another integration test",
+      "timestamp": "2017-03-09T15:19:45Z",
+      "url": "https://github.com/REBELinBLUE/deployer/commit/06836b50cd2d057b7ecd6fbe354f034c4f6b0f9e",
+      "author": {
+        "name": "Stephen Ball",
+        "email": "stephen@rebelinblue.com",
+        "username": "REBELinBLUE"
+      },
+      "committer": {
+        "name": "Stephen Ball",
+        "email": "stephen@rebelinblue.com",
+        "username": "REBELinBLUE"
+      },
+      "added": [
+
+      ],
+      "removed": [
+
+      ],
+      "modified": [
+        "tests/Integration/WebhookControllerTest.php",
+        "tests/Integration/WebhooksTest.php"
+      ]
+    },
+    {
+      "id": "f99aa366c76589b69ef7cd3278e7f20d72b27127",
+      "tree_id": "b12a239c1d8dc6d44e0d8a4dbf2d7779106f370b",
+      "distinct": false,
+      "message": "Switching back to xdebug on travis as phpdbg is segfaulting",
+      "timestamp": "2017-03-10T12:06:58Z",
+      "url": "https://github.com/REBELinBLUE/deployer/commit/f99aa366c76589b69ef7cd3278e7f20d72b27127",
+      "author": {
+        "name": "Stephen Ball",
+        "email": "stephen@rebelinblue.com",
+        "username": "REBELinBLUE"
+      },
+      "committer": {
+        "name": "Stephen Ball",
+        "email": "stephen@rebelinblue.com",
+        "username": "REBELinBLUE"
+      },
+      "added": [
+
+      ],
+      "removed": [
+
+      ],
+      "modified": [
+        ".travis.yml",
+        "Makefile",
+        "app/Http/Controllers/WebhookController.php",
+        "composer.lock",
+        "tests/Integration/WebhookControllerTest.php",
+        "tests/Unit/Console/Commands/InstallAppTest.php"
+      ]
+    }
+  ],
+  "head_commit": {
+    "id": "f99aa366c76589b69ef7cd3278e7f20d72b27127",
+    "tree_id": "b12a239c1d8dc6d44e0d8a4dbf2d7779106f370b",
+    "distinct": false,
+    "message": "Switching back to xdebug on travis as phpdbg is segfaulting",
+    "timestamp": "2017-03-10T12:06:58Z",
+    "url": "https://github.com/REBELinBLUE/deployer/commit/f99aa366c76589b69ef7cd3278e7f20d72b27127",
+    "author": {
+      "name": "Stephen Ball",
+      "email": "stephen@rebelinblue.com",
+      "username": "REBELinBLUE"
+    },
+    "committer": {
+      "name": "Stephen Ball",
+      "email": "stephen@rebelinblue.com",
+      "username": "REBELinBLUE"
+    },
+    "added": [
+
+    ],
+    "removed": [
+
+    ],
+    "modified": [
+      ".travis.yml",
+      "Makefile",
+      "app/Http/Controllers/WebhookController.php",
+      "composer.lock",
+      "tests/Integration/WebhookControllerTest.php",
+      "tests/Unit/Console/Commands/InstallAppTest.php"
+    ]
+  },
+  "repository": {
+    "id": 33559148,
+    "name": "deployer",
+    "full_name": "REBELinBLUE/deployer",
+    "owner": {
+      "name": "REBELinBLUE",
+      "email": "REBELinBLUE@users.noreply.github.com",
+      "login": "REBELinBLUE",
+      "id": 2143908,
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2143908?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/REBELinBLUE",
+      "html_url": "https://github.com/REBELinBLUE",
+      "followers_url": "https://api.github.com/users/REBELinBLUE/followers",
+      "following_url": "https://api.github.com/users/REBELinBLUE/following{/other_user}",
+      "gists_url": "https://api.github.com/users/REBELinBLUE/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/REBELinBLUE/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/REBELinBLUE/subscriptions",
+      "organizations_url": "https://api.github.com/users/REBELinBLUE/orgs",
+      "repos_url": "https://api.github.com/users/REBELinBLUE/repos",
+      "events_url": "https://api.github.com/users/REBELinBLUE/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/REBELinBLUE/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "private": false,
+    "html_url": "https://github.com/REBELinBLUE/deployer",
+    "description": "Deployer is a free and open source deployment tool.",
+    "fork": false,
+    "url": "https://github.com/REBELinBLUE/deployer",
+    "forks_url": "https://api.github.com/repos/REBELinBLUE/deployer/forks",
+    "keys_url": "https://api.github.com/repos/REBELinBLUE/deployer/keys{/key_id}",
+    "collaborators_url": "https://api.github.com/repos/REBELinBLUE/deployer/collaborators{/collaborator}",
+    "teams_url": "https://api.github.com/repos/REBELinBLUE/deployer/teams",
+    "hooks_url": "https://api.github.com/repos/REBELinBLUE/deployer/hooks",
+    "issue_events_url": "https://api.github.com/repos/REBELinBLUE/deployer/issues/events{/number}",
+    "events_url": "https://api.github.com/repos/REBELinBLUE/deployer/events",
+    "assignees_url": "https://api.github.com/repos/REBELinBLUE/deployer/assignees{/user}",
+    "branches_url": "https://api.github.com/repos/REBELinBLUE/deployer/branches{/branch}",
+    "tags_url": "https://api.github.com/repos/REBELinBLUE/deployer/tags",
+    "blobs_url": "https://api.github.com/repos/REBELinBLUE/deployer/git/blobs{/sha}",
+    "git_tags_url": "https://api.github.com/repos/REBELinBLUE/deployer/git/tags{/sha}",
+    "git_refs_url": "https://api.github.com/repos/REBELinBLUE/deployer/git/refs{/sha}",
+    "trees_url": "https://api.github.com/repos/REBELinBLUE/deployer/git/trees{/sha}",
+    "statuses_url": "https://api.github.com/repos/REBELinBLUE/deployer/statuses/{sha}",
+    "languages_url": "https://api.github.com/repos/REBELinBLUE/deployer/languages",
+    "stargazers_url": "https://api.github.com/repos/REBELinBLUE/deployer/stargazers",
+    "contributors_url": "https://api.github.com/repos/REBELinBLUE/deployer/contributors",
+    "subscribers_url": "https://api.github.com/repos/REBELinBLUE/deployer/subscribers",
+    "subscription_url": "https://api.github.com/repos/REBELinBLUE/deployer/subscription",
+    "commits_url": "https://api.github.com/repos/REBELinBLUE/deployer/commits{/sha}",
+    "git_commits_url": "https://api.github.com/repos/REBELinBLUE/deployer/git/commits{/sha}",
+    "comments_url": "https://api.github.com/repos/REBELinBLUE/deployer/comments{/number}",
+    "issue_comment_url": "https://api.github.com/repos/REBELinBLUE/deployer/issues/comments{/number}",
+    "contents_url": "https://api.github.com/repos/REBELinBLUE/deployer/contents/{+path}",
+    "compare_url": "https://api.github.com/repos/REBELinBLUE/deployer/compare/{base}...{head}",
+    "merges_url": "https://api.github.com/repos/REBELinBLUE/deployer/merges",
+    "archive_url": "https://api.github.com/repos/REBELinBLUE/deployer/{archive_format}{/ref}",
+    "downloads_url": "https://api.github.com/repos/REBELinBLUE/deployer/downloads",
+    "issues_url": "https://api.github.com/repos/REBELinBLUE/deployer/issues{/number}",
+    "pulls_url": "https://api.github.com/repos/REBELinBLUE/deployer/pulls{/number}",
+    "milestones_url": "https://api.github.com/repos/REBELinBLUE/deployer/milestones{/number}",
+    "notifications_url": "https://api.github.com/repos/REBELinBLUE/deployer/notifications{?since,all,participating}",
+    "labels_url": "https://api.github.com/repos/REBELinBLUE/deployer/labels{/name}",
+    "releases_url": "https://api.github.com/repos/REBELinBLUE/deployer/releases{/id}",
+    "deployments_url": "https://api.github.com/repos/REBELinBLUE/deployer/deployments",
+    "created_at": 1428429316,
+    "updated_at": "2017-03-08T20:34:11Z",
+    "pushed_at": 1489147668,
+    "git_url": "git://github.com/REBELinBLUE/deployer.git",
+    "ssh_url": "git@github.com:REBELinBLUE/deployer.git",
+    "clone_url": "https://github.com/REBELinBLUE/deployer.git",
+    "svn_url": "https://github.com/REBELinBLUE/deployer",
+    "homepage": "http://phpdeployment.org",
+    "size": 20523,
+    "stargazers_count": 455,
+    "watchers_count": 455,
+    "language": "PHP",
+    "has_issues": true,
+    "has_downloads": true,
+    "has_wiki": true,
+    "has_pages": false,
+    "forks_count": 104,
+    "mirror_url": null,
+    "open_issues_count": 22,
+    "forks": 104,
+    "open_issues": 22,
+    "watchers": 455,
+    "default_branch": "master",
+    "stargazers": 455,
+    "master_branch": "master"
+  },
+  "pusher": {
+    "name": "REBELinBLUE",
+    "email": "REBELinBLUE@users.noreply.github.com"
+  },
+  "sender": {
+    "login": "REBELinBLUE",
+    "id": 2143908,
+    "avatar_url": "https://avatars2.githubusercontent.com/u/2143908?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/REBELinBLUE",
+    "html_url": "https://github.com/REBELinBLUE",
+    "followers_url": "https://api.github.com/users/REBELinBLUE/followers",
+    "following_url": "https://api.github.com/users/REBELinBLUE/following{/other_user}",
+    "gists_url": "https://api.github.com/users/REBELinBLUE/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/REBELinBLUE/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/REBELinBLUE/subscriptions",
+    "organizations_url": "https://api.github.com/users/REBELinBLUE/orgs",
+    "repos_url": "https://api.github.com/users/REBELinBLUE/repos",
+    "events_url": "https://api.github.com/users/REBELinBLUE/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/REBELinBLUE/received_events",
+    "type": "User",
+    "site_admin": false
+  }
+}
