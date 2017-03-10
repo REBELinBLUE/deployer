@@ -13,6 +13,7 @@ use REBELinBLUE\Deployer\Services\Webhooks\Custom;
 use REBELinBLUE\Deployer\Services\Webhooks\Github;
 use REBELinBLUE\Deployer\Services\Webhooks\Gitlab;
 use REBELinBLUE\Deployer\Services\Webhooks\Gogs;
+use REBELinBLUE\Deployer\Services\Webhooks\Webhook;
 
 /**
  * The deployment webhook controller.
@@ -86,6 +87,7 @@ class WebhookController extends Controller
             }
         }
 
+        // FIXME: A different status code on failure?
         return [
             'success' => $success,
         ];
@@ -122,6 +124,7 @@ class WebhookController extends Controller
     private function parseWebhookRequest(Request $request, Project $project)
     {
         foreach ($this->services as $service) {
+            /** @var Webhook $integration */
             $integration = new $service($request);
 
             if ($integration->isRequestOrigin()) {

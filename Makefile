@@ -159,7 +159,15 @@ endif
 # PHPUnit for Travis
 phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
-	@$(MAKE) coverage
+	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
+		--testsuite "Unit Tests" --exclude-group slow
+	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
+		--testsuite "Unit Tests" --exclude-group default
+	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
+		--testsuite "Integration Tests"
+	@php vendor/bin/phpcov merge storage/app/tmp/ \
+		--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
+	@rm storage/app/tmp/*.cov
 else
 	@$(MAKE) phpunit
 	@$(MAKE) integration

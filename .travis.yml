@@ -35,11 +35,8 @@ matrix:
       services:
         - postgresql
 
-before_install:
-  # - . $HOME/.nvm/nvm.sh
-  # - nvm install stable
-  # - nvm use stable
-  - phpenv config-rm xdebug.ini
+#before_install:
+#  - phpenv config-rm xdebug.ini
 
 install:
   - |
@@ -51,13 +48,11 @@ install:
       rm -rf $TRAVIS_BUILD_DIR/vendor/
     fi
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
-  # - travis_retry npm install --quiet
 
 before_script:
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
   - make permissions
   - make travis
-  # - gulp
 
 script:
   - make lint
