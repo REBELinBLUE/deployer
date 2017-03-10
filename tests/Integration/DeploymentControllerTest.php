@@ -17,10 +17,8 @@ use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
-use Mockery as m;
 use REBELinBLUE\Deployer\SharedFile;
 use REBELinBLUE\Deployer\Variable;
-use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -113,7 +111,7 @@ class DeploymentControllerTest extends AuthenticatedTestCase
     {
         /** @var ServerLog $log */
         $log = factory(ServerLog::class)->create([
-            'started_at' => Carbon::create(2017, 1, 1, 12, 00, 00),
+            'started_at'  => Carbon::create(2017, 1, 1, 12, 00, 00),
             'finished_at' => Carbon::create(2017, 1, 1, 12, 15, 00),
         ]);
 
@@ -144,30 +142,30 @@ class DeploymentControllerTest extends AuthenticatedTestCase
         $this->withoutNotifications();
 
         $expectedOptional = 2;
-        $expectedAlways = 5;
+        $expectedAlways   = 5;
 
         /** @var Project $project */
         $project = factory(Project::class)->create();
 
         factory(Command::class, $expectedAlways)->create([
             'target_type' => 'project',
-            'target_id' => $project->id,
-            'optional' => false,
+            'target_id'   => $project->id,
+            'optional'    => false,
         ]);
 
         /** @var Collection $optional */
         $optional = factory(Command::class, $expectedOptional)->create([
             'target_type' => 'project',
-            'target_id' => $project->id,
-            'optional' => true,
+            'target_id'   => $project->id,
+            'optional'    => true,
         ]);
 
         $config = [
-            'project_id' => $project->id
+            'project_id' => $project->id,
         ];
 
         $target = [
-            'target_id' => $project->id,
+            'target_id'   => $project->id,
             'target_type' => 'project',
         ];
 
@@ -185,7 +183,7 @@ class DeploymentControllerTest extends AuthenticatedTestCase
 
         $response->assertStatus(Response::HTTP_OK)->assertViewHas([
             'target_type', 'target_id', 'optional', 'tags', 'branches', 'servers', 'channels', 'heartbeats',
-            'sharedFiles', 'configFiles', 'checkUrls', 'variables', 'deployments', 'route'
+            'sharedFiles', 'configFiles', 'checkUrls', 'variables', 'deployments', 'route',
         ]);
 
         /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */

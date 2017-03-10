@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Routing\Redirector;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Authentication middleware.
@@ -52,7 +53,7 @@ class Authenticate
     {
         if ($this->auth->guard($guard)->guest()) {
             if ($request->ajax()) {
-                return $this->response->make('Unauthorized.', 401);
+                return $this->response->make('Unauthorized.', Response::HTTP_UNAUTHORIZED);
             }
 
             return $this->redirector->guest('login');

@@ -28,7 +28,7 @@ class WebhookControllerTest extends TestCase
         $this->actingAs($user)->seeIsAuthenticated();
 
         factory(Project::class)->create([
-            'hash' => 'a-fake-hash'
+            'hash' => 'a-fake-hash',
         ]);
 
         $response = $this->getJson('/webhook/1/refresh');
@@ -48,12 +48,12 @@ class WebhookControllerTest extends TestCase
     public function testWebhookWithNoServers()
     {
         factory(Project::class)->create([
-            'hash' => 'abcdefg123456'
+            'hash' => 'abcdefg123456',
         ]);
 
         factory(Server::class, 1)->create([
             'deploy_code' => false,
-            'project_id' => 1
+            'project_id'  => 1,
         ]);
 
         $this->doesntExpectJobs(QueueDeployment::class);
@@ -77,12 +77,12 @@ class WebhookControllerTest extends TestCase
         $this->withoutEvents();
 
         factory(Project::class)->create([
-            'hash' => 'abcdefg123456'
+            'hash' => 'abcdefg123456',
         ]);
 
         factory(Server::class, 1)->create([
             'deploy_code' => true,
-            'project_id' => 1
+            'project_id'  => 1,
         ]);
 
         $this->expectsJobs(QueueDeployment::class);
@@ -92,14 +92,14 @@ class WebhookControllerTest extends TestCase
         $response = $this->postJson('/deploy/abcdefg123456', $data, $headers);
 
         $response->assertStatus(Response::HTTP_CREATED)->assertExactJson([
-            'success' => true,
+            'success'       => true,
             'deployment_id' => 1,
         ]);
 
         $this->assertDatabaseHas('deployments', [
             'project_id' => 1,
             'source'     => $source,
-            'commit'     => $commit
+            'commit'     => $commit,
         ]);
     }
 
@@ -112,7 +112,7 @@ class WebhookControllerTest extends TestCase
                 'github.json',
                 'f99aa366c76589b69ef7cd3278e7f20d72b27127',
                 ['X-GitHub-Delivery' => str_random(32), 'X-Github-Event' => 'push'],
-            ]
+            ],
         ];
     }
 }

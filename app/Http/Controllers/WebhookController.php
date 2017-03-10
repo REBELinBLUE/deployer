@@ -67,9 +67,9 @@ class WebhookController extends Controller
     /**
      * Handles incoming requests to trigger deploy.
      *
-     * @param Request $request
+     * @param Request         $request
      * @param ResponseFactory $response
-     * @param string $hash The webhook hash
+     * @param string          $hash     The webhook hash
      *
      * @return \Illuminate\View\View
      */
