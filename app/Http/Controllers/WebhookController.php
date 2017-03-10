@@ -29,11 +29,11 @@ class WebhookController extends Controller
      * @var array
      */
     private $services = [
+        Gogs::class,
+        Github::class,
         Beanstalkapp::class,
         Bitbucket::class,
-        Github::class,
         Gitlab::class,
-        Gogs::class,
     ];
 
     /**
