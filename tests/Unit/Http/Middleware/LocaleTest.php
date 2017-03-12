@@ -6,8 +6,8 @@ use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Http\Request;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use Mockery as m;
-use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Http\Middleware\Locale;
+use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Http\Middleware\Locale
@@ -21,7 +21,7 @@ class LocaleTest extends TestCase
     {
         parent::setUp();
 
-        $this->auth = m::mock(Factory::class);
+        $this->auth    = m::mock(Factory::class);
         $this->manager = m::mock(LanguageManager::class);
     }
 
@@ -85,7 +85,7 @@ class LocaleTest extends TestCase
      */
     public function testHandleWhenAuthenticatedWithLanguageSet()
     {
-        $expectedGuard = 'session';
+        $expectedGuard    = 'session';
         $expectedLanguage = 'en';
 
         $expected = m::mock(Request::class);

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Routing\Redirector;
 use REBELinBLUE\Deployer\Events\JsonWebTokenExpired;
+use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\JWTAuth;
@@ -56,11 +57,11 @@ class RefreshJsonWebToken
         ResponseFactory $response,
         AuthFactory $auth
     ) {
-        $this->auth       = $auth;
+        $this->jwt        = $jwt;
         $this->dispatcher = $dispatcher;
         $this->redirector = $redirector;
         $this->response   = $response;
-        $this->jwt        = $jwt;
+        $this->auth       = $auth;
     }
 
     /**
@@ -78,7 +79,7 @@ class RefreshJsonWebToken
 
         $has_valid_token = false;
 
-        // Is the user has used "remember me" the token may not be in their session when they return
+        // If the user has used "remember me" the token may not be in their session when they return
         if ($request->session()->has('jwt')) {
             $token = $request->session()->get('jwt');
 
@@ -94,7 +95,7 @@ class RefreshJsonWebToken
                 $has_valid_token = false;
             } catch (JWTException $e) {
                 if ($request->ajax()) {
-                    return $this->response->make('Unauthorized.', 401);
+                    return $this->response->make('Unauthorized.', Response::HTTP_UNAUTHORIZED);
                 }
 
                 return $this->redirector->guest('login');

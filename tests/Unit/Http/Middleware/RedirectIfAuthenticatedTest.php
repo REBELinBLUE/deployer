@@ -5,8 +5,8 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Http\Middleware;
 use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Routing\Redirector;
 use Mockery as m;
-use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated;
+use REBELinBLUE\Deployer\Tests\TestCase;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated
@@ -21,7 +21,7 @@ class RedirectIfAuthenticatedTest extends TestCase
         parent::setUp();
 
         $this->redirector = m::mock(Redirector::class);
-        $this->auth = m::mock(Factory::class);
+        $this->auth       = m::mock(Factory::class);
     }
 
     /**
@@ -57,7 +57,7 @@ class RedirectIfAuthenticatedTest extends TestCase
      */
     public function testHandleIsAuthenticated()
     {
-        $expectedGuard = 'session';
+        $expectedGuard    = 'session';
         $expectedRedirect = 'a-redirect-url';
 
         $expected = m::mock(Request::class);

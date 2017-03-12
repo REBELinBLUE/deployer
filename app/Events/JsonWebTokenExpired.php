@@ -25,6 +25,6 @@ class JsonWebTokenExpired extends Login
      */
     public function __construct(User $user)
     {
-        $this->user  = $user;
+        $this->user = $user;
     }
 }
