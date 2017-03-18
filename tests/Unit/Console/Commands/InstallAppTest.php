@@ -12,12 +12,12 @@ use Illuminate\Foundation\Console\OptimizeCommand;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use Mockery as m;
 use phpmock\mockery\PHPMockery as phpm;
-use REBELinBLUE\Deployer\Console\Commands\InstallApp;
 use REBELinBLUE\Deployer\Console\Commands\Installer\EnvFile;
 use REBELinBLUE\Deployer\Console\Commands\Installer\Requirements;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use REBELinBLUE\Deployer\Tests\Unit\stubs\InstallApp;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -109,11 +109,6 @@ class InstallAppTest extends TestCase
     public function testHandleSuccessful($dbDriver, $languages)
     {
         // FIXME: Clean up, lots of duplication
-        // FIXME: Something in this test seems to be creating output
-        // When running in unit tests it uses normal input rather than secret.
-        //      This is because, when using coreutils 8.26 on OS X the tests end up outputting
-        //      "stty: 'standard input': Inappropriate ioctl for device" when using a hidden input
-        //      This seems to be something to do with stty.
 
         $this->config->shouldReceive('get')->with('app.key')->andReturn(false);
         $this->requirements->shouldReceive('check')->with(m::type(InstallApp::class))->andReturn(true);
