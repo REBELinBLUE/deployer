@@ -24,7 +24,7 @@
         "andywer/js-localization": "dev-laravel-5",
         "backup-manager/laravel": "^1.1",
         "creativeorange/gravatar": "~1.0",
-        "cweagans/composer-patches": "dev-fix-ignore-dependency-patches",
+        "cweagans/composer-patches": "^1.6",
         "doctrine/dbal": "~2.5",
         "fideloper/proxy": "^3.1",
         "graham-campbell/binput": "~3.3",
@@ -70,8 +70,7 @@
         "themsaid/laravel-langman": "~1.3.4"
     },
     "repositories": [
-        { "type": "vcs", "url": "https://github.com/REBELinBLUE/laravel-migrate-fresh" },
-        { "type": "vcs", "url": "https://github.com/Triquanta/composer-patches.git" }
+        { "type": "vcs", "url": "https://github.com/REBELinBLUE/laravel-migrate-fresh" }
     ],
     "autoload": {
         "classmap": [
