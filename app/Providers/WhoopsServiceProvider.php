@@ -2,6 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Whoops\Handler\HandlerInterface as WhoopsHandlerInterface;
 use Whoops\Handler\JsonResponseHandler;
@@ -29,10 +31,10 @@ class WhoopsServiceProvider extends ServiceProvider
             return false;
         }
 
-        $this->app->bind(Whoops::class, function () {
+        $this->app->bind(Whoops::class, function (Application $app) {
             $whoops = new Whoops();
 
-            if ($this->app->make('request')->expectsJson()) {
+            if ($app->make(Request::class)->expectsJson()) {
                 $whoops->pushHandler(new JsonResponseHandler());
             } else {
                 $whoops->pushHandler(new PrettyPageHandler());

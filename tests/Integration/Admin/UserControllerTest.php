@@ -70,7 +70,9 @@ class UserControllerTest extends AuthenticatedTestCase
         $original = 'John';
         $updated  = 'Paul';
 
-        factory(User::class)->create(['name' => $original, 'email' => $email]);
+        /** @var User $user */
+        $user = factory(User::class)->create(['name' => $original, 'email' => $email])->fresh();
+        $original_hash = $user->password;
 
         $this->putJson('/admin/users/2', [
             'name'  => $updated,
@@ -79,7 +81,46 @@ class UserControllerTest extends AuthenticatedTestCase
 
         $this->assertDatabaseHas('users', ['id' => 2, 'name' => $updated, 'email' => $email]);
         $this->assertDatabaseMissing('users', ['name' => $original, 'email' => $email]);
+
+        /** @var User $user */
+        $user = $this->app->make(UserRepositoryInterface::class)->getById(2);
+
+        $this->assertSame($original_hash, $user->password, "Password has unexpectedly changed");
     }
+
+    /**
+     * @covers ::__construct
+     * @covers ::update
+     * @covers \REBELinBLUE\Deployer\Http\Requests\StoreUserRequest
+     * @covers \REBELinBLUE\Deployer\Http\Requests\Request
+     */
+    public function testUpdateWithPassword()
+    {
+        $email    = 'admin@example.com';
+        $original = 'John';
+        $updated  = 'Paul';
+        $password = 'a-random-password';
+
+        /** @var User $user */
+        $user = factory(User::class)->create(['name' => $original, 'email' => $email])->fresh();
+        $original_hash = $user->password;
+
+        $this->putJson('/admin/users/2', [
+            'name'                  => $updated,
+            'email'                 => $email,
+            'password'              => $password,
+            'password_confirmation' => $password,
+        ])->assertStatus(Response::HTTP_OK)->assertJson(['id' => 2, 'name' => $updated, 'email' => $email]);
+
+        $this->assertDatabaseHas('users', ['id' => 2, 'name' => $updated, 'email' => $email]);
+        $this->assertDatabaseMissing('users', ['name' => $original, 'email' => $email]);
+
+        $user = $this->app->make(UserRepositoryInterface::class)->getById(2);
+
+        /** @var User $user */
+        $this->assertNotSame($original_hash, $user->password, "Password has not been updated");
+    }
+
 
     /**
      * @covers ::__construct
