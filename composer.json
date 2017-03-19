@@ -24,7 +24,7 @@
         "andywer/js-localization": "dev-laravel-5",
         "backup-manager/laravel": "^1.1",
         "creativeorange/gravatar": "~1.0",
-        "cweagans/composer-patches": "^1.6",
+        "cweagans/composer-patches": "dev-master",
         "doctrine/dbal": "~2.5",
         "fideloper/proxy": "^3.1",
         "graham-campbell/binput": "~3.3",
