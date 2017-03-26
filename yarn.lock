@@ -276,11 +276,11 @@ braces@^1.8.2:
     repeat-element "^1.1.2"
 
 browserslist@^1.7.6:
-  version "1.7.6"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-1.7.6.tgz#af98589ce6e7ab09618d29451faacb81220bd3ba"
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-1.7.7.tgz#0bd76704258be829b2398bb50e4b62d1a166b0b9"
   dependencies:
-    caniuse-db "^1.0.30000631"
-    electron-to-chromium "^1.2.5"
+    caniuse-db "^1.0.30000639"
+    electron-to-chromium "^1.2.7"
 
 buffer-equal-constant-time@1.0.1:
   version "1.0.1"
@@ -317,9 +317,9 @@ camelcase@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-3.0.0.tgz#32fc4b9fcdaf845fcdf7e73bb97cac2261f0ab0a"
 
-caniuse-db@^1.0.30000631, caniuse-db@^1.0.30000634:
-  version "1.0.30000637"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000637.tgz#c02430cb29447eb561373bab360d834a2639b42c"
+caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
+  version "1.0.30000640"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000640.tgz#7b7fd3cf13c0d9d41f8754b577b202113e2be7ca"
 
 cardinal@^1.0.0:
   version "1.0.0"
@@ -635,9 +635,9 @@ ecdsa-sig-formatter@1.0.9:
     base64url "^2.0.0"
     safe-buffer "^5.0.1"
 
-electron-to-chromium@^1.2.5:
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.2.7.tgz#4f748061407e478c76256d04496972b71f647407"
+electron-to-chromium@^1.2.7:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.2.8.tgz#22c2e6200d350da27d6050db7e3f6f85d18cf4ed"
 
 end-of-stream@1.0.0:
   version "1.0.0"
@@ -1306,8 +1306,8 @@ homedir-polyfill@^1.0.0:
     parse-passwd "^1.0.0"
 
 hosted-git-info@^2.1.4:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.3.1.tgz#ac439421605f0beb0ea1349de7d8bb28e50be1dd"
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.4.1.tgz#4b0445e41c004a8bd1337773a4ff790ca40318c8"
 
 http-signature@~1.1.0:
   version "1.1.1"
@@ -1536,9 +1536,9 @@ isemail@1.x.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/isemail/-/isemail-1.2.0.tgz#be03df8cc3e29de4d2c5df6501263f1fa4595e9a"
 
-isexe@^1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/isexe/-/isexe-1.1.2.tgz#36f3e22e60750920f5e7241a476a8c6a42275ad0"
+isexe@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
 
 isobject@^2.0.0:
   version "2.1.0"
@@ -2008,15 +2008,15 @@ micromatch@^2.3.7, micromatch@^2.3.8:
     parse-glob "^3.0.4"
     regex-cache "^0.4.2"
 
-mime-db@~1.26.0:
-  version "1.26.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.26.0.tgz#eaffcd0e4fc6935cf8134da246e2e6c35305adff"
+mime-db@~1.27.0:
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.27.0.tgz#820f572296bbd20ec25ed55e5b5de869e5436eb1"
 
 mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.7:
-  version "2.1.14"
-  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.14.tgz#f7ef7d97583fcaf3b7d282b6f8b5679dab1e94ee"
+  version "2.1.15"
+  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.15.tgz#a4ebf5064094569237b8cf70046776d09fc92aed"
   dependencies:
-    mime-db "~1.26.0"
+    mime-db "~1.27.0"
 
 mime@^1.2.11:
   version "1.3.4"
@@ -2060,8 +2060,8 @@ modify-filename@^1.0.0, modify-filename@^1.1.0:
   resolved "https://registry.yarnpkg.com/modify-filename/-/modify-filename-1.1.0.tgz#9a2dec83806fbb2d975f22beec859ca26b393aa1"
 
 moment@2.x.x:
-  version "2.17.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.17.1.tgz#fed9506063f36b10f066c8b59a144d7faebe1d82"
+  version "2.18.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
 ms@0.7.1:
   version "0.7.1"
@@ -2440,8 +2440,8 @@ punycode@^1.4.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
 q@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/q/-/q-1.5.0.tgz#dd01bac9d06d30e6f219aecb8253ee9ebdc308f1"
 
 qs@~6.4.0:
   version "6.4.0"
@@ -3011,12 +3011,13 @@ uglify-js@2.6.4:
     yargs "~3.10.0"
 
 uglify-js@^2.7.0:
-  version "2.8.13"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.13.tgz#d0cdf02f3c661484fac601b7e723207b735a374c"
+  version "2.8.16"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.16.tgz#d286190b6eefc6fd65eb0ecac6551e0b0e8839a4"
   dependencies:
     source-map "~0.5.1"
-    uglify-to-browserify "~1.0.0"
     yargs "~3.10.0"
+  optionalDependencies:
+    uglify-to-browserify "~1.0.0"
 
 uglify-save-license@^0.4.1:
   version "0.4.1"
@@ -3169,10 +3170,10 @@ which-module@^1.0.0:
   resolved "https://registry.yarnpkg.com/which-module/-/which-module-1.0.0.tgz#bba63ca861948994ff307736089e3b96026c2a4f"
 
 which@1, which@^1.0.5, which@^1.2.12, which@^1.2.9:
-  version "1.2.12"
-  resolved "https://registry.yarnpkg.com/which/-/which-1.2.12.tgz#de67b5e450269f194909ef23ece4ebe416fa1192"
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/which/-/which-1.2.14.tgz#9a87c4378f03e827cecaf1acdf56c736c01c14e5"
   dependencies:
-    isexe "^1.1.1"
+    isexe "^2.0.0"
 
 wide-align@^1.1.0:
   version "1.1.0"

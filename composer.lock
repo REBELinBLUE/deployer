@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fad067cf471ea34b6ec37d64f3cf2e7d",
+    "content-hash": "88b756da96f9f325fce617aeb26eca82",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -872,16 +872,16 @@
         },
         {
             "name": "fideloper/proxy",
-            "version": "3.2.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fideloper/TrustedProxy.git",
-                "reference": "b270bfa52915e55cfb67faa0f16863a479c36121"
+                "reference": "4ac60dbd4bcd6636bf231ea0fd87c40ece4bdce0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/b270bfa52915e55cfb67faa0f16863a479c36121",
-                "reference": "b270bfa52915e55cfb67faa0f16863a479c36121",
+                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/4ac60dbd4bcd6636bf231ea0fd87c40ece4bdce0",
+                "reference": "4ac60dbd4bcd6636bf231ea0fd87c40ece4bdce0",
                 "shasum": ""
             },
             "require": {
@@ -895,7 +895,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -919,7 +919,7 @@
                 "proxy",
                 "trusted proxy"
             ],
-            "time": "2016-12-20T14:23:22+00:00"
+            "time": "2017-03-23T23:17:29+00:00"
         },
         {
             "name": "graham-campbell/binput",
@@ -1221,16 +1221,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "0d6c7ca039329247e4f0f8f8f6506810e8248855"
+                "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/0d6c7ca039329247e4f0f8f8f6506810e8248855",
-                "reference": "0d6c7ca039329247e4f0f8f8f6506810e8248855",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+                "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
                 "shasum": ""
             },
             "require": {
@@ -1282,7 +1282,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2017-02-27T10:51:17+00:00"
+            "time": "2017-03-20T17:10:46+00:00"
         },
         {
             "name": "intervention/image",
@@ -1588,16 +1588,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.15",
+            "version": "v5.4.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ecc6468b8af30b77566a8519ce8898740ef691d7"
+                "reference": "6cf379ec34d08bcdc9c7183e369a8fdf04ade80d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ecc6468b8af30b77566a8519ce8898740ef691d7",
-                "reference": "ecc6468b8af30b77566a8519ce8898740ef691d7",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6cf379ec34d08bcdc9c7183e369a8fdf04ade80d",
+                "reference": "6cf379ec34d08bcdc9c7183e369a8fdf04ade80d",
                 "shasum": ""
             },
             "require": {
@@ -1686,9 +1686,6 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "5.4-dev"
-                },
-                "patches_applied": {
-                    "Support for PHPDBG in testing": "https://www.phpdeployment.org/patches/0001-Support-PHPDBG.patch"
                 }
             },
             "autoload": {
@@ -1716,7 +1713,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-03-02T14:41:40+00:00"
+            "time": "2017-03-21T19:34:41+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1778,16 +1775,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.36",
+            "version": "1.0.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "d9c1698582dfbfbd092ec9c5c3325f862cdb3297"
+                "reference": "78b5cc4feb61a882302df4fbaf63b7662e5e4ccd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/d9c1698582dfbfbd092ec9c5c3325f862cdb3297",
-                "reference": "d9c1698582dfbfbd092ec9c5c3325f862cdb3297",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/78b5cc4feb61a882302df4fbaf63b7662e5e4ccd",
+                "reference": "78b5cc4feb61a882302df4fbaf63b7662e5e4ccd",
                 "shasum": ""
             },
             "require": {
@@ -1857,7 +1854,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-03-18T16:02:30+00:00"
+            "time": "2017-03-22T15:43:14+00:00"
         },
         {
             "name": "lubusin/laravel-decomposer",
@@ -2740,16 +2737,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.2",
+            "version": "v0.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "97113db4107a4126bef933b60fea6dbc9f615d41"
+                "reference": "1dd4bbbc64d71e7ec075ffe82b42d9e096dc8d5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/97113db4107a4126bef933b60fea6dbc9f615d41",
-                "reference": "97113db4107a4126bef933b60fea6dbc9f615d41",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/1dd4bbbc64d71e7ec075ffe82b42d9e096dc8d5e",
+                "reference": "1dd4bbbc64d71e7ec075ffe82b42d9e096dc8d5e",
                 "shasum": ""
             },
             "require": {
@@ -2809,7 +2806,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-03-01T00:13:29+00:00"
+            "time": "2017-03-19T21:40:44+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -4267,34 +4264,37 @@
         },
         {
             "name": "facebook/webdriver",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/php-webdriver.git",
-                "reference": "77300c4ab2025d4316635f592ec849ca7323bd8c"
+                "reference": "3ea034c056189e11c0ce7985332a9f4b5b2b5db2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/77300c4ab2025d4316635f592ec849ca7323bd8c",
-                "reference": "77300c4ab2025d4316635f592ec849ca7323bd8c",
+                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/3ea034c056189e11c0ce7985332a9f4b5b2b5db2",
+                "reference": "3ea034c056189e11c0ce7985332a9f4b5b2b5db2",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
+                "ext-zip": "*",
                 "php": "^5.5 || ~7.0",
                 "symfony/process": "^2.8 || ^3.1"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^1.11",
+                "friendsofphp/php-cs-fixer": "^2.0",
                 "php-mock/php-mock-phpunit": "^1.1",
                 "phpunit/phpunit": "4.6.* || ~5.0",
                 "satooshi/php-coveralls": "^1.0",
                 "squizlabs/php_codesniffer": "^2.6"
             },
-            "suggest": {
-                "phpdocumentor/phpdocumentor": "2.*"
-            },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-community": "1.5-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Facebook\\WebDriver\\": "lib/"
@@ -4304,7 +4304,7 @@
             "license": [
                 "Apache-2.0"
             ],
-            "description": "A PHP client for WebDriver",
+            "description": "A PHP client for Selenium WebDriver",
             "homepage": "https://github.com/facebook/php-webdriver",
             "keywords": [
                 "facebook",
@@ -4312,7 +4312,7 @@
                 "selenium",
                 "webdriver"
             ],
-            "time": "2017-01-13T15:48:08+00:00"
+            "time": "2017-03-22T10:56:03+00:00"
         },
         {
             "name": "filp/whoops",
@@ -4671,26 +4671,26 @@
         },
         {
             "name": "johnkary/phpunit-speedtrap",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnkary/phpunit-speedtrap.git",
-                "reference": "ad242a6e84b0d63d2e50832babad77d6d545bc0a"
+                "reference": "f7cfe17c5a7076ed0ccca5450fe3bb981ec56361"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnkary/phpunit-speedtrap/zipball/ad242a6e84b0d63d2e50832babad77d6d545bc0a",
-                "reference": "ad242a6e84b0d63d2e50832babad77d6d545bc0a",
+                "url": "https://api.github.com/repos/johnkary/phpunit-speedtrap/zipball/f7cfe17c5a7076ed0ccca5450fe3bb981ec56361",
+                "reference": "f7cfe17c5a7076ed0ccca5450fe3bb981ec56361",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6",
-                "phpunit/phpunit": ">=4.7"
+                "phpunit/phpunit": ">=4.7,<6.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -4715,7 +4715,7 @@
                 "profile",
                 "slow"
             ],
-            "time": "2017-02-13T15:22:35+00:00"
+            "time": "2017-03-25T17:14:26+00:00"
         },
         {
             "name": "laravel/dusk",
