@@ -7,7 +7,6 @@
 
 - URL checker should log response [\#331](https://github.com/REBELinBLUE/deployer/issues/331)
 - Include the project name in the comment for the SSH key [\#324](https://github.com/REBELinBLUE/deployer/issues/324)
-- Test coverage [\#38](https://github.com/REBELinBLUE/deployer/issues/38)
 
 **Fixed bugs:**
 
