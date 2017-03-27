@@ -12,7 +12,7 @@
 **Fixed bugs:**
 
 - Event broadcast for log updates causing JOB\_TOO\_BIG error [\#262](https://github.com/REBELinBLUE/deployer/issues/262)
-- \[FIX\] Fixes command reordering [\#325](https://github.com/REBELinBLUE/deployer/pull/325) ([emielmolenaar](https://github.com/emielmolenaar))
+- Command reordering not saving [\#325](https://github.com/REBELinBLUE/deployer/pull/325) ([emielmolenaar](https://github.com/emielmolenaar))
 
 ## [0.0.44](https://github.com/REBELinBLUE/deployer/tree/0.0.44) (2017-02-25)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.43...0.0.44)
