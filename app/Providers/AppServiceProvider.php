@@ -10,6 +10,7 @@ use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
+use Lubusin\Decomposer\Decomposer;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
@@ -75,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerAdditionalProviders($this->providers[$env]);
         $this->registerAdditionalMiddleware($this->middleware[$env]);
         $this->registerDependencies();
+        $this->registerSystemInfo();
     }
 
     /**
@@ -119,5 +121,15 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('files', function () {
             return new Filesystem();
         });
+    }
+
+    private function registerSystemInfo()
+    {
+        $myarray = [
+            'Abc Extension loaded' => true,
+            'etc' => 's'
+        ];
+
+        $this->app->make(Decomposer::class)->addExtraStats($myarray);
     }
 }
