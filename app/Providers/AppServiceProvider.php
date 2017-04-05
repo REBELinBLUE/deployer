@@ -123,13 +123,21 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Registers additional information to show in the sysinfo
+     */
     private function registerSystemInfo()
     {
-        $myarray = [
-            'Abc Extension loaded' => true,
-            'etc' => 's'
-        ];
+        $decomposer = $this->app->make(Decomposer::class);
 
-        $this->app->make(Decomposer::class)->addExtraStats($myarray);
+        $decomposer->addServerStats([
+            'Curl Ext' => extension_loaded('curl'),
+            'GD Ext'   => extension_loaded('gd'),
+            'JSON Ext' => extension_loaded('json')
+        ]);
+
+        $decomposer->addExtraStats([
+            'proc_open enabled' => function_exists('proc_open'),
+        ]);
     }
 }

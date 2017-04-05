@@ -36,7 +36,7 @@
         "laravel-notification-channels/webhook": "~1.0.2",
         "laravel/framework": "^5.4",
         "laravel/tinker": "1.0.*",
-        "lubusin/laravel-decomposer": "^1.0",
+        "lubusin/laravel-decomposer": "dev-additional_info",
         "mccool/laravel-auto-presenter": "^5.0",
         "michele-angioni/multi-language": "0.3",
         "pda/pheanstalk": "~3.1",
@@ -70,7 +70,8 @@
         "themsaid/laravel-langman": "~1.3.4"
     },
     "repositories": [
-        { "type": "vcs", "url": "https://github.com/REBELinBLUE/laravel-migrate-fresh" }
+        { "type": "vcs", "url": "https://github.com/REBELinBLUE/laravel-migrate-fresh" },
+        { "type": "vcs", "url": "https://github.com/REBELinBLUE/laravel-decomposer" }
     ],
     "autoload": {
         "classmap": [
