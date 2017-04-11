@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "103f5fdf7d4e916eeed3c8c1b3cb3ad8",
+    "content-hash": "88b756da96f9f325fce617aeb26eca82",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -1588,16 +1588,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.17",
+            "version": "v5.4.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "f7675d59e3863a58ecdff1a5ee1dcd0cff788f4b"
+                "reference": "d15ded55b5e690199393ea93a57edcbae20d1ffc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f7675d59e3863a58ecdff1a5ee1dcd0cff788f4b",
-                "reference": "f7675d59e3863a58ecdff1a5ee1dcd0cff788f4b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d15ded55b5e690199393ea93a57edcbae20d1ffc",
+                "reference": "d15ded55b5e690199393ea93a57edcbae20d1ffc",
                 "shasum": ""
             },
             "require": {
@@ -1713,7 +1713,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-04-03T13:07:39+00:00"
+            "time": "2017-04-10T19:27:41+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1858,16 +1858,16 @@
         },
         {
             "name": "lubusin/laravel-decomposer",
-            "version": "dev-additional_info",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/REBELinBLUE/laravel-decomposer.git",
-                "reference": "25939f5d7f939c1d8560c989a81ec1ad78f46325"
+                "url": "https://github.com/lubusIN/laravel-decomposer.git",
+                "reference": "c8fb3188610bf9568019ebc5516f08f4073ae3d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/REBELinBLUE/laravel-decomposer/zipball/25939f5d7f939c1d8560c989a81ec1ad78f46325",
-                "reference": "25939f5d7f939c1d8560c989a81ec1ad78f46325",
+                "url": "https://api.github.com/repos/lubusIN/laravel-decomposer/zipball/c8fb3188610bf9568019ebc5516f08f4073ae3d9",
+                "reference": "c8fb3188610bf9568019ebc5516f08f4073ae3d9",
                 "shasum": ""
             },
             "require": {
@@ -1884,6 +1884,7 @@
                     "Lubusin\\Decomposer\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1894,10 +1895,7 @@
                 }
             ],
             "description": "A Laravel package to decompose your installed packages, their dependencies, your app & server environment",
-            "support": {
-                "source": "https://github.com/REBELinBLUE/laravel-decomposer/tree/additional_info"
-            },
-            "time": "2017-04-05T19:53:29+00:00"
+            "time": "2017-04-06T12:13:04+00:00"
         },
         {
             "name": "mccool/laravel-auto-presenter",
@@ -3883,16 +3881,16 @@
         },
         {
             "name": "tymon/jwt-auth",
-            "version": "0.5.10",
+            "version": "0.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tymondesigns/jwt-auth.git",
-                "reference": "754448bbedccb1ce5fba16914482c6a6e0871e1d"
+                "reference": "807de0561c40c9a924783d2e30036b635cebf03c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tymondesigns/jwt-auth/zipball/754448bbedccb1ce5fba16914482c6a6e0871e1d",
-                "reference": "754448bbedccb1ce5fba16914482c6a6e0871e1d",
+                "url": "https://api.github.com/repos/tymondesigns/jwt-auth/zipball/807de0561c40c9a924783d2e30036b635cebf03c",
+                "reference": "807de0561c40c9a924783d2e30036b635cebf03c",
                 "shasum": ""
             },
             "require": {
@@ -3942,7 +3940,7 @@
                 "laravel",
                 "tymon"
             ],
-            "time": "2017-01-24T22:20:55+00:00"
+            "time": "2017-04-06T19:57:45+00:00"
         },
         {
             "name": "version/version",
@@ -4379,16 +4377,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "d6f17423412d33df6b69c9aaf12037b91703533b"
+                "reference": "aff95e090fdaf57c20d32d7728b090f2015bfcef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/d6f17423412d33df6b69c9aaf12037b91703533b",
-                "reference": "d6f17423412d33df6b69c9aaf12037b91703533b",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/aff95e090fdaf57c20d32d7728b090f2015bfcef",
+                "reference": "aff95e090fdaf57c20d32d7728b090f2015bfcef",
                 "shasum": ""
             },
             "require": {
@@ -4452,7 +4450,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2017-03-31T16:16:30+00:00"
+            "time": "2017-04-07T15:22:27+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -4731,16 +4729,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v1.0.11",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "fc079ddbe34fd7f227f80b5b125abebb51f98c43"
+                "reference": "9a150bedc3ae6566d05f0a8d1657c658ce98dcad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/fc079ddbe34fd7f227f80b5b125abebb51f98c43",
-                "reference": "fc079ddbe34fd7f227f80b5b125abebb51f98c43",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/9a150bedc3ae6566d05f0a8d1657c658ce98dcad",
+                "reference": "9a150bedc3ae6566d05f0a8d1657c658ce98dcad",
                 "shasum": ""
             },
             "require": {
@@ -4782,7 +4780,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2017-03-20T20:56:17+00:00"
+            "time": "2017-04-07T21:47:06+00:00"
         },
         {
             "name": "lstrojny/phpunit-clever-and-smart",
@@ -8014,7 +8012,6 @@
     "stability-flags": {
         "andywer/js-localization": 20,
         "cweagans/composer-patches": 20,
-        "lubusin/laravel-decomposer": 20,
         "spatie/laravel-migrate-fresh": 20
     },
     "prefer-stable": false,
