@@ -6,32 +6,8 @@ var app = app || {};
     var FAILED     = 2;
     var TESTING    = 3;
 
-    $('#server_list table').sortable({
-        containerSelector: 'table',
-        itemPath: '> tbody',
-        itemSelector: 'tr',
-        placeholder: '<tr class="placeholder"/>',
-        delay: 500,
-        onDrop: function (item, container, _super) {
-            _super(item, container);
-
-            var ids = [];
-            $('tbody tr td:first-child', container.el[0]).each(function (idx, element) {
-                ids.push($(element).data('server-id'));
-            });
-
-            $.ajax({
-                url: '/servers/reorder',
-                method: 'POST',
-                data: {
-                    servers: ids
-                }
-            });
-        }
-    });
-
     // FIXME: This seems very wrong
-    $('#server').on('show.bs.modal', function (event) {
+    $('#server_template').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
         var title = Lang.get('servers.create');
@@ -46,13 +22,10 @@ var app = app || {};
             title = Lang.get('servers.edit');
             $('.btn-danger', modal).show();
         } else {
-            $('#server_id').val('');
-            $('#server_name').val('');
-            $('#server_address').val('');
-            $('#server_port').val('22');
-            $('#server_user').val('');
-            $('#server_path').val('');
-            $('#server_deploy_code').prop('checked', true);
+            $('#server_template_id').val('');
+            $('#server_template_name').val('');
+            $('#server_template_address').val('');
+            $('#server_template_port').val('22');
             $('#add-server-command', modal).show();
         }
 
@@ -60,35 +33,7 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#server #server_name').autocomplete({
-        serviceUrl: '/servers/autocomplete',
-        dataType: 'json',
-        noCache: true,
-        preserveInput: true,
-        transformResult: function (response) {
-            return {
-                suggestions: $.map(response.suggestions, function (dataItem) {
-                    var value = dataItem.name + ' (' + dataItem.user + '@' + dataItem.ip_address + ')';
-                    return {
-                      value: value,
-                      data: dataItem
-                    };
-                })
-            };
-        },
-        onSelect: function (suggestion) {
-            var server = suggestion.data;
-            $('#server_name').val(server.name);
-            $('#server_address').val(server.ip_address);
-            $('#server_port').val(server.port);
-            $('#server_user').val(server.user);
-            $('#server_path').val(server.path);
-            $('#server_deploy_code').prop('checked', server.deploy_code);
-        }
-    });
-
-    // FIXME: This seems very wrong
-    $('#server button.btn-delete').on('click', function (event) {
+    $('#server_template button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -97,9 +42,9 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var server = app.Servers.get($('#server_id').val());
+        var serverTemplate = app.ServerTemplates.get($('#server_template_id').val());
 
-        server.destroy({
+        serverTemplate.destroy({
             wait: true,
             success: function(model, response, options) {
                 dialog.modal('hide');
@@ -118,7 +63,7 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#server button.btn-save').on('click', function (event) {
+    $('#server_template button.btn-save').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
         var dialog = target.parents('.modal');
@@ -127,22 +72,18 @@ var app = app || {};
         dialog.find('input').attr('disabled', 'disabled');
         $('button.close', dialog).hide();
 
-        var server_id = $('#server_id').val();
+        var server_template_id = $('#server_template_id').val();
 
-        if (server_id) {
-            var server = app.Servers.get(server_id);
+        if (server_template_id) {
+            var serverTemplate = app.ServerTemplates.get(server_template_id);
         } else {
-            var server = new app.Server();
+            var serverTemplate = new app.ServerTemplate();
         }
 
-        server.save({
-            name:         $('#server_name').val(),
-            ip_address:   $('#server_address').val(),
-            port:         $('#server_port').val(),
-            user:         $('#server_user').val(),
-            path:         $('#server_path').val(),
-            deploy_code:  $('#server_deploy_code').is(':checked'),
-            project_id:   parseInt($('input[name="project_id"]').val()),
+        serverTemplate.save({
+            name:         $('#server_template_name').val(),
+            ip_address:   $('#server_template_address').val(),
+            port:         $('#server_template_port').val(),
             add_commands: $('#server_commands').is(':checked')
         }, {
             wait: true,
@@ -154,8 +95,8 @@ var app = app || {};
                 $('button.close', dialog).show();
                 dialog.find('input').removeAttr('disabled');
 
-                if (!server_id) {
-                    app.Servers.add(response);
+                if (!server_template_id) {
+                    app.ServerTemplates.add(response);
                 }
             },
             error: function(model, response, options) {
@@ -185,21 +126,13 @@ var app = app || {};
         });
     });
 
-    $('#server [data-server-template-id]').on('click', function () {
-        var server_template_id = $(this).data('server-template-id');
-        var server_template = app.ServerTemplates.get(server_template_id);
-        $('#server_name').val(server_template.get('name'));
-        $('#server_address').val(server_template.get('ip_address'));
-        $('#server_port').val(server_template.get('port'));
-        $('.nav-tabs a[href="#server_details"]').tab('show');
+
+    app.ServerTemplate = Backbone.Model.extend({
+        urlRoot: '/admin/servers'
     });
 
-    app.Server = Backbone.Model.extend({
-        urlRoot: '/servers'
-    });
-
-    var Servers = Backbone.Collection.extend({
-        model: app.Server,
+    var ServerTemplates = Backbone.Collection.extend({
+        model: app.ServerTemplate,
         comparator: function(serverA, serverB) {
             if (serverA.get('name') > serverB.get('name')) {
                 return -1; // before
@@ -211,74 +144,73 @@ var app = app || {};
         }
     });
 
-    app.Servers = new Servers();
+    app.ServerTemplates = new ServerTemplates();
 
-    app.ServersTab = Backbone.View.extend({
+    app.ServerTemplatesTab = Backbone.View.extend({
         el: '#app',
         events: {
 
         },
         initialize: function() {
-            this.$list = $('#server_list tbody');
+            this.$list = $('#server_template_list tbody');
 
-            $('#no_servers').show();
-            $('#server_list').hide();
+            $('#no_server_templates').show();
+            $('#server_template_list').hide();
 
-            this.listenTo(app.Servers, 'add', this.addOne);
-            this.listenTo(app.Servers, 'reset', this.addAll);
-            this.listenTo(app.Servers, 'remove', this.addAll);
-            this.listenTo(app.Servers, 'all', this.render);
+            this.listenTo(app.ServerTemplates, 'add', this.addOne);
+            this.listenTo(app.ServerTemplates, 'reset', this.addAll);
+            this.listenTo(app.ServerTemplates, 'remove', this.addAll);
+            this.listenTo(app.ServerTemplates, 'all', this.render);
 
-            app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
-                var server = app.Servers.get(parseInt(data.model.id));
+            app.listener.on('serverTemplate:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+                var serverTemplate = app.ServerTemplates.get(parseInt(data.model.id));
 
-                if (server) {
-                    server.set(data.model);
+                if (serverTemplate) {
+                    serverTemplate.set(data.model);
                 }
             });
 
-            app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
+            app.listener.on('serverTemplate:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
-                    app.Servers.add(data.model);
+                    app.ServerTemplates.add(data.model);
                 }
             });
 
-            app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
-                var server = app.Servers.get(parseInt(data.model.id));
+            app.listener.on('serverTemplate:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
+                var serverTemplate = app.Servers.get(parseInt(data.model.id));
 
-                if (server) {
-                    app.Servers.remove(server);
+                if (serverTemplate) {
+                    app.ServerTemplates.remove(serverTemplate);
                 }
             });
         },
         render: function () {
-            if (app.Servers.length) {
-                $('#no_servers').hide();
-                $('#server_list').show();
+            if (app.ServerTemplates.length) {
+                $('#no_server_templates').hide();
+                $('#server_template_list').show();
             } else {
-                $('#no_servers').show();
-                $('#server_list').hide();
+                $('#no_server_templates').show();
+                $('#server_template_list').hide();
             }
         },
-        addOne: function (server) {
-
-            var view = new app.ServerView({
-                model: server
+        addOne: function (serverTemplate) {
+            var view = new app.ServerTemplateView({
+                model: serverTemplate
             });
 
             this.$list.append(view.render().el);
         },
         addAll: function () {
             this.$list.html('');
-            app.Servers.each(this.addOne, this);
+            app.ServerTemplates.each(this.addOne, this);
         }
     });
 
-    app.ServerView = Backbone.View.extend({
+    app.ServerTemplateView = Backbone.View.extend({
         tagName:  'tr',
         events: {
             'click .btn-test': 'testConnection',
-            'click .btn-edit': 'editServer'
+            'click .btn-edit': 'editServerTemplate'
         },
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
@@ -311,16 +243,12 @@ var app = app || {};
 
             return this;
         },
-        editServer: function() {
+        editServerTemplate: function() {
             // FIXME: Sure this is wrong?
-            $('#server_id').val(this.model.id);
-            $('#server_name').val(this.model.get('name'));
-            $('#server_address').val(this.model.get('ip_address'));
-            $('#server_port').val(this.model.get('port'));
-            $('#server_user').val(this.model.get('user'));
-            $('#server_path').val(this.model.get('path'));
-
-            $('#server_deploy_code').prop('checked', (this.model.get('deploy_code') === true));
+            $('#server_template_id').val(this.model.id);
+            $('#server_template_name').val(this.model.get('name'));
+            $('#server_template_address').val(this.model.get('ip_address'));
+            $('#server_template_port').val(this.model.get('port'));
         },
         testConnection: function() {
             if (parseInt(this.model.get('status')) === TESTING) {

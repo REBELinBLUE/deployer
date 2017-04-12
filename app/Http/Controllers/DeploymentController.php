@@ -16,6 +16,7 @@ use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
+use REBELinBLUE\Deployer\ServerTemplate;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 
 /**
@@ -97,6 +98,7 @@ class DeploymentController extends Controller
             'last_week'     => $this->deploymentRepository->getLastWeekCount($project_id),
             'project'       => $project,
             'servers'       => $project->servers,
+            'server_templates' => ServerTemplate::all(),
             'channels'      => $project->channels,
             'heartbeats'    => $project->heartbeats,
             'sharedFiles'   => $project->sharedFiles,

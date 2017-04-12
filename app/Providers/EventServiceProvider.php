@@ -25,12 +25,14 @@ use REBELinBLUE\Deployer\Events\Observers\CheckUrlObserver;
 use REBELinBLUE\Deployer\Events\Observers\HeartbeatObserver;
 use REBELinBLUE\Deployer\Events\Observers\ProjectObserver;
 use REBELinBLUE\Deployer\Events\Observers\ServerLogObserver;
+use REBELinBLUE\Deployer\Events\Observers\ServerTemplateObserver;
 use REBELinBLUE\Deployer\Events\UrlDown;
 use REBELinBLUE\Deployer\Events\UrlUp;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\ServerLog;
+use REBELinBLUE\Deployer\ServerTemplate;
 
 /**
  * The event service provider.
@@ -63,6 +65,7 @@ class EventServiceProvider extends ServiceProvider
         parent::boot();
 
         Channel::observe(ChannelObserver::class);
+        ServerTemplate::observe(ServerTemplateObserver::class);
         CheckUrl::observe(CheckUrlObserver::class);
         Heartbeat::observe(HeartbeatObserver::class);
         Project::observe(ProjectObserver::class);

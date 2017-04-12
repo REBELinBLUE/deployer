@@ -87,6 +87,7 @@ Elixir(function(mix) {
         'projects.js',
         'templates.js',
         'servers.js',
+        'serverTemplates.js',
         'heartbeats.js',
         'notifications.js',
         'shareFiles.js',
