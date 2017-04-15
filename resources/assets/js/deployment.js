@@ -114,14 +114,6 @@ var app = app || {};
         });
     }
 
-    // FIXME: There has to be a cleaner way to do this surely?
-    function parseOutput(output) {
-        return output.replace(/<\/error>/g, '</span>')
-                     .replace(/<\/info>/g, '</span>')
-                     .replace(/<error>/g, '<span class="text-red">')
-                     .replace(/<info>/g, '<span class="text-default">');
-    }
-
     app.ServerLog = Backbone.Model.extend({
         urlRoot: '/status'
     });

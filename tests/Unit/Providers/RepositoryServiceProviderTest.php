@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Providers;
 use Illuminate\Foundation\Application;
 use Mockery as m;
 use REBELinBLUE\Deployer\Providers\RepositoryServiceProvider;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use ReflectionClass;
 

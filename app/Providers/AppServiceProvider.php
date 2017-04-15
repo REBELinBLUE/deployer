@@ -124,7 +124,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Registers additional information to show in the sysinfo
+     * Registers additional information to show in the sysinfo.
      */
     private function registerSystemInfo()
     {
@@ -133,7 +133,7 @@ class AppServiceProvider extends ServiceProvider
         $decomposer->addServerStats([
             'Curl Ext' => extension_loaded('curl'),
             'GD Ext'   => extension_loaded('gd'),
-            'JSON Ext' => extension_loaded('json')
+            'JSON Ext' => extension_loaded('json'),
         ]);
 
         $decomposer->addExtraStats([

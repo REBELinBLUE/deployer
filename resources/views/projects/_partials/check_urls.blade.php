@@ -51,7 +51,7 @@
         <td>
             <div class="btn-group pull-right">
                 <% if (has_log) { %>
-                    <button type="button" class="btn btn-default btn-view" title="{{ trans('checkUrls.log') }}" data-toggle="modal" data-backdrop="static" data-target="#response"><i class="fa fa-eye"></i></button>
+                    <button type="button" class="btn btn-default btn-view" title="{{ trans('checkUrls.log') }}" data-toggle="modal" data-backdrop="static" data-target="#result"><i class="fa fa-eye"></i></button>
                 <% } %>
                 <button type="button" class="btn btn-default btn-edit" title="{{ trans('checkUrls.edit') }}" data-toggle="modal" data-backdrop="static" data-target="#checkurl"><i class="fa fa-edit"></i></button>
             </div>
