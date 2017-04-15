@@ -46,8 +46,10 @@
         "version/version": "^2.2"
     },
     "require-dev": {
+        "andreas-weber/php-junit-merge": "^1.0",
         "barryvdh/laravel-ide-helper": "^2.1",
         "block8/php-docblock-checker": "^1.1",
+        "codeclimate/php-test-reporter": "^0.4.4",
         "filp/whoops": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.0",
         "fzaninotto/faker": "~1.5",

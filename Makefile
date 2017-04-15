@@ -9,7 +9,7 @@ YELLOW := $(shell tput -Txterm setaf 3)
 RESET  := $(shell tput -Txterm sgr0)
 
 build: ##@development Frontend build
-build: install-dev
+	@$(MAKE) install-dev
 	@-rm -rf public/build
 	gulp --silent
 	@rm -rf public/css public/fonts public/js
@@ -24,12 +24,12 @@ fix: ##@development PHP Coding Standards Fixer
 	@php vendor/bin/php-cs-fixer --no-interaction fix
 
 install: ##@production Install dependencies
-install: permissions
+	@$(MAKE) permissions
 	composer install --optimize-autoloader --no-dev --no-suggest --prefer-dist
 	yarn install --production
 
 install-dev: ##@development Install dev dependencies
-install-dev: permissions
+	@$(MAKE) permissions
 	composer install --no-suggest --prefer-dist
 	yarn install
 
@@ -85,14 +85,15 @@ dusk: ##@tests Dusk Browser Tests
 coverage: ##@tests Test Coverage HTML
 	@echo "${GREEN}All tests with coverage${RESET}"
 	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
-		--testsuite "Unit Tests" --exclude-group slow
+			--testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml --exclude-group slow
 	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
-		--testsuite "Unit Tests" --exclude-group default
+			--testsuite "Unit Tests" --log-junit=storage/app/tmp/slow.junit.xml --exclude-group default
 	@phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
-		--testsuite "Integration Tests"
+			--log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
 	@phpdbg -qrr vendor/bin/phpcov merge storage/app/tmp/ \
-		--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
-	@rm storage/app/tmp/*.cov
+			--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
+	@php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ storage/app/tmp/junit.xml
+	@rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
 
 phpunit: ##@tests Unit Tests
 	@echo "${GREEN}Unit tests${RESET}"
@@ -103,13 +104,32 @@ integration: ##@tests Integration Tests
 	@php vendor/bin/phpunit --no-coverage --testsuite "Integration Tests"
 
 quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
-quicktest: install-dev lint phpcs phpdoc-check phpcpd
+	@$(MAKE) install-dev
+	@$(MAKE) lint
+	@$(MAKE) phpcs
+	@$(MAKE) phpdoc-check
+	@$(MAKE) phpcpd
 
 test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
-test: install-dev lint phpcs phpdoc-check phpunit phpcpd phpmd phpstan
+	@$(MAKE) install-dev
+	@$(MAKE) lint
+	@$(MAKE) phpcs
+	@$(MAKE) phpdoc-check
+	@$(MAKE) phpunit
+	@$(MAKE) phpcpd
+	@$(MAKE) phpmd
+	@$(MAKE) phpstan
 
 fulltest: ##@shortcuts Runs all tests
-fulltest: lint phpcs phpdoc-check phpunit integration phpcpd phpstan phpmd dusk
+	@$(MAKE) lint
+	@$(MAKE) phpcs
+	@$(MAKE) phpdoc-check
+	@$(MAKE) phpunit
+	@$(MAKE) integration
+	@$(MAKE) phpcpd
+	@$(MAKE) phpstan
+	@$(MAKE) phpmd
+	@$(MAKE) dusk
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----- The targets below won't show in help because the descriptions only have 1 hash at the beginning ----- #
@@ -142,27 +162,27 @@ release: test
 	@/usr/local/bin/create-release
 
 # Create the databases for Travis CI
-travis:
 ifeq "$(DB)" "sqlite"
+travis:
 	@sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env
 	@sed -i 's/DB_DATABASE=deployer//g' .env
 	@sed -i 's/DB_USERNAME=travis//g' .env
 	@touch $(TRAVIS_BUILD_DIR)/database/database.sqlite
 else ifeq "$(DB)" "pgsql"
+travis:
 	@sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g' .env
 	@sed -i 's/DB_USERNAME=travis/DB_USERNAME=postgres/g' .env
 	@psql -c 'CREATE DATABASE deployer;' -U postgres;
 else
+travis:
 	@mysql -e 'CREATE DATABASE deployer;'
 endif
 
 # PHPUnit for Travis
-phpunit-ci:
 ifeq "$(TRAVIS_PHP_VERSION)" "7.1.0"
-	@$(MAKE) coverage
+phpunit-ci: coverage
 else
-	@$(MAKE) phpunit
-	@$(MAKE) integration
+phpunit-ci: phpunit integration
 endif
 
 HELP_FUN = %help; \
