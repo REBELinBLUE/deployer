@@ -4,31 +4,33 @@ engines:
     enabled: true
   duplication:
     enabled: true
+    exclude_paths:
+      - resources/lang/
     config:
       languages:
-      - ruby
-      - javascript
-      - python
-      - php
+        - ruby
+        - javascript
+        - python
+        - php
   eslint:
-    enabled: true
+    enabled: false
   fixme:
     enabled: true
   phpmd:
     enabled: true
 ratings:
   paths:
-  - "**.css"
-  - "**.inc"
-  - "**.js"
-  - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
-  - "**.rb"
+    - "**.css"
+    - "**.inc"
+    - "**.js"
+    - "**.jsx"
+    - "**.module"
+    - "**.php"
+    - "**.py"
+    - "**.rb"
 exclude_paths:
-- bootstrap/
-- config/
-- database/
-- public/build/
-- tests/
+  - bootstrap/
+  - config/
+  - database/
+  - public/build/
+  - tests/
