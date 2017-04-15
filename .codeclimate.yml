@@ -27,5 +27,8 @@ ratings:
   - "**.py"
   - "**.rb"
 exclude_paths:
+- bootstrap/
 - config/
+- database/
+- public/build/
 - tests/
