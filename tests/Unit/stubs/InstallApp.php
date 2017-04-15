@@ -9,13 +9,13 @@ use REBELinBLUE\Deployer\Console\Commands\InstallApp as RealInstallApp;
  *    This is because, when using coreutils from homebrew on OS X the tests end up outputting various things
  *    such as "stty: 'standard input': Inappropriate ioctl for device", "stdin isn't a terminal" and
  *    "stty: 'standard input': unable to perform all requested operations" when using a hidden input.
- *    This output causes PHPStorm's test runner to crash
+ *    This output causes PHPStorm's test runner to crash.
  */
 class InstallApp extends RealInstallApp
 {
     /**
-     * @param  string  $question
-     * @param  bool    $fallback
+     * @param string $question
+     * @param bool   $fallback
      *
      * @return string
      */

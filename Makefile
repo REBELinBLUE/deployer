@@ -2,7 +2,6 @@
 .PHONY: help
 .SILENT:
 
-# Colours
 GREEN  := $(shell tput -Txterm setaf 2)
 WHITE  := $(shell tput -Txterm setaf 7)
 YELLOW := $(shell tput -Txterm setaf 3)
@@ -104,36 +103,28 @@ integration: ##@tests Integration Tests
 	@php vendor/bin/phpunit --no-coverage --testsuite "Integration Tests"
 
 quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
-	@$(MAKE) install-dev
 	@$(MAKE) lint
 	@$(MAKE) phpcs
 	@$(MAKE) phpdoc-check
 	@$(MAKE) phpcpd
 
 test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
-	@$(MAKE) install-dev
-	@$(MAKE) lint
-	@$(MAKE) phpcs
-	@$(MAKE) phpdoc-check
+	@$(MAKE) quicktest
 	@$(MAKE) phpunit
-	@$(MAKE) phpcpd
-	@$(MAKE) phpmd
 	@$(MAKE) phpstan
+	@$(MAKE) phpmd
 
 fulltest: ##@shortcuts Runs all tests
-	@$(MAKE) lint
-	@$(MAKE) phpcs
-	@$(MAKE) phpdoc-check
+	@$(MAKE) quicktest
 	@$(MAKE) phpunit
 	@$(MAKE) integration
-	@$(MAKE) phpcpd
 	@$(MAKE) phpstan
 	@$(MAKE) phpmd
 	@$(MAKE) dusk
 
-# ----------------------------------------------------------------------------------------------------------- #
-# ----- The targets below won't show in help because the descriptions only have 1 hash at the beginning ----- #
-# ----------------------------------------------------------------------------------------------------------- #
+# --------------------------------------------------------- #
+# ----- The targets below should not be shown in help ----- #
+# --------------------------------------------------------- #
 
 # Clean everything (cache, logs, compiled assets, dependencies, etc)
 reset: clean

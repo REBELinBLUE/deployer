@@ -2,9 +2,9 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Validators;
 
+use phpmock\mockery\PHPMockery as phpm;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Validators\HostValidator;
-use phpmock\mockery\PHPMockery as phpm;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Validators\HostValidator

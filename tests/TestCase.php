@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\App;
 use Mockery as m;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use Symfony\Component\Yaml\Yaml;
