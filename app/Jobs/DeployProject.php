@@ -81,6 +81,8 @@ class DeployProject extends Job implements ShouldQueue
     {
         $this->filesystem = $filesystem;
 
+        $this->waitIfMirroring();
+
         $this->deployment->started_at = $this->deployment->freshTimestamp();
         $this->deployment->status     = Deployment::DEPLOYING;
         $this->deployment->save();
@@ -180,5 +182,20 @@ class DeployProject extends Job implements ShouldQueue
         }
 
         $this->filesystem->delete($to_delete);
+    }
+
+    /**
+     * Waits whilst the repo is being updated.
+     */
+    private function waitIfMirroring()
+    {
+        $isMirroring = $this->deployment->project->is_mirroring;
+        while ($isMirroring) {
+            sleep(5);
+
+            /** @var Project $project */
+            $project     = $this->deployment->project->fresh();
+            $isMirroring = $project->is_mirroring;
+        }
     }
 }
