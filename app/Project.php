@@ -41,7 +41,7 @@ class Project extends Model implements HasPresenter
     protected $hidden = ['private_key', 'created_at', 'deleted_at', 'updated_at', 'hash',
                          'updated_at', 'servers', 'commands', 'hash',
                          'group', 'servers', 'commands', 'heartbeats', 'checkUrls',
-                         'notifications', 'deployments', 'shareFiles', 'configFiles', ];
+                         'notifications', 'deployments', 'shareFiles', 'configFiles', 'is_mirroring', ];
 
     /**
      * Additional attributes to include in the JSON representation.
@@ -63,6 +63,7 @@ class Project extends Model implements HasPresenter
         'builds_to_keep'     => 'integer',
         'allow_other_branch' => 'boolean',
         'include_dev'        => 'boolean',
+        'is_mirroring'       => 'boolean',
     ];
 
     /**

@@ -54,20 +54,29 @@ class UpdateGitMirror extends Job
         $filesystem->put($wrapper_file, $wrapper);
         $filesystem->chmod($wrapper_file, 0755);
 
+        $this->project->is_mirroring = true;
+        $this->project->save();
+
         $process->setScript('tools.MirrorGitRepository', [
             'wrapper_file' => $wrapper_file,
             'mirror_path'  => $this->project->mirrorPath(),
             'repository'   => $this->project->repository,
         ])->run();
 
+        $successful = $process->isSuccessful();
+
         $filesystem->delete([$wrapper_file, $private_key]);
 
-        if (!$process->isSuccessful()) {
-            throw new RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());
+        if ($successful) {
+            $this->project->last_mirrored = $this->project->freshTimestamp();
         }
 
-        $this->project->last_mirrored = $this->project->freshTimestamp();
+        $this->project->is_mirroring  = false;
         $this->project->save();
+
+        if (!$successful) {
+            throw new RuntimeException('Could not mirror repository - ' . $process->getErrorOutput());
+        }
 
         $this->dispatch(new UpdateGitReferences($this->project));
     }

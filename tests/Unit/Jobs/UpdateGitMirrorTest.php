@@ -52,6 +52,9 @@ class UpdateGitMirrorTest extends TestCase
         $project->shouldReceive('getAttribute')->once()->with('private_key')->andReturn($private_key);
         $project->shouldReceive('getAttribute')->once()->with('repository')->andReturn($repository);
         $project->shouldReceive('mirrorPath')->once()->andReturn($mirror_path);
+        $project->shouldReceive('setAttribute')->with('is_mirroring', true);
+        $project->shouldReceive('setAttribute')->with('is_mirroring', false);
+        $project->shouldReceive('save')->twice();
 
         $filesystem = m::mock(Filesystem::class);
         $filesystem->shouldReceive('tempnam')->once()->with(storage_path('app/tmp/'), 'key')->andReturn($key_file);
@@ -92,7 +95,6 @@ class UpdateGitMirrorTest extends TestCase
         $this->process->shouldReceive('run')->once();
         $this->process->shouldReceive('isSuccessful')->once()->andReturn(true);
         $this->project->shouldReceive('setAttribute')->once()->with('last_mirrored', $timestamp);
-        $this->project->shouldReceive('save')->once();
 
         $this->expectsJobs(UpdateGitReferences::class);
 
@@ -109,6 +111,7 @@ class UpdateGitMirrorTest extends TestCase
         $this->process->shouldReceive('run')->once();
         $this->process->shouldReceive('isSuccessful')->once()->andReturn(false);
         $this->process->shouldReceive('getErrorOutput')->once();
+        $this->project->shouldNotReceive('setAttribute')->with('last_mirrored', m::any());
 
         $this->doesntExpectJobs(UpdateGitReferences::class);
         $this->expectException(RuntimeException::class);
