@@ -239,6 +239,7 @@ class EloquentProjectRepositoryTest extends EloquentRepositoryTestCase
         };
 
         $model = m::mock(Project::class);
+        $model->shouldReceive('where')->once()->with('is_mirroring', false)->andReturnSelf();
         $model->shouldReceive('where')->once()->with('last_mirrored', '<', $last)->andReturnSelf();
         $model->shouldReceive('orWhereNull')->once()->with('last_mirrored')->andReturnSelf();
         $model->shouldReceive('chunk')->once()->with($count, $callback)->andReturn($expected);
