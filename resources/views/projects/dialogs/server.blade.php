@@ -84,6 +84,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @if (isset($server_templates))
                                     @foreach ($server_templates as $template)
                                         <tr>
                                             <td>{{ $template->name  }}</td>
@@ -94,6 +95,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    @endif
                                     </tbody>
                                 </table>
                             </div>
