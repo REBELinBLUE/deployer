@@ -10,6 +10,8 @@ return [
     'name'               => 'Name',
     'connect_as'         => 'Connect As',
     'ip_address'         => 'Host',
+    'log'                => 'View Test Log',
+    'log_title'          => 'Test Log',
     'port'               => 'Port',
     'status'             => 'Connection Status',
     'test'               => 'Test the server connection',

@@ -2,14 +2,16 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Jobs;
 
-use Exception;
+use Closure;
 use Mockery as m;
+use REBELinBLUE\Deployer\Jobs\DeployProject\LogFormatter;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use REBELinBLUE\Deployer\Tests\TestCase;
+use Symfony\Component\Process\Process as SymfonyProcess;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Jobs\TestServerConnection
@@ -31,6 +33,9 @@ class TestServerConnectionTest extends TestCase
      */
     private $filesystem;
 
+    /** @var LogFormatter */
+    private $formatter;
+
     public function setUp()
     {
         parent::setUp();
@@ -51,7 +56,9 @@ class TestServerConnectionTest extends TestCase
         $server->shouldReceive('getAttribute')->once()->with('project_id')->andReturn($project_id);
         $server->shouldReceive('getAttribute')->once()->with('clean_path')->andReturn($clean_path);
         $server->shouldReceive('setAttribute')->once()->with('status', Server::TESTING);
-        $server->shouldReceive('save')->twice();
+        $server->shouldReceive('setAttribute')->once()->with('connect_log', null);
+
+        $formatter = m::mock(LogFormatter::class);
 
         $filesystem = m::mock(Filesystem::class);
         $filesystem->shouldReceive('tempnam')->once()->with(storage_path('app/tmp/'), 'key')->andReturn($key_file);
@@ -68,9 +75,10 @@ class TestServerConnectionTest extends TestCase
         ])->andReturnSelf();
         $process->shouldReceive('setServer')->once()->with($server, $key_file)->andReturnSelf();
 
-        $this->server     = $server;
-        $this->process    = $process;
-        $this->filesystem = $filesystem;
+        $this->server      = $server;
+        $this->process     = $process;
+        $this->filesystem  = $filesystem;
+        $this->formatter   = $formatter;
     }
 
     /**
@@ -79,12 +87,32 @@ class TestServerConnectionTest extends TestCase
      */
     public function testHandleSuccessful()
     {
-        $this->process->shouldReceive('run')->once();
+        $errorIn   = 'a-line-of-error-output';
+        $successIn = 'a-line-of-success-output';
+
+        $this->process->shouldReceive('run')->with(m::on(function ($callback) use ($errorIn, $successIn) {
+            $callback(SymfonyProcess::OUT, $successIn);
+            $callback(SymfonyProcess::ERR, $errorIn);
+            $this->assertInstanceOf(Closure::class, $callback);
+
+            return true;
+        }));
+
+        $this->formatter->shouldReceive('info')->with($successIn)->andReturn('info');
+        $this->formatter->shouldReceive('error')->with($errorIn)->andReturn(' - error');
+
         $this->process->shouldReceive('isSuccessful')->once()->andReturn(true);
         $this->server->shouldReceive('setAttribute')->once()->with('status', Server::SUCCESSFUL);
 
+        // Log should be cleared on success
+        $this->server->shouldReceive('setAttribute')->once()->with('connect_log', 'info');
+        $this->server->shouldReceive('setAttribute')->once()->with('connect_log', 'info - error');
+        $this->server->shouldReceive('setAttribute')->once()->with('connect_log', null);
+
+        $this->server->shouldReceive('save')->times(4);
+
         $job = new TestServerConnection($this->server);
-        $job->handle($this->process, $this->filesystem);
+        $job->handle($this->process, $this->filesystem, $this->formatter);
     }
 
     /**
@@ -93,24 +121,27 @@ class TestServerConnectionTest extends TestCase
      */
     public function testHandleUnsuccessful()
     {
-        $this->process->shouldReceive('run')->once();
+        $errorIn   = 'a-line-of-error-output';
+        $successIn = 'a-line-of-success-output';
+
+        $this->process->shouldReceive('run')->with(m::on(function ($callback) use ($errorIn, $successIn) {
+            $callback(SymfonyProcess::ERR, $errorIn);
+            $callback(SymfonyProcess::OUT, $successIn);
+            $this->assertInstanceOf(Closure::class, $callback);
+
+            return true;
+        }));
+
+        $this->formatter->shouldReceive('error')->with($errorIn)->andReturn('error' . PHP_EOL);
+        $this->formatter->shouldReceive('info')->with($successIn)->andReturn('info');
+
         $this->process->shouldReceive('isSuccessful')->once()->andReturn(false);
         $this->server->shouldReceive('setAttribute')->once()->with('status', Server::FAILED);
+        $this->server->shouldReceive('setAttribute')->once()->with('connect_log', 'error' . PHP_EOL);
+        $this->server->shouldReceive('setAttribute')->once()->with('connect_log', 'error' . PHP_EOL . 'info');
+        $this->server->shouldReceive('save')->times(4);
 
         $job = new TestServerConnection($this->server);
-        $job->handle($this->process, $this->filesystem);
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::handle
-     */
-    public function testHandleDealsWithExceptions()
-    {
-        $this->process->shouldReceive('run')->andThrow(Exception::class);
-        $this->server->shouldReceive('setAttribute')->once()->with('status', Server::FAILED);
-
-        $job = new TestServerConnection($this->server);
-        $job->handle($this->process, $this->filesystem);
+        $job->handle($this->process, $this->filesystem, $this->formatter);
     }
 }

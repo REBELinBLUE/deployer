@@ -129,7 +129,8 @@ class Server extends Model
     private function setAttributeStatusUntested($attribute, $value)
     {
         if (!array_key_exists($attribute, $this->attributes) || $value !== $this->attributes[$attribute]) {
-            $this->attributes['status'] = self::UNTESTED;
+            $this->attributes['status']      = self::UNTESTED;
+            $this->attributes['connect_log'] = null;
         }
 
         $this->attributes[$attribute] = $value;

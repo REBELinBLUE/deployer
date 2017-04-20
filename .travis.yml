@@ -78,7 +78,9 @@ after_script:
 after_success:
   - |
     if [[ -f storage/app/tmp/coverage.xml ]]; then
+      travis_retry composer install --no-interaction --prefer-dist --no-suggest --quiet
       mv $TRAVIS_BUILD_DIR/storage/app/tmp/coverage.xml $TRAVIS_BUILD_DIR/coverage.xml
+      php vendor/bin/test-reporter --coverage-report=$TRAVIS_BUILD_DIR/coverage.xml
       bash <(curl -s https://codecov.io/bash)
     fi
 

@@ -4,6 +4,14 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 
 var app = app || {};
 
+// FIXME: There has to be a cleaner way to do this surely?
+function parseOutput(output) {
+  return output.replace(/<\/error>/g, '</span>')
+    .replace(/<\/info>/g, '</span>')
+    .replace(/<error>/g, '<span class="text-red">')
+    .replace(/<info>/g, '<span class="text-default">');
+}
+
 toastr.options.closeButton = true;
 toastr.options.progressBar = true;
 toastr.options.preventDuplicates = true;

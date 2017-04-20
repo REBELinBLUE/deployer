@@ -236,7 +236,11 @@ var app = app || {};
             return this;
         },
         viewLog: function() {
-            $('#response pre').text(this.model.get('last_log'));
+            var modal = $('div.modal#result');
+            var title = Lang.get('checkUrls.log_title');
+
+            modal.find('pre').text(this.model.get('last_log'));
+            modal.find('.modal-title span').text(title);
         },
         editUrl: function() {
             $('#url_id').val(this.model.id);

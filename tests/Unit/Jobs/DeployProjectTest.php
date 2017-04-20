@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Collection;
 use Mockery as m;
+use phpmock\mockery\PHPMockery as phpm;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\DeployStep;
@@ -63,6 +64,7 @@ class DeployProjectTest extends TestCase
         $this->project->shouldReceive('setAttribute')->with('last_run', $finished);
         $this->deployment->shouldReceive('freshTimestamp')->once()->andReturn($finished);
         $this->deployment->shouldReceive('setAttribute')->with('finished_at', $finished);
+
         $this->deployment->shouldReceive('getAttribute')->with('finished_at')->andReturn($finished);
 
         $job = new DeployProject($this->deployment);
@@ -229,11 +231,18 @@ class DeployProjectTest extends TestCase
 
         $started  = Carbon::create(2017, 1, 5, 16, 34, 12, 'UTC');
 
+        $sleepTimes = 5;
+
         $project = m::mock(Project::class);
         $project->shouldReceive('setAttribute')->with('status', Project::DEPLOYING);
         $project->shouldReceive('getAttribute')->with('private_key')->andReturn($private_key);
         $project->shouldReceive('setAttribute')->with('status', Project::FINISHED);
         $project->shouldReceive('save')->twice();
+        $project->shouldReceive('getAttribute')->times($sleepTimes)->with('is_mirroring')->andReturn(true);
+        $project->shouldReceive('fresh')->andReturnSelf();
+        $project->shouldReceive('getAttribute')->once()->with('is_mirroring')->andReturn(false);
+
+        phpm::mock('REBELinBLUE\Deployer\Jobs', 'sleep')->times($sleepTimes);
 
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->with('id')->andReturn($deployment_id);

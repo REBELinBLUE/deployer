@@ -126,7 +126,8 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
      */
     public function getLastMirroredBefore(Carbon $last_mirrored_since, $count, callable $callback)
     {
-        return $this->model->where('last_mirrored', '<', $last_mirrored_since)
+        return $this->model->where('is_mirroring', false)
+                           ->where('last_mirrored', '<', $last_mirrored_since)
                            ->orWhereNull('last_mirrored')
                            ->chunk($count, $callback);
     }
