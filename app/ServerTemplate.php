@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
+/**
+ * Class ServerTemplate.
+ */
 class ServerTemplate extends Model
 {
-
     use BroadcastChanges, SoftDeletes, Notifiable;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'ip_address', 'port' ];
+    protected $fillable = ['name', 'ip_address', 'port'];
 
     /**
      * The attributes excluded from the model's JSON form.

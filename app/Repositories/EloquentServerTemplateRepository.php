@@ -3,12 +3,20 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerTemplateRepositoryInterface;
+use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerTemplate;
 
+/**
+ * Class EloquentServerTemplateRepository.
+ */
 class EloquentServerTemplateRepository extends EloquentRepository implements ServerTemplateRepositoryInterface
 {
-
-    function __construct(ServerTemplate $model)
+    /**
+     * EloquentServerTemplateRepository constructor.
+     *
+     * @param ServerTemplate $model
+     */
+    public function __construct(ServerTemplate $model)
     {
         $this->model = $model;
     }
@@ -20,6 +28,7 @@ class EloquentServerTemplateRepository extends EloquentRepository implements Ser
      */
     public function queryByName($name)
     {
-        // TODO: Implement queryByName() method.
+        /** @var ServerTemplate $model */
+        return $this->model->where('name', '=', $name);
     }
 }

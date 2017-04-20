@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Providers;
 use Illuminate\Foundation\Application;
 use Mockery as m;
 use REBELinBLUE\Deployer\Providers\RepositoryServiceProvider;
-use REBELinBLUE\Deployer\Repositories\EloquentRepository;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use ReflectionClass;
 
@@ -21,7 +20,7 @@ class RepositoryServiceProviderTest extends TestCase
     {
         $app = m::mock(Application::class);
         $app->shouldReceive('bind')
-            ->times(17)
+            ->times(18)
             ->with(m::type('string'), m::type('string'))
             ->andReturnUsing(function ($interface, $repository) {
                 $mock = new ReflectionClass($interface);

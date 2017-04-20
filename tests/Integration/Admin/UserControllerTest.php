@@ -71,7 +71,7 @@ class UserControllerTest extends AuthenticatedTestCase
         $updated  = 'Paul';
 
         /** @var User $user */
-        $user = factory(User::class)->create(['name' => $original, 'email' => $email])->fresh();
+        $user          = factory(User::class)->create(['name' => $original, 'email' => $email])->fresh();
         $original_hash = $user->password;
 
         $this->putJson('/admin/users/2', [
@@ -85,7 +85,7 @@ class UserControllerTest extends AuthenticatedTestCase
         /** @var User $user */
         $user = $this->app->make(UserRepositoryInterface::class)->getById(2);
 
-        $this->assertSame($original_hash, $user->password, "Password has unexpectedly changed");
+        $this->assertSame($original_hash, $user->password, 'Password has unexpectedly changed');
     }
 
     /**
@@ -102,7 +102,7 @@ class UserControllerTest extends AuthenticatedTestCase
         $password = 'a-random-password';
 
         /** @var User $user */
-        $user = factory(User::class)->create(['name' => $original, 'email' => $email])->fresh();
+        $user          = factory(User::class)->create(['name' => $original, 'email' => $email])->fresh();
         $original_hash = $user->password;
 
         $this->putJson('/admin/users/2', [
@@ -117,10 +117,9 @@ class UserControllerTest extends AuthenticatedTestCase
 
         $user = $this->app->make(UserRepositoryInterface::class)->getById(2);
 
-        /** @var User $user */
-        $this->assertNotSame($original_hash, $user->password, "Password has not been updated");
+        /* @var User $user */
+        $this->assertNotSame($original_hash, $user->password, 'Password has not been updated');
     }
-
 
     /**
      * @covers ::__construct

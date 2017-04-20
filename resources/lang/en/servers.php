@@ -27,5 +27,5 @@ return [
     'manage'             => 'Manage Servers',
     'server_details'     => 'Server Details',
     'load_from_template' => 'Load Template',
-    'load_template' => 'Load Template',
+    'load_template'      => 'Load Template',
 ];

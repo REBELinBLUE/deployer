@@ -2,9 +2,11 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
+/**
+ * Class StoreServerTemplateRequest.
+ */
 class StoreServerTemplateRequest extends Request
 {
-
     /**
      * Get the validation rules that apply to the request.
      *

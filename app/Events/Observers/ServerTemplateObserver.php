@@ -3,19 +3,20 @@
  * Created by PhpStorm.
  * User: claudiopinto
  * Date: 11/04/2017
- * Time: 22:59
+ * Time: 22:59.
  */
 
 namespace REBELinBLUE\Deployer\Events\Observers;
 
-
 use REBELinBLUE\Deployer\ServerTemplate;
 
+/**
+ * Class ServerTemplateObserver.
+ */
 class ServerTemplateObserver
 {
-
     /**
-     * Called when model is being created
+     * Called when model is being created.
      * @param ServerTemplate $template
      */
     public function creating(ServerTemplate $template)
