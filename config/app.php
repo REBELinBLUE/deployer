@@ -174,6 +174,7 @@ return [
         GrahamCampbell\Binput\BinputServiceProvider::class,
         GrahamCampbell\Security\SecurityServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Laracademy\Commands\MakeServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
         Lubusin\Decomposer\DecomposerServiceProvider::class,
         McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
