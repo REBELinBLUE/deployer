@@ -26,7 +26,7 @@ class UpdateApp extends Command
      *
      * @var string
      */
-    protected $signature = 'app:update';
+    protected $signature = 'app:update {--no-backup : Do not backup the database}';
 
     /**
      * The console command description.
@@ -106,15 +106,17 @@ class UpdateApp extends Command
             $this->call('down');
         }
 
-        try {
-            $this->backupDatabase();
-        } catch (ShellProcessFailed $error) {
-            $this->warn(PHP_EOL . 'Database backup failed!' . PHP_EOL . trim($error->getMessage()));
+        if (!$this->option('no-backup')) {
+            try {
+                $this->backupDatabase();
+            } catch (ShellProcessFailed $error) {
+                $this->warn(PHP_EOL . 'Database backup failed!' . PHP_EOL . trim($error->getMessage()));
 
-            if (!$this->confirm('Are you sure you wish to continue?')) {
-                $this->bringUp();
+                if (!$this->confirm('Are you sure you wish to continue?')) {
+                    $this->bringUp();
 
-                return -1;
+                    return -1;
+                }
             }
         }
 
