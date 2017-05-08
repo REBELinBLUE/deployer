@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands;
 
+use BackupManager\ShellProcessing\ShellProcessFailed;
 use Carbon\Carbon;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
@@ -49,6 +50,9 @@ class UpdateApp extends Command
      */
     private $repository;
 
+    /** @var bool */
+    private $bringBackUp = false;
+
     /**
      * UpdateApp constructor.
      *
@@ -84,8 +88,6 @@ class UpdateApp extends Command
             return -1;
         }
 
-        $bring_back_up = false;
-
         if (!$this->laravel->isDownForMaintenance()) {
             $this->error(
                 'You must switch to maintenance mode before running this command, ' .
@@ -99,12 +101,22 @@ class UpdateApp extends Command
                 return -1;
             }
 
-            $bring_back_up = true;
+            $this->bringBackUp = true;
 
             $this->call('down');
         }
 
-        $this->backupDatabase();
+        try {
+            $this->backupDatabase();
+        } catch (ShellProcessFailed $error) {
+            $this->warn(PHP_EOL . 'Database backup failed!' . PHP_EOL . trim($error->getMessage()));
+
+            if (!$this->confirm('Are you sure you wish to continue?')) {
+                $this->bringUp();
+
+                return -1;
+            }
+        }
 
         // Write the file to disk
         $this->info('Updating configuration file');
@@ -116,12 +128,19 @@ class UpdateApp extends Command
         $this->restartQueue();
         $this->restartSocket($dispatcher);
 
-        // If we prompted the user to bring the app down, bring it back up
-        if ($bring_back_up) {
-            $this->call('up');
-        }
+        $this->bringUp();
 
         return 0;
+    }
+
+    /**
+     * Brings the app back up, but only if it was up when the update started
+     */
+    protected function bringUp()
+    {
+        if ($this->bringBackUp) {
+            $this->call('up');
+        }
     }
 
     /**
