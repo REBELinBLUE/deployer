@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Deployer',
+    'name' => env('APP_NAME', 'Deployer'),
 
     /*
     |--------------------------------------------------------------------------
@@ -174,6 +174,7 @@ return [
         GrahamCampbell\Binput\BinputServiceProvider::class,
         GrahamCampbell\Security\SecurityServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Laracademy\Commands\MakeServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
         Lubusin\Decomposer\DecomposerServiceProvider::class,
         McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
