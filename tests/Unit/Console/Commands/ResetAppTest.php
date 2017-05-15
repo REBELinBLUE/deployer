@@ -81,8 +81,13 @@ class ResetAppTest extends TestCase
             return true;
         }), m::any());
 
-
         $migrate = m::mock(MigrateCommand::class);
+        $migrate->shouldReceive('run')->once()->with(m::on(function (ArrayInput $arg) {
+            $this->assertTrue($arg->getParameterOption('--force'));
+
+            return true;
+        }), m::any());
+
         $migrate->shouldReceive('run')->once()->with(m::on(function (ArrayInput $arg) {
             $this->assertTrue($arg->getParameterOption('--seed'));
             $this->assertTrue($arg->getParameterOption('--force'));
@@ -93,6 +98,7 @@ class ResetAppTest extends TestCase
         $this->laravel->shouldReceive('environment')->with('local')->andReturn(true);
 
         $this->console->shouldReceive('find')->with('down')->andReturn($command);
+        $this->console->shouldReceive('find')->with('migrate')->andReturn($migrate);
         $this->console->shouldReceive('find')->with('app:update')->andReturn($update);
         $this->console->shouldReceive('find')->with('migrate:fresh')->andReturn($migrate);
         $this->console->shouldReceive('find')->with('queue:flush')->andReturn($command);
