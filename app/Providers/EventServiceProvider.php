@@ -65,10 +65,10 @@ class EventServiceProvider extends ServiceProvider
         parent::boot();
 
         Channel::observe(ChannelObserver::class);
-        ServerTemplate::observe(ServerTemplateObserver::class);
         CheckUrl::observe(CheckUrlObserver::class);
         Heartbeat::observe(HeartbeatObserver::class);
         Project::observe(ProjectObserver::class);
         ServerLog::observe(ServerLogObserver::class);
+        ServerTemplate::observe(ServerTemplateObserver::class);
     }
 }

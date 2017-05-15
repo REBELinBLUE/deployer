@@ -136,7 +136,7 @@ class UpdateApp extends Command
     }
 
     /**
-     * Brings the app back up, but only if it was up when the update started
+     * Brings the app back up, but only if it was up when the update started.
      */
     protected function bringUp()
     {

@@ -12,7 +12,7 @@ use REBELinBLUE\Deployer\Repositories\Contracts\ServerTemplateRepositoryInterfac
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class ServerTemplateController.
+ * The controller for managing servers.
  */
 class ServerTemplateController extends Controller
 {

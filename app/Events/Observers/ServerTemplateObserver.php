@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: claudiopinto
- * Date: 11/04/2017
- * Time: 22:59.
- */
 
 namespace REBELinBLUE\Deployer\Events\Observers;
 
 use REBELinBLUE\Deployer\ServerTemplate;
 
 /**
- * Class ServerTemplateObserver.
+ * Event observer for server template model.
  */
 class ServerTemplateObserver
 {

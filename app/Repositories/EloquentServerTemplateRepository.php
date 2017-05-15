@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerTemplateRepositoryInterface;
-use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerTemplate;
 
 /**
@@ -28,7 +27,7 @@ class EloquentServerTemplateRepository extends EloquentRepository implements Ser
      */
     public function queryByName($name)
     {
-        /** @var ServerTemplate $model */
+        /* @var ServerTemplate $model */
         return $this->model->where('name', '=', $name);
     }
 }

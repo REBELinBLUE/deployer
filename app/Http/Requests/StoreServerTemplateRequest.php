@@ -3,7 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Requests;
 
 /**
- * Class StoreServerTemplateRequest.
+ * Request for validating server templates.
  */
 class StoreServerTemplateRequest extends Request
 {
@@ -17,6 +17,7 @@ class StoreServerTemplateRequest extends Request
         return [
             'name'      => 'required|max:255',
             'ip_address'=> 'required|host',
-            'port'      => 'required|integer|min:0|max:65535',];
+            'port'      => 'required|integer|min:0|max:65535',
+        ];
     }
 }

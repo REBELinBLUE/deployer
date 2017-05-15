@@ -60,11 +60,11 @@ class RepositoryServiceProvider extends ServiceProvider
         RefRepositoryInterface::class            => EloquentRefRepository::class,
         ServerLogRepositoryInterface::class      => EloquentServerLogRepository::class,
         ServerRepositoryInterface::class         => EloquentServerRepository::class,
+        ServerTemplateRepositoryInterface::class => EloquentServerTemplateRepository::class,
         SharedFileRepositoryInterface::class     => EloquentSharedFileRepository::class,
         TemplateRepositoryInterface::class       => EloquentTemplateRepository::class,
         UserRepositoryInterface::class           => EloquentUserRepository::class,
         VariableRepositoryInterface::class       => EloquentVariableRepository::class,
-        ServerTemplateRepositoryInterface::class => EloquentServerTemplateRepository::class,
     ];
 
     /**
