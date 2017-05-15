@@ -7,7 +7,7 @@ use REBELinBLUE\Deployer\Repositories\EloquentServerTemplateRepository;
 use REBELinBLUE\Deployer\ServerTemplate;
 
 /**
- * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentServerTemplateRepositoryTest
+ * @coversDefaultClass \REBELinBLUE\Deployer\Repositories\EloquentServerTemplateRepository
  */
 class EloquentServerTemplateRepositoryTest extends EloquentRepositoryTestCase
 {
