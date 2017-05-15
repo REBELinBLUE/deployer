@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Foundation\Application;
 use Mockery as m;
 use REBELinBLUE\Deployer\Console\Commands\ResetApp;
+use REBELinBLUE\Deployer\Console\Commands\UpdateApp;
 use REBELinBLUE\Deployer\Events\RestartSocketServer;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Tests\TestCase;
@@ -73,12 +74,15 @@ class ResetAppTest extends TestCase
         $command = m::mock(Command::class);
         $command->shouldReceive('run');
 
-        $migrate = m::mock(MigrateCommand::class);
-        $migrate->shouldReceive('run')->once()->with(m::on(function (ArrayInput $arg) {
-            $this->assertTrue($arg->getParameterOption('--force'));
+        $update = m::mock(UpdateApp::class);
+        $update->shouldReceive('run')->once()->with(m::on(function (ArrayInput $arg) {
+            $this->assertTrue($arg->getParameterOption('--no-backup'));
 
             return true;
         }), m::any());
+
+
+        $migrate = m::mock(MigrateCommand::class);
         $migrate->shouldReceive('run')->once()->with(m::on(function (ArrayInput $arg) {
             $this->assertTrue($arg->getParameterOption('--seed'));
             $this->assertTrue($arg->getParameterOption('--force'));
@@ -89,8 +93,7 @@ class ResetAppTest extends TestCase
         $this->laravel->shouldReceive('environment')->with('local')->andReturn(true);
 
         $this->console->shouldReceive('find')->with('down')->andReturn($command);
-        $this->console->shouldReceive('find')->with('migrate')->andReturn($migrate);
-        $this->console->shouldReceive('find')->with('app:update')->andReturn($command);
+        $this->console->shouldReceive('find')->with('app:update')->andReturn($update);
         $this->console->shouldReceive('find')->with('migrate:fresh')->andReturn($migrate);
         $this->console->shouldReceive('find')->with('queue:flush')->andReturn($command);
         $this->console->shouldReceive('find')->with('queue:restart')->andReturn($command);

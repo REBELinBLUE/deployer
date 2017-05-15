@@ -37,7 +37,7 @@
         </blacklist>
     </filter>
     <![CDATA[
-        <!-- Some options which are useful in development but not on the CI, rename the CDATA to use -->
+        <!-- Some options which are useful in development but not on the CI, remove the CDATA to use -->
         <logging>
             <log type="coverage-text" target="php://stdout" lowUpperBound="50" highLowerBound="80" />
         </logging>
