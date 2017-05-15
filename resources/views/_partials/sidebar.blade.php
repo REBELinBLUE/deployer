@@ -34,6 +34,7 @@
                     <li class="{{ Request::is('admin/templates*') ? 'active' : null }}"><a href="{{ route('admin.templates.index') }}">{{ trans('app.templates') }}</a></li>
                     <li class="{{ Request::is('admin/groups') ? 'active' : null }}"><a href="{{ route('admin.groups.index') }}">{{ trans('app.groups') }}</a></li>
                     <li class="{{ Request::is('admin/users') ? 'active' : null }}"><a href="{{ route('admin.users.index') }}">{{ trans('app.users') }}</a></li>
+                    <li class="{{ Request::is('admin/servers') ? 'active' : null }}"><a href="{{ route('admin.servers.index') }}">{{ trans('app.servers') }}</a></li>
                 </ul>
             </li>
         </ul>
