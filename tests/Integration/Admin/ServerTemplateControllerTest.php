@@ -16,7 +16,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
     use DatabaseMigrations;
 
     /**
-     * @covers ::_construct
+     * @covers ::__construct
      * @covers ::index
      */
     public function testIndex()
@@ -32,7 +32,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
     }
 
     /**
-     * @covers ::_construct
+     * @covers ::__construct
      * @covers ::create
      */
     public function testCreate()
@@ -55,7 +55,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
     }
 
     /**
-     * @covers ::_construct
+     * @covers ::__construct
      * @covers ::create
      * @covers \StoreServerTemplateRequest
      * @covers \Request
@@ -71,7 +71,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
     }
 
     /**
-     * @covers ::_construct
+     * @covers ::__construct
      * @covers ::create
      * @covers \StoreServerTemplateRequest
      * @covers \Request
@@ -87,7 +87,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
     }
 
     /**
-     * @covers ::_construct
+     * @covers ::__construct
      * @covers ::create
      * @covers \StoreServerTemplateRequest
      * @covers \Request
@@ -103,7 +103,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
     }
 
     /**
-     * @covers ::_construct
+     * @covers ::__construct
      * @covers ::update
      */
     public function testUpdate()
@@ -122,7 +122,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
     }
 
     /**
-     * @covers ::_construct
+     * @covers ::__construct
      * @covers ::create
      * @covers \StoreServerTemplateRequest
      * @covers \Request
