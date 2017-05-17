@@ -33,7 +33,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
 
     /**
      * @covers ::__construct
-     * @covers ::create
+     * @covers ::store
      */
     public function testCreate()
     {
@@ -56,9 +56,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
 
     /**
      * @covers ::__construct
-     * @covers ::create
-     * @covers \StoreServerTemplateRequest
-     * @covers \Request
+     * @covers ::store
      */
     public function testCreateValidateNameMissingFail()
     {
@@ -72,9 +70,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
 
     /**
      * @covers ::__construct
-     * @covers ::create
-     * @covers \StoreServerTemplateRequest
-     * @covers \Request
+     * @covers ::store
      */
     public function testCreateValidateIpAddressMissingFail()
     {
@@ -88,9 +84,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
 
     /**
      * @covers ::__construct
-     * @covers ::create
-     * @covers \StoreServerTemplateRequest
-     * @covers \Request
+     * @covers ::store
      */
     public function testCreateValidatePortMissingFail()
     {
@@ -123,9 +117,7 @@ class ServerTemplateControllerTest extends AuthenticatedTestCase
 
     /**
      * @covers ::__construct
-     * @covers ::create
-     * @covers \StoreServerTemplateRequest
-     * @covers \Request
+     * @covers ::update
      */
     public function testUpdateReturnErrorWhenInvalidIpAddress()
     {
