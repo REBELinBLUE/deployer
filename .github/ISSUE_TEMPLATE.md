@@ -23,7 +23,7 @@ To help us better understand your issue, please answer the following.
 
 ### Environment info
 
-Visit /admin/sysinfo on your install and click the "Get System Report" button. Paste the report here, if you can't
+Visit `/admin/sysinfo` on your install and click the "Get System Report" button. Paste the report here, if you can't
 please provide the following instead.
 
 Operating System:
