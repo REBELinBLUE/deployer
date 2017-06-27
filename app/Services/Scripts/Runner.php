@@ -148,7 +148,13 @@ class Runner
 
         $this->process->setCommandLine($command);
 
-        return $this->process->run($callback);
+        $result = $this->process->run($callback);
+
+        if (!$this->process->isSuccessful()) {
+            $this->logger->error($this->process->getErrorOutput());
+        }
+
+        return $result;
     }
 
     /**
