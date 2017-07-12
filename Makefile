@@ -145,7 +145,7 @@ fulltest: ##@shortcuts Runs all tests
 # Clean everything (cache, logs, compiled assets, dependencies, etc)
 reset: clean
 	rm -rf vendor/ node_modules/ bower_components/
-	rm -rf pstorage/app/mirrors/* storage/app/tmp/* storage/app/public/*  storage/app/*.tar.gz
+	rm -rf storage/app/mirrors/* storage/app/tmp/* storage/app/public/*  storage/app/*.tar.gz
 	rm -rf .env.prev _ide_helper_models.php _ide_helper.php .phpstorm.meta.php .php_cs.cache
 	-rm database/database.sqlite
 	-rm database/backups/*
