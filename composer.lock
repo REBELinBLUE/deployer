@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2922b01959cbf466290a23d85da9bc21",
+    "content-hash": "478c1b226983b3d0b6839e2cb1975bb8",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -2004,6 +2004,59 @@
                 "presenter"
             ],
             "time": "2017-01-01T12:52:59+00:00"
+        },
+        {
+            "name": "melihovv/laravel-log-viewer",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/melihovv/laravel-log-viewer.git",
+                "reference": "86c287357cac8a1b7a881c3e82603ba2c9b46b7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/melihovv/laravel-log-viewer/zipball/86c287357cac8a1b7a881c3e82603ba2c9b46b7d",
+                "reference": "86c287357cac8a1b7a881c3e82603ba2c9b46b7d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/filesystem": "~5.3.0|~5.4.0",
+                "illuminate/support": "~5.3.0|~5.4.0",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.7",
+                "orchestra/testbench": "~3.3.0|~3.4.0",
+                "phpmd/phpmd": "^2.5",
+                "phpunit/phpunit": "^5.7",
+                "squizlabs/php_codesniffer": "^2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Melihovv\\LaravelLogViewer\\": "src/LaravelLogViewer"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Melihov",
+                    "email": "amelihovv@ya.ru"
+                }
+            ],
+            "description": "A Laravel log viewer",
+            "keywords": [
+                "laravel",
+                "log",
+                "log-reader",
+                "log-viewer",
+                "logging",
+                "lumen"
+            ],
+            "time": "2017-02-04T19:54:31+00:00"
         },
         {
             "name": "michele-angioni/multi-language",
@@ -7285,6 +7338,7 @@
             "keywords": [
                 "git"
             ],
+            "abandoned": true,
             "time": "2017-01-23T20:57:12+00:00"
         },
         {
