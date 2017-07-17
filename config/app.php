@@ -184,6 +184,7 @@ return [
         NotificationChannels\Twilio\TwilioProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
         /*
          * Application Service Providers...

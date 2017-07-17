@@ -3,7 +3,6 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Lubusin\Decomposer\Controllers\DecomposerController;
 
 /**
  * The route service provider.
@@ -54,11 +53,8 @@ class RouteServiceProvider extends ServiceProvider
         // Admin routes
         $this->middleware(['web', 'auth', 'jwt'])->namespace($this->namespace)->group(base_path('routes/admin.php'));
 
-        // Laravel decomposer
-        $this->app->router
-                  ->prefix('admin')
-                  ->middleware(['web', 'auth', 'jwt'])
-                  ->get('sysinfo', DecomposerController::class . '@index');
+        // Packages
+        $this->middleware(['web', 'auth', 'jwt'])->group(base_path('routes/packages.php'));
     }
 
     /**

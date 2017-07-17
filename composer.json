@@ -39,6 +39,7 @@
         "laravel/tinker": "1.0.*",
         "lubusin/laravel-decomposer": "^1.0",
         "mccool/laravel-auto-presenter": "^5.0",
+        "melihovv/laravel-log-viewer": "^1.2",
         "michele-angioni/multi-language": "0.3",
         "pda/pheanstalk": "~3.1",
         "pragmarx/google2fa": "^1.0.0",
