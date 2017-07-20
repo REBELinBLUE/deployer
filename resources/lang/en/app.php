@@ -10,7 +10,6 @@ return [
     'projects'          => 'Projects',
     'templates'         => 'Templates',
     'groups'            => 'Groups',
-    'servers'           => 'Servers',
     'users'             => 'Users',
     'created'           => 'Created',
     'edit'              => 'Edit',

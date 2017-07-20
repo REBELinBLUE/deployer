@@ -185,15 +185,6 @@ var app = app || {};
         });
     });
 
-    $('#server [data-server-template-id]').on('click', function () {
-        var server_template_id = $(this).data('server-template-id');
-        var server_template = app.ServerTemplates.get(server_template_id);
-        $('#server_name').val(server_template.get('name'));
-        $('#server_address').val(server_template.get('ip_address'));
-        $('#server_port').val(server_template.get('port'));
-        $('.nav-tabs a[href="#server_details"]').tab('show');
-    });
-
     app.Server = Backbone.Model.extend({
         urlRoot: '/servers'
     });
