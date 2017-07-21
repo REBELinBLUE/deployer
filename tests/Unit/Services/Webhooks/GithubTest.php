@@ -2,9 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Services\Webhooks;
 
-use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Github;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Services\Webhooks\Github
@@ -16,7 +14,7 @@ class GithubTest extends WebhookTestCase
      */
     public function testIsRequestOriginValid()
     {
-        $request = $this->mockRequestIsFromGithub(true);
+        $request = $this->createRequestWithServiceHeader('X-GitHub-Event', true);
 
         $github = new Github($request);
         $this->assertTrue($github->isRequestOrigin());
@@ -27,7 +25,7 @@ class GithubTest extends WebhookTestCase
      */
     public function testIsRequestOriginInvalid()
     {
-        $request = $this->mockRequestIsFromGithub(false);
+        $request = $this->createRequestWithServiceHeader('X-GitHub-Event', false);
 
         $github = new Github($request);
         $this->assertFalse($github->isRequestOrigin());
@@ -38,7 +36,11 @@ class GithubTest extends WebhookTestCase
      */
     public function testHandleClosedPullRequest()
     {
-        $request = $this->mockPullRequest();
+        $payload = [
+            'after' => '0000000000000000000000000000000000000000',
+        ];
+
+        $request = $this->createRequestWithPayload('X-GitHub-Event', 'push', $payload);
 
         $github = new Github($request);
         $this->assertFalse($github->handlePush());
@@ -56,15 +58,20 @@ class GithubTest extends WebhookTestCase
         $name   = 'John Smith';
         $email  = 'john.smith@example.com';
 
-        $request = $this->mockRequestWithPayload([
-            'message'   => $reason,
-            'url'       => $url,
-            'id'        => $commit,
-            'committer' => [
-                'name'  => $name,
-                'email' => $email,
+        $data = [
+            'ref'         => 'refs/' . $ref,
+            'head_commit' => [
+                'message'   => $reason,
+                'url'       => $url,
+                'id'        => $commit,
+                'committer' => [
+                    'name'  => $name,
+                    'email' => $email,
+                ],
             ],
-        ], $ref);
+        ];
+
+        $request = $this->createRequestWithPayload('X-GitHub-Event', 'push', $data);
 
         $github = new Github($request);
         $actual = $github->handlePush();
@@ -78,7 +85,7 @@ class GithubTest extends WebhookTestCase
      */
     public function testHandleUnsupportedEvent($event)
     {
-        $request = $this->mockEventRequestFromGithub($event);
+        $request = $this->createEventRequest('X-GitHub-Event', $event);
 
         $github = new Github($request);
         $this->assertFalse($github->handlePush());
@@ -92,40 +99,5 @@ class GithubTest extends WebhookTestCase
             'ping', 'public', 'pull_request_review_comment', 'pull_request_review', 'pull_request', 'repository',
             'release', 'status', 'team', 'team_add', 'watch',
         ], 1);
-    }
-
-    private function mockRequestIsFromGithub($isValid)
-    {
-        return $this->mockRequestIsFrom('X-GitHub-Event', $isValid);
-    }
-
-    private function mockEventRequestFromGithub($event)
-    {
-        return $this->mockEventRequest('X-GitHub-Event', $event);
-    }
-
-    private function mockPullRequest()
-    {
-        $payload = m::mock(ParameterBag::class);
-        $payload->shouldReceive('has')->once()->with('after')->andReturn(true);
-        $payload->shouldReceive('get')->once()->with('after')->andReturn('0000000000000000000000000000000000000000');
-
-        $request = $this->mockEventRequestFromGithub('push');
-        $request->shouldReceive('json')->once()->andReturn($payload);
-
-        return $request;
-    }
-
-    private function mockRequestWithPayload(array $data, $ref)
-    {
-        $payload = m::mock(ParameterBag::class);
-        $payload->shouldReceive('has')->once()->with('after')->andReturn(false);
-        $payload->shouldReceive('get')->once()->with('head_commit')->andReturn($data);
-        $payload->shouldReceive('get')->once()->with('ref')->andReturn('refs/' . $ref);
-
-        $request = $this->mockEventRequestFromGithub('push');
-        $request->shouldReceive('json')->once()->andReturn($payload);
-
-        return $request;
     }
 }

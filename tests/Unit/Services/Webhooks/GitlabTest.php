@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Services\Webhooks;
 use Carbon\Carbon;
 use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Gitlab;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Services\Webhooks\Gitlab
@@ -17,7 +16,7 @@ class GitlabTest extends WebhookTestCase
      */
     public function testIsRequestOriginValid()
     {
-        $request = $this->mockRequestIsFromGitlab(true);
+        $request = $this->createRequestWithServiceHeader('X-Gitlab-Event', true);
 
         $gitlab = new Gitlab($request);
         $this->assertTrue($gitlab->isRequestOrigin());
@@ -28,7 +27,7 @@ class GitlabTest extends WebhookTestCase
      */
     public function testIsRequestOriginInvalid()
     {
-        $request = $this->mockRequestIsFromGitlab(false);
+        $request = $this->createRequestWithServiceHeader('X-Gitlab-Event', false);
 
         $gitlab = new Gitlab($request);
         $this->assertFalse($gitlab->isRequestOrigin());
@@ -46,18 +45,23 @@ class GitlabTest extends WebhookTestCase
         $name   = 'John Smith';
         $email  = 'john.smith@example.com';
 
-        $request = $this->mockRequestWithPayload([
+        $data = [
+            'ref'     => 'refs/' . $ref,
             'commits' => [
-                'timestamp' => Carbon::now()->format('Y-m-d H:i:s'),
-                'message'   => $reason,
-                'url'       => $url,
-                'id'        => $commit,
-                'author'    => [
-                    'name'  => $name,
-                    'email' => $email,
+                'commits' => [
+                    'timestamp' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'message'   => $reason,
+                    'url'       => $url,
+                    'id'        => $commit,
+                    'author'    => [
+                        'name'  => $name,
+                        'email' => $email,
+                    ],
                 ],
             ],
-        ], $ref);
+        ];
+
+        $request = $this->createRequestWithPayload('X-Gitlab-Event', 'Push Hook', $data);
 
         $gitlab = new Gitlab($request);
         $actual = $gitlab->handlePush();
@@ -71,7 +75,7 @@ class GitlabTest extends WebhookTestCase
      */
     public function testHandleUnsupportedEvent($event)
     {
-        $request = $this->mockEventRequestFromGitlab($event);
+        $request = $this->createEventRequest('X-Gitlab-Event', $event);
 
         $gitlab = new Gitlab($request);
         $this->assertFalse($gitlab->handlePush());
@@ -83,27 +87,5 @@ class GitlabTest extends WebhookTestCase
             'System Hook', 'Issue Hook', 'Note Hook', 'Merge Request Hook',
             'Wiki Page Hook', 'Pipeline Hook', 'Build Hook',
         ], 1);
-    }
-
-    private function mockRequestIsFromGitlab($isValid)
-    {
-        return $this->mockRequestIsFrom('X-Gitlab-Event', $isValid);
-    }
-
-    private function mockEventRequestFromGitlab($event)
-    {
-        return $this->mockEventRequest('X-Gitlab-Event', $event);
-    }
-
-    private function mockRequestWithPayload(array $data, $ref)
-    {
-        $payload = m::mock(ParameterBag::class);
-        $payload->shouldReceive('get')->once()->with('commits')->andReturn($data);
-        $payload->shouldReceive('get')->once()->with('ref')->andReturn('refs/' . $ref);
-
-        $request = $this->mockEventRequestFromGitlab('Push Hook');
-        $request->shouldReceive('json')->once()->andReturn($payload);
-
-        return $request;
     }
 }
