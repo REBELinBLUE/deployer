@@ -32,11 +32,11 @@ class Bitbucket extends Webhook
         $payload = $this->request->json();
         $push    = $payload->get('push');
 
-        if (!$push->has('changes')) {
+        if (!array_key_exists('changes', $push)) {
             return false;
         }
 
-        $changes = $push->get('changes', []);
+        $changes = $push['changes'];
         if (!count($changes)) {
             return false;
         }
