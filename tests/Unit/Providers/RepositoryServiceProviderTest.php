@@ -20,7 +20,7 @@ class RepositoryServiceProviderTest extends TestCase
     {
         $app = m::mock(Application::class);
         $app->shouldReceive('bind')
-            ->times(18)
+            ->times(17)
             ->with(m::type('string'), m::type('string'))
             ->andReturnUsing(function ($interface, $repository) {
                 $mock = new ReflectionClass($interface);

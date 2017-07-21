@@ -128,7 +128,6 @@
         app.Heartbeats.add({!! $heartbeats->toJson() !!});
         app.CheckUrls.add({!! $checkUrls->toJson() !!});
         app.Variables.add({!! $variables->toJson() !!});
-        app.ServerTemplates.add({!! $server_templates->toJson() !!});
 
         app.project_id = {{ $project->id }};
     </script>

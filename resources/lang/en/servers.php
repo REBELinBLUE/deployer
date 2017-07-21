@@ -26,8 +26,5 @@ return [
     'deploy_code'        => 'Code should be deployed to this server',
     'runs_code'          => 'Deploy Code',
     'add_command'        => 'Add the new server to all existing commands',
-    'manage'             => 'Manage Servers',
-    'server_details'     => 'Server Details',
-    'load_from_template' => 'Load Template',
-    'load_template'      => 'Load Template',
+
 ];
