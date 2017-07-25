@@ -16,7 +16,6 @@ use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
-use REBELinBLUE\Deployer\ServerTemplate;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 
 /**
@@ -92,25 +91,24 @@ class DeploymentController extends Controller
         });
 
         return $this->view->make('projects.details', [
-            'title'            => $project->name,
-            'deployments'      => $this->deploymentRepository->getLatest($project_id),
-            'today'            => $this->deploymentRepository->getTodayCount($project_id),
-            'last_week'        => $this->deploymentRepository->getLastWeekCount($project_id),
-            'project'          => $project,
-            'servers'          => $project->servers,
-            'server_templates' => ServerTemplate::all(),
-            'channels'         => $project->channels,
-            'heartbeats'       => $project->heartbeats,
-            'sharedFiles'      => $project->sharedFiles,
-            'configFiles'      => $project->configFiles,
-            'checkUrls'        => $project->checkUrls,
-            'variables'        => $project->variables,
-            'optional'         => $optional,
-            'tags'             => $project->tags,
-            'branches'         => $project->branches,
-            'route'            => 'commands.step',
-            'target_type'      => 'project',
-            'target_id'        => $project->id,
+            'title'        => $project->name,
+            'deployments'  => $this->deploymentRepository->getLatest($project_id),
+            'today'        => $this->deploymentRepository->getTodayCount($project_id),
+            'last_week'    => $this->deploymentRepository->getLastWeekCount($project_id),
+            'project'      => $project,
+            'servers'      => $project->servers,
+            'channels'     => $project->channels,
+            'heartbeats'   => $project->heartbeats,
+            'sharedFiles'  => $project->sharedFiles,
+            'configFiles'  => $project->configFiles,
+            'checkUrls'    => $project->checkUrls,
+            'variables'    => $project->variables,
+            'optional'     => $optional,
+            'tags'         => $project->tags,
+            'branches'     => $project->branches,
+            'route'        => 'commands.step',
+            'target_type'  => 'project',
+            'target_id'    => $project->id,
         ]);
     }
 

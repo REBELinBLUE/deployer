@@ -2,9 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Services\Webhooks;
 
-use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Bitbucket;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Services\Webhooks\Bitbucket
@@ -16,7 +14,7 @@ class BitbucketTest extends WebhookTestCase
      */
     public function testIsRequestOriginValid()
     {
-        $request = $this->mockRequestIsFromBitbucket(true);
+        $request = $this->createRequestWithServiceHeader('X-Event-Key', true);
 
         $bitbucket = new Bitbucket($request);
         $this->assertTrue($bitbucket->isRequestOrigin());
@@ -27,7 +25,7 @@ class BitbucketTest extends WebhookTestCase
      */
     public function testIsRequestOriginInvalid()
     {
-        $request = $this->mockRequestIsFromBitbucket(false);
+        $request = $this->createRequestWithServiceHeader('X-Event-Key', false);
 
         $bitbucket = new Bitbucket($request);
         $this->assertFalse($bitbucket->isRequestOrigin());
@@ -45,21 +43,25 @@ class BitbucketTest extends WebhookTestCase
         $name   = 'John Smith';
         $email  = 'john.smith@example.com';
 
-        $payload = [
-            [
-                'new' => [
-                    'name'   => $branch,
-                    'target' => [
-                        'message' => $reason,
-                        'hash'    => $commit,
-                        'author'  => ['raw' => $name . ' <' . $email . '>'],
-                        'links'   => ['html' => ['href' => $url]],
+        $data = [
+            'push' => [
+                'changes' => [
+                    [
+                        'new' => [
+                            'name'   => $branch,
+                            'target' => [
+                                'message' => $reason,
+                                'hash'    => $commit,
+                                'author'  => ['raw' => $name . ' <' . $email . '>'],
+                                'links'   => ['html' => ['href' => $url]],
+                            ],
+                        ],
                     ],
                 ],
             ],
         ];
 
-        $request = $this->mockRequestWithPayload($payload);
+        $request = $this->createRequestWithPayload('X-Event-Key', 'repo:push', $data);
 
         $bitbucket = new Bitbucket($request);
         $actual    = $bitbucket->handlePush();
@@ -72,14 +74,11 @@ class BitbucketTest extends WebhookTestCase
      */
     public function testHandlePushWithoutChanges()
     {
-        $push = m::mock(ParameterBag::class);
-        $push->shouldReceive('has')->once()->with('changes')->andReturn(false);
+        $data = [
+            'push' => [],
+        ];
 
-        $payload = m::mock(ParameterBag::class);
-        $payload->shouldReceive('get')->once()->with('push')->andReturn($push);
-
-        $request = $this->mockEventRequestFromBitbucket('repo:push');
-        $request->shouldReceive('json')->once()->andReturn($payload);
+        $request = $this->createRequestWithPayload('X-Event-Key', 'repo:push', $data);
 
         $bitbucket = new Bitbucket($request);
         $this->assertFalse($bitbucket->handlePush());
@@ -90,7 +89,13 @@ class BitbucketTest extends WebhookTestCase
      */
     public function testHandlePushWithEmptyChanges()
     {
-        $request = $this->mockRequestWithPayload([]);
+        $data = [
+            'push' => [
+                'changes' => [],
+            ],
+        ];
+
+        $request = $this->createRequestWithPayload('X-Event-Key', 'repo:push', $data);
 
         $bitbucket = new Bitbucket($request);
         $this->assertFalse($bitbucket->handlePush());
@@ -102,7 +107,7 @@ class BitbucketTest extends WebhookTestCase
      */
     public function testHandleUnsupportedEvent($event)
     {
-        $request = $this->mockEventRequestFromBitbucket($event);
+        $request = $this->createEventRequest('X-Event-Key', $event);
 
         $bitbucket = new Bitbucket($request);
         $this->assertFalse($bitbucket->handlePush());
@@ -116,30 +121,5 @@ class BitbucketTest extends WebhookTestCase
             'pullrequest:approved', 'pullrequest:unapproved', 'pullrequest:fulfilled', 'pullrequest:rejected',
             'pullrequest:comment_created', 'pullrequest:comment_updated', 'pullrequest:comment_deleted',
         ], 1);
-    }
-
-    private function mockRequestIsFromBitbucket($isValid)
-    {
-        return $this->mockRequestIsFrom('X-Event-Key', $isValid);
-    }
-
-    private function mockEventRequestFromBitbucket($event)
-    {
-        return $this->mockEventRequest('X-Event-Key', $event);
-    }
-
-    private function mockRequestWithPayload(array $data)
-    {
-        $push = m::mock(ParameterBag::class);
-        $push->shouldReceive('has')->once()->with('changes')->andReturn(true);
-        $push->shouldReceive('get')->once()->with('changes', [])->andReturn($data);
-
-        $payload = m::mock(ParameterBag::class);
-        $payload->shouldReceive('get')->once()->with('push')->andReturn($push);
-
-        $request = $this->mockEventRequestFromBitbucket('repo:push');
-        $request->shouldReceive('json')->once()->andReturn($payload);
-
-        return $request;
     }
 }

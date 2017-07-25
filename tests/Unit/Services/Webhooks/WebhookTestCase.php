@@ -3,9 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Services\Webhooks;
 
 use Illuminate\Http\Request;
-use Mockery as m;
 use REBELinBLUE\Deployer\Tests\TestCase;
-use Symfony\Component\HttpFoundation\HeaderBag;
 
 abstract class WebhookTestCase extends TestCase
 {
@@ -47,22 +45,50 @@ abstract class WebhookTestCase extends TestCase
         $this->assertSame($email, $actual['committer_email']);
     }
 
-    protected function mockRequestIsFrom($key, $isValid)
+    // FIXME: Why is this needed? Refactor this mess
+    protected function createRequestWithServiceHeader($key, $isValid)
     {
-        $header = m::mock(HeaderBag::class);
-        $header->shouldReceive('has')->once()->with($key)->andReturn($isValid);
+        $headers = [
+            'REQUEST_METHOD' => 'POST',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
 
-        $request          = m::mock(Request::class);
-        $request->headers = $header;
+        if ($isValid) {
+            $key           = $this->headerToServerVar($key);
+            $headers[$key] = true;
+        }
 
-        return $request;
+        return new Request([], [], [], [], [], $headers);
     }
 
-    protected function mockEventRequest($key, $value)
+    protected function createEventRequest($key, $value)
     {
-        $request = m::mock(Request::class);
-        $request->shouldReceive('header')->once()->with($key)->andReturn($value);
+        $header = $this->headerToServerVar($key);
 
-        return $request;
+        $headers = [
+            $header          => $value,
+            'REQUEST_METHOD' => 'POST',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+
+        return new Request([], [], [], [], [], $headers);
+    }
+
+    protected function createRequestWithPayload($key, $value, array $data)
+    {
+        $header = $this->headerToServerVar($key);
+
+        $headers = [
+            $header          => $value,
+            'REQUEST_METHOD' => 'POST',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+
+        return new Request([], [], [], [], [], $headers, json_encode($data));
+    }
+
+    private function headerToServerVar($key)
+    {
+        return 'HTTP_' . str_replace('-', '_', strtoupper($key));
     }
 }

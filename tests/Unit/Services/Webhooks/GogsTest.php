@@ -2,9 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Services\Webhooks;
 
-use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Gogs;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Services\Webhooks\Gogs
@@ -16,7 +14,7 @@ class GogsTest extends WebhookTestCase
      */
     public function testIsRequestOriginValid()
     {
-        $request = $this->mockRequestIsFromGogs(true);
+        $request = $this->createRequestWithServiceHeader('X-Gogs-Event', true);
 
         $gogs = new Gogs($request);
         $this->assertTrue($gogs->isRequestOrigin());
@@ -27,7 +25,7 @@ class GogsTest extends WebhookTestCase
      */
     public function testIsRequestOriginInvalid()
     {
-        $request = $this->mockRequestIsFromGogs(false);
+        $request = $this->createRequestWithServiceHeader('X-Gogs-Event', false);
 
         $gogs = new Gogs($request);
         $this->assertFalse($gogs->isRequestOrigin());
@@ -45,17 +43,22 @@ class GogsTest extends WebhookTestCase
         $name   = 'John Smith';
         $email  = 'john.smith@example.com';
 
-        $request = $this->mockRequestWithPayload([
-            [
-                'message'   => $reason,
-                'url'       => $url,
-                'id'        => $commit,
-                'committer' => [
-                    'name'  => $name,
-                    'email' => $email,
+        $data = [
+            'ref'     => 'refs/' . $ref,
+            'commits' => [
+                [
+                    'message'   => $reason,
+                    'url'       => $url,
+                    'id'        => $commit,
+                    'committer' => [
+                        'name'  => $name,
+                        'email' => $email,
+                    ],
                 ],
             ],
-        ], $ref);
+        ];
+
+        $request = $this->createRequestWithPayload('X-Gogs-Event', 'push', $data);
 
         $gogs   = new Gogs($request);
         $actual = $gogs->handlePush();
@@ -68,11 +71,7 @@ class GogsTest extends WebhookTestCase
      */
     public function testHandleEmptyPush()
     {
-        $payload = m::mock(ParameterBag::class);
-        $payload->shouldReceive('get')->once()->with('commits')->andReturn([]);
-
-        $request = $this->mockEventRequestFromGogs('push');
-        $request->shouldReceive('json')->once()->andReturn($payload);
+        $request = $this->createRequestWithPayload('X-Gogs-Event', 'push', ['commits' => []]);
 
         $gogs = new Gogs($request);
         $this->assertFalse($gogs->handlePush());
@@ -84,7 +83,7 @@ class GogsTest extends WebhookTestCase
      */
     public function testHandleUnsupportedEvent($event)
     {
-        $request = $this->mockEventRequestFromGogs($event);
+        $request = $this->createEventRequest('X-Gogs-Event', $event);
 
         $gogs = new Gogs($request);
         $this->assertFalse($gogs->handlePush());
@@ -95,27 +94,5 @@ class GogsTest extends WebhookTestCase
         return array_chunk([
             'create', 'pull_request',
         ], 1);
-    }
-
-    private function mockRequestIsFromGogs($isValid)
-    {
-        return $this->mockRequestIsFrom('X-Gogs-Event', $isValid);
-    }
-
-    private function mockEventRequestFromGogs($event)
-    {
-        return $this->mockEventRequest('X-Gogs-Event', $event);
-    }
-
-    private function mockRequestWithPayload(array $data, $ref)
-    {
-        $payload = m::mock(ParameterBag::class);
-        $payload->shouldReceive('get')->once()->with('commits')->andReturn($data);
-        $payload->shouldReceive('get')->once()->with('ref')->andReturn('refs/' . $ref);
-
-        $request = $this->mockEventRequestFromGogs('push');
-        $request->shouldReceive('json')->once()->andReturn($payload);
-
-        return $request;
     }
 }
