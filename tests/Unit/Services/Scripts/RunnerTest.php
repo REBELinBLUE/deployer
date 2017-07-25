@@ -226,6 +226,7 @@ class RunnerTest extends TestCase
 
         $this->process->shouldReceive('setCommandLine')->with($expected);
         $this->process->shouldReceive('run')->with($callback)->andReturnSelf();
+        $this->process->shouldReceive('isSuccessful')->once()->andReturn(true);
 
         $this->logger->shouldReceive('debug')->with($expected);
 
@@ -275,6 +276,7 @@ class RunnerTest extends TestCase
 
         $this->process->shouldReceive('setCommandLine')->with($expected);
         $this->process->shouldReceive('run')->andReturnSelf();
+        $this->process->shouldReceive('isSuccessful')->once()->andReturn(true);
 
         $this->logger->shouldReceive('debug')->with($expected);
 
