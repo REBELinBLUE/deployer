@@ -114,7 +114,7 @@ class ResetApp extends Command
         $this->info('Removing log files');
         $this->line('');
 
-        $logs = $this->filesystem->glob(storage_path('logs') . '*.log');
+        $logs = $this->filesystem->glob(storage_path('logs') . '/*.log');
         $this->filesystem->delete($logs);
     }
 
