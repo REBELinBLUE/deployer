@@ -107,7 +107,7 @@ class ResetAppTest extends TestCase
 
         $this->filesystem->shouldReceive('touch')->with(base_path('vendor/autoload.php'));
         $this->filesystem->shouldReceive('touch')->with(base_path('node_modules/.install'));
-        $this->filesystem->shouldReceive('glob')->with(storage_path('logs') . '*.log')->andReturn($logs);
+        $this->filesystem->shouldReceive('glob')->with(storage_path('logs') . '/*.log')->andReturn($logs);
         $this->filesystem->shouldReceive('delete')->with($logs);
 
         $this->expectsEvents(RestartSocketServer::class);
