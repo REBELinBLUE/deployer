@@ -19,6 +19,11 @@ class UpdateGitMirror extends Job
     use SerializesModels, DispatchesJobs;
 
     /**
+     * @var int
+     */
+    public $timeout = 0;
+
+    /**
      * @var Project
      */
     private $project;

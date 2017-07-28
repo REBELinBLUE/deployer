@@ -15,6 +15,11 @@ class QueueUpdateGitMirror extends Job implements ShouldQueue
     use SerializesModels, DispatchesJobs;
 
     /**
+     * @var int
+     */
+    public $timeout = 0;
+
+    /**
      * @var Project
      */
     private $project;

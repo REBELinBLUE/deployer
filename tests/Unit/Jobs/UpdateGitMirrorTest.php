@@ -37,10 +37,8 @@ class UpdateGitMirrorTest extends TestCase
      */
     private $parser;
 
-    public function setUp()
+    public function setUpExpections()
     {
-        parent::setUp();
-
         $key_file     = '/tmp/sshkey';
         $private_key  = 'a-private-key';
         $wrapper      = 'a-wrapper-script';
@@ -89,6 +87,8 @@ class UpdateGitMirrorTest extends TestCase
      */
     public function testHandleSuccessful()
     {
+        $this->setUpExpections();
+
         $timestamp = '2017-01-01 12:00:00';
 
         $this->project->shouldReceive('freshTimestamp')->once()->andReturn($timestamp);
@@ -108,6 +108,8 @@ class UpdateGitMirrorTest extends TestCase
      */
     public function testHandleUnsuccessful()
     {
+        $this->setUpExpections();
+
         $this->process->shouldReceive('run')->once();
         $this->process->shouldReceive('isSuccessful')->once()->andReturn(false);
         $this->process->shouldReceive('getErrorOutput')->once();
@@ -118,5 +120,16 @@ class UpdateGitMirrorTest extends TestCase
 
         $job = new UpdateGitMirror($this->project);
         $job->handle($this->process, $this->parser, $this->filesystem);
+    }
+
+    /**
+     * @covers ::__construct
+     */
+    public function testItHasUnlimitedTimeout()
+    {
+        $project = m::mock(Project::class);
+        $job     = new UpdateGitMirror($project);
+
+        $this->assertSame(0, $job->timeout);
     }
 }
