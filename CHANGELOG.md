@@ -1,5 +1,18 @@
 # Change Log
 
+## [0.0.46](https://github.com/REBELinBLUE/deployer/tree/0.0.46) (2017-08-01)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.45...0.0.46)
+
+**Implemented enhancements:**
+
+- Server Manager [\#340](https://github.com/REBELinBLUE/deployer/pull/340) ([cfpinto](https://github.com/cfpinto))
+
+**Fixed bugs:**
+
+- Deployments stuck after php upgrade from 7.0 to 7.1 [\#348](https://github.com/REBELinBLUE/deployer/issues/348)
+- Block deploy whilst mirroring [\#301](https://github.com/REBELinBLUE/deployer/issues/301)
+- \[FIX\] JSON-handling in Bitbucket webhook service. [\#349](https://github.com/REBELinBLUE/deployer/pull/349) ([dancryer](https://github.com/dancryer))
+
 ## [0.0.45](https://github.com/REBELinBLUE/deployer/tree/0.0.45) (2017-03-27)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.44...0.0.45)
 
