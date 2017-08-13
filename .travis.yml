@@ -39,14 +39,6 @@ before_install:
   - phpenv config-rm xdebug.ini
 
 install:
-  - |
-    # Remove PHPStan which doesn't work on 5.6, leave all other packages as we need to be warned about them
-    if [[ $(phpenv version-name) = "5.6" ]]; then
-      travis_retry composer install --quiet --no-interaction --prefer-dist --no-scripts --ignore-platform-reqs
-      composer remove --quiet --no-interaction --no-scripts --dev phpstan/phpstan
-      composer update --quiet --no-interaction --lock --no-scripts
-      rm -rf $TRAVIS_BUILD_DIR/vendor/
-    fi
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 before_script:

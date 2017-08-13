@@ -81,9 +81,6 @@ phpcs: ##@tests PHP Coding Standards (PSR-2)
 phpdoc-check: ##@tests PHPDoc Checker
 	@php vendor/bin/phpdoccheck --directory=app --files-per-line 60
 
-phpstan: ##@tests PHPStan
-	php vendor/bin/phpstan analyse -l 0 -c phpstan.neon app/
-
 phpmd: ##@tests PHP Mess Detector
 	@echo "${GREEN}PHP Mess Detector${RESET}"
 	@if [ -f phpmd.xml ]; then php vendor/bin/phpmd app text phpmd.xml; fi
@@ -127,14 +124,12 @@ quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, i
 test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
 	@$(MAKE) quicktest
 	@$(MAKE) phpunit
-	@$(MAKE) phpstan
 	@$(MAKE) phpmd
 
 fulltest: ##@shortcuts Runs all tests
 	@$(MAKE) quicktest
 	@$(MAKE) phpunit
 	@$(MAKE) integration
-	@$(MAKE) phpstan
 	@$(MAKE) phpmd
 	@$(MAKE) dusk
 
