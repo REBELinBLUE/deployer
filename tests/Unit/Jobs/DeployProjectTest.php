@@ -73,6 +73,19 @@ class DeployProjectTest extends TestCase
 
     /**
      * @covers ::__construct
+     */
+    public function testItHasUnlimitedTimeout()
+    {
+        $deployment = m::mock(Deployment::class);
+        $deployment->shouldReceive('getAttribute');
+
+        $job = new DeployProject($deployment);
+
+        $this->assertSame(0, $job->timeout);
+    }
+
+    /**
+     * @covers ::__construct
      * @covers ::handle
      * @covers ::cleanup
      * @covers ::fail

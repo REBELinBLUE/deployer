@@ -36,7 +36,7 @@ class TestServerConnectionTest extends TestCase
     /** @var LogFormatter */
     private $formatter;
 
-    public function setUp()
+    public function setUpExpections()
     {
         parent::setUp();
 
@@ -87,6 +87,8 @@ class TestServerConnectionTest extends TestCase
      */
     public function testHandleSuccessful()
     {
+        $this->setUpExpections();
+
         $errorIn   = 'a-line-of-error-output';
         $successIn = 'a-line-of-success-output';
 
@@ -121,6 +123,8 @@ class TestServerConnectionTest extends TestCase
      */
     public function testHandleUnsuccessful()
     {
+        $this->setUpExpections();
+
         $errorIn   = 'a-line-of-error-output';
         $successIn = 'a-line-of-success-output';
 
@@ -143,5 +147,16 @@ class TestServerConnectionTest extends TestCase
 
         $job = new TestServerConnection($this->server);
         $job->handle($this->process, $this->filesystem, $this->formatter);
+    }
+
+    /**
+     * @covers ::__construct
+     */
+    public function testItHasUnlimitedTimeout()
+    {
+        $server = m::mock(Server::class);
+        $job    = new TestServerConnection($server);
+
+        $this->assertSame(0, $job->timeout);
     }
 }

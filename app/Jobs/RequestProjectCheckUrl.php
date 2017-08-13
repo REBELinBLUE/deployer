@@ -18,6 +18,11 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
     use SerializesModels;
 
     /**
+     * @var int
+     */
+    public $timeout = 0;
+
+    /**
      * @var \Illuminate\Database\Eloquent\Collection
      */
     private $links;

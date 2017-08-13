@@ -26,4 +26,16 @@ class QueueUpdateGitMirrorTest extends TestCase
         $job = new QueueUpdateGitMirror($project);
         $job->handle();
     }
+
+    /**
+     * @covers ::__construct
+     */
+    public function testItHasUnlimitedTimeout()
+    {
+        $project = m::mock(Project::class);
+
+        $job = new QueueUpdateGitMirror($project);
+
+        $this->assertSame(0, $job->timeout);
+    }
 }

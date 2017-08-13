@@ -146,6 +146,18 @@ EOF;
         $job->handle($client);
     }
 
+    /**
+     * @covers ::__construct
+     */
+    public function testItHasUnlimitedTimeout()
+    {
+        $links = new Collection();
+
+        $job = new RequestProjectCheckUrl($links);
+
+        $this->assertSame(0, $job->timeout);
+    }
+
     private function mockFailure($mockHandler, $log)
     {
         $expected = 'http://www.example.com/';
