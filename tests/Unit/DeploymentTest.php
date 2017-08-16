@@ -246,7 +246,7 @@ class DeploymentTest extends TestCase
 
         $deployment          = new Deployment();
         $deployment->branch  = $branch;
-        $deployment->project = $project;
+        $deployment->setRelation('project', $project);
 
         $this->assertSame($expected, $deployment->getBranchUrlAttribute());
         $this->assertSame($expected, $deployment->branch_url);
