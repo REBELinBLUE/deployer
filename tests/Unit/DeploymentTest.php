@@ -246,7 +246,7 @@ class DeploymentTest extends TestCase
 
         $deployment          = new Deployment();
         $deployment->branch  = $branch;
-        $deployment->project = $project;
+        $deployment->setRelation('project', $project);
 
         $this->assertSame($expected, $deployment->getBranchUrlAttribute());
         $this->assertSame($expected, $deployment->branch_url);
@@ -292,8 +292,8 @@ class DeploymentTest extends TestCase
         $project->shouldReceive('accessDetails')->andReturn($expected);
 
         $deployment          = new Deployment();
-        $deployment->project = $project; // FIXME: Is there a better way?
         $deployment->commit  = 'a-git-commit-hash';
+        $deployment->setRelation('project', $project);
 
         $this->assertEmpty($deployment->getCommitUrlAttribute());
         $this->assertEmpty($deployment->commit_url);
@@ -314,8 +314,8 @@ class DeploymentTest extends TestCase
         $project->shouldReceive('accessDetails')->andReturn($details);
 
         $deployment          = new Deployment();
-        $deployment->project = $project;
         $deployment->commit  = $commit;
+        $deployment->setRelation('project', $project);
 
         $this->assertSame($expected, $deployment->getCommitUrlAttribute());
         $this->assertSame($expected, $deployment->commit_url);
