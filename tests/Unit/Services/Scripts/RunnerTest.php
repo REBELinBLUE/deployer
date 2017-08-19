@@ -244,10 +244,10 @@ class RunnerTest extends TestCase
      */
     public function testRunLogsError()
     {
-        $tokens   = [];
-        $script   = 'this is a script';
+        $tokens        = [];
+        $script        = 'this is a script';
         $wrappedScript = 'a local script ' . $script;
-        $expected = 'error output';
+        $expected      = 'error output';
 
         $this->parser->shouldReceive('parseString')->with($script, $tokens)->andReturn($script);
 

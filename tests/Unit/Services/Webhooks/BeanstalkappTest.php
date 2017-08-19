@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Services\Webhooks;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Mockery as m;
 use REBELinBLUE\Deployer\Services\Webhooks\Beanstalkapp;
 
 /**
