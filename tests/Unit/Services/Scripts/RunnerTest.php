@@ -196,6 +196,7 @@ class RunnerTest extends TestCase
         $this->process->shouldReceive('setCommandLine')->with($expected);
         $this->process->shouldReceive('run')->andReturnSelf();
         $this->process->shouldReceive('isSuccessful')->andReturn(true);
+        $this->process->shouldNotReceive('getErrorOutput');
 
         $this->logger->shouldReceive('debug')->with($expected);
 
@@ -227,11 +228,43 @@ class RunnerTest extends TestCase
         $this->process->shouldReceive('setCommandLine')->with($expected);
         $this->process->shouldReceive('run')->with($callback)->andReturnSelf();
         $this->process->shouldReceive('isSuccessful')->once()->andReturn(true);
+        $this->process->shouldNotReceive('getErrorOutput');
 
         $this->logger->shouldReceive('debug')->with($expected);
 
         $runner = $this->getRunner();
         $actual = $runner->setScript($script, $tokens, Runner::DIRECT_INPUT)->run($callback);
+
+        $this->assertSame($this->process, $actual);
+    }
+
+    /**
+     * @covers ::run
+     * @covers ::wrapCommand
+     */
+    public function testRunLogsError()
+    {
+        $tokens   = [];
+        $script   = 'this is a script';
+        $wrappedScript = 'a local script ' . $script;
+        $expected = 'error output';
+
+        $this->parser->shouldReceive('parseString')->with($script, $tokens)->andReturn($script);
+
+        $this->parser->shouldReceive('parseFile')
+                     ->with('RunScriptLocally', ['script' => $script])
+                     ->andReturn($wrappedScript);
+
+        $this->process->shouldReceive('setCommandLine')->with($wrappedScript);
+        $this->process->shouldReceive('run')->andReturnSelf();
+        $this->process->shouldReceive('isSuccessful')->once()->andReturn(false);
+        $this->process->shouldReceive('getErrorOutput')->andReturn($expected);
+
+        $this->logger->shouldReceive('debug')->with($wrappedScript);
+        $this->logger->shouldReceive('error')->with($expected);
+
+        $runner = $this->getRunner();
+        $actual = $runner->setScript($script, $tokens, Runner::DIRECT_INPUT)->run();
 
         $this->assertSame($this->process, $actual);
     }
