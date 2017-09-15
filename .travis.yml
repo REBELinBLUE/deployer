@@ -42,6 +42,7 @@ install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 before_script:
+  - ulimit -c unlimited -S
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
   - make permissions
   - make travis
