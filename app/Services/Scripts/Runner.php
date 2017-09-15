@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Services\Scripts;
 
 use Illuminate\Log\Writer;
+use REBELinBLUE\Deployer\ProjectServer;
 use REBELinBLUE\Deployer\Server;
 use Symfony\Component\Process\Process;
 
@@ -24,6 +25,11 @@ class Runner
      * @var string
      */
     private $script;
+
+    /**
+     * @var ProjectServer
+     */
+    private $project_server;
 
     /**
      * @var Server
@@ -160,15 +166,16 @@ class Runner
     /**
      * Sets the script to run on a remote server.
      *
-     * @param Server $server
+     * @param ProjectServer $server
      * @param string $private_key
      * @param string $alternative_user
      *
      * @return $this
      */
-    public function setServer(Server $server, $private_key, $alternative_user = null)
+    public function setServer(ProjectServer $server, $private_key, $alternative_user = null)
     {
-        $this->server           = $server;
+        $this->project_server   = $server;
+        $this->server           = $server->server;
         $this->private_key      = $private_key;
         $this->alternative_user = $alternative_user;
         $this->is_local         = false;
@@ -204,7 +211,7 @@ class Runner
             $wrapper = 'OverSSH';
             $tokens  = array_merge($tokens, [
                 'private_key' => $this->private_key,
-                'username'    => $this->alternative_user ?: $this->server->user,
+                'username'    => $this->alternative_user ?: $this->project_server->connect_as,
                 'port'        => $this->server->port,
                 'ip_address'  => $this->server->ip_address,
             ]);

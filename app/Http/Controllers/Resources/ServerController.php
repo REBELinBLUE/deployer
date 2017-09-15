@@ -6,6 +6,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectServerRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,13 +18,21 @@ class ServerController extends Controller
     use ResourceController;
 
     /**
+     * @var ProjectServerRepositoryInterface
+     */
+    private $projectServerRepository;
+
+    /**
      * ServerController constructor.
      *
      * @param ServerRepositoryInterface $repository
      */
-    public function __construct(ServerRepositoryInterface $repository)
-    {
+    public function __construct(
+        ProjectServerRepositoryInterface $projectServerRepository,
+        ServerRepositoryInterface $repository
+    ) {
         $this->repository = $repository;
+        $this->projectServerRepository = $projectServerRepository;
     }
 
     /**
@@ -44,7 +53,8 @@ class ServerController extends Controller
             'path',
             'project_id',
             'deploy_code',
-            'add_commands'
+            'add_commands',
+            'server_id'
         )), Response::HTTP_CREATED);
     }
 
@@ -77,7 +87,7 @@ class ServerController extends Controller
      */
     public function test($server_id)
     {
-        $this->repository->queueForTesting($server_id);
+        $this->projectServerRepository->queueForTesting($server_id);
 
         return [
             'success' => true,
@@ -105,28 +115,6 @@ class ServerController extends Controller
 
         return [
             'success' => true,
-        ];
-    }
-
-    /**
-     * Get server suggestions by name from the existed servers.
-     *
-     * @param Request $request
-     *
-     * @return array
-     */
-    public function autoComplete(Request $request)
-    {
-        $servers = [];
-        $query   = $request->get('query');
-
-        if ($query) {
-            $servers = $this->repository->queryByName($query);
-        }
-
-        return [
-            'query'       => $query,
-            'suggestions' => $servers,
         ];
     }
 }

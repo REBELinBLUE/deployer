@@ -13,57 +13,59 @@ class Server extends Model
 {
     use SoftDeletes, BroadcastChanges;
 
-    const SUCCESSFUL = 0;
-    const UNTESTED   = 1;
-    const FAILED     = 2;
-    const TESTING    = 3;
+    const TYPE_UNIQUE = 'unique';
+    const TYPE_SHARED = 'shared';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'user', 'ip_address', 'project_id', 'path',
-                           'status', 'deploy_code', 'port', 'order', ];
+    protected $fillable = ['name', 'user', 'ip_address', 'port', 'path', 'type'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot', 'project'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'project'];
 
     /**
-     * The attributes that should be casted to native types.
+     * Additional attributes to include in the JSON representation.
+     *
+     * @var array
+     */
+    protected $appends = ['project_count'];
+
+    /**
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [
-        'id'          => 'integer',
-        'project_id'  => 'integer',
-        'status'      => 'integer',
-        'deploy_code' => 'boolean',
-        'port'        => 'integer',
+        'id'   => 'integer',
+        'port' => 'integer',
     ];
 
     /**
      * Belongs to relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function project()
+    public function projects()
     {
         return $this->belongsTo(Project::class);
     }
 
     /**
-     * Determines whether the server is currently being testing.
+     * Define a accessor for the count of projects.
      *
-     * @return bool
+     * @return int
      */
-    public function isTesting()
+    public function getProjectCountAttribute()
     {
-        return ($this->status === self::TESTING);
+        return 0;
+        //return $this->projects->count();
     }
 
     /**
@@ -111,16 +113,6 @@ class Server extends Model
     }
 
     /**
-     * The server path without a trailing slash.
-     *
-     * @return string
-     */
-    public function getCleanPathAttribute()
-    {
-        return preg_replace('#/$#', '', $this->path);
-    }
-
-    /**
      * Updates the attribute value and if it has changed set the server status to untested.
      *
      * @param string $attribute
@@ -128,10 +120,10 @@ class Server extends Model
      */
     private function setAttributeStatusUntested($attribute, $value)
     {
-        if (!array_key_exists($attribute, $this->attributes) || $value !== $this->attributes[$attribute]) {
-            $this->attributes['status']      = self::UNTESTED;
-            $this->attributes['connect_log'] = null;
-        }
+        //        if (!array_key_exists($attribute, $this->attributes) || $value !== $this->attributes[$attribute]) {
+        //            $this->attributes['status']      = self::UNTESTED;
+        //            $this->attributes['connect_log'] = null;
+        //        }
 
         $this->attributes[$attribute] = $value;
     }

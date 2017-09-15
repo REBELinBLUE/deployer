@@ -2,8 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Server;
 
@@ -12,8 +10,6 @@ use REBELinBLUE\Deployer\Server;
  */
 class EloquentServerRepository extends EloquentRepository implements ServerRepositoryInterface
 {
-    use DispatchesJobs;
-
     /**
      * EloquentServerRepository constructor.
      *
@@ -53,6 +49,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
             $order = $max->order + 1;
         }
 
+        $fields['type']  = Server::TYPE_UNIQUE;
         $fields['order'] = $order;
 
         $add_commands = false;
@@ -71,32 +68,5 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
         }
 
         return $server;
-    }
-
-    /**
-     * @param int $server_id
-     */
-    public function queueForTesting($server_id)
-    {
-        $server = $this->getById($server_id);
-
-        if (!$server->isTesting()) {
-            $server->status = Server::TESTING;
-            $server->save();
-
-            $this->dispatch(new TestServerConnection($server));
-        }
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return mixed
-     */
-    public function queryByName($name)
-    {
-        return $this->model
-                    ->where('name', 'LIKE', "%{$name}%")
-                    ->get();
     }
 }

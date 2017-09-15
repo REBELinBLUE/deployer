@@ -24,7 +24,7 @@ class Ref extends Model
     protected $visible = ['id', 'name', 'is_tag'];
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */

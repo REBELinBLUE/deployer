@@ -184,21 +184,4 @@ class EloquentServerRepositoryTest extends EloquentRepositoryTestCase
     {
         return $this->fixture('Repositories/EloquentServerRepository');
     }
-
-    /**
-     * @covers ::queryByName
-     */
-    public function testQueryByName()
-    {
-        $expected = m::mock(Server::class);
-        $expected->shouldReceive('get')->andReturnSelf();
-
-        $model  = m::mock(Server::class);
-        $model->shouldReceive('where')->once()->with('name', 'LIKE', '%server%')->andReturn($expected);
-
-        $repository = new EloquentServerRepository($model);
-        $actual     = $repository->queryByName('server');
-
-        $this->assertSame($expected, $actual);
-    }
 }

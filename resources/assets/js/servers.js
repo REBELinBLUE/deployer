@@ -60,34 +60,6 @@ var app = app || {};
     });
 
     // FIXME: This seems very wrong
-    $('#server #server_name').autocomplete({
-        serviceUrl: '/servers/autocomplete',
-        dataType: 'json',
-        noCache: true,
-        preserveInput: true,
-        transformResult: function (response) {
-            return {
-                suggestions: $.map(response.suggestions, function (dataItem) {
-                    var value = dataItem.name + ' (' + dataItem.user + '@' + dataItem.ip_address + ')';
-                    return {
-                      value: value,
-                      data: dataItem
-                    };
-                })
-            };
-        },
-        onSelect: function (suggestion) {
-            var server = suggestion.data;
-            $('#server_name').val(server.name);
-            $('#server_address').val(server.ip_address);
-            $('#server_port').val(server.port);
-            $('#server_user').val(server.user);
-            $('#server_path').val(server.path);
-            $('#server_deploy_code').prop('checked', server.deploy_code);
-        }
-    });
-
-    // FIXME: This seems very wrong
     $('#server button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
         var icon = target.find('i');
@@ -185,21 +157,21 @@ var app = app || {};
         });
     });
 
+    // $('#server [data-server-template-id]').on('click', function () {
+    //     var server_template_id = $(this).data('server-template-id');
+    //     var server_template = app.ServerTemplates.get(server_template_id);
+    //     $('#server_name').val(server_template.get('name'));
+    //     $('#server_address').val(server_template.get('ip_address'));
+    //     $('#server_port').val(server_template.get('port'));
+    //     $('.nav-tabs a[href="#server_details"]').tab('show');
+    // });
+
     app.Server = Backbone.Model.extend({
         urlRoot: '/servers'
     });
 
     var Servers = Backbone.Collection.extend({
-        model: app.Server,
-        comparator: function(serverA, serverB) {
-            if (serverA.get('name') > serverB.get('name')) {
-                return -1; // before
-            } else if (serverA.get('name') < serverB.get('name')) {
-                return 1; // after
-            }
-
-            return 0; // equal
-        }
+        model: app.Server
     });
 
     app.Servers = new Servers();
@@ -220,7 +192,8 @@ var app = app || {};
             this.listenTo(app.Servers, 'remove', this.addAll);
             this.listenTo(app.Servers, 'all', this.render);
 
-            app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+            app.listener.on('projectserver:REBELinBLUE\\Deployer\\Events\\ModelChanged', function (data) {
+                console.log(data);
                 var server = app.Servers.get(parseInt(data.model.id));
 
                 if (server) {
@@ -228,13 +201,13 @@ var app = app || {};
                 }
             });
 
-            app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
+            app.listener.on('projectserver:REBELinBLUE\\Deployer\\Events\\ModelCreated', function (data) {
                 if (parseInt(data.model.project_id) === parseInt(app.project_id)) {
                     app.Servers.add(data.model);
                 }
             });
 
-            app.listener.on('server:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
+            app.listener.on('projectserver:REBELinBLUE\\Deployer\\Events\\ModelTrashed', function (data) {
                 var server = app.Servers.get(parseInt(data.model.id));
 
                 if (server) {
@@ -252,7 +225,6 @@ var app = app || {};
             }
         },
         addOne: function (server) {
-
             var view = new app.ServerView({
                 model: server
             });
@@ -281,10 +253,21 @@ var app = app || {};
         render: function () {
             var data = this.model.toJSON();
 
-            data.status_css = 'primary';
-            data.icon_css   = 'question';
-            data.status     = Lang.get('servers.untested');
-            data.has_log    = false;
+            data.status_css  = 'primary';
+            data.icon_css    = 'question';
+            data.status      = Lang.get('servers.untested');
+            data.has_log     = false;
+            data.deploy_code = data.deploy_code;
+            data.name        = data.server.name;
+            data.user        = data.user ? data.user : data.server.user;
+            data.connect_log = data.connect_log;
+            data.order       = data.order;
+            data.ip_address  = data.server.ip_address;
+            data.port        = data.server.port;
+            data.type        = Lang.get('servers.project');
+            if (data.server.type === 'shared') {
+                data.type = Lang.get('servers.shared');
+            }
 
             if (parseInt(this.model.get('status')) === SUCCESSFUL) {
                 data.status_css = 'success';
@@ -308,11 +291,19 @@ var app = app || {};
         editServer: function() {
             // FIXME: Sure this is wrong?
             $('#server_id').val(this.model.id);
-            $('#server_name').val(this.model.get('name'));
-            $('#server_address').val(this.model.get('ip_address'));
-            $('#server_port').val(this.model.get('port'));
-            $('#server_user').val(this.model.get('user'));
-            $('#server_path').val(this.model.get('path'));
+            $('#server_name').val(this.model.get('server').name);
+            $('#server_address').val(this.model.get('server').ip_address);
+            $('#server_port').val(this.model.get('server').port);
+
+            if (this.model.get('type') === 'shared') {
+              $('#server_user').val(this.model.user);
+              $('#server_path').val(this.model.path);
+
+              $('server_user').attr('placeholder', this.model.get('server').user);
+            } else {
+              $('#server_user').val(this.model.get('server').user);
+              $('#server_path').val(this.model.get('server').path);
+            }
 
             $('#server_deploy_code').prop('checked', (this.model.get('deploy_code') === true));
         },
@@ -335,9 +326,8 @@ var app = app || {};
             var that = this;
             $.ajax({
                 type: 'POST',
-                //url: '/projects/' + this.model.get('project_id') + this.model.urlRoot + '/' + this.model.id + '/test'
                 url: this.model.urlRoot + '/' + this.model.id + '/test'
-            }).fail(function (response) {
+            }).fail(function () {
                 that.model.set({
                     status: FAILED
                 });

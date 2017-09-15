@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use REBELinBLUE\Deployer\ProjectServer;
 use REBELinBLUE\Deployer\Server;
 
 class CreateServersTable extends Migration
@@ -18,8 +19,8 @@ class CreateServersTable extends Migration
             $table->string('user');
             $table->string('path');
             $table->unsignedInteger('project_id');
-            $table->enum('status', [Server::SUCCESSFUL, Server::TESTING,
-                                    Server::FAILED, Server::UNTESTED, ])->default(Server::UNTESTED);
+            $table->enum('status', [ProjectServer::SUCCESSFUL, ProjectServer::TESTING,
+                                    ProjectServer::FAILED, ProjectServer::UNTESTED,])->default(ProjectServer::UNTESTED);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('project_id')->references('id')->on('projects');

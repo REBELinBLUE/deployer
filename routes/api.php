@@ -10,7 +10,6 @@ $router->group(['namespace' => 'Resources'/*, 'prefix' => 'projects/{project}'*/
     // Server management
     $router->post('servers/{server}/test', 'ServerController@test')->name('servers.test');
     $router->post('servers/reorder', 'ServerController@reorder')->name('servers.reorder');
-    $router->get('servers/autocomplete', 'ServerController@autoComplete')->name('servers.autocomplete');
     $router->resource('servers', 'ServerController', $actions);
 
     $router->resource('variables', 'VariableController', $actions);

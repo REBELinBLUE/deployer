@@ -35,7 +35,7 @@ class Group extends Model
     protected $appends = ['project_count'];
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */

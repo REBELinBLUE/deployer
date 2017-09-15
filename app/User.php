@@ -39,7 +39,7 @@ class User extends Authenticatable implements HasPresenter
     protected $appends = ['has_two_factor_authentication'];
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */

@@ -39,7 +39,7 @@
 @push('templates')
     <script type="text/template" id="group-template">
         <td data-group-id="<%- id %>"><%- name %></td>
-        <td><%- project_count %></td>
+        <td><%- project_count > 0 ? project_count : '{{ trans('app.none') }}' %></td>
         <td>
             <div class="btn-group pull-right">
                 <button class="btn btn-default btn-edit" title="{{ trans('groups.edit') }}" data-toggle="modal" data-target="#group" data-group-id="<%- id %>"><i class="fa fa-edit"></i></button>

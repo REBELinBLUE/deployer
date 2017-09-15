@@ -15,6 +15,7 @@ use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\SharedServerRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 
@@ -51,25 +52,32 @@ class DeploymentController extends Controller
      * @var Redirector
      */
     private $redirect;
+    /**
+     * @var ServerRepositoryInterface
+     */
+    private $serverRepository;
 
     /**
      * DeploymentController constructor.
      *
-     * @param ProjectRepositoryInterface    $projectRepository
-     * @param DeploymentRepositoryInterface $deploymentRepository
-     * @param ViewFactory                   $view
-     * @param Translator                    $translator
-     * @param Redirector                    $redirect
+     * @param ProjectRepositoryInterface      $projectRepository
+     * @param DeploymentRepositoryInterface   $deploymentRepository
+     * @param SharedServerRepositoryInterface $serverRepository
+     * @param ViewFactory                     $view
+     * @param Translator                      $translator
+     * @param Redirector                      $redirect
      */
     public function __construct(
         ProjectRepositoryInterface $projectRepository,
         DeploymentRepositoryInterface $deploymentRepository,
+        SharedServerRepositoryInterface $serverRepository,
         ViewFactory $view,
         Translator $translator,
         Redirector $redirect
     ) {
         $this->projectRepository    = $projectRepository;
         $this->deploymentRepository = $deploymentRepository;
+        $this->serverRepository     = $serverRepository;
         $this->view                 = $view;
         $this->translator           = $translator;
         $this->redirect             = $redirect;
@@ -91,24 +99,25 @@ class DeploymentController extends Controller
         });
 
         return $this->view->make('projects.details', [
-            'title'        => $project->name,
-            'deployments'  => $this->deploymentRepository->getLatest($project_id),
-            'today'        => $this->deploymentRepository->getTodayCount($project_id),
-            'last_week'    => $this->deploymentRepository->getLastWeekCount($project_id),
-            'project'      => $project,
-            'servers'      => $project->servers,
-            'channels'     => $project->channels,
-            'heartbeats'   => $project->heartbeats,
-            'sharedFiles'  => $project->sharedFiles,
-            'configFiles'  => $project->configFiles,
-            'checkUrls'    => $project->checkUrls,
-            'variables'    => $project->variables,
-            'optional'     => $optional,
-            'tags'         => $project->tags,
-            'branches'     => $project->branches,
-            'route'        => 'commands.step',
-            'target_type'  => 'project',
-            'target_id'    => $project->id,
+            'title'          => $project->name,
+            'deployments'    => $this->deploymentRepository->getLatest($project_id),
+            'today'          => $this->deploymentRepository->getTodayCount($project_id),
+            'last_week'      => $this->deploymentRepository->getLastWeekCount($project_id),
+            'project'        => $project,
+            'servers'        => $project->servers, //->load('server'),
+            'shared_servers' => $this->serverRepository->getAll(),
+            'channels'       => $project->channels,
+            'heartbeats'     => $project->heartbeats,
+            'sharedFiles'    => $project->sharedFiles,
+            'configFiles'    => $project->configFiles,
+            'checkUrls'      => $project->checkUrls,
+            'variables'      => $project->variables,
+            'optional'       => $optional,
+            'tags'           => $project->tags,
+            'branches'       => $project->branches,
+            'route'          => 'commands.step',
+            'target_type'    => 'project',
+            'target_id'      => $project->id,
         ]);
     }
 

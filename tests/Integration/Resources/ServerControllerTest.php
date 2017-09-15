@@ -162,35 +162,4 @@ class ServerControllerTest extends AuthenticatedTestCase
         $this->assertDatabaseHas('servers', ['id' => 1, 'name' => 'Localhost', 'order' => 1]);
         $this->assertDatabaseHas('servers', ['id' => 2, 'name' => 'Foo', 'order' => 2]);
     }
-
-    /**
-     * @dataProvider provideAutoComplete
-     * @covers ::__construct
-     * @covers ::autoComplete
-     */
-    public function testAutoComplete($query, $result)
-    {
-        $project = factory(Project::class)->create();
-
-        factory(Server::class)->create(['name' => 'Localhost', 'project_id' => $project->id]);
-        factory(Server::class)->create(['name' => 'Foo', 'project_id' => $project->id]);
-        factory(Server::class)->create(['name' => 'Bar', 'project_id' => $project->id]);
-
-        $this->getJson('/servers/autocomplete?query=' . $query)
-             ->assertStatus(Response::HTTP_OK)
-             ->assertJson(['query' => $query, 'suggestions' => $result]);
-    }
-
-    public function provideAutoComplete()
-    {
-        return [
-            ['localhost',   [['name' => 'Localhost']]],
-            ['LoCALHo',     [['name' => 'Localhost']]],
-            ['host',        [['name' => 'Localhost']]],
-            ['local',       [['name' => 'Localhost']]],
-            ['o',           [['name' => 'Localhost'], ['name' => 'Foo']]],
-            ['',            []],
-            ['google',      []],
-        ];
-    }
 }

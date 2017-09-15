@@ -13,10 +13,12 @@ use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\NotificationRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectServerRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\RefRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\SharedFileRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\SharedServerRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\VariableRepositoryInterface;
@@ -30,10 +32,12 @@ use REBELinBLUE\Deployer\Repositories\EloquentGroupRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentHeartbeatRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentNotificationRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentProjectRepository;
+use REBELinBLUE\Deployer\Repositories\EloquentProjectServerRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentRefRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentServerLogRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentServerRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentSharedFileRepository;
+use REBELinBLUE\Deployer\Repositories\EloquentSharedServerRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentTemplateRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentUserRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentVariableRepository;
@@ -55,10 +59,12 @@ class RepositoryServiceProvider extends ServiceProvider
         HeartbeatRepositoryInterface::class      => EloquentHeartbeatRepository::class,
         NotificationRepositoryInterface::class   => EloquentNotificationRepository::class,
         ProjectRepositoryInterface::class        => EloquentProjectRepository::class,
+        ProjectServerRepositoryInterface::class  => EloquentProjectServerRepository::class,
         RefRepositoryInterface::class            => EloquentRefRepository::class,
         ServerLogRepositoryInterface::class      => EloquentServerLogRepository::class,
         ServerRepositoryInterface::class         => EloquentServerRepository::class,
         SharedFileRepositoryInterface::class     => EloquentSharedFileRepository::class,
+        SharedServerRepositoryInterface::class   => EloquentSharedServerRepository::class,
         TemplateRepositoryInterface::class       => EloquentTemplateRepository::class,
         UserRepositoryInterface::class           => EloquentUserRepository::class,
         VariableRepositoryInterface::class       => EloquentVariableRepository::class,

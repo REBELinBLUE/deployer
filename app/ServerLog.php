@@ -26,7 +26,7 @@ class ServerLog extends Model implements HasPresenter, RuntimeInterface
     protected $fillable = ['server_id', 'deploy_step_id'];
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */

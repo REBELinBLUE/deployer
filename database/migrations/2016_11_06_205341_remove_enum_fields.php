@@ -5,6 +5,7 @@ use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\ProjectServer;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 
@@ -20,7 +21,7 @@ class RemoveEnumFields extends Migration
         if ($driver === 'mysql') {
             DB::transaction(function () {
                 $this->removeEnum('projects', 'status', Project::NOT_DEPLOYED);
-                $this->removeEnum('servers', 'status', Server::UNTESTED);
+                $this->removeEnum('servers', 'status', ProjectServer::UNTESTED);
                 $this->removeEnum('deployments', 'status', Deployment::PENDING);
                 $this->removeEnum('commands', 'step', Command::AFTER_INSTALL);
                 $this->removeEnum('server_logs', 'status', ServerLog::PENDING);

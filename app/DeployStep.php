@@ -19,7 +19,7 @@ class DeployStep extends Model implements HasPresenter
     protected $fillable = ['stage', 'deployment_id', 'command_id'];
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */

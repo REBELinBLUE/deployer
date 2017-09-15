@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>{{ trans('servers.name') }}</th>
+                    <th>{{ trans('servers.type') }}</th>
                     <th>{{ trans('servers.connect_as') }}</th>
                     <th>{{ trans('servers.ip_address') }}</th>
                     <th>{{ trans('servers.port') }}</th>
@@ -33,6 +34,7 @@
 @push('templates')
     <script type="text/template" id="server-template">
         <td data-server-id="<%- id %>"><%- name %></td>
+        <td><%- type %></td>
         <td><%- user %></td>
         <td><%- ip_address %></td>
         <td><%- port %></td>

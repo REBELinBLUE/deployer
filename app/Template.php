@@ -36,7 +36,7 @@ class Template extends Model implements HasPresenter
     protected $appends = ['command_count', 'file_count', 'config_count', 'variable_count'];
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
@@ -45,7 +45,7 @@ class Template extends Model implements HasPresenter
     ];
 
     /**
-     * Define a accessor for the count of projects.
+     * Define a accessor for the count of commands.
      *
      * @return int
      */

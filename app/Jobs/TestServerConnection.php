@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Jobs\DeployProject\LogFormatter;
-use REBELinBLUE\Deployer\Server;
+use REBELinBLUE\Deployer\ProjectServer;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
 use Symfony\Component\Process\Process as SymfonyProcess;
@@ -24,16 +24,16 @@ class TestServerConnection extends Job implements ShouldQueue
     public $timeout = 0;
 
     /**
-     * @var Server
+     * @var ProjectServer
      */
     public $server;
 
     /**
      * TestServerConnection constructor.
      *
-     * @param Server $server
+     * @param ProjectServer $server
      */
-    public function __construct(Server $server)
+    public function __construct(ProjectServer $server)
     {
         $this->server = $server;
     }
@@ -46,7 +46,7 @@ class TestServerConnection extends Job implements ShouldQueue
      */
     public function handle(Process $process, Filesystem $filesystem, LogFormatter $formatter)
     {
-        $this->server->status      = Server::TESTING;
+        $this->server->status      = ProjectServer::TESTING;
         $this->server->connect_log = null;
         $this->server->save();
 
@@ -54,7 +54,7 @@ class TestServerConnection extends Job implements ShouldQueue
         $filesystem->put($key, $this->server->project->private_key);
         $filesystem->chmod($key, 0600);
 
-        $prefix = $this->server->id . '_' . $this->server->project_id;
+        $prefix = $this->server->server_id . '_' . $this->server->project_id;
         $output = '';
 
         $process->setScript('TestServerConnection', [
@@ -74,9 +74,9 @@ class TestServerConnection extends Job implements ShouldQueue
         });
 
         if (!$process->isSuccessful()) {
-            $this->server->status = Server::FAILED;
+            $this->server->status = ProjectServer::FAILED;
         } else {
-            $this->server->status      = Server::SUCCESSFUL;
+            $this->server->status      = ProjectServer::SUCCESSFUL;
             $this->server->connect_log = null;
         }
 

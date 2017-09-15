@@ -52,7 +52,7 @@ class Project extends Model implements HasPresenter
                           'branch_url', 'tags', 'branches', ];
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
@@ -370,7 +370,7 @@ class Project extends Model implements HasPresenter
      */
     public function servers()
     {
-        return $this->hasMany(Server::class)
+        return $this->hasMany(ProjectServer::class)
                     ->orderBy('order', 'ASC');
     }
 
