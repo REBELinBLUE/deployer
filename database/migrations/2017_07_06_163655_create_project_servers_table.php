@@ -70,7 +70,7 @@ class CreateProjectServersTable extends Migration
             $table->text('connect_log')->nullable();
             $table->boolean('deploy_code')->default(true);
             $table->unsignedInteger('order')->default(0);
-            $table->unsignedInteger('status')->default(Server::UNTESTED);
+            $table->unsignedInteger('status')->default(ProjectServer::UNTESTED);
             $table->unsignedInteger('project_id')->nullable();
         });
 
