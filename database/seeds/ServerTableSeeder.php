@@ -46,6 +46,7 @@ class ServerTableSeeder extends Seeder
         ProjectServer::create([
             'server_id' => $shared->id,
             'project_id' => $project->id,
+            'deploy_code' => false,
         ]);
     }
 }
