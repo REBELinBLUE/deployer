@@ -182,7 +182,19 @@ endif
 
 # PHPUnit for Travis
 ifeq "$(TRAVIS_PHP_VERSION)" "7.1.0"
-phpunit-ci: coverage
+phpunit-ci:
+	# phpdbg isn't working on travis, hitting the max open files limit
+	@echo "${GREEN}All tests with coverage${RESET}"
+	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
+			--testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml --exclude-group slow
+	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
+			--testsuite "Unit Tests" --log-junit=storage/app/tmp/slow.junit.xml --exclude-group default
+	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
+			--log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
+	@php vendor/bin/phpcov merge storage/app/tmp/ \
+			--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
+	@php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ storage/app/tmp/junit.xml
+	@rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
 else
 phpunit-ci: phpunit integration
 endif

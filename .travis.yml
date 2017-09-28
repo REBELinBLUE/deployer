@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 
 language: php
 
@@ -36,13 +36,14 @@ matrix:
         - postgresql
 
 before_install:
-  - phpenv config-rm xdebug.ini
+  - if [[ "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
+      phpenv config-rm xdebug.ini;
+    fi
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 before_script:
-  - ulimit -c unlimited -S
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
   - make permissions
   - make travis
