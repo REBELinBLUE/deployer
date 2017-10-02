@@ -394,7 +394,7 @@ class ScriptBuilderTest extends TestCase
         $shared = new Collection();
 
         $file = m::mock(SharedFile::class);
-        $file->shouldReceive('getAttribute')->with('file')->andReturn('/directory/');
+        $file->shouldReceive('getAttribute')->with('file')->andReturn('/a/path/to/directory/');
         $shared->push($file);
 
         $file = m::mock(SharedFile::class);
@@ -412,32 +412,58 @@ class ScriptBuilderTest extends TestCase
         $this->project->shouldReceive('getAttribute')->with('configFiles')->andReturn(new Collection());
         $this->project->shouldReceive('getAttribute')->with('sharedFiles')->andReturn($shared);
 
+        $this->parser->shouldReceive('parseFile')->with('deploy.MigrateShared', [
+            'deployment'  => 12312,
+            'shared_dir'  => '/var/www/shared',
+            'project_dir' => '/var/www',
+            'backup_dir'  => '/var/www/shared.backup',
+            'migration'    => '.deployer-migrated',
+        ])->andReturn($script);
+
         // Test directory
         $this->parser->shouldReceive('parseFile')->with('deploy.ShareDirectory', [
             'deployment'  => 12312,
-            'target_file' => '/var/www/releases/20170110155645/directory',
-            'source_file' => '/var/www/shared/directory',
+            'shared_dir'  => '/var/www/shared',
+            'release_dir' => '/var/www/releases/20170110155645',
+            'path'        => 'a/path/to/directory',
+            'filename'    => 'directory',
+            'backup_dir'  => '/var/www/shared.backup',
+            'parent_dir'  => 'a/path/to',
         ])->andReturn($script);
 
         // Test file with extension
         $this->parser->shouldReceive('parseFile')->with('deploy.ShareFile', [
             'deployment'  => 12312,
-            'target_file' => '/var/www/releases/20170110155645/config/file/config.yml',
-            'source_file' => '/var/www/shared/config.yml',
+            'shared_dir'  => '/var/www/shared',
+            'release_dir' => '/var/www/releases/20170110155645',
+            'path'        => 'config/file/config.yml',
+            'filename'    => 'config.yml',
+            'backup_dir'  => '/var/www/shared.backup',
+            'parent_dir'  => 'config/file',
         ])->andReturn($script);
 
         // Test file without extension
         $this->parser->shouldReceive('parseFile')->with('deploy.ShareFile', [
             'deployment'  => 12312,
-            'target_file' => '/var/www/releases/20170110155645/config/file/README',
-            'source_file' => '/var/www/shared/README',
+            'shared_dir'  => '/var/www/shared',
+            'release_dir' => '/var/www/releases/20170110155645',
+            'path'        => 'config/file/README',
+            'backup_dir'  => '/var/www/shared.backup',
+            'filename'    => 'README',
+            'parent_dir'  => 'config/file',
+        ])->andReturn($script);
+
+        $this->parser->shouldReceive('parseFile')->with('deploy.MigrateSharedTimestamp', [
+            'release'    => 20170110155645,
+            'shared_dir' => '/var/www/shared',
+            'migration'  => '.deployer-migrated',
         ])->andReturn($script);
 
         $this->process->shouldReceive('setScript')
-            ->with('deploy.steps.InstallComposerDependencies', m::type('array'))  // FIXME: Should check tokens
-            ->andReturnSelf();
+             ->with('deploy.steps.InstallComposerDependencies', m::type('array'))  // FIXME: Should check tokens
+             ->andReturnSelf();
         $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
-        $this->process->shouldReceive('appendScript')->with(PHP_EOL . $script . $script . $script)->andReturnSelf();
+        $this->process->shouldReceive('appendScript')->with(PHP_EOL . $script . $script . $script . $script . $script)->andReturnSelf();
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
         $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(false);

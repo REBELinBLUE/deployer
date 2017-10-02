@@ -1,14 +1,21 @@
 ### Create shared directories - {{ deployment }}
-if [ -d {{ target_file }} ]; then
-    if [ ! -d {{ source_file }} ]; then
-        cp -pRn {{ target_file }} {{ source_file }}
+if [ ! -d {{ shared_dir }}/{{ path }} ]; then
+    mkdir -p {{ shared_dir }}/{{ path }}
+
+    if [ -d {{ release_dir }}/{{ path }} ]; then
+        cp -pRn {{ release_dir }}/{{ path }} {{ shared_dir }}/{{ parent_dir }}
     fi
-
-    rm -rf {{ target_file }}
 fi
 
-if [ ! -d {{ source_file }} ]; then
-    mkdir {{ source_file }}
+if [ -d {{ release_dir }}/{{ path }} ]; then
+    rm -rf {{ release_dir }}/{{ path }}
 fi
 
-ln -s {{ source_file }} {{ target_file }}
+ln -s {{ shared_dir }}/{{ path }} {{ release_dir }}/{{ path }}
+
+if [ $SHARED_NEEDS_MIGRATING ]; then
+    if [ -e {{ backup_dir }}/{{ filename }} ]; then
+        #rm -rf {{ shared_dir }}/{{ path }}
+        cp -RvfT {{ backup_dir }}/{{ filename }} {{ shared_dir }}/{{ path }}
+    fi
+fi
