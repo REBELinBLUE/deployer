@@ -192,11 +192,12 @@ class ScriptBuilder
             case Command::DO_INSTALL:
                 $release_path = $tokens['release_path'];
                 $shared_path  = $tokens['shared_path'];
+                $project_path = $tokens['project_path'];
 
                 // Write configuration file to release dir, symlink shared files and run composer
                 return $this->process->setScript('deploy.steps.InstallComposerDependencies', $tokens)
                                      ->prependScript($this->configurationFileCommands($release_path))
-                                     ->appendScript($this->shareFileCommands($release_path, $shared_path));
+                                     ->appendScript($this->shareFileCommands($release_path, $shared_path, $project_path));
             case Command::DO_ACTIVATE:
                 return $this->process->setScript('deploy.steps.ActivateNewRelease', $tokens);
             case Command::DO_PURGE:
@@ -240,10 +241,11 @@ class ScriptBuilder
      *
      * @param string $release_dir
      * @param string $shared_dir
+     * @param string $project_dir
      *
      * @return string
      */
-    private function shareFileCommands($release_dir, $shared_dir)
+    private function shareFileCommands($release_dir, $shared_dir, $project_dir)
     {
         /** @var Collection $files */
         $files = $this->deployment->project->sharedFiles;
@@ -251,33 +253,44 @@ class ScriptBuilder
             return '';
         }
 
-        $script = '';
-        $files->each(function (SharedFile $shared) use (&$script, $release_dir, $shared_dir) {
+        $migration = '.deployer-migrated';
+        $backup_dir = $shared_dir . '.backup';
+
+        $script = $this->parser->parseFile('deploy.MigrateShared', [
+            'deployment'  => $this->deployment->id,
+            'shared_dir'  => $shared_dir,
+            'project_dir' => $project_dir,
+            'backup_dir'  => $backup_dir,
+            'migration'   => $migration,
+        ]);
+
+        $files->each(function (SharedFile $shared) use (&$script, $release_dir, $shared_dir, $backup_dir) {
             $pathinfo = pathinfo($shared->file);
             $template = 'File';
 
-            $file = $shared->file;
-
-            if (starts_with($file, '/')) {
-                $file = substr($file, 1);
-            }
+            $file = ltrim($shared->file, '/1');
 
             if (ends_with($file, '/')) {
                 $template = 'Directory';
-                $file     = substr($file, 0, -1);
-            }
-
-            $filename = $pathinfo['filename'];
-            if (isset($pathinfo['extension'])) {
-                $filename .= '.' . $pathinfo['extension'];
+                $file = rtrim($file, '/');
             }
 
             $script .= $this->parser->parseFile('deploy.Share' . $template, [
                 'deployment'  => $this->deployment->id,
-                'target_file' => $release_dir . '/' . $file,
-                'source_file' => $shared_dir . '/' . $filename,
+                'shared_dir'  => $shared_dir,
+                'release_dir' => $release_dir,
+                'backup_dir'  => $backup_dir,
+                'path'        => $file,
+                'filename'    => $pathinfo['basename'],
+                'parent_dir'  => ltrim($pathinfo['dirname'], '/'),
             ]);
         });
+
+        $script .= $this->parser->parseFile('deploy.MigrateSharedTimestamp', [
+            'migration'  => $migration,
+            'shared_dir' => $shared_dir,
+            'release'    => $this->deployment->release_id,
+        ]);
 
         return PHP_EOL . $script;
     }

@@ -29,5 +29,12 @@ class SharedFileTableSeeder extends Seeder
             'target_type' => 'project',
             'target_id'   => 1,
         ]);
+
+        SharedFile::create([
+            'name'        => 'CSS',
+            'file'        => 'resources/assets/css/console.css',
+            'target_type' => 'project',
+            'target_id'   => 1,
+        ]);
     }
 }

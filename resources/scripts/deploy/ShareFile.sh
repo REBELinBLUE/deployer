@@ -1,14 +1,23 @@
-### Created shared files - {{ deployment }}
-if [ -f {{ target_file }} ]; then
-    if [ ! -f {{ source_file }} ]; then
-        cp -pRn {{ target_file }} {{ source_file }}
+### Create shared files - {{ deployment }}
+mkdir -p {{ shared_dir }}/{{ parent_dir }}
+
+if [ -f {{ release_dir }}/{{ path }} ]; then
+    if [ ! -f {{ shared_dir }}/{{ path }} ]; then
+        cp -pRn {{ release_dir }}/{{ path }} {{ shared_dir }}/{{ path }}
     fi
 
-    rm -rf {{ target_file }}
+    rm -f {{ release_dir }}/{{ path }}
 fi
 
-if [ ! -f {{ source_file }} ]; then
-    touch {{ source_file }}
+if [ ! -f {{ shared_dir }}/{{ path }} ]; then
+    touch {{ shared_dir }}/{{ path }}
 fi
 
-ln -s {{ source_file }} {{ target_file }}
+ln -s {{ shared_dir }}/{{ path }} {{ release_dir }}/{{ path }}
+
+if [ $SHARED_NEEDS_MIGRATING ]; then
+    if [ -e {{ backup_dir }}/{{ filename }} ]; then
+        rm -rf {{ shared_dir }}/{{ path }}
+        cp -RvfT {{ backup_dir }}/{{ filename }} {{ shared_dir }}/{{ path }}
+    fi
+fi
