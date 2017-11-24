@@ -8,6 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    // fixme: change this to be dynamic
     'locales' => ['en', 'zh', 'ru'],
 
     /*
@@ -18,7 +19,7 @@ return [
     | Directory for storing the static files generated when using file storage.
     |
     */
-    'storage_path' => base_path('bower_components/'),
+    'storage_path' => storage_path('app/tmp/'),
 
     /*
     |--------------------------------------------------------------------------

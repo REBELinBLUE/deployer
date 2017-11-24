@@ -58,7 +58,7 @@
                             <li>
                                 <div class="checkbox">
                                     <label for="command_server_{{ $server->id }}">
-                                        <input type="checkbox" class="command-server" name="servers[]" id="command_server_{{ $server->id }}" value="{{ $server->id }}" /> {{ $server->name }} ({{ $server->user }}&commat;{{ $server->ip_address }})
+                                        <input type="checkbox" class="command-server" name="servers[]" id="command_server_{{ $server->id }}" value="{{ $server->id }}" checked /> {{ $server->name }} ({{ $server->user }}&commat;{{ $server->ip_address }})
                                     </label>
                                 </div>
                             </li>

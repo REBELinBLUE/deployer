@@ -17,6 +17,7 @@ use REBELinBLUE\Deployer\Http\Requests\StoreProfileRequest;
 use REBELinBLUE\Deployer\Http\Requests\StoreSettingsRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Settings;
+use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
 
 /**
  * The use profile controller.
@@ -226,16 +227,18 @@ class ProfileController extends Controller
     /**
      * Reset the user's avatar to gravatar.
      *
+     * @param UserPresenter $presenter
+     *
      * @return array
      */
-    public function gravatar()
+    public function gravatar(UserPresenter $presenter)
     {
         $user         = $this->auth->user();
         $user->avatar = null;
         $user->save();
 
         return [
-            'image'   => $user->avatar_url,
+            'image'   => $presenter->setWrappedObject($user)->avatar_url,
             'success' => true,
         ];
     }

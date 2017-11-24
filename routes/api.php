@@ -17,8 +17,8 @@ $router->group(['namespace' => 'Resources'/*, 'prefix' => 'projects/{project}'*/
     $router->resource('heartbeats', 'HeartbeatController', $actions);
     $router->resource('notifications', 'ChannelController', $actions);
     $router->resource('shared-files', 'SharedFilesController', $actions);
-    $router->resource('config-file', 'ConfigFileController', $actions);
-    $router->resource('check-url', 'CheckUrlController', $actions);
+    $router->resource('config-files', 'ConfigFileController', $actions);
+    $router->resource('check-urls', 'CheckUrlController', $actions);
     $router->resource('commands', 'CommandController', $actions);
 });
 

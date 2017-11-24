@@ -195,9 +195,10 @@ class ScriptBuilder
                 $project_path = $tokens['project_path'];
 
                 // Write configuration file to release dir, symlink shared files and run composer
-                return $this->process->setScript('deploy.steps.InstallComposerDependencies', $tokens)
-                                     ->prependScript($this->configurationFileCommands($release_path))
-                                     ->appendScript($this->shareFileCommands($release_path, $shared_path, $project_path));
+                return $this->process
+                            ->setScript('deploy.steps.InstallComposerDependencies', $tokens)
+                            ->prependScript($this->configurationFileCommands($release_path))
+                            ->appendScript($this->shareFileCommands($release_path, $shared_path, $project_path));
             case Command::DO_ACTIVATE:
                 return $this->process->setScript('deploy.steps.ActivateNewRelease', $tokens);
             case Command::DO_PURGE:

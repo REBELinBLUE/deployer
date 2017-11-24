@@ -6,7 +6,7 @@
                 <h4 class="modal-title"><i class="fa fa-link"></i> <span>{{ trans('checkUrls.create') }}</span></h4>
             </div>
             <form role="form">
-                <input type="hidden" id="url_id" name="id" />
+                <input type="hidden" id="checkurl_id" name="id" />
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <div class="modal-body">
 
@@ -18,14 +18,14 @@
                         <label for="url_name">{{ trans('checkUrls.title') }}</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-tag"></i></div>
-                            <input type="text" class="form-control" id="url_name" name="name" placeholder="{{ trans('checkUrls.titleTip') }}" />
+                            <input type="text" class="form-control" id="checkurl_name" name="name" placeholder="{{ trans('checkUrls.titleTip') }}" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="url_url">{{ trans('checkUrls.url') }}</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-external-link"></i></div>
-                            <input type="text" class="form-control" id="url_url" name="url" placeholder="http://admin.example.com/" />
+                            <input type="text" class="form-control" id="checkurl_url" name="url" placeholder="http://admin.example.com/" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -35,7 +35,7 @@
                             <li>
                                 <div class="radio">
                                     <label for="period_{{ $time }}">
-                                        <input type="radio" class="checkurl-period" name="period" id="period_{{ $time }}" value="{{ $time }}" /> {{ $time }} {{ trans('checkUrls.length') }}
+                                        <input type="radio" class="checkurl-period" name="period" id="checkurl_period_{{ $time }}" value="{{ $time }}" @if ($time === 30) checked @endif /> {{ trans('checkUrls.length', ['time' => $time]) }}
                                     </label>
                                 </div>
                             </li>

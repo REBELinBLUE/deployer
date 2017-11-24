@@ -38,8 +38,8 @@
 
 @push('javascript')
     <script type="text/javascript">
-        new app.ProjectsTab();
-        app.Projects.add({!! $projects !!});
+        new app.views.Projects();
+        app.collections.Projects.add({!! $projects !!});
     </script>
 @endpush
 

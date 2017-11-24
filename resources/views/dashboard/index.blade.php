@@ -67,3 +67,9 @@
         </div>
     </div>
 @stop
+
+@push('javascript')
+    <script type="text/javascript">
+        app.views.Dashboard();
+    </script>
+@endpush

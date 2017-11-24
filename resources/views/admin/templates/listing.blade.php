@@ -37,8 +37,8 @@
 
 @push('javascript')
     <script type="text/javascript">
-        new app.TemplatesTab();
-        app.Templates.add({!! $templates !!});
+        new app.views.Templates();
+        app.collections.Templates.add({!! $templates !!});
     </script>
 @endpush
 

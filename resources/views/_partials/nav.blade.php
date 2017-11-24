@@ -1,7 +1,7 @@
 <header class="main-header">
     <a href="/" class="logo"><b>{{ trans('app.name') }}</b></a>
     <nav class="navbar navbar-static-top" role="navigation">
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">{{ trans('app.toggle_nav') }}</span>
         </a>
         <div class="navbar-custom-menu">
@@ -29,7 +29,7 @@
                     </ul>
                 </li>
 
-                <li class="dropdown messages-menu" id="deploying_menu">
+                <li class="dropdown messages-menu" id="running_menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-spinner"></i>
                         <span class="label label-warning">{{ $deploying_count }}</span>

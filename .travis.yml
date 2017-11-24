@@ -15,7 +15,6 @@ cache:
   directories:
     - $TRAVIS_BUILD_DIR/vendor
     - $TRAVIS_BUILD_DIR/node_modules
-    - $TRAVIS_BUILD_DIR/bower_components
     - $HOME/.composer/cache
 
 matrix:
@@ -42,6 +41,7 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+  - travis_retry npm install
 
 before_script:
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env

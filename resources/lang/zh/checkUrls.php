@@ -9,7 +9,7 @@ return [
     'titleTip'              => 'Admin 面板',
     'url'                   => 'URL',
     'frequency'             => '频率',
-    'length'                => '分钟',
+    'length'                => ':time 分钟',
     'warning'               => '链接无法保存，请检查下面的表单',
     'last_status'           => '状态',
     'successful'            => '在线',

@@ -32,7 +32,7 @@
                         <label for="server_address">{{ trans('servers.ip_address') }}</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-laptop"></i></div>
-                            <input type="text" class="form-control" id="server_address" name="ip_address" placeholder="192.168.0.1" />
+                            <input type="text" class="form-control" id="server_ip_address" name="ip_address" placeholder="192.168.0.1" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -54,7 +54,7 @@
                         <label>{{ trans('servers.options') }}</label>
                         <div class="checkbox">
                             <label for="server_deploy_code">
-                                <input type="checkbox" value="1" name="deploy_code" id="server_deploy_code" />
+                                <input type="checkbox" value="1" name="deploy_code" id="server_deploy_code" checked />
                                 {{ trans('servers.deploy_code') }}
                             </label>
                         </div>

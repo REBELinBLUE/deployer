@@ -17,7 +17,7 @@ class StoreUserRequest extends Request
         $rules = [
             'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users,email',
-            'password' => 'required|confirmed|min:6',
+            'password' => 'required|confirmed|min:6|zxcvbn:3,name,email',
         ];
 
         // On edit change the password validator

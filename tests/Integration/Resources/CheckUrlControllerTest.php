@@ -36,7 +36,7 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
             'id' => 1,
         ], $input);
 
-        $this->postJson('/check-url', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
+        $this->postJson('/check-urls', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 
         $this->assertDatabaseHas('check_urls', $output);
     }
@@ -65,7 +65,7 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
             'name' => $updated,
         ]);
 
-        $this->putJson('/check-url/1', $input)->assertStatus(Response::HTTP_OK)->assertJson($input);
+        $this->putJson('/check-urls/1', $input)->assertStatus(Response::HTTP_OK)->assertJson($input);
 
         $this->assertDatabaseHas('check_urls', ['name' => $updated]);
         $this->assertDatabaseMissing('check_urls', ['name' => $original]);
@@ -77,7 +77,7 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
      */
     public function testUpdateReturnsErrorWhenInvalid()
     {
-        $this->putJson('/check-url/1000', [
+        $this->putJson('/check-urls/1000', [
             'name'   => 'My Site',
             'url'    => 'http://www.example.com',
             'period' => 5,
@@ -93,7 +93,7 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
 
         factory(CheckUrl::class)->create(['name' => $name]);
 
-        $this->deleteJson('/check-url/1')->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->deleteJson('/check-urls/1')->assertStatus(Response::HTTP_NO_CONTENT);
 
         $this->assertDatabaseMissing('check_urls', ['name' => $name, 'deleted_at' => null]);
     }
@@ -103,6 +103,6 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
      */
     public function testDeleteReturnsErrorWhenInvalid()
     {
-        $this->deleteJson('/check-url/1000')->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->deleteJson('/check-urls/1000')->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

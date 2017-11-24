@@ -29,10 +29,8 @@
 
 @push('javascript')
     <script type="text/javascript">
-        var groups = {!! $groups->toJson() !!};
-
-        new app.GroupsTab();
-        app.Groups.add(groups);
+        new app.views.Groups();
+        app.collections.Groups.add({!! $groups->toJson() !!});
     </script>
 @endpush
 

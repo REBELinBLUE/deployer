@@ -8,17 +8,10 @@ YELLOW   := $(shell tput -Txterm setaf 3)
 RESET    := $(shell tput -Txterm sgr0)
 COMPOSER := $(shell command -v composer 2> /dev/null)
 
-build: ##@development Frontend build
-	@$(MAKE) install-dev
-	@-rm -rf public/build
-	gulp --silent
-	@rm -rf public/css public/fonts public/js
-
 clean: ##@development Clean cache, logs and other temporary files
 	rm -rf storage/logs/*.log bootstrap/cache/*.php storage/framework/schedule-* storage/clockwork/*.json
 	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*.php
 	rm -rf database/backups/*.gz
-	-@rm -rf public/css/ public/fonts/ public/js/ # temporary storage of compiled assets
 
 fix: ##@development PHP Coding Standards Fixer
 	@php vendor/bin/php-cs-fixer --no-interaction fix
@@ -139,7 +132,7 @@ fulltest: ##@shortcuts Runs all tests
 
 # Clean everything (cache, logs, compiled assets, dependencies, etc)
 reset: clean
-	rm -rf vendor/ node_modules/ bower_components/
+	rm -rf vendor/ node_modules/
 	rm -rf storage/app/mirrors/* storage/app/tmp/* storage/app/public/*  storage/app/*.tar.gz
 	rm -rf .env.prev _ide_helper_models.php _ide_helper.php .phpstorm.meta.php .php_cs.cache
 	-rm database/database.sqlite
