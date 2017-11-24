@@ -187,3 +187,9 @@
     </div>
 </div>
 @endsection
+
+@push('javascript')
+    <script type="text/javascript">
+        app.views.Profile();
+    </script>
+@endpush

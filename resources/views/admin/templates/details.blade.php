@@ -36,14 +36,14 @@
 
 @push('javascript')
     <script type="text/javascript">
-        new app.SharedFilesTab();
-        new app.ConfigFilesTab();
-        new app.VariablesTab();
+        new app.views.SharedFiles();
+        new app.views.ConfigFiles();
+        new app.views.Variables();
 
-        app.SharedFiles.add({!! $sharedFiles->toJson() !!});
-        app.ConfigFiles.add({!! $configFiles->toJson() !!});
-        app.Variables.add({!! $variables->toJson() !!});
+        app.collections.SharedFiles.add({!! $sharedFiles->toJson() !!});
+        app.collections.ConfigFiles.add({!! $configFiles->toJson() !!});
+        app.collections.Variables.add({!! $variables->toJson() !!});
 
-        app.project_id = {{ $project->id }};
+        app.setProjectId({{ $project->id }});
     </script>
 @endpush

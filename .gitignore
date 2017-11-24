@@ -21,7 +21,6 @@ auth.json
 # Dependencies
 node_modules/
 vendor/
-bower_components/
 tmp/
 npm-debug.log
 

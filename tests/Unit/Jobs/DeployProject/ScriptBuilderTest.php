@@ -463,7 +463,8 @@ class ScriptBuilderTest extends TestCase
              ->with('deploy.steps.InstallComposerDependencies', m::type('array'))  // FIXME: Should check tokens
              ->andReturnSelf();
         $this->process->shouldReceive('prependScript')->with('')->andReturnSelf();
-        $this->process->shouldReceive('appendScript')->with(PHP_EOL . $script . $script . $script . $script . $script)->andReturnSelf();
+        $this->process->shouldReceive('appendScript')
+                      ->with(PHP_EOL . $script . $script . $script . $script . $script)->andReturnSelf();
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
         $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(false);

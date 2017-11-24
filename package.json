@@ -7,13 +7,6 @@
     "jsonwebtoken": "^7.0.0",
     "socket.io": "^1.7.1"
   },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-bower": "0.0.13",
-    "gulp-shell": "^0.5.2",
-    "laravel-elixir": "^6.0.0-1",
-    "laravel-elixir-remove": "^0.2.0"
-  },
   "scripts": {
     "start": "node socket.js",
     "postinstall": "touch ./node_modules/.install"

@@ -178,13 +178,14 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Lubusin\Decomposer\DecomposerServiceProvider::class,
         McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
+        Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider::class,
         NotificationChannels\HipChat\HipChatServiceProvider::class,
         NotificationChannels\Twilio\TwilioProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
+        REBELinBLUE\Zxcvbn\ZxcvbnServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
-        Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
         /*
          * Application Service Providers...

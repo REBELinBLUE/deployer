@@ -11,7 +11,7 @@ return [
     'titleTip'              => 'Admin Panel',
     'url'                   => 'URL',
     'frequency'             => 'Frequency',
-    'length'                => 'Minutes',
+    'length'                => ':time minutes',
     'warning'               => 'The link could not be saved, please check the form below.',
     'last_status'           => 'Status',
     'successful'            => 'Online',

@@ -29,7 +29,7 @@
                             <li>
                                 <div class="radio">
                                     <label for="heartbeat_interval_{{ $time }}">
-                                        <input type="radio" class="heartbeat-interval" name="interval" id="heartbeat_interval_{{ $time }}" value="{{ $time }}" /> {{ trans('heartbeats.interval_' . $time) }}
+                                        <input type="radio" class="heartbeat-interval" name="interval" id="heartbeat_interval_{{ $time }}" value="{{ $time }}" @if ($time === 10) checked @endif /> {{ trans('heartbeats.interval_' . $time) }}
                                     </label>
                                 </div>
                             </li>

@@ -44,7 +44,7 @@ class UserControllerTest extends AuthenticatedTestCase
     {
         $name     = 'John';
         $email    = 'admin@example.com';
-        $password = 'a-random-password';
+        $password = '3UltraS3cUr3!!';
 
         $this->expectsEvents(UserWasCreated::class);
 

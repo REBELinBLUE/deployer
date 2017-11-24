@@ -10,6 +10,7 @@ return [
     'none'                  => 'The project does not currently have any heartbeats setup',
     'name'                  => 'Name',
     'status'                => 'Status',
+    'warning'               => 'The heartbeat could not be saved, please check the form below.',
     'interval'              => 'Frequency',
     'my_cronjob'            => 'My Cronjob',
     'last_check_in'         => 'Last Check-In',

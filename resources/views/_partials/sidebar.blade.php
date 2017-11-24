@@ -1,6 +1,6 @@
 <aside class="main-sidebar">
     <section class="sidebar">
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu" data-widget="tree">
             <li class="{{ Request::is('/') ? 'active' : null }}">
                 <a href="/">
                     <i class="fa fa-dashboard"></i>

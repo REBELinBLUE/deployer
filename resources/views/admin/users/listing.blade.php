@@ -31,10 +31,8 @@
 
 @push('javascript')
     <script type="text/javascript">
-        var users = {!! $users !!};
-
-        new app.UsersTab();
-        app.Users.add(users);
+        new app.views.Users();
+        app.collections.Users.add({!! $users !!});
     </script>
 @endpush
 

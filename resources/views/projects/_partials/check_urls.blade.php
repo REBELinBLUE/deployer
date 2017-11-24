@@ -31,7 +31,7 @@
 </div>
 
 @push('templates')
-    <script type="text/template" id="checkUrls-template">
+    <script type="text/template" id="checkurl-template">
         <td><%- name %></td>
         <td><%- url %></td>
         <td><%- interval_label %></td>

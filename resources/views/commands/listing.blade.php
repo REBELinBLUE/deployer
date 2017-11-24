@@ -11,11 +11,11 @@
 
 @push('javascript')
     <script type="text/javascript">
-        new app.CommandsTab();
-        app.Commands.add({!! $commands->toJson() !!});
+        new app.views.Commands({{ $action }});
 
-        app.project_id = {{ $project->id }};
-        app.command_action = {{ $action }};
+        app.collections.Commands.add({!! $commands->toJson() !!});
+
+        app.setProjectId({{ $project->id }});
     </script>
 @endpush
 
