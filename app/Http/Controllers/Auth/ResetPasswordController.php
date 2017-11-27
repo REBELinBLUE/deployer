@@ -28,7 +28,13 @@ class ResetPasswordController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
+=======
+     * Get the password reset validation rules.
+     *
+     * @return array
+>>>>>>> Add to requests
      */
     protected function rules()
     {
