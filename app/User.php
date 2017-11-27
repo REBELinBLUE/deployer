@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\Revisionable;
 use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
 
 /**
@@ -15,7 +16,7 @@ use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
  */
 class User extends Authenticatable implements HasPresenter
 {
-    use SoftDeletes, BroadcastChanges, Notifiable;
+    use SoftDeletes, BroadcastChanges, Notifiable, Revisionable;
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +47,13 @@ class User extends Authenticatable implements HasPresenter
     protected $casts = [
         'id' => 'integer',
     ];
+
+    /**
+     * Revision ignore attributes.
+     *
+     * @var array
+     */
+    protected $dontKeepRevisionOf = ['password', 'remember_token', 'email_token', 'google2fa_secret'];
 
     /**
      * Generate a change email token.

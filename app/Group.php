@@ -5,13 +5,14 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\Revisionable;
 
 /**
  * Group model.
  */
 class Group extends Model
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, Revisionable;
 
     /**
      * The attributes that are mass assignable.

@@ -14,6 +14,7 @@ use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\NotificationRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\RefRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\RevisionRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\SharedFileRepositoryInterface;
@@ -31,6 +32,7 @@ use REBELinBLUE\Deployer\Repositories\EloquentHeartbeatRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentNotificationRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentProjectRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentRefRepository;
+use REBELinBLUE\Deployer\Repositories\EloquentRevisionRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentServerLogRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentServerRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentSharedFileRepository;
@@ -56,6 +58,7 @@ class RepositoryServiceProvider extends ServiceProvider
         NotificationRepositoryInterface::class   => EloquentNotificationRepository::class,
         ProjectRepositoryInterface::class        => EloquentProjectRepository::class,
         RefRepositoryInterface::class            => EloquentRefRepository::class,
+        RevisionRepositoryInterface::class       => EloquentRevisionRepository::class,
         ServerLogRepositoryInterface::class      => EloquentServerLogRepository::class,
         ServerRepositoryInterface::class         => EloquentServerRepository::class,
         SharedFileRepositoryInterface::class     => EloquentSharedFileRepository::class,

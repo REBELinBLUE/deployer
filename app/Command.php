@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\HasTarget;
+use REBELinBLUE\Deployer\Traits\Revisionable;
 
 /**
  * The command model.
  */
 class Command extends Model
 {
-    use SoftDeletes, BroadcastChanges, HasTarget;
+    use SoftDeletes, BroadcastChanges, HasTarget, Revisionable;
 
     const BEFORE_CLONE    = 1;
     const DO_CLONE        = 2;

@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\Revisionable;
 
 /**
  * Notification channel.
  */
 class Channel extends Model
 {
-    use SoftDeletes, BroadcastChanges, Notifiable;
+    use SoftDeletes, BroadcastChanges, Notifiable, Revisionable;
 
     const EMAIL   = 'mail';
     const SLACK   = 'slack';

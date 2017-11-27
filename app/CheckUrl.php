@@ -5,13 +5,14 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\Revisionable;
 
 /**
  * The application's url store for health check.
  */
 class CheckUrl extends Model
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, Revisionable;
 
     const ONLINE   = 0;
     const UNTESTED = 1;
@@ -30,6 +31,13 @@ class CheckUrl extends Model
      * @var array
      */
     protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
+
+    /**
+     * Revision ignore attributes.
+     *
+     * @var array
+     */
+    protected $dontKeepRevisionOf = ['last_log'];
 
     /**
      * The attributes that should be casted to native types.

@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
+use REBELinBLUE\Deployer\Traits\Revisionable;
 use REBELinBLUE\Deployer\View\Presenters\CommandPresenter;
 
 /**
@@ -12,7 +13,7 @@ use REBELinBLUE\Deployer\View\Presenters\CommandPresenter;
  */
 class Template extends Model implements HasPresenter
 {
-    use ProjectRelations;
+    use ProjectRelations, Revisionable;
 
     /**
      * The attributes that are mass assignable.

@@ -31,8 +31,8 @@ class SharedFileTableSeeder extends Seeder
         ]);
 
         SharedFile::create([
-            'name'        => 'CSS',
-            'file'        => 'resources/assets/css/console.css',
+            'name'        => 'TestServerConnection',
+            'file'        => 'resources/scripts/TestServerConnection.sh',
             'target_type' => 'project',
             'target_id'   => 1,
         ]);

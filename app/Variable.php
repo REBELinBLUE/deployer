@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\HasTarget;
+use REBELinBLUE\Deployer\Traits\Revisionable;
 
 /**
  * Model for environmental variables.
  */
 class Variable extends Model
 {
-    use SoftDeletes, BroadcastChanges, HasTarget;
+    use SoftDeletes, BroadcastChanges, HasTarget, Revisionable;
 
     /**
      * The attributes that are mass assignable.

@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Events\HeartbeatRecovered;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
+use REBELinBLUE\Deployer\Traits\Revisionable;
 
 /**
  * Heartbeat model.
  */
 class Heartbeat extends Model
 {
-    use SoftDeletes, BroadcastChanges;
+    use SoftDeletes, BroadcastChanges, Revisionable;
 
     const OK       = 0;
     const UNTESTED = 1;

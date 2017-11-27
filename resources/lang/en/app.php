@@ -8,6 +8,7 @@ return [
     'dashboard'         => 'Dashboard',
     'admin'             => 'Administration',
     'projects'          => 'Projects',
+    'audit'             => 'Audit Log',
     'templates'         => 'Templates',
     'groups'            => 'Groups',
     'users'             => 'Users',

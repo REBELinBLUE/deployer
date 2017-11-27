@@ -20,6 +20,11 @@ $router->group(['namespace' => 'Admin', 'prefix' => 'admin'], function () use ($
     ]);
     $router->post('groups/reorder', 'GroupController@reorder')->name('admin.groups.reorder');
 
+    $router->resource('audit', 'RevisionController', [
+        'only' => ['index'],
+        'as' => 'admin',
+    ]);
+
     $router->resource('templates', 'TemplateController', [
         'only' => ['index', 'store', 'update', 'destroy', 'show'],
         'as' => 'admin',

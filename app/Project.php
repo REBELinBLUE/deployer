@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
+use REBELinBLUE\Deployer\Traits\Revisionable;
 use REBELinBLUE\Deployer\View\Presenters\ProjectPresenter;
 use UnexpectedValueException;
 use Version\Compare as VersionCompare;
@@ -16,7 +17,7 @@ use Version\Compare as VersionCompare;
  */
 class Project extends Model implements HasPresenter
 {
-    use SoftDeletes, BroadcastChanges, ProjectRelations;
+    use SoftDeletes, BroadcastChanges, ProjectRelations, Revisionable;
 
     const FINISHED     = 0;
     const PENDING      = 1;
@@ -72,6 +73,13 @@ class Project extends Model implements HasPresenter
      * @var array
      */
     protected $dates = ['last_run', 'last_mirrored'];
+
+    /**
+     * Revision ignore attributes.
+     *
+     * @var array
+     */
+    protected $dontKeepRevisionOf = ['private_key', 'public_key'];
 
     /**
      * The heart beats status count.

@@ -28,8 +28,8 @@
         "doctrine/dbal": "~2.5",
         "fideloper/proxy": "^3.1",
         "graham-campbell/binput": "~3.3",
-        "htmlmin/htmlmin": "~4.5",
         "guzzlehttp/guzzle": "^6.2",
+        "htmlmin/htmlmin": "~4.5",
         "intervention/image": "^2.3",
         "laracademy/interactive-make": "^1.1",
         "laravel-notification-channels/hipchat": "~0.2",
@@ -44,8 +44,9 @@
         "pda/pheanstalk": "~3.1",
         "pragmarx/google2fa": "^1.0.0",
         "predis/predis": "~1.0",
-        "tymon/jwt-auth": "~0.5",
         "rebelinblue/laravel5-zxcvbn": "dev-master",
+        "tymon/jwt-auth": "~0.5",
+        "venturecraft/revisionable": "^1.28",
         "version/version": "^2.2"
     },
     "require-dev": {
