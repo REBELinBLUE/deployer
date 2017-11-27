@@ -6,22 +6,7 @@
             <b>{{ trans('app.name') }}</b>
         </div>
 
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <strong>{{ trans('auth.oops') }}</strong> {{ trans('auth.problems') }}<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('_partials.errors')
 
         <div class="login-box-body">
             <p class="login-box-msg">{{ trans('auth.please_sign_in') }}</p>

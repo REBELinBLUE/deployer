@@ -11,7 +11,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="hidden" name="token" value="{{ $token }}">
                 <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="{{ trans('users.email') }}" name="email"  value="{{ old('email') }}" required />
+                    <input type="email" class="form-control" placeholder="{{ trans('users.email') }}" name="email" value="{{ old('email') }}" required />
                     <span class="fa fa-envelope form-control-feedback"></span>
                 </div>
                 <div class="row">

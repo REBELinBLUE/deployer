@@ -123,7 +123,7 @@ class ProfileController extends Controller
             'password'
         ), $this->auth->id());
 
-        return $this->redirect->to('/');
+        return $this->redirect->back();
     }
 
     /**
@@ -141,7 +141,7 @@ class ProfileController extends Controller
             'language'
         ), $this->auth->id());
 
-        return $this->redirect->to('/');
+        return $this->redirect->back();
     }
 
     /**
@@ -308,6 +308,6 @@ class ProfileController extends Controller
         $user->google2fa_secret = $secret;
         $user->save();
 
-        return $this->redirect->to('/');
+        return $this->redirect->back();
     }
 }

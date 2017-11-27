@@ -8,11 +8,13 @@
                 <h3 class="box-title">{{ trans('users.basic') }}</h3>
             </div>
             <div class="box-body">
+                @include('_partials.errors')
+
                 <form action="{{ route('profile.update') }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <div class="form-group">
                         <label for="name">{{ trans('users.name') }}</label>
-                        <input type="text" name="name" value="{{ $logged_in_user->name }}" placeholder="{{ trans('users.name') }}" class="form-control" />
+                        <input type="text" name="name" value="{{ old('name', $logged_in_user->name) }}" placeholder="{{ trans('users.name') }}" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label for="password">{{ trans('users.password') }}</label>
