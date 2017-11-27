@@ -24,5 +24,5 @@ class StoreProfileRequest extends Request
         }
 
         return $rules;
-    }g
+    }
 }
