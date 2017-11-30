@@ -23,6 +23,7 @@
             </li>
             @endforeach
 
+            @if ($logged_in_user->isAdmin())
             <li class="treeview {{ Request::is('admin/*') ? 'active' : null }}">
                 <a href="#">
                     <i class="fa fa-gear"></i>
@@ -36,6 +37,7 @@
                     <li class="{{ Request::is('admin/users') ? 'active' : null }}"><a href="{{ route('admin.users.index') }}">{{ trans('app.users') }}</a></li>
                 </ul>
             </li>
+            @endif
         </ul>
     </section>
 </aside>

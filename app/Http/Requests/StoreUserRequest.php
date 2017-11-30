@@ -2,6 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Requests;
 
+use REBELinBLUE\Deployer\User;
+
 /**
  * Request for validating users.
  */
@@ -18,6 +20,7 @@ class StoreUserRequest extends Request
             'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users,email',
             'password' => 'required|confirmed|min:6|zxcvbn:3,name,email',
+            'level'    => 'required|integer|min:' . User::ADMIN . '|max:' . User::VIEWER,
         ];
 
         // On edit change the password validator

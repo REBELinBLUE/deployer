@@ -49,7 +49,7 @@ return [
         'checkUrls'     => ['create', 'edit', 'successful', 'failed', 'untested', 'length', 'log_title'],
         'commands'      => ['create', 'edit'],
         'groups'        => ['create', 'edit'],
-        'users'         => ['create', 'edit'],
+        'users'         => ['create', 'edit', 'collaborator', 'admin', 'manager', 'viewer'],
         'templates'     => ['create', 'edit'],
         'sharedFiles'   => ['create', 'edit'],
         'configFiles'   => ['create', 'edit'],

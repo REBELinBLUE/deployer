@@ -45,16 +45,23 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         // Authentication screen
-        $this->middleware('web')->namespace($this->namespace)->group(base_path('routes/auth.php'));
+        $this->middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/auth.php'));
 
         // Logged in routes
-        $this->middleware(['web', 'auth', 'jwt'])->namespace($this->namespace)->group(base_path('routes/web.php'));
+        $this->middleware(['web', 'auth', 'jwt'])
+             ->namespace($this->namespace)
+             ->group(base_path('routes/web.php'));
 
         // Admin routes
-        $this->middleware(['web', 'auth', 'jwt'])->namespace($this->namespace)->group(base_path('routes/admin.php'));
+        $this->middleware(['web', 'auth', 'jwt', 'admin'])
+             ->namespace($this->namespace)
+             ->group(base_path('routes/admin.php'));
 
         // Packages
-        $this->middleware(['web', 'auth', 'jwt'])->group(base_path('routes/packages.php'));
+        $this->middleware(['web', 'auth', 'jwt'])
+             ->group(base_path('routes/packages.php'));
     }
 
     /**

@@ -4,6 +4,7 @@ return [
 
     'name'              => 'Name',
     'email'             => 'Email',
+    'level'             => 'Role',
     'password'          => 'Password',
     'password_confirm'  => 'Password Confirmation',
     'password_existing' => 'Password (leave blank to leave unchanged)',
@@ -47,5 +48,9 @@ return [
     'blue'              => 'Blue',
     'with_sidebar'      => ':colour with light sidebar',
     'default'           => 'Default',
+    'admin'             => 'Administrator',
+    'manager'           => 'Manager',
+    'collaborator'      => 'Collaborator',
+    'viewer'            => 'Viewer'
 
 ];

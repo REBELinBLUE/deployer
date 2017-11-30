@@ -30,6 +30,18 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="user_level">{{ trans('users.level') }}</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
+                            <select id="user_level" name="level" class="form-control">
+                                @foreach($levels as $level => $role)
+                                    <option value="{{ $level }}">{{ $role }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="user_password" class="user_password existing-only">{{ trans('users.password_existing') }}</label>
                         <label for="user_password" class="new-only">{{ trans('users.password') }}</label>
                         <div class="input-group">

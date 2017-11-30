@@ -17,12 +17,17 @@ class User extends Authenticatable implements HasPresenter
 {
     use SoftDeletes, BroadcastChanges, Notifiable;
 
+    const ADMIN = 1;
+    const MANAGER = 2;
+    const COLLABORATOR = 3;
+    const VIEWER = 4;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'skin', 'language', 'scheme'];
+    protected $fillable = ['name', 'email', 'password', 'skin', 'language', 'scheme', 'level'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -44,7 +49,8 @@ class User extends Authenticatable implements HasPresenter
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'    => 'integer',
+        'level' => 'integer',
     ];
 
     /**
@@ -91,5 +97,25 @@ class User extends Authenticatable implements HasPresenter
     {
         // FIXME: Clean this up?
         $this->notify(new ResetPassword($token, app('translator')));
+    }
+
+    public function isAdmin()
+    {
+        return $this->level === self::ADMIN;
+    }
+
+    public function isManager()
+    {
+        return $this->level === self::MANAGER;
+    }
+
+    public function isCollaborator()
+    {
+        return $this->level === self::COLLABORATOR;
+    }
+
+    public function isViewer()
+    {
+        return $this->level === self::COLLABORATOR;
     }
 }

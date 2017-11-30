@@ -11,6 +11,8 @@ use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use REBELinBLUE\Deployer\Http\Middleware\Authorize;
+use REBELinBLUE\Deployer\Http\Middleware\IsAdmin;
 use REBELinBLUE\Deployer\Http\Middleware\Authenticate;
 use REBELinBLUE\Deployer\Http\Middleware\EncryptCookies;
 use REBELinBLUE\Deployer\Http\Middleware\Locale;
@@ -64,9 +66,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'       => Authenticate::class,
-        'guest'      => RedirectIfAuthenticated::class,
-        'jwt'        => RefreshJsonWebToken::class,
-        'throttle'   => ThrottleRequests::class,
+        'auth'     => Authenticate::class,
+        'guest'    => RedirectIfAuthenticated::class,
+        'jwt'      => RefreshJsonWebToken::class,
+        'throttle' => ThrottleRequests::class,
+        'admin'    => IsAdmin::class,
+        'acl'      => Authorize::class,
     ];
 }

@@ -3,24 +3,26 @@
 /** @var \Illuminate\Routing\Router $router */
 
 // Include the API routes inside an app path and add the authentication middleware to protect them
-$router->middleware(['auth', 'jwt'])->group(base_path('routes/api.php'));
+$router->middleware(['auth', 'jwt', 'acl'])->group(base_path('routes/api.php'));
 
 // Dashboard routes
 $router->get('timeline', 'DashboardController@timeline')->name('dashboard.timeline');
 $router->get('/', 'DashboardController@index')->name('dashboard');
 
-// Deployments
-$router->get('webhook/{id}/refresh', 'WebhookController@refresh')->name('webhook.refresh');
+// Project
+$router->group(['middleware' => 'acl'], function () use ($router) {
+    $router->get('webhook/{id}/refresh', 'WebhookController@refresh')->name('webhook.refresh');
 
-$router->get('projects/{id}', 'DeploymentController@project')->name('projects');
-$router->post('projects/{id}/deploy', 'DeploymentController@deploy')->name('projects.deploy');
-$router->post('projects/{id}/refresh', 'DeploymentController@refresh')->name('projects.refresh');
+    $router->get('projects/{id}', 'DeploymentController@project')->name('projects');
+    $router->post('projects/{id}/deploy', 'DeploymentController@deploy')->name('projects.deploy');
+    $router->post('projects/{id}/refresh', 'DeploymentController@refresh')->name('projects.refresh');
 
-$router->get('deployment/{id}', 'DeploymentController@show')->name('deployments');
-$router->post('deployment/{id}/rollback', 'DeploymentController@rollback')->name('deployments.rollback');
-$router->post('deployment/{id}/abort', 'DeploymentController@abort')->name('deployments.abort');
+    $router->get('deployment/{id}', 'DeploymentController@show')->name('deployments');
+    $router->post('deployment/{id}/rollback', 'DeploymentController@rollback')->name('deployments.rollback');
+    $router->post('deployment/{id}/abort', 'DeploymentController@abort')->name('deployments.abort');
 
-$router->get('log/{id}', 'DeploymentController@log')->name('deployments.log');
+    $router->get('log/{id}', 'DeploymentController@log')->name('deployments.log');
+});
 
 // User profile
 $router->get('profile', 'ProfileController@index')->name('profile.index');

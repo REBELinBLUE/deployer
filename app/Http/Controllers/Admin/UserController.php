@@ -11,6 +11,7 @@ use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreUserRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
+use REBELinBLUE\Deployer\User;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -42,6 +43,12 @@ class UserController extends Controller
         return $view->make('admin.users.listing', [
             'title' => $translator->trans('users.manage'),
             'users' => $this->repository->getAll()->toJson(),
+            'levels'    => [
+                User::VIEWER       => $translator->trans('users.viewer'),
+                User::COLLABORATOR => $translator->trans('users.collaborator'),
+                User::MANAGER      => $translator->trans('users.manager'),
+                User::ADMIN        => $translator->trans('users.admin'),
+            ],
         ]);
     }
 
@@ -59,7 +66,8 @@ class UserController extends Controller
         $user = $this->repository->create($request->only(
             'name',
             'email',
-            'password'
+            'password',
+            'level'
         ));
 
         $dispatcher->dispatch(new UserWasCreated($user, $request->get('password')));
@@ -80,7 +88,8 @@ class UserController extends Controller
         return $this->repository->updateById($request->only(
             'name',
             'email',
-            'password'
+            'password',
+            'level'
         ), $user_id);
     }
 }
