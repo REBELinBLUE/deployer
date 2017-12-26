@@ -30,7 +30,7 @@ ifndef COMPOSER
 else
 	composer install --optimize-autoloader --no-dev  --prefer-dist --no-interaction --no-suggest
 endif
-	yarn install --production
+	npm install --production
 
 install-dev: ##@development Install dev dependencies
 	@$(MAKE) permissions
@@ -39,7 +39,7 @@ ifndef COMPOSER
 else
 	composer install --no-suggest --prefer-dist
 endif
-	yarn install
+	npm install
 
 lint: ##@tests PHP Parallel Lint
 	@echo "${GREEN}PHP Parallel Lint${RESET}"
@@ -148,9 +148,10 @@ ide:
 
 # Update all dependencies (also git add lockfiles)
 update-deps: permissions
-	composer update --no-suggest --prefer-dist
-	yarn upgrade
-	git add composer.lock yarn.lock
+	composer update --no-suggest --prefer-dist --no-scripts
+	rm package-lock.json
+	npm update
+	git add composer.lock package-lock.json
 
 # Create release
 release: test
