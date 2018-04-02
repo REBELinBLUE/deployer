@@ -498,9 +498,11 @@ class InstallApp extends Command
         $ssl = null;
         if (substr($socket, 0, 5) === 'https') {
             $ssl = [
-                'key_file'     => $this->askAndValidate('SSL key File', [], $path_callback),
-                'key_password' => $this->secret('SSL key password'),
-                'cert_file'    => $this->askAndValidate('SSL certificate File', [], $path_callback),
+                'key_file'     => $this->askAndValidate('SSL key file', [], $path_callback),
+                'key_password' => $this->askSecretAndValidate('SSL key password', [], function ($answer) {
+                    return $answer;
+                }),
+                'cert_file'    => $this->askAndValidate('SSL certificate file', [], $path_callback),
                 'ca_file'      => $this->askAndValidate('SSL certificate authority file', [], $path_callback),
             ];
         }
