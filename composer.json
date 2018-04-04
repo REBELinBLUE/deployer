@@ -3,7 +3,7 @@
     "description": "Simple deployment management for PHP projects.",
     "minimum-stability": "stable",
     "type": "project",
-    "keywords": ["php", "deployer", "deploy", "deployment"],
+    "keywords": ["@php", "deployer", "deploy", "deployment"],
     "homepage": "http://phpdeployment.org/",
     "license": "MIT",
     "authors": [
@@ -20,7 +20,7 @@
         "source": "https://github.com/REBELinBLUE/deployer"
     },
     "require": {
-        "php": ">=5.6.4",
+        "@php": ">=5.6.4",
         "andywer/js-localization": "dev-laravel-5",
         "backup-manager/laravel": "^1.1",
         "creativeorange/gravatar": "~1.0",
@@ -62,11 +62,11 @@
         "laravel/dusk": "^1.0",
         "lstrojny/phpunit-clever-and-smart": "0.*",
         "mockery/mockery": "^0.9",
-        "php-mock/php-mock-mockery": "^1.1",
-        "phploc/phploc": "~3.0",
-        "phpmd/phpmd": "~2.4",
-        "phpunit/phpcov": "3.1.0",
-        "phpunit/phpunit": "~5.7",
+        "@php-mock/php-mock-mockery": "^1.1",
+        "@phploc/phploc": "~3.0",
+        "@phpmd/phpmd": "~2.4",
+        "@phpunit/phpcov": "3.1.0",
+        "@phpunit/phpunit": "~5.7",
         "sebastian/phpcpd": "^3.0",
         "spatie/laravel-migrate-fresh": "dev-php56",
         "squizlabs/php_codesniffer": "~2.5",
@@ -92,7 +92,7 @@
     },
     "scripts": {
         "pre-install-cmd": [
-            "php artisan clear-compiled"
+            "@php artisan clear-compiled"
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
@@ -100,15 +100,35 @@
             "([ -f .env ] && [ -z \"$TRAVIS\" ] && php artisan optimize) || exit 0"
         ],
         "pre-update-cmd": [
-            "php artisan clear-compiled"
+            "@php artisan clear-compiled"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan ide-helper:generate",
-            "php artisan ide-helper:meta",
-            "php artisan ide-helper:models --nowrite",
-            "php artisan optimize"
-        ]
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:models --nowrite",
+            "@php artisan optimize"
+        ],
+        "test:phpcpd": "phpcpd --progress app/",
+        "test:lint": "parallel-lint app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan",
+        "test:loc": "phploc --count-tests app/ database/ resources/ tests/",
+        "test:phpmd": "phpmd app text phpmd.xml.dist",
+        "test:phpcs": "phpcs",
+        "test:phpcs:fix": "php-cs-fixer --no-interaction fix",
+        "test:phpdoc": "phpdoccheck --directory=app --files-per-line 60",
+        "test:unit": "phpunit --no-coverage --testsuite 'Unit Tests'",
+        "test:integration": "phpunit --no-coverage --testsuite 'Integration Tests'"
+    },
+    "scripts-descriptions": {
+        "test:lint": "Check the syntax of all PHP files",
+        "test:phpcpd": "Check for copy/paste detection",
+        "test:loc": "Count the number of lines of code",
+        "test:phpmd": "Run PHP mess detector",
+        "test:phpcs": "Check the code adheres to PSR-2",
+        "test:phpcs:fix": "Fix PSR-2 violations",
+        "test:phpdoc": "Ensure all functions have PHPDoc blocks",
+        "test:unit": "Run the unit tests",
+        "test:integration": "Run the integration tests"
     },
     "extra": {
         "patches": {

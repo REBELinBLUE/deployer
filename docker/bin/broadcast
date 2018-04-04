@@ -1,0 +1,3 @@
+#!/bin/sh
+
+docker-compose exec worker php /application/artisan queue:work --queue=deployer-default --sleep=3 --tries=1c

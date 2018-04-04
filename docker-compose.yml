@@ -1,0 +1,109 @@
+version: "3.1"
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: docker/node
+    container_name: deployer-node
+    image: rebelinblue/deployer-node:latest
+    working_dir: /application
+    volumes:
+      - .:/application
+      - ./docker/node/supervisord.conf:/etc/supervisor/supervisord.conf
+    ports:
+      - "6001:6001"
+    links:
+      - redis
+
+  beanstalkd:
+    image: schickling/beanstalkd
+    container_name: deployer-beanstalkd
+
+  mailhog:
+    image: phpdockerio/mailhog:latest
+    container_name: deployer-mailhog
+    ports:
+      - "8001:8025"
+
+  redis:
+    image: phpdockerio/redis:latest
+    container_name: deployer-redis
+
+  mysql:
+    image: mysql:5.7
+    container_name: deployer-mysql
+    working_dir: /application
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=deployer
+      - MYSQL_USER=deployer
+      - MYSQL_PASSWORD=secret
+    volumes:
+      - data:/var/lib/mysql
+
+  nginx:
+    image: phpdockerio/nginx:latest
+    container_name: deployer-nginx
+    working_dir: /application
+    volumes:
+      - .:/application
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8000:80"
+    links:
+      - php-fpm
+      - node
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/worker
+    container_name: deployer-worker
+    image: rebelinblue/deployer-worker:latest
+    volumes:
+      - .:/application
+      - ./docker/worker/supervisord.conf:/etc/supervisord.conf
+    links:
+      - beanstalkd
+      - mysql
+      - redis
+
+  composer:
+    build:
+      context: .
+      dockerfile: docker/composer
+    environment:
+      COMPOSER_ALLOW_SUPERUSER: 1
+    image: composer:latest
+    container_name: deployer-composer
+    volumes:
+      - .:/application
+    links:
+      - mysql
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: docker/php-fpm
+    environment:
+      XDEBUG_CONFIG: "remote_host=192.168.128.85"
+      PHP_IDE_CONFIG: "serverName=deployer"
+      COMPOSER_ALLOW_SUPERUSER: 1
+    container_name: deployer-php-fpm
+    image: rebelinblue/deployer-php-fpm:latest
+    working_dir: /application
+    volumes:
+      - .:/application
+      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
+    links:
+      - beanstalkd
+      - mailhog
+      - mysql
+      - redis
+
+volumes:
+  data:
+    driver: "local"
