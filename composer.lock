@@ -3056,7 +3056,7 @@
                 "zxcvbn"
             ],
             "support": {
-                "source": "https://github.com/REBELinBLUE/laravel5-zxcvbn/tree/1.0.0",
+                "source": "https://github.com/REBELinBLUE/laravel5-zxcvbn/tree/master",
                 "issues": "https://github.com/REBELinBLUE/laravel5-zxcvbn/issues"
             },
             "time": "2017-10-28T16:28:59+00:00"
