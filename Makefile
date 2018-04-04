@@ -7,7 +7,6 @@ WHITE    := $(shell tput -Txterm setaf 7)
 YELLOW   := $(shell tput -Txterm setaf 3)
 RESET    := $(shell tput -Txterm sgr0)
 COMPOSER := $(shell command -v composer 2> /dev/null)
-KEY      := $(shell date +%s | sha256sum | base64 | head -c 32 ; echo)
 
 composer: ##@production Install composer locally
 ifndef COMPOSER
@@ -37,8 +36,8 @@ install-dev: ##@development Install dev dependencies
 	@$(MAKE) docker-install-dev
 
 update-deps: ##@development Update dependencies
-	docker-compose run --rm composer update --no-interaction --no-suggest --prefer-dist --no-suggest
-	docker-compose exec node npm upgrade
+	@docker-compose run --rm composer update --no-interaction --no-suggest --prefer-dist --no-suggest
+	@docker-compose exec node npm upgrade
 
 clean: ##@development Clean cache, logs and other temporary files
 	@$(MAKE) stop
@@ -126,27 +125,30 @@ fulltest: ##@shortcuts Runs all tests
 	#@$(MAKE) dusk
 
 run: ##@docker Runs the containers
-	docker-compose up -d
+	@docker-compose up -d
 
 stop: ##@docker Stops the containers
-	docker-compose down
+	@docker-compose down
 
 build: ##@docker Builds the application
 	@$(MAKE) run
 	@cp -f ./docker/laravel_env .env
-	docker-compose run --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
-	docker-compose exec node npm install --production
+	@$(MAKE) docker-install
 	@$(MAKE) docker-migrate
 	@sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(shell date +%s | sha256sum | base64 | head -c 32; echo)/g" .env
 	@docker-compose exec php-fpm php artisan key:generate --force
-	docker-compose exec php-fpm php artisan deployer:create-user admin admin@example.com changeme --no-email
+	@docker-compose exec php-fpm php artisan deployer:create-user admin admin@example.com changeme --no-email
 
 docker-migrate: ##@docker Runs the migrations inside the container
-	docker-compose exec php-fpm php artisan migrate
+	@docker-compose exec php-fpm php artisan migrate
 
-docker-install-dev:
-	docker-compose run --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest --ignore-platform-reqs
-	docker-compose exec node npm install
+docker-install: ##@docker Install dependencies
+	@docker-compose run --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
+	@docker-compose exec node npm install --production
+
+docker-install-dev: ##@docker Install development dependencies
+	@docker-compose run --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest --ignore-platform-reqs
+	@docker-compose exec node npm install
 
 # --------------------------------------------------------- #
 # ----- The targets below should not be shown in help ----- #
@@ -159,7 +161,6 @@ reset: clean
 	rm -rf .env.prev _ide_helper_models.php _ide_helper.php .phpstorm.meta.php .php_cs.cache
 	-rm database/database.sqlite
 	-rm database/backups/*
-	-rm .phpunit-cas.db
 
 ## Generates helper files for IDEs
 #ide:
