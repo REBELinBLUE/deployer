@@ -142,11 +142,11 @@ build: ##@docker Builds the application
 docker-migrate: ##@docker Runs the migrations inside the container
 	@docker-compose exec php-fpm php artisan migrate
 
-docker-install: ##@docker Install dependencies
+docker-install:
 	@docker-compose run --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
 	@docker-compose exec node npm install --production
 
-docker-install-dev: ##@docker Install development dependencies
+docker-install-dev:
 	@docker-compose run --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest --ignore-platform-reqs
 	@docker-compose exec node npm install
 
