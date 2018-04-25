@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# FIXME: Need to have a container with the PHP version being the minimum PHP version required
+# so that composer update doesn't resolve to using doctrine packages which require at least
+# PHP 7.1.3
+
+docker-compose run --rm composer "$@"
