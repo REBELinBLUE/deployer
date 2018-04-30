@@ -32,12 +32,12 @@ if [ -f {{ release_path }}/composer.json ]; then
         fi
 
         ${composer} install --no-interaction --optimize-autoloader \
-                          --prefer-dist ${suggest} --no-ansi --working-dir "{{ release_path }}"
+                          --prefer-dist ${suggest} --no-ansi --working-dir {{ release_path }}
 
 
     else
         ${composer} install --no-interaction --optimize-autoloader \
-                          --no-dev --prefer-dist --no-suggest --no-ansi --working-dir "{{ release_path }}"
+                          --no-dev --prefer-dist --no-suggest --no-ansi --working-dir {{ release_path }}
     fi
 fi
 
