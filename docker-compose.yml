@@ -4,7 +4,7 @@ services:
   node:
     build:
       context: .
-      dockerfile: docker/node
+      dockerfile: docker/node/Dockerfile
     container_name: deployer-node
     image: rebelinblue/deployer-node:latest
     working_dir: /application
@@ -60,7 +60,7 @@ services:
   worker:
     build:
       context: .
-      dockerfile: docker/worker
+      dockerfile: docker/worker/Dockerfile
     container_name: deployer-worker
     image: rebelinblue/deployer-worker:latest
     volumes:
@@ -74,7 +74,7 @@ services:
   composer:
     build:
       context: .
-      dockerfile: docker/composer
+      dockerfile: docker/composer/Dockerfile
     environment:
       COMPOSER_ALLOW_SUPERUSER: 1
     image: composer:latest
@@ -87,7 +87,7 @@ services:
   php-fpm:
     build:
       context: .
-      dockerfile: docker/php-fpm
+      dockerfile: docker/php-fpm/Dockerfile
     environment:
       XDEBUG_CONFIG: "remote_host=192.168.128.85"
       PHP_IDE_CONFIG: "serverName=deployer"
