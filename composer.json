@@ -3,7 +3,7 @@
     "description": "Simple deployment management for PHP projects.",
     "minimum-stability": "stable",
     "type": "project",
-    "keywords": ["@php", "deployer", "deploy", "deployment"],
+    "keywords": ["php", "deployer", "deploy", "deployment"],
     "homepage": "http://phpdeployment.org/",
     "license": "MIT",
     "authors": [
