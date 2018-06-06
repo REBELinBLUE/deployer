@@ -2,10 +2,10 @@
   "private": true,
   "name": "deployer",
   "dependencies": {
-    "dotenv": "^4.0.0",
-    "ioredis": "^2.4.3",
-    "jsonwebtoken": "^7.0.0",
-    "socket.io": "^1.7.1"
+    "dotenv": "^6.0.0",
+    "ioredis": "^3.2.2",
+    "jsonwebtoken": "^8.2.2",
+    "socket.io": "^2.1.1"
   },
   "scripts": {
     "start": "node socket.js",
