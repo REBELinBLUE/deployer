@@ -17,21 +17,21 @@ cache:
     - $HOME/.composer/cache
 
 matrix:
-  include:
-    - php: 7.0
-      env: DB=mysql
-      services:
-        - mysql
-    - php: 7.0
-      env: DB=maria
-      addons:
-        mariadb: 10.1
-    - php: 7.0
-      env: DB=pgsql
-      addons:
-        postgresql: "9.3"
-      services:
-        - postgresql
+ include:
+   - php: 7.0
+     env: DB=mysql
+     services:
+       - mysql
+   - php: 7.0
+     env: DB=maria
+     addons:
+       mariadb: 10.1
+   - php: 7.0
+     env: DB=pgsql
+     addons:
+       postgresql: "9.3"
+     services:
+       - postgresql
 
 before_install:
   - if [[ "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
@@ -43,6 +43,12 @@ install:
   - travis_retry npm install
 
 before_script:
+  - |
+    if [[ "$TRAVIS_PHP_VERSION" == "7.1" ]]; then
+      curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      chmod +x ./cc-test-reporter
+      ./cc-test-reporter before-build
+    fi
   - cp -f $TRAVIS_BUILD_DIR/tests/.env.travis $TRAVIS_BUILD_DIR/.env
   - make permissions
   - make travis
@@ -64,17 +70,13 @@ script:
   - php artisan app:version
 
 after_script:
-  - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
-  - cat $TRAVIS_BUILD_DIR/.env
-
-after_success:
   - |
-    if [[ -f storage/app/tmp/coverage.xml ]]; then
-      travis_retry composer install --no-interaction --prefer-dist --no-suggest --quiet
-      mv $TRAVIS_BUILD_DIR/storage/app/tmp/coverage.xml $TRAVIS_BUILD_DIR/coverage.xml
-      php vendor/bin/test-reporter --coverage-report=$TRAVIS_BUILD_DIR/coverage.xml
+    if [[ -f clover.xml ]]; then
+      ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
       bash <(curl -s https://codecov.io/bash)
     fi
+  - find $TRAVIS_BUILD_DIR/storage/logs/*.log -type f -print -exec cat {} \;
+  - cat $TRAVIS_BUILD_DIR/.env
 
 notifications:
   email: false

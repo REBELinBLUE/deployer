@@ -197,7 +197,7 @@ travis:
 endif
 
 # PHPUnit for Travis
-ifeq "$(TRAVIS_PHP_VERSION)" "7.1.0"
+ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
 phpunit-ci:
 	# phpdbg isn't working on travis, hitting the max open files limit
 	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
@@ -207,8 +207,8 @@ phpunit-ci:
 	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
 			--log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
 	@php vendor/bin/phpcov merge storage/app/tmp/ \
-			--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
-	@php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ storage/app/tmp/junit.xml
+			--html storage/app/tmp/coverage/ --clover clover.xml
+	@php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ junit.xml
 	@rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
 else
 phpunit-ci:
