@@ -5,7 +5,7 @@
 
 **Fixed bugs:**
 
-- SSL certificate password requires a password [\#366](https://github.com/REBELinBLUE/deployer/issues/366)
+- SSL certificate requires a password [\#366](https://github.com/REBELinBLUE/deployer/issues/366)
 - Paths with tilde (~) don't work correctly [\#374](https://github.com/REBELinBLUE/deployer/issues/374)
 
 **Implemented enhancements:**
