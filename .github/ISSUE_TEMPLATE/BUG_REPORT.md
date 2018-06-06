@@ -1,3 +1,9 @@
+---
+name: Bug report
+about: Create a report to help us improve
+
+---
+
 Before submitting your issue, please make sure that you've checked all of the checkboxes below.
 
 - [ ] You're running the [latest release](https://github.com/REBElinBLUE/deployer/releases/latest) version of Deployer.
@@ -7,7 +13,9 @@ Before submitting your issue, please make sure that you've checked all of the ch
 - [ ] You've ran `rm -rf bootstrap/cache/*` from the root of your installation.
 - [ ] You have restarted the queue listener and node socket server.
 
-To help us better understand your issue, please answer the following.
+### Describe the bug
+
+*A clear and concise description of what the bug is.*
 
 ### Expected behaviour
 
@@ -20,6 +28,9 @@ To help us better understand your issue, please answer the following.
 ### Steps to reproduce
 
 *If your issue requires any specific steps to reproduce, please outline them here.*
+
+### Screenshots
+*If applicable, add screenshots to help explain your problem.*
 
 ### Environment info
 
