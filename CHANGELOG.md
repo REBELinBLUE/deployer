@@ -1,5 +1,18 @@
 # Change Log
 
+## [0.0.47](https://github.com/REBELinBLUE/deployer/tree/0.0.47) (2018-06-06)
+[Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.46...0.0.47)
+
+**Fixed bugs:**
+
+- SSL certificate password requires a password [\#366](https://github.com/REBELinBLUE/deployer/issues/366)
+- Paths with tilde (~) don't work correctly [\#374](https://github.com/REBELinBLUE/deployer/issues/374)
+
+**Implemented enhancements:**
+- Log error output of processes that did not run successfully [\#347](https://github.com/REBELinBLUE/deployer/pull/347) ([emielmolenaar](https://github.com/emielmolenaar))
+- Use full path for shared folders when creating symlinks [\#356](https://github.com/REBELinBLUE/deployer/pull/356)
+
+
 ## [0.0.46](https://github.com/REBELinBLUE/deployer/tree/0.0.46) (2017-08-01)
 [Full Changelog](https://github.com/REBELinBLUE/deployer/compare/0.0.45...0.0.46)
 
