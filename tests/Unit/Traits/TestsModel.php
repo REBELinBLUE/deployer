@@ -59,25 +59,25 @@ trait TestsModel
             case 1:
                 $class->shouldReceive($type)
                       ->once()
-                      ->with('/' . str_singular($relationship) . '/i')
+                      ->with(m::pattern('/' . str_singular($relationship) . '/i'))
                       ->andReturn(m::self());
                 break;
             case 2:
                 $class->shouldReceive($type)
                       ->once()
-                      ->with('/' . str_singular($relationship) . '/i', $args[1])
+                      ->with(m::pattern('/' . str_singular($relationship) . '/i'), $args[1])
                       ->andReturn(m::self());
                 break;
             case 3:
                 $class->shouldReceive($type)
                       ->once()
-                      ->with('/' . str_singular($relationship) . '/i', $args[1], $args[2])
+                      ->with(m::pattern('/' . str_singular($relationship) . '/i'), $args[1], $args[2])
                       ->andReturn(m::self());
                 break;
             case 4:
                 $class->shouldReceive($type)
                       ->once()
-                      ->with('/' . str_singular($relationship) . '/i', $args[1], $args[2], $args[3])
+                      ->with(m::pattern('/' . str_singular($relationship) . '/i'), $args[1], $args[2], $args[3])
                       ->andReturn(m::self());
                 break;
             default:

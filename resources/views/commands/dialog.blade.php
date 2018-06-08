@@ -50,7 +50,7 @@
                             </ul>
                         </div>
                     </div>
-                    @if (count($project->servers))
+                    @if (isset($project->servers) && count($project->servers))
                     <div class="form-group">
                         <label for="command_servers">{{ trans('commands.servers') }}</label>
                         <ul class="list-unstyled">

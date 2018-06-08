@@ -35,7 +35,7 @@ class RuntimePresenterTest extends TestCase
 
         // Class which doesn't implement the RuntimeInterface
         $presenter = new StubPresenter($this->translator);
-        $presenter->getWrappedObject($invalid);
+        $presenter->setWrappedObject($invalid);
         $presenter->presentReadableRuntime();
     }
 
