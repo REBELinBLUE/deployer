@@ -89,7 +89,6 @@ services:
       context: .
       dockerfile: docker/php-fpm/Dockerfile
     environment:
-      XDEBUG_CONFIG: "remote_host=192.168.128.85"
       PHP_IDE_CONFIG: "serverName=deployer"
       COMPOSER_ALLOW_SUPERUSER: 1
     container_name: deployer-php-fpm

@@ -8,6 +8,10 @@ YELLOW   := $(shell tput -Txterm setaf 3)
 RESET    := $(shell tput -Txterm sgr0)
 COMPOSER := $(shell command -v composer 2> /dev/null)
 
+ifndef COMPOSER_CACHE_DIR
+COMPOSER_CACHE_DIR := ~/.composer/cache
+endif
+
 composer: ##@production Install composer locally
 ifndef COMPOSER
 	curl --silent https://getcomposer.org/installer | php -- --quiet
@@ -36,7 +40,7 @@ install-dev: ##@development Install dev dependencies
 	@$(MAKE) docker-install-dev
 
 update-deps: ##@development Update dependencies
-	@docker-compose run --rm composer update --no-interaction --no-suggest --prefer-dist --no-suggest
+	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer update --no-interaction --no-suggest --prefer-dist --no-suggest
 	@docker-compose exec node npm upgrade
 
 clean: ##@development Clean cache, logs and other temporary files
@@ -143,11 +147,11 @@ docker-migrate: ##@docker Runs the migrations inside the container
 	@docker-compose exec php-fpm php artisan migrate
 
 docker-install:
-	@docker-compose run --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
+	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
 	@docker-compose exec node npm install --production
 
 docker-install-dev:
-	@docker-compose run --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest --ignore-platform-reqs
+	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest --ignore-platform-reqs
 	@docker-compose exec node npm install
 
 # --------------------------------------------------------- #
