@@ -10,6 +10,7 @@ return [
     | This value is the name of your application. This value is used when the
     | framework needs to place the application's name in a notification or
     | any other location as required by the application or its packages.
+    |
     */
 
     'name' => env('APP_NAME', 'Deployer'),
@@ -168,23 +169,22 @@ return [
         /*
          * Package Service Providers...
          */
-        BackupManager\Laravel\Laravel5ServiceProvider::class,
+        // BackupManager\Laravel\Laravel5ServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
-        Fideloper\Proxy\TrustedProxyServiceProvider::class,
-        GrahamCampbell\Binput\BinputServiceProvider::class,
-        GrahamCampbell\Security\SecurityServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
-        Laracademy\Commands\MakeServiceProvider::class,
-        Laravel\Tinker\TinkerServiceProvider::class,
-        Lubusin\Decomposer\DecomposerServiceProvider::class,
-        McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
-        Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+        // Fideloper\Proxy\TrustedProxyServiceProvider::class,
+        // GrahamCampbell\Binput\BinputServiceProvider::class,
+        // GrahamCampbell\Security\SecurityServiceProvider::class,
+        // Intervention\Image\ImageServiceProvider::class,
+        // Laracademy\Commands\MakeServiceProvider::class,
+        // Laravel\Tinker\TinkerServiceProvider::class,
+        // Lubusin\Decomposer\DecomposerServiceProvider::class,
+        // McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
+        // Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider::class,
-        NotificationChannels\HipChat\HipChatServiceProvider::class,
+        // NotificationChannels\HipChat\HipChatServiceProvider::class,
         NotificationChannels\Twilio\TwilioProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
-        REBELinBLUE\Zxcvbn\ZxcvbnServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
         /*
@@ -202,7 +202,6 @@ return [
         REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ValidationServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
-        REBELinBLUE\Deployer\Providers\WhoopsServiceProvider::class,
 
     ],
 

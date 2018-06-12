@@ -11,7 +11,7 @@
 [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat-square&label=Tech)](https://stackshare.io/REBELinBLUE/deployer)
 [![Gitter](https://img.shields.io/badge/chat-on%20gitter-brightgreen.svg?style=flat-square&label=Chat)](https://gitter.im/REBELinBLUE/deployer)
 
-Deployer is a PHP Application deployment system powered by [Laravel 5.4](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
+Deployer is a PHP Application deployment system powered by [Laravel 5.5](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
 
 Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](https://github.com/REBELinBLUE/deployer/wiki/Screenshots) and [contribution guidelines](/.github/CONTRIBUTING.md).
 

@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Http;
 
-use Fideloper\Proxy\TrustProxies;
+use REBELinBLUE\Deployer\Http\Middleware\TrustProxies;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode;

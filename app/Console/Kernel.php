@@ -19,7 +19,6 @@ use REBELinBLUE\Deployer\Console\Commands\MakeRepositoryCommand;
 use REBELinBLUE\Deployer\Console\Commands\ResetApp;
 use REBELinBLUE\Deployer\Console\Commands\UpdateApp;
 use REBELinBLUE\Deployer\Console\Commands\UpdateGitMirrors;
-use Spatie\MigrateFresh\Commands\MigrateFresh;
 
 /**
  * Kernel class.
@@ -58,11 +57,6 @@ class Kernel extends ConsoleKernel
         // Only register the reset command on the local environment
         if ($this->app->environment('local', 'testing')) {
             $this->commands[] = ResetApp::class;
-
-            // Only register the migratefresh command when it is installed
-            if (class_exists(MigrateFresh::class, true)) {
-                $this->commands[] = MigrateFresh::class;
-            }
         }
     }
 
@@ -100,4 +94,15 @@ class Kernel extends ConsoleKernel
                  ->hourly()
                  ->withoutOverlapping();
     }
+//
+//    /**
+//     * Register the commands for the application.
+//     *
+//     * @return void
+//     */
+//    protected function commands()
+//    {
+//        $this->load(__DIR__.'/Commands');
+//        require base_path('routes/console.php');
+//    }
 }

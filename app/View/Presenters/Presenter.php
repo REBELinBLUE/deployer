@@ -31,7 +31,7 @@ abstract class Presenter extends BasePresenter
      *
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         $method = $this->toCamelCase($key);
         if (method_exists($this, $method)) {
@@ -48,7 +48,7 @@ abstract class Presenter extends BasePresenter
      *
      * @return bool
      */
-    public function __isset($key)
+    public function __isset(string $key)
     {
         $method = $this->toCamelCase($key);
         if (method_exists($this, $method)) {

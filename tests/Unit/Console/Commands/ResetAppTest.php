@@ -100,7 +100,7 @@ class ResetAppTest extends TestCase
         $this->console->shouldReceive('find')->with('down')->andReturn($command);
         $this->console->shouldReceive('find')->with('migrate')->andReturn($migrate);
         $this->console->shouldReceive('find')->with('app:update')->andReturn($update);
-        $this->console->shouldReceive('find')->with('migrate:fresh')->andReturn($migrate);
+        $this->console->shouldReceive('find')->with('migrate:refresh')->andReturn($migrate);
         $this->console->shouldReceive('find')->with('queue:flush')->andReturn($command);
         $this->console->shouldReceive('find')->with('queue:restart')->andReturn($command);
         $this->console->shouldReceive('find')->with('up')->andReturn($command);
