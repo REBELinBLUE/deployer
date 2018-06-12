@@ -16,6 +16,7 @@
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#project_details" data-toggle="tab">{{ trans('projects.project_details') }}</a></li>
+                            <li><a href="#project_users" data-toggle="tab">{{ trans('projects.users') }}</a></li>
                             <li><a href="#project_repo" data-toggle="tab">{{ trans('projects.repository') }}</a></li>
                             <li><a href="#project_build" data-toggle="tab">{{ trans('projects.build_options') }}</a></li>
                             <li><a href="#project_key" data-toggle="tab">{{ trans('projects.ssh_key') }}</a></li>
@@ -61,6 +62,33 @@
                                         <div class="input-group-addon"><i class="fa fa-external-link"></i></div>
                                         <input type="text" class="form-control" name="url" id="project_url" placeholder="http://www.example.com" />
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="project_users">
+                                <div class="form-group">
+                                    <label for="project_repository">{{ trans('users.users_with_access') }}</label>
+
+                                    @if (! empty($users) && count($users))
+                                        <table class="table">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>{{ trans('users.username') }}</th>
+                                                <th>{{ trans('users.email') }}</th>
+                                                <th>{{ trans('users.role') }}</th>
+                                            </tr>
+                                            @foreach ($users as $u)
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    @else
+                                        <div class="alert alert-info" role="alert">{{ trans('users.no_user') }}</div>
+                                    @endif
                                 </div>
                             </div>
 
