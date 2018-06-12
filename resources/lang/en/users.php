@@ -47,5 +47,9 @@ return [
     'blue'              => 'Blue',
     'with_sidebar'      => ':colour with light sidebar',
     'default'           => 'Default',
+    'is_admin'          => 'Application administrator (full access)',
+    'authorization'     => 'Authorization',
+    'users_with_access' => 'Users having access to this project',
+    'no_user'           => 'No user found'
 
 ];

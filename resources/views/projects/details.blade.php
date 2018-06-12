@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+
     <div class="row">
         <div class="col-md-4">
             <div class="box box-default">
@@ -57,56 +58,64 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#deployments" data-toggle="tab"><span class="fa fa-hdd-o"></span> {{ trans('deployments.label') }}</a></li>
-                    <li><a href="#servers" data-toggle="tab"><span class="fa fa-tasks"></span> {{ trans('servers.label') }}</a></li>
-                    <li><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ trans('commands.label') }}</a></li>
-                    <li><a href="#files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ trans('sharedFiles.tab_label') }}</a></li>
-                    <li><a href="#notifications" data-toggle="tab"><span class="fa fa-bullhorn"></span> {{ trans('channels.label') }}</a></li>
-                    <li><a href="#health" data-toggle="tab"><span class="fa fa-heartbeat"></span> {{ trans('heartbeats.tab_label') }}</a></li>
+                    @can('update', $project->getWrappedObject())
+                        <li><a href="#servers" data-toggle="tab"><span class="fa fa-tasks"></span> {{ trans('servers.label') }}</a></li>
+                        <li><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ trans('commands.label') }}</a></li>
+                        <li><a href="#files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ trans('sharedFiles.tab_label') }}</a></li>
+                        <li><a href="#notifications" data-toggle="tab"><span class="fa fa-bullhorn"></span> {{ trans('channels.label') }}</a></li>
+                        <li><a href="#health" data-toggle="tab"><span class="fa fa-heartbeat"></span> {{ trans('heartbeats.tab_label') }}</a></li>
+                    @endcan
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="deployments">
                         @include('projects._partials.deployments')
                     </div>
-                    <div class="tab-pane" id="servers">
-                        @include('projects._partials.servers')
-                    </div>
-                    <div class="tab-pane" id="hooks">
-                        @include('projects._partials.commands')
-                        @include('projects._partials.variables')
-                    </div>
-                    <div class="tab-pane" id="files">
-                        @include('projects._partials.shared_files')
-                        @include('projects._partials.config_files')
-                    </div>
-                    <div class="tab-pane" id="notifications">
-                        @include('projects._partials.notifications')
-                    </div>
-                    <div class="tab-pane" id="health">
-                        @include('projects._partials.heartbeats')
-                        @include('projects._partials.check_urls')
-                    </div>
+                    @can('update', $project->getWrappedObject())
+                        <div class="tab-pane" id="servers">
+                            @include('projects._partials.servers')
+                        </div>
+                        <div class="tab-pane" id="hooks">
+                            @include('projects._partials.commands')
+                            @include('projects._partials.variables')
+                        </div>
+                        <div class="tab-pane" id="files">
+                            @include('projects._partials.shared_files')
+                            @include('projects._partials.config_files')
+                        </div>
+                        <div class="tab-pane" id="notifications">
+                            @include('projects._partials.notifications')
+                        </div>
+                        <div class="tab-pane" id="health">
+                            @include('projects._partials.heartbeats')
+                            @include('projects._partials.check_urls')
+                        </div>
+                    @endcan
                 </div>
             </div>
         </div>
     </div>
 
-    @include('projects.dialogs.server')
-    @include('projects.dialogs.shared_files')
-    @include('projects.dialogs.config_files')
-    @include('projects.dialogs.channel')
-    @include('projects.dialogs.webhook')
-    @include('projects.dialogs.variable')
-    @include('projects.dialogs.heartbeat')
-    @include('projects.dialogs.check_urls')
-    @include('projects.dialogs.key')
-    @include('projects.dialogs.reason')
-    @include('projects.dialogs.redeploy')
-    @include('projects.dialogs.log')
+    @can('update', $project->getWrappedObject())
+        @include('projects.dialogs.server')
+        @include('projects.dialogs.shared_files')
+        @include('projects.dialogs.config_files')
+        @include('projects.dialogs.channel')
+        @include('projects.dialogs.webhook')
+        @include('projects.dialogs.variable')
+        @include('projects.dialogs.heartbeat')
+        @include('projects.dialogs.check_urls')
+        @include('projects.dialogs.key')
+        @include('projects.dialogs.reason')
+        @include('projects.dialogs.redeploy')
+        @include('projects.dialogs.log')
+    @endcan
 @stop
 
 @section('right-buttons')
     <div class="pull-right">
-        <button type="button" class="btn btn-default" title="{{ trans('projects.view_ssh_key') }}" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> {{ trans('projects.ssh_key') }}</button>
+        @can('update', $project->getWrappedObject())
+            <button type="button" class="btn btn-default" title="{{ trans('projects.view_ssh_key') }}" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> {{ trans('projects.ssh_key') }}</button>
+        @endcan
         <button id="deploy_project" data-toggle="modal" data-backdrop="static" data-target="#reason" type="button" class="btn btn-danger" title="{{ trans('projects.deploy_project') }}" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></span> {{ trans('projects.deploy') }}</button>
     </div>
 @stop

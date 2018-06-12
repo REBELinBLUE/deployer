@@ -55,5 +55,6 @@ return [
     'insecure'          => 'Your Deployer installation is not running over a secure connection, it is recommended ' .
                            'that you let Deployer generate an SSH key rather than supply one yourself so that the ' .
                            'private key is not transmitted over an insecure connection.',
+    'users'             => 'Users'
 
 ];
