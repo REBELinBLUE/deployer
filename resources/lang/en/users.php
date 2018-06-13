@@ -50,6 +50,7 @@ return [
     'is_admin'          => 'Application administrator (full access)',
     'authorization'     => 'Authorization',
     'users_with_access' => 'Users having access to this project',
-    'no_user'           => 'No user found'
+    'no_user'           => 'No user found',
+    'role'              => 'Role'
 
 ];

@@ -68,27 +68,20 @@
                             <div class="tab-pane" id="project_users">
                                 <div class="form-group">
                                     <label for="project_repository">{{ trans('users.users_with_access') }}</label>
-
-                                    @if (! empty($users) && count($users))
-                                        <table class="table">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>{{ trans('users.username') }}</th>
-                                                <th>{{ trans('users.email') }}</th>
-                                                <th>{{ trans('users.role') }}</th>
-                                            </tr>
-                                            @foreach ($users as $u)
+                                    <div id="user_list">
+                                        <table class="table table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <th>{{ trans('users.name') }}</th>
+                                                    <th>{{ trans('users.email') }}</th>
+                                                    <th>{{ trans('users.role') }}</th>
                                                 </tr>
-                                            @endforeach
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
                                         </table>
-                                    @else
-                                        <div class="alert alert-info" role="alert">{{ trans('users.no_user') }}</div>
-                                    @endif
+                                    </div>
                                 </div>
                             </div>
 
@@ -171,3 +164,11 @@
         </div>
     </div>
 </div>
+
+@push('templates')
+    <script type="text/template" id="user-template">
+        <td><%- name %></td>
+        <td><%- email %></td>
+        <td></td>
+    </script>
+@endpush
