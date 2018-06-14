@@ -105,7 +105,9 @@ class ProjectController extends Controller
             'build_url',
             'allow_other_branch',
             'include_dev',
-            'private_key'
+            'private_key',
+            'managers',
+            'users'
         ), $project_id);
     }
 }

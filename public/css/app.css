@@ -261,6 +261,16 @@ form#filter_log label {
   margin-right: 10px;
 }
 
+.bootstrap-tagsinput {
+  width: 100% !important;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}
+
+#project_members .input-group {
+  width: 100%;
+}
+
 /* Console theme - Afterglow */
 div.console-afterglow pre {
     background-color: #2c2c2c;

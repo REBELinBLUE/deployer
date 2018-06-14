@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+
     <div class="box">
 
         <div class="box-body" id="no_projects">

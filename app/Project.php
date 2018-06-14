@@ -437,6 +437,6 @@ class Project extends Model implements HasPresenter
      */
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('role');
     }
 }
