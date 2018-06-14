@@ -10,7 +10,8 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
-    public function before($user, $ability) {
+    public function before($user, $ability)
+    {
         if ($user->is_admin === 1) {
             return true;
         }
@@ -25,7 +26,6 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-
         return $project->users()->where('users.id', $user->id)->count() === 1;
     }
 

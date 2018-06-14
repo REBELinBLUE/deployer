@@ -49,8 +49,8 @@
                     <div class="form-group">
                         <label>{{ trans('users.authorization') }}</label>
                         <div class="checkbox">
-                            <label for="input-is-admin">
-                                <input type="checkbox" class="form-check-input" name="is_admin" id="input-is-admin" />
+                            <label for="user_is_admin">
+                                <input type="checkbox" class="form-check-input" name="is_admin" id="user_is_admin" />
                                 {{ trans('users.is_admin') }}
                             </label>
                         </div>
