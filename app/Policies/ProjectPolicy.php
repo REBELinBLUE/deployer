@@ -49,7 +49,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        return $project->users()->where('role', 'admin')->where('users.id', $user->id)->count() === 1;
+        return $project->users()->where('role', 'manager')->where('users.id', $user->id)->count() === 1;
     }
 
     /**

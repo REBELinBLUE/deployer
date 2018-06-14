@@ -33,6 +33,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     public function getAll()
     {
         return $this->model
+                    ->with('users')
                     ->orderBy('name')
                     ->get();
     }
@@ -86,9 +87,35 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
             }
         }
 
-        $project->update($fields);
+        //$project->update($fields);
+
+        // Finally we update the project members
+        $this->setProjectMembers([
+            'managers'          => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
+            'users'             => isset($fields['users']) ? explode(',', $fields['users']) : null
+        ], $project);
 
         return $project;
+    }
+
+    public function setProjectMembers(array $members, Project $project) {
+        // Attaching the members to the projects
+        // TODO must remove or replace relations
+        if (is_array($members) && count($members) > 0) {
+            foreach ($members as $role => $users) {
+                if (is_array($users) && count($users) > 0) {
+                    foreach ($users as $u) {
+                        $u = trim($u);
+
+                        if (empty($u) || ! !is_int($u)) {
+                            continue;
+                        }
+
+                        $project->users()->attach($u, ['role' => str_singular($role)]);
+                    }
+                }
+            }
+        }
     }
 
     /**
