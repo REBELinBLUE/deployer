@@ -18,6 +18,7 @@ use REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated;
 use REBELinBLUE\Deployer\Http\Middleware\RefreshJsonWebToken;
 use REBELinBLUE\Deployer\Http\Middleware\TrimStrings;
 use REBELinBLUE\Deployer\Http\Middleware\VerifyCsrfToken;
+use REBELinBLUE\Deployer\Http\Middleware\IsAdmin;
 
 /**
  * Kernel class.
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'guest'      => RedirectIfAuthenticated::class,
         'jwt'        => RefreshJsonWebToken::class,
         'throttle'   => ThrottleRequests::class,
+        'isadmin'    => IsAdmin::class
     ];
 }

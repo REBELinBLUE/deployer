@@ -98,12 +98,11 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
         return $project;
     }
 
-        /**
+    /**
      * @param array $members
      * @param object Project $project
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null
      */
     public function setProjectMembers(array $members, Project $project) {
         $sync = [];
@@ -125,8 +124,6 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
                     }
                 }
             }
-
-           // dd($sync);
 
             // Finally we sync
             $project->users()->sync($sync);
