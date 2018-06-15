@@ -3,7 +3,7 @@
 /** @var \Illuminate\Routing\Router $router */
 
 // Administration
-$router->group(['namespace' => 'Admin', 'prefix' => 'admin'], function () use ($router) {
+$router->group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'isadmin'], function () use ($router) {
     $router->resource('projects', 'ProjectController', [
         'only' => ['index', 'store', 'update', 'destroy'],
         'as' => 'admin',
