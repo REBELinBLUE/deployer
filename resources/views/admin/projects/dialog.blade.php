@@ -69,14 +69,14 @@
                                 <div class="form-group">
                                     <label for="project_managers">{{ trans('users.managers') }}</label>
                                     <div class="input-group">
-                                        <input id="project_managers" class="form-control" type="text" value="" data-role="tagsinput"  />
+                                        <input id="project_managers" class="members_autocomplete form-control" type="text" value="" data-role="tagsinput"  />
                                         <small class="form-text text-muted">{{ trans('users.managers_can') }}</small>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="project_users">{{ trans('users.members') }}</label>
                                     <div class="input-group">
-                                        <input id="project_users" class="form-control" type="text" value="" data-role="tagsinput"  />
+                                        <input id="project_users" class="members_autocomplete form-control" type="text" value="" data-role="tagsinput"  />
                                         <small class="form-text text-muted">{{ trans('users.members_can') }}</small>
                                     </div>
                                 </div>

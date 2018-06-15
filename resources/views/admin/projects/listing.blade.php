@@ -41,6 +41,8 @@
     <script type="text/javascript">
         new app.views.Projects();
         app.collections.Projects.add({!! $projects !!});
+
+        app.collections.Users.add({!! $users !!});
     </script>
 @endpush
 
