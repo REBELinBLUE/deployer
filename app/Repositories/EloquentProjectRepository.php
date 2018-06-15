@@ -58,6 +58,12 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
 
         $project = $this->model->create($fields);
 
+        // Finally we update the project members
+        $this->setProjectMembers([
+            'managers'          => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
+            'users'             => isset($fields['users']) ? explode(',', $fields['users']) : null
+        ], $project);
+
         if ($template) {
             $this->dispatch(new SetupProject(
                 $project,
