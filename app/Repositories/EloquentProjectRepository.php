@@ -87,7 +87,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
             }
         }
 
-        //$project->update($fields);
+        $project->update($fields);
 
         // Finally we update the project members
         $this->setProjectMembers([

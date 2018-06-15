@@ -105,10 +105,10 @@
         @include('projects.dialogs.heartbeat')
         @include('projects.dialogs.check_urls')
         @include('projects.dialogs.key')
-        @include('projects.dialogs.reason')
-        @include('projects.dialogs.redeploy')
         @include('projects.dialogs.log')
     @endcan
+    @include('projects.dialogs.redeploy')
+    @include('projects.dialogs.reason')
 @stop
 
 @section('right-buttons')
