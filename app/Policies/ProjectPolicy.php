@@ -30,6 +30,18 @@ class ProjectPolicy
     }
 
     /**
+     * Determine whether the user can rollback the project.
+     *
+     * @param  \REBELinBLUE\Deployer\User  $user
+     * @param  \REBELinBLUE\Deployer\Project  $project
+     * @return mixed
+     */
+    public function rollback(User $user, Project $project)
+    {
+        return $project->users()->where('role', 'manager')->where('users.id', $user->id)->count() === 1;
+    }
+
+    /**
      * Determine whether the user can create projects.
      *
      * @param  \REBELinBLUE\Deployer\User  $user
