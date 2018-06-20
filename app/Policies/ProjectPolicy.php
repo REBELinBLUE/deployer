@@ -12,7 +12,7 @@ class ProjectPolicy
 
     public function before($user, $ability)
     {
-        if ($user->is_admin === 1) {
+        if ($user->is_admin === true) {
             return true;
         }
     }
