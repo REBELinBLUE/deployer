@@ -10,6 +10,7 @@ use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
 use REBELinBLUE\Deployer\User;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
@@ -44,6 +45,7 @@ class ProjectController extends Controller
      * @return \Illuminate\View\View
      */
     public function index(
+        UserRepositoryInterface $user,
         TemplateRepositoryInterface $templateRepository,
         GroupRepositoryInterface $groupRepository,
         Request $request,
@@ -52,16 +54,13 @@ class ProjectController extends Controller
     ) {
         $projects = $this->repository->getAll();
 
-        // Getting all users
-        $users = User::where('is_admin', 0)->get();
-
         return $view->make('admin.projects.listing', [
             'is_secure' => $request->secure(),
             'title'     => $translator->trans('projects.manage'),
             'templates' => $templateRepository->getAll(),
             'groups'    => $groupRepository->getAll(),
             'projects'  => $projects->toJson(),
-            'users'     => $users->toJson()
+            'users'     => $user->findNonAdminUsers()->toJson()
         ]);
     }
 
