@@ -78,7 +78,7 @@ class CreateUser extends Command
 
         $send_email = (!$this->option('no-email'));
 
-        $arguments['is_admin']   = (!$this->option('admin') ? 0 : 1);
+        $arguments['is_admin']   = (!$this->option('admin'));
 
         $password_generated = false;
         if (!$arguments['password']) {
