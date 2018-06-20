@@ -44,7 +44,8 @@ class User extends Authenticatable implements HasPresenter
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'        => 'integer',
+        'is_admin'  => 'boolean'
     ];
 
     /**
