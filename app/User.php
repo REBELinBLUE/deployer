@@ -45,7 +45,7 @@ class User extends Authenticatable implements HasPresenter
      */
     protected $casts = [
         'id'        => 'integer',
-        'is_admin'  => 'boolean'
+        'is_admin'  => 'boolean',
     ];
 
     /**
@@ -105,6 +105,6 @@ class User extends Authenticatable implements HasPresenter
     }
 
     public function isAdmin() {
-        return ($this->is_admin === 1);
+        return $this->is_admin;
     }
 }
