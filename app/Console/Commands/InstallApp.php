@@ -359,7 +359,7 @@ class InstallApp extends Command
      */
     private function createAdminUser($name, $email, $password)
     {
-        $process = $this->artisanProcess('deployer:create-user', [$name, $email, $password, '--no-email']);
+        $process = $this->artisanProcess('deployer:create-user', [$name, $email, $password, '--no-email --admin']);
 
         $process->run();
 
