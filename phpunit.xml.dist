@@ -4,7 +4,7 @@
          beStrictAboutTestsThatDoNotTestAnything="false"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTestSize="true"
-         bootstrap="bootstrap/autoload.php"
+         bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -41,15 +41,6 @@
         <logging>
             <log type="coverage-text" target="php://stdout" lowUpperBound="50" highLowerBound="80" />
         </logging>
-
-        <listeners>
-            <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
-            <listener class="PHPUnit\Runner\CleverAndSmart\TestListener">
-                <arguments>
-                    <object class="PHPUnit\Runner\CleverAndSmart\Storage\Sqlite3Storage" />
-                </arguments>
-            </listener>
-        </listeners>
     ]]>
     <php>
         <ini name="memory_limit" value="2048M" />

@@ -139,7 +139,7 @@ class ScriptBuilderTest extends TestCase
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
         $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
-        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+        $this->deployment->shouldReceive('offsetExists')->with('source')->andReturn(false);
 
         $job = new ScriptBuilder($this->process, $this->parser);
         $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
@@ -168,6 +168,7 @@ class ScriptBuilderTest extends TestCase
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
         $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
+        $this->deployment->shouldReceive('offsetExists')->with('source')->andReturn(true);
         $this->deployment->shouldReceive('getAttribute')->with('source')->andReturn($source);
 
         $job = new ScriptBuilder($this->process, $this->parser);
@@ -202,7 +203,7 @@ class ScriptBuilderTest extends TestCase
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
         $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
-        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+        $this->deployment->shouldReceive('offsetExists')->with('source')->andReturn(false);
 
         $job = new ScriptBuilder($this->process, $this->parser);
         $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
@@ -262,9 +263,11 @@ class ScriptBuilderTest extends TestCase
         $user   = 'deploy';
 
         $command = m::mock(Command::class);
+        $command->shouldReceive('offsetExists')->with('user')->andReturn(true);
         $command->shouldReceive('getAttribute')->with('user')->andReturn($user);
         $command->shouldReceive('getAttribute')->with('script')->andReturn($script);
 
+        $this->step->shouldReceive('offsetExists')->with('command')->andReturn(true);
         $this->step->shouldReceive('getAttribute')->with('command')->andReturn($command);
 
         $this->step->shouldReceive('isCustom')->andReturn(true);
@@ -280,7 +283,7 @@ class ScriptBuilderTest extends TestCase
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
         $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
-        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+        $this->deployment->shouldReceive('offsetExists')->with('source')->andReturn(false);
 
         $job = new ScriptBuilder($this->process, $this->parser);
         $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)
@@ -324,7 +327,7 @@ class ScriptBuilderTest extends TestCase
 
         $this->deployment->shouldReceive('getAttribute')->with('user')->andReturnNull();
         $this->deployment->shouldReceive('getAttribute')->with('is_webhook')->andReturn(true);
-        $this->deployment->shouldReceive('getAttribute')->with('source')->andReturnNull();
+        $this->deployment->shouldReceive('offsetExists')->with('source')->andReturn(false);
 
         $job = new ScriptBuilder($this->process, $this->parser);
         $job->setup($this->deployment, $this->step, $this->release_archive, $this->private_key)

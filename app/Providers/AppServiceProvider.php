@@ -7,6 +7,7 @@ use Clockwork\Support\Laravel\ClockworkMiddleware;
 use Clockwork\Support\Laravel\ClockworkServiceProvider;
 use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
 use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
+use Laracademy\Commands\MakeServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
@@ -34,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         'local' => [
             IdeHelperServiceProvider::class,
             ClockworkServiceProvider::class,
+            MakeServiceProvider::class,
         ],
     ];
 
