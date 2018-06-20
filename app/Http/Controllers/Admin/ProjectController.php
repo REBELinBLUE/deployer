@@ -53,7 +53,7 @@ class ProjectController extends Controller
         $projects = $this->repository->getAll();
 
         // Getting all users
-        $users = User::all();
+        $users = User::where('is_admin', 0)->get();
 
         return $view->make('admin.projects.listing', [
             'is_secure' => $request->secure(),
