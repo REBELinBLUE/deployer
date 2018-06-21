@@ -104,7 +104,8 @@ class User extends Authenticatable implements HasPresenter
         return $this->belongsToMany(Project::class);
     }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->is_admin;
     }
 }

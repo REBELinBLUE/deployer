@@ -110,7 +110,8 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
      *
      * @return null
      */
-    public function setProjectMembers(array $members, Project $project) {
+    public function setProjectMembers(array $members, Project $project)
+    {
         $sync = [];
 
         // Attaching the members to the projects

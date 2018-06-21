@@ -13,7 +13,8 @@ class IsAdmin
      */
     private $auth;
 
-    public function __construct(AuthFactory $auth) {
+    public function __construct(AuthFactory $auth)
+    {
         $this->auth = $auth;
     }
 
@@ -29,7 +30,6 @@ class IsAdmin
     {
         // If user is authenticated ...
         if ($this->auth->user()) {
-
             // ... and IS an application admin
             if ($this->auth->user()->isAdmin() === true) {
                 // authorization granted
