@@ -3,10 +3,21 @@
 namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
 
 class IsAdmin
 {
+
+    /**
+     * @var AuthFactory
+     */
+    private $auth;
+
+    public function __construct(AuthFactory $auth) {
+        $this->auth = $auth;
+    }
+
+
     /**
      * Handle an incoming request.
      *
@@ -17,10 +28,10 @@ class IsAdmin
     public function handle($request, Closure $next)
     {
         // If user is authenticated ...
-        if (Auth::user()) {
+        if ($this->auth->user()) {
 
             // ... and IS an application admin
-            if (Auth::user()->isAdmin() === true) {
+            if ($this->auth->user()->isAdmin() === true) {
                 // authorization granted
                 return $next($request);
             }
