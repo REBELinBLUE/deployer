@@ -38,7 +38,7 @@ class WebhooksTest extends TestCase
             'status'     => Deployment::COMPLETED,
         ]);
 
-        $response = $this->dontSeeIsAuthenticated()->get('/cctray.xml', ['Accept' => 'application/xml']);
+        $response = $this->assertGuest()->get('/cctray.xml', ['Accept' => 'application/xml']);
 
         $response->assertStatus(Response::HTTP_OK)
                  ->assertHeader('Content-Type', 'application/xml');
@@ -65,7 +65,7 @@ class WebhooksTest extends TestCase
         $now = Carbon::create(2017, 1, 2, 15, 15, 0, 'UTC');
         Carbon::setTestNow($now);
 
-        $this->dontSeeIsAuthenticated()
+        $this->assertGuest()
              ->getJson('/heartbeat/' . $heartbeat->hash)
              ->assertStatus(Response::HTTP_OK)
              ->assertExactJson(['success' => true]);

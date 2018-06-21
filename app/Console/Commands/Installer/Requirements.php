@@ -110,8 +110,8 @@ class Requirements
     private function versionCheck()
     {
         // Check PHP version:
-        if (!version_compare(PHP_VERSION, '5.6.4', '>=')) {
-            $this->console->error('PHP 5.6.4 or higher is required');
+        if (!version_compare(PHP_VERSION, '7.0.8', '>=')) {
+            $this->console->error('PHP 7.0.8 or higher is required');
             $this->errors = true;
         }
     }

@@ -16,6 +16,6 @@ abstract class AuthenticatedTestCase extends TestCase
 
         $user = factory(User::class)->create();
 
-        $this->actingAs($user)->seeIsAuthenticated();
+        $this->actingAs($user)->assertAuthenticated();
     }
 }

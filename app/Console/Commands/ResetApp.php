@@ -80,7 +80,7 @@ class ResetApp extends Command
 
         $this->callSilent('migrate', ['--force' => true]);
         $this->callSilent('app:update', ['--no-backup' => true]);
-        $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        $this->call('migrate:refresh', ['--seed' => true, '--force' => true]);
     }
 
     /**

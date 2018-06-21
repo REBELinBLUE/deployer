@@ -93,7 +93,7 @@ class RequirementsTest extends TestCase
         $requirements = new Requirements($this->process, $this->config, $this->redis, $this->queue, $this->filesystem);
         $actual       = $requirements->check($this->command);
 
-        $this->assertContains('PHP 5.6.4 or higher is required', $output);
+        $this->assertContains('PHP 7.0.8 or higher is required', $output);
         $this->assertContains('Extension required: PDO, curl, gd, json, mbstring, openssl, tokenizer', $output);
         $this->assertContains('Function required: "proc_open". Is it disabled in php.ini?', $output);
         $this->assertContains('At least 1 PDO driver is required. Either sqlite, mysql or pgsql', $output);

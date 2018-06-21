@@ -183,11 +183,15 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->once()->with('id')->andReturn($expectedId);
         $deployment->shouldReceive('getAttribute')->once()->with('branch')->andReturn($expectedBranchName);
-        $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('reason')->andReturn($expectedReason);
         $deployment->shouldReceive('getAttribute')->once()->with('started_at')->andReturn($startedDate);
         $deployment->shouldReceive('getAttribute')->once()->with('finished_at')->andReturn($finishedDate);
         $deployment->shouldReceive('getAttribute')->once()->with('committer')->andReturn($expectedCommitter);
         $deployment->shouldReceive('getAttribute')->once()->with('short_commit')->andReturn($expectedCommit);
+
+        $deployment->shouldReceive('offsetExists')->atLeast()->once()->with('reason')->andReturn($withReason);
+        if ($withReason) {
+            $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('reason')->andReturn($expectedReason);
+        }
 
         $channel = m::mock(Channel::class);
         $channel->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedName);

@@ -96,7 +96,8 @@ services:
     working_dir: /application
     volumes:
       - .:/application
-      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
+      # To enable xdebug, copy this file to docker-compose.override.yml and uncomment the following line
+      #- ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
     links:
       - beanstalkd
       - mailhog
