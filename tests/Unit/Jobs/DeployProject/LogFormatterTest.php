@@ -43,12 +43,12 @@ class LogFormatterTest extends TestCase
     public function provideMessages()
     {
         return [
-            ['message',                                 '<tag>message</tag>' . PHP_EOL],
-            ['  Leading whitespace',                    '<tag>  Leading whitespace</tag>' . PHP_EOL],
+            ['message',                                 '<tag>message</tag>'],
+            ['  Leading whitespace',                    '<tag>  Leading whitespace</tag>'],
             ['  Leading with newline' . PHP_EOL,        '<tag>  Leading with newline</tag>' . PHP_EOL],
-            ['Trailing whitespace   ',                  '<tag>Trailing whitespace</tag>   ' . PHP_EOL],
+            ['Trailing whitespace   ',                  '<tag>Trailing whitespace</tag>   '],
             ['Trailing with newline   ' . PHP_EOL,      '<tag>Trailing with newline</tag>   ' . PHP_EOL],
-            [' Either end ',                            '<tag> Either end</tag> ' . PHP_EOL],
+            [' Either end ',                            '<tag> Either end</tag> '],
             [' Either end with newline ' . PHP_EOL,     '<tag> Either end with newline</tag> ' . PHP_EOL],
             ["\t",                                      "\t"],
             ['',                                        ''],

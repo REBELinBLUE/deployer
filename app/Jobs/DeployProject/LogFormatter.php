@@ -43,10 +43,6 @@ class LogFormatter
     {
         $cleaned = trim($message);
         if (!empty($cleaned)) {
-            if (rtrim($message, "\r\n") === $message) {
-                $message .= PHP_EOL;
-            }
-
             $trimmed   = rtrim($message);
             $formatted = '<' . $style . '>' . $trimmed . '</' . $style . '>';
 
