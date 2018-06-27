@@ -85,7 +85,9 @@ class ProjectController extends Controller
             'template_id',
             'allow_other_branch',
             'include_dev',
-            'private_key'
+            'private_key',
+            'managers',
+            'users'
         )), Response::HTTP_CREATED);
     }
 
