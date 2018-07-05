@@ -59,7 +59,6 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
                 }
 
                 $link->online();
-
             } catch (RequestException $error) {
                 $link->offline();
 
