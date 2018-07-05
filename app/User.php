@@ -94,11 +94,11 @@ class User extends Authenticatable implements HasPresenter
         $this->notify(new ResetPassword($token, app('translator')));
     }
 
-     /**
-     * Has many relationship for projects.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
+    /**
+    * Has many relationship for projects.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
     public function projects()
     {
         return $this->belongsToMany(Project::class);

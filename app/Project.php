@@ -430,11 +430,11 @@ class Project extends Model implements HasPresenter
         return $this->hasMany(Ref::class);
     }
 
-     /**
-     * Has many relationship for users.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
+    /**
+    * Has many relationship for users.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
     public function users()
     {
         return $this->belongsToMany(User::class)->withPivot('role');
