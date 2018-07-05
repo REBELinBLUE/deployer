@@ -203,11 +203,6 @@ return [
         REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ValidationServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
-<<<<<<< HEAD
-
-=======
-        REBELinBLUE\Deployer\Providers\WhoopsServiceProvider::class,
->>>>>>> Adding two authorization levels : globally per user, locally per project
     ],
 
     /*
