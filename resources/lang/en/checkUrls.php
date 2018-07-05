@@ -30,4 +30,7 @@ return [
     'down_subject'          => 'The URL is down',
     'recovered_subject'     => 'The URL is back online',
 
+    'string_to_search'      => 'String to search on the page',
+    'avoid_special_chars'   => 'Avoid using special chars as they might be escaped during the process which might lead to a test fail'
+
 ];

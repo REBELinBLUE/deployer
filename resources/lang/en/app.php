@@ -38,5 +38,6 @@ return [
     'update_available'  => 'An update is available!',
     'outdated'          => 'You are running an out of date release :current, there is an updated release ' .
                            '<a href=":link" rel="noreferrer">:latest</a> available!',
+    'optional'          => 'optional'
 
 ];
