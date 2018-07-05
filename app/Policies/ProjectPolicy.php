@@ -6,10 +6,19 @@ use REBELinBLUE\Deployer\User;
 use REBELinBLUE\Deployer\Project;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Project policies
+ */
 class ProjectPolicy
 {
     use HandlesAuthorization;
 
+    /**
+     * Global policy with any action allowed for admins
+     * @param User    $user
+     * @param string  $ability
+     * @return bool
+     */
     public function before($user, $ability)
     {
         if ($user->isAdmin()) {

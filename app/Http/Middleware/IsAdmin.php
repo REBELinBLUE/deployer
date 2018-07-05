@@ -5,6 +5,9 @@ namespace REBELinBLUE\Deployer\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 
+/**
+ * IsAdmin Middleware
+ */
 class IsAdmin
 {
 
@@ -13,6 +16,9 @@ class IsAdmin
      */
     private $auth;
 
+    /**
+     * @param AuthFactory $auth
+     */
     public function __construct(AuthFactory $auth)
     {
         $this->auth = $auth;
