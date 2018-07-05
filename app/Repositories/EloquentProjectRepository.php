@@ -30,12 +30,17 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     /**
      * {@inheritdoc}
      */
-    public function getAll()
+    public function getAll($with_users = false)
     {
-        return $this->model
-                    ->with('users')
-                    ->orderBy('name')
-                    ->get();
+        $projects = $this->model
+            ->orderBy('name')
+        ;
+
+        if ($with_users === true) {
+            $projects = $projects->with('users');
+        }
+
+        return $projects->get();
     }
 
     /**
@@ -60,8 +65,8 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
 
         // Finally we update the project members
         $this->setProjectMembers([
-            'managers'          => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
-            'users'             => isset($fields['users']) ? explode(',', $fields['users']) : null
+            'managers' => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
+            'users'    => isset($fields['users']) ? explode(',', $fields['users']) : null
         ], $project);
 
         if ($template) {
@@ -97,8 +102,8 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
 
         // Finally we update the project members
         $this->setProjectMembers([
-            'managers'          => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
-            'users'             => isset($fields['users']) ? explode(',', $fields['users']) : null
+            'managers' => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
+            'users'    => isset($fields['users']) ? explode(',', $fields['users']) : null
         ], $project);
 
         return $project;
