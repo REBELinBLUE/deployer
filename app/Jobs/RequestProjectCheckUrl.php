@@ -64,9 +64,7 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
                 $link->offline();
 
                 $link->last_log = $this->generateLog($error);
-            }
-
-            catch (CheckUrlMatchException $error) {
+            } catch (CheckUrlMatchException $error) {
                 $link->offline();
 
                 $link->last_log = $error->getMessage();
