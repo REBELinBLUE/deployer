@@ -2,6 +2,10 @@
 
 @section('content')
 
+    @php
+        $projectobj = (method_exists($project, 'getWrappedObject') ? $project->getWrappedObject() : null);
+    @endphp
+
     <div class="row">
         <div class="col-md-4">
             <div class="box box-default">
@@ -58,7 +62,7 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#deployments" data-toggle="tab"><span class="fa fa-hdd-o"></span> {{ trans('deployments.label') }}</a></li>
-                    @can('update', $project->getWrappedObject())
+                    @can('update', $projectobj)
                         <li><a href="#servers" data-toggle="tab"><span class="fa fa-tasks"></span> {{ trans('servers.label') }}</a></li>
                         <li><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ trans('commands.label') }}</a></li>
                         <li><a href="#files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ trans('sharedFiles.tab_label') }}</a></li>
@@ -70,7 +74,7 @@
                     <div class="tab-pane active" id="deployments">
                         @include('projects._partials.deployments')
                     </div>
-                    @can('update', $project->getWrappedObject())
+                    @can('update', $projectobj)
                         <div class="tab-pane" id="servers">
                             @include('projects._partials.servers')
                         </div>
@@ -95,7 +99,7 @@
         </div>
     </div>
 
-    @can('update', $project->getWrappedObject())
+    @can('update', $projectobj)
         @include('projects.dialogs.server')
         @include('projects.dialogs.shared_files')
         @include('projects.dialogs.config_files')
@@ -113,7 +117,7 @@
 
 @section('right-buttons')
     <div class="pull-right">
-        @can('update', $project->getWrappedObject())
+        @can('update', $projectobj)
             <button type="button" class="btn btn-default" title="{{ trans('projects.view_ssh_key') }}" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> {{ trans('projects.ssh_key') }}</button>
         @endcan
         <button id="deploy_project" data-toggle="modal" data-backdrop="static" data-target="#reason" type="button" class="btn btn-danger" title="{{ trans('projects.deploy_project') }}" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></span> {{ trans('projects.deploy') }}</button>

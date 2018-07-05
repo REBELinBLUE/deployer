@@ -52,7 +52,7 @@ class ProjectController extends Controller
         ViewFactory $view,
         Translator $translator
     ) {
-        $projects = $this->repository->getAll();
+        $projects = $this->repository->getAll(true);
 
         return $view->make('admin.projects.listing', [
             'is_secure' => $request->secure(),
