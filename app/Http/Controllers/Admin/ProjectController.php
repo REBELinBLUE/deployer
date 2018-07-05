@@ -36,6 +36,7 @@ class ProjectController extends Controller
     /**
      * Shows all projects.
      *
+     * @param UserRepositoryInterface     $user
      * @param TemplateRepositoryInterface $templateRepository
      * @param GroupRepositoryInterface    $groupRepository
      * @param Request                     $request
