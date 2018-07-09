@@ -15,7 +15,7 @@ class CreateUrlMatchColumn extends Migration
     {
         //
         Schema::table('check_urls', function (Blueprint $table) {
-            $table->string('match')->after('period');
+            $table->string('match')->after('period')->nullable();
         });
     }
 
