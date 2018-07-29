@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -
 #
 # File:        git-archive-all.sh
 #
@@ -35,7 +35,7 @@
 ###############################################################################
 
 # DEBUGGING
-set -e
+set -e # Exit on error (i.e., "be strict").
 set -C # noclobber
 
 # TRAP SIGNALS
@@ -48,6 +48,7 @@ IFS="$(printf '\n \t')"
 
 function cleanup () {
     rm -f $TMPFILE
+    rm -f $TMPLIST
     rm -f $TOARCHIVE
     IFS="$OLD_IFS"
 }
@@ -112,7 +113,7 @@ readonly VERSION=0.3
 SEPARATE=0
 VERBOSE=0
 
-TARCMD=`command -v gnutar || command -v tar`
+TARCMD=`command -v gtar || command -v gnutar || command -v tar`
 FORMAT=tar
 PREFIX=
 TREEISH=HEAD
@@ -188,6 +189,7 @@ done
 OLD_PWD="`pwd`"
 TMPDIR=${TMPDIR:-/tmp}
 TMPFILE=`mktemp "$TMPDIR/$PROGRAM.XXXXXX"` # Create a place to store our work's progress
+TMPLIST=`mktemp "$TMPDIR/$PROGRAM.submodules.XXXXXX"`
 TOARCHIVE=`mktemp "$TMPDIR/$PROGRAM.toarchive.XXXXXX"`
 OUT_FILE=$OLD_PWD # assume "this directory" without a name change by default
 
@@ -218,6 +220,7 @@ fi
 if [ $VERBOSE -eq 1 ]; then
     echo -n "creating superproject archive..."
 fi
+rm -f $TMPDIR/$(basename "$(pwd)").$FORMAT
 git archive --format=$FORMAT --prefix="$PREFIX" $ARCHIVE_OPTS $TREEISH > $TMPDIR/$(basename "$(pwd)").$FORMAT
 if [ $VERBOSE -eq 1 ]; then
     echo "done"
@@ -246,13 +249,15 @@ fi
 if [ $VERBOSE -eq 1 ]; then
     echo -n "archiving submodules..."
 fi
+git submodule >>"$TMPLIST"
 while read path; do
-    TREEISH=$(git submodule | grep "^ .*${path%/} " | cut -d ' ' -f 2) # git submodule does not list trailing slashes in $path
+    TREEISH=$(grep "^ .*${path%/} " "$TMPLIST" | cut -d ' ' -f 2) # git submodule does not list trailing slashes in $path
     cd "$path"
+    rm -f "$TMPDIR"/"$(echo "$path" | sed -e 's/\//./g')"$FORMAT
     git archive --format=$FORMAT --prefix="${PREFIX}$path" $ARCHIVE_OPTS ${TREEISH:-HEAD} > "$TMPDIR"/"$(echo "$path" | sed -e 's/\//./g')"$FORMAT
     if [ $FORMAT == 'zip' ]; then
         # delete the empty directory entry; zipped submodules won't unzip if we don't do this
-        zip -d "$(tail -n 1 $TMPFILE)" "${PREFIX}${path%/}" >/dev/null # remove trailing '/'
+        zip -d "$(tail -n 1 $TMPFILE)" "${PREFIX}${path%/}" >/dev/null 2>&1 || true # remove trailing '/'
     fi
     echo "$TMPDIR"/"$(echo "$path" | sed -e 's/\//./g')"$FORMAT >> $TMPFILE
     cd "$OLD_PWD"
@@ -268,10 +273,12 @@ fi
 if [ $SEPARATE -eq 0 -o "-" == "$OUT_FILE" ]; then
     if [ $FORMAT == 'tar.gz' ]; then
         gunzip $superfile
-        superfile=${superfile:0: -3} # Remove '.gz'
+        superfile=${superfile%???} # Line changed so that it works with bash 3
+        #superfile=${superfile:0: -3} # Remove '.gz'
         sed -e '1d' $TMPFILE | while read file; do
             gunzip $file
-            file=${file:0: -3}
+            file=${file%???} # Line changed so that it works with bash 3
+            #file=${file:0: -3}
             $TARCMD --concatenate -f "$superfile" "$file" && rm -f "$file"
         done
         gzip $superfile
