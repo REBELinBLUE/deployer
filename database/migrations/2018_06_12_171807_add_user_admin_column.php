@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,6 +17,10 @@ class AddUserAdminColumn extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->tinyInteger('is_admin')->after('password')->unsigned()->default(0);
         });
+
+        DB::table('users')->update([
+            'is_admin' => 1
+        ]);        
     }
 
     /**
