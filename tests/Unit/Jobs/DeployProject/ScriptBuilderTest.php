@@ -416,10 +416,10 @@ class ScriptBuilderTest extends TestCase
         $this->project->shouldReceive('getAttribute')->with('sharedFiles')->andReturn($shared);
 
         $this->parser->shouldReceive('parseFile')->with('deploy.MigrateShared', [
-            'deployment'  => 12312,
-            'shared_dir'  => '/var/www/shared',
-            'project_dir' => '/var/www',
-            'backup_dir'  => '/var/www/shared.backup',
+            'deployment'   => 12312,
+            'shared_dir'   => '/var/www/shared',
+            'project_dir'  => '/var/www',
+            'backup_dir'   => '/var/www/shared.backup',
             'migration'    => '.deployer-migrated',
         ])->andReturn($script);
 

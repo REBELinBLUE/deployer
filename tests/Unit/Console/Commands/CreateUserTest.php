@@ -67,7 +67,7 @@ class CreateUserTest extends TestCase
             'name'     => $name,
             'email'    => $email,
             'password' => $password,
-            'is_admin' => $is_admin
+            'is_admin' => $is_admin,
         ])->andReturn($user);
 
         $this->expectsEvents(UserWasCreated::class);
@@ -110,7 +110,7 @@ class CreateUserTest extends TestCase
             'name'     => $name,
             'email'    => $email,
             'password' => $password,
-            'is_admin' => $is_admin
+            'is_admin' => $is_admin,
         ])->andReturn($user);
 
         $this->doesntexpectEvents(UserWasCreated::class);

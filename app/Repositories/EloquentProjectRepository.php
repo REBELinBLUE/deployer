@@ -33,8 +33,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     public function getAll($with_users = false)
     {
         $projects = $this->model
-            ->orderBy('name')
-        ;
+            ->orderBy('name');
 
         if ($with_users === true) {
             $projects = $projects->with('users');
@@ -66,7 +65,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
         // Finally we update the project members
         $this->setProjectMembers([
             'managers' => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
-            'users'    => isset($fields['users']) ? explode(',', $fields['users']) : null
+            'users'    => isset($fields['users']) ? explode(',', $fields['users']) : null,
         ], $project);
 
         if ($template) {
@@ -103,17 +102,15 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
         // Finally we update the project members
         $this->setProjectMembers([
             'managers' => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
-            'users'    => isset($fields['users']) ? explode(',', $fields['users']) : null
+            'users'    => isset($fields['users']) ? explode(',', $fields['users']) : null,
         ], $project);
 
         return $project;
     }
 
     /**
-     * @param array $members
+     * @param array          $members
      * @param object Project $project
-     *
-     * @return null
      */
     public function setProjectMembers(array $members, Project $project)
     {
@@ -127,7 +124,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
                         $u = trim($u);
 
                         // If user ID is invalid, skipping...
-                        if (empty($u) || ! !is_int($u)) {
+                        if (empty($u) || (bool) is_int($u)) {
                             continue;
                         }
 

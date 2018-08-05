@@ -95,17 +95,17 @@ class User extends Authenticatable implements HasPresenter
     }
 
     /**
-    * Has many relationship for projects.
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    */
+     * Has many relationship for projects.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function projects()
     {
         return $this->belongsToMany(Project::class);
     }
 
     /**
-     * Is this user a super administrator
+     * Is this user a super administrator.
      *
      * @return bool
      */

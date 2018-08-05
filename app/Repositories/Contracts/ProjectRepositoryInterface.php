@@ -15,7 +15,7 @@ interface ProjectRepositoryInterface
     public function getByHash($hash);
 
     /**
-     * @param bool  $with_user
+     * @param bool $with_user
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */

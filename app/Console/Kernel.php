@@ -94,6 +94,7 @@ class Kernel extends ConsoleKernel
                  ->hourly()
                  ->withoutOverlapping();
     }
+
 //
 //    /**
 //     * Register the commands for the application.

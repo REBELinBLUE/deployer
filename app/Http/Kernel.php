@@ -2,7 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Http;
 
-use REBELinBLUE\Deployer\Http\Middleware\TrustProxies;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode;
@@ -13,12 +12,13 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use REBELinBLUE\Deployer\Http\Middleware\Authenticate;
 use REBELinBLUE\Deployer\Http\Middleware\EncryptCookies;
+use REBELinBLUE\Deployer\Http\Middleware\IsAdmin;
 use REBELinBLUE\Deployer\Http\Middleware\Locale;
 use REBELinBLUE\Deployer\Http\Middleware\RedirectIfAuthenticated;
 use REBELinBLUE\Deployer\Http\Middleware\RefreshJsonWebToken;
 use REBELinBLUE\Deployer\Http\Middleware\TrimStrings;
+use REBELinBLUE\Deployer\Http\Middleware\TrustProxies;
 use REBELinBLUE\Deployer\Http\Middleware\VerifyCsrfToken;
-use REBELinBLUE\Deployer\Http\Middleware\IsAdmin;
 
 /**
  * Kernel class.
@@ -69,6 +69,6 @@ class Kernel extends HttpKernel
         'guest'      => RedirectIfAuthenticated::class,
         'jwt'        => RefreshJsonWebToken::class,
         'throttle'   => ThrottleRequests::class,
-        'isadmin'    => IsAdmin::class
+        'isadmin'    => IsAdmin::class,
     ];
 }
