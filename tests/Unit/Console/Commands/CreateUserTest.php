@@ -55,6 +55,8 @@ class CreateUserTest extends TestCase
         $name     = 'Jill';
         $email    = 'jill@example.com';
         $password = 'qwErtY1$R';
+        $is_admin = 1;
+
         $this->generator->shouldReceive('generateRandom')->with(15)->andReturn($password);
         $this->validation->shouldReceive('make->passes')->andReturn(true);
 
@@ -65,6 +67,7 @@ class CreateUserTest extends TestCase
             'name'     => $name,
             'email'    => $email,
             'password' => $password,
+            'is_admin' => $is_admin
         ])->andReturn($user);
 
         $this->expectsEvents(UserWasCreated::class);
@@ -95,6 +98,8 @@ class CreateUserTest extends TestCase
         $name     = 'Jill';
         $email    = 'jill@example.com';
         $password = 'qwErtY1$R';
+        $is_admin = 1;
+
         $this->generator->shouldReceive('generateRandom')->with(15)->andReturn($password);
         $this->validation->shouldReceive('make->passes')->andReturn(true);
 
@@ -105,6 +110,7 @@ class CreateUserTest extends TestCase
             'name'     => $name,
             'email'    => $email,
             'password' => $password,
+            'is_admin' => $is_admin
         ])->andReturn($user);
 
         $this->doesntexpectEvents(UserWasCreated::class);

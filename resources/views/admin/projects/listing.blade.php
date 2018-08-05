@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+
     <div class="box">
 
         <div class="box-body" id="no_projects">
@@ -40,6 +41,8 @@
     <script type="text/javascript">
         new app.views.Projects();
         app.collections.Projects.add({!! $projects !!});
+
+        app.collections.Users.add({!! $users !!});
     </script>
 @endpush
 

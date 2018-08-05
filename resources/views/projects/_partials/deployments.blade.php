@@ -52,20 +52,22 @@
                         <span class="label label-{{ $deployment->css_class }}"><i class="fa fa-{{ $deployment->icon }}"></i> <span>{{ $deployment->readable_status }}</span></span>
                     </td>
                     <td>
-                        <div class="btn-group pull-right">
-                            @if ($deployment->isSuccessful())
-                                <button type="button" data-toggle="modal" data-backdrop="static" data-target="#redeploy" data-optional-commands="{{ $deployment->optional_commands_used }}" data-deployment-id="{{ $deployment->id }}" class="btn btn-default btn-rollback @if ($deployment->isCurrent()) hide @endif" title="{{ trans('deployments.rollback') }}"><i class="fa fa-cloud-upload"></i></button>
-                            @endif
+                        @can('update', $project->getWrappedObject())
+                            <div class="btn-group pull-right">
+                                @if ($deployment->isSuccessful())
+                                    <button type="button" data-toggle="modal" data-backdrop="static" data-target="#redeploy" data-optional-commands="{{ $deployment->optional_commands_used }}" data-deployment-id="{{ $deployment->id }}" class="btn btn-default btn-rollback @if ($deployment->isCurrent()) hide @endif" title="{{ trans('deployments.rollback') }}"><i class="fa fa-cloud-upload"></i></button>
+                                @endif
 
-                            @if ($deployment->isPending() || $deployment->isRunning())
-                                <button type="button" data-deployment-id="{{ $deployment->id }}" class="btn btn-default btn-cancel" title="{{ trans('deployments.cancel') }}"><i class="fa fa-ban"></i></button>
-                            @endif
+                                @if ($deployment->isPending() || $deployment->isRunning())
+                                    <button type="button" data-deployment-id="{{ $deployment->id }}" class="btn btn-default btn-cancel" title="{{ trans('deployments.cancel') }}"><i class="fa fa-ban"></i></button>
+                                @endif
 
-                            <a href="{{ route('deployments', ['id' => $deployment->id]) }}" type="button" class="btn btn-default" title="{{ trans('app.details') }}"><i class="fa fa-info-circle"></i></a>
-                            <form method="post" action="{{ route('deployments.abort', ['id' => $deployment->id]) }}" class="hidden" id="abort_{{ $deployment->id }}">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                            </form>
-                        </div>
+                                <a href="{{ route('deployments', ['id' => $deployment->id]) }}" type="button" class="btn btn-default" title="{{ trans('app.details') }}"><i class="fa fa-info-circle"></i></a>
+                                <form method="post" action="{{ route('deployments.abort', ['id' => $deployment->id]) }}" class="hidden" id="abort_{{ $deployment->id }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                </form>
+                            </div>
+                        @endcan
                     </td>
                 </tr>
                 @endforeach

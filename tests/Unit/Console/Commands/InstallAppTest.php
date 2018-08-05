@@ -218,6 +218,7 @@ class InstallAppTest extends TestCase
                           $expectedEmail,
                           $expectedPassword,
                           '--no-email',
+                          '--admin',
                           '--ansi',
                       ])
                       ->andReturnSelf();

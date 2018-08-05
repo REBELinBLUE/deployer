@@ -30,11 +30,17 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     /**
      * {@inheritdoc}
      */
-    public function getAll()
+    public function getAll($with_users = false)
     {
-        return $this->model
-                    ->orderBy('name')
-                    ->get();
+        $projects = $this->model
+            ->orderBy('name')
+        ;
+
+        if ($with_users === true) {
+            $projects = $projects->with('users');
+        }
+
+        return $projects->get();
     }
 
     /**
@@ -56,6 +62,12 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
         }
 
         $project = $this->model->create($fields);
+
+        // Finally we update the project members
+        $this->setProjectMembers([
+            'managers' => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
+            'users'    => isset($fields['users']) ? explode(',', $fields['users']) : null
+        ], $project);
 
         if ($template) {
             $this->dispatch(new SetupProject(
@@ -88,7 +100,46 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
 
         $project->update($fields);
 
+        // Finally we update the project members
+        $this->setProjectMembers([
+            'managers' => isset($fields['managers']) ? explode(',', $fields['managers']) : null,
+            'users'    => isset($fields['users']) ? explode(',', $fields['users']) : null
+        ], $project);
+
         return $project;
+    }
+
+    /**
+     * @param array $members
+     * @param object Project $project
+     *
+     * @return null
+     */
+    public function setProjectMembers(array $members, Project $project)
+    {
+        $sync = [];
+
+        // Attaching the members to the projects
+        if (is_array($members) && count($members) > 0) {
+            foreach ($members as $role => $users) {
+                if (is_array($users) && count($users) > 0) {
+                    foreach ($users as $u) {
+                        $u = trim($u);
+
+                        // If user ID is invalid, skipping...
+                        if (empty($u) || ! !is_int($u)) {
+                            continue;
+                        }
+
+                        // Adding relation to the sync array
+                        $sync[$u] = ['role' => str_singular($role)];
+                    }
+                }
+            }
+
+            // Finally we sync
+            $project->users()->sync($sync);
+        }
     }
 
     /**

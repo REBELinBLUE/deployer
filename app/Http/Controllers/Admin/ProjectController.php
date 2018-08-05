@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
+use REBELinBLUE\Deployer\User;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
@@ -34,6 +36,7 @@ class ProjectController extends Controller
     /**
      * Shows all projects.
      *
+     * @param UserRepositoryInterface     $user
      * @param TemplateRepositoryInterface $templateRepository
      * @param GroupRepositoryInterface    $groupRepository
      * @param Request                     $request
@@ -43,13 +46,14 @@ class ProjectController extends Controller
      * @return \Illuminate\View\View
      */
     public function index(
+        UserRepositoryInterface $user,
         TemplateRepositoryInterface $templateRepository,
         GroupRepositoryInterface $groupRepository,
         Request $request,
         ViewFactory $view,
         Translator $translator
     ) {
-        $projects = $this->repository->getAll();
+        $projects = $this->repository->getAll(true);
 
         return $view->make('admin.projects.listing', [
             'is_secure' => $request->secure(),
@@ -57,6 +61,7 @@ class ProjectController extends Controller
             'templates' => $templateRepository->getAll(),
             'groups'    => $groupRepository->getAll(),
             'projects'  => $projects->toJson(),
+            'users'     => $user->findNonAdminUsers()->toJson()
         ]);
     }
 
@@ -81,7 +86,9 @@ class ProjectController extends Controller
             'template_id',
             'allow_other_branch',
             'include_dev',
-            'private_key'
+            'private_key',
+            'managers',
+            'users'
         )), Response::HTTP_CREATED);
     }
 
@@ -105,7 +112,9 @@ class ProjectController extends Controller
             'build_url',
             'allow_other_branch',
             'include_dev',
-            'private_key'
+            'private_key',
+            'managers',
+            'users'
         ), $project_id);
     }
 }

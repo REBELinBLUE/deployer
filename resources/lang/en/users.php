@@ -47,5 +47,17 @@ return [
     'blue'              => 'Blue',
     'with_sidebar'      => ':colour with light sidebar',
     'default'           => 'Default',
+    'is_admin'          => 'Application administrator (full access)',
+    'authorization'     => 'Authorization',
+    'users_with_access' => 'Users having access to this project',
+    'no_user'           => 'No user found',
+    'role'              => 'Role',
+    'administrators'    => 'Administrators',
+    'managers'          => 'Managers',
+    'managers_can'      => 'Managers may access this project\'s details view, change any setting and start a deployment. '.
+                           'Managers cannot access the application admin area.',
+    'members'           => 'Members',
+    'members_can'       => 'Members may access this project\'s details view and start a deployment. They cannot change any '.
+                           'setting on this project. Members cannot access the application admin area.',
 
 ];

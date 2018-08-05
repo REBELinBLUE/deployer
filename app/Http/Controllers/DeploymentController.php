@@ -86,6 +86,9 @@ class DeploymentController extends Controller
     {
         $project = $this->projectRepository->getById($project_id);
 
+        // Making sure this user may access this projet
+        $this->authorize('view', $project);
+
         $optional = $project->commands->filter(function (Command $command) {
             return $command->optional;
         });

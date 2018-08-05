@@ -191,6 +191,7 @@ return [
          * Application Service Providers...
          */
         REBELinBLUE\Deployer\Providers\AppServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\AuthServiceProvider::class,
         REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
         REBELinBLUE\Deployer\Providers\GuzzleServiceProvider::class,
         REBELinBLUE\Deployer\Providers\HelperServiceProvider::class,
@@ -202,7 +203,6 @@ return [
         REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ValidationServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
-
     ],
 
     /*

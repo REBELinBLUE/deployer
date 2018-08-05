@@ -22,7 +22,7 @@ class User extends Authenticatable implements HasPresenter
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'skin', 'language', 'scheme'];
+    protected $fillable = ['name', 'email', 'password', 'skin', 'language', 'scheme', 'is_admin'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -44,7 +44,8 @@ class User extends Authenticatable implements HasPresenter
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'        => 'integer',
+        'is_admin'  => 'boolean',
     ];
 
     /**
@@ -91,5 +92,25 @@ class User extends Authenticatable implements HasPresenter
     {
         // FIXME: Clean this up?
         $this->notify(new ResetPassword($token, app('translator')));
+    }
+
+    /**
+    * Has many relationship for projects.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
+    /**
+     * Is this user a super administrator
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->is_admin;
     }
 }

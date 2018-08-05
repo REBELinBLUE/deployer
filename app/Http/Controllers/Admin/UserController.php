@@ -59,7 +59,8 @@ class UserController extends Controller
         $user = $this->repository->create($request->only(
             'name',
             'email',
-            'password'
+            'password',
+            'is_admin'
         ));
 
         $dispatcher->dispatch(new UserWasCreated($user, $request->get('password')));
@@ -80,7 +81,8 @@ class UserController extends Controller
         return $this->repository->updateById($request->only(
             'name',
             'email',
-            'password'
+            'password',
+            'is_admin'
         ), $user_id);
     }
 }
