@@ -15,9 +15,11 @@ interface ProjectRepositoryInterface
     public function getByHash($hash);
 
     /**
+     * @param bool  $with_user
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAll();
+    public function getAll($with_user = false);
 
     /**
      * @param array $fields

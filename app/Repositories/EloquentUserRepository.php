@@ -70,6 +70,14 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function findNonAdminUsers()
+    {
+        return $this->model->where('is_admin', 0)->get();
+    }
+
+    /**
      * @param string $email
      *
      * @return \Illuminate\Database\Eloquent\Model|null

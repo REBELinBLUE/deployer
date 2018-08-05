@@ -16,6 +16,7 @@
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#project_details" data-toggle="tab">{{ trans('projects.project_details') }}</a></li>
+                            <li><a href="#project_members" data-toggle="tab">{{ trans('projects.users') }}</a></li>
                             <li><a href="#project_repo" data-toggle="tab">{{ trans('projects.repository') }}</a></li>
                             <li><a href="#project_build" data-toggle="tab">{{ trans('projects.build_options') }}</a></li>
                             <li><a href="#project_key" data-toggle="tab">{{ trans('projects.ssh_key') }}</a></li>
@@ -60,6 +61,23 @@
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-external-link"></i></div>
                                         <input type="text" class="form-control" name="url" id="project_url" placeholder="http://www.example.com" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="project_members">
+                                <div class="form-group">
+                                    <label for="project_managers">{{ trans('users.managers') }}</label>
+                                    <div class="input-group">
+                                        <input id="project_managers" class="members_autocomplete form-control" type="text" value="" data-role="tagsinput"  />
+                                        <small class="form-text text-muted">{{ trans('users.managers_can') }}</small>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="project_users">{{ trans('users.members') }}</label>
+                                    <div class="input-group">
+                                        <input id="project_users" class="members_autocomplete form-control" type="text" value="" data-role="tagsinput"  />
+                                        <small class="form-text text-muted">{{ trans('users.members_can') }}</small>
                                     </div>
                                 </div>
                             </div>

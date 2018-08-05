@@ -9,6 +9,7 @@
                         <th>{{ trans('users.name') }}</th>
                         <th>{{ trans('users.email') }}</th>
                         <th>{{ trans('app.created') }}</th>
+                        <th>{{ trans('users.is_admin') }}</th>
                         <th>{{ trans('users.has_2fa') }}</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -41,6 +42,13 @@
         <td><%- name %></td>
         <td><%- email %></td>
         <td><%- created %></td>
+        <td>
+            <% if (is_admin) { %>
+                {{ trans('app.yes') }}
+            <% } else { %>
+                {{ trans('app.no') }}
+            <% } %>
+        </td>
         <td>
             <% if (has_two_factor_authentication) { %>
                 {{ trans('app.yes') }}

@@ -24,7 +24,8 @@ class CreateUser extends Command
                             {name : The name for the user}
                             {email : The email address for the user}
                             {password? : The password for the user, one will be generated if not supplied}
-                            {--no-email : Do not send a welcome email}';
+                            {--no-email : Do not send a welcome email}
+                            {--admin : Sets this user as super administrator}';
 
     /**
      * The console command description.
@@ -77,6 +78,8 @@ class CreateUser extends Command
 
         $send_email = (!$this->option('no-email'));
 
+        $arguments['is_admin']   = (!$this->option('admin'));
+
         $password_generated = false;
         if (!$arguments['password']) {
             $arguments['password'] = $this->generator->generateRandom(15);
@@ -87,6 +90,7 @@ class CreateUser extends Command
             'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users,email',
             'password' => 'required|min:6',
+            'is_admin' => 'required|min:0|max:1'
         ]);
 
         if (!$validator->passes()) {

@@ -45,6 +45,16 @@
                             <input type="password" class="form-control" name="password_confirmation" id="user_password_confirmation" />
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>{{ trans('users.authorization') }}</label>
+                        <div class="checkbox">
+                            <label for="user_is_admin">
+                                <input type="checkbox" class="form-check-input" name="is_admin" id="user_is_admin" />
+                                {{ trans('users.is_admin') }}
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left btn-delete"><i class="fa fa-trash"></i> {{ trans('app.delete') }}</button>
