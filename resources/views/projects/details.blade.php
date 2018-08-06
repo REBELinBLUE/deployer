@@ -61,13 +61,13 @@
         <div class="col-md-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#deployments" data-toggle="tab"><span class="fa fa-hdd-o"></span> {{ trans('deployments.label') }}</a></li>
+                    <li class="active"><a href="#deployments" id="deployments-lnk" data-toggle="tab"><span class="fa fa-hdd-o"></span> {{ trans('deployments.label') }}</a></li>
                     @can('update', $projectobj)
-                        <li><a href="#servers" data-toggle="tab"><span class="fa fa-tasks"></span> {{ trans('servers.label') }}</a></li>
-                        <li><a href="#hooks" data-toggle="tab"><span class="fa fa-terminal"></span> {{ trans('commands.label') }}</a></li>
-                        <li><a href="#files" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ trans('sharedFiles.tab_label') }}</a></li>
-                        <li><a href="#notifications" data-toggle="tab"><span class="fa fa-bullhorn"></span> {{ trans('channels.label') }}</a></li>
-                        <li><a href="#health" data-toggle="tab"><span class="fa fa-heartbeat"></span> {{ trans('heartbeats.tab_label') }}</a></li>
+                        <li><a href="#servers" id="servers-lnk" data-toggle="tab"><span class="fa fa-tasks"></span> {{ trans('servers.label') }}</a></li>
+                        <li><a href="#hooks" id="hooks-lnk" data-toggle="tab"><span class="fa fa-terminal"></span> {{ trans('commands.label') }}</a></li>
+                        <li><a href="#files" id="files-lnk" data-toggle="tab"><span class="fa fa-file-code-o"></span> {{ trans('sharedFiles.tab_label') }}</a></li>
+                        <li><a href="#notifications" id="notifications-lnk" data-toggle="tab"><span class="fa fa-bullhorn"></span> {{ trans('channels.label') }}</a></li>
+                        <li><a href="#health" id="health-lnk" data-toggle="tab"><span class="fa fa-heartbeat"></span> {{ trans('heartbeats.tab_label') }}</a></li>
                     @endcan
                 </ul>
                 <div class="tab-content">
