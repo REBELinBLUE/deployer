@@ -11465,7 +11465,7 @@ button.close {
 /*# sourceMappingURL=ionicons.css.map */
 
 /*!
- *   AdminLTE v2.4.2
+ *   AdminLTE v2.4.8
  *   Author: Almsaeed Studio
  *	 Website: Almsaeed Studio <https://adminlte.io>
  *   License: Open source - MIT
@@ -11512,7 +11512,7 @@ body {
   position: relative;
 }
 .layout-boxed {
-  background: url('../img/boxed-bg.jpg') repeat fixed;
+  background-color: #f9fafc;
 }
 /*
  * Content Wrapper - contains the main content
@@ -12078,33 +12078,35 @@ a:focus {
     margin-left: 50px;
   }
 }
-.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > span:not(.pull-right),
-.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
-  display: block !important;
-  position: absolute;
-  width: 180px;
-  left: 50px;
-}
-.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > span {
-  top: 0;
-  margin-left: -3px;
-  padding: 12px 5px 12px 20px;
-  background-color: inherit;
-}
-.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > .pull-right-container {
-  position: relative !important;
-  float: right;
-  width: auto !important;
-  left: 180px !important;
-  top: -22px !important;
-  z-index: 900;
-}
-.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > .pull-right-container > .label:not(:first-of-type) {
-  display: none;
-}
-.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
-  top: 44px;
-  margin-left: 0;
+@media (min-width: 768px) {
+  .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > span:not(.pull-right),
+  .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
+    display: block !important;
+    position: absolute;
+    width: 180px;
+    left: 50px;
+  }
+  .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > span {
+    top: 0;
+    margin-left: -3px;
+    padding: 12px 5px 12px 20px;
+    background-color: inherit;
+  }
+  .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > .pull-right-container {
+    position: relative !important;
+    float: right;
+    width: auto !important;
+    left: 180px !important;
+    top: -22px !important;
+    z-index: 900;
+  }
+  .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > .pull-right-container > .label:not(:first-of-type) {
+    display: none;
+  }
+  .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
+    top: 44px;
+    margin-left: 0;
+  }
 }
 .sidebar-expanded-on-hover .main-footer,
 .sidebar-expanded-on-hover .content-wrapper {
@@ -12158,7 +12160,7 @@ a:focus {
   padding-top: 50px;
   z-index: 1010;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .control-sidebar {
     padding-top: 100px;
   }
@@ -16798,23 +16800,23 @@ table.text-center th {
   border-left: 1px solid #eee;
   border-right-width: 0;
 }
-.skin-black .main-header > .logo {
+.skin-black .main-header .logo {
   background-color: #ffffff;
   color: #333333;
   border-bottom: 0 solid transparent;
   border-right: 1px solid #eee;
 }
-.skin-black .main-header > .logo:hover {
+.skin-black .main-header .logo:hover {
   background-color: #fcfcfc;
 }
 @media (max-width: 767px) {
-  .skin-black .main-header > .logo {
+  .skin-black .main-header .logo {
     background-color: #222222;
     color: #ffffff;
     border-bottom: 0 solid transparent;
     border-right: none;
   }
-  .skin-black .main-header > .logo:hover {
+  .skin-black .main-header .logo:hover {
     background-color: #1f1f1f;
   }
 }
@@ -16958,23 +16960,23 @@ table.text-center th {
   border-left: 1px solid #d2d6de;
   border-right-width: 0;
 }
-.skin-black-light .main-header > .logo {
+.skin-black-light .main-header .logo {
   background-color: #ffffff;
   color: #333333;
   border-bottom: 0 solid transparent;
   border-right: 1px solid #d2d6de;
 }
-.skin-black-light .main-header > .logo:hover {
+.skin-black-light .main-header .logo:hover {
   background-color: #fcfcfc;
 }
 @media (max-width: 767px) {
-  .skin-black-light .main-header > .logo {
+  .skin-black-light .main-header .logo {
     background-color: #222222;
     color: #ffffff;
     border-bottom: 0 solid transparent;
     border-right: none;
   }
-  .skin-black-light .main-header > .logo:hover {
+  .skin-black-light .main-header .logo:hover {
     background-color: #1f1f1f;
   }
 }
