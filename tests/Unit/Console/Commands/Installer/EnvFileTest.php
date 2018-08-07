@@ -36,10 +36,12 @@ APP_DEBUG=true
 
 APP_URL=https://deployer.app
 SOCKET_URL=https://deployer.app
+SOCKET_SSL=true
 SOCKET_SSL_KEY_FILE=/var/ssl/key
 SOCKET_SSL_CERT_FILE=/var/ssl/cert
 SOCKET_SSL_CA_FILE=/var/ssl/ca
 SOCKET_SSL_KEY_PASSPHRASE=password
+
 
 DB_CONNECTION=mysql
 DB_PORT=3306
@@ -74,6 +76,7 @@ EOF;
             ],
             'socket' => [
                 'url' => 'http://deployer.app',
+                'ssl' => 'false'
             ],
             'db' => [
                 'connection' => 'sqlite',
@@ -89,6 +92,11 @@ APP_DEBUG=true
 
 APP_URL=http://deployer.app
 SOCKET_URL=http://deployer.app
+SOCKET_SSL=false
+SOCKET_SSL_KEY_FILE=/var/ssl/key
+SOCKET_SSL_CERT_FILE=/var/ssl/cert
+SOCKET_SSL_CA_FILE=/var/ssl/ca
+SOCKET_SSL_KEY_PASSPHRASE=password
 
 DB_CONNECTION=sqlite
 
@@ -117,6 +125,7 @@ APP_DEBUG=true
 
 APP_URL=http://deployer.app
 SOCKET_URL=http://deployer.app
+SOCKET_SSL=false
 DB_CONNECTION=sqlite
 
 # Comment
@@ -132,6 +141,7 @@ APP_DEBUG=false
 
 APP_URL=http://localhost
 SOCKET_URL=http://localhost
+SOCKET_SSL=false
 DB_CONNECTION=mysql
 DB_HOST=localhost
 
@@ -149,6 +159,7 @@ APP_DEBUG=true
 
 APP_URL=http://deployer.app
 SOCKET_URL=http://deployer.app
+SOCKET_SSL=false
 DB_CONNECTION=sqlite
 
 MAIL_DRIVER=sendmail
@@ -184,6 +195,7 @@ APP_DEBUG=true
 
 APP_URL=http://deployer.app
 SOCKET_URL=http://deployer.app
+SOCKET_SSL=false
 DB_CONNECTION=sqlite
 
 MAIL_DRIVER=sendmail
@@ -217,6 +229,7 @@ APP_DEBUG=true
 
 APP_URL=http://deployer.app
 SOCKET_URL=http://deployer.app
+SOCKET_SSL=false
 DB_CONNECTION=sqlite
 
 MAIL_DRIVER=sendmail

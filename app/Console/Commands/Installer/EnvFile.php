@@ -45,7 +45,7 @@ class EnvFile
         }
 
         // Remove SSL certificate keys if not using HTTPS
-        if (substr($input['socket']['url'], 0, 5) !== 'https') {
+        if ($input['socket']['ssl'] == 'false') {
             foreach (['key', 'cert', 'ca'] as $key) {
                 $key = strtoupper($key);
 

@@ -23,7 +23,7 @@ function handler(req, res) {
 }
 
 let app;
-if (/^https/i.test(process.env.SOCKET_URL)) {
+if (process.env.SOCKET_SSL == true) {
   const sslConfig = {
     key: (process.env.SOCKET_SSL_KEY_FILE ? fs.readFileSync(process.env.SOCKET_SSL_KEY_FILE) : null),
     cert: (process.env.SOCKET_SSL_CERT_FILE ? fs.readFileSync(process.env.SOCKET_SSL_CERT_FILE) : null),

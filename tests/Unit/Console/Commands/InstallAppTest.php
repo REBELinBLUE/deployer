@@ -109,6 +109,7 @@ class InstallAppTest extends TestCase
     {
         // FIXME: Clean up, lots of duplication
 
+
         $this->config->shouldReceive('get')->with('app.key')->andReturn(false);
         $this->requirements->shouldReceive('check')->with(m::type(InstallApp::class))->andReturn(true);
 
@@ -144,6 +145,7 @@ class InstallAppTest extends TestCase
         $expectedCert       = '/var/ssl/cert';
         $expectedCa         = '/var/ssl/ca';
 
+
         $expectedConfig = [
             'db' => [
                 'connection' => 'sqlite',
@@ -155,6 +157,7 @@ class InstallAppTest extends TestCase
             ],
             'socket'   => [
                 'url'              => $expectedAppUrl . ':6001',
+                'ssl'              => true,
                 'ssl_key_file'     => $expectedKey,
                 'ssl_key_password' => 'key-password',
                 'ssl_cert_file'    => $expectedCert,
@@ -272,6 +275,7 @@ class InstallAppTest extends TestCase
             'Europe',
             'London', // FIXME: Need to test this second prompt doesn't happen if UTC is selected
             $expectedAppUrl,
+            'true',
             $expectedKey, // FIXME: Need to set the key isn't asked for if not https
             'key-password',
             $expectedCert,

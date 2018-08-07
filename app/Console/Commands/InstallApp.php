@@ -276,7 +276,8 @@ class InstallApp extends Command
         // Move the socket value to the correct key
         if (isset($config['app']['socket'])) {
             $config['socket']['url'] = $config['app']['socket'];
-            unset($config['app']['socket']);
+            $config['socket']['ssl'] = $config['app']['socket_ssl'];
+            unset($config['app']['socket'], $config['app']['socket_ssl']);
         }
 
         if (isset($config['app']['ssl'])) {
@@ -460,6 +461,11 @@ class InstallApp extends Command
 
         $socket = $this->askAndValidate('Socket URL', [], $url_callback, $url);
 
+        $socket_ssl = 'false';
+        if ($this->confirm('Should the socket use SSL?')) {
+            $socket_ssl = 'true';
+        }
+
         // If the URL doesn't have : in twice (the first is in the protocol, the second for the port)
         if (substr_count($socket, ':') === 1) {
             // Check if running on nginx, and if not then add it
@@ -495,7 +501,8 @@ class InstallApp extends Command
         };
 
         $ssl = null;
-        if (substr($socket, 0, 5) === 'https') {
+        if ($socket_ssl === 'true') {
+
             $ssl = [
                 'key_file'     => $this->askAndValidate('SSL key file', [], $path_callback),
                 'key_password' => $this->askSecretAndValidate('SSL key password', [], function ($answer) {
@@ -515,11 +522,12 @@ class InstallApp extends Command
         }
 
         return [
-            'url'      => $url,
-            'timezone' => $region,
-            'socket'   => $socket,
-            'ssl'      => $ssl,
-            'locale'   => $locale,
+            'url'           => $url,
+            'timezone'      => $region,
+            'socket'        => $socket,
+            'socket_ssl'    => $socket_ssl,
+            'ssl'           => $ssl,
+            'locale'        => $locale,
         ];
     }
 
