@@ -186,7 +186,6 @@ class InstallAppTest extends TestCase
                 'secret' => $expectedToken,
             ],
         ];
-       // dd($expectedConfig);
 
         $this->filesystem->shouldReceive('exists')->with($env)->andReturn(false);
         $this->filesystem->shouldReceive('copy')->with($dist, $env);
