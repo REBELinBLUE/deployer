@@ -93,10 +93,6 @@ APP_DEBUG=true
 APP_URL=http://deployer.app
 SOCKET_URL=http://deployer.app
 SOCKET_SSL=false
-SOCKET_SSL_KEY_FILE=/var/ssl/key
-SOCKET_SSL_CERT_FILE=/var/ssl/cert
-SOCKET_SSL_CA_FILE=/var/ssl/ca
-SOCKET_SSL_KEY_PASSPHRASE=password
 
 DB_CONNECTION=sqlite
 
