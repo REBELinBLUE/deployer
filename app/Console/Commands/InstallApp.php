@@ -276,15 +276,20 @@ class InstallApp extends Command
         // Move the socket value to the correct key
         if (isset($config['app']['socket'])) {
             $config['socket']['url'] = $config['app']['socket'];
+            unset($config['app']['socket']);
+        }
+
+        if (isset($config['app']['socket_ssl'])) {
             $config['socket']['ssl'] = $config['app']['socket_ssl'];
-            unset($config['app']['socket'], $config['app']['socket_ssl']);
+            unset($config['app']['socket_ssl']);
         }
 
         if (isset($config['app']['ssl'])) {
-            foreach ($config['app']['ssl'] as $key => $value) {
-                $config['socket']['ssl_' . $key] = $value;
+            if (isset($config['socket']['ssl']) && $config['socket']['ssl'] == 'true') {
+                foreach ($config['app']['ssl'] as $key => $value) {
+                    $config['socket']['ssl_' . $key] = $value;
+                }
             }
-
             unset($config['app']['ssl']);
         }
 
@@ -500,7 +505,7 @@ class InstallApp extends Command
             return $answer;
         };
 
-        $ssl = null;
+        $ssl = [];
         if ($socket_ssl === 'true') {
             $ssl = [
                 'key_file'     => $this->askAndValidate('SSL key file', [], $path_callback),

@@ -141,6 +141,7 @@ class InstallAppTest extends TestCase
         $expectedHipchatUrl = 'http://hooks.hipchat.com';
         $expectedFrom       = 'deployer@example.com';
         $expectedAppUrl     = 'https://localhost';
+        $expectedSocketSsl  = 'yes';
         $expectedKey        = '/var/ssl/private-key';
         $expectedCert       = '/var/ssl/cert';
         $expectedCa         = '/var/ssl/ca';
@@ -157,7 +158,7 @@ class InstallAppTest extends TestCase
             ],
             'socket'   => [
                 'url'              => $expectedAppUrl . ':6001',
-                'ssl'              => true,
+                'ssl'              => $expectedSocketSsl,
                 'ssl_key_file'     => $expectedKey,
                 'ssl_key_password' => 'key-password',
                 'ssl_cert_file'    => $expectedCert,
@@ -275,11 +276,11 @@ class InstallAppTest extends TestCase
             'Europe',
             'London', // FIXME: Need to test this second prompt doesn't happen if UTC is selected
             $expectedAppUrl,
-            'true',
-            $expectedKey, // FIXME: Need to set the key isn't asked for if not https
-            'key-password',
-            $expectedCert,
-            $expectedCa,
+            'ssl' => $expectedSocketSsl,
+            'ssl_key_file'  => $expectedKey, // FIXME: Need to set the key isn't asked for if not https
+            'ssl_key_password' => 'key-password',
+            'ssl_cert_file' => $expectedCert,
+            'ssl_ca_file' => $expectedCa,
             'lang' => 'en',
 
             // Hipchat
@@ -310,7 +311,15 @@ class InstallAppTest extends TestCase
 
         // If only 1 language it is automatically selected
         if (count($languages) === 1) {
-            unset($input['lang']);
+            //unset($input['lang']);
+        }
+
+        // If socket SSL disabled, SSL settings are not required
+        if ($expectedSocketSsl == 'false') {
+            unset($input['ssl_key_file']);
+            unset($input['ssl_key_password']);
+            unset($input['ssl_cert_file']);
+            unset($input['ssl_ca_file']);
         }
 
         // If the driver is SQLite the remaining details are not required
@@ -323,7 +332,6 @@ class InstallAppTest extends TestCase
         }
 
         $input = array_values($input);
-
         $tester = $this->runCommand($this->laravel, $input);
         $output = $tester->getDisplay();
 
