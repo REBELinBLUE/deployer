@@ -141,7 +141,7 @@ class InstallAppTest extends TestCase
         $expectedHipchatUrl = 'http://hooks.hipchat.com';
         $expectedFrom       = 'deployer@example.com';
         $expectedAppUrl     = 'https://localhost';
-        $expectedSocketSsl  = 'yes';
+        $expectedSocketSsl  = 'true';
         $expectedKey        = '/var/ssl/private-key';
         $expectedCert       = '/var/ssl/cert';
         $expectedCa         = '/var/ssl/ca';
@@ -186,6 +186,7 @@ class InstallAppTest extends TestCase
                 'secret' => $expectedToken,
             ],
         ];
+       // dd($expectedConfig);
 
         $this->filesystem->shouldReceive('exists')->with($env)->andReturn(false);
         $this->filesystem->shouldReceive('copy')->with($dist, $env);
@@ -311,7 +312,7 @@ class InstallAppTest extends TestCase
 
         // If only 1 language it is automatically selected
         if (count($languages) === 1) {
-            //unset($input['lang']);
+            unset($input['lang']);
         }
 
         // If socket SSL disabled, SSL settings are not required
@@ -333,6 +334,7 @@ class InstallAppTest extends TestCase
 
         $input = array_values($input);
         $tester = $this->runCommand($this->laravel, $input);
+
         $output = $tester->getDisplay();
 
         $this->assertContains('a-line-of-output', $output);

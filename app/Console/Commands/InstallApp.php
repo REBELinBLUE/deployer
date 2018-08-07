@@ -466,10 +466,7 @@ class InstallApp extends Command
 
         $socket = $this->askAndValidate('Socket URL', [], $url_callback, $url);
 
-        $socket_ssl = 'false';
-        if ($this->confirm('Should the socket use SSL?')) {
-            $socket_ssl = 'true';
-        }
+        $socket_ssl = $this->choice('Should the socket use SSL?', ['true', 'false'], 1);
 
         // If the URL doesn't have : in twice (the first is in the protocol, the second for the port)
         if (substr_count($socket, ':') === 1) {
