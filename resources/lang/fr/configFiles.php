@@ -5,7 +5,7 @@ return [
     'label'   => 'Fichiers de configuration',
     'create'  => 'Ajouter un fichier',
     'edit'    => 'Éditer le fichier',
-    'none'    => 'Vous pouvez ajouter les fichiers que vous souhaitez créer à chaque déploiement',
+    'none'    => 'Vous pouvez ajouter ici des fichiers qui seront créés à chaque déploiement sur le serveur',
     'name'    => 'Nom',
     'path'    => 'Chemin',
     'content' => 'Contenu',

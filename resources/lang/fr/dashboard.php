@@ -6,7 +6,7 @@ return [
     'projects'          => 'Projets',
     'latest'            => 'Dernier déploiement|Derniers déploiements',
     'pending'           => ':count déploiement en attente|:count déploiements en attente',
-    'running'           => ':count running deployment|:count running deployments',
+    'running'           => ':count déploiement en cours|:count déploiements en cours',
     'no_projects'       => 'Vous n\'avez encore créé aucun projet.',
     'no_deployments'    => 'Vous n\'avez encore jamais déployé.',
     'status'            => 'Statut',
