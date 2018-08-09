@@ -10,7 +10,7 @@ return [
     'password'              => 'Mot de passe',
     'password_confirmation' => 'Confirmation du mot de passe',
     'authentication_code'   => 'Code d\'authentification',
-    'oops'                  => 'Whoops!',
+    'oops'                  => 'Houla !',
     'problems'              => 'Nous avons détecté un problème dans votre saisie.',
     'enter_email'           => 'Merci de saisir votre adresse email pour réinitialiser votre mot de passe.',
     'enter_password'        => 'Merci de saisir votre nouveau mot de passe',
