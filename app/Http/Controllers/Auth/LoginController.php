@@ -144,7 +144,7 @@ class LoginController extends Controller
     public function twoFactorAuthenticate(Request $request, Translator $translator)
     {
         $user_id  = $this->session->pull('2fa_user_id');
-        $remember = $this->session->pull('2fa_login_remember');
+        $remember = $this->session->pull('2fa_remember');
 
         if ($user_id) {
             $auth = $this->guard();
