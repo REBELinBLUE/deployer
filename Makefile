@@ -71,7 +71,7 @@ phpcs: ##@tests PHP Coding Standards (PSR-2)
 	@docker-compose exec php-fpm composer test:phpcs
 
 fix: ##@tests PHP Coding Standards Fixer
-	@docker-compose exec php-fpm composer test:lint:fix
+	@docker-compose exec php-fpm composer test:phpcs:fix
 
 phpdoc-check: ##@tests PHPDoc Checker
 	@docker-compose exec php-fpm composer test:phpdoc

@@ -254,7 +254,7 @@ class ScriptBuilder
             return '';
         }
 
-        $migration = '.deployer-migrated';
+        $migration  = '.deployer-migrated';
         $backup_dir = $shared_dir . '.backup';
 
         $script = $this->parser->parseFile('deploy.MigrateShared', [

@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
-use REBELinBLUE\Deployer\User;
-use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
+use REBELinBLUE\Deployer\User;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -61,7 +61,7 @@ class ProjectController extends Controller
             'templates' => $templateRepository->getAll(),
             'groups'    => $groupRepository->getAll(),
             'projects'  => $projects->toJson(),
-            'users'     => $user->findNonAdminUsers()->toJson()
+            'users'     => $user->findNonAdminUsers()->toJson(),
         ]);
     }
 

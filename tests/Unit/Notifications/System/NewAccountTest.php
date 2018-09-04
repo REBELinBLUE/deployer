@@ -80,7 +80,7 @@ class NewAccountTest extends TestCase
         $this->assertSame($actionUrl, $actual['actionUrl']);
         $this->assertSame($actionText, $actual['actionText']);
 
-        $this->assertSame(3, count($actual['introLines']));
+        $this->assertCount(3, $actual['introLines']);
         $this->assertSame($introLine1, $actual['introLines'][0]);
         $this->assertSame($introLine2, $actual['introLines'][1]);
         $this->assertSame($introLine3, $actual['introLines'][2]);

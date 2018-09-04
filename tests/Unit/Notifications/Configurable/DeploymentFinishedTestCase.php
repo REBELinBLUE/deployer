@@ -107,7 +107,7 @@ abstract class DeploymentFinishedTestCase extends TestCase
 
         $this->assertSame($expected, $actual['data']);
 
-        $this->assertSame(3, count($actual['headers']));
+        $this->assertCount(3, $actual['headers']);
         $this->assertSame($expectedProjectId, $actual['headers']['X-Deployer-Project-Id']);
         $this->assertSame($expectedId, $actual['headers']['X-Deployer-Notification-Id']);
         $this->assertSame($expectedEvent, $actual['headers']['X-Deployer-Event']);
@@ -209,11 +209,11 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $actual       = $mail->toArray();
 
         $this->assertSame($expectedSubject, $actual['subject']);
-        $this->assertSame(1, count($actual['introLines']));
+        $this->assertCount(1, $actual['introLines']);
         $this->assertSame($expectedMessage, $actual['introLines'][0]);
 
         if ($withReason) {
-            $this->assertSame(1, count($actual['outroLines']));
+            $this->assertCount(1, $actual['outroLines']);
             $this->assertSame($expectedReason, $actual['outroLines'][0]);
         }
 
@@ -307,7 +307,7 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $this->assertSame($expectedChannel, $slack->channel);
         $this->assertSame($level, $slack->level);
 
-        $this->assertSame(1, count($slack->attachments));
+        $this->assertCount(1, $slack->attachments);
 
         $attachment = $slack->attachments[0];
 
@@ -385,7 +385,7 @@ abstract class DeploymentFinishedTestCase extends TestCase
 
         $attributes = $card->attributes;
 
-        $this->assertSame(4, count($attributes));
+        $this->assertCount(4, $attributes);
         $this->assertCardIsExpected($attributes[0], $expectedProjectName, 'project', $expectedProjectUrl);
         $this->assertCardIsExpected($attributes[1], $expectedCommit, 'commit', $expectedCommitUrl);
         $this->assertCardIsExpected($attributes[2], $expectedCommitter, 'committer');

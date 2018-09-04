@@ -58,7 +58,7 @@ class NewTestNotificationTest extends TestCase
         $actual       = $mail->toArray();
 
         $this->assertSame($subject, $actual['subject']);
-        $this->assertSame(1, count($actual['introLines']));
+        $this->assertCount(1, $actual['introLines']);
         $this->assertSame($line, $actual['introLines'][0]);
         $this->assertArrayHasKey('name', $mail->viewData);
         $this->assertSame($expectedName, $mail->viewData['name']);
@@ -130,11 +130,11 @@ class NewTestNotificationTest extends TestCase
         $webhook       = $notification->toWebhook($channel);
         $actual        = $webhook->toArray();
 
-        $this->assertSame(1, count($actual['data']));
+        $this->assertCount(1, $actual['data']);
         $this->assertArrayHasKey('message', $actual['data']);
         $this->assertSame($expected, $actual['data']['message']);
 
-        $this->assertSame(3, count($actual['headers']));
+        $this->assertCount(3, $actual['headers']);
         $this->assertSame($project, $actual['headers']['X-Deployer-Project-Id']);
         $this->assertSame($expected_id, $actual['headers']['X-Deployer-Notification-Id']);
         $this->assertSame('notification_test', $actual['headers']['X-Deployer-Event']);

@@ -74,11 +74,11 @@ class ChangeEmailTest extends TestCase
         $this->assertSame($actionUrl, $actual['actionUrl']);
         $this->assertSame($actionText, $actual['actionText']);
 
-        $this->assertSame(2, count($actual['introLines']));
+        $this->assertCount(2, $actual['introLines']);
         $this->assertSame($introLine1, $actual['introLines'][0]);
         $this->assertSame($introLine2, $actual['introLines'][1]);
 
-        $this->assertSame(1, count($actual['outroLines']));
+        $this->assertCount(1, $actual['outroLines']);
         $this->assertSame($outroLine1, $actual['outroLines'][0]);
 
         $this->assertArrayHasKey('name', $mail->viewData);
