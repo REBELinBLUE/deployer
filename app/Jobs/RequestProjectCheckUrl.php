@@ -51,10 +51,13 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
             try {
                 $request = $client->get($link->url);
 
-                if (!empty($link->match) && !is_null($link->match)) {
-                    $body = (string)$request->getBody();
-                    if (! preg_match('~'.htmlentities(trim(preg_quote($link->match, '~'))).'~i', $body)) {
-                        throw new CheckUrlMatchException('The URL is live but we could not find the "'.$link->match.'" content into it');
+                if (!empty($link->match)) {
+                    $body = (string) $request->getBody();
+
+                    if (!preg_match('~' . htmlentities(trim(preg_quote($link->match, '~'))) . '~i', $body)) {
+                        throw new CheckUrlMatchException(
+                            'The URL is live but we could not find the "' . $link->match . '" content'
+                        );
                     }
                 }
 
