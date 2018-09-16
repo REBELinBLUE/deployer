@@ -20,6 +20,9 @@ return [
     'last_seen'             => 'Last Seen',
     'log'                   => 'View Failure Log',
     'log_title'             => 'Failure Log',
+    'string_to_search'      => 'String to search on the page',
+    'avoid_special_chars'   => 'Avoid using special characters as they might be escaped during the process which ' .
+                               'could lead to a failed test',
 
     // Notifications
     'down_message'          => ':link appears to be down',

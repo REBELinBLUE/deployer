@@ -22,7 +22,7 @@ class CheckUrl extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'url', 'project_id', 'period'];
+    protected $fillable = ['name', 'url', 'project_id', 'period', 'match'];
 
     /**
      * The attributes excluded from the model's JSON form.

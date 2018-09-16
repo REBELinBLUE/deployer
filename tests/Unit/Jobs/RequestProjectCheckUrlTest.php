@@ -35,6 +35,7 @@ class RequestProjectCheckUrlTest extends TestCase
         $client  = new Client(['handler' => $handler]);
 
         $url = $this->mockCheckUrl($expected);
+        $url->shouldReceive('offsetExists')->with('match')->andReturn(false);
         $url->shouldReceive('setAttribute')->with('last_log', null);
         $url->shouldReceive('online')->once();
         $url->shouldNotReceive('offline');
@@ -71,6 +72,67 @@ Host: www.example.com
 EOF;
 
         $this->mockFailure($mockHandler, $log);
+    }
+
+    /**
+     * @covers ::handle
+     * @covers ::__construct
+     */
+    public function testHandlesOnlineWithMatchingBody()
+    {
+        $expected = 'http://www.google.com';
+
+        $mock = new MockHandler([
+            new Response(200, [], 'example-text-in-body'),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client  = new Client(['handler' => $handler]);
+
+        $url = $this->mockCheckUrl($expected);
+        $url->shouldReceive('offsetExists')->with('match')->andReturn(true);
+        $url->shouldReceive('getAttribute')->with('match')->andReturn('example-text-in-body');
+        $url->shouldReceive('setAttribute')->with('last_log', null);
+        $url->shouldReceive('online')->once();
+        $url->shouldNotReceive('offline');
+        $url->shouldReceive('save');
+
+        $links = new Collection();
+        $links->push($url);
+
+        $job = new RequestProjectCheckUrl($links);
+        $job->handle($client);
+    }
+
+    /**
+     * @covers ::handle
+     * @covers ::__construct
+     */
+    public function testHandlesOnlineWithMatchNotInBody()
+    {
+        $expected = 'http://www.google.com';
+
+        $mock = new MockHandler([
+            new Response(200, [], 'foobar'),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client  = new Client(['handler' => $handler]);
+
+        $url = $this->mockCheckUrl($expected);
+        $url->shouldReceive('offsetExists')->with('match')->andReturn(true);
+        $url->shouldReceive('getAttribute')->with('match')->andReturn('required text');
+        $url->shouldReceive('setAttribute')->with('last_log', null);
+        $url->shouldReceive('setAttribute')->with('last_log', m::type('string'));
+        $url->shouldNotReceive('online');
+        $url->shouldReceive('offline')->once();
+        $url->shouldReceive('save');
+
+        $links = new Collection();
+        $links->push($url);
+
+        $job = new RequestProjectCheckUrl($links);
+        $job->handle($client);
     }
 
     /**
@@ -128,12 +190,14 @@ EOF;
         $client  = new Client(['handler' => $handler]);
 
         $url1 = $this->mockCheckUrl($expected1);
+        $url1->shouldReceive('offsetExists')->with('match')->andReturn(false);
         $url1->shouldReceive('setAttribute')->with('last_log', null);
         $url1->shouldReceive('online')->once();
         $url1->shouldNotReceive('offline');
         $url1->shouldReceive('save');
 
         $url2 = $this->mockCheckUrl($expected2);
+        $url2->shouldReceive('offsetExists')->with('match')->andReturn(false);
         $url2->shouldReceive('setAttribute')->with('last_log', null);
         $url2->shouldReceive('setAttribute')->with('last_log', m::type('string'));
         $url2->shouldReceive('offline')->once();
@@ -166,6 +230,7 @@ EOF;
         $client  = new Client(['handler' => $handler]);
 
         $url = $this->mockCheckUrl($expected);
+        $url->shouldReceive('offsetExists')->with('match')->andReturn(false);
         $url->shouldReceive('setAttribute')->once()->with('last_log', null);
         $url->shouldNotReceive('online');
         $url->shouldReceive('offline')->once();

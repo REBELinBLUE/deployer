@@ -15,18 +15,26 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="url_name">{{ trans('checkUrls.title') }}</label>
+                        <label for="checkurl_name">{{ trans('checkUrls.title') }}</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-tag"></i></div>
                             <input type="text" class="form-control" id="checkurl_name" name="name" placeholder="{{ trans('checkUrls.titleTip') }}" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="url_url">{{ trans('checkUrls.url') }}</label>
+                        <label for="checkurl_url">{{ trans('checkUrls.url') }}</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-external-link"></i></div>
                             <input type="text" class="form-control" id="checkurl_url" name="url" placeholder="http://admin.example.com/" />
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkurl_match">{{ trans('checkUrls.string_to_search') }} ({{ trans('app.optional') }})</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                            <input type="text" class="form-control" id="checkurl_match" name="match" placeholder="Contact" />
+                        </div>
+                        <small id="emailHelp" class="form-text text-muted">{{ trans('checkUrls.avoid_special_chars') }}</small>
                     </div>
                     <div class="form-group">
                         <label for="period">{{ trans('checkUrls.frequency') }}</label>
