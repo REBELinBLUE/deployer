@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\CheckUrl;
+use REBELinBLUE\Deployer\Exceptions\CheckUrlMatchException;
 
 /**
  * Request the urls.
@@ -48,13 +49,24 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
             $link->last_log = null;
 
             try {
-                $client->get($link->url);
+                $request = $client->get($link->url);
+
+                if (!empty($link->match) && !is_null($link->match)) {
+                    $body = (string)$request->getBody();
+                    if (! preg_match('~'.htmlentities(trim(preg_quote($link->match, '~'))).'~i', $body)) {
+                        throw new CheckUrlMatchException('The URL is live but we could not find the "'.$link->match.'" content into it');
+                    }
+                }
 
                 $link->online();
             } catch (RequestException $error) {
                 $link->offline();
 
                 $link->last_log = $this->generateLog($error);
+            } catch (CheckUrlMatchException $error) {
+                $link->offline();
+
+                $link->last_log = $error->getMessage();
             }
 
             $link->save();

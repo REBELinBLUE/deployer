@@ -39,7 +39,8 @@ class CheckUrlController extends Controller
             'name',
             'url',
             'period',
-            'project_id'
+            'project_id',
+            'match'
         )), Response::HTTP_CREATED);
     }
 
@@ -56,7 +57,8 @@ class CheckUrlController extends Controller
         return $this->repository->updateById($request->only(
             'name',
             'url',
-            'period'
+            'period',
+            'match'
         ), $url_id);
     }
 }
