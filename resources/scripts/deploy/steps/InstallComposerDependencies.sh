@@ -22,6 +22,11 @@ if [ -f {{ release_path }}/composer.json ]; then
         fi
     fi
 
+    # Composer Wrapper Checker
+    if [ -x "{{ release_path }}/composer.sh" ]; then
+        composer="{{ release_path }}/composer.sh"
+    fi
+
     cd {{ release_path }}
 
     if [ -n "{{ include_dev }}" ]; then
