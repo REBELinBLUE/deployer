@@ -23,21 +23,20 @@ if [ -f {{ release_path }}/composer.json ]; then
     fi
 
     cd {{ release_path }}
+    
+    # Check if the --no-suggest flag exists, from composer >= 1.2
+    suggest=""
+    if [ $(${composer} help install | grep 'no-suggest' | wc -l) -gt 0 ]; then
+         suggest="--no-suggest"
+    fi
 
     if [ -n "{{ include_dev }}" ]; then
-        # Check if the --no-suggest flag exists, from composer >= 1.2
-        suggest=""
-        if [ $(${composer} help install | grep 'no-suggest' | wc -l) -gt 0 ]; then
-            suggest="--no-suggest"
-        fi
 
         ${composer} install --no-interaction --optimize-autoloader \
                           --prefer-dist ${suggest} --no-ansi --working-dir {{ release_path }}
-
-
     else
         ${composer} install --no-interaction --optimize-autoloader \
-                          --no-dev --prefer-dist --no-suggest --no-ansi --working-dir {{ release_path }}
+                          --no-dev --prefer-dist ${suggest} --no-ansi --working-dir {{ release_path }}
     fi
 fi
 
