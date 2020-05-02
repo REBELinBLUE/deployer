@@ -6,6 +6,10 @@ RUN apk add --no-cache git openssh-client bash libpng-dev $PHPIZE_DEPS \
     && apk del $PHPIZE_DEPS \
     && rm -rf /usr/local/etc/php-fpm.d/zz-docker.conf
 
-WORKDIR "/application"
+WORKDIR /application
+
+#COPY php-fpm.conf /usr/local/etc/php-fpm.d/php-fpm.conf
+#COPY www.conf /usr/local/etc/php-fpm.d/www.conf
+#COPY php-ini-overrides.ini /etc/php/7.2/fpm/conf.d/99-overrides.ini
 
 CMD ["php-fpm", "-F", "-O"]

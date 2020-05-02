@@ -4,9 +4,11 @@ dist: xenial
 language: php
 
 php:
-  - 7.0.8
-  - 7.1
+  #- 7.0.8
+  #- 7.1
   - 7.2
+  - 7.3
+  - 7.4
 
 env:
   - DB=sqlite
@@ -19,15 +21,15 @@ cache:
 
 matrix:
  include:
-   - php: 7.0.8
+   - php: 7.2
      env: DB=mysql
      services:
        - mysql
-   - php: 7.0.8
+   - php: 7.2
      env: DB=maria
      addons:
        mariadb: 10.1
-   - php: 7.0.8
+   - php: 7.2
      env: DB=pgsql
      addons:
        postgresql: "9.3"
@@ -35,7 +37,7 @@ matrix:
        - postgresql
 
 before_install:
-  - if [[ "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
+  - if [[ "$TRAVIS_PHP_VERSION" != "7.2" ]]; then
       phpenv config-rm xdebug.ini;
     fi
 
@@ -45,7 +47,7 @@ install:
 
 before_script:
   - |
-    if [[ "$TRAVIS_PHP_VERSION" == "7.1" ]]; then
+    if [[ "$TRAVIS_PHP_VERSION" == "7.2" ]]; then
       curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
       chmod +x ./cc-test-reporter
       ./cc-test-reporter before-build

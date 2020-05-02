@@ -6,7 +6,7 @@ services:
     working_dir: /application
     volumes:
       - .:/application
-      - ./docker/node/supervisord.conf:/etc/supervisor/supervisord.conf
+      - ./docker/node/supervisord.conf:/etc/supervisord.conf
     ports:
       - "6001:6001"
     links:
@@ -25,7 +25,6 @@ services:
 
   mysql:
     image: mysql:5.7
-    working_dir: /application
     ports:
       - "3306:3306"
     environment:
@@ -37,7 +36,7 @@ services:
       - data:/var/lib/mysql
 
   nginx:
-    image: nginx:1.18.0-alpine
+    build: docker/nginx
     working_dir: /application
     volumes:
       - .:/application
@@ -50,6 +49,7 @@ services:
 
   worker:
     build: docker/worker
+    working_dir: /application
     volumes:
       - .:/application
       - ./docker/worker/supervisord.conf:/etc/supervisord.conf

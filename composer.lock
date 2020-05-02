@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e7056c528a1d0b86170c348cec84624",
+    "content-hash": "cabd4d17f9b2ae5c7e37b85587058a1e",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -1505,6 +1505,7 @@
                     "homepage": "http://www.acci.cz"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2014-04-08T15:00:19+00:00"
         },
         {
@@ -1549,6 +1550,7 @@
                     "homepage": "http://www.acci.cz/"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2015-04-20T18:58:01+00:00"
         },
         {
@@ -1649,6 +1651,7 @@
                 "laravel",
                 "notifications"
             ],
+            "abandoned": true,
             "time": "2017-09-02T22:15:33+00:00"
         },
         {
@@ -2422,6 +2425,7 @@
                 "cron",
                 "schedule"
             ],
+            "abandoned": "dragonmantank/cron-expression",
             "time": "2017-01-23T04:29:33+00:00"
         },
         {
@@ -7990,10 +7994,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0.8"
+        "php": ">=7.2.0"
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.0.8"
-    }
+        "php": "7.2.0"
+    },
+    "plugin-api-version": "1.1.0"
 }

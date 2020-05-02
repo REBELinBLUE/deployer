@@ -1,11 +1,11 @@
-#FROM node:8.6.0-alpine
-FROM node:alpine
+FROM node:8.6.0-alpine
 
-RUN echo -e 'http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community\nhttp://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories \
-    && apk add --upgrade apk-tools \
-    && apk --no-cache --update add g++ supervisor make \
-    && mkdir -p /etc/supervisor/conf.d \
-    && mkdir /var/log/supervisor \
-    && rm -rf /var/cache/apk/*
+RUN apk add --no-cache --update supervisor && mkdir -p /var/log/supervisor
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+WORKDIR /application
+
+#COPY supervisord.conf /etc/supervisord.conf
+
+EXPOSE 6001
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

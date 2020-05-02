@@ -201,7 +201,7 @@ travis:
 endif
 
 # PHPUnit for Travis
-ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
+ifeq "$(TRAVIS_PHP_VERSION)" "7.2"
 phpunit-ci:
 	# phpdbg isn't working on travis, hitting the max open files limit
 	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
