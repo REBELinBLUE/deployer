@@ -109,8 +109,8 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     }
 
     /**
-     * @param array          $members
-     * @param object Project $project
+     * @param array   $members
+     * @param Project $project
      */
     public function setProjectMembers(array $members, Project $project)
     {

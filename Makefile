@@ -60,30 +60,30 @@ seed: #@development Seed the database
 lint: ##@tests PHP Parallel Lint
 	@echo "${GREEN}PHP Parallel Lint${RESET}"
 	@rm -rf bootstrap/cache/*.php
-	@docker-compose exec php composer test:lint
+	@docker-compose run --no-deps --rm composer test:lint
 
 lines: ##@tests PHP Lines of Code
 	@echo "${GREEN}Lines of Code Statistics${RESET}"
-	@docker-compose exec php composer test:loc
+	@docker-compose run --no-deps --rm composer test:loc
 
 phpcs: ##@tests PHP Coding Standards (PSR-2)
 	@echo "${GREEN}PHP Code Sniffer${RESET}"
-	@docker-compose exec php composer test:phpcs
+	@docker-compose run --no-deps --rm composer test:phpcs
 
 fix: ##@tests PHP Coding Standards Fixer
-	@docker-compose exec php composer test:phpcs:fix
+	@docker-compose run --no-deps --rm composer test:phpcs:fix
 
 phpdoc-check: ##@tests PHPDoc Checker
-	@docker-compose exec php composer test:phpdoc
+	@docker-compose run --no-deps --rm composer test:phpdoc
 
 phpmd: ##@tests PHP Mess Detector
 	@echo "${GREEN}PHP Mess Detector${RESET}"
-	@if [ -f phpmd.xml ]; then docker-compose exec php vendor/bin/phpmd app text phpmd.xml; fi
-	@if [ ! -f phpmd.xml ]; then docker-compose exec php composer test:phpmd; fi
+	@if [ -f phpmd.xml ]; then docker-compose run --no-deps --rm composer vendor/bin/phpmd app text phpmd.xml; fi
+	@if [ ! -f phpmd.xml ]; then docker-compose run --no-deps --rm composer test:phpmd; fi
 
 phpcpd: ##@tests PHP Copy/Paste Detector
 	@echo "${GREEN}PHP Copy/Paste Detector${RESET}"
-	@docker-compose exec php composer test:phpcpd
+	@docker-compose run --no-deps --rm composer test:phpcpd
 
 #dusk: ##@tests Dusk Browser Tests
 #	@echo "${GREEN}Dusk${RESET}"
@@ -104,11 +104,11 @@ coverage: ##@tests Test Coverage HTML
 
 phpunit: ##@tests Unit Tests
 	@echo "${GREEN}Unit tests${RESET}"
-	@docker-compose exec php composer test:unit
+	@docker-compose run --no-deps --rm composer test:unit
 
 integration: ##@tests Integration Tests
 	@echo "${GREEN}Integration tests${RESET}"
-	@docker-compose exec php composer test:integration
+	@docker-compose run --rm composer test:integration
 
 quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
 	@$(MAKE) lint
