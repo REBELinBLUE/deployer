@@ -1,3 +1,4 @@
+#FIXME: Change this
 FROM nielsvdoorn/laravel-supervisor
 
 RUN apk --update --no-cache add openssh bash rsync && \

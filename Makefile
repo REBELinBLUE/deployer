@@ -24,7 +24,7 @@ permissions: ##@production Fix permissions
 
 migrate: ##@production Migrate the database
 	@echo "${GREEN}Migrate the database${RESET}"
-	@php artisan migrate
+	@php ./artisan migrate
 
 install: composer ##@production Install dependencies
 	@$(MAKE) permissions
@@ -51,39 +51,39 @@ clean: ##@development Clean cache, logs and other temporary files
 
 rollback: ##@development Rollback the previous database migration
 	@echo "${GREEN}Rollback the database${RESET}"
-	@docker-compose exec php-fpm php artisan migrate:rollback
+	@docker-compose exec php ./artisan migrate:rollback
 
 seed: #@development Seed the database
 	@echo "${GREEN}Seed the database${RESET}"
-	@docker-compose exec php-fpm php artisan db:seed
+	@docker-compose exec php ./artisan db:seed
 
 lint: ##@tests PHP Parallel Lint
 	@echo "${GREEN}PHP Parallel Lint${RESET}"
 	@rm -rf bootstrap/cache/*.php
-	@docker-compose exec php-fpm composer test:lint
+	@docker-compose exec php composer test:lint
 
 lines: ##@tests PHP Lines of Code
 	@echo "${GREEN}Lines of Code Statistics${RESET}"
-	@docker-compose exec php-fpm composer test:loc
+	@docker-compose exec php composer test:loc
 
 phpcs: ##@tests PHP Coding Standards (PSR-2)
 	@echo "${GREEN}PHP Code Sniffer${RESET}"
-	@docker-compose exec php-fpm composer test:phpcs
+	@docker-compose exec php composer test:phpcs
 
 fix: ##@tests PHP Coding Standards Fixer
-	@docker-compose exec php-fpm composer test:phpcs:fix
+	@docker-compose exec php composer test:phpcs:fix
 
 phpdoc-check: ##@tests PHPDoc Checker
-	@docker-compose exec php-fpm composer test:phpdoc
+	@docker-compose exec php composer test:phpdoc
 
 phpmd: ##@tests PHP Mess Detector
 	@echo "${GREEN}PHP Mess Detector${RESET}"
-	@if [ -f phpmd.xml ]; then docker-compose exec php-fpm php vendor/bin/phpmd app text phpmd.xml; fi
-	@if [ ! -f phpmd.xml ]; then docker-compose exec php-fpm composer test:phpmd; fi
+	@if [ -f phpmd.xml ]; then docker-compose exec php vendor/bin/phpmd app text phpmd.xml; fi
+	@if [ ! -f phpmd.xml ]; then docker-compose exec php composer test:phpmd; fi
 
 phpcpd: ##@tests PHP Copy/Paste Detector
 	@echo "${GREEN}PHP Copy/Paste Detector${RESET}"
-	@docker-compose exec php-fpm composer test:phpcpd
+	@docker-compose exec php composer test:phpcpd
 
 #dusk: ##@tests Dusk Browser Tests
 #	@echo "${GREEN}Dusk${RESET}"
@@ -91,24 +91,24 @@ phpcpd: ##@tests PHP Copy/Paste Detector
 
 coverage: ##@tests Test Coverage HTML
 	@echo "${GREEN}All tests with coverage${RESET}"
-	@docker-compose exec php-fpm phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
+	@docker-compose exec php phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
 			--testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml --exclude-group slow
-	@docker-compose exec php-fpm phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
+	@docker-compose exec php phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
 			--testsuite "Unit Tests" --log-junit=storage/app/tmp/slow.junit.xml --exclude-group default
-	@docker-compose exec php-fpm phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
+	@docker-compose exec php phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
 			--log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
-	@docker-compose exec php-fpm phpdbg -qrr vendor/bin/phpcov merge storage/app/tmp/ \
+	@docker-compose exec php phpdbg -qrr vendor/bin/phpcov merge storage/app/tmp/ \
 			--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
-	@docker-compose exec php-fpm php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ storage/app/tmp/junit.xml
+	@docker-compose exec php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ storage/app/tmp/junit.xml
 	@rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
 
 phpunit: ##@tests Unit Tests
 	@echo "${GREEN}Unit tests${RESET}"
-	@docker-compose exec php-fpm composer test:unit
+	@docker-compose exec php composer test:unit
 
 integration: ##@tests Integration Tests
 	@echo "${GREEN}Integration tests${RESET}"
-	@docker-compose exec php-fpm composer test:integration
+	@docker-compose exec php composer test:integration
 
 quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
 	@$(MAKE) lint
@@ -140,11 +140,11 @@ build: ##@docker Builds the application
 	@$(MAKE) docker-install
 	@$(MAKE) docker-migrate
 	@sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(shell date +%s | sha256sum | base64 | head -c 32; echo)/g" .env
-	@docker-compose exec php-fpm php artisan key:generate --force
-	@docker-compose exec php-fpm php artisan deployer:create-user admin admin@example.com changeme --no-email
+	@docker-compose exec php ./artisan key:generate --force
+	@docker-compose exec php ./artisan deployer:create-user admin admin@example.com changeme --no-email
 
 docker-migrate: ##@docker Runs the migrations inside the container
-	@docker-compose exec php-fpm php artisan migrate
+	@docker-compose exec php ./artisan migrate
 
 docker-install:
 	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
