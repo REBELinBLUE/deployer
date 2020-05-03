@@ -1,0 +1,51 @@
+name: PHP
+
+on: [push, pull_request]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+      matrix:
+        php-versions: ['7.2', '7.3']
+    name: PHP ${{ matrix.php-versions }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3
+          coverage: none
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('tests/.env.travis', '.env');"
+      - name: Lint composer.json
+        run: composer validate
+      - name: Install dependencies
+        run: composer install
+      - name: Directory Permissions
+        run: make permissions
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+      - name: Lint
+        run: composer test:lint
+      - name: Migrate
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: php artisan migrate
+      - name: Seed DB
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: php artisan db:seed
+      - name: Execute Unit tests
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: composer test:unit
