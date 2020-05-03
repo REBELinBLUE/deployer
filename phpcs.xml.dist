@@ -13,8 +13,8 @@
 
     <arg value="vvv" />
     <arg value="p" />
-    <arg value="e" />
     <arg name="colors" />
+    <arg name="basepath" value="." />
     <arg name="encoding" value="UTF-8" />
     <arg name="extensions" value="php" />
 
