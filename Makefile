@@ -189,6 +189,7 @@ travis:
 	@sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env
 	@sed -i 's/DB_DATABASE=deployer//g' .env
 	@sed -i 's/DB_USERNAME=travis//g' .env
+	@sed -i 's/DB_HOST=localhost//g' .env
 	@touch $(TRAVIS_BUILD_DIR)/database/database.sqlite
 else ifeq "$(DB)" "pgsql"
 travis:

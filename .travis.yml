@@ -8,7 +8,7 @@ php:
   #- 7.1
   - 7.2
   - 7.3
-  - 7.4
+  #- 7.4
 
 env:
   - DB=sqlite
@@ -27,10 +27,12 @@ matrix:
        - mysql
    - php: 7.2
      env: DB=maria
+     dist: trusty
      addons:
        mariadb: 10.1
    - php: 7.2
      env: DB=pgsql
+     dist: trusty
      addons:
        postgresql: "9.3"
      services:
