@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c582f770032e5fab039802508cec2d13",
+    "content-hash": "899ddeb8d37af7a721326b780cc57e30",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -9192,11 +9192,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2.0"
+        "php": ">=7.2.5"
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.2.0"
+        "php": "7.2.5"
     },
     "plugin-api-version": "1.1.0"
 }

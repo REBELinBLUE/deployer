@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=7.2.5",
         "andywer/js-localization": "dev-laravel-5",
         "backup-manager/laravel": "^1.1",
         "creativeorange/gravatar": "~1.0",
@@ -69,7 +69,7 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.2.0"
+            "php": "7.2.5"
         },
         "preferred-install": "dist",
         "sort-packages": true
