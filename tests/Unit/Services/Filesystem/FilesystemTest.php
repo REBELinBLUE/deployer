@@ -11,10 +11,6 @@ use REBELinBLUE\Deployer\Tests\TestCase;
  */
 class FilesystemTest extends TestCase
 {
-    // Copied from https://github.com/symfony/filesystem/blob/master/Tests/FilesystemTestCase.php
-    // which this test used to extend
-    private $umask;
-
     protected $longPathNamesWindows = [];
 
     /**
@@ -26,6 +22,9 @@ class FilesystemTest extends TestCase
      * @var string
      */
     protected $workspace = null;
+    // Copied from https://github.com/symfony/filesystem/blob/master/Tests/FilesystemTestCase.php
+    // which this test used to extend
+    private $umask;
 
     /**
      * @var bool|null Flag for hard links on Windows
@@ -77,7 +76,7 @@ class FilesystemTest extends TestCase
         $this->umask = umask(0);
 
         $this->filesystem = new Filesystem();
-        $this->workspace = sys_get_temp_dir().'/'.microtime(true).'.'.mt_rand();
+        $this->workspace  = sys_get_temp_dir() . '/' . microtime(true) . '.' . mt_rand();
 
         mkdir($this->workspace, 0777, true);
 
@@ -88,7 +87,7 @@ class FilesystemTest extends TestCase
     {
         if (!empty($this->longPathNamesWindows)) {
             foreach ($this->longPathNamesWindows as $path) {
-                exec('DEL '.$path);
+                exec('DEL ' . $path);
             }
 
             $this->longPathNamesWindows = [];

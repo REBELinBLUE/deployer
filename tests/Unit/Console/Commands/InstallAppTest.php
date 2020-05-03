@@ -14,6 +14,7 @@ use phpmock\mockery\PHPMockery as phpm;
 use REBELinBLUE\Deployer\Console\Commands\Installer\EnvFile;
 use REBELinBLUE\Deployer\Console\Commands\Installer\Requirements;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\ProcessBuilder;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\stubs\InstallApp;
@@ -21,7 +22,6 @@ use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\InstallApp
@@ -224,9 +224,9 @@ class InstallAppTest extends TestCase
                       ->andReturnSelf();
 
         $this->builder->shouldReceive('setWorkingDirectory')->with(base_path())->andReturnSelf();
+        $this->builder->shouldReceive('setTimeout')->with(null)->andReturnSelf();
         $this->builder->shouldReceive('getProcess')->andReturn($process);
 
-        $process->shouldReceive('setTimeout')->with(null)->andReturnSelf();
         $process->shouldReceive('stop')->andReturnSelf();
         $process->shouldReceive('isSuccessful')->andReturn(true);
 

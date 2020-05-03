@@ -1,11 +1,11 @@
 fixture:
   healthy: # Heartbeat statuses which should be considered healthy
     -
-      status: !php/const:REBELinBLUE\Deployer\Heartbeat::OK
+      status: !php/const REBELinBLUE\Deployer\Heartbeat::OK
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Heartbeat::UNTESTED
+      status: !php/const REBELinBLUE\Deployer\Heartbeat::UNTESTED
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Heartbeat::MISSING
+      status: !php/const REBELinBLUE\Deployer\Heartbeat::MISSING
       expected: false

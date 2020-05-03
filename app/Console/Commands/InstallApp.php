@@ -13,10 +13,10 @@ use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
 use REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions;
 use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\ProcessBuilder;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use RuntimeException;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * A console command for prompting for install details.
@@ -387,8 +387,8 @@ class InstallApp extends Command
 
         return $this->builder->setArguments($arguments)
                              ->setWorkingDirectory(base_path())
-                             ->getProcess()
-                             ->setTimeout(null);
+                             ->setTimeout(null)
+                             ->getProcess();
     }
 
     /**
@@ -468,8 +468,8 @@ class InstallApp extends Command
             // Something has changed in laravel 5.3 which means calling the migrate command with call() isn't working
             $process = $this->builder->setArguments(['nginx'])
                                      ->setWorkingDirectory(base_path())
-                                     ->getProcess()
-                                     ->setTimeout(null);
+                                     ->setTimeout(null)
+                                     ->getProcess();
 
             $process->run();
 

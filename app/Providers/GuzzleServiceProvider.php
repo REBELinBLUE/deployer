@@ -3,11 +3,11 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use GuzzleHttp\Client as HttpClient;
+use function GuzzleHttp\default_user_agent;
 use Illuminate\Foundation\Application;
 use Illuminate\Notifications\Channels\SlackWebhookChannel;
 use Illuminate\Support\ServiceProvider;
 use NotificationChannels\Webhook\WebhookChannel;
-use function GuzzleHttp\default_user_agent;
 
 /**
  * Provides Guzzle client.

@@ -23,4 +23,5 @@
     <exclude-pattern>database/*</exclude-pattern>
     <exclude-pattern>tests/Unit/stubs</exclude-pattern>
     <exclude-pattern>*.blade.php</exclude-pattern>
+    <exclude-pattern>Install*.php</exclude-pattern>
 </ruleset>

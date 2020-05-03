@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Services\Scripts;
 
-use Illuminate\Log\Writer;
+use Psr\Log\LoggerInterface;
 use REBELinBLUE\Deployer\Server;
 use Symfony\Component\Process\Process;
 
@@ -51,18 +51,18 @@ class Runner
     private $parser;
 
     /**
-     * @var Writer
+     * @var LoggerInterface
      */
     private $logger;
 
     /**
      * Runner constructor.
      *
-     * @param Parser  $parser
-     * @param Process $process
-     * @param Writer  $logger
+     * @param Parser          $parser
+     * @param Process         $process
+     * @param LoggerInterface $logger
      */
-    public function __construct(Parser $parser, Process $process, Writer $logger)
+    public function __construct(Parser $parser, Process $process, LoggerInterface $logger)
     {
         $this->parser  = $parser;
         $this->process = $process;

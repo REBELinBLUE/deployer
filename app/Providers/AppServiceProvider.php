@@ -8,6 +8,7 @@ use Clockwork\Support\Laravel\ClockworkServiceProvider;
 use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
 use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Laracademy\Commands\MakeServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
@@ -63,6 +64,8 @@ class AppServiceProvider extends ServiceProvider
             'project'  => Project::class,
             'template' => Template::class,
         ]);
+
+        // Paginator::useBootstrapThree();
     }
 
     /**
