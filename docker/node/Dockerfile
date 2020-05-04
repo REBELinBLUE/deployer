@@ -1,4 +1,4 @@
-FROM node:8.6.0-alpine
+FROM node:12.16.3-alpine
 
 RUN apk add --no-cache --update supervisor && mkdir -p /var/log/supervisor
 
