@@ -24,7 +24,7 @@
         "backup-manager/laravel": "^1.1",
         "barryvdh/laravel-ide-helper": "^2.4.1",
         "creativeorange/gravatar": "~1.0",
-        "doctrine/dbal": "2.5.13",
+        "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
         "graham-campbell/binput": "~5.0",
         "guzzlehttp/guzzle": "^6.2",
