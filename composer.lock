@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a79dac05d1e75006365d8c848450617",
+    "content-hash": "2fcb0d7be84e762b5ff0b57b2448a83d",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -6631,20 +6631,21 @@
         },
         {
             "name": "itsgoingd/clockwork",
-            "version": "v2.3",
+            "version": "v4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "33215e18d30819feeae2bfa39896327ffbd9da83"
+                "reference": "049a7dacfa8ee749bf792fcfb85515d09b0d94a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/33215e18d30819feeae2bfa39896327ffbd9da83",
-                "reference": "33215e18d30819feeae2bfa39896327ffbd9da83",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/049a7dacfa8ee749bf792fcfb85515d09b0d94a6",
+                "reference": "049a7dacfa8ee749bf792fcfb85515d09b0d94a6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4",
+                "ext-json": "*",
+                "php": ">=5.5",
                 "psr/log": "1.*"
             },
             "type": "library",
@@ -6685,7 +6686,13 @@
                 "profiling",
                 "slim"
             ],
-            "time": "2018-07-30T22:46:04+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/itsgoingd",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-05-02T21:02:52+00:00"
         },
         {
             "name": "laravel/dusk",

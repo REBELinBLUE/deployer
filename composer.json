@@ -52,7 +52,7 @@
         "dancryer/php-docblock-checker": "^1.1",
         "friendsofphp/php-cs-fixer": "^2.0",
         "fzaninotto/faker": "~1.9",
-        "itsgoingd/clockwork": "~2.0",
+        "itsgoingd/clockwork": "~4.1",
         "laravel/dusk": "^3.0",
         "mockery/mockery": "^1.1",
         "php-mock/php-mock-mockery": "^1.3",
