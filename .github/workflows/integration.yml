@@ -1,0 +1,125 @@
+name: Integration Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+      matrix:
+        php: ['7.2', '7.3']
+        db: ['sqlite', 'mysql', 'pgsql', 'maria']
+
+    services:
+      maria:
+        image: mariadb:10.3
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_USER: deployer
+          MYSQL_PASSWORD: deployer
+          MYSQL_DATABASE: deployer
+        ports:
+          - 23306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      postgres:
+        image: postgres:9.5
+        env:
+          POSTGRES_USER: deployer
+          POSTGRES_PASSWORD: deployer
+          POSTGRES_DB: deployer
+        ports:
+          - 15432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_USER: deployer
+          MYSQL_PASSWORD: deployer
+          MYSQL_DATABASE: deployer
+        ports:
+          - 13306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php }}
+          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3
+          coverage: none
+
+      - name: Copy .env
+        run: |
+          cp tests/env .env
+
+          if [ "${{ matrix.db }}" == "mysql" ]; then
+            {
+              echo "DB_CONNECTION=mysql"
+              echo "DB_USERNAME=deployer"
+              echo "DB_PASSWORD=deployer"
+              echo "DB_DATABASE=deployer"
+              echo "DB_PORT=13306"
+              echo "DB_HOST=127.0.0.1"
+            } >> .env
+          elif [ "${{ matrix.db }}" == "maria" ]; then
+            {
+              echo "DB_CONNECTION=mysql"
+              echo "DB_USERNAME=deployer"
+              echo "DB_PASSWORD=deployer"
+              echo "DB_DATABASE=deployer"
+              echo "DB_PORT=23306"
+              echo "DB_HOST=127.0.0.1"
+            } >> .env
+          elif [ "${{ matrix.db }}" == "pgsql" ]; then
+            {
+              echo "DB_CONNECTION=pgsql"
+              echo "DB_USERNAME=deployer"
+              echo "DB_PASSWORD=deployer"
+              echo "DB_DATABASE=deployer"
+              echo "DB_PORT=15432"
+              echo "DB_HOST=127.0.0.1"
+            } >> .env
+          elif [ "${{ matrix.db }}" == "sqlite" ]; then
+            echo "DB_CONNECTION=sqlite" >> .env
+
+            touch database/database.sqlite
+          fi
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-suggest
+
+      - name: Directory Permissions
+        run: make permissions
+
+      - name: Run Migrations
+        run: php artisan migrate
+
+      - name: Seed DB
+        run: php artisan db:seed
+
+      - name: Rollback Migrations
+        run: php artisan migrate:rollback
+
+      - name: Run Integration Tests
+        run: composer test:integration

@@ -1,0 +1,31 @@
+name: Quality Checks
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: 7.2
+
+      - name: Lint composer.json
+        run: composer validate
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-suggest
+
+      - name: Lint
+        run: composer test:lint
+
+      - name: Check Code Styles
+        run: composer test:phpcs
+
+      - name: Check PHPDoc Blocks
+        run: composer test:phpdoc
