@@ -85,10 +85,6 @@ phpcpd: ##@tests PHP Copy/Paste Detector
 	@echo "${GREEN}PHP Copy/Paste Detector${RESET}"
 	@docker-compose run --no-deps --rm composer test:phpcpd
 
-#dusk: ##@tests Dusk Browser Tests
-#	@echo "${GREEN}Dusk${RESET}"
-#	@php artisan dusk
-
 coverage: ##@tests Test Coverage HTML
 	@echo "${GREEN}All tests with coverage${RESET}"
 	@docker-compose exec php phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
@@ -110,13 +106,13 @@ integration: ##@tests Integration Tests
 	@echo "${GREEN}Integration tests${RESET}"
 	@docker-compose run --rm composer test:integration
 
-quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
+quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests & integration tests
 	@$(MAKE) lint
 	@$(MAKE) phpcs
 	@$(MAKE) phpdoc-check
 	@$(MAKE) phpcpd
 
-test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
+test: ##@shortcuts Runs most tests; but excludes integration tests
 	@$(MAKE) quicktest
 	@$(MAKE) phpunit
 	@$(MAKE) phpmd
@@ -126,7 +122,6 @@ fulltest: ##@shortcuts Runs all tests
 	@$(MAKE) phpunit
 	@$(MAKE) integration
 	@$(MAKE) phpmd
-	#@$(MAKE) dusk
 
 run: ##@docker Runs the containers
 	@docker-compose up -d

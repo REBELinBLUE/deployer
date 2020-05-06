@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Laracademy\Commands\MakeServiceProvider;
-use Laravel\Dusk\DuskServiceProvider;
 use Lubusin\Decomposer\Decomposer;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
@@ -65,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
             'template' => Template::class,
         ]);
 
-        // Paginator::useBootstrapThree();
+         Paginator::useBootstrapThree();
     }
 
     /**
@@ -118,10 +117,6 @@ class AppServiceProvider extends ServiceProvider
     private function registerDependencies()
     {
         $this->app->bind(TokenGeneratorInterface::class, TokenGenerator::class);
-
-        if ($this->app->environment('local', 'testing') && class_exists(DuskServiceProvider::class, true)) {
-            $this->app->register(DuskServiceProvider::class);
-        }
 
         $this->app->singleton('files', function () {
             return new Filesystem();
