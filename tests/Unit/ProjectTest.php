@@ -84,7 +84,7 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideStatuses
      *
-     * @param int $status
+     * @param int  $status
      * @param bool $expected
      */
     public function testIsDeploying(int $status, bool $expected)
@@ -128,12 +128,12 @@ class ProjectTest extends TestCase
      * @dataProvider provideAccessDetails
      * @covers ::accessDetails
      *
-     * @param string $repository
-     * @param string $scheme
+     * @param string      $repository
+     * @param string      $scheme
      * @param string|null $user
-     * @param string $domain
-     * @param int|null $port
-     * @param string $reference
+     * @param string      $domain
+     * @param int|null    $port
+     * @param string      $reference
      */
     public function testAccessDetails(
         string $repository,

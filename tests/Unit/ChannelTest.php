@@ -52,9 +52,9 @@ class ChannelTest extends TestCase
      * @dataProvider provideTypes
      * @covers ::routeNotificationForMail
      *
-     * @param string $type
+     * @param string      $type
      * @param string|null $expected
-     * @param array $config
+     * @param array       $config
      */
     public function testRouteNotificationForMail(string $type, ?string $expected = null, array $config = [])
     {
@@ -78,9 +78,9 @@ class ChannelTest extends TestCase
      * @covers ::routeNotificationForSlack
      * @dataProvider provideTypes
      *
-     * @param string $type
+     * @param string      $type
      * @param string|null $expected
-     * @param array $config
+     * @param array       $config
      */
     public function testRouteNotificationForSlack(string $type, ?string $expected = null, array $config = [])
     {
@@ -104,9 +104,9 @@ class ChannelTest extends TestCase
      * @covers ::routeNotificationForWebhook
      * @dataProvider provideTypes
      *
-     * @param string $type
+     * @param string      $type
      * @param string|null $expected
-     * @param array $config
+     * @param array       $config
      */
     public function testRouteNotificationForWebhook(string $type, ?string $expected = null, array $config = [])
     {
@@ -130,9 +130,9 @@ class ChannelTest extends TestCase
      * @covers ::routeNotificationForTwilio
      * @dataProvider provideTypes
      *
-     * @param string $type
+     * @param string      $type
      * @param string|null $expected
-     * @param array $config
+     * @param array       $config
      */
     public function testRouteNotificationForTwilio(string $type, ?string $expected = null, array $config = [])
     {
@@ -156,9 +156,9 @@ class ChannelTest extends TestCase
      * @covers ::routeNotificationForHipchat
      * @dataProvider provideTypes
      *
-     * @param string $type
+     * @param string      $type
      * @param string|null $expected
-     * @param array $config
+     * @param array       $config
      */
     public function testRouteNotificationForHipchat(string $type, ?string $expected = null, array $config = [])
     {

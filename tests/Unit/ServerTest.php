@@ -30,7 +30,7 @@ class ServerTest extends TestCase
      * @dataProvider provideStatuses
      * @covers ::isTesting
      *
-     * @param int $status
+     * @param int  $status
      * @param bool $expected
      */
     public function testIsTesting(int $status, bool $expected)

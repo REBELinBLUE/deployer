@@ -262,7 +262,7 @@ class DeploymentTest extends TestCase
 
     /**
      * @param Project $project
-     * @param int $total
+     * @param int     $total
      */
     private function generateAdditionalDeployments(Project $project, int $total = 5)
     {

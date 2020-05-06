@@ -132,10 +132,10 @@ class Channel extends Model
      * Scope a query to only include notifications for a specific event.
      *
      * @param  Builder $query
-     * @param  string $event
+     * @param  string  $event
      * @return Builder
      */
-    public function scopeForEvent(Builder$query, string $event): Builder
+    public function scopeForEvent(Builder $query, string $event): Builder
     {
         return $query->where('on_' . $event, '=', true);
     }

@@ -329,7 +329,7 @@ class DeploymentTest extends TestCase
      * @dataProvider provideAccessDetails
      * @covers ::getCommitUrlAttribute
      *
-     * @param array $details
+     * @param array  $details
      * @param string $commit
      * @param string $expected
      */

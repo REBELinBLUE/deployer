@@ -18,7 +18,7 @@ class CheckUrlTest extends TestCase
      * @dataProvider provideStatuses
      * @covers ::isHealthy
      *
-     * @param int $status
+     * @param int  $status
      * @param bool $expected
      */
     public function testIsHealthy(int $status, bool $expected)

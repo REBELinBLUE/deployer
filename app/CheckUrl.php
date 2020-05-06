@@ -70,8 +70,6 @@ class CheckUrl extends Model
 
     /**
      * Flags the link as healthy.
-     *
-     * @return void
      */
     public function online(): void
     {
@@ -82,8 +80,6 @@ class CheckUrl extends Model
 
     /**
      * Flags the link as down.
-     *
-     * @return void
      */
     public function offline(): void
     {

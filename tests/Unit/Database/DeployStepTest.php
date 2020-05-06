@@ -79,7 +79,7 @@ class DeployStepTest extends TestCase
      * @dataProvider provideSteps
      * @covers ::isCustom
      *
-     * @param int $stage
+     * @param int  $stage
      * @param bool $expected
      */
     public function testIsCustom(int $stage, bool $expected)

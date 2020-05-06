@@ -64,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
             'template' => Template::class,
         ]);
 
-         Paginator::useBootstrapThree();
+        Paginator::useBootstrapThree();
     }
 
     /**

@@ -35,9 +35,8 @@ abstract class TestCase extends BaseTestCase
      *
      * @param string $file
      *
-     * @return array
-     *
      * @throws ParseException
+     * @return array
      */
     protected function fixture(string $file): array
     {

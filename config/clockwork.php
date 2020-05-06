@@ -35,7 +35,7 @@ return [
             'enabled' => env('CLOCKWORK_CACHE_ENABLED', true),
 
             // Collect cache queries including results (high performance impact with a high number of queries)
-            'collect_queries' => env('CLOCKWORK_CACHE_QUERIES', false)
+            'collect_queries' => env('CLOCKWORK_CACHE_QUERIES', false),
         ],
 
         // Database usage stats and queries
@@ -52,7 +52,7 @@ return [
             'slow_only' => env('CLOCKWORK_DATABASE_SLOW_ONLY', false),
 
             // Detect and report duplicate (N+1) queries
-            'detect_duplicate_queries' => env('CLOCKWORK_DATABASE_DETECT_DUPLICATE_QUERIES', false)
+            'detect_duplicate_queries' => env('CLOCKWORK_DATABASE_DETECT_DUPLICATE_QUERIES', false),
         ],
 
         // Sent emails
@@ -73,22 +73,22 @@ return [
 
         // Laravel log (you can still log directly to Clockwork with laravel log disabled)
         'log' => [
-            'enabled' => env('CLOCKWORK_LOG_ENABLED', true)
+            'enabled' => env('CLOCKWORK_LOG_ENABLED', true),
         ],
 
         // Dispatched queue jobs
         'queue' => [
-            'enabled' => env('CLOCKWORK_QUEUE_ENABLED', true)
+            'enabled' => env('CLOCKWORK_QUEUE_ENABLED', true),
         ],
 
         // Redis commands
         'redis' => [
-            'enabled' => env('CLOCKWORK_REDIS_ENABLED', true)
+            'enabled' => env('CLOCKWORK_REDIS_ENABLED', true),
         ],
 
         // Routes list
         'routes' => [
-            'enabled' => env('CLOCKWORK_ROUTES_ENABLED', false)
+            'enabled' => env('CLOCKWORK_ROUTES_ENABLED', false),
         ],
 
         // Rendered views
@@ -100,8 +100,8 @@ return [
 
             // Use Twig profiler instead of Laravel events for apps using laravel-twigbridge (more precise, but does
             // not support collecting view data)
-            'use_twig_profiler' => env('CLOCKWORK_VIEWS_USE_TWIG_PROFILER', false)
-        ]
+            'use_twig_profiler' => env('CLOCKWORK_VIEWS_USE_TWIG_PROFILER', false),
+        ],
 
     ],
 
@@ -146,7 +146,7 @@ return [
         'collect_output' => env('CLOCKWORK_ARTISAN_COLLECT_OUTPUT', false),
 
         // Enable or disable collection of built-in Laravel commands
-        'except_laravel_commands' => env('CLOCKWORK_ARTISAN_EXCEPT_LARAVEL_COMMANDS', true)
+        'except_laravel_commands' => env('CLOCKWORK_ARTISAN_EXCEPT_LARAVEL_COMMANDS', true),
     ],
 
     /*
@@ -171,7 +171,7 @@ return [
         // List of queue jobs that should be collected, any other queue job will not be collected if not empty
         'only' => [
             // App\Jobs\BuggyJob::class
-        ]
+        ],
     ],
 
     /*
@@ -190,7 +190,7 @@ return [
         // List of tests that should not be collected
         'except' => [
             // Tests\Unit\ExampleTest::class
-        ]
+        ],
     ],
 
     /*
@@ -230,7 +230,7 @@ return [
     'storage_files_compress' => env('CLOCKWORK_STORAGE_FILES_COMPRESS', false),
 
     'storage_sql_database' => env('CLOCKWORK_STORAGE_SQL_DATABASE', storage_path('clockwork.sqlite')),
-    'storage_sql_table' => env('CLOCKWORK_STORAGE_SQL_TABLE', 'clockwork'),
+    'storage_sql_table'    => env('CLOCKWORK_STORAGE_SQL_TABLE', 'clockwork'),
 
     /*
     |--------------------------------------------------------------------------
@@ -277,7 +277,7 @@ return [
 
     'filter_uris' => [
         '/horizon/.*', // Laravel Horizon requests
-        '/telescope/.*' // Laravel Telescope requests
+        '/telescope/.*', // Laravel Telescope requests
     ],
 
     /*
@@ -315,7 +315,7 @@ return [
         ],
 
         // Limit of frames to be collected
-        'limit' => env('CLOCKWORK_STACK_TRACES_LIMIT', 10)
+        'limit' => env('CLOCKWORK_STACK_TRACES_LIMIT', 10),
     ],
 
     /*
@@ -338,7 +338,7 @@ return [
     'serialization_blackbox' => [
         \Illuminate\Container\Container::class,
         \Illuminate\Foundation\Application::class,
-        \Laravel\Lumen\Application::class
+        \Laravel\Lumen\Application::class,
     ],
 
     /*
@@ -384,6 +384,6 @@ return [
     |
     */
 
-    'server_timing' => env('CLOCKWORK_SERVER_TIMING', 10)
+    'server_timing' => env('CLOCKWORK_SERVER_TIMING', 10),
 
 ];

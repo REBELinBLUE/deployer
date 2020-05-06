@@ -156,8 +156,8 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @param int $healthy
-     * @param int $missing
+     * @param int   $healthy
+     * @param int   $missing
      * @param array $actual
      */
     private function assertStatusArray(int $healthy, int $missing, array $actual)
