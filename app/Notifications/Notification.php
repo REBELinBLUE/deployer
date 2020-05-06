@@ -23,7 +23,7 @@ abstract class Notification extends BaseNotification implements ShouldQueue
      * @param  Channel $notification
      * @return array
      */
-    public function via(Channel $notification)
+    public function via(Channel $notification): array
     {
         if ($notification->type === Channel::WEBHOOK) {
             return [WebhookChannel::class];

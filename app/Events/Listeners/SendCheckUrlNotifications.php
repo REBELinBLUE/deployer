@@ -30,7 +30,7 @@ class SendCheckUrlNotifications
      *
      * @param UrlChanged $event
      */
-    public function handle(UrlChanged $event)
+    public function handle(UrlChanged $event): void
     {
         $link = $event->url;
 

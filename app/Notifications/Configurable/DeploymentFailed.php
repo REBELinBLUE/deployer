@@ -21,7 +21,7 @@ class DeploymentFailed extends DeploymentFinished
      *
      * @return MailMessage
      */
-    public function toMail(Channel $notification)
+    public function toMail(Channel $notification): MailMessage
     {
         return $this->buildMailMessage(
             'deployments.failed_email_subject',
@@ -37,7 +37,7 @@ class DeploymentFailed extends DeploymentFinished
      *
      * @return SlackMessage
      */
-    public function toSlack(Channel $notification)
+    public function toSlack(Channel $notification): SlackMessage
     {
         return $this->buildSlackMessage(
             'deployments.failed_slack_message',
@@ -52,7 +52,7 @@ class DeploymentFailed extends DeploymentFinished
      *
      * @return WebhookMessage
      */
-    public function toWebhook(Channel $notification)
+    public function toWebhook(Channel $notification): WebhookMessage
     {
         return $this->buildWebhookMessage('deployment_failed', $notification);
     }
@@ -62,7 +62,7 @@ class DeploymentFailed extends DeploymentFinished
      *
      * @return TwilioMessage
      */
-    public function toTwilio()
+    public function toTwilio(): TwilioMessage
     {
         return $this->buildTwilioMessage('deployments.failed_sms_message');
     }
@@ -74,7 +74,7 @@ class DeploymentFailed extends DeploymentFinished
      *
      * @return HipChatMessage
      */
-    public function toHipchat(Channel $notification)
+    public function toHipchat(Channel $notification): HipChatMessage
     {
         return $this->buildHipchatMessage(
             'deployments.failed_hipchat_message',

@@ -10,7 +10,7 @@ if (!function_exists('token')) {
      *
      * @return string
      */
-    function token($length)
+    function token(int $length): string
     {
         return app(TokenGeneratorInterface::class)->generateRandom($length);
     }

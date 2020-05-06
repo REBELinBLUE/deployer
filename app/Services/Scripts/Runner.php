@@ -12,8 +12,8 @@ use Symfony\Component\Process\Process;
  */
 class Runner
 {
-    const TEMPLATE_INPUT = true;
-    const DIRECT_INPUT   = false;
+    public const TEMPLATE_INPUT = true;
+    public const DIRECT_INPUT   = false;
 
     /**
      * @var Process
@@ -78,7 +78,7 @@ class Runner
      * @throws \RuntimeException
      * @return mixed
      */
-    public function __call($method, array $arguments)
+    public function __call(string $method, array $arguments)
     {
         if (!is_callable([$this->process, $method])) {
             throw new \RuntimeException('Method ' . $method . ' not exists');
@@ -96,7 +96,7 @@ class Runner
      *
      * @return $this
      */
-    public function setScript($input, array $tokens = [], $script_source = self::TEMPLATE_INPUT)
+    public function setScript(string $input, array $tokens = [], bool $script_source = self::TEMPLATE_INPUT): self
     {
         if ($script_source === self::TEMPLATE_INPUT) {
             $this->script = $this->parser->parseFile($input, $tokens);
@@ -114,7 +114,7 @@ class Runner
      *
      * @return $this
      */
-    public function prependScript($script)
+    public function prependScript(string $script): self
     {
         $this->script = trim($script . PHP_EOL . $this->getScript());
 
@@ -128,7 +128,7 @@ class Runner
      *
      * @return $this
      */
-    public function appendScript($script)
+    public function appendScript(string $script): self
     {
         $this->script = trim($this->getScript() . PHP_EOL . $script);
 
@@ -142,7 +142,7 @@ class Runner
      *
      * @return int
      */
-    public function run($callback = null)
+    public function run(?callable $callback = null): int
     {
         $command = $this->wrapCommand($this->getScript());
 
@@ -160,13 +160,13 @@ class Runner
     /**
      * Sets the script to run on a remote server.
      *
-     * @param Server $server
-     * @param string $private_key
-     * @param string $alternative_user
+     * @param Server      $server
+     * @param string      $private_key
+     * @param string|null $alternative_user
      *
      * @return $this
      */
-    public function setServer(Server $server, $private_key, $alternative_user = null)
+    public function setServer(Server $server, string $private_key, ?string $alternative_user = null): self
     {
         $this->server           = $server;
         $this->private_key      = $private_key;
@@ -181,7 +181,7 @@ class Runner
      *
      * @return string
      */
-    public function getScript()
+    public function getScript(): string
     {
         return $this->script;
     }
@@ -193,7 +193,7 @@ class Runner
      *
      * @return string
      */
-    private function wrapCommand($script)
+    private function wrapCommand(string $script): string
     {
         $wrapper = 'Locally';
         $tokens  = [

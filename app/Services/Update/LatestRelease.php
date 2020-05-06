@@ -11,8 +11,8 @@ use Version\Version;
  */
 class LatestRelease implements LatestReleaseInterface
 {
-    const CACHE_TIME_IN_HOURS = 12;
-    const CACHE_KEY           = 'latest_version';
+    private const CACHE_TIME_IN_HOURS = 12;
+    private const CACHE_KEY           = 'latest_version';
 
     /**
      * @var string
@@ -89,7 +89,7 @@ class LatestRelease implements LatestReleaseInterface
      *
      * @return bool
      */
-    public function isUpToDate()
+    public function isUpToDate(): bool
     {
         $latest_release = $this->latest();
 

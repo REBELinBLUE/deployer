@@ -31,7 +31,7 @@ abstract class Webhook
      *
      * @return bool
      */
-    abstract public function isRequestOrigin();
+    abstract public function isRequestOrigin(): bool;
 
     /**
      * Parses the request for a push webhook body.

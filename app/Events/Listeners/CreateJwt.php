@@ -13,7 +13,7 @@ use Tymon\JWTAuth\JWTAuth;
  */
 class CreateJwt
 {
-    const LIFETIME_IN_HOURS = 3;
+    private const LIFETIME_IN_HOURS = 3;
 
     /**
      * @var JWTAuth
@@ -49,7 +49,7 @@ class CreateJwt
      *
      * @param Login $event
      */
-    public function handle(Login $event)
+    public function handle(Login $event): void
     {
         $tokenId    = base64_encode($this->generator->generateRandom(32));
         $issuedAt   = Carbon::now()->timestamp;

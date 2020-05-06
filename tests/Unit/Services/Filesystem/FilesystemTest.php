@@ -22,6 +22,7 @@ class FilesystemTest extends TestCase
      * @var string
      */
     protected $workspace = null;
+
     // Copied from https://github.com/symfony/filesystem/blob/master/Tests/FilesystemTestCase.php
     // which this test used to extend
     private $umask;

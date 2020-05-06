@@ -27,7 +27,7 @@ class ClearJwt
     /**
      * Handle the event.
      */
-    public function handle()
+    public function handle(): void
     {
         $this->session->forget('jwt');
     }

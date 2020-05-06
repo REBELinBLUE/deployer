@@ -36,7 +36,7 @@ class NewTestNotification extends Notification
      *
      * @return MailMessage
      */
-    public function toMail(Channel $notification)
+    public function toMail(Channel $notification): MailMessage
     {
         return (new MailMessage())
             ->view(['notifications.email', 'notifications.email-plain'], [
@@ -53,7 +53,7 @@ class NewTestNotification extends Notification
      *
      * @return SlackMessage
      */
-    public function toSlack(Channel $notification)
+    public function toSlack(Channel $notification): SlackMessage
     {
         return (new SlackMessage())
             ->to($notification->config->channel)
@@ -67,7 +67,7 @@ class NewTestNotification extends Notification
      *
      * @return WebhookMessage
      */
-    public function toWebhook(Channel $notification)
+    public function toWebhook(Channel $notification): WebhookMessage
     {
         return (new WebhookMessage())
             ->data([
@@ -83,7 +83,7 @@ class NewTestNotification extends Notification
      *
      * @return TwilioMessage
      */
-    public function toTwilio()
+    public function toTwilio(): TwilioMessage
     {
         return (new TwilioMessage())
             ->content($this->translator->trans('notifications.test_message'));
@@ -96,7 +96,7 @@ class NewTestNotification extends Notification
      *
      * @return HipChatMessage
      */
-    public function toHipchat(Channel $notification)
+    public function toHipchat(Channel $notification): HipChatMessage
     {
         return (new HipChatMessage())
             ->room($notification->config->room)

@@ -21,7 +21,7 @@ class Filesystem extends BaseFilesystem
      * @throws IOException
      * @return string
      */
-    public function tempnam($path, $prefix = '')
+    public function tempnam(string $path, string $prefix = '')
     {
         if ($this->isDirectory($path)) {
             $tmpFile = tempnam($path, $prefix);
@@ -44,7 +44,7 @@ class Filesystem extends BaseFilesystem
      * @throws FileNotFoundException
      * @return bool
      */
-    public function touch($path)
+    public function touch(string $path): bool
     {
         if (touch($path)) {
             return true;
@@ -56,14 +56,14 @@ class Filesystem extends BaseFilesystem
     /**
      * Generate the MD5 hash of a file.
      *
-     * @param string $path       The path of the file
-     * @param bool   $raw_output
+     * @param string    $path       The path of the file
+     * @param bool|null $raw_output
      *
      * @throws IOException
      * @throws FileNotFoundException
      * @return string
      */
-    public function md5($path, $raw_output = null)
+    public function md5(string $path, ?bool $raw_output = null): string
     {
         if ($this->isFile($path)) {
             $hash = md5_file($path, $raw_output);

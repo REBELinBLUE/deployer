@@ -19,7 +19,7 @@ class ProjectObserver
      *
      * @param Project $project
      */
-    public function creating(Project $project)
+    public function creating(Project $project): void
     {
         if (empty($project->private_key)) {
             $this->dispatch(new GenerateKey($project));
@@ -37,7 +37,7 @@ class ProjectObserver
      *
      * @param Project $project
      */
-    public function updating(Project $project)
+    public function updating(Project $project): void
     {
         if (empty($project->public_key)) {
             $this->dispatch(new RegeneratePublicKey($project));

@@ -33,11 +33,11 @@ class Parser
      *
      * @return string
      */
-    public function parseString($script, array $tokens = [])
+    public function parseString(string $script, array $tokens = []): string
     {
         $values = array_values($tokens);
 
-        $tokens = array_map(function ($token) {
+        $tokens = array_map(function (string $token): string {
             return '{{ ' . strtolower($token) . ' }}';
         }, array_keys($tokens));
 
@@ -52,7 +52,7 @@ class Parser
      *
      * @return string
      */
-    public function parseFile($file, array $tokens = [])
+    public function parseFile(string $file, array $tokens = []): string
     {
         $template = resource_path('scripts/' . str_replace('.', '/', $file) . '.sh');
 

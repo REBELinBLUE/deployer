@@ -45,7 +45,7 @@ class ResetPassword extends Notification implements ShouldQueue
      *
      * @return array
      */
-    public function via()
+    public function via(): array
     {
         return ['mail'];
     }
@@ -57,7 +57,7 @@ class ResetPassword extends Notification implements ShouldQueue
      *
      * @return MailMessage
      */
-    public function toMail(User $user)
+    public function toMail(User $user): MailMessage
     {
         $action = route('auth.reset-confirm', ['token' => $this->token]);
 

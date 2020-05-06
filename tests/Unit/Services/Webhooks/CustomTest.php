@@ -13,8 +13,10 @@ class CustomTest extends WebhookTestCase
     /**
      * @dataProvider provideBranch
      * @covers ::handlePush
+     *
+     * @param string $branch
      */
-    public function testHandlePushEventValid($branch)
+    public function testHandlePushEventValid(string $branch)
     {
         $reason = 'Commit Log';
         $url    = 'http://www.example.com/';

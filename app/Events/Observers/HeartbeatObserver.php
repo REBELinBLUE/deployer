@@ -14,7 +14,7 @@ class HeartbeatObserver
      *
      * @param Heartbeat $heartbeat
      */
-    public function creating(Heartbeat $heartbeat)
+    public function creating(Heartbeat $heartbeat): void
     {
         if (empty($heartbeat->hash)) {
             $heartbeat->generateHash();

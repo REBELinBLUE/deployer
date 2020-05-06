@@ -53,7 +53,7 @@ abstract class HeartbeatChanged extends Notification
      *
      * @return MailMessage
      */
-    protected function buildMailMessage($subject, $translation, Channel $notification)
+    protected function buildMailMessage(string $subject, string $translation, Channel $notification): MailMessage
     {
         $message = $this->translator->trans($translation, ['job' => $this->heartbeat->name]);
 
@@ -88,7 +88,7 @@ abstract class HeartbeatChanged extends Notification
      *
      * @return SlackMessage
      */
-    protected function buildSlackMessage($translation, Channel $notification)
+    protected function buildSlackMessage(string $translation, Channel $notification): SlackMessage
     {
         $message = $this->translator->trans($translation, ['job' => $this->heartbeat->name]);
         $url     = route('projects', ['id' => $this->heartbeat->project_id]);
@@ -129,7 +129,7 @@ abstract class HeartbeatChanged extends Notification
      *
      * @return WebhookMessage
      */
-    protected function buildWebhookMessage($event, Channel $notification)
+    protected function buildWebhookMessage(string $event, Channel $notification): WebhookMessage
     {
         return (new WebhookMessage())
             ->data(array_merge(array_only(
@@ -150,7 +150,7 @@ abstract class HeartbeatChanged extends Notification
      *
      * @return TwilioMessage
      */
-    protected function buildTwilioMessage($translation)
+    protected function buildTwilioMessage(string $translation): TwilioMessage
     {
         if (is_null($this->heartbeat->last_activity)) {
             $heard_from = $this->translator->trans('app.never');
@@ -174,7 +174,7 @@ abstract class HeartbeatChanged extends Notification
      *
      * @return HipChatMessage
      */
-    protected function buildHipchatMessage($translation, Channel $notification)
+    protected function buildHipchatMessage(string $translation, Channel $notification): HipChatMessage
     {
         $message = $this->translator->trans($translation, ['job' => $this->heartbeat->name]);
         $url     = route('projects', ['id' => $this->heartbeat->project_id]);

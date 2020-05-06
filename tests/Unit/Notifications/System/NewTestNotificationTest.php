@@ -25,9 +25,12 @@ class NewTestNotificationTest extends TestCase
     /**
      * @dataProvider provideChannelTypes
      * @covers ::__construct
-     * @covers \REBELinBLUE\Deployer\Notifications\Notification::via
+     * @covers       \REBELinBLUE\Deployer\Notifications\Notification::via
+     *
+     * @param string $type
+     * @param string $expected
      */
-    public function testSendVia($type, $expected)
+    public function testSendVia(string $type, string $expected)
     {
         $channel = m::mock(Channel::class);
         $channel->shouldReceive('getAttribute')->atLeast()->once()->with('type')->andReturn($type);
@@ -64,7 +67,7 @@ class NewTestNotificationTest extends TestCase
         $this->assertSame($expectedName, $mail->viewData['name']);
     }
 
-    public function provideChannelTypes()
+    public function provideChannelTypes(): array
     {
         return $this->fixture('Notifications/System/NewTestNotification');
     }

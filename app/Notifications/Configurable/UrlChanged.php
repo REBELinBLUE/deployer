@@ -148,7 +148,7 @@ abstract class UrlChanged extends Notification
      *
      * @return TwilioMessage
      */
-    protected function buildTwilioMessage($translation)
+    protected function buildTwilioMessage(string $translation): TwilioMessage
     {
         if (is_null($this->url->last_seen)) {
             $last_seen = $this->translator->trans('app.never');
@@ -172,7 +172,7 @@ abstract class UrlChanged extends Notification
      *
      * @return HipChatMessage
      */
-    protected function buildHipchatMessage($translation, Channel $notification)
+    protected function buildHipchatMessage(string $translation, Channel $notification): HipChatMessage
     {
         $message = $this->translator->trans($translation, ['link' => $this->url->name]);
         $url     = route('projects', ['id' => $this->url->project_id]);

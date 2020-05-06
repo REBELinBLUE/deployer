@@ -43,12 +43,12 @@ class RunnerTest extends TestCase
         $this->logger = m::mock(LoggerInterface::class);
     }
 
-    public function getRunner()
+    public function getRunner(): Runner
     {
         return new Runner($this->parser, $this->process, $this->logger);
     }
 
-    public function getRunnerWithScript($script)
+    public function getRunnerWithScript(string $script): Runner
     {
         $this->parser->shouldReceive('parseString')->once()->with($script, [])->andReturn($script);
 
@@ -274,7 +274,7 @@ class RunnerTest extends TestCase
      * @covers ::wrapCommand
      * @covers ::setServer
      */
-    public function testRunOverSSH($alternative_user = null)
+    public function testRunOverSSH(?string $alternative_user = null)
     {
         $tokens      = [];
         $script      = 'this is a script';

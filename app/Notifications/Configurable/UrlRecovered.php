@@ -21,7 +21,7 @@ class UrlRecovered extends UrlChanged
      *
      * @return MailMessage
      */
-    public function toMail(Channel $notification)
+    public function toMail(Channel $notification): MailMessage
     {
         return $this->buildMailMessage(
             'checkUrls.recovered_subject',
@@ -37,7 +37,7 @@ class UrlRecovered extends UrlChanged
      *
      * @return SlackMessage
      */
-    public function toSlack(Channel $notification)
+    public function toSlack(Channel $notification): SlackMessage
     {
         return $this->buildSlackMessage(
             'checkUrls.recovered_message',
@@ -52,7 +52,7 @@ class UrlRecovered extends UrlChanged
      *
      * @return WebhookMessage
      */
-    public function toWebhook(Channel $notification)
+    public function toWebhook(Channel $notification): WebhookMessage
     {
         return $this->buildWebhookMessage('link_recovered', $notification);
     }
@@ -62,7 +62,7 @@ class UrlRecovered extends UrlChanged
      *
      * @return TwilioMessage
      */
-    public function toTwilio()
+    public function toTwilio(): TwilioMessage
     {
         return $this->buildTwilioMessage('checkUrls.recovered_sms_message');
     }
@@ -74,7 +74,7 @@ class UrlRecovered extends UrlChanged
      *
      * @return HipChatMessage
      */
-    public function toHipchat(Channel $notification)
+    public function toHipchat(Channel $notification): HipChatMessage
     {
         return $this->buildHipchatMessage(
             'checkUrls.recovered_message',

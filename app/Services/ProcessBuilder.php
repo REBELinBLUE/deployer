@@ -1,6 +1,6 @@
 <?php
 
-// Tkane from https://github.com/nicolas-grekas/symfony/blob/3aa8861a424c98351057adab1c176c79fd7004d8/src/Symfony/Component/Process/ProcessBuilder.php
+// Taken from https://github.com/nicolas-grekas/symfony/blob/3aa8861a424c98351057adab1c176c79fd7004d8/src/Symfony/Component/Process/ProcessBuilder.php
 
 /*
  * This file is part of the Symfony package.

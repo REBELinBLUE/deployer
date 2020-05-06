@@ -27,7 +27,7 @@ class RestartSocketServer implements ShouldBroadcast
      *
      * @return array
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
         return ['restart'];
     }

@@ -34,8 +34,10 @@ class BitbucketTest extends WebhookTestCase
     /**
      * @dataProvider provideBranch
      * @covers ::handlePush
+     *
+     * @param string $branch
      */
-    public function testHandlePushEventValid($branch)
+    public function testHandlePushEventValid(string $branch)
     {
         $reason = 'Commit Log';
         $url    = 'http://www.example.com/';
@@ -104,8 +106,10 @@ class BitbucketTest extends WebhookTestCase
     /**
      * @dataProvider provideUnsupportedEvents
      * @covers ::handlePush
+     *
+     * @param string $event
      */
-    public function testHandleUnsupportedEvent($event)
+    public function testHandleUnsupportedEvent(string $event)
     {
         $request = $this->createEventRequest('X-Event-Key', $event);
 
@@ -113,7 +117,7 @@ class BitbucketTest extends WebhookTestCase
         $this->assertFalse($bitbucket->handlePush());
     }
 
-    public function provideUnsupportedEvents()
+    public function provideUnsupportedEvents(): array
     {
         return array_chunk([
             'repo:fork', 'repo:commit_comment_created', 'repo:commit_status_created', 'repo:commit_status_updated',

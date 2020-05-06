@@ -12,7 +12,7 @@ fixture:
     channel: $channel
     expected: false
   - # Only hash
-    channel: #
+    channel: '#'
     expected: false
   - # Only at
     channel: '@'

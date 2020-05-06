@@ -29,7 +29,7 @@ class SendSignupEmail
      *
      * @param UserWasCreated $event
      */
-    public function handle(UserWasCreated $event)
+    public function handle(UserWasCreated $event): void
     {
         $event->user->notify(new NewAccount($event->password, $this->translator));
     }

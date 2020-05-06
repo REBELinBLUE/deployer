@@ -14,7 +14,7 @@ class SSHKeyValidator implements ValidatorInterface
      *
      * @return bool
      */
-    public function validate(...$args)
+    public function validate(...$args): bool
     {
         $value = trim($args[1]);
 

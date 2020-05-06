@@ -24,8 +24,10 @@ class TokenGeneratorTest extends TestCase
     /**
      * @dataProvider provideExpectedLengths
      * @covers ::generateRandom
+     *
+     * @param int $expected
      */
-    public function testTokenIsCorrectLength($expected)
+    public function testTokenIsCorrectLength(int $expected)
     {
         $generator = new TokenGenerator();
         $token     = $generator->generateRandom($expected);
@@ -33,7 +35,7 @@ class TokenGeneratorTest extends TestCase
         $this->assertSame($expected, strlen($token));
     }
 
-    public function provideExpectedLengths()
+    public function provideExpectedLengths(): array
     {
         return array_chunk([1, 10, 45, 50, 100], 1);
     }

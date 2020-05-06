@@ -40,7 +40,7 @@ class ModelCreated implements ShouldBroadcast
      *
      * @return array
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
         return [$this->channel];
     }

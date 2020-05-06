@@ -12,5 +12,5 @@ interface LatestReleaseInterface
     /**
      * @return bool
      */
-    public function isUpToDate();
+    public function isUpToDate(): bool;
 }

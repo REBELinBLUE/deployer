@@ -35,7 +35,7 @@ class CheckUrlObserver
      *
      * @param CheckUrl $url
      */
-    public function saved(CheckUrl $url)
+    public function saved(CheckUrl $url): void
     {
         if ($url->status === CheckUrl::UNTESTED) {
             $collection = new Collection([$url]);
@@ -49,7 +49,7 @@ class CheckUrlObserver
      *
      * @param CheckUrl $url
      */
-    public function updated(CheckUrl $url)
+    public function updated(CheckUrl $url): void
     {
         if ($url->status === CheckUrl::OFFLINE) {
             $this->dispatcher->dispatch(new UrlDownEvent($url));

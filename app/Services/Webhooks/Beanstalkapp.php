@@ -12,7 +12,7 @@ class Beanstalkapp extends Webhook
      *
      * @return bool
      */
-    public function isRequestOrigin()
+    public function isRequestOrigin(): bool
     {
         return ($this->request->headers->get('User-Agent') === 'beanstalkapp.com');
     }
