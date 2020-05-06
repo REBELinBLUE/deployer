@@ -27,7 +27,7 @@ class UserPresenter extends Presenter
      *
      * @return string
      */
-    public function presentAvatarUrl()
+    public function presentAvatarUrl(): string
     {
         if ($this->getWrappedObject()->avatar) {
             return url($this->getWrappedObject()->avatar);

@@ -42,8 +42,11 @@ class RuntimePresenterTest extends TestCase
     /**
      * @dataProvider provideRuntimeLabels
      * @covers ::presentReadableRuntime
+     *
+     * @param array $translations
+     * @param int   $runtime
      */
-    public function testReadableRuntimeIsFormatted($translations, $runtime)
+    public function testReadableRuntimeIsFormatted(array $translations, int $runtime)
     {
         $expected = implode(', ', $translations); // minute; hour, minute; minute, second; etc
 
@@ -67,7 +70,7 @@ class RuntimePresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideRuntimeLabels()
+    public function provideRuntimeLabels(): array
     {
         return $this->fixture('View/Presenters/RuntimePresenter')['runtimes'];
     }
@@ -75,8 +78,10 @@ class RuntimePresenterTest extends TestCase
     /**
      * @dataProvider provideVeryLongRuntimes
      * @covers ::presentReadableRuntime
+     *
+     * @param int $runtime
      */
-    public function testReadableRuntimeFormatsLongRuntime($runtime)
+    public function testReadableRuntimeFormatsLongRuntime(int $runtime)
     {
         $expected = 'deployments.very_long_time';
 
@@ -92,7 +97,7 @@ class RuntimePresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideVeryLongRuntimes()
+    public function provideVeryLongRuntimes(): array
     {
         return $this->fixture('View/Presenters/RuntimePresenter')['long'];
     }

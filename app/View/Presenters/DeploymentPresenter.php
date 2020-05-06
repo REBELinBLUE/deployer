@@ -18,7 +18,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentCcTrayStatus()
+    public function presentCcTrayStatus(): string
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'Success';
@@ -34,7 +34,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentReadableStatus()
+    public function presentReadableStatus(): string
     {
         if ($this->status === Deployment::COMPLETED) {
             return $this->translator->trans('deployments.completed');
@@ -58,7 +58,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentOptionalCommandsUsed()
+    public function presentOptionalCommandsUsed(): string
     {
         return $this->getWrappedObject()->commands->filter(function (Command $command) {
             return $command->optional;
@@ -70,7 +70,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentIcon()
+    public function presentIcon(): string
     {
         $finished_statuses = [Deployment::FAILED, Deployment::COMPLETED_WITH_ERRORS,
                               Deployment::ABORTING, Deployment::ABORTED, ];
@@ -91,7 +91,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentCssClass()
+    public function presentCssClass(): string
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'success';
@@ -109,7 +109,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentTimelineCssClass()
+    public function presentTimelineCssClass(): string
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'green';
@@ -127,7 +127,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentCommitterName()
+    public function presentCommitterName(): string
     {
         if ($this->committer === Deployment::LOADING) {
             if ($this->status === Deployment::FAILED) {
@@ -145,7 +145,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentShortCommitHash()
+    public function presentShortCommitHash(): string
     {
         if ($this->short_commit === Deployment::LOADING) {
             if ($this->status === Deployment::FAILED) {

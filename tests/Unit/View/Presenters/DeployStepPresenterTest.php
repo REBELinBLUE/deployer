@@ -47,8 +47,11 @@ class DeployStepPresenterTest extends TestCase
     /**
      * @dataProvider provideStageLabels
      * @covers ::presentName
+     *
+     * @param mixed  $stage
+     * @param string $expected
      */
-    public function testPresentNameReturnsLabel($stage, $expected)
+    public function testPresentNameReturnsLabel($stage, string $expected)
     {
         $step = m::mock(DeployStep::class);
         $step->shouldReceive('getAttribute')->atLeast()->once()->with('command_id')->andReturnNull();
@@ -63,7 +66,7 @@ class DeployStepPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideStageLabels()
+    public function provideStageLabels(): array
     {
         return $this->fixture('View/Presenters/DeployStepPresenter')['stages'];
     }

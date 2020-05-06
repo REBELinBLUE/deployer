@@ -4,6 +4,9 @@ on: [push, pull_request]
 
 jobs:
   run:
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/database.sqlite
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 15
@@ -34,18 +37,15 @@ jobs:
           touch database/database.sqlite
       - name: Lint
         run: composer test:lint
-      - name: Migrate
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+      - name: Check Code Styles
+        run: composer test:phpcs
+      - name: Check PHPDoc Blocks
+        run: composer test:phpdoc
+      - name: Run Migrations
         run: php artisan migrate
       - name: Seed DB
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
         run: php artisan db:seed
-      - name: Execute Unit tests
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+      - name: Run Unit Tests
         run: composer test:unit
+      - name: Run Integration Tests
+        run: composer test:integration

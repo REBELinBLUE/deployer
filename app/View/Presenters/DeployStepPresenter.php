@@ -14,7 +14,7 @@ class DeployStepPresenter extends Presenter
      *
      * @return string
      */
-    public function presentName()
+    public function presentName(): string
     {
         if (!is_null($this->command_id)) {
             return $this->command->name;

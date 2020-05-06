@@ -146,5 +146,5 @@ fixture:
       repo: www.invalid.url.com
       expected: fa-git-square
     -
-      repo: null
+      repo: ~
       expected: fa-git-square
