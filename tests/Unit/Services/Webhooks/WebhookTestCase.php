@@ -26,7 +26,7 @@ abstract class WebhookTestCase extends TestCase
      */
     protected function assertWebhookDataIsValid($actual, $branch, $source, $reason, $url, $commit, $name, $email)
     {
-        $this->assertInternalType('array', $actual);
+        $this->assertIsArray($actual);
 
         $this->assertArrayHasKey('reason', $actual);
         $this->assertArrayHasKey('branch', $actual);

@@ -32,7 +32,7 @@ class CustomTest extends WebhookTestCase
         $custom = new Custom($request);
         $actual = $custom->handlePush();
 
-        $this->assertInternalType('array', $actual);
+        $this->assertIsArray($actual);
 
         $this->assertArrayHasKey('reason', $actual);
         $this->assertArrayHasKey('branch', $actual);
