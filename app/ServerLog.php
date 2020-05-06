@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\View\Presenters\RuntimeInterface;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
@@ -12,11 +13,11 @@ use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
  */
 class ServerLog extends Model implements HasPresenter, RuntimeInterface
 {
-    const COMPLETED = 0;
-    const PENDING   = 1;
-    const RUNNING   = 2;
-    const FAILED    = 3;
-    const CANCELLED = 4;
+    public const COMPLETED = 0;
+    public const PENDING   = 1;
+    public const RUNNING   = 2;
+    public const FAILED    = 3;
+    public const CANCELLED = 4;
 
     /**
      * The attributes that are mass assignable.
@@ -47,7 +48,7 @@ class ServerLog extends Model implements HasPresenter, RuntimeInterface
     /**
      * Belongs to association.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function server()
     {
@@ -73,7 +74,7 @@ class ServerLog extends Model implements HasPresenter, RuntimeInterface
      *
      * @return string
      */
-    public function getPresenterClass()
+    public function getPresenterClass(): string
     {
         return ServerLogPresenter::class;
     }

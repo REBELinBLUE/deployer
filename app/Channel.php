@@ -2,7 +2,9 @@
 
 namespace REBELinBLUE\Deployer;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
@@ -14,11 +16,11 @@ class Channel extends Model
 {
     use SoftDeletes, BroadcastChanges, Notifiable;
 
-    const EMAIL   = 'mail';
-    const SLACK   = 'slack';
-    const HIPCHAT = 'hipchat';
-    const TWILIO  = 'twilio';
-    const WEBHOOK = 'custom';
+    public const EMAIL   = 'mail';
+    public const SLACK   = 'slack';
+    public const HIPCHAT = 'hipchat';
+    public const TWILIO  = 'twilio';
+    public const WEBHOOK = 'custom';
 
     /**
      * The attributes that are mass assignable.
@@ -59,7 +61,7 @@ class Channel extends Model
     /**
      * Belongs to relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function project()
     {
@@ -129,11 +131,11 @@ class Channel extends Model
     /**
      * Scope a query to only include notifications for a specific event.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  string                                $event
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder $query
+     * @param  string $event
+     * @return Builder
      */
-    public function scopeForEvent($query, $event)
+    public function scopeForEvent(Builder$query, string $event): Builder
     {
         return $query->where('on_' . $event, '=', true);
     }

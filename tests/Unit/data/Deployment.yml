@@ -50,13 +50,17 @@ fixture:
       expected: http://www.bitbucket.com/REBELinBLUE/deployer/commits/ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
   empty_access_details: # Data for empty access details
     -
-      domain: null
-      reference: null
+      -
+        domain: ~
+        reference: ~
     -
-      domain: null
-      reference: blah
+      -
+        domain: ~
+        reference: blah
     -
-      domain: blah
-      reference: null
+      -
+        domain: blah
+        reference: ~
     -
-      foo: bar
+      -
+        foo: bar

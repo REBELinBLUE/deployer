@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\HasTarget;
@@ -14,18 +15,18 @@ class Command extends Model
 {
     use SoftDeletes, BroadcastChanges, HasTarget;
 
-    const BEFORE_CLONE    = 1;
-    const DO_CLONE        = 2;
-    const AFTER_CLONE     = 3;
-    const BEFORE_INSTALL  = 4;
-    const DO_INSTALL      = 5;
-    const AFTER_INSTALL   = 6;
-    const BEFORE_ACTIVATE = 7;
-    const DO_ACTIVATE     = 8;
-    const AFTER_ACTIVATE  = 9;
-    const BEFORE_PURGE    = 10;
-    const DO_PURGE        = 11;
-    const AFTER_PURGE     = 12;
+    public const BEFORE_CLONE    = 1;
+    public const DO_CLONE        = 2;
+    public const AFTER_CLONE     = 3;
+    public const BEFORE_INSTALL  = 4;
+    public const DO_INSTALL      = 5;
+    public const AFTER_INSTALL   = 6;
+    public const BEFORE_ACTIVATE = 7;
+    public const DO_ACTIVATE     = 8;
+    public const AFTER_ACTIVATE  = 9;
+    public const BEFORE_PURGE    = 10;
+    public const DO_PURGE        = 11;
+    public const AFTER_PURGE     = 12;
 
     /**
      * The attributes that are mass assignable.
@@ -58,7 +59,7 @@ class Command extends Model
     /**
      * Belongs to many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function servers()
     {

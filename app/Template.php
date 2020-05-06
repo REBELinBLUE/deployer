@@ -49,7 +49,7 @@ class Template extends Model implements HasPresenter
      *
      * @return int
      */
-    public function getCommandCountAttribute()
+    public function getCommandCountAttribute(): int
     {
         return $this->commands
                     ->count();
@@ -60,7 +60,7 @@ class Template extends Model implements HasPresenter
      *
      * @return int
      */
-    public function getFileCountAttribute()
+    public function getFileCountAttribute(): int
     {
         return $this->sharedFiles
                     ->count();
@@ -71,7 +71,7 @@ class Template extends Model implements HasPresenter
      *
      * @return int
      */
-    public function getConfigCountAttribute()
+    public function getConfigCountAttribute(): int
     {
         return $this->configFiles
                     ->count();
@@ -82,7 +82,7 @@ class Template extends Model implements HasPresenter
      *
      * @return int
      */
-    public function getVariableCountAttribute()
+    public function getVariableCountAttribute(): int
     {
         return $this->variables
                     ->count();
@@ -93,7 +93,7 @@ class Template extends Model implements HasPresenter
      *
      * @return string
      */
-    public function getPresenterClass()
+    public function getPresenterClass(): string
     {
         return CommandPresenter::class;
     }

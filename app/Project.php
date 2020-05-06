@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
@@ -18,11 +19,11 @@ class Project extends Model implements HasPresenter
 {
     use SoftDeletes, BroadcastChanges, ProjectRelations;
 
-    const FINISHED     = 0;
-    const PENDING      = 1;
-    const DEPLOYING    = 2;
-    const FAILED       = 3;
-    const NOT_DEPLOYED = 4;
+    public const FINISHED     = 0;
+    public const PENDING      = 1;
+    public const DEPLOYING    = 2;
+    public const FAILED       = 3;
+    public const NOT_DEPLOYED = 4;
 
     /**
      * The attributes that are mass assignable.
@@ -92,7 +93,7 @@ class Project extends Model implements HasPresenter
      *
      * @return bool
      */
-    public function isDeploying()
+    public function isDeploying(): bool
     {
         return ($this->status === self::DEPLOYING || $this->status === self::PENDING);
     }
@@ -100,7 +101,7 @@ class Project extends Model implements HasPresenter
     /**
      * Generates a hash for use in the webhook URL.
      */
-    public function generateHash()
+    public function generateHash(): void
     {
         $this->attributes['hash'] = token(60);
     }
@@ -110,7 +111,7 @@ class Project extends Model implements HasPresenter
      *
      * @return array
      */
-    public function accessDetails()
+    public function accessDetails(): array
     {
         $info = [];
 
@@ -118,13 +119,13 @@ class Project extends Model implements HasPresenter
             $info['scheme']    = strtolower($matches[1]);
             $info['user']      = $matches[2];
             $info['domain']    = $matches[3];
-            $info['port']      = $matches[4];
+            $info['port']      = strlen($matches[4]) ? (int) $matches[4] : null;
             $info['reference'] = $matches[5];
         } elseif (preg_match('#^(.+)@(.+):([0-9]*)\/?(.+)\.git$#', $this->repository, $matches)) {
             $info['scheme']    = 'git';
             $info['user']      = $matches[1];
             $info['domain']    = $matches[2];
-            $info['port']      = $matches[3];
+            $info['port']      = strlen($matches[3]) ? (int) $matches[3] : null;
             $info['reference'] = $matches[4];
         } elseif (preg_match('#^https?://#i', $this->repository)) {
             $data = parse_url($this->repository);
@@ -134,9 +135,9 @@ class Project extends Model implements HasPresenter
             }
 
             $info['scheme']    = strtolower($data['scheme']);
-            $info['user']      = isset($data['user']) ? $data['user'] : '';
+            $info['user']      = isset($data['user']) ? $data['user'] : null;
             $info['domain']    = $data['host'];
-            $info['port']      = isset($data['port']) ? $data['port'] : '';
+            $info['port']      = isset($data['port']) ? (int) $data['port'] : null;
             $info['reference'] = substr($data['path'], 1, -4);
         }
 
@@ -193,7 +194,7 @@ class Project extends Model implements HasPresenter
      *
      * @return string
      */
-    public function getPresenterClass()
+    public function getPresenterClass(): string
     {
         return ProjectPresenter::class;
     }
@@ -207,7 +208,7 @@ class Project extends Model implements HasPresenter
      *
      * @see Project::accessDetails()
      */
-    public function getBranchUrlAttribute($alternative = null)
+    public function getBranchUrlAttribute(?string $alternative = null)
     {
         $info = $this->accessDetails();
 
@@ -239,7 +240,7 @@ class Project extends Model implements HasPresenter
      *
      * @return array
      */
-    public function heartbeatsStatus()
+    public function heartbeatsStatus(): array
     {
         if (empty($this->heartbeatStatus)) {
             $length = count($this->heartbeats);
@@ -262,7 +263,7 @@ class Project extends Model implements HasPresenter
      *
      * @return array
      */
-    public function applicationCheckUrlStatus()
+    public function applicationCheckUrlStatus(): array
     {
         if (empty($this->checkurlStatus)) {
             $length = count($this->checkUrls);
@@ -285,7 +286,7 @@ class Project extends Model implements HasPresenter
      *
      * @return string
      */
-    public function getGroupNameAttribute()
+    public function getGroupNameAttribute(): string
     {
         return $this->group->name;
     }
@@ -295,7 +296,7 @@ class Project extends Model implements HasPresenter
      *
      * @return string
      */
-    public function getWebhookUrlAttribute()
+    public function getWebhookUrlAttribute(): string
     {
         return route('webhook.deploy', $this->hash);
     }
@@ -303,9 +304,9 @@ class Project extends Model implements HasPresenter
     /**
      * Gets the list of all tags for the project.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getTagsAttribute()
+    public function getTagsAttribute(): Collection
     {
         $tags = $this->refs()
                      ->where('is_tag', true)
@@ -330,9 +331,9 @@ class Project extends Model implements HasPresenter
     /**
      * Gets the list of all branches for the project which are not the default.
      *
-     * @return array
+     * @return Collection
      */
-    public function getBranchesAttribute()
+    public function getBranchesAttribute(): Collection
     {
         return $this->refs()
                     ->where('is_tag', false)
@@ -348,7 +349,7 @@ class Project extends Model implements HasPresenter
      *
      * @return string
      */
-    public function mirrorPath()
+    public function mirrorPath(): string
     {
         return storage_path('app/mirrors/' . preg_replace('/[^_\-.\-a-zA-Z0-9\s]/u', '_', $this->repository));
     }

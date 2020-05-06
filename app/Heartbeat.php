@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Events\HeartbeatRecovered;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
@@ -14,9 +15,9 @@ class Heartbeat extends Model
 {
     use SoftDeletes, BroadcastChanges;
 
-    const OK       = 0;
-    const UNTESTED = 1;
-    const MISSING  = 2;
+    public const OK       = 0;
+    public const UNTESTED = 1;
+    public const MISSING  = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -62,7 +63,7 @@ class Heartbeat extends Model
     /**
      * Belongs to relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function project()
     {
@@ -72,7 +73,7 @@ class Heartbeat extends Model
     /**
      * Generates a hash for use in the webhook URL.
      */
-    public function generateHash()
+    public function generateHash(): void
     {
         $this->attributes['hash'] = token(30);
     }
@@ -82,7 +83,7 @@ class Heartbeat extends Model
      *
      * @return string
      */
-    public function getCallbackUrlAttribute()
+    public function getCallbackUrlAttribute(): string
     {
         return route('heartbeats', $this->hash);
     }
@@ -92,7 +93,7 @@ class Heartbeat extends Model
      *
      * @return bool
      */
-    public function pinged()
+    public function pinged(): bool
     {
         $isCurrentlyHealthy  = ($this->status === self::UNTESTED || $this->isHealthy());
 
@@ -112,7 +113,7 @@ class Heartbeat extends Model
      *
      * @return bool
      */
-    public function isHealthy()
+    public function isHealthy(): bool
     {
         return ($this->status === self::OK);
     }

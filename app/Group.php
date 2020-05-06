@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
@@ -46,7 +47,7 @@ class Group extends Model
     /**
      * Has many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function projects()
     {
@@ -59,7 +60,7 @@ class Group extends Model
      *
      * @return int
      */
-    public function getProjectCountAttribute()
+    public function getProjectCountAttribute(): int
     {
         return $this->projects->count();
     }

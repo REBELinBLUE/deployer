@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -53,7 +54,7 @@ class User extends Authenticatable implements HasPresenter
      *
      * @return string
      */
-    public function requestEmailToken()
+    public function requestEmailToken(): string
     {
         $this->email_token = token(40);
         $this->save();
@@ -66,7 +67,7 @@ class User extends Authenticatable implements HasPresenter
      *
      * @return string
      */
-    public function getPresenterClass()
+    public function getPresenterClass(): string
     {
         return UserPresenter::class;
     }
@@ -78,7 +79,7 @@ class User extends Authenticatable implements HasPresenter
      *
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
-    public function getHasTwoFactorAuthenticationAttribute()
+    public function getHasTwoFactorAuthenticationAttribute(): bool
     {
         return !empty($this->google2fa_secret);
     }
@@ -97,9 +98,9 @@ class User extends Authenticatable implements HasPresenter
     /**
      * Has many relationship for projects.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function projects()
+    public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class);
     }
@@ -109,7 +110,7 @@ class User extends Authenticatable implements HasPresenter
      *
      * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->is_admin;
     }
