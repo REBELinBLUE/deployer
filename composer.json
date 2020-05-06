@@ -60,7 +60,6 @@
         "phpmd/phpmd": "~2.4",
         "phpunit/phpcov": "~5.0",
         "phpunit/phpunit": "^7.0",
-        "sebastian/phpcpd": "^4.0",
         "squizlabs/php_codesniffer": "~3.5.5",
         "symfony/yaml": "^4.0",
         "themsaid/laravel-langman": "~1.3.4"
@@ -116,7 +115,6 @@
         "test:integration": "phpunit --no-coverage --testsuite 'Integration Tests'",
         "test:lint": "parallel-lint app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan",
         "test:loc": "phploc --count-tests app/ database/ resources/ tests/",
-        "test:phpcpd": "phpcpd --progress app/",
         "test:phpcs": "phpcs",
         "test:phpcs:fix": "php-cs-fixer --no-interaction fix",
         "test:phpdoc": "phpdoccheck --directory=app --files-per-line 60",
@@ -127,7 +125,6 @@
         "test:integration": "Run the integration tests",
         "test:lint": "Check the syntax of all PHP files",
         "test:loc": "Count the number of lines of code",
-        "test:phpcpd": "Check for copy/paste detection",
         "test:phpcs": "Check the code adheres to PSR-2",
         "test:phpcs:fix": "Fix PSR-2 violations",
         "test:phpdoc": "Ensure all functions have PHPDoc blocks",

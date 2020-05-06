@@ -81,10 +81,6 @@ phpmd: ##@tests PHP Mess Detector
 	@if [ -f phpmd.xml ]; then docker-compose run --no-deps --rm composer vendor/bin/phpmd app text phpmd.xml; fi
 	@if [ ! -f phpmd.xml ]; then docker-compose run --no-deps --rm composer test:phpmd; fi
 
-phpcpd: ##@tests PHP Copy/Paste Detector
-	@echo "${GREEN}PHP Copy/Paste Detector${RESET}"
-	@docker-compose run --no-deps --rm composer test:phpcpd
-
 coverage: ##@tests Test Coverage HTML
 	@echo "${GREEN}All tests with coverage${RESET}"
 	@docker-compose exec php phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
@@ -110,7 +106,6 @@ quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests & 
 	@$(MAKE) lint
 	@$(MAKE) phpcs
 	@$(MAKE) phpdoc-check
-	@$(MAKE) phpcpd
 
 test: ##@shortcuts Runs most tests; but excludes integration tests
 	@$(MAKE) quicktest

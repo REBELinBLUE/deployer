@@ -67,7 +67,6 @@ script:
   # - composer test:phpmd
   - make phpunit-ci
   - composer test:phpdoc
-  - composer test:phpcpd
   - composer test:loc
   # Clear the compiled file and then try to install without the dev dependencies to ensure everything still works
   - travis_retry composer install --no-dev --no-interaction --prefer-dist --no-suggest --quiet
