@@ -3,7 +3,7 @@ name: Run
 on: [push, pull_request]
 
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
 
     strategy:

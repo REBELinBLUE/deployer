@@ -1,9 +1,41 @@
-name: Integration Tests
+name: Tests
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  unit:
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+      matrix:
+        php: ['7.2', '7.3']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php }}
+          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3
+          coverage: none
+
+      - name: Copy .env
+        run: cp tests/env .env
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-suggest
+
+      - name: Directory Permissions
+        run: make permissions
+
+      - name: Run Unit Tests
+        run: composer test:unit
+
+  integration:
     runs-on: ubuntu-latest
 
     strategy:
@@ -123,3 +155,45 @@ jobs:
 
       - name: Run Integration Tests
         run: composer test:integration
+
+  coverage:
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: 7.2
+          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3
+          coverage: xdebug
+
+      - name: Copy .env
+        run: |
+          cp tests/env .env
+          touch database/database.sqlite
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-suggest
+
+      - name: Directory Permissions
+        run: make permissions
+
+      - name: Run Tests with Coverage
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: |
+          php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
+            --testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml
+          php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
+            --testsuite "Integration Tests" --log-junit=storage/app/tmp/integration.junit.xml
+          php vendor/bin/phpcov merge storage/app/tmp/ --html storage/app/tmp/coverage/ --clover clover.xml
+          php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ junit.xml
+          rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml

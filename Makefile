@@ -173,44 +173,6 @@ reset: clean
 #release: test
 #	@/usr/local/bin/create-release
 
-# Create the databases for Travis CI
-ifeq "$(DB)" "sqlite"
-travis:
-	@sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env
-	@sed -i 's/DB_DATABASE=deployer//g' .env
-	@sed -i 's/DB_USERNAME=travis//g' .env
-	@sed -i 's/DB_HOST=localhost//g' .env
-	@touch $(TRAVIS_BUILD_DIR)/database/database.sqlite
-else ifeq "$(DB)" "pgsql"
-travis:
-	@sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g' .env
-	@sed -i 's/DB_USERNAME=travis/DB_USERNAME=postgres/g' .env
-	@psql -c 'CREATE DATABASE deployer;' -U postgres;
-else
-travis:
-	@mysql -e 'CREATE DATABASE deployer;'
-endif
-
-# PHPUnit for Travis
-ifeq "$(TRAVIS_PHP_VERSION)" "7.2"
-phpunit-ci:
-	# phpdbg isn't working on travis, hitting the max open files limit
-	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
-			--testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml --exclude-group slow
-	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
-			--testsuite "Unit Tests" --log-junit=storage/app/tmp/slow.junit.xml --exclude-group default
-	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
-			--log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
-	@php vendor/bin/phpcov merge storage/app/tmp/ \
-			--html storage/app/tmp/coverage/ --clover clover.xml
-	@php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ junit.xml
-	@rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
-else
-phpunit-ci:
-	@composer test:unit
-	@composer test:integration
-endif
-
 HELP_FUN = %help; \
 	while(<>) { push @{$$help{$$2 // 'options'}}, [$$1, $$3] \
 	if /^([a-zA-Z\-]+)\s*:.*\#\#(?:@([a-zA-Z\-]+))?\s(.*)$$/ }; \

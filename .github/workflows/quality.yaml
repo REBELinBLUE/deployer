@@ -3,7 +3,7 @@ name: Quality Checks
 on: [push, pull_request]
 
 jobs:
-  build:
+  quality:
     runs-on: ubuntu-latest
 
     steps:
