@@ -100,7 +100,7 @@ class CheckHeartbeatsTest extends TestCase
         ]);
     }
 
-    private function mockHeartbeat()
+    private function mockHeartbeat(): Heartbeat
     {
         $created_at = Carbon::create(2017, 1, 1, 15, 45, 35, 'UTC');
 

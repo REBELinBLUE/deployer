@@ -6,12 +6,12 @@ use Exception;
 
 class ExceptionWithHeaders extends Exception
 {
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return [];
     }
 
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return 500;
     }

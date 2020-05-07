@@ -76,8 +76,8 @@ class InstallAppTest extends TestCase
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertContains('already installed Deployer', $output);
-        $this->assertContains('php artisan app:update', $output);
+        $this->assertStringContainsString('already installed Deployer', $output);
+        $this->assertStringContainsString('php artisan app:update', $output);
         $this->assertSame(-1, $tester->getStatusCode());
     }
 
@@ -100,12 +100,15 @@ class InstallAppTest extends TestCase
 
     /**
      * @dataProvider provideConfiguration
-     * @covers \REBELinBLUE\Deployer\Console\Commands\InstallApp
-     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate
-     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions
-     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles
+     * @covers       \REBELinBLUE\Deployer\Console\Commands\InstallApp
+     * @covers       \REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate
+     * @covers       \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions
+     * @covers       \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles
+     *
+     * @param string $dbDriver
+     * @param array  $languages
      */
-    public function testHandleSuccessful($dbDriver, $languages)
+    public function testHandleSuccessful(string $dbDriver, array $languages)
     {
         // FIXME: Clean up, lots of duplication
 
@@ -323,25 +326,25 @@ class InstallAppTest extends TestCase
         $tester = $this->runCommand($this->laravel, $input);
         $output = $tester->getDisplay();
 
-        $this->assertContains('a-line-of-output', $output);
-        $this->assertContains('a-second-line', $output);
+        $this->assertStringContainsString('a-line-of-output', $output);
+        $this->assertStringContainsString('a-second-line', $output);
 
-        $this->assertContains('Database details', $output);
-        $this->assertContains('Installation details', $output);
-        $this->assertContains('Hipchat setup', $output);
-        $this->assertContains('Twilio setup', $output);
-        $this->assertContains('Email details', $output);
-        $this->assertContains('Admin details', $output);
-        $this->assertContains('Writing configuration file', $output);
-        $this->assertContains('Generating JWT key', $output);
-        $this->assertContains('Generating application key', $output);
-        $this->assertContains('Running database migrations', $output);
-        $this->assertContains('Success!', $output);
+        $this->assertStringContainsString('Database details', $output);
+        $this->assertStringContainsString('Installation details', $output);
+        $this->assertStringContainsString('Hipchat setup', $output);
+        $this->assertStringContainsString('Twilio setup', $output);
+        $this->assertStringContainsString('Email details', $output);
+        $this->assertStringContainsString('Admin details', $output);
+        $this->assertStringContainsString('Writing configuration file', $output);
+        $this->assertStringContainsString('Generating JWT key', $output);
+        $this->assertStringContainsString('Generating application key', $output);
+        $this->assertStringContainsString('Running database migrations', $output);
+        $this->assertStringContainsString('Success!', $output);
 
         $this->assertSame(0, $tester->getStatusCode());
     }
 
-    public function provideConfiguration()
+    public function provideConfiguration(): array
     {
         return [
             ['sqlite', ['en']],
@@ -350,7 +353,7 @@ class InstallAppTest extends TestCase
         ];
     }
 
-    private function runCommand($app = null, array $inputs = [])
+    private function runCommand($app = null, array $inputs = []): CommandTester
     {
         $this->app->instance(EnvFile::class, $this->env);
         $this->app->instance(Requirements::class, $this->requirements);

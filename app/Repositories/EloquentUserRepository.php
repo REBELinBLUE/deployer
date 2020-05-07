@@ -42,7 +42,7 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateById(array $fields, $model_id)
+    public function updateById(array $fields, int $model_id)
     {
         $user = $this->getById($model_id);
 
@@ -62,16 +62,13 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     /**
      * @param string $token
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return User|null
      */
-    public function findByEmailToken($token)
+    public function findByEmailToken(string $token): ?User
     {
         return $this->model->where('email_token', $token)->first();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
     public function findNonAdminUsers()
     {
         return $this->model->where('is_admin', 0)->get();
@@ -80,9 +77,9 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     /**
      * @param string $email
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return User|null
      */
-    public function findByEmail($email)
+    public function findByEmail(string $email): ?User
     {
         return $this->model->where('email', $email)->first();
     }

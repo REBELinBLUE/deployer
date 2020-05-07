@@ -33,7 +33,7 @@ abstract class EloquentRepository
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getById($model_id)
+    public function getById(int $model_id)
     {
         return $this->model->findOrFail($model_id);
     }
@@ -58,7 +58,7 @@ abstract class EloquentRepository
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateById(array $fields, $model_id)
+    public function updateById(array $fields, int $model_id)
     {
         $model = $this->getById($model_id);
 
@@ -75,7 +75,7 @@ abstract class EloquentRepository
      * @throws \Exception
      * @return bool
      */
-    public function deleteById($model_id)
+    public function deleteById(int $model_id)
     {
         $model = $this->getById($model_id);
 
@@ -90,7 +90,7 @@ abstract class EloquentRepository
      *
      * @return bool
      */
-    public function chunk($count, callable $callback)
+    public function chunk(int $count, callable $callback)
     {
         return $this->model->chunk($count, $callback);
     }
@@ -105,7 +105,7 @@ abstract class EloquentRepository
      *
      * @return bool
      */
-    public function chunkWhereIn($field, array $values, $count, callable $callback)
+    public function chunkWhereIn(string $field, array $values, int $count, callable $callback)
     {
         return $this->model->whereIn($field, $values, 'and', false)
                            ->chunk($count, $callback);
@@ -119,7 +119,7 @@ abstract class EloquentRepository
      *
      * @return bool
      */
-    public function updateStatusAll($original, $updated)
+    public function updateStatusAll(int $original, int $updated)
     {
         return $this->model->where('status', '=', $original)
                            ->update(['status' => $updated]);

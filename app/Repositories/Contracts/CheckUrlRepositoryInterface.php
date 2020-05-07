@@ -18,7 +18,7 @@ interface CheckUrlRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateById(array $fields, $model_id);
+    public function updateById(array $fields, int $model_id);
 
     /**
      * @param int $model_id
@@ -26,7 +26,7 @@ interface CheckUrlRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return bool
      */
-    public function deleteById($model_id);
+    public function deleteById(int $model_id);
 
     /**
      * @param string   $field
@@ -36,5 +36,5 @@ interface CheckUrlRepositoryInterface
      *
      * @return bool
      */
-    public function chunkWhereIn($field, array $values, $count, callable $callback);
+    public function chunkWhereIn(string $field, array $values, int $count, callable $callback);
 }

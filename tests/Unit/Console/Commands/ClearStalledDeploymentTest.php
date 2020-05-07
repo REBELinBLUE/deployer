@@ -67,7 +67,7 @@ class ClearStalledDeploymentTest extends TestCase
             'command' => 'deployer:cleanup',
         ]);
 
-        $this->assertContains('Switch to maintenance mode now?', $tester->getDisplay());
+        $this->assertStringContainsString('Switch to maintenance mode now?', $tester->getDisplay());
     }
 
     /**
@@ -104,6 +104,6 @@ class ClearStalledDeploymentTest extends TestCase
             'command' => 'deployer:cleanup',
         ]);
 
-        $this->assertContains('Switch to maintenance mode now?', $tester->getDisplay());
+        $this->assertStringContainsString('Switch to maintenance mode now?', $tester->getDisplay());
     }
 }

@@ -68,7 +68,7 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateById(array $fields, $model_id)
+    public function updateById(array $fields, int $model_id)
     {
         $model = $this->getById($model_id);
 
@@ -98,7 +98,7 @@ class EloquentCommandRepository extends EloquentRepository implements CommandRep
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getForDeployStep($target_id, $target, $step)
+    public function getForDeployStep(int $target_id, string $target, int $step)
     {
         return $this->model->where('target_type', $target)
                            ->where('target_id', $target_id)

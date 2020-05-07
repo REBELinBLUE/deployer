@@ -12,7 +12,7 @@ trait OutputStyles
      * @param string|array $messages Messages to output
      * @param string       $type     The type of message to output
      */
-    public function block($messages, $type = 'error')
+    public function block($messages, string $type = 'error'): void
     {
         $output = [];
 
@@ -33,7 +33,7 @@ trait OutputStyles
      *
      * @param string $header The text to output
      */
-    protected function header($header)
+    protected function header(string $header): void
     {
         $this->block($header, 'question');
     }
@@ -42,7 +42,7 @@ trait OutputStyles
      * @param string $line1
      * @param string $line2
      */
-    protected function failure($line1, $line2)
+    protected function failure(string $line1, string $line2): void
     {
         $this->block([$line1, PHP_EOL, $line2]);
     }

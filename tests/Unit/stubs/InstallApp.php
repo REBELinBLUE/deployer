@@ -29,11 +29,17 @@ class InstallApp extends RealInstallApp
      * @param array    $choices
      * @param callback $validator
      * @param mixed    $default
+     * @param bool     $secret
      *
      * @return string
      */
-    public function askSecretAndValidate($question, array $choices, $validator, $default = null)
-    {
-        return $this->askAndValidate($question, $choices, $validator, $default, false);
+    public function askAndValidate(
+        string $question,
+        array $choices,
+        callable $validator,
+        $default = null,
+        bool $secret = false
+    ): string {
+        return parent::askAndValidate($question, $choices, $validator, $default, false);
     }
 }

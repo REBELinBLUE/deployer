@@ -32,7 +32,7 @@ EOF;
 
         $tester = $this->runCommandTest($input, $output, 'on');
 
-        $this->assertContains('Enabling debug mode', $tester->getDisplay());
+        $this->assertStringContainsString('Enabling debug mode', $tester->getDisplay());
     }
 
     public function testHandleOff()
@@ -51,10 +51,10 @@ EOF;
 
         $tester = $this->runCommandTest($input, $output, 'off');
 
-        $this->assertContains('Disabling debug mode', $tester->getDisplay());
+        $this->assertStringContainsString('Disabling debug mode', $tester->getDisplay());
     }
 
-    private function runCommandTest($input, $output, $status)
+    private function runCommandTest(string $input, string $output, string $status): CommandTester
     {
         $env = base_path('.env');
 

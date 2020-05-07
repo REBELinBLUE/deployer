@@ -57,7 +57,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function abort($model_id)
+    public function abort(int $model_id): void
     {
         $deployment = $this->getById($model_id);
 
@@ -72,7 +72,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * @param int $project_id
      */
-    public function abortQueued($project_id)
+    public function abortQueued(int $project_id): void
     {
         $deployments = $this->model->where('project_id', $project_id)
                                    ->whereIn('status', [Deployment::DEPLOYING, Deployment::PENDING])
@@ -99,7 +99,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function rollback($model_id, $reason = '', array $optional = [])
+    public function rollback(int $model_id, string $reason = '', array $optional = [])
     {
         $previous = $this->getById($model_id);
 
@@ -120,7 +120,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getLatest($project_id, $paginate = 15)
+    public function getLatest(int $project_id, int $paginate = 15)
     {
         return $this->model->where('project_id', $project_id)
                            ->with('user', 'project')
@@ -132,9 +132,9 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * @param int $project_id
      *
-     * @return Deployment
+     * @return Deployment|null
      */
-    public function getLatestSuccessful($project_id)
+    public function getLatestSuccessful(int $project_id): ?Deployment
     {
         return $this->model->where('project_id', $project_id)
                            ->where('status', Deployment::COMPLETED)
@@ -179,7 +179,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      *
      * @return int
      */
-    public function getTodayCount($project_id)
+    public function getTodayCount(int $project_id): int
     {
         $now = Carbon::now();
 
@@ -191,7 +191,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      *
      * @return int
      */
-    public function getLastWeekCount($project_id)
+    public function getLastWeekCount(int $project_id): int
     {
         $lastWeek  = Carbon::now()->subWeek();
         $yesterday = Carbon::now()->yesterday();
@@ -206,7 +206,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      *
      * @return int
      */
-    private function getBetweenDates($project_id, Carbon $startDate, Carbon $endDate)
+    private function getBetweenDates(int $project_id, Carbon $startDate, Carbon $endDate): int
     {
         return $this->model->where('project_id', $project_id)
                            ->where('started_at', '>=', $startDate->format('Y-m-d') . ' 00:00:00')
@@ -219,7 +219,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    private function getStatus($status)
+    private function getStatus(int $status)
     {
         $raw_sql = 'project_id IN (SELECT id FROM projects WHERE deleted_at IS NULL)';
 

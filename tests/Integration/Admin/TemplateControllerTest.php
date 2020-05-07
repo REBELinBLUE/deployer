@@ -83,7 +83,7 @@ class TemplateControllerTest extends AuthenticatedTestCase
         $this->assertSame($commands->toJson(), $view->commands->toJson());
     }
 
-    public function provideSteps()
+    public function provideSteps(): array
     {
         return [
             ['clone', Command::BEFORE_CLONE, Command::AFTER_CLONE, Command::AFTER_PURGE, Command::DO_CLONE],

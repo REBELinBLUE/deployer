@@ -51,7 +51,7 @@ class DebugApp extends Command
      *
      * @param Dispatcher $dispatcher
      */
-    public function handle(Dispatcher $dispatcher)
+    public function handle(Dispatcher $dispatcher): void
     {
         $env = base_path('.env');
 
@@ -87,7 +87,7 @@ class DebugApp extends Command
      *
      * @return string
      */
-    private function replaceConfigValues($content, $enable = true)
+    private function replaceConfigValues(string $content, bool $enable = true): bool
     {
         $debug = $enable ? 'true' : 'false';
         $level = $enable ? 'debug' : 'error';

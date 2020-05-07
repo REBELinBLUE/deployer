@@ -23,5 +23,5 @@ interface GroupRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateById(array $fields, $model_id);
+    public function updateById(array $fields, int $model_id);
 }

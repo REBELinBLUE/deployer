@@ -65,7 +65,7 @@ class MakeRepositoryCommand extends Command
      *
      * @return int Exit status code
      */
-    public function handle()
+    public function handle(): int
     {
         $name = $this->argument('name');
 
@@ -92,7 +92,7 @@ class MakeRepositoryCommand extends Command
      * @param  array $meta
      * @return int   Exit status
      */
-    protected function makeRepository(array $meta)
+    protected function makeRepository(array $meta): int
     {
         foreach ($meta['filenames'] as $path) {
             if ($this->filesystem->exists(app_path($path))) {
@@ -117,7 +117,7 @@ class MakeRepositoryCommand extends Command
      * @param string $name
      * @param string $filename
      */
-    private function createContract($namespace, $name, $filename)
+    private function createContract(string $namespace, string $name, string $filename): void
     {
         $contract  = $name . 'RepositoryInterface';
 
@@ -142,7 +142,7 @@ EOF;
      * @param string $name
      * @param string $filename
      */
-    private function createConcrete($namespace, $name, $filename)
+    private function createConcrete(string $namespace, string $name, string $filename): void
     {
         $interface  = $name . 'RepositoryInterface';
         $repository = 'Eloquent' . $name . 'Repository';
@@ -168,7 +168,7 @@ EOF;
      * @param string $filename
      * @param string $content
      */
-    private function createFile($filename, $content)
+    private function createFile(string $filename, string $content): void
     {
         $this->filesystem->put(app_path($filename), $content);
         $this->info($filename . ' created successfully.');

@@ -16,7 +16,7 @@ class CheckUrls extends Command
 {
     use DispatchesJobs;
 
-    const URLS_TO_CHECK = 10;
+    private const URLS_TO_CHECK = 10;
 
     /**
      * The name and signature of the console command.
@@ -54,7 +54,7 @@ class CheckUrls extends Command
      *
      * @return bool
      */
-    public function handle()
+    public function handle(): void
     {
         $period = [];
 

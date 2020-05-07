@@ -29,9 +29,9 @@ class EnvFile
      *
      * @param array $input
      *
-     * @return int
+     * @return bool
      */
-    public function save(array $input)
+    public function save(array $input): bool
     {
         $path   = base_path('.env');
         $config = $this->filesystem->get($path);
@@ -90,7 +90,7 @@ class EnvFile
         $config = preg_replace('/#(.*)[\n]/', '', $config);
         $config = preg_replace('/[\n]{3,}/m', PHP_EOL . PHP_EOL, $config);
 
-        return $this->filesystem->put($path, trim($config) . PHP_EOL);
+        return (bool) $this->filesystem->put($path, trim($config) . PHP_EOL);
     }
 
     /**
@@ -98,7 +98,7 @@ class EnvFile
      *
      * @return bool
      */
-    public function update()
+    public function update(): bool
     {
         $prev     = base_path('.env.prev');
         $current  = base_path('.env');

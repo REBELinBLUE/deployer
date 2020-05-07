@@ -52,7 +52,7 @@ class ResetApp extends Command
      * @param  Dispatcher $dispatcher
      * @return int
      */
-    public function handle(Dispatcher $dispatcher)
+    public function handle(Dispatcher $dispatcher): int
     {
         if (!$this->verifyNotProduction()) {
             return -1;
@@ -73,7 +73,7 @@ class ResetApp extends Command
     /**
      * Resets the database.
      */
-    protected function resetDatabase()
+    protected function resetDatabase(): void
     {
         $this->filesystem->touch(base_path('vendor/autoload.php'));
         $this->filesystem->touch(base_path('node_modules/.install'));
@@ -86,7 +86,7 @@ class ResetApp extends Command
     /**
      * Restarts the queues.
      */
-    protected function restartQueue()
+    protected function restartQueue(): void
     {
         $this->info('Restarting the queue');
         $this->line('');
@@ -100,7 +100,7 @@ class ResetApp extends Command
      *
      * @param Dispatcher $dispatcher
      */
-    protected function restartSocket(Dispatcher $dispatcher)
+    protected function restartSocket(Dispatcher $dispatcher): void
     {
         $this->info('Restarting the socket server');
         $dispatcher->dispatch(new RestartSocketServer());
@@ -109,7 +109,7 @@ class ResetApp extends Command
     /**
      * Removes the log files.
      */
-    protected function clearLogs()
+    protected function clearLogs(): void
     {
         $this->info('Removing log files');
         $this->line('');
@@ -123,7 +123,7 @@ class ResetApp extends Command
      *
      * @return bool
      */
-    private function verifyNotProduction()
+    private function verifyNotProduction(): bool
     {
         if (!$this->laravel->environment('local')) {
             $this->failure(

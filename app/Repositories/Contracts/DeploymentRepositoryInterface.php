@@ -19,19 +19,19 @@ interface DeploymentRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getById($model_id);
+    public function getById(int $model_id);
 
     /**
      * @param int $model_id
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function abort($model_id);
+    public function abort(int $model_id): void;
 
     /**
      * @param int $project_id
      */
-    public function abortQueued($project_id);
+    public function abortQueued(int $project_id): void;
 
     /**
      * @param int $original
@@ -39,7 +39,7 @@ interface DeploymentRepositoryInterface
      *
      * @return bool
      */
-    public function updateStatusAll($original, $updated);
+    public function updateStatusAll(int $original, int $updated);
 
     /**
      * @param int    $model_id
@@ -49,7 +49,7 @@ interface DeploymentRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function rollback($model_id, $reason = '', array $optional = []);
+    public function rollback(int $model_id, string $reason = '', array $optional = []);
 
     /**
      * @param int $project_id
@@ -57,28 +57,28 @@ interface DeploymentRepositoryInterface
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getLatest($project_id, $paginate = 15);
+    public function getLatest(int $project_id, int $paginate = 15);
 
     /**
      * @param int $project_id
      *
      * @return Deployment
      */
-    public function getLatestSuccessful($project_id);
+    public function getLatestSuccessful(int $project_id): ?Deployment;
 
     /**
      * @param int $project_id
      *
      * @return int
      */
-    public function getTodayCount($project_id);
+    public function getTodayCount(int $project_id): int;
 
     /**
      * @param int $project_id
      *
      * @return int
      */
-    public function getLastWeekCount($project_id);
+    public function getLastWeekCount(int $project_id): int;
 
     /**
      * @return \Illuminate\Database\Eloquent\Collection

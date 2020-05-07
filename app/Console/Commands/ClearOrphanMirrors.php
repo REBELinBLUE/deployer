@@ -56,7 +56,7 @@ class ClearOrphanMirrors extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $current_mirrors = new Collection();
         $this->repository->chunk(100, function (Collection $projects) use (&$current_mirrors) {
@@ -75,7 +75,7 @@ class ClearOrphanMirrors extends Command
         $this->info('Found ' . $orphan_mirrors->count() . ' orphaned mirrors');
 
         // Now loop through the mirrors and delete them from storage
-        $orphan_mirrors->each(function ($mirror_dir) {
+        $orphan_mirrors->each(function (string $mirror_dir): void {
             $name = $this->filesystem->basename($mirror_dir);
 
             if ($this->filesystem->deleteDirectory($mirror_dir)) {

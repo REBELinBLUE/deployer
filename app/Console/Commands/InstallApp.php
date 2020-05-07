@@ -102,9 +102,9 @@ class InstallApp extends Command
      *
      * @param  EnvFile      $writer
      * @param  Requirements $requirements
-     * @return mixed
+     * @return int
      */
-    public function handle(EnvFile $writer, Requirements $requirements)
+    public function handle(EnvFile $writer, Requirements $requirements): int
     {
         $this->line('');
 
@@ -186,7 +186,7 @@ class InstallApp extends Command
      *
      * @return string
      */
-    protected function generateJWTKey()
+    protected function generateJWTKey(): string
     {
         return $this->tokenGenerator->generateRandom(32);
     }
@@ -194,7 +194,7 @@ class InstallApp extends Command
     /**
      * Calls the artisan migrate to set up the database.
      */
-    protected function migrate()
+    protected function migrate(): void
     {
         $this->info('Running database migrations');
         $this->line('');
@@ -224,7 +224,7 @@ class InstallApp extends Command
     /**
      * Clears all Laravel caches.
      */
-    protected function clearCaches()
+    protected function clearCaches(): void
     {
         $this->callSilent('clear-compiled');
         $this->callSilent('cache:clear');
@@ -236,7 +236,7 @@ class InstallApp extends Command
     /**
      * Runs the artisan optimize commands.
      */
-    protected function optimize()
+    protected function optimize(): void
     {
         if (!$this->laravel->environment('local')) {
             $this->call('config:cache');
@@ -251,7 +251,7 @@ class InstallApp extends Command
      *
      * @return mixed
      */
-    protected function validateUrl($answer)
+    protected function validateUrl(string $answer): string
     {
         $validator = $this->validator->make(['url' => $answer], [
             'url' => 'url',
@@ -271,7 +271,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function restructureConfig(array $config)
+    private function restructureConfig(array $config): array
     {
         // Move the socket value to the correct key
         if (isset($config['app']['socket'])) {
@@ -297,7 +297,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getTwilioInformation()
+    private function getTwilioInformation(): array
     {
         $this->header('Twilio setup');
 
@@ -321,7 +321,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getHipchatInformation()
+    private function getHipchatInformation(): array
     {
         $this->header('Hipchat setup');
 
@@ -344,7 +344,7 @@ class InstallApp extends Command
     /**
      * Calls the artisan key:generate to set the APP_KEY.
      */
-    private function generateKey()
+    private function generateKey(): void
     {
         $this->info('Generating application key');
         $this->callSilent('key:generate', ['--force' => true]);
@@ -357,7 +357,7 @@ class InstallApp extends Command
      * @param string $email
      * @param string $password
      */
-    private function createAdminUser($name, $email, $password)
+    private function createAdminUser(string $name, string $email, string $password): void
     {
         $process = $this->artisanProcess('deployer:create-user', [$name, $email, $password, '--no-email', '--admin']);
 
@@ -374,9 +374,9 @@ class InstallApp extends Command
      * @param string $command
      * @param array  $args
      *
-     * @return \Symfony\Component\Process\Process
+     * @return Process
      */
-    private function artisanProcess($command, array $args = [])
+    private function artisanProcess(string $command, array $args = []): Process
     {
         $arguments = array_merge([
             base_path('artisan'),
@@ -396,7 +396,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getDatabaseInformation()
+    private function getDatabaseInformation(): array
     {
         $this->header('Database details');
 
@@ -438,7 +438,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getInstallInformation()
+    private function getInstallInformation(): array
     {
         $this->header('Installation details');
 
@@ -528,7 +528,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getEmailInformation()
+    private function getEmailInformation(): array
     {
         $this->header('Email details');
 
@@ -586,7 +586,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getAdminInformation()
+    private function getAdminInformation(): array
     {
         $this->header('Admin details');
 
@@ -630,7 +630,7 @@ class InstallApp extends Command
      *
      * @return bool
      */
-    private function verifyDatabaseDetails(array $database)
+    private function verifyDatabaseDetails(array $database): bool
     {
         if ($database['connection'] === 'sqlite') {
             return $this->filesystem->touch(database_path('database.sqlite'));
@@ -670,7 +670,7 @@ class InstallApp extends Command
      *
      * @return bool
      */
-    private function verifyNotInstalled()
+    private function verifyNotInstalled(): bool
     {
         if ($this->config->get('app.key') !== false && $this->config->get('app.key') !== 'SomeRandomString') {
             $this->failure(

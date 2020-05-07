@@ -80,7 +80,7 @@ class UpdateApp extends Command
      * @param  EnvFile      $writer
      * @return int
      */
-    public function handle(Dispatcher $dispatcher, Requirements $requirements, EnvFile $writer)
+    public function handle(Dispatcher $dispatcher, Requirements $requirements, EnvFile $writer): int
     {
         $this->line('');
 
@@ -138,7 +138,7 @@ class UpdateApp extends Command
     /**
      * Brings the app back up, but only if it was up when the update started.
      */
-    protected function bringUp()
+    protected function bringUp(): void
     {
         if ($this->bringBackUp) {
             $this->call('up');
@@ -148,7 +148,7 @@ class UpdateApp extends Command
     /**
      * Clears all Laravel caches.
      */
-    protected function clearCaches()
+    protected function clearCaches(): void
     {
         $this->callSilent('clear-compiled');
         $this->callSilent('cache:clear');
@@ -160,7 +160,7 @@ class UpdateApp extends Command
     /**
      * Runs the artisan optimize commands.
      */
-    protected function optimize()
+    protected function optimize(): void
     {
         if (!$this->laravel->environment('local')) {
             $this->call('config:cache');
@@ -171,7 +171,7 @@ class UpdateApp extends Command
     /**
      * Calls the artisan migrate command.
      */
-    protected function migrate()
+    protected function migrate(): void
     {
         $this->info('Running database migrations');
         $this->line('');
@@ -181,7 +181,7 @@ class UpdateApp extends Command
     /**
      * Backup the database.
      */
-    protected function backupDatabase()
+    protected function backupDatabase(): void
     {
         $date = Carbon::now()->format('Y-m-d H.i.s');
 
@@ -196,7 +196,7 @@ class UpdateApp extends Command
     /**
      * Restarts the queues.
      */
-    protected function restartQueue()
+    protected function restartQueue(): void
     {
         $this->info('Restarting the queue');
         $this->line('');
@@ -210,7 +210,7 @@ class UpdateApp extends Command
      *
      * @param Dispatcher $dispatcher
      */
-    protected function restartSocket(Dispatcher $dispatcher)
+    protected function restartSocket(Dispatcher $dispatcher): void
     {
         $this->info('Restarting the socket server');
         $dispatcher->dispatch(new RestartSocketServer());
@@ -221,7 +221,7 @@ class UpdateApp extends Command
      *
      * @return bool
      */
-    protected function hasRunningDeployments()
+    protected function hasRunningDeployments(): bool
     {
         $running = $this->repository->getRunning()->count();
         $pending = $this->repository->getPending()->count();
@@ -244,7 +244,7 @@ class UpdateApp extends Command
      *
      * @return bool
      */
-    protected function composerOutdated()
+    protected function composerOutdated(): bool
     {
         $timestamp = Carbon::now()->subMinutes(10)->timestamp;
         if ($this->filesystem->lastModified(base_path('vendor/autoload.php')) < $timestamp) {
@@ -265,7 +265,7 @@ class UpdateApp extends Command
      *
      * @return bool
      */
-    protected function nodeOutdated()
+    protected function nodeOutdated(): bool
     {
         $timestamp = Carbon::now()->subMinutes(10)->timestamp;
         if ($this->filesystem->lastModified(base_path('node_modules/.install')) < $timestamp) {
@@ -282,7 +282,7 @@ class UpdateApp extends Command
      *
      * @return bool
      */
-    private function checkCanInstall()
+    private function checkCanInstall(): bool
     {
         return (
             $this->verifyInstalled() &&
@@ -298,7 +298,7 @@ class UpdateApp extends Command
      *
      * @return bool
      */
-    private function verifyInstalled()
+    private function verifyInstalled(): bool
     {
         if ($this->config->get('app.key') === false || $this->config->get('app.key') === 'SomeRandomString') {
             $this->failure('Deployer has not been installed', 'Please use "php artisan app:install" instead.');
@@ -314,7 +314,7 @@ class UpdateApp extends Command
      *
      * @return bool
      */
-    private function hasDeprecatedConfig()
+    private function hasDeprecatedConfig(): bool
     {
         if (preg_match('/DB_TYPE=/', $this->filesystem->get(base_path('.env')))) {
             $this->failure(

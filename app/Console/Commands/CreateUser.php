@@ -68,7 +68,7 @@ class CreateUser extends Command
      * @param Dispatcher $dispatcher
      * @param Validation $validation
      */
-    public function handle(Dispatcher $dispatcher, Validation $validation)
+    public function handle(Dispatcher $dispatcher, Validation $validation): void
     {
         $arguments = [
             'name'     => $this->argument('name'),

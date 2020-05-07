@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
 use Carbon\Carbon;
+use REBELinBLUE\Deployer\Project;
 
 interface ProjectRepositoryInterface
 {
@@ -12,14 +13,14 @@ interface ProjectRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getByHash($hash);
+    public function getByHash(string $hash): Project;
 
     /**
      * @param bool $with_user
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAll($with_user = false);
+    public function getAll(bool $with_user = false);
 
     /**
      * @param array $fields
@@ -35,7 +36,7 @@ interface ProjectRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateById(array $fields, $model_id);
+    public function updateById(array $fields, int $model_id);
 
     /**
      * @param int $model_id
@@ -43,7 +44,7 @@ interface ProjectRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return bool
      */
-    public function deleteById($model_id);
+    public function deleteById(int $model_id);
 
     /**
      * @param int $model_id
@@ -51,7 +52,7 @@ interface ProjectRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return array
      */
-    public function refreshBranches($model_id);
+    public function refreshBranches(int $model_id);
 
     /**
      * @param int      $count
@@ -59,7 +60,7 @@ interface ProjectRepositoryInterface
      *
      * @return bool
      */
-    public function chunk($count, callable $callback);
+    public function chunk(int $count, callable $callback);
 
     /**
      * @param int $original
@@ -67,7 +68,7 @@ interface ProjectRepositoryInterface
      *
      * @return bool
      */
-    public function updateStatusAll($original, $updated);
+    public function updateStatusAll(int $original, int $updated);
 
     /**
      * @param Carbon   $last_mirrored_since
@@ -76,5 +77,5 @@ interface ProjectRepositoryInterface
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getLastMirroredBefore(Carbon $last_mirrored_since, $count, callable $callback);
+    public function getLastMirroredBefore(Carbon $last_mirrored_since, int $count, callable $callback);
 }
