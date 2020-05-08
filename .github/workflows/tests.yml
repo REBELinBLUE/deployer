@@ -46,6 +46,13 @@ jobs:
       - name: Run Unit Tests
         run: composer test:unit
 
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: Logs
+          path: ./storage/logs
+
   integration:
     runs-on: ubuntu-latest
 
@@ -178,6 +185,13 @@ jobs:
       - name: Run Integration Tests
         run: composer test:integration
 
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: Logs
+          path: ./storage/logs
+
   coverage:
     runs-on: ubuntu-latest
 
@@ -235,3 +249,10 @@ jobs:
         with:
           flags: unit,integration
           fail_ci_if_error: true
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: Logs
+          path: ./storage/logs
