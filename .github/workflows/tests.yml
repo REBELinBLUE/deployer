@@ -26,6 +26,17 @@ jobs:
       - name: Copy .env
         run: cp tests/env .env
 
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --no-suggest
 
@@ -138,6 +149,17 @@ jobs:
             touch database/database.sqlite
           fi
 
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --no-suggest
 
@@ -178,6 +200,17 @@ jobs:
         run: |
           cp tests/env .env
           touch database/database.sqlite
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --no-suggest

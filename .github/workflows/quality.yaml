@@ -18,6 +18,17 @@ jobs:
       - name: Lint composer.json
         run: composer validate
 
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --no-suggest
 
