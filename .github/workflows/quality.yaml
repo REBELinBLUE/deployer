@@ -39,5 +39,5 @@ jobs:
       - name: Check Code Styles
         run: composer test:phpcs
 
-      - name: Runw PHPMD
-        run: composer test:phpmd
+#      - name: Run PHPMD
+#        run: composer test:phpmd
