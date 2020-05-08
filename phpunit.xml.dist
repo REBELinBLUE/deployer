@@ -20,6 +20,7 @@
             <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
     </testsuites>
+
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app/</directory>
@@ -29,10 +30,7 @@
             </exclude>
         </whitelist>
     </filter>
-    <!-- Some options which are useful in development but not on the CI, remove the CDATA to use -->
-    <!--<logging>-->
-    <!--    <log type="coverage-text" target="php://stdout" lowUpperBound="50" highLowerBound="80" />-->
-    <!--</logging>-->
+
     <php>
         <ini name="memory_limit" value="2048M" />
         <env name="APP_ENV" value="testing" />

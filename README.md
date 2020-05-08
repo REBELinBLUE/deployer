@@ -1,7 +1,7 @@
 # Deployer
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square&branch=master)](https://styleci.io/repos/33559148)
-[![Build Status](https://img.shields.io/travis/com/REBELinBLUE/deployer/master.svg?style=flat-square&label=Travis+CI)](https://travis-ci.com/REBELinBLUE/deployer)
+[![Build Status](https://img.shields.io/github/workflow/status/REBELinBLUE/deployer/Tests?label=Build&style=flat-square)](https://github.com/REBELinBLUE/deployer/actions?query=workflow%3ATests)
 [![Code Coverage](https://img.shields.io/codecov/c/github/REBELinBLUE/deployer/master.svg?style=flat-square&label=Coverage)](https://codecov.io/gh/REBELinBLUE/deployer)
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square&label=License)](/LICENSE.md)

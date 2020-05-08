@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@2.1.4
         with:
           php-version: ${{ matrix.php }}
           extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
@@ -31,7 +31,8 @@ jobs:
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - uses: actions/cache@v1
+      - name: Dependency Cache
+        uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -48,7 +49,7 @@ jobs:
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@master
-        if: failure()
+        if: ${{ failure() }}
         with:
           name: Logs
           path: ./storage/logs
@@ -113,17 +114,18 @@ jobs:
         uses: actions/checkout@master
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@2.1.4
         with:
           php-version: ${{ matrix.php }}
           extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
           coverage: none
 
       - name: Copy .env
-        run: |
-          cp tests/env .env
+        run: cp tests/env .env
 
-          if [ "${{ matrix.db }}" == "mysql" ]; then
+      - name: Add MySQL settings to .env
+        if: ${{ matrix.db  == 'mysql' }}
+        run: |
             {
               echo "DB_CONNECTION=mysql"
               echo "DB_USERNAME=deployer"
@@ -132,36 +134,44 @@ jobs:
               echo "DB_PORT=13306"
               echo "DB_HOST=127.0.0.1"
             } >> .env
-          elif [ "${{ matrix.db }}" == "maria" ]; then
-            {
-              echo "DB_CONNECTION=mysql"
-              echo "DB_USERNAME=deployer"
-              echo "DB_PASSWORD=deployer"
-              echo "DB_DATABASE=deployer"
-              echo "DB_PORT=23306"
-              echo "DB_HOST=127.0.0.1"
-            } >> .env
-          elif [ "${{ matrix.db }}" == "pgsql" ]; then
-            {
-              echo "DB_CONNECTION=pgsql"
-              echo "DB_USERNAME=deployer"
-              echo "DB_PASSWORD=deployer"
-              echo "DB_DATABASE=deployer"
-              echo "DB_PORT=15432"
-              echo "DB_HOST=127.0.0.1"
-            } >> .env
-          elif [ "${{ matrix.db }}" == "sqlite" ]; then
-            echo "DB_CONNECTION=sqlite" >> .env
 
-            touch database/database.sqlite
-          fi
+      - name: Add Maria settings to .env
+        if: ${{ matrix.db  == 'maria' }}
+        run: |
+          {
+            echo "DB_CONNECTION=mysql"
+            echo "DB_USERNAME=deployer"
+            echo "DB_PASSWORD=deployer"
+            echo "DB_DATABASE=deployer"
+            echo "DB_PORT=23306"
+            echo "DB_HOST=127.0.0.1"
+          } >> .env
+
+      - name: Add PostgreSQL settings to .env
+        if: ${{ matrix.db  == 'pgsql' }}
+        run: |
+          {
+            echo "DB_CONNECTION=pgsql"
+            echo "DB_USERNAME=deployer"
+            echo "DB_PASSWORD=deployer"
+            echo "DB_DATABASE=deployer"
+            echo "DB_PORT=15432"
+            echo "DB_HOST=127.0.0.1"
+          } >> .env
+
+      - name: Add SQLite settings to .env
+        if: ${{  matrix.db  == 'sqlite' }}
+        run: |
+          echo "DB_CONNECTION=sqlite" >> .env
+          touch database/database.sqlite
 
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - uses: actions/cache@v1
+      - name: Dependency Cache
+        uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -187,7 +197,7 @@ jobs:
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@master
-        if: failure()
+        if: ${{ failure() }}
         with:
           name: Logs
           path: ./storage/logs
@@ -204,11 +214,11 @@ jobs:
         uses: actions/checkout@master
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@2.1.4
         with:
           php-version: 7.2
           extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
-          coverage: xdebug
+          coverage: pcov
 
       - name: Copy .env
         run: |
@@ -220,7 +230,8 @@ jobs:
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - uses: actions/cache@v1
+      - name: Dependency Cache
+        uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -237,22 +248,25 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: |
-          php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
-            --testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml
-          php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
-            --testsuite "Integration Tests" --log-junit=storage/app/tmp/integration.junit.xml
+          composer require pcov/clobber --dev
+          php vendor/bin/pcov clobber
+
+          php vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov --testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml
+          php vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov --testsuite "Integration Tests" --log-junit=storage/app/tmp/integration.junit.xml
+
           php vendor/bin/phpcov merge storage/app/tmp/ --html storage/app/tmp/coverage/ --clover clover.xml
           php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ junit.xml
+
           rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
 
-      - uses: codecov/codecov-action@v1
+      - name: Upload Coverage Report
+        uses: codecov/codecov-action@v1
         with:
-          flags: unit,integration
           fail_ci_if_error: true
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@master
-        if: failure()
+        if: ${{ failure() }}
         with:
           name: Logs
           path: ./storage/logs

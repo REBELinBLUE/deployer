@@ -18,7 +18,8 @@ jobs:
       - name: Copy .env
         run: cp tests/env .env
 
-      - uses: actions/cache@v1
+      - name: Dependency Cache
+        uses: actions/cache@v1
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
