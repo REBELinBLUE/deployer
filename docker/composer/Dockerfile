@@ -4,7 +4,6 @@ RUN composer global require ergebnis/composer-normalize && \
     composer self-update
 
 RUN docker-php-ext-install pdo pdo_mysql && \
-    docker-php-ext-enable pdo pdo_mysql && \
     apk add --update --no-cache patch
 
 WORKDIR /application

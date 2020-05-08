@@ -20,7 +20,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php }}
-          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3
+          extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
           coverage: none
 
       - name: Copy .env
@@ -109,7 +109,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php }}
-          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3
+          extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
           coverage: none
 
       - name: Copy .env
@@ -193,7 +193,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: 7.2
-          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3
+          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
           coverage: xdebug
 
       - name: Copy .env

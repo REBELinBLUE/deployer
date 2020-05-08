@@ -69,7 +69,7 @@ abstract class WebhookTestCase extends TestCase
         return new Request([], [], [], [], [], $headers);
     }
 
-    protected function createEventRequest(sttring $key, string $value): Request
+    protected function createEventRequest(string $key, string $value): Request
     {
         $header = $this->headerToServerVar($key);
 
