@@ -230,3 +230,8 @@ jobs:
           php vendor/bin/phpcov merge storage/app/tmp/ --html storage/app/tmp/coverage/ --clover clover.xml
           php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ junit.xml
           rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
+
+      - uses: codecov/codecov-action@v1
+        with:
+          flags: unit,integration
+          fail_ci_if_error: true
