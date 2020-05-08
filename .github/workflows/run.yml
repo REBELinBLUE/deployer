@@ -37,7 +37,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Dependencies
-        run: composer install --no-dev --no-interaction --prefer-dist --no-suggest
+        run: composer install --no-dev --no-interaction --prefer-dist --no-suggest --ignore-platform-reqs
 
       - name: Run Artisan
         run: php artisan app:version

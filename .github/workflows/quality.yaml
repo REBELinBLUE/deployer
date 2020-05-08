@@ -13,7 +13,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.1.4
         with:
-          php-version: 7.2
+          php-version: 7.2x
 
       - name: Lint composer.json
         run: composer validate
@@ -31,7 +31,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --no-suggest
+        run: composer install --no-interaction --prefer-dist --no-suggest --ignore-platform-reqs
 
       - name: Lint
         run: composer test:lint
