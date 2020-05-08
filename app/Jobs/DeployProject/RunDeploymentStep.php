@@ -226,7 +226,6 @@ class RunDeploymentStep
      * @param string    $content
      * @param ServerLog $log
      *
-     * @return void
      *
      * @throws FileNotFoundException
      */

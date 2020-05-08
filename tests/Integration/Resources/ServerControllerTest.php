@@ -167,8 +167,11 @@ class ServerControllerTest extends AuthenticatedTestCase
      * @dataProvider provideAutoComplete
      * @covers ::__construct
      * @covers ::autoComplete
+     *
+     * @param string $query
+     * @param array  $result
      */
-    public function testAutoComplete($query, $result)
+    public function testAutoComplete(string $query, array $result)
     {
         $project = factory(Project::class)->create();
 
@@ -181,7 +184,7 @@ class ServerControllerTest extends AuthenticatedTestCase
              ->assertJson(['query' => $query, 'suggestions' => $result]);
     }
 
-    public function provideAutoComplete()
+    public function provideAutoComplete(): array
     {
         return [
             ['localhost',   [['name' => 'Localhost']]],

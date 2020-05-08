@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreConfigFileRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\ConfigFileRepositoryInterface;
@@ -31,9 +33,9 @@ class ConfigFileController extends Controller
      * @param StoreConfigFileRequest $request
      * @param ResponseFactory        $response
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(StoreConfigFileRequest $request, ResponseFactory $response)
+    public function store(StoreConfigFileRequest $request, ResponseFactory $response): JsonResponse
     {
         return $response->json($this->repository->create($request->only(
             'name',
@@ -50,9 +52,9 @@ class ConfigFileController extends Controller
      * @param int                    $file_id
      * @param StoreConfigFileRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($file_id, StoreConfigFileRequest $request)
+    public function update(int $file_id, StoreConfigFileRequest $request): Model
     {
         return $this->repository->updateById($request->only(
             'name',

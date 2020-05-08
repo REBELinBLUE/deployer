@@ -5,6 +5,9 @@ namespace REBELinBLUE\Deployer\Http\Controllers;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Http\Response;
+use Illuminate\Http\ResponseTrait;
+use Illuminate\View\View;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 
@@ -58,7 +61,7 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(): View
     {
         $projects = $this->projectRepository->getAll();
 
@@ -85,7 +88,7 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function timeline()
+    public function timeline(): View
     {
         return $this->view->make('dashboard.timeline', [
             'latest' => $this->buildTimelineData(),
@@ -97,9 +100,9 @@ class DashboardController extends Controller
      *
      * @param ResponseFactory $response
      *
-     * @return \Illuminate\View\View
+     * @return Response
      */
-    public function cctray(ResponseFactory $response)
+    public function cctray(ResponseFactory $response): Response
     {
         $projects = $this->projectRepository->getAll();
 
@@ -117,7 +120,7 @@ class DashboardController extends Controller
      *
      * @return array
      */
-    private function buildTimelineData()
+    private function buildTimelineData(): array
     {
         $deployments = $this->deploymentRepository->getTimeline();
 

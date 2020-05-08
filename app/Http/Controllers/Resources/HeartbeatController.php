@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreHeartbeatRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\HeartbeatRepositoryInterface;
@@ -30,9 +32,9 @@ class HeartbeatController extends Controller
      *
      * @param string $hash
      *
-     * @return \Illuminate\View\View
+     * @return array
      */
-    public function ping($hash)
+    public function ping(string $hash): array
     {
         $heartbeat = $this->repository->getByHash($hash);
 
@@ -49,9 +51,9 @@ class HeartbeatController extends Controller
      * @param StoreHeartbeatRequest $request
      * @param ResponseFactory       $response
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(StoreHeartbeatRequest $request, ResponseFactory $response)
+    public function store(StoreHeartbeatRequest $request, ResponseFactory $response): JsonResponse
     {
         return $response->json($this->repository->create($request->only(
             'name',
@@ -66,9 +68,9 @@ class HeartbeatController extends Controller
      * @param int                   $heartbeat_id
      * @param StoreHeartbeatRequest $request
      *
-     * @return \Illuminate\View\View
+     * @return Model
      */
-    public function update($heartbeat_id, StoreHeartbeatRequest $request)
+    public function update(int $heartbeat_id, StoreHeartbeatRequest $request): Model
     {
         return $this->repository->updateById($request->only(
             'name',

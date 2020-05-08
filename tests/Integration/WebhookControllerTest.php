@@ -71,8 +71,13 @@ class WebhookControllerTest extends TestCase
      * @covers ::webhook
      * @covers ::parseWebhookRequest
      * @covers ::appendProjectSettings
+     *
+     * @param string $source
+     * @param string $file
+     * @param string $commit
+     * @param array  $headers
      */
-    public function testWebhookWithData($source, $file, $commit, $headers)
+    public function testWebhookWithData(string $source, string $file, string $commit, array $headers)
     {
         $this->withoutEvents();
 
@@ -103,7 +108,7 @@ class WebhookControllerTest extends TestCase
         ]);
     }
 
-    public function provideWebHookData()
+    public function provideWebHookData(): array
     {
         // FIXME: Add additional data types
         return [

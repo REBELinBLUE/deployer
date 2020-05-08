@@ -30,7 +30,7 @@ class ResetPasswordController extends Controller
     /**
      * {@inheritdoc}
      */
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'token'    => 'required',

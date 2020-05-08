@@ -21,8 +21,11 @@ class ChannelControllerTest extends AuthenticatedTestCase
      * @covers ::store
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreChannelRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
+     *
+     * @param string $type
+     * @param array  $config
      */
-    public function testStore($type, $config)
+    public function testStore(string $type, array $config)
     {
         $this->withoutEvents()->withoutNotifications();
 
@@ -54,7 +57,7 @@ class ChannelControllerTest extends AuthenticatedTestCase
         $this->assertDatabaseHas('channels', $output);
     }
 
-    public function provideChannelConfig()
+    public function provideChannelConfig(): array
     {
         return [
             ['custom', ['url' => 'http://www.example.com']],
@@ -71,8 +74,11 @@ class ChannelControllerTest extends AuthenticatedTestCase
      * @covers ::update
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreChannelRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
+     *
+     * @param string $type
+     * @param array  $config
      */
-    public function testUpdate($type, $config)
+    public function testUpdate(string $type, array $config)
     {
         $original = 'Notify Me!';
         $updated  = 'Notify You!';

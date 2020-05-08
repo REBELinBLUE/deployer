@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreSharedFileRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\SharedFileRepositoryInterface;
@@ -33,7 +35,7 @@ class SharedFilesController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreSharedFileRequest $request, ResponseFactory $response)
+    public function store(StoreSharedFileRequest $request, ResponseFactory $response): JsonResponse
     {
         return $response->json($this->repository->create($request->only(
             'name',
@@ -49,9 +51,9 @@ class SharedFilesController extends Controller
      * @param int                    $file_id
      * @param StoreSharedFileRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($file_id, StoreSharedFileRequest $request)
+    public function update(int $file_id, StoreSharedFileRequest $request): Model
     {
         return $this->repository->updateById($request->only(
             'name',

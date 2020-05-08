@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreCheckUrlRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\CheckUrlRepositoryInterface;
@@ -31,9 +33,9 @@ class CheckUrlController extends Controller
      * @param StoreCheckUrlRequest $request
      * @param ResponseFactory      $response
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(StoreCheckUrlRequest $request, ResponseFactory $response)
+    public function store(StoreCheckUrlRequest $request, ResponseFactory $response): JsonResponse
     {
         return $response->json($this->repository->create($request->only(
             'name',
@@ -50,9 +52,9 @@ class CheckUrlController extends Controller
      * @param int                  $url_id
      * @param StoreCheckUrlRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($url_id, StoreCheckUrlRequest $request)
+    public function update(int $url_id, StoreCheckUrlRequest $request): Model
     {
         return $this->repository->updateById($request->only(
             'name',

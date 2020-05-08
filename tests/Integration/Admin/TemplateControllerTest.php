@@ -59,8 +59,14 @@ class TemplateControllerTest extends AuthenticatedTestCase
      * @dataProvider provideSteps
      * @covers ::__construct
      * @covers ::listing
+     *
+     * @param string $url
+     * @param int    $before
+     * @param int    $after
+     * @param int    $other
+     * @param int    $action
      */
-    public function testListing($url, $before, $after, $other, $action)
+    public function testListing(string $url, int $before, int $after, int $other, int $action)
     {
         factory(Template::class)->create();
 

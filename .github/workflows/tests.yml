@@ -248,7 +248,7 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: |
-          composer require phpunit/phpcov pcov/clobber --dev
+          composer require phpunit/phpcov=~5.0 pcov/clobber --dev
 
           php vendor/bin/pcov clobber
 
