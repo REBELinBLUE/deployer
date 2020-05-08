@@ -11,8 +11,6 @@ trait OutputStyles
      *
      * @param string|array $messages Messages to output
      * @param string       $type     The type of message to output
-     *
-     * @return void
      */
     public function block($messages, string $type = 'error'): void
     {
@@ -34,8 +32,6 @@ trait OutputStyles
      * Outputs a header block.
      *
      * @param string $header The text to output
-     *
-     * @return void
      */
     protected function header(string $header): void
     {
@@ -45,8 +41,6 @@ trait OutputStyles
     /**
      * @param string $line1
      * @param string $line2
-     *
-     * @return void
      */
     protected function failure(string $line1, string $line2): void
     {

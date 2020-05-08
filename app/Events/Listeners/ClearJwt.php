@@ -26,8 +26,6 @@ class ClearJwt
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(): void
     {

@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Http\Middleware;
 
 use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Mockery as m;
 use REBELinBLUE\Deployer\Events\JsonWebTokenExpired;

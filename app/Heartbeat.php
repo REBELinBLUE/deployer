@@ -72,8 +72,6 @@ class Heartbeat extends Model
 
     /**
      * Generates a hash for use in the webhook URL.
-     *
-     * @return void
      */
     public function generateHash(): void
     {

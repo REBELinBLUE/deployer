@@ -120,8 +120,6 @@ class MakeRepositoryCommand extends Command
      * @param string $namespace
      * @param string $name
      * @param string $filename
-     *
-     * @return void
      */
     private function createContract(string $namespace, string $name, string $filename): void
     {
@@ -147,8 +145,6 @@ EOF;
      * @param string $namespace
      * @param string $name
      * @param string $filename
-     *
-     * @return void
      */
     private function createConcrete(string $namespace, string $name, string $filename): void
     {
@@ -175,8 +171,6 @@ EOF;
     /**
      * @param string $filename
      * @param string $content
-     *
-     * @return void
      */
     private function createFile(string $filename, string $content): void
     {

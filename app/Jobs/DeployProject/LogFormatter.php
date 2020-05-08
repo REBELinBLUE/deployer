@@ -14,7 +14,7 @@ class LogFormatter
      *
      * @return string
      */
-    public function error($message)
+    public function error(string $message): string
     {
         return $this->format($message, 'error');
     }
@@ -26,7 +26,7 @@ class LogFormatter
      *
      * @return string
      */
-    public function info($message)
+    public function info(string $message): string
     {
         return $this->format($message, 'info');
     }
@@ -39,7 +39,7 @@ class LogFormatter
      *
      * @return string
      */
-    private function format($message, $style)
+    private function format(string $message, string $style): string
     {
         $cleaned = trim($message);
         if (!empty($cleaned)) {

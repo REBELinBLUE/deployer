@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c51234545d29795744e4fdd3d10d98a",
+    "content-hash": "230c63be877d92c08e8da204836672a6",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -489,16 +489,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "1.10.5",
+            "version": "1.10.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "7a4d5b6aa30d2118af27c04f5e897b57156ccfa9"
+                "reference": "be81b9c4735362c26876bdbfd3b5bc7e7f711c88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/7a4d5b6aa30d2118af27c04f5e897b57156ccfa9",
-                "reference": "7a4d5b6aa30d2118af27c04f5e897b57156ccfa9",
+                "url": "https://api.github.com/repos/composer/composer/zipball/be81b9c4735362c26876bdbfd3b5bc7e7f711c88",
+                "reference": "be81b9c4735362c26876bdbfd3b5bc7e7f711c88",
                 "shasum": ""
             },
             "require": {
@@ -517,7 +517,8 @@
                 "symfony/process": "^2.7 || ^3.0 || ^4.0 || ^5.0"
             },
             "conflict": {
-                "symfony/console": "2.8.38"
+                "symfony/console": "2.8.38",
+                "symfony/phpunit-bridge": "3.4.40"
             },
             "require-dev": {
                 "phpspec/prophecy": "^1.10",
@@ -575,7 +576,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-10T09:44:22+00:00"
+            "time": "2020-05-06T08:28:10+00:00"
         },
         {
             "name": "composer/semver",
@@ -1103,33 +1104,38 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "ec3a55242203ffa6a4b27c58176da97ff0a7aec1"
+                "reference": "ab5de36233a1995f9c776c741b803eb8207aebef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/ec3a55242203ffa6a4b27c58176da97ff0a7aec1",
-                "reference": "ec3a55242203ffa6a4b27c58176da97ff0a7aec1",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/ab5de36233a1995f9c776c741b803eb8207aebef",
+                "reference": "ab5de36233a1995f9c776c741b803eb8207aebef",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.2"
+                "doctrine/coding-standard": "^7.0",
+                "phpstan/phpstan": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpstan/phpstan-strict-rules": "^0.11",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector"
+                    "Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector",
+                    "Doctrine\\Inflector\\": "lib/Doctrine/Inflector"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1158,15 +1164,35 @@
                     "email": "schmittjoh@gmail.com"
                 }
             ],
-            "description": "Common String Manipulations with regard to casing and singular/plural rules.",
-            "homepage": "http://www.doctrine-project.org",
+            "description": "PHP Doctrine Inflector is a small library that can perform string manipulations with regard to upper/lowercase and singular/plural forms of words.",
+            "homepage": "https://www.doctrine-project.org/projects/inflector.html",
             "keywords": [
                 "inflection",
-                "pluralize",
-                "singularize",
-                "string"
+                "inflector",
+                "lowercase",
+                "manipulation",
+                "php",
+                "plural",
+                "singular",
+                "strings",
+                "uppercase",
+                "words"
             ],
-            "time": "2019-10-30T19:59:35+00:00"
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finflector",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-05-06T11:01:57+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -2125,16 +2151,16 @@
         },
         {
             "name": "laracademy/interactive-make",
-            "version": "1.5",
+            "version": "1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laracademy/interactive-make.git",
-                "reference": "46c0c2a6cb07e519ed7018ece136f3e3b63a38c8"
+                "reference": "39eb835386d01314273a6d251c9ba8a69abc6172"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laracademy/interactive-make/zipball/46c0c2a6cb07e519ed7018ece136f3e3b63a38c8",
-                "reference": "46c0c2a6cb07e519ed7018ece136f3e3b63a38c8",
+                "url": "https://api.github.com/repos/laracademy/interactive-make/zipball/39eb835386d01314273a6d251c9ba8a69abc6172",
+                "reference": "39eb835386d01314273a6d251c9ba8a69abc6172",
                 "shasum": ""
             },
             "type": "library",
@@ -2161,7 +2187,7 @@
                 }
             ],
             "description": "Interactive make CLI replacement for Laravel",
-            "time": "2020-05-02T14:13:26+00:00"
+            "time": "2020-05-08T17:03:47+00:00"
         },
         {
             "name": "laravel-notification-channels/hipchat",
@@ -6101,124 +6127,6 @@
     ],
     "packages-dev": [
         {
-            "name": "andreas-weber/php-junit-merge",
-            "version": "1.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/andreas-weber/php-junit-merge.git",
-                "reference": "75bc71361a141cc72f7e4d31621c325e8e70fd3c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/andreas-weber/php-junit-merge/zipball/75bc71361a141cc72f7e4d31621c325e8e70fd3c",
-                "reference": "75bc71361a141cc72f7e4d31621c325e8e70fd3c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.6",
-                "symfony/console": "^3.0 || ^4.0",
-                "symfony/finder": "^3.0 || ^4.0",
-                "theseer/fdomdocument": "1.6.*"
-            },
-            "require-dev": {
-                "phploc/phploc": "4.*",
-                "phpmd/phpmd": "2.*",
-                "phpunit/phpunit": "^5.0",
-                "sebastian/phpcpd": "2.0.*",
-                "squizlabs/php_codesniffer": "1.5.*"
-            },
-            "bin": [
-                "phpjunitmerge"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andreas Weber",
-                    "email": "code@andreas-weber.me",
-                    "role": "lead"
-                }
-            ],
-            "description": "PHP-Unit J-Unit XML File Merger",
-            "homepage": "https://github.com/andreas-weber/php-junit-merge",
-            "time": "2018-04-27T12:06:59+00:00"
-        },
-        {
-            "name": "dancryer/php-docblock-checker",
-            "version": "1.10.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dancryer/php-docblock-checker.git",
-                "reference": "687bb03a1cf6dd6d0115c018d97fa68e42203299"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dancryer/php-docblock-checker/zipball/687bb03a1cf6dd6d0115c018d97fa68e42203299",
-                "reference": "687bb03a1cf6dd6d0115c018d97fa68e42203299",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "nikic/php-parser": "3.*|4.*",
-                "php": ">=5.5",
-                "symfony/console": "3.4.*|4.*",
-                "symfony/yaml": "3.4.*|4.*"
-            },
-            "require-dev": {
-                "jakub-onderka/php-parallel-lint": "0.8.*",
-                "phperf/xh-tool": "^1.1",
-                "phpstan/phpstan": "^0.11.5",
-                "phpunit/phpunit": "^4.8",
-                "squizlabs/php_codesniffer": "^3.4"
-            },
-            "bin": [
-                "bin/phpdoccheck"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PhpDocBlockChecker\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Dan Cryer",
-                    "email": "dan.cryer@block8.co.uk",
-                    "homepage": "http://www.block8.co.uk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A simple tool for checking that your PHP classes and methods use docblocks.",
-            "homepage": "https://www.phptesting.org/",
-            "keywords": [
-                "checker",
-                "code quality",
-                "comment",
-                "docblock",
-                "php",
-                "phpci",
-                "testing"
-            ],
-            "time": "2019-04-26T10:38:36+00:00"
-        },
-        {
             "name": "doctrine/annotations",
             "version": "1.10.2",
             "source": {
@@ -6715,6 +6623,36 @@
                 "object graph"
             ],
             "time": "2020-01-17T21:11:47+00:00"
+        },
+        {
+            "name": "pcov/clobber",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/krakjoe/pcov-clobber.git",
+                "reference": "4c30759e912e6e5d5bf833fb3d77b5bd51709f05"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/krakjoe/pcov-clobber/zipball/4c30759e912e6e5d5bf833fb3d77b5bd51709f05",
+                "reference": "4c30759e912e6e5d5bf833fb3d77b5bd51709f05",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pcov": "^1.0",
+                "nikic/php-parser": "^4.2"
+            },
+            "bin": [
+                "bin/pcov"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "pcov\\Clobber\\": "src/pcov/clobber"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2019-10-29T05:03:37+00:00"
         },
         {
             "name": "pdepend/pdepend",
@@ -7721,58 +7659,6 @@
                 "tokenizer"
             ],
             "time": "2019-09-17T06:23:10+00:00"
-        },
-        {
-            "name": "phpunit/phpcov",
-            "version": "5.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpcov.git",
-                "reference": "72fb974e6fe9b39d7e0b0d44061d2ba4c49ee0b8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpcov/zipball/72fb974e6fe9b39d7e0b0d44061d2ba4c49ee0b8",
-                "reference": "72fb974e6fe9b39d7e0b0d44061d2ba4c49ee0b8",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1",
-                "phpunit/php-code-coverage": "^6.0",
-                "phpunit/phpunit": "^7.0",
-                "sebastian/diff": "^3.0",
-                "sebastian/finder-facade": "^1.1",
-                "sebastian/version": "^2.0",
-                "symfony/console": "^3.0 || ^4.0"
-            },
-            "bin": [
-                "phpcov"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
-                }
-            ],
-            "description": "CLI frontend for php-code-coverage",
-            "homepage": "https://github.com/sebastianbergmann/phpcov",
-            "time": "2018-02-04T10:18:50+00:00"
         },
         {
             "name": "phpunit/phpunit",

@@ -52,7 +52,7 @@ class QueueDeployment extends Job
      * @param StepsBuilder                  $steps
      * @param Guard                         $auth
      */
-    public function handle(GroupedCommandListTransformer $transformer, StepsBuilder $steps, Guard $auth)
+    public function handle(GroupedCommandListTransformer $transformer, StepsBuilder $steps, Guard $auth): void
     {
         $this->setDeploymentStatus($auth);
 
@@ -71,7 +71,7 @@ class QueueDeployment extends Job
      *
      * @param Guard $auth
      */
-    private function setDeploymentStatus(Guard $auth)
+    private function setDeploymentStatus(Guard $auth): void
     {
         $this->deployment->status     = Deployment::PENDING;
         $this->deployment->started_at = $this->deployment->freshTimestamp();

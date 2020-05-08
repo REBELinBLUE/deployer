@@ -28,8 +28,6 @@ class SendSignupEmail
      * Handle the event.
      *
      * @param UserWasCreated $event
-     *
-     * @return void
      */
     public function handle(UserWasCreated $event): void
     {

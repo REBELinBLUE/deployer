@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -43,8 +44,11 @@ class TestServerConnection extends Job implements ShouldQueue
      * @param Process      $process
      * @param Filesystem   $filesystem
      * @param LogFormatter $formatter
+     *
+     *
+     * @throws FileNotFoundException
      */
-    public function handle(Process $process, Filesystem $filesystem, LogFormatter $formatter)
+    public function handle(Process $process, Filesystem $filesystem, LogFormatter $formatter): void
     {
         $this->server->status      = Server::TESTING;
         $this->server->connect_log = null;

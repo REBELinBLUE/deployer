@@ -48,17 +48,15 @@
         "version/version": "^2.2"
     },
     "require-dev": {
-        "andreas-weber/php-junit-merge": "^1.0",
-        "dancryer/php-docblock-checker": "^1.1",
         "friendsofphp/php-cs-fixer": "^2.0",
         "fzaninotto/faker": "~1.9",
         "itsgoingd/clockwork": "~4.1",
         "mockery/mockery": "^1.1",
+        "pcov/clobber": "^2.0",
         "php-mock/php-mock-mockery": "^1.3",
         "php-parallel-lint/php-parallel-lint": "^1.2.0",
         "phploc/phploc": "~5.0",
         "phpmd/phpmd": "~2.4",
-        "phpunit/phpcov": "~5.0",
         "phpunit/phpunit": "^7.0",
         "squizlabs/php_codesniffer": "~3.5.5",
         "symfony/yaml": "^4.0",
@@ -117,7 +115,6 @@
         "test:loc": "phploc --count-tests app/ database/ resources/ tests/",
         "test:phpcs": "phpcs",
         "test:phpcs:fix": "php-cs-fixer --no-interaction fix",
-        "test:phpdoc": "phpdoccheck --directory=app --files-per-line 60",
         "test:phpmd": "phpmd app text phpmd.xml.dist",
         "test:unit": "phpunit --no-coverage --testsuite 'Unit Tests'"
     },
@@ -127,7 +124,6 @@
         "test:loc": "Count the number of lines of code",
         "test:phpcs": "Check the code adheres to PSR-2",
         "test:phpcs:fix": "Fix PSR-2 violations",
-        "test:phpdoc": "Ensure all functions have PHPDoc blocks",
         "test:phpmd": "Run PHP mess detector",
         "test:unit": "Run the unit tests"
     },

@@ -103,8 +103,6 @@ class ClearStalledDeployment extends Command
 
     /**
      * Cleans up any stalled deployments in the database.
-     *
-     * @return void
      */
     public function cleanupDeployments(): void
     {

@@ -30,9 +30,8 @@ class EnvFile
      *
      * @param array $input
      *
-     * @return bool
-     *
      * @throws FileNotFoundException
+     * @return bool
      */
     public function save(array $input): bool
     {
@@ -99,9 +98,8 @@ class EnvFile
     /**
      * Checks for new configuration values in .env.dist and copy them to .env.
      *
-     * @return bool
-     *
      * @throws FileNotFoundException
+     * @return bool
      */
     public function update(): bool
     {

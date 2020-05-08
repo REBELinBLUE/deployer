@@ -2,8 +2,6 @@
 
 namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-use REBELinBLUE\Deployer\Server;
-
 interface ServerRepositoryInterface
 {
     /**
@@ -40,8 +38,6 @@ interface ServerRepositoryInterface
 
     /**
      * @param int $model_id
-     *
-     * @return void
      */
     public function queueForTesting(int $model_id): void;
 

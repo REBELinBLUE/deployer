@@ -29,8 +29,6 @@ class SendHeartbeatNotifications
      * Handle the event.
      *
      * @param HeartbeatChanged $event
-     *
-     * @return void
      */
     public function handle(HeartbeatChanged $event): void
     {

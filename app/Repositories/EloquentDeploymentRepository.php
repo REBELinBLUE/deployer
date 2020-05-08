@@ -56,7 +56,6 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * @param int $model_id
      *
-     * @return void
      *
      * @throws ModelNotFoundException
      */
@@ -74,8 +73,6 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
     /**
      * @param int $project_id
-     *
-     * @return void
      */
     public function abortQueued(int $project_id): void
     {

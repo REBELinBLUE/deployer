@@ -73,9 +73,6 @@ phpcs: ##@tests PHP Coding Standards (PSR-2)
 fix: ##@tests PHP Coding Standards Fixer
 	@docker-compose run --no-deps --rm composer test:phpcs:fix
 
-phpdoc-check: ##@tests PHPDoc Checker
-	@docker-compose run --no-deps --rm composer test:phpdoc
-
 phpmd: ##@tests PHP Mess Detector
 	@echo "${GREEN}PHP Mess Detector${RESET}"
 	@if [ -f phpmd.xml ]; then docker-compose run --no-deps --rm composer vendor/bin/phpmd app text phpmd.xml; fi
@@ -83,14 +80,10 @@ phpmd: ##@tests PHP Mess Detector
 
 coverage: ##@tests Test Coverage HTML
 	@echo "${GREEN}All tests with coverage${RESET}"
-	@docker-compose exec php phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
-			--testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml --exclude-group slow
-	@docker-compose exec php phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
-			--testsuite "Unit Tests" --log-junit=storage/app/tmp/slow.junit.xml --exclude-group default
-	@docker-compose exec php phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
-			--log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
-	@docker-compose exec php phpdbg -qrr vendor/bin/phpcov merge storage/app/tmp/ \
-			--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
+	@docker-compose exec php vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov --testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml --exclude-group slow
+	@docker-compose exec php vendor/bin/phpunit --coverage-php=storage/app/tmp/slow.cov --testsuite "Unit Tests" --log-junit=storage/app/tmp/slow.junit.xml --exclude-group default
+	@docker-compose exec php vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov --log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
+	@docker-compose exec php vendor/bin/phpcov merge storage/app/tmp/ --html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
 	@docker-compose exec php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ storage/app/tmp/junit.xml
 	@rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
 
@@ -105,7 +98,6 @@ integration: ##@tests Integration Tests
 quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests & integration tests
 	@$(MAKE) lint
 	@$(MAKE) phpcs
-	@$(MAKE) phpdoc-check
 
 test: ##@shortcuts Runs most tests; but excludes integration tests
 	@$(MAKE) quicktest

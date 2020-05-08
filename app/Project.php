@@ -100,8 +100,6 @@ class Project extends Model implements HasPresenter
 
     /**
      * Generates a hash for use in the webhook URL.
-     *
-     * @return void
      */
     public function generateHash(): void
     {

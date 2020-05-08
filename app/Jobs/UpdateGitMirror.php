@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Project;
@@ -44,8 +45,11 @@ class UpdateGitMirror extends Job
      * @param Process    $process
      * @param Parser     $parser
      * @param Filesystem $filesystem
+     *
+     *
+     * @throws FileNotFoundException
      */
-    public function handle(Process $process, Parser $parser, Filesystem $filesystem)
+    public function handle(Process $process, Parser $parser, Filesystem $filesystem): void
     {
         $private_key = $filesystem->tempnam(storage_path('app/tmp/'), 'key');
         $filesystem->put($private_key, $this->project->private_key);

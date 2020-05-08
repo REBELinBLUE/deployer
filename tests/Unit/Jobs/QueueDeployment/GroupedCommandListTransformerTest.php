@@ -68,7 +68,7 @@ class GroupedCommandListTransformerTest extends TestCase
         $this->assertSame($expected, $actual->toArray());
     }
 
-    private function getCommand($command_id, $stage)
+    private function getCommand(int $command_id, int $stage)
     {
         return factory(Command::class)->make([
             'project_id' => 10,

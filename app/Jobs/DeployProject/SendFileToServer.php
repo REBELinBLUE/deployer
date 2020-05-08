@@ -51,8 +51,13 @@ class SendFileToServer
      * @param string     $remote_file
      * @param string     $key
      */
-    public function __construct(Deployment $deployment, ServerLog $log, $local_file, $remote_file, $key)
-    {
+    public function __construct(
+        Deployment $deployment,
+        ServerLog $log,
+        string $local_file,
+        string $remote_file,
+        string $key
+    ) {
         $this->deployment  = $deployment;
         $this->local_file  = $local_file;
         $this->remote_file = $remote_file;
@@ -66,9 +71,10 @@ class SendFileToServer
      * @param Process      $process
      * @param LogFormatter $formatter
      *
+     *
      * @throws FailedDeploymentException
      */
-    public function handle(Process $process, LogFormatter $formatter)
+    public function handle(Process $process, LogFormatter $formatter): void
     {
         $server = $this->log->server;
 

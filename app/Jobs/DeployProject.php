@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use Exception;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -72,7 +73,7 @@ class DeployProject extends Job implements ShouldQueue
      * @param Queue $queue
      * @param Job   $command
      */
-    public function queue(Queue $queue, $command)
+    public function queue(Queue $queue, Job $command): void
     {
         $queue->pushOn('deployer-high', $command);
     }
@@ -81,8 +82,11 @@ class DeployProject extends Job implements ShouldQueue
      * Execute the command.
      *
      * @param Filesystem $filesystem
+     *
+     *
+     * @throws FileNotFoundException
      */
-    public function handle(Filesystem $filesystem)
+    public function handle(Filesystem $filesystem): void
     {
         $this->filesystem = $filesystem;
 
@@ -126,7 +130,7 @@ class DeployProject extends Job implements ShouldQueue
      *
      * @param Exception $error
      */
-    private function fail(Exception $error)
+    private function fail(Exception $error): void
     {
         $this->deployment->project->status = Project::FAILED;
         $this->deployment->status          = Deployment::FAILED;
@@ -169,7 +173,7 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Cleans up when the deployment has finished.
      */
-    private function cleanup()
+    private function cleanup(): void
     {
         $this->deployment->save();
 
@@ -192,7 +196,7 @@ class DeployProject extends Job implements ShouldQueue
     /**
      * Waits whilst the repo is being updated.
      */
-    private function waitIfMirroring()
+    private function waitIfMirroring(): void
     {
         $isMirroring = $this->deployment->project->is_mirroring;
         while ($isMirroring) {

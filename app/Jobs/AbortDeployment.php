@@ -33,7 +33,7 @@ class AbortDeployment extends Job
      *
      * @param CacheRepository $cache
      */
-    public function handle(CacheRepository $cache)
+    public function handle(CacheRepository $cache): void
     {
         $timestamp = Carbon::now()->getTimestamp();
         $key       = self::CACHE_KEY_PREFIX . $this->deployment->id;

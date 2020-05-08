@@ -34,8 +34,6 @@ class CheckUrlObserver
      * Called when the model is saved.
      *
      * @param CheckUrl $url
-     *
-     * @return void
      */
     public function saved(CheckUrl $url): void
     {
@@ -50,8 +48,6 @@ class CheckUrlObserver
      * Called when the model is updated.
      *
      * @param CheckUrl $url
-     *
-     * @return void
      */
     public function updated(CheckUrl $url): void
     {

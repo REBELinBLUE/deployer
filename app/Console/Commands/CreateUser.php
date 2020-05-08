@@ -67,8 +67,6 @@ class CreateUser extends Command
      *
      * @param Dispatcher $dispatcher
      * @param Validation $validation
-     *
-     * @return void
      */
     public function handle(Dispatcher $dispatcher, Validation $validation): void
     {

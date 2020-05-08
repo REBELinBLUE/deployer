@@ -24,7 +24,7 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
     public $timeout = 0;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Collection
+     * @var Collection
      */
     private $links;
 
@@ -43,7 +43,7 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
      *
      * @param Client $client
      */
-    public function handle(Client $client)
+    public function handle(Client $client): void
     {
         $this->links->each(function (CheckUrl $link) use ($client) {
             $link->last_log = null;
@@ -83,7 +83,7 @@ class RequestProjectCheckUrl extends Job implements ShouldQueue
      *
      * @return string
      */
-    private function generateLog(RequestException $error)
+    private function generateLog(RequestException $error): string
     {
         $message = $error->getMessage();
 

@@ -37,7 +37,7 @@ class UpdateRepositoryInfo
      * @param Process                 $process
      * @param UserRepositoryInterface $repository
      */
-    public function handle(Process $process, UserRepositoryInterface $repository)
+    public function handle(Process $process, UserRepositoryInterface $repository): void
     {
         $commit = ($this->deployment->commit === Deployment::LOADING ? null : $this->deployment->commit);
 

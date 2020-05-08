@@ -15,7 +15,7 @@ class LogFormatterTest extends TestCase
      * @covers ::error
      * @covers ::format
      */
-    public function testError($input, $expected)
+    public function testError(string $input, string $expected)
     {
         $expected = str_replace('tag', 'error', $expected);
 
@@ -30,7 +30,7 @@ class LogFormatterTest extends TestCase
      * @covers ::info
      * @covers ::format
      */
-    public function testInfo($input, $expected)
+    public function testInfo(string $input, string $expected)
     {
         $expected = str_replace('tag', 'info', $expected);
 
@@ -40,7 +40,7 @@ class LogFormatterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideMessages()
+    public function provideMessages(): array
     {
         return [
             ['message',                                 '<tag>message</tag>'],

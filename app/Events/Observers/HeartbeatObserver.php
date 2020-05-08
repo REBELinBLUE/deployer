@@ -13,8 +13,6 @@ class HeartbeatObserver
      * Called when the model is being created.
      *
      * @param Heartbeat $heartbeat
-     *
-     * @return void
      */
     public function creating(Heartbeat $heartbeat): void
     {

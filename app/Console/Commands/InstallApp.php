@@ -101,8 +101,8 @@ class InstallApp extends Command
     /**
      * Execute the console command.
      *
-     * @param  EnvFile      $writer
-     * @param  Requirements $requirements
+     * @param EnvFile      $writer
+     * @param Requirements $requirements
      *
      * @return int
      */
@@ -195,8 +195,6 @@ class InstallApp extends Command
 
     /**
      * Calls the artisan migrate to set up the database.
-     *
-     * @return void
      */
     protected function migrate(): void
     {
@@ -227,8 +225,6 @@ class InstallApp extends Command
 
     /**
      * Clears all Laravel caches.
-     *
-     * @return void
      */
     protected function clearCaches(): void
     {
@@ -241,8 +237,6 @@ class InstallApp extends Command
 
     /**
      * Runs the artisan optimize commands.
-     *
-     * @return void
      */
     protected function optimize(): void
     {
@@ -351,8 +345,6 @@ class InstallApp extends Command
 
     /**
      * Calls the artisan key:generate to set the APP_KEY.
-     *
-     * @return void
      */
     private function generateKey(): void
     {
@@ -366,8 +358,6 @@ class InstallApp extends Command
      * @param string $name
      * @param string $email
      * @param string $password
-     *
-     * @return void
      */
     private function createAdminUser(string $name, string $email, string $password): void
     {
@@ -640,9 +630,8 @@ class InstallApp extends Command
      *
      * @param array $database The connection details
      *
-     * @return bool
-     *
      * @throws FileNotFoundException
+     * @return bool
      */
     private function verifyDatabaseDetails(array $database): bool
     {

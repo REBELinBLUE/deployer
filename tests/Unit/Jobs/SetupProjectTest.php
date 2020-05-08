@@ -79,7 +79,7 @@ class SetupProjectTest extends TestCase
         $job->handle($repository);
     }
 
-    private function getCleanData(array $data)
+    private function getCleanData(array $data): array
     {
         return array_except($data, ['target_type', 'target_id']);
     }

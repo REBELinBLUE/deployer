@@ -33,10 +33,11 @@ class UpdateGitReferences extends Job implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param Process                $process
      * @param RefRepositoryInterface $repository
      */
-    public function handle(Process $process, RefRepositoryInterface $repository)
+    public function handle(Process $process, RefRepositoryInterface $repository): void
     {
         $mirror_dir = $this->project->mirrorPath();
 

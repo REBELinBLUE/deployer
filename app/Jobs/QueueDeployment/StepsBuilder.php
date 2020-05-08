@@ -46,11 +46,11 @@ class StepsBuilder
      * @param int        $deployment
      * @param array      $optional
      */
-    public function build(Collection $grouped, Project $project, $deployment, array $optional = [])
+    public function build(Collection $grouped, Project $project, int $deployment, array $optional = []): void
     {
         $this->project = $project;
 
-        $grouped->each(function ($commands, $step) use ($deployment, $optional) {
+        $grouped->each(function ($commands, int $step) use ($deployment, $optional) {
             $this->createCustomSteps($commands->get('before'), $step - 1, $deployment, $optional);
             $this->createDeployStep($step, $deployment);
             $this->createCustomSteps($commands->get('after'), $step + 1, $deployment, $optional);
@@ -65,11 +65,11 @@ class StepsBuilder
      * @param int        $deployment
      * @param array      $optional
      */
-    private function createCustomSteps(Collection $commands, $step, $deployment, array $optional = [])
+    private function createCustomSteps(Collection $commands, int $step, int $deployment, array $optional = []): void
     {
-        $commands->filter(function ($command) use ($optional) {
+        $commands->filter(function (Command $command) use ($optional) {
             return $this->shouldIncludeCommand($command, $optional);
-        })->each(function ($command) use ($step, $deployment) {
+        })->each(function (Command $command) use ($step, $deployment) {
             $this->createCommandStep($step, $command, $deployment);
         });
     }
@@ -83,7 +83,7 @@ class StepsBuilder
      *
      * @return bool
      */
-    private function shouldIncludeCommand(Command $command, $optional = [])
+    private function shouldIncludeCommand(Command $command, array $optional = []): bool
     {
         return !$command->optional || ($command->optional && in_array($command->id, $optional, true));
     }
@@ -96,7 +96,7 @@ class StepsBuilder
      * @param Command $command
      * @param int     $deployment
      */
-    private function createCommandStep($stage, Command $command, $deployment)
+    private function createCommandStep(int $stage, Command $command, $deployment): void
     {
         $step = $this->repository->create([
             'stage'         => $stage,
@@ -119,7 +119,7 @@ class StepsBuilder
      * @param int $stage
      * @param int $deployment
      */
-    private function createDeployStep($stage, $deployment)
+    private function createDeployStep(int $stage, int $deployment): void
     {
         $step = $this->repository->create([
             'stage'         => $stage,

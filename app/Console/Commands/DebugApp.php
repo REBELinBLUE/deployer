@@ -52,7 +52,6 @@ class DebugApp extends Command
      *
      * @param Dispatcher $dispatcher
      *
-     * @return void
      *
      * @throws FileNotFoundException
      */

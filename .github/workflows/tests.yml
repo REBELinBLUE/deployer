@@ -248,16 +248,16 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: |
-          composer require pcov/clobber --dev
+          composer require phpunit/phpcov pcov/clobber --dev
+
           php vendor/bin/pcov clobber
 
-          php vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov --testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml
-          php vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov --testsuite "Integration Tests" --log-junit=storage/app/tmp/integration.junit.xml
+          php vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov --testsuite "Unit Tests"
+          php vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov --testsuite "Integration Tests"
 
           php vendor/bin/phpcov merge storage/app/tmp/ --html storage/app/tmp/coverage/ --clover clover.xml
-          php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ junit.xml
 
-          rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
+          rm -f storage/app/tmp/*.cov
 
       - name: Upload Coverage Report
         uses: codecov/codecov-action@v1

@@ -76,13 +76,12 @@ class UpdateApp extends Command
     /**
      * Execute the console command.
      *
-     * @param Dispatcher $dispatcher
+     * @param Dispatcher   $dispatcher
      * @param Requirements $requirements
-     * @param EnvFile $writer
-     *
-     * @return int
+     * @param EnvFile      $writer
      *
      * @throws FileNotFoundException
+     * @return int
      */
     public function handle(Dispatcher $dispatcher, Requirements $requirements, EnvFile $writer): int
     {
@@ -141,8 +140,6 @@ class UpdateApp extends Command
 
     /**
      * Brings the app back up, but only if it was up when the update started.
-     *
-     * @return void
      */
     protected function bringUp(): void
     {
@@ -153,8 +150,6 @@ class UpdateApp extends Command
 
     /**
      * Clears all Laravel caches.
-     *
-     * @return void
      */
     protected function clearCaches(): void
     {
@@ -167,8 +162,6 @@ class UpdateApp extends Command
 
     /**
      * Runs the artisan optimize commands.
-     *
-     * @return void
      */
     protected function optimize(): void
     {
@@ -180,8 +173,6 @@ class UpdateApp extends Command
 
     /**
      * Calls the artisan migrate command.
-     *
-     * @return void
      */
     protected function migrate(): void
     {
@@ -192,8 +183,6 @@ class UpdateApp extends Command
 
     /**
      * Backup the database.
-     *
-     * @return void
      */
     protected function backupDatabase(): void
     {
@@ -209,8 +198,6 @@ class UpdateApp extends Command
 
     /**
      * Restarts the queues.
-     *
-     * @return void
      */
     protected function restartQueue(): void
     {
@@ -225,8 +212,6 @@ class UpdateApp extends Command
      * Restarts the socket server.
      *
      * @param Dispatcher $dispatcher
-     *
-     * @return void
      */
     protected function restartSocket(Dispatcher $dispatcher): void
     {
@@ -298,9 +283,8 @@ class UpdateApp extends Command
     /**
      * Runs all the checks for whether the updater can be run.
      *
-     * @return bool
-     *
      * @throws FileNotFoundException
+     * @return bool
      */
     private function checkCanInstall(): bool
     {
@@ -332,9 +316,8 @@ class UpdateApp extends Command
     /**
      * Ensures the config file has been updated.
      *
-     * @return bool
-     *
      * @throws FileNotFoundException
+     * @return bool
      */
     private function hasDeprecatedConfig(): bool
     {

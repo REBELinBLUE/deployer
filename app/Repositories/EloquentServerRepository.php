@@ -75,8 +75,6 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
 
     /**
      * @param int $server_id
-     *
-     * @return void
      */
     public function queueForTesting(int $server_id): void
     {

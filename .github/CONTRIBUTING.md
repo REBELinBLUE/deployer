@@ -20,10 +20,6 @@ Mess can be checked with
 
     $ make phpmd
 
-PHPDoc blocks can be checked with
-
-    $ make phpdoccheck
-
 Unit tests can be run with
 
     $ make phpunit

@@ -37,8 +37,6 @@ class ServerLogObserver
      * Called when the model is updated.
      *
      * @param ServerLog $log
-     *
-     * @return void
      */
     public function updated(ServerLog $log): void
     {

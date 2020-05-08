@@ -29,8 +29,6 @@ class SendCheckUrlNotifications
      * Handle the event.
      *
      * @param UrlChanged $event
-     *
-     * @return void
      */
     public function handle(UrlChanged $event): void
     {
