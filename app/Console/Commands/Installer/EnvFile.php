@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands\Installer;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 
 /**
@@ -30,6 +31,8 @@ class EnvFile
      * @param array $input
      *
      * @return bool
+     *
+     * @throws FileNotFoundException
      */
     public function save(array $input): bool
     {
@@ -97,6 +100,8 @@ class EnvFile
      * Checks for new configuration values in .env.dist and copy them to .env.
      *
      * @return bool
+     *
+     * @throws FileNotFoundException
      */
     public function update(): bool
     {

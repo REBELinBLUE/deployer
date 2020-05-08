@@ -56,6 +56,8 @@ class ClearOrphanAvatars extends Command
     /**
      * Execute the console command.
      * Remove unused avatar files from disk.
+     *
+     * @return void
      */
     public function handle(): void
     {

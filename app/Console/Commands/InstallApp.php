@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use PDO;
@@ -102,6 +103,7 @@ class InstallApp extends Command
      *
      * @param  EnvFile      $writer
      * @param  Requirements $requirements
+     *
      * @return int
      */
     public function handle(EnvFile $writer, Requirements $requirements): int
@@ -193,6 +195,8 @@ class InstallApp extends Command
 
     /**
      * Calls the artisan migrate to set up the database.
+     *
+     * @return void
      */
     protected function migrate(): void
     {
@@ -223,6 +227,8 @@ class InstallApp extends Command
 
     /**
      * Clears all Laravel caches.
+     *
+     * @return void
      */
     protected function clearCaches(): void
     {
@@ -235,6 +241,8 @@ class InstallApp extends Command
 
     /**
      * Runs the artisan optimize commands.
+     *
+     * @return void
      */
     protected function optimize(): void
     {
@@ -249,7 +257,7 @@ class InstallApp extends Command
      *
      * @param string $answer
      *
-     * @return mixed
+     * @return string
      */
     protected function validateUrl(string $answer): string
     {
@@ -343,6 +351,8 @@ class InstallApp extends Command
 
     /**
      * Calls the artisan key:generate to set the APP_KEY.
+     *
+     * @return void
      */
     private function generateKey(): void
     {
@@ -356,6 +366,8 @@ class InstallApp extends Command
      * @param string $name
      * @param string $email
      * @param string $password
+     *
+     * @return void
      */
     private function createAdminUser(string $name, string $email, string $password): void
     {
@@ -629,6 +641,8 @@ class InstallApp extends Command
      * @param array $database The connection details
      *
      * @return bool
+     *
+     * @throws FileNotFoundException
      */
     private function verifyDatabaseDetails(array $database): bool
     {

@@ -48,7 +48,10 @@ class CheckHeartbeats extends Command
 
     /**
      * Execute the console command.
+     *
      * @param Dispatcher $dispatcher
+     *
+     * @return void
      */
     public function handle(Dispatcher $dispatcher): void
     {

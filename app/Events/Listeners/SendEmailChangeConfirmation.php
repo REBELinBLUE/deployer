@@ -28,6 +28,8 @@ class SendEmailChangeConfirmation
      * Handle the event.
      *
      * @param EmailChangeRequested $event
+     *
+     * @return void
      */
     public function handle(EmailChangeRequested $event): void
     {

@@ -79,6 +79,7 @@ class Requirements
      * Checks the system meets all the requirements needed to run Deployer.
      *
      * @param  Command $console
+     *
      * @return bool
      */
     public function check(Command $console): bool
@@ -106,6 +107,8 @@ class Requirements
 
     /**
      * Checks the PHP version.
+     *
+     * @return void
      */
     private function versionCheck(): void
     {
@@ -118,6 +121,8 @@ class Requirements
 
     /**
      * Check for required extensions.
+     *
+     * @return void
      */
     private function extensionCheck(): void
     {
@@ -141,6 +146,8 @@ class Requirements
 
     /**
      * Checks if a DB driver is installed.
+     *
+     * @return void
      */
     private function hasDatabaseDriver(): void
     {
@@ -155,6 +162,8 @@ class Requirements
 
     /**
      * Checks that required PHP functions are not disabled.
+     *
+     * @return void
      */
     private function disabledFunctionCheck(): void
     {
@@ -167,6 +176,8 @@ class Requirements
 
     /**
      * Checks that all the required system commands are available.
+     *
+     * @return void
      */
     private function requiredSystemCommands(): void
     {
@@ -194,6 +205,8 @@ class Requirements
 
     /**
      * Tests that nodejs exists in one of the two possible names.
+     *
+     * @return void
      */
     private function nodeJsCommand(): void
     {
@@ -217,6 +230,8 @@ class Requirements
 
     /**
      * Checks the expected paths are writable.
+     *
+     * @return void
      */
     private function checkPermissions(): void
     {
@@ -237,6 +252,8 @@ class Requirements
 
     /**
      * Checks the connection to redis.
+     *
+     * @return void
      */
     private function checkRedisConnection(): void
     {
@@ -251,6 +268,8 @@ class Requirements
 
     /**
      * Checks the connection to the queue.
+     *
+     * @return void
      */
     private function checkQueueConnection(): void
     {

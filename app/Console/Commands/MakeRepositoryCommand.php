@@ -64,6 +64,8 @@ class MakeRepositoryCommand extends Command
      * Execute the console command.
      *
      * @return int Exit status code
+     *
+     * @return int
      */
     public function handle(): int
     {
@@ -91,6 +93,8 @@ class MakeRepositoryCommand extends Command
      *
      * @param  array $meta
      * @return int   Exit status
+     *
+     * @return int
      */
     protected function makeRepository(array $meta): int
     {
@@ -116,6 +120,8 @@ class MakeRepositoryCommand extends Command
      * @param string $namespace
      * @param string $name
      * @param string $filename
+     *
+     * @return void
      */
     private function createContract(string $namespace, string $name, string $filename): void
     {
@@ -141,6 +147,8 @@ EOF;
      * @param string $namespace
      * @param string $name
      * @param string $filename
+     *
+     * @return void
      */
     private function createConcrete(string $namespace, string $name, string $filename): void
     {
@@ -167,6 +175,8 @@ EOF;
     /**
      * @param string $filename
      * @param string $content
+     *
+     * @return void
      */
     private function createFile(string $filename, string $content): void
     {

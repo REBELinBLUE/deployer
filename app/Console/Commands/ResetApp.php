@@ -50,6 +50,7 @@ class ResetApp extends Command
      * Execute the console command.
      *
      * @param  Dispatcher $dispatcher
+     *
      * @return int
      */
     public function handle(Dispatcher $dispatcher): int
@@ -72,6 +73,8 @@ class ResetApp extends Command
 
     /**
      * Resets the database.
+     *
+     * @return void
      */
     protected function resetDatabase(): void
     {
@@ -85,6 +88,8 @@ class ResetApp extends Command
 
     /**
      * Restarts the queues.
+     *
+     * @return void
      */
     protected function restartQueue(): void
     {
@@ -99,6 +104,8 @@ class ResetApp extends Command
      * Restarts the socket server.
      *
      * @param Dispatcher $dispatcher
+     *
+     * @return void
      */
     protected function restartSocket(Dispatcher $dispatcher): void
     {
@@ -108,6 +115,8 @@ class ResetApp extends Command
 
     /**
      * Removes the log files.
+     *
+     * @return void
      */
     protected function clearLogs(): void
     {

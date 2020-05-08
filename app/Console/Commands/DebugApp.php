@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
 use REBELinBLUE\Deployer\Events\RestartSocketServer;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
@@ -50,6 +51,10 @@ class DebugApp extends Command
      * Execute the console command.
      *
      * @param Dispatcher $dispatcher
+     *
+     * @return void
+     *
+     * @throws FileNotFoundException
      */
     public function handle(Dispatcher $dispatcher): void
     {
@@ -87,7 +92,7 @@ class DebugApp extends Command
      *
      * @return string
      */
-    private function replaceConfigValues(string $content, bool $enable = true): bool
+    private function replaceConfigValues(string $content, bool $enable = true): string
     {
         $debug = $enable ? 'true' : 'false';
         $level = $enable ? 'debug' : 'error';

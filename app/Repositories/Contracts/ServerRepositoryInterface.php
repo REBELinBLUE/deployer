@@ -40,6 +40,8 @@ interface ServerRepositoryInterface
 
     /**
      * @param int $model_id
+     *
+     * @return void
      */
     public function queueForTesting(int $model_id): void;
 
@@ -48,5 +50,5 @@ interface ServerRepositoryInterface
      *
      * @return mixed
      */
-    public function queryByName(string $name): Server;
+    public function queryByName(string $name);
 }

@@ -94,7 +94,7 @@ class Runner
      * @param array  $tokens
      * @param bool   $script_source
      *
-     * @return $this
+     * @return self
      */
     public function setScript(string $input, array $tokens = [], bool $script_source = self::TEMPLATE_INPUT): self
     {
@@ -112,7 +112,7 @@ class Runner
      *
      * @param string $script
      *
-     * @return $this
+     * @return self
      */
     public function prependScript(string $script): self
     {
@@ -126,7 +126,7 @@ class Runner
      *
      * @param string $script
      *
-     * @return $this
+     * @return self
      */
     public function appendScript(string $script): self
     {
@@ -164,7 +164,7 @@ class Runner
      * @param string      $private_key
      * @param string|null $alternative_user
      *
-     * @return $this
+     * @return self
      */
     public function setServer(Server $server, string $private_key, ?string $alternative_user = null): self
     {

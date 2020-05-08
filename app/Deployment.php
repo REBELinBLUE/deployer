@@ -275,7 +275,7 @@ class Deployment extends Model implements HasPresenter, RuntimeInterface
      *
      * @see Project::accessDetails()
      */
-    public function getBranchUrlAttribute(): string
+    public function getBranchUrlAttribute()
     {
         return $this->project->getBranchUrlAttribute($this->branch);
     }
@@ -347,7 +347,7 @@ class Deployment extends Model implements HasPresenter, RuntimeInterface
     /**
      * Query the DB and load the HasMany relationship for commands.
      *
-     * @return $this
+     * @return self
      */
     private function loadCommands(): self
     {

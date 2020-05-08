@@ -72,6 +72,8 @@ class Server extends Model
      * not previously been set also set the status to untested.
      *
      * @param string $value
+     *
+     * @return void
      */
     public function setUserAttribute(string $value): void
     {
@@ -83,6 +85,8 @@ class Server extends Model
      * not previously been set also set the status to untested.
      *
      * @param string $value
+     *
+     * @return void
      */
     public function setPathAttribute(string $value): void
     {
@@ -94,6 +98,8 @@ class Server extends Model
      * has not previously been set also set the status to untested.
      *
      * @param string $value
+     *
+     * @return void
      */
     public function setIpAddressAttribute(string $value): void
     {
@@ -105,6 +111,8 @@ class Server extends Model
      * has not previously been set also set the status to untested.
      *
      * @param string $value
+     *
+     * @return void
      */
     public function setPortAttribute(string $value): void
     {
@@ -126,6 +134,8 @@ class Server extends Model
      *
      * @param string $attribute
      * @param mixed  $value
+     *
+     * @return void
      */
     private function setAttributeStatusUntested(string $attribute, $value): void
     {

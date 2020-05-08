@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Jobs\AbortDeployment;
@@ -55,7 +56,9 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
     /**
      * @param int $model_id
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return void
+     *
+     * @throws ModelNotFoundException
      */
     public function abort(int $model_id): void
     {
@@ -71,6 +74,8 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
 
     /**
      * @param int $project_id
+     *
+     * @return void
      */
     public function abortQueued(int $project_id): void
     {
@@ -96,7 +101,7 @@ class EloquentDeploymentRepository extends EloquentRepository implements Deploym
      * @param string $reason
      * @param array  $optional
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function rollback(int $model_id, string $reason = '', array $optional = [])

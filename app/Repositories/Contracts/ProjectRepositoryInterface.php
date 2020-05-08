@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use REBELinBLUE\Deployer\Project;
 
 interface ProjectRepositoryInterface
@@ -10,15 +11,14 @@ interface ProjectRepositoryInterface
     /**
      * @param string $hash
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Project
      */
     public function getByHash(string $hash): Project;
 
     /**
      * @param bool $with_user
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function getAll(bool $with_user = false);
 
@@ -75,7 +75,7 @@ interface ProjectRepositoryInterface
      * @param int      $count
      * @param callable $callback
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function getLastMirroredBefore(Carbon $last_mirrored_since, int $count, callable $callback);
 }

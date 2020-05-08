@@ -28,6 +28,8 @@ class ChannelObserver
      * Called when the model is saved.
      *
      * @param Channel $channel
+     *
+     * @return void
      */
     public function saved(Channel $channel): void
     {

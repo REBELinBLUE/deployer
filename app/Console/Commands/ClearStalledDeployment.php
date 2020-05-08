@@ -65,6 +65,8 @@ class ClearStalledDeployment extends Command
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
     public function handle(): int
     {
@@ -101,6 +103,8 @@ class ClearStalledDeployment extends Command
 
     /**
      * Cleans up any stalled deployments in the database.
+     *
+     * @return void
      */
     public function cleanupDeployments(): void
     {

@@ -52,7 +52,7 @@ class CheckUrls extends Command
     /**
      * Execute the console command.
      *
-     * @return bool
+     * @return void
      */
     public function handle(): void
     {

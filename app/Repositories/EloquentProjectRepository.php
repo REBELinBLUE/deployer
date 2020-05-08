@@ -142,8 +142,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
     /**
      * @param string $hash
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Project
      */
     public function getByHash(string $hash): Project
     {

@@ -56,6 +56,8 @@ class CheckUrl extends Model
      * Define a mutator to set the status to untested if the URL changes.
      *
      * @param string $value
+     *
+     * @return void
      */
     public function setUrlAttribute(string $value): void
     {
@@ -70,6 +72,8 @@ class CheckUrl extends Model
 
     /**
      * Flags the link as healthy.
+     *
+     * @return void
      */
     public function online(): void
     {
@@ -80,6 +84,8 @@ class CheckUrl extends Model
 
     /**
      * Flags the link as down.
+     *
+     * @return void
      */
     public function offline(): void
     {

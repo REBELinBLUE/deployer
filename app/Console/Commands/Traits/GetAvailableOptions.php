@@ -51,7 +51,7 @@ trait GetAvailableOptions
      *
      * @see DateTimeZone
      */
-    protected function getTimezoneLocations(string $region): array
+    protected function getTimezoneLocations(int $region): array
     {
         $locations = [];
 

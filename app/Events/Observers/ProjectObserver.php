@@ -18,6 +18,8 @@ class ProjectObserver
      * Called when the model is being created.
      *
      * @param Project $project
+     *
+     * @return void
      */
     public function creating(Project $project): void
     {
@@ -36,6 +38,8 @@ class ProjectObserver
      * Called when the model is being updated.
      *
      * @param Project $project
+     *
+     * @return void
      */
     public function updating(Project $project): void
     {

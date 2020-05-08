@@ -69,6 +69,9 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
         return $this->model->where('email_token', $token)->first();
     }
 
+    /**
+     * @return mixed
+     */
     public function findNonAdminUsers()
     {
         return $this->model->where('is_admin', 0)->get();

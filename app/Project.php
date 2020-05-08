@@ -100,6 +100,8 @@ class Project extends Model implements HasPresenter
 
     /**
      * Generates a hash for use in the webhook URL.
+     *
+     * @return void
      */
     public function generateHash(): void
     {
@@ -202,7 +204,7 @@ class Project extends Model implements HasPresenter
     /**
      * Gets the HTTP URL to the branch.
      *
-     * @param string $alternative
+     * @param string|null $alternative
      *
      * @return string|false
      *
