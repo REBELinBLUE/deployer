@@ -16,7 +16,7 @@ class CheckUrlObserverTest extends TestCase
 {
     private $dispatcher;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

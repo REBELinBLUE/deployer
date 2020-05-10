@@ -608,7 +608,7 @@ class InstallApp extends Command
 
         $password = $this->askSecretAndValidate('Password', [], function ($answer) {
             $validator = $this->validator->make(['password' => $answer], [
-                'password' => 'min:6',
+                'password' => 'min:8',
             ]);
 
             if (!$validator->passes()) {

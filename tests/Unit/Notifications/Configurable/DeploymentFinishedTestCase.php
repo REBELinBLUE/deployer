@@ -19,7 +19,7 @@ abstract class DeploymentFinishedTestCase extends TestCase
 {
     protected $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

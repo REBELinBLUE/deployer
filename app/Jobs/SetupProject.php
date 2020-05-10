@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Project;
@@ -80,6 +81,6 @@ class SetupProject extends Job
      */
     private function getFieldsArray(Model $model): array
     {
-        return array_except($model->toArray(), ['target_type', 'target_id']);
+        return Arr::except($model->toArray(), ['target_type', 'target_id']);
     }
 }

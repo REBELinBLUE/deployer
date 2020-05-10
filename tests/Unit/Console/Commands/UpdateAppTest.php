@@ -35,7 +35,7 @@ class UpdateAppTest extends TestCase
     private $requirements;
     private $env;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

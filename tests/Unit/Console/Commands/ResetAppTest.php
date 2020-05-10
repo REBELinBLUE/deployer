@@ -25,7 +25,7 @@ class ResetAppTest extends TestCase
     private $filesystem;
     private $console;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

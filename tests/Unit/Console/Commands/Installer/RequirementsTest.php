@@ -26,7 +26,7 @@ class RequirementsTest extends TestCase
     private $command;
     private $filesystem;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

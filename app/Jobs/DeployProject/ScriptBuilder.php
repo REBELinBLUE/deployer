@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Jobs\DeployProject;
 
 use Exception;
+use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Deployment;
@@ -275,7 +276,7 @@ class ScriptBuilder
 
             $file = ltrim($shared->file, '/1');
 
-            if (ends_with($file, '/')) {
+            if (Str::endsWith($file, '/')) {
                 $template = 'Directory';
                 $file = rtrim($file, '/');
             }

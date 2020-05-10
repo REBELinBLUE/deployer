@@ -42,6 +42,7 @@ class CreateJwtTest extends TestCase
             ],
         ];
 
+
         $user = m::mock(User::class);
         $user->shouldReceive('getAttribute')->with('id')->once()->andReturn($userId);
 

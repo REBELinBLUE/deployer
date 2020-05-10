@@ -20,7 +20,7 @@ class AuthenticateTest extends TestCase
     private $response;
     private $auth;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

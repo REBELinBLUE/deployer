@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Jobs;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Arr;
 use Mockery as m;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\ConfigFile;
@@ -81,6 +82,6 @@ class SetupProjectTest extends TestCase
 
     private function getCleanData(array $data): array
     {
-        return array_except($data, ['target_type', 'target_id']);
+        return Arr::except($data, ['target_type', 'target_id']);
     }
 }

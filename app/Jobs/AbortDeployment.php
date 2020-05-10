@@ -11,7 +11,7 @@ use REBELinBLUE\Deployer\Deployment;
  */
 class AbortDeployment extends Job
 {
-    const CACHE_KEY_PREFIX = 'deployer:cancel-deploy:';
+    public const CACHE_KEY_PREFIX = 'deployer:cancel-deploy:';
 
     /**
      * @var Deployment
@@ -38,6 +38,6 @@ class AbortDeployment extends Job
         $timestamp = Carbon::now()->getTimestamp();
         $key       = self::CACHE_KEY_PREFIX . $this->deployment->id;
 
-        $cache->put($key, $timestamp, 3600);
+        $cache->put($key, $timestamp, now()->addSeconds(3600));
     }
 }

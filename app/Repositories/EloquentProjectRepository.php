@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Jobs\QueueUpdateGitMirror;
 use REBELinBLUE\Deployer\Jobs\SetupProject;
 use REBELinBLUE\Deployer\Project;
@@ -129,7 +130,7 @@ class EloquentProjectRepository extends EloquentRepository implements ProjectRep
                         }
 
                         // Adding relation to the sync array
-                        $sync[$u] = ['role' => str_singular($role)];
+                        $sync[$u] = ['role' => Str::singular($role)];
                     }
                 }
             }

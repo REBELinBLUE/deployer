@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\Traits\ProjectRelations;
@@ -174,12 +175,12 @@ class Project extends Model implements HasPresenter
         $info = $this->accessDetails();
 
         if (isset($info['domain']) && isset($info['reference'])) {
-            if (!isset($info['scheme']) || !starts_with($info['scheme'], 'http')) {
+            if (!isset($info['scheme']) || !Str::startsWith($info['scheme'], 'http')) {
                 $info['scheme'] = 'http';
             }
 
             // Always serve github links over HTTPS
-            if (ends_with($info['domain'], 'github.com')) {
+            if (Str::endsWith($info['domain'], 'github.com')) {
                 $info['scheme'] = 'https';
             }
 
@@ -214,16 +215,16 @@ class Project extends Model implements HasPresenter
 
         if (isset($info['domain']) && isset($info['reference'])) {
             $path = 'tree';
-            if (str_contains($info['domain'], 'bitbucket')) {
+            if (Str::contains($info['domain'], 'bitbucket')) {
                 $path = 'commits/branch';
             }
 
-            if (!isset($info['scheme']) || !starts_with($info['scheme'], 'http')) {
+            if (!isset($info['scheme']) || !Str::startsWith($info['scheme'], 'http')) {
                 $info['scheme'] = 'http';
             }
 
             // Always serve github links over HTTPS
-            if (ends_with($info['domain'], 'github.com')) {
+            if (Str::endsWith($info['domain'], 'github.com')) {
                 $info['scheme'] = 'https';
             }
 

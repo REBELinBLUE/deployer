@@ -47,7 +47,7 @@ class StepsBuilderTest extends TestCase
      */
     private $servers;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -14,7 +14,7 @@ class EnvFileTest extends TestCase
 {
     private $filesystem;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

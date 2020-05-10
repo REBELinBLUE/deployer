@@ -10,11 +10,12 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 use REBELinBLUE\Deployer\Notifications\System\ResetPassword;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 use REBELinBLUE\Deployer\View\Presenters\UserPresenter;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * User model.
  */
-class User extends Authenticatable implements HasPresenter
+class User extends Authenticatable implements HasPresenter, JWTSubject
 {
     use SoftDeletes, BroadcastChanges, Notifiable;
 
@@ -113,5 +114,27 @@ class User extends Authenticatable implements HasPresenter
     public function isAdmin(): bool
     {
         return $this->is_admin;
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims(): array
+    {
+        return [
+            'foo' => 'bar'
+        ];
     }
 }

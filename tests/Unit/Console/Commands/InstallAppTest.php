@@ -42,7 +42,7 @@ class InstallAppTest extends TestCase
     private $validator;
     private $manager;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

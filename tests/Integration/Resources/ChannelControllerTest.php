@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
@@ -49,7 +50,7 @@ class ChannelControllerTest extends AuthenticatedTestCase
 
         $output = array_merge([
             'id' => 1,
-        ], array_except($input, array_keys($config)));
+        ], Arr::except($input, array_keys($config)));
 
         $response = $this->postJson('/notifications', $input);
 
@@ -111,7 +112,7 @@ class ChannelControllerTest extends AuthenticatedTestCase
 
         $output = array_merge([
             'id' => 1,
-        ], array_except($input, array_keys($config)));
+        ], Arr::except($input, array_keys($config)));
 
         $response = $this->putJson('/notifications/1', $input);
 

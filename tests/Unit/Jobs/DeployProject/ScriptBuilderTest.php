@@ -64,7 +64,7 @@ class ScriptBuilderTest extends TestCase
      */
     private $project;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

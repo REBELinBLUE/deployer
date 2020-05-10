@@ -17,7 +17,7 @@ class RedirectIfAuthenticatedTest extends TestCase
     private $redirector;
     private $auth;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\CommandRepositoryInterface;
@@ -91,7 +92,7 @@ class CommandControllerTest extends AuthenticatedTestCase
 
         $output = array_merge([
             'id' => 1,
-        ], array_except($input, ['servers']));
+        ], Arr::except($input, ['servers']));
 
         $this->postJson('/commands', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 

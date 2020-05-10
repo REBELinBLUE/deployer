@@ -23,7 +23,7 @@ class ClearOrphanAvatarsTest extends TestCase
 
     private $database;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

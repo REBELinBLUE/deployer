@@ -17,7 +17,7 @@ class LocaleTest extends TestCase
     private $auth;
     private $manager;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

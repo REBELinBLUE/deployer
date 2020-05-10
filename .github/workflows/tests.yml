@@ -255,9 +255,7 @@ jobs:
 
       - name: Run Tests with Coverage
         run: |
-          composer require phpunit/phpcov=~5.0 pcov/clobber --dev
-
-          php vendor/bin/pcov clobber
+          composer require phpunit/phpcov=~6.0 --dev
 
           php vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov --testsuite "Unit Tests"
           php vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov --testsuite "Integration Tests"

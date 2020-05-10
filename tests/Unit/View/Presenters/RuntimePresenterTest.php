@@ -17,7 +17,7 @@ class RuntimePresenterTest extends TestCase
 {
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

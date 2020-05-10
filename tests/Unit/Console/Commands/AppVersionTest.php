@@ -19,7 +19,7 @@ class AppVersionTest extends TestCase
 
     private $console;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

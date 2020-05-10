@@ -19,7 +19,7 @@ class ServerLogChangedTest extends TestCase
     private $presenter;
     private $decorator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

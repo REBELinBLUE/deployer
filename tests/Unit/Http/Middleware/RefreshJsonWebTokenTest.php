@@ -29,7 +29,7 @@ class RefreshJsonWebTokenTest extends TestCase
     private $expectedGuard;
     private $request;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

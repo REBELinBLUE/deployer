@@ -21,7 +21,7 @@ class MakeRepositoryCommandTest extends TestCase
     private $concrete;
     private $contract;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Admin;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use Mockery as m;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
@@ -82,7 +83,7 @@ class ProjectControllerTest extends AuthenticatedTestCase
 
         $output = array_merge([
             'id' => 1,
-        ], array_except($input, ['template_id']));
+        ], Arr::except($input, ['template_id']));
 
         $this->postJson('/admin/projects', $input)->assertStatus(Response::HTTP_CREATED)->assertJson($output);
 

@@ -18,7 +18,7 @@ abstract class UrlChangedTestCase extends TestCase
 {
     protected $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

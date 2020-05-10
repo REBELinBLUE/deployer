@@ -21,7 +21,7 @@ class UpdateGitMirrorsTest extends TestCase
     private $repository;
     private $console;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -89,7 +89,7 @@ class CreateUser extends Command
         $validator = $validation->make($arguments, [
             'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users,email',
-            'password' => 'required|min:6',
+            'password' => 'required|min:8',
             'is_admin' => 'required|min:0|max:1',
         ]);
 

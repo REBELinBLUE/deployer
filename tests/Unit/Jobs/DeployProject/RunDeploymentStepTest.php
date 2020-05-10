@@ -81,7 +81,7 @@ class RunDeploymentStepTest extends TestCase
      */
     private $server;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
