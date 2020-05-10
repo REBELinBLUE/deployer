@@ -6,6 +6,7 @@ use BackupManager\Laravel\DbBackupCommand;
 use Carbon\Carbon;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
+use Illuminate\Console\OutputStyle;
 use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Foundation\Application;
 use Mockery as m;
@@ -83,24 +84,33 @@ class UpdateAppTest extends TestCase
     }
 
     /**
+     * @dataProvider provideDeprecatedConfig
      * @covers ::__construct
      * @covers ::handle
      * @covers ::hasDeprecatedConfig
      * @covers ::checkCanInstall
      * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
-    public function testHasDeprecatedConfig()
+    public function testHasDeprecatedConfig(string $old, string $current)
     {
         $this->config->shouldReceive('get')->with('app.key')->andReturn('a-valid-key');
-        $this->filesystem->shouldReceive('get')->with(base_path('.env'))->andReturn('DB_TYPE=mysql');
+        $this->filesystem->shouldReceive('get')->with(base_path('.env'))->andReturn("${old}=foo");
 
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
         $this->assertStringContainsString('Update not complete!', $output);
-        $this->assertStringContainsString('DB_TYPE', $output);
-        $this->assertStringContainsString('DB_CONNECTION', $output);
+        $this->assertStringContainsString($old, $output);
+        $this->assertStringContainsString($current, $output);
         $this->assertSame(-1, $tester->getStatusCode());
+    }
+
+    public function provideDeprecatedConfig(): array
+    {
+        return [
+            ['DB_TYPE', 'DB_CONNECTION'],
+            ['QUEUE_DRIVER', 'QUEUE_CONNECTION'],
+        ];
     }
 
     /**
@@ -329,6 +339,11 @@ class UpdateAppTest extends TestCase
         $command->setApplication($this->console);
 
         $tester = new CommandTester($command);
+
+        $this->app->bind(OutputStyle::class, function () use ($tester) {
+            return new OutputStyle($tester->getInput(), $tester->getOutput());
+        });
+
         $tester->setInputs($inputs);
         $tester->execute([
             'command' => 'app:update',
@@ -343,7 +358,7 @@ class UpdateAppTest extends TestCase
         Carbon::setTestNow($now);
 
         $this->config->shouldReceive('get')->with('app.key')->andReturn('a-valid-key');
-        $this->filesystem->shouldReceive('get')->once()->with(base_path('.env'))->andReturn('config-file-content');
+        $this->filesystem->shouldReceive('get')->with(base_path('.env'))->andReturn('config-file-content');
         $this->filesystem->shouldReceive('lastModified')->andReturn($now->timestamp);
 
         $this->repository->shouldReceive('getRunning->count')->andReturn(0);

@@ -4,6 +4,10 @@ on: [push, pull_request]
 
 jobs:
   unit:
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/database.sqlite
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,7 +28,9 @@ jobs:
           coverage: none
 
       - name: Copy .env
-        run: cp tests/env .env
+        run: |
+          cp tests/env .env
+          touch database/database.sqlite
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -203,6 +209,10 @@ jobs:
           path: ./storage/logs
 
   coverage:
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/database.sqlite
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -244,9 +254,6 @@ jobs:
         run: make permissions
 
       - name: Run Tests with Coverage
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
         run: |
           composer require phpunit/phpcov=~5.0 pcov/clobber --dev
 

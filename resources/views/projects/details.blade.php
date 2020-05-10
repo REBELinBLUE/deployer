@@ -33,7 +33,7 @@
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="#">{{ trans('projects.today') }} <span class="pull-right">{{ number_format($today) }}</span></a></li>
                         <li><a href="#">{{ trans('projects.last_week') }} <span class="pull-right">{{ number_format($last_week) }}</span></a></li>
-                        <li><a href="#">{{ trans('projects.latest_duration') }}<span class="pull-right">{{ (count($deployments) == 0 OR !$deployments[0]->finished_at) ? trans('app.not_applicable') : $deployments[0]->readable_runtime }} </span></a></li>
+                        <li><a href="#">{{ trans('projects.latest_duration') }}<span class="pull-right">{{ (count($deployments) == 0 ?? !$deployments[0]->finished_at) ? trans('app.not_applicable') : $deployments[0]->readable_runtime }} </span></a></li>
                     </ul>
                 </div>
             </div>
@@ -120,7 +120,7 @@
         @can('update', $projectobj)
             <button type="button" class="btn btn-default" title="{{ trans('projects.view_ssh_key') }}" data-toggle="modal" data-target="#key"><span class="fa fa-key"></span> {{ trans('projects.ssh_key') }}</button>
         @endcan
-        <button id="deploy_project" data-toggle="modal" data-backdrop="static" data-target="#reason" type="button" class="btn btn-danger" title="{{ trans('projects.deploy_project') }}" {{ ($project->isDeploying() OR !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></span> {{ trans('projects.deploy') }}</button>
+        <button id="deploy_project" data-toggle="modal" data-backdrop="static" data-target="#reason" type="button" class="btn btn-danger" title="{{ trans('projects.deploy_project') }}" {{ ($project->isDeploying() ?? !count($project->servers)) ? 'disabled' : '' }}><span class="fa fa-cloud-upload"></span> {{ trans('projects.deploy') }}</button>
     </div>
 @stop
 

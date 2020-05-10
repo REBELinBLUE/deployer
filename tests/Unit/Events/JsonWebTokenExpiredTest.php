@@ -19,7 +19,7 @@ class JsonWebTokenExpiredTest extends TestCase
     {
         $user = m::mock(User::class);
 
-        $event = new JsonWebTokenExpired($user);
+        $event = new JsonWebTokenExpired('guard', $user);
 
         $this->assertSame($user, $event->user);
     }

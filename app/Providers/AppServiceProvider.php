@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         'production' => [
             HTMLMinServiceProvider::class,
         ],
-        'local' => [
+        'local' => [ // FIXME: Move these to dev only dependencies
             IdeHelperServiceProvider::class,
             ClockworkServiceProvider::class,
             MakeServiceProvider::class,

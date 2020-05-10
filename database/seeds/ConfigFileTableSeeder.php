@@ -43,7 +43,7 @@ MAIL_FROM_ADDRESS=deployer@deployer.app
 REDIS_HOST=127.0.0.1
 REDIS_PORT=6379
 
-QUEUE_DRIVER=beanstalkd
+QUEUE_CONNECTION=beanstalkd
 QUEUE_HOST=localhost
 
 CACHE_DRIVER=file

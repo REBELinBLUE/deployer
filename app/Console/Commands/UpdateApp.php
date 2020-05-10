@@ -321,13 +321,20 @@ class UpdateApp extends Command
      */
     private function hasDeprecatedConfig(): bool
     {
-        if (preg_match('/DB_TYPE=/', $this->filesystem->get(base_path('.env')))) {
-            $this->failure(
-                'Update not complete!',
-                'Your .env file has a DB_TYPE key, please rename this to DB_CONNECTION and try again'
-            );
+        $deprecated = [
+            'DB_TYPE'      => 'DB_CONNECTION',
+            'QUEUE_DRIVER' => 'QUEUE_CONNECTION',
+        ];
 
-            return true;
+        foreach ($deprecated as $old => $current) {
+            if (preg_match('/' . preg_quote($old) . '=/', $this->filesystem->get(base_path('.env')))) {
+                $this->failure(
+                    'Update not complete!',
+                    "Your .env file has a ${old} key, please rename this to ${current} and try again"
+                );
+
+                return true;
+            }
         }
 
         return false;

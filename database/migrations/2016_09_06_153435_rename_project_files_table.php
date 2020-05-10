@@ -11,17 +11,18 @@ class RenameProjectFilesTable extends Migration
      */
     public function up()
     {
-        $connection = config('database.default');
-        $driver     = config('database.connections.' . $connection . '.driver');
+        $driver     = DB::getDriverName();
         if ($driver === 'mysql') {
             DB::statement("SET SESSION sql_mode='ALLOW_INVALID_DATES'");
             DB::statement('ALTER TABLE project_files MODIFY COLUMN created_at timestamp NULL DEFAULT NULL');
             DB::statement('ALTER TABLE project_files MODIFY COLUMN updated_at timestamp NULL DEFAULT NULL');
         }
 
-        Schema::table('project_files', function (Blueprint $table) {
-            $table->dropForeign(['project_id']);
-        });
+        if ($driver !== 'sqlite') {
+            Schema::table('project_files', function (Blueprint $table) {
+                $table->dropForeign(['project_id']);
+            });
+        }
 
         Schema::rename('project_files', 'config_files');
 

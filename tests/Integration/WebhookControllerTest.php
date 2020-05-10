@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
@@ -116,7 +117,7 @@ class WebhookControllerTest extends TestCase
                 'Github',
                 'github.json',
                 'f99aa366c76589b69ef7cd3278e7f20d72b27127',
-                ['X-GitHub-Delivery' => str_random(32), 'X-Github-Event' => 'push'],
+                ['X-GitHub-Delivery' => Str::random(32), 'X-Github-Event' => 'push'],
             ],
         ];
     }

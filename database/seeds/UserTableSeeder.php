@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\User;
 
 class UserTableSeeder extends Seeder
@@ -16,7 +17,7 @@ class UserTableSeeder extends Seeder
             'email'          => 'admin@example.com',
             'is_admin'       => 1,
             'password'       => bcrypt('password'),
-            'remember_token' => str_random(10),
+            'remember_token' => Str::random(10),
         ]);
 
         for ($i = 1; $i < 10; $i++) {
@@ -24,7 +25,7 @@ class UserTableSeeder extends Seeder
                 'name'           => $faker->firstName . ' ' . $faker->lastName,
                 'email'          => $faker->safeEmail,
                 'password'       => bcrypt($faker->password),
-                'remember_token' => str_random(10),
+                'remember_token' => Str::random(10),
             ]);
         }
     }

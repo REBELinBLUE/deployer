@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Symfony\Component\HttpFoundation\Response;
 
+// FIXME: Why is this different to?
+//use Illuminate\Auth\Middleware\Authenticate as Middleware;
+
 /**
  * Authentication middleware.
  */
@@ -54,7 +57,7 @@ class Authenticate
     public function handle(Request $request, Closure $next, ?string $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            if ($request->ajax()) {
+            if ($request->expectsJson()) {
                 return $this->response->make('Unauthorized.', Response::HTTP_UNAUTHORIZED);
             }
 

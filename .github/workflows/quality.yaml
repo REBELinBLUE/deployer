@@ -4,6 +4,10 @@ on: [push, pull_request]
 
 jobs:
   quality:
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/database.sqlite
+
     runs-on: ubuntu-latest
 
     steps:
@@ -17,6 +21,11 @@ jobs:
 
       - name: Lint composer.json
         run: composer validate
+
+      - name: Copy .env
+        run: |
+          cp tests/env .env
+          touch database/database.sqlite
 
       - name: Get Composer Cache Directory
         id: composer-cache

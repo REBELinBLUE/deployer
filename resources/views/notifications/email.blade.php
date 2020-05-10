@@ -55,9 +55,9 @@ $style = [
                  background-color: #3869D4; border-radius: 3px; color: #ffffff; font-size: 15px; line-height: 25px;
                  text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
 
-    'button--green' => 'background-color: #22BC66;',
-    'button--red' => 'background-color: #dc4d2f;',
-    'button--blue' => 'background-color: #3869D4;',
+    'button--success' => 'background-color: #22BC66;',
+    'button--error' => 'background-color: #dc4d2f;',
+    'button--primary' => 'background-color: #3869D4;',
 ];
 ?>
 
@@ -121,13 +121,13 @@ $style = [
                                                     <?php
                                                     switch ($level) {
                                                         case 'success':
-                                                            $actionColor = 'button--green';
+                                                            $actionColor = 'button--success';
                                                             break;
                                                         case 'error':
-                                                            $actionColor = 'button--red';
+                                                            $actionColor = 'button--error';
                                                             break;
                                                         default:
-                                                            $actionColor = 'button--blue';
+                                                            $actionColor = 'button--primary';
                                                     }
                                                     ?>
 

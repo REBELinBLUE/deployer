@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 use Closure;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
+use Illuminate\Console\OutputStyle;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\KeyGenerateCommand;
@@ -22,6 +23,8 @@ use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\Process;
+
+// TODO: Rewrite these tests using the Laravel artisan testing feature introduced in 5.7
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\InstallApp
@@ -76,7 +79,7 @@ class InstallAppTest extends TestCase
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertStringContainsString('already installed Deployer', $output);
+        $this->assertStringContainsString('You have already installed Deployer', $output);
         $this->assertStringContainsString('php artisan app:update', $output);
         $this->assertSame(-1, $tester->getStatusCode());
     }
@@ -371,6 +374,11 @@ class InstallAppTest extends TestCase
         $command->setApplication($this->console);
 
         $tester = new CommandTester($command);
+
+        $this->app->bind(OutputStyle::class, function () use ($tester) {
+            return new OutputStyle($tester->getInput(), $tester->getOutput());
+        });
+
         $tester->setInputs($inputs);
         $tester->execute([
             'command' => 'app:install',

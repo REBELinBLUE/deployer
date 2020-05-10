@@ -96,7 +96,7 @@ class RefreshJsonWebToken
             } catch (TokenExpiredException $e) {
                 $has_valid_token = false;
             } catch (JWTException $e) {
-                if ($request->ajax()) {
+                if ($request->expectsJson()) {
                     return $this->response->make('Unauthorized.', Response::HTTP_UNAUTHORIZED);
                 }
 
@@ -106,7 +106,8 @@ class RefreshJsonWebToken
 
         // If there is no valid token, generate one
         if (!$has_valid_token) {
-            $this->dispatcher->dispatch(new JsonWebTokenExpired($authenticated_user));
+            // FIXME: Change this
+            $this->dispatcher->dispatch(new JsonWebTokenExpired(config('auth.defaults.guard'), $authenticated_user));
         }
 
         return $next($request);

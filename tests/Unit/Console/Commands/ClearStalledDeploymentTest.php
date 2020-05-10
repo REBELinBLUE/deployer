@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 
+use Illuminate\Console\OutputStyle;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\DownCommand;
 use Illuminate\Foundation\Console\UpCommand;
@@ -62,6 +63,11 @@ class ClearStalledDeploymentTest extends TestCase
         $command->setApplication($console);
 
         $tester = new CommandTester($command);
+
+        $this->app->bind(OutputStyle::class, function () use ($tester) {
+            return new OutputStyle($tester->getInput(), $tester->getOutput());
+        });
+
         $tester->setInputs(['yes']);
         $tester->execute([
             'command' => 'deployer:cleanup',
@@ -99,6 +105,11 @@ class ClearStalledDeploymentTest extends TestCase
         $command->setApplication($console);
 
         $tester = new CommandTester($command);
+
+        $this->app->bind(OutputStyle::class, function () use ($tester) {
+            return new OutputStyle($tester->getInput(), $tester->getOutput());
+        });
+
         $tester->setInputs(['no']);
         $tester->execute([
             'command' => 'deployer:cleanup',

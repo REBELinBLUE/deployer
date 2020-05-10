@@ -4,6 +4,10 @@ on: [push, pull_request]
 
 jobs:
   run:
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/database.sqlite
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,7 +26,9 @@ jobs:
           php-version: 7.2
 
       - name: Copy .env
-        run: cp tests/env .env
+        run: |
+          cp tests/env .env
+          touch database/database.sqlite
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -37,7 +43,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Dependencies
-        run: composer install --no-dev --no-interaction --prefer-dist --no-suggest --ignore-platform-reqs
+        run: composer install --no-dev --no-interaction --prefer-dist --no-suggest --ignore-platform-reqs --no-scripts
 
       - name: Run Artisan
         run: php artisan app:version

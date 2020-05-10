@@ -94,7 +94,7 @@ class RefreshJsonWebTokenTest extends TestCase
 
         $this->request->shouldReceive('has')->with('jwt')->andReturn(true);
         $this->request->shouldReceive('get')->with('jwt')->andReturn($token);
-        $this->request->shouldNotReceive('ajax');
+        $this->request->shouldNotReceive('expectsJson');
 
         $this->response->shouldNotReceive('make');
         $this->redirector->shouldNotReceive('guest');
@@ -170,7 +170,7 @@ class RefreshJsonWebTokenTest extends TestCase
 
         $this->request->shouldReceive('has')->with('jwt')->andReturn(true);
         $this->request->shouldReceive('get')->with('jwt')->andReturn($token);
-        $this->request->shouldReceive('ajax')->andReturn(true);
+        $this->request->shouldReceive('expectsJson')->andReturn(true);
 
         $this->user->shouldReceive('getAttribute')->with('id')->andReturn(1);
 
@@ -212,7 +212,7 @@ class RefreshJsonWebTokenTest extends TestCase
 
         $this->request->shouldReceive('has')->with('jwt')->andReturn(true);
         $this->request->shouldReceive('get')->with('jwt')->andReturn($token);
-        $this->request->shouldReceive('ajax')->andReturn(false);
+        $this->request->shouldReceive('expectsJson')->andReturn(false);
 
         $this->user->shouldReceive('getAttribute')->with('id')->andReturn(1);
 
