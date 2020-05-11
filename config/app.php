@@ -194,7 +194,7 @@ return [
         REBELinBLUE\Deployer\Providers\ProcessServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RepositoryServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RouteServiceProvider::class,
-        REBELinBLUE\Deployer\Providers\TelescopeServiceProvider::class,
+        // REBELinBLUE\Deployer\Providers\TelescopeServiceProvider::class,
         REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ValidationServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
