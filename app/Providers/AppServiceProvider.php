@@ -3,14 +3,13 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
-use Clockwork\Support\Laravel\ClockworkMiddleware;
-use Clockwork\Support\Laravel\ClockworkServiceProvider;
 use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
 use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Laracademy\Commands\MakeServiceProvider;
+use Laravel\Telescope\TelescopeServiceProvider as LaravelTelescopeServiceProvider;
 use Lubusin\Decomposer\Decomposer;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
@@ -34,7 +33,8 @@ class AppServiceProvider extends ServiceProvider
         ],
         'local' => [ // FIXME: Move these to dev only dependencies
             IdeHelperServiceProvider::class,
-            ClockworkServiceProvider::class,
+            LaravelTelescopeServiceProvider::class,
+            TelescopeServiceProvider::class,
             MakeServiceProvider::class,
         ],
     ];
@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
             MinifyMiddleware::class,
         ],
         'local' => [
-            ClockworkMiddleware::class,
+
         ],
     ];
 
