@@ -99,8 +99,8 @@ class Kernel extends HttpKernel
         ShareErrorsFromSession::class,
         Authenticate::class,
         ThrottleRequests::class,
-        AuthenticateSession::class,
+//        AuthenticateSession::class,
         SubstituteBindings::class,
-        Authorize::class,
+//        Authorize::class,
     ];
 }

@@ -86,7 +86,8 @@ class RefreshJsonWebToken
             $token = $request->session()->get('jwt');
 
             try {
-                $token_user = $this->jwt->authenticate($token);
+                $this->jwt->setToken($token);
+                $token_user = $this->jwt->user();
 
                 if ($token_user->id !== $authenticated_user->id) {
                     throw new JWTException('Token does not belong to the authenticated user');
@@ -100,14 +101,18 @@ class RefreshJsonWebToken
                     return $this->response->make('Unauthorized.', Response::HTTP_UNAUTHORIZED);
                 }
 
+                $this->auth->guard($guard)->logout();
+
                 return $this->redirector->guest('login');
             }
         }
 
         // If there is no valid token, generate one
         if (!$has_valid_token) {
-            // FIXME: Change this
-            $this->dispatcher->dispatch(new JsonWebTokenExpired(config('auth.defaults.guard'), $authenticated_user));
+            $this->dispatcher->dispatch(new JsonWebTokenExpired(
+                $this->auth->guard($guard)->getName(),
+                $authenticated_user
+            ));
         }
 
         return $next($request);

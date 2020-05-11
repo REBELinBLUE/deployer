@@ -6,8 +6,6 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Queue\SerializesModels;
 
-// FIXME: Why is this needed?
-
 /**
  * Event which is fired when the JSON web token expires.
  */

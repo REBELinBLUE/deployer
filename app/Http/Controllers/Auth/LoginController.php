@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Session\SessionManager; // FIXME: Shouldn't this be a contract?
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use PragmaRX\Google2FA\Contracts\Google2FA;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
@@ -86,13 +87,14 @@ class LoginController extends Controller
      *
      * @param Request $request
      *
+     * @throws ValidationException
      * @return RedirectResponse|Response
      */
     public function login(Request $request)
     {
         $this->validateLogin($request);
 
-        if ($lockedOut = $this->hasTooManyLoginAttempts($request)) {
+        if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
@@ -119,9 +121,7 @@ class LoginController extends Controller
             return $this->sendLoginResponse($request);
         }
 
-        if (!$lockedOut) {
-            $this->incrementLoginAttempts($request);
-        }
+        $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
     }
