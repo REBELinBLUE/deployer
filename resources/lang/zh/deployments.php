@@ -55,8 +55,6 @@ return [
     'failed_slack_message'    => '部署 %s 失败! :cry:',
     'success_sms_message'     => '项目 ":project" 的 部署 #:id 已成功！',
     'failed_sms_message'      => '项目 ":project" 的 部署 #:id 已失败！',
-    'success_hipchat_message' => '部署 %s 成功！',
-    'failed_hipchat_message'  => '部署 %s 失败！',
     'success_email_message'   => '部署成功',
     'failed_email_message'    => '部署失败',
     'success_email_subject'   => '部署完成',

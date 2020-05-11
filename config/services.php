@@ -34,11 +34,4 @@ return [
         'secret' => env('SPARKPOST_SECRET'),
     ],
 
-    // FIXME: Deprecated
-    'hipchat' => [
-        'token' => env('HIPCHAT_TOKEN'),
-        'room'  => env('HIPCHAT_ROOM', null),
-        'url'   => env('HIPCHAT_URL'),
-    ],
-
 ];

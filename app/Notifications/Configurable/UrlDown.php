@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Notifications\Configurable;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use NotificationChannels\HipChat\HipChatMessage;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -70,20 +69,5 @@ class UrlDown extends UrlChanged
         }
 
         return $this->buildTwilioMessage($translation);
-    }
-
-    /**
-     * Get the Hipchat version of the message.
-     *
-     * @param Channel $notification
-     *
-     * @return HipChatMessage
-     */
-    public function toHipchat(Channel $notification): HipChatMessage
-    {
-        return $this->buildHipchatMessage(
-            'checkUrls.down_message',
-            $notification
-        )->error();
     }
 }

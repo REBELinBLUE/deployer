@@ -3,9 +3,6 @@ fixture:
     type: !php/const REBELinBLUE\Deployer\Channel::WEBHOOK
     expected: NotificationChannels\Webhook\WebhookChannel
   -
-    type: !php/const REBELinBLUE\Deployer\Channel::HIPCHAT
-    expected: NotificationChannels\HipChat\HipChatChannel
-  -
     type: !php/const REBELinBLUE\Deployer\Channel::TWILIO
     expected: NotificationChannels\Twilio\TwilioChannel
   -

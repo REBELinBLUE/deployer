@@ -18,7 +18,6 @@ class Channel extends Model
 
     public const EMAIL   = 'mail';
     public const SLACK   = 'slack';
-    public const HIPCHAT = 'hipchat';
     public const TWILIO  = 'twilio';
     public const WEBHOOK = 'custom';
 
@@ -113,18 +112,6 @@ class Channel extends Model
     {
         if ($this->type === self::TWILIO) {
             return $this->config->telephone;
-        }
-    }
-
-    /**
-     * Returns the room for the hipchat notifications.
-     *
-     * @return string|null
-     */
-    public function routeNotificationForHipchat()
-    {
-        if ($this->type === self::HIPCHAT) {
-            return $this->config->room;
         }
     }
 

@@ -143,7 +143,6 @@ class InstallAppTest extends TestCase
         $expectedName       = 'Admin';
         $expectedEmail      = 'admin@example.com';
         $expectedPassword   = 'a-password-input';
-        $expectedHipchatUrl = 'http://hooks.hipchat.com';
         $expectedFrom       = 'deployer@example.com';
         $expectedAppUrl     = 'https://localhost';
         $expectedKey        = '/var/ssl/private-key';
@@ -165,10 +164,6 @@ class InstallAppTest extends TestCase
                 'ssl_key_password' => 'key-password',
                 'ssl_cert_file'    => $expectedCert,
                 'ssl_ca_file'      => $expectedCa,
-            ],
-            'hipchat' => [
-                'token' => 'a-hipchat-token',
-                'url'   => $expectedHipchatUrl,
             ],
             'twilio' => [
                 'account_sid' => 'twilio-sid',
@@ -250,7 +245,6 @@ class InstallAppTest extends TestCase
 
         $rules = m::type('array');
         $this->validator->shouldReceive('make')->with(['url' => $expectedAppUrl], $rules)->andReturnSelf();
-        $this->validator->shouldReceive('make')->with(['url' => $expectedHipchatUrl], $rules)->andReturnSelf();
         $this->validator->shouldReceive('make')->with(['port' => 25], $rules)->andReturnSelf();
         $this->validator->shouldReceive('make')->with(['from_address' => $expectedFrom], $rules)->andReturnSelf();
         $this->validator->shouldReceive('make')->with(['email_address' => $expectedEmail], $rules)->andReturnSelf();
@@ -283,11 +277,6 @@ class InstallAppTest extends TestCase
             $expectedCert,
             $expectedCa,
             'lang' => 'en',
-
-            // Hipchat
-            'yes', // fixme: need to check the other 2 are not selected if no
-            $expectedHipchatUrl,
-            'a-hipchat-token',
 
             // Twilio
             'yes',  // fixme: need to check the other 3 are not selected if no
@@ -334,7 +323,6 @@ class InstallAppTest extends TestCase
 
         $this->assertStringContainsString('Database details', $output);
         $this->assertStringContainsString('Installation details', $output);
-        $this->assertStringContainsString('Hipchat setup', $output);
         $this->assertStringContainsString('Twilio setup', $output);
         $this->assertStringContainsString('Email details', $output);
         $this->assertStringContainsString('Admin details', $output);

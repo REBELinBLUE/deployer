@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47ab9992c0786fd67299125cc5019adb",
+    "content-hash": "e4acbaf6946d07146085333bb9169fa7",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -2199,69 +2199,6 @@
             ],
             "description": "Interactive make CLI replacement for Laravel",
             "time": "2020-05-08T17:03:47+00:00"
-        },
-        {
-            "name": "laravel-notification-channels/hipchat",
-            "version": "v2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel-notification-channels/hipchat.git",
-                "reference": "c24bca85f7cf9f6804635aa206c961783e22e888"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel-notification-channels/hipchat/zipball/c24bca85f7cf9f6804635aa206c961783e22e888",
-                "reference": "c24bca85f7cf9f6804635aa206c961783e22e888",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^6.2",
-                "illuminate/notifications": "~5.3",
-                "illuminate/queue": "~5.1",
-                "illuminate/support": "~5.1",
-                "php": ">=5.6.4"
-            },
-            "require-dev": {
-                "mockery/mockery": "~1.0",
-                "phpunit/phpunit": "5.*"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "NotificationChannels\\HipChat\\HipChatServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "NotificationChannels\\HipChat\\": "src"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Peter Matseykanets",
-                    "email": "pmatseykanets@gmail.com",
-                    "homepage": "https://github.com/pmatseykanets"
-                }
-            ],
-            "description": "HipChat Notifications Channel for Laravel",
-            "homepage": "https://github.com/laravel-notification-channels/hipchat",
-            "keywords": [
-                "chat",
-                "hipchat",
-                "laravel",
-                "notifications"
-            ],
-            "abandoned": true,
-            "time": "2018-11-21T06:08:39+00:00"
         },
         {
             "name": "laravel-notification-channels/twilio",

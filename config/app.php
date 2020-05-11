@@ -178,7 +178,6 @@ return [
         // Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider::class,
-        // NotificationChannels\HipChat\HipChatServiceProvider::class,
         // NotificationChannels\Twilio\TwilioProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
         // Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,

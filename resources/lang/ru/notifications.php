@@ -7,11 +7,9 @@ return [
                                   'can see this it means it is! :+1:',
     'test_message'            => 'This is a test to ensure the notification is setup correctly, if you have ' .
                                   'received this it means it is!',
-    'test_hipchat_message'    => 'This is a test to ensure the notification is setup correctly, if you ' .
-                                  'can see this it means it is! (corpsethumb)',
     'test_subject'            => 'Test Notification',
 
-    // Slack & Hipchat
+    // Slack
     'branch'                  => 'Branch',
     'project'                 => 'Project',
     'commit'                  => 'Commit',

@@ -132,7 +132,6 @@ class InstallApp extends Command
         $config = $this->restructureConfig([
             'db'      => $this->getDatabaseInformation(),
             'app'     => $this->getInstallInformation(),
-            'hipchat' => $this->getHipchatInformation(),
             'twilio'  => $this->getTwilioInformation(),
             'mail'    => $this->getEmailInformation(),
             'jwt'     => [],
@@ -316,31 +315,6 @@ class InstallApp extends Command
         }
 
         return $twilio;
-    }
-
-    /**
-     * Prompts for the hipchat API details.
-     *
-     * @return array
-     */
-    private function getHipchatInformation(): array
-    {
-        $this->header('Hipchat setup');
-
-        $hipchat = [
-            'token' => '',
-            'url'   => '',
-        ];
-
-        if ($this->confirm('Do you wish to be able to send notifications to Hipchat?')) {
-            $hipchat['url'] = $this->askAndValidate('Webhook URL', [], function ($answer) {
-                return $this->validateUrl($answer);
-            });
-
-            $hipchat['token'] = $this->ask('Token');
-        }
-
-        return $hipchat;
     }
 
     /**

@@ -61,8 +61,6 @@ return [
     // Notifications
     'success_sms_message'     => 'Deployment #:id for ":project" was successful!',
     'failed_sms_message'      => 'Deployment #:id for ":project" failed!',
-    'success_hipchat_message' => 'Deployment %s successful!',
-    'failed_hipchat_message'  => 'Deployment %s failed!',
     'success_slack_message'   => 'Deployment %s successful! :smile:',
     'failed_slack_message'    => 'Deployment %s failed! :cry:',
     'success_email_message'   => 'The deployment was successful',

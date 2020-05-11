@@ -31,7 +31,6 @@
         "htmlmin/htmlmin": "~5.0",
         "intervention/image": "^2.3",
         "laracademy/interactive-make": "^1.1",
-        "laravel-notification-channels/hipchat": "~2.0",
         "laravel-notification-channels/twilio": "^3.0",
         "laravel-notification-channels/webhook": "^1.4.0",
         "laravel/framework": "^5.8",

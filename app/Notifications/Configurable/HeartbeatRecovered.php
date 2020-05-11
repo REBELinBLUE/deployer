@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Notifications\Configurable;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use NotificationChannels\HipChat\HipChatMessage;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -65,20 +64,5 @@ class HeartbeatRecovered extends HeartbeatChanged
     public function toTwilio(): TwilioMessage
     {
         return $this->buildTwilioMessage('heartbeats.recovered_sms_message');
-    }
-
-    /**
-     * Gets the Hipchat version of the message.
-     *
-     * @param Channel $notification
-     *
-     * @return HipChatMessage
-     */
-    public function toHipchat(Channel $notification): HipChatMessage
-    {
-        return $this->buildHipchatMessage(
-            'heartbeats.recovered_message',
-            $notification
-        )->success();
     }
 }

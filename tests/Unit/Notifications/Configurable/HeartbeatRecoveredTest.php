@@ -141,43 +141,4 @@ class HeartbeatRecoveredTest extends HeartbeatChangedTestCase
             '15 minutes ago'
         );
     }
-
-    /**
-     * @covers ::__construct
-     * @covers ::toHipchat
-     * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildHipchatMessage
-     */
-    public function testToHipchat()
-    {
-        $expectedDateString = 'no-date';
-
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
-
-        $this->toHipchat(
-            HeartbeatRecovered::class,
-            'heartbeats.recovered_message',
-            'success',
-            null,
-            $expectedDateString
-        );
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::toHipchat
-     * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildHipchatMessage
-     */
-    public function testToHipchatWithLastSeenDate()
-    {
-        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC');
-        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'UTC'));
-
-        $this->toHipchat(
-            HeartbeatRecovered::class,
-            'heartbeats.recovered_message',
-            'success',
-            $date,
-            '15 minutes ago'
-        );
-    }
 }
