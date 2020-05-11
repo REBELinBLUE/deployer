@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca93571776fa17b00f1f71c160191da9",
+    "content-hash": "bbd1238404cbb4d27e324a097d26d510",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -2690,6 +2690,62 @@
                 }
             ],
             "time": "2020-04-16T13:21:26+00:00"
+        },
+        {
+            "name": "lubusin/laravel-decomposer",
+            "version": "dev-Laravel-6-and-7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/REBELinBLUE/laravel-decomposer.git",
+                "reference": "31873736acdaa60a133cec24a12b92a748facfe6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/REBELinBLUE/laravel-decomposer/zipball/31873736acdaa60a133cec24a12b92a748facfe6",
+                "reference": "31873736acdaa60a133cec24a12b92a748facfe6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.0 || ^6.0 || ^7.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "illuminate/http": "^5.0 || ^6.0 || ^7.0",
+                "illuminate/routing": "^5.0 || ^6.0 || ^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lubusin\\Decomposer\\DecomposerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lubusin\\Decomposer\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Harish Toshniwal",
+                    "email": "harish@lubus.in"
+                }
+            ],
+            "description": "A Laravel package to decompose your installed packages, their dependencies, your app & server environment",
+            "support": {
+                "source": "https://github.com/REBELinBLUE/laravel-decomposer/tree/Laravel-6-and-7"
+            },
+            "funding": [
+                {
+                    "type": "patreon",
+                    "url": "https://www.patreon.com/lubus"
+                }
+            ],
+            "time": "2020-05-11T19:14:31+00:00"
         },
         {
             "name": "mccool/laravel-auto-presenter",
@@ -9253,13 +9309,13 @@
             "version": "dev-laravel-6-7-support",
             "source": {
                 "type": "git",
-                "url": "https://github.com/muisit/laravel-langman.git",
-                "reference": "556585afe44f12faaefbe12641638e3eea362efe"
+                "url": "https://github.com/REBELinBLUE/laravel-langman.git",
+                "reference": "82693b40645281a5ad4d517ba803abc16e29b781"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/muisit/laravel-langman/zipball/556585afe44f12faaefbe12641638e3eea362efe",
-                "reference": "556585afe44f12faaefbe12641638e3eea362efe",
+                "url": "https://api.github.com/repos/REBELinBLUE/laravel-langman/zipball/82693b40645281a5ad4d517ba803abc16e29b781",
+                "reference": "82693b40645281a5ad4d517ba803abc16e29b781",
                 "shasum": ""
             },
             "require": {
@@ -9308,9 +9364,9 @@
                 "multilingual"
             ],
             "support": {
-                "source": "https://github.com/muisit/laravel-langman/tree/laravel-6-7-support"
+                "source": "https://github.com/REBELinBLUE/laravel-langman/tree/laravel-6-7-support"
             },
-            "time": "2020-04-19T13:37:28+00:00"
+            "time": "2020-05-11T19:11:44+00:00"
         },
         {
             "name": "theseer/fdomdocument",
@@ -9445,6 +9501,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "andywer/js-localization": 20,
+        "lubusin/laravel-decomposer": 20,
         "michele-angioni/multi-language": 20,
         "themsaid/laravel-langman": 20
     },

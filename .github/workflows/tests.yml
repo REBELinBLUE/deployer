@@ -67,7 +67,7 @@ jobs:
       max-parallel: 15
       fail-fast: false
       matrix:
-        php: ['7.2', '7.3']
+        php: ['7.2', '7.3', '7.4']
         db: ['sqlite', 'mysql', 'pgsql', 'maria']
 
     services:

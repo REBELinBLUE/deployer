@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Laracademy\Commands\MakeServiceProvider;
-// use Lubusin\Decomposer\Decomposer;
+use Lubusin\Decomposer\Decomposer;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
@@ -80,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerAdditionalProviders($this->providers[$env]);
         $this->registerAdditionalMiddleware($this->middleware[$env]);
         $this->registerDependencies();
-        // $this->registerSystemInfo();
+        $this->registerSystemInfo();
     }
 
     /**
@@ -126,18 +126,18 @@ class AppServiceProvider extends ServiceProvider
     /*
      * Registers additional information to show in the sysinfo.
      */
-//    private function registerSystemInfo()
-//    {
-//        $decomposer = $this->app->make(Decomposer::class);
-//
-//        $decomposer->addServerStats([
-//            'Curl Ext' => extension_loaded('curl'),
-//            'GD Ext'   => extension_loaded('gd'),
-//            'JSON Ext' => extension_loaded('json'),
-//        ]);
-//
-//        $decomposer->addExtraStats([
-//            'proc_open enabled' => function_exists('proc_open'),
-//        ]);
-//    }
+    private function registerSystemInfo()
+    {
+        $decomposer = $this->app->make(Decomposer::class);
+
+        $decomposer->addServerStats([
+            'Curl Ext' => extension_loaded('curl'),
+            'GD Ext'   => extension_loaded('gd'),
+            'JSON Ext' => extension_loaded('json'),
+        ]);
+
+        $decomposer->addExtraStats([
+            'proc_open enabled' => function_exists('proc_open'),
+        ]);
+    }
 }
