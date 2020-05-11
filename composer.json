@@ -25,6 +25,7 @@
         "barryvdh/laravel-ide-helper": "^2.7",
         "creativeorange/gravatar": "~1.0",
         "doctrine/dbal": "^2.10",
+        "facade/ignition": "^1.4",
         "fideloper/proxy": "^4.3",
         "graham-campbell/binput": "~6.2",
         "guzzlehttp/guzzle": "^6.5",
