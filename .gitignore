@@ -25,5 +25,7 @@ vendor/
 tmp/
 npm-debug.log
 
+public/**/*.LICENSE.txt
+
 # Include laravel vendor resources
 !*/**/vendor/
