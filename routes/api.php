@@ -1,7 +1,6 @@
 <?php
 
 /** @var \Illuminate\Routing\Router $router */
-
 $router->group(['namespace' => 'Resources'/*, 'prefix' => 'projects/{project}'*/], function () use ($router) {
     $actions = [
         'only' => ['store', 'update', 'destroy'],

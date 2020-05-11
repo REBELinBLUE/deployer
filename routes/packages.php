@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Routing\Router $router */
 
- use Lubusin\Decomposer\Controllers\DecomposerController;
+use Lubusin\Decomposer\Controllers\DecomposerController;
 use Melihovv\LaravelLogViewer\LaravelLogViewerController;
 
 $router->group(['prefix' => 'admin'], function () use ($router) {
