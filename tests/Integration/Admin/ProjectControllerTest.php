@@ -108,7 +108,7 @@ class ProjectControllerTest extends AuthenticatedTestCase
             'build_url' => 'http://ci.example.com/build.png',
         ]);
 
-        $data = array_only($project->fresh()->toArray(), [
+        $data = Arr::only($project->fresh()->toArray(), [
             'name',
             'repository',
             'branch',

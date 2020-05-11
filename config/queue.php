@@ -80,6 +80,7 @@ return [
     */
 
     'failed' => [
+        'driver'   => env('QUEUE_FAILED_DRIVER', 'database'),
         'database' => env('DB_CONNECTION', 'sqlite'),
         'table'    => 'failed_jobs',
     ],

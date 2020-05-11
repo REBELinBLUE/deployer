@@ -76,7 +76,7 @@ class DashboardController extends Controller
         ksort($projects_by_group);
 
         return $this->view->make('dashboard.index', [
-            'title'     => $this->translator->trans('dashboard.title'),
+            'title'     => $this->translator->get('dashboard.title'),
             'latest'    => $this->buildTimelineData(),
             'projects'  => $projects_by_group,
         ]);

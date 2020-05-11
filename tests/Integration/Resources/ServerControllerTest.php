@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
@@ -59,7 +60,7 @@ class ServerControllerTest extends AuthenticatedTestCase
         /** @var Server $server */
         $server = factory(Server::class)->create(['ip_address' => $original]);
 
-        $data = array_only($server->fresh()->toArray(), [
+        $data = Arr::only($server->fresh()->toArray(), [
             'name',
             'user',
             'ip_address',

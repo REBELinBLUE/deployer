@@ -155,7 +155,7 @@ class DeploymentController extends Controller
             'breadcrumb' => [
                 ['url' => $url->route('projects', ['id' => $project->id]), 'label' => $project->name],
             ],
-            'title'      => $this->translator->trans('deployments.deployment_number', ['id' => $deployment->id]),
+            'title'      => $this->translator->get('deployments.deployment_number', ['id' => $deployment->id]),
             'subtitle'   => $project->name,
             'project'    => $project,
             'deployment' => $deployment,

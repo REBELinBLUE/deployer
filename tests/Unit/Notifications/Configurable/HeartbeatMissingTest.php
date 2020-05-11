@@ -34,7 +34,7 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toTwilio(HeartbeatMissing::class, 'heartbeats.never_sms_message', null, $expectedDateString);
     }
@@ -71,7 +71,7 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toMail(
             HeartbeatMissing::class,
@@ -112,7 +112,7 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toSlack(
             HeartbeatMissing::class,

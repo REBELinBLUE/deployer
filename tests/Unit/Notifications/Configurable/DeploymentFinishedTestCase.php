@@ -34,7 +34,7 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->once()->with('id')->andReturn($expectedId);
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with($translation, [
                              'id'      => $expectedId,
@@ -135,39 +135,39 @@ abstract class DeploymentFinishedTestCase extends TestCase
             'last_commit'         => $expectedCommit,
         ];
 
-        $this->translator->shouldReceive('trans')->once()->with($message)->andReturn($expectedMessage);
-        $this->translator->shouldReceive('trans')->once()->with($subject)->andReturn($expectedSubject);
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')->once()->with($message)->andReturn($expectedMessage);
+        $this->translator->shouldReceive('get')->once()->with($subject)->andReturn($expectedSubject);
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.project_name')
                          ->andReturn('project');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.deployed_branch')
                          ->andReturn('deployed_branch');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.started_at')
                          ->andReturn('started_at');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.finished_at')
                          ->andReturn('finished_at');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.last_committer')
                          ->andReturn('last_committer');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.last_commit')
                          ->andReturn('last_commit');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.deployment_details')
                          ->andReturn($expectedActionText);
 
         if ($withReason) {
-            $this->translator->shouldReceive('trans')
+            $this->translator->shouldReceive('get')
                              ->once()
                              ->with('notifications.reason', ['reason' => $expectedReason])
                              ->andReturn($expectedReason);
@@ -254,12 +254,12 @@ abstract class DeploymentFinishedTestCase extends TestCase
             $expectedCommitUrl        = false;
         }
 
-        $this->translator->shouldReceive('trans')->once()->with('notifications.project')->andReturn('project');
-        $this->translator->shouldReceive('trans')->once()->with('notifications.commit')->andReturn('commit');
-        $this->translator->shouldReceive('trans')->once()->with('notifications.committer')->andReturn('committer');
-        $this->translator->shouldReceive('trans')->once()->with('notifications.branch')->andReturn('branch');
-        $this->translator->shouldReceive('trans')->once()->with('app.name')->andReturn($expectedAppName);
-        $this->translator->shouldReceive('trans')->once()->with($message)->andReturn('the slack message %s');
+        $this->translator->shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
+        $this->translator->shouldReceive('get')->once()->with('notifications.commit')->andReturn('commit');
+        $this->translator->shouldReceive('get')->once()->with('notifications.committer')->andReturn('committer');
+        $this->translator->shouldReceive('get')->once()->with('notifications.branch')->andReturn('branch');
+        $this->translator->shouldReceive('get')->once()->with('app.name')->andReturn($expectedAppName);
+        $this->translator->shouldReceive('get')->once()->with($message)->andReturn('the slack message %s');
 
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedProjectName);

@@ -126,6 +126,6 @@ class CommandPresenter extends Presenter
             return implode(', ', $commands);
         }
 
-        return $this->translator->trans('app.none');
+        return $this->translator->get('app.none');
     }
 }

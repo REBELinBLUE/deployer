@@ -36,7 +36,7 @@ abstract class HeartbeatChangedTestCase extends TestCase
         $heartbeat->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedName);
         $heartbeat->shouldReceive('getAttribute')->once()->with('project')->andReturn($project);
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with($translation, [
                              'job'     => $expectedName,
@@ -99,15 +99,15 @@ abstract class HeartbeatChangedTestCase extends TestCase
             'last_check_in' => $expectedDateString,
         ];
 
-        $this->translator->shouldReceive('trans')->once()->with($subject)->andReturn($expectedSubject);
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')->once()->with($subject)->andReturn($expectedSubject);
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.project_details')
                          ->andReturn($expectedActionText);
-        $this->translator->shouldReceive('trans')->once()->with('notifications.project_name')->andReturn('project');
-        $this->translator->shouldReceive('trans')->once()->with('heartbeats.last_check_in')->andReturn('last_check_in');
+        $this->translator->shouldReceive('get')->once()->with('notifications.project_name')->andReturn('project');
+        $this->translator->shouldReceive('get')->once()->with('heartbeats.last_check_in')->andReturn('last_check_in');
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with($message, ['job' => $expectedJobName])
                          ->andReturn($expectedMessage);
@@ -168,11 +168,11 @@ abstract class HeartbeatChangedTestCase extends TestCase
             'last_check_in' => $expectedDateString,
         ];
 
-        $this->translator->shouldReceive('trans')->once()->with('notifications.project')->andReturn('project');
-        $this->translator->shouldReceive('trans')->once()->with('heartbeats.last_check_in')->andReturn('last_check_in');
-        $this->translator->shouldReceive('trans')->once()->with('app.name')->andReturn($expectedAppName);
+        $this->translator->shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
+        $this->translator->shouldReceive('get')->once()->with('heartbeats.last_check_in')->andReturn('last_check_in');
+        $this->translator->shouldReceive('get')->once()->with('app.name')->andReturn($expectedAppName);
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with($message, ['job' => $expectedJobName])
                          ->andReturn($expectedMessage);

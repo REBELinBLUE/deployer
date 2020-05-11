@@ -43,6 +43,6 @@ class ServerLogTest extends TestCase
         $actual = $log->server();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('server', $actual->getRelation());
+        $this->assertSame('server', $actual->getRelationName());
     }
 }

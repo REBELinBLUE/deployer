@@ -113,6 +113,9 @@ fulltest: ##@shortcuts Runs all tests
 run: ##@docker Runs the containers
 	@docker-compose up -d
 
+dev: ##@docker Runs the containers with dev options
+	@docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+
 stop: ##@docker Stops the containers
 	@docker-compose down
 

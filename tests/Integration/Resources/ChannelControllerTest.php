@@ -92,7 +92,7 @@ class ChannelControllerTest extends AuthenticatedTestCase
             'name'   => $original,
         ]);
 
-        $data = array_only($channel->fresh()->toArray(), [
+        $data = Arr::only($channel->fresh()->toArray(), [
             'name',
             'type',
             'on_deployment_success',

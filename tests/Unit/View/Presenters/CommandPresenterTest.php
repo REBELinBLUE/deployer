@@ -44,7 +44,7 @@ class CommandPresenterTest extends TestCase
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->atLeast()->once()->with('commands')->andReturn([]);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new CommandPresenter($this->translator);
         $presenter->setWrappedObject($project);

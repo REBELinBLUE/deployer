@@ -88,7 +88,7 @@ class RuntimePresenterTest extends TestCase
         $model = m::mock(StubModel::class);
         $model->shouldReceive('runtime')->once()->andReturn($runtime);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new StubPresenter($this->translator);
         $presenter->setWrappedObject($model);

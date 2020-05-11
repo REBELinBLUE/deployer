@@ -161,10 +161,10 @@ class LoginController extends Controller
             $auth->logout();
 
             return $this->redirect->route('auth.login')
-                                  ->withError($translator->trans('auth.invalid_code'));
+                                  ->withError($translator->get('auth.invalid_code'));
         }
 
         return $this->redirect->route('auth.login')
-                              ->withError($translator->trans('auth.invalid_code'));
+                              ->withError($translator->get('auth.invalid_code'));
     }
 }

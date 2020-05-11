@@ -65,10 +65,10 @@ class ResetPassword extends Notification implements ShouldQueue
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])
-            ->subject($this->translator->trans('emails.reset_subject'))
-            ->line($this->translator->trans('emails.reset_header'))
-            ->line($this->translator->trans('emails.reset_below'))
-            ->action($this->translator->trans('emails.reset'), $action)
-            ->line($this->translator->trans('emails.reset_footer'));
+            ->subject($this->translator->get('emails.reset_subject'))
+            ->line($this->translator->get('emails.reset_header'))
+            ->line($this->translator->get('emails.reset_below'))
+            ->action($this->translator->get('emails.reset'), $action)
+            ->line($this->translator->get('emails.reset_footer'));
     }
 }

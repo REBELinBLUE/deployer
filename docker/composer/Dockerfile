@@ -3,7 +3,7 @@ FROM prooph/composer:7.2
 RUN composer global require ergebnis/composer-normalize && \
     composer self-update
 
-RUN apk add --update --no-cache patch $PHPIZE_DEPS && \
+RUN apk add --update --no-cache git openssh patch $PHPIZE_DEPS && \
     docker-php-ext-install gd pdo_mysql && \
     pecl install pcov && \
     docker-php-ext-enable pcov && \

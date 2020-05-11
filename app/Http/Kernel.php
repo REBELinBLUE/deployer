@@ -61,7 +61,7 @@ class Kernel extends HttpKernel
         ],
         'api' => [
             'throttle:60,1',
-            // 'bindings',
+            // SubstituteBindings::class,
         ],
     ];
 
@@ -80,9 +80,11 @@ class Kernel extends HttpKernel
         // 'can'           => Authorize::class,
         // 'signed'        => ValidateSignature::class,
         'guest'         => RedirectIfAuthenticated::class,
+        // 'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'jwt'           => RefreshJsonWebToken::class,
         'throttle'      => ThrottleRequests::class,
         'isadmin'       => IsAdmin::class,
+        // 'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 
     /**
@@ -96,6 +98,7 @@ class Kernel extends HttpKernel
         StartSession::class,
         ShareErrorsFromSession::class,
         Authenticate::class,
+        ThrottleRequests::class,
         AuthenticateSession::class,
         SubstituteBindings::class,
         Authorize::class,

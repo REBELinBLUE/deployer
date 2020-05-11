@@ -32,7 +32,7 @@ class DeploymentTest extends TestCase
         $actual     = $deployment->user();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('user', $actual->getRelation());
+        $this->assertSame('user', $actual->getRelationName());
         $this->assertInstanceOf(User::class, $deployment->user);
     }
 

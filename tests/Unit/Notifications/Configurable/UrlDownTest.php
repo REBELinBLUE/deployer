@@ -34,7 +34,7 @@ class UrlDownTest extends UrlChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toTwilio(UrlDown::class, 'checkUrls.never_sms_message', null, $expectedDateString);
     }
@@ -71,7 +71,7 @@ class UrlDownTest extends UrlChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toMail(
             UrlDown::class,
@@ -112,7 +112,7 @@ class UrlDownTest extends UrlChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toSlack(
             UrlDown::class,

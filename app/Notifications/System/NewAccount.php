@@ -61,10 +61,10 @@ class NewAccount extends Notification implements ShouldQueue
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])
-            ->subject($this->translator->trans('emails.creation_subject'))
-            ->line($this->translator->trans('emails.created'))
-            ->line($this->translator->trans('emails.username', ['username' => $user->email]))
-            ->line($this->translator->trans('emails.password', ['password' => $this->password]))
-            ->action($this->translator->trans('emails.login_now'), route('dashboard'));
+            ->subject($this->translator->get('emails.creation_subject'))
+            ->line($this->translator->get('emails.created'))
+            ->line($this->translator->get('emails.username', ['username' => $user->email]))
+            ->line($this->translator->get('emails.password', ['password' => $this->password]))
+            ->action($this->translator->get('emails.login_now'), route('dashboard'));
     }
 }

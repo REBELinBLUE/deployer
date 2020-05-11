@@ -44,7 +44,7 @@ class UserController extends Controller
     public function index(ViewFactory $view, Translator $translator): View
     {
         return $view->make('admin.users.listing', [
-            'title' => $translator->trans('users.manage'),
+            'title' => $translator->get('users.manage'),
             'users' => $this->repository->getAll()->toJson(),
         ]);
     }

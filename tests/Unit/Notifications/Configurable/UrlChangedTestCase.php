@@ -36,7 +36,7 @@ abstract class UrlChangedTestCase extends TestCase
         $url->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedName);
         $url->shouldReceive('getAttribute')->once()->with('project')->andReturn($project);
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with($translation, [
                              'link'    => $expectedName,
@@ -101,16 +101,16 @@ abstract class UrlChangedTestCase extends TestCase
             'url'           => $expectedUrl,
         ];
 
-        $this->translator->shouldReceive('trans')->once()->with($subject)->andReturn($expectedSubject);
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')->once()->with($subject)->andReturn($expectedSubject);
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.project_details')
                          ->andReturn($expectedActionText);
-        $this->translator->shouldReceive('trans')->once()->with('notifications.project_name')->andReturn('project');
-        $this->translator->shouldReceive('trans')->once()->with('heartbeats.last_check_in')->andReturn('last_check_in');
-        $this->translator->shouldReceive('trans')->once()->with('checkUrls.url')->andReturn('url');
+        $this->translator->shouldReceive('get')->once()->with('notifications.project_name')->andReturn('project');
+        $this->translator->shouldReceive('get')->once()->with('heartbeats.last_check_in')->andReturn('last_check_in');
+        $this->translator->shouldReceive('get')->once()->with('checkUrls.url')->andReturn('url');
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with($message, ['link' => $expectedUrlName])
                          ->andReturn($expectedMessage);
@@ -174,12 +174,12 @@ abstract class UrlChangedTestCase extends TestCase
             'url'           => $expectedUrl,
         ];
 
-        $this->translator->shouldReceive('trans')->once()->with('notifications.project')->andReturn('project');
-        $this->translator->shouldReceive('trans')->once()->with('checkUrls.last_seen')->andReturn('last_check_in');
-        $this->translator->shouldReceive('trans')->once()->with('checkUrls.url')->andReturn('url');
-        $this->translator->shouldReceive('trans')->once()->with('app.name')->andReturn($expectedAppName);
+        $this->translator->shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
+        $this->translator->shouldReceive('get')->once()->with('checkUrls.last_seen')->andReturn('last_check_in');
+        $this->translator->shouldReceive('get')->once()->with('checkUrls.url')->andReturn('url');
+        $this->translator->shouldReceive('get')->once()->with('app.name')->andReturn($expectedAppName);
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with($message, ['link' => $expectedUrlName])
                          ->andReturn($expectedMessage);

@@ -59,7 +59,7 @@ class ProjectController extends Controller
 
         return $view->make('admin.projects.listing', [
             'is_secure' => $request->secure(),
-            'title'     => $translator->trans('projects.manage'),
+            'title'     => $translator->get('projects.manage'),
             'templates' => $templateRepository->getAll(),
             'groups'    => $groupRepository->getAll(),
             'projects'  => $projects->toJson(),

@@ -37,20 +37,20 @@ class DeploymentPresenter extends Presenter
     public function presentReadableStatus(): string
     {
         if ($this->status === Deployment::COMPLETED) {
-            return $this->translator->trans('deployments.completed');
+            return $this->translator->get('deployments.completed');
         } elseif ($this->status === Deployment::COMPLETED_WITH_ERRORS) {
-            return $this->translator->trans('deployments.completed_with_errors');
+            return $this->translator->get('deployments.completed_with_errors');
         } elseif ($this->status === Deployment::ABORTING) {
-            return $this->translator->trans('deployments.aborting');
+            return $this->translator->get('deployments.aborting');
         } elseif ($this->status === Deployment::ABORTED) {
-            return $this->translator->trans('deployments.aborted');
+            return $this->translator->get('deployments.aborted');
         } elseif ($this->status === Deployment::FAILED) {
-            return $this->translator->trans('deployments.failed');
+            return $this->translator->get('deployments.failed');
         } elseif ($this->status === Deployment::DEPLOYING) {
-            return $this->translator->trans('deployments.deploying');
+            return $this->translator->get('deployments.deploying');
         }
 
-        return $this->translator->trans('deployments.pending');
+        return $this->translator->get('deployments.pending');
     }
 
     /**
@@ -131,10 +131,10 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->committer === Deployment::LOADING) {
             if ($this->status === Deployment::FAILED) {
-                return $this->translator->trans('deployments.unknown');
+                return $this->translator->get('deployments.unknown');
             }
 
-            return $this->translator->trans('deployments.loading');
+            return $this->translator->get('deployments.loading');
         }
 
         return $this->committer;
@@ -149,10 +149,10 @@ class DeploymentPresenter extends Presenter
     {
         if ($this->short_commit === Deployment::LOADING) {
             if ($this->status === Deployment::FAILED) {
-                return $this->translator->trans('deployments.unknown');
+                return $this->translator->get('deployments.unknown');
             }
 
-            return $this->translator->trans('deployments.loading');
+            return $this->translator->get('deployments.loading');
         }
 
         return $this->short_commit;

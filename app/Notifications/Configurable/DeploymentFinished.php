@@ -6,6 +6,7 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Support\Arr;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -58,15 +59,15 @@ abstract class DeploymentFinished extends Notification
      */
     protected function buildMailMessage(string $subject, string $translation, Channel $notification): MailMessage
     {
-        $message = $this->translator->trans($translation);
+        $message = $this->translator->get($translation);
 
         $table = [
-            $this->translator->trans('notifications.project_name')    => $this->project->name,
-            $this->translator->trans('notifications.deployed_branch') => $this->deployment->branch,
-            $this->translator->trans('notifications.started_at')      => $this->deployment->started_at,
-            $this->translator->trans('notifications.finished_at')     => $this->deployment->finished_at,
-            $this->translator->trans('notifications.last_committer')  => $this->deployment->committer,
-            $this->translator->trans('notifications.last_commit')     => $this->deployment->short_commit,
+            $this->translator->get('notifications.project_name')    => $this->project->name,
+            $this->translator->get('notifications.deployed_branch') => $this->deployment->branch,
+            $this->translator->get('notifications.started_at')      => $this->deployment->started_at,
+            $this->translator->get('notifications.finished_at')     => $this->deployment->finished_at,
+            $this->translator->get('notifications.last_committer')  => $this->deployment->committer,
+            $this->translator->get('notifications.last_commit')     => $this->deployment->short_commit,
         ];
 
         $action = route('deployments', ['id' => $this->deployment->id]);
@@ -76,12 +77,12 @@ abstract class DeploymentFinished extends Notification
                 'name'  => $notification->name,
                 'table' => $table,
             ])
-            ->subject($this->translator->trans($subject))
+            ->subject($this->translator->get($subject))
             ->line($message)
-            ->action($this->translator->trans('notifications.deployment_details'), $action);
+            ->action($this->translator->get('notifications.deployment_details'), $action);
 
         if (!empty($this->deployment->reason)) {
-            $email->line($this->translator->trans('notifications.reason', ['reason' => $this->deployment->reason]));
+            $email->line($this->translator->get('notifications.reason', ['reason' => $this->deployment->reason]));
         }
 
         return $email;
@@ -97,21 +98,21 @@ abstract class DeploymentFinished extends Notification
      */
     protected function buildSlackMessage(string $translation, Channel $notification): SlackMessage
     {
-        $message = $this->translator->trans($translation);
+        $message = $this->translator->get($translation);
 
         $fields = [
-            $this->translator->trans('notifications.project') => sprintf(
+            $this->translator->get('notifications.project') => sprintf(
                 '<%s|%s>',
                 route('projects', ['id' => $this->project->id]),
                 $this->project->name
             ),
-            $this->translator->trans('notifications.commit') => $this->deployment->commit_url ? sprintf(
+            $this->translator->get('notifications.commit') => $this->deployment->commit_url ? sprintf(
                 '<%s|%s>',
                 $this->deployment->commit_url,
                 $this->deployment->short_commit
             ) : $this->deployment->short_commit,
-            $this->translator->trans('notifications.committer') => $this->deployment->committer,
-            $this->translator->trans('notifications.branch')    => $this->deployment->branch,
+            $this->translator->get('notifications.committer') => $this->deployment->committer,
+            $this->translator->get('notifications.branch')    => $this->deployment->branch,
         ];
 
         return (new SlackMessage())
@@ -126,7 +127,7 @@ abstract class DeploymentFinished extends Notification
                     )))
                     ->fallback(sprintf($message, '#' . $this->deployment->id))
                     ->fields($fields)
-                    ->footer($this->translator->trans('app.name'))
+                    ->footer($this->translator->get('app.name'))
                     ->timestamp($this->deployment->finished_at);
             });
     }
@@ -142,7 +143,7 @@ abstract class DeploymentFinished extends Notification
     protected function buildWebhookMessage(string $event, Channel $notification): WebhookMessage
     {
         return (new WebhookMessage())
-            ->data(array_merge(array_only(
+            ->data(array_merge(Arr::only(
                 $this->deployment->attributesToArray(),
                 ['id', 'branch', 'started_at', 'finished_at', 'commit', 'source', 'reason']
             ), [
@@ -167,7 +168,7 @@ abstract class DeploymentFinished extends Notification
     protected function buildTwilioMessage($translation): TwilioMessage
     {
         return (new TwilioMessage())
-            ->content($this->translator->trans($translation, [
+            ->content($this->translator->get($translation, [
                 'id'      => $this->deployment->id,
                 'project' => $this->project->name,
             ]));

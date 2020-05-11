@@ -113,7 +113,7 @@ class CommandControllerTest extends AuthenticatedTestCase
         /** @var Command $command */
         $command = factory(Command::class)->create(['user' => $original]);
 
-        $data = array_only($command->fresh()->toArray(), [
+        $data = Arr::only($command->fresh()->toArray(), [
             'name',
             'user',
             'script',

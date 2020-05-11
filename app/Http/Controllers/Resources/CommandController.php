@@ -81,7 +81,7 @@ class CommandController extends Controller
 
         return $view->make('commands.listing', [
             'breadcrumb'  => $breadcrumb,
-            'title'       => $translator->trans('commands.' . strtolower($action)),
+            'title'       => $translator->get('commands.' . strtolower($action)),
             'subtitle'    => $project->name,
             'project'     => $project,
             'target_type' => $target,

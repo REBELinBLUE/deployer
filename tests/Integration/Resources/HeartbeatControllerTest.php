@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Heartbeat;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
@@ -54,7 +55,7 @@ class HeartbeatControllerTest extends AuthenticatedTestCase
         /** @var Heartbeat $heartbeat */
         $heartbeat = factory(Heartbeat::class)->create(['name' => $original]);
 
-        $data = array_only($heartbeat->fresh()->toArray(), [
+        $data = Arr::only($heartbeat->fresh()->toArray(), [
             'name',
             'interval',
         ]);

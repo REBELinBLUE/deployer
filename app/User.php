@@ -134,7 +134,7 @@ class User extends Authenticatable implements HasPresenter, JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [
-            'foo' => 'bar'
+            'foo' => 'bar',
         ];
     }
 }

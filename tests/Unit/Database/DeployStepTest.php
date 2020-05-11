@@ -43,7 +43,7 @@ class DeployStepTest extends TestCase
         $actual = $step->command();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('command', $actual->getRelation());
+        $this->assertSame('command', $actual->getRelationName());
         $this->assertInstanceOf(Command::class, $step->command);
     }
 

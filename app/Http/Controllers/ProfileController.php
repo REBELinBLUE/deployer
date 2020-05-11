@@ -106,7 +106,7 @@ class ProfileController extends Controller
         return $this->view->make('user.profile', [
             'google_2fa_url'  => $img,
             'google_2fa_code' => $code,
-            'title'           => $this->translator->trans('users.update_profile'),
+            'title'           => $this->translator->get('users.update_profile'),
             'locales'         => $languageManager->getAvailableLanguages(),
             'settings'        => $settings,
         ]);
@@ -303,7 +303,7 @@ class ProfileController extends Controller
 
                 return $this->redirect->back()
                                       ->withInput($request->only('google_code', 'two_factor'))
-                                      ->withError($this->translator->trans('auth.invalid_code'));
+                                      ->withError($this->translator->get('auth.invalid_code'));
             }
         }
 

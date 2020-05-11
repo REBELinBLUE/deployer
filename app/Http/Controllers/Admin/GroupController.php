@@ -43,7 +43,7 @@ class GroupController extends Controller
     public function index(ViewFactory $view, Translator $translator): View
     {
         return $view->make('admin.groups.listing', [
-            'title'  => $translator->trans('groups.manage'),
+            'title'  => $translator->get('groups.manage'),
             'groups' => $this->repository->getAll(),
         ]);
     }

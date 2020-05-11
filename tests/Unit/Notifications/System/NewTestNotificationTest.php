@@ -53,8 +53,8 @@ class NewTestNotificationTest extends TestCase
         $channel = m::mock(Channel::class);
         $channel->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedName);
 
-        $this->translator->shouldReceive('trans')->with('notifications.test_subject')->andReturn($subject);
-        $this->translator->shouldReceive('trans')->with('notifications.test_message')->andReturn($line);
+        $this->translator->shouldReceive('get')->with('notifications.test_subject')->andReturn($subject);
+        $this->translator->shouldReceive('get')->with('notifications.test_message')->andReturn($line);
 
         $notification = new NewTestNotification($this->translator);
         $mail         = $notification->toMail($channel);
@@ -86,7 +86,7 @@ class NewTestNotificationTest extends TestCase
         $channel = m::mock(Channel::class);
         $channel->shouldReceive('getAttribute')->once()->with('config')->andReturn($config);
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->with('notifications.test_slack_message')
                          ->andReturn($expectedMessage);
 
@@ -105,7 +105,7 @@ class NewTestNotificationTest extends TestCase
     {
         $expected = 'a-test-message';
 
-        $this->translator->shouldReceive('trans')->with('notifications.test_message')->andReturn($expected);
+        $this->translator->shouldReceive('get')->with('notifications.test_message')->andReturn($expected);
 
         $notification = new NewTestNotification($this->translator);
         $twilio       = $notification->toTwilio();
@@ -127,7 +127,7 @@ class NewTestNotificationTest extends TestCase
         $channel->shouldReceive('getAttribute')->once()->with('id')->andReturn($expected_id);
         $channel->shouldReceive('getAttribute')->once()->with('project_id')->andReturn($project);
 
-        $this->translator->shouldReceive('trans')->with('notifications.test_message')->andReturn($expected);
+        $this->translator->shouldReceive('get')->with('notifications.test_message')->andReturn($expected);
 
         $notification  = new NewTestNotification($this->translator);
         $webhook       = $notification->toWebhook($channel);

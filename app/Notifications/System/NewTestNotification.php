@@ -41,8 +41,8 @@ class NewTestNotification extends Notification
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $notification->name,
             ])
-            ->subject($this->translator->trans('notifications.test_subject'))
-            ->line($this->translator->trans('notifications.test_message'));
+            ->subject($this->translator->get('notifications.test_subject'))
+            ->line($this->translator->get('notifications.test_message'));
     }
 
     /**
@@ -56,7 +56,7 @@ class NewTestNotification extends Notification
     {
         return (new SlackMessage())
             ->to($notification->config->channel)
-            ->content($this->translator->trans('notifications.test_slack_message'));
+            ->content($this->translator->get('notifications.test_slack_message'));
     }
 
     /**
@@ -70,7 +70,7 @@ class NewTestNotification extends Notification
     {
         return (new WebhookMessage())
             ->data([
-                'message' => $this->translator->trans('notifications.test_message'),
+                'message' => $this->translator->get('notifications.test_message'),
             ])
             ->header('X-Deployer-Project-Id', $notification->project_id)
             ->header('X-Deployer-Notification-Id', $notification->id)
@@ -85,6 +85,6 @@ class NewTestNotification extends Notification
     public function toTwilio(): TwilioMessage
     {
         return (new TwilioMessage())
-            ->content($this->translator->trans('notifications.test_message'));
+            ->content($this->translator->get('notifications.test_message'));
     }
 }

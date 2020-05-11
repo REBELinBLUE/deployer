@@ -92,17 +92,17 @@ class TemplateController extends Controller
         $breadcrumb = [
             [
                 'url'   => $this->url->route('admin.templates.index'),
-                'label' => $this->translator->trans('templates.label'),
+                'label' => $this->translator->get('templates.label'),
             ],
             [
-                'url'   => $this->url->route('admin.templates.show', ['templates' => $template->id]),
+                'url'   => $this->url->route('admin.templates.show', ['template' => $template->id]),
                 'label' => $template->name,
             ],
         ];
 
         return $this->view->make('commands.listing', [
             'breadcrumb'  => $breadcrumb,
-            'title'       => $this->translator->trans('commands.' . strtolower($action)),
+            'title'       => $this->translator->get('commands.' . strtolower($action)),
             'subtitle'    => $template->name,
             'project'     => $template, // FIXME: Name this to 'target'
             'target_type' => $target,
@@ -122,7 +122,7 @@ class TemplateController extends Controller
         $templates = $this->templateRepository->getAll();
 
         return $this->view->make('admin.templates.listing', [
-            'title'     => $this->translator->trans('templates.manage'),
+            'title'     => $this->translator->get('templates.manage'),
             'templates' => $templates->toJson(),
         ]);
     }
@@ -142,7 +142,7 @@ class TemplateController extends Controller
             'breadcrumb' => [
                 [
                     'url'   => $this->url->route('admin.templates.index'),
-                    'label' => $this->translator->trans('templates.label'),
+                    'label' => $this->translator->get('templates.label'),
                 ],
             ],
             'title'        => $template->name,

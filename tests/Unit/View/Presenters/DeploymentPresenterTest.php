@@ -74,7 +74,7 @@ class DeploymentPresenterTest extends TestCase
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
@@ -188,7 +188,7 @@ class DeploymentPresenterTest extends TestCase
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('committer')->andReturn($committer);
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('status')->andReturn($status);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
@@ -233,7 +233,7 @@ class DeploymentPresenterTest extends TestCase
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('short_commit')->andReturn($commit);
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('status')->andReturn($status);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
