@@ -80,4 +80,13 @@ return [
     */
     'disable_config_cache' => env('APP_DEBUG', false),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Split up the exported messages.js file into separate files for each
+    | locale. This is to ensue faster loading times so one doesn't have
+    | to load translations for _all_ languages.
+    |--------------------------------------------------------------------------
+    */
+    'split_export_files' => false,
+
 ];

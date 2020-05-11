@@ -4,30 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4acbaf6946d07146085333bb9169fa7",
+    "content-hash": "4be560a134b76c79bd5f0c788a43908e",
     "packages": [
         {
             "name": "andywer/js-localization",
-            "version": "dev-laravel-5",
+            "version": "dev-laravel-5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/andywer/laravel-js-localization.git",
-                "reference": "7f8636135ce425c9684b0b6b7225492fa544127d"
+                "reference": "6568480fb96ece8b62dba1d63b2f168499a79c18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andywer/laravel-js-localization/zipball/7f8636135ce425c9684b0b6b7225492fa544127d",
-                "reference": "7f8636135ce425c9684b0b6b7225492fa544127d",
+                "url": "https://api.github.com/repos/andywer/laravel-js-localization/zipball/6568480fb96ece8b62dba1d63b2f168499a79c18",
+                "reference": "6568480fb96ece8b62dba1d63b2f168499a79c18",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "5.x",
-                "php": ">=5.4.0"
+                "illuminate/support": "~5.8",
+                "php": ">=7.1.0"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9.4",
-                "orchestra/testbench": "3.0.*",
-                "phpunit/phpunit": "3.7.*"
+                "mockery/mockery": "~1.0",
+                "orchestra/testbench": "4.*",
+                "phpunit/phpunit": "^8.0"
             },
             "type": "library",
             "extra": {
@@ -59,7 +59,7 @@
                 "messages",
                 "translation"
             ],
-            "time": "2018-08-30T11:35:49+00:00"
+            "time": "2019-10-02T08:47:39+00:00"
         },
         {
             "name": "backup-manager/backup-manager",

@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": ">=7.2.5",
-        "andywer/js-localization": "dev-laravel-5",
+        "andywer/js-localization": "dev-laravel-5.8",
         "backup-manager/laravel": "^1.1",
         "barryvdh/laravel-ide-helper": "^2.4.1",
         "creativeorange/gravatar": "~1.0",
