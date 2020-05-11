@@ -136,7 +136,7 @@ class User extends Authenticatable implements HasPresenter, JWTSubject
         return [
             'data' => [
                 'userId' => $this->id,
-            ]
+            ],
         ];
     }
 }

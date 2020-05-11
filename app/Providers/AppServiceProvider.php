@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Laracademy\Commands\MakeServiceProvider;
-use Laravel\Telescope\TelescopeServiceProvider as LaravelTelescopeServiceProvider;
 use Lubusin\Decomposer\Decomposer;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
@@ -33,8 +32,6 @@ class AppServiceProvider extends ServiceProvider
         ],
         'local' => [ // FIXME: Move these to dev only dependencies
             IdeHelperServiceProvider::class,
-            LaravelTelescopeServiceProvider::class,
-            TelescopeServiceProvider::class,
             MakeServiceProvider::class,
         ],
     ];
