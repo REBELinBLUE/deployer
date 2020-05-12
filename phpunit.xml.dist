@@ -45,5 +45,6 @@
         <env name="MAIL_DRIVER" value="log" />
         <env name="QUEUE_CONNECTION" value="sync" />
         <env name="BROADCAST_DRIVER" value="log" />
+        <env name="TELESCOPE_ENABLED" value="false" />
     </php>
 </phpunit>

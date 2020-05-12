@@ -94,9 +94,7 @@ class Kernel extends ConsoleKernel
                  ->hourly()
                  ->withoutOverlapping();
 
-        if ($this->app->environment('local', 'testing')) {
-            $schedule->command('telescope:prune')->daily();
-        }
+        $schedule->command('telescope:prune')->daily();
     }
 
 //
