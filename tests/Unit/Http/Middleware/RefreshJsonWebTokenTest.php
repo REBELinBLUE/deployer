@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Http\Middleware;
 
 use Illuminate\Contracts\Auth\Factory;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -28,6 +29,7 @@ class RefreshJsonWebTokenTest extends TestCase
     private $user;
     private $expectedGuard;
     private $request;
+    private $guard;
 
     protected function setUp(): void
     {
@@ -41,14 +43,15 @@ class RefreshJsonWebTokenTest extends TestCase
         $this->response   = m::mock(ResponseFactory::class);
         $this->auth       = m::mock(Factory::class);
         $this->user       = m::mock(User::class);
+        $this->guard      = m::mock(Guard::class);
 
         $this->expectedGuard = 'session';
 
         $this->request = m::mock(Request::class);
         $this->request->shouldReceive('session')->andReturnSelf();
 
-        $this->auth->shouldReceive('guard')->with($this->expectedGuard)->andReturnSelf();
-        $this->auth->shouldReceive('user')->andReturn($this->user);
+        $this->auth->shouldReceive('guard')->with($this->expectedGuard)->andReturn($this->guard);
+        $this->guard->shouldReceive('user')->andReturn($this->user);
     }
 
     /**
@@ -61,7 +64,10 @@ class RefreshJsonWebTokenTest extends TestCase
 
         $this->response->shouldNotReceive('make');
         $this->redirector->shouldNotReceive('guest');
-        $this->jwt->shouldNotReceive('authenticate');
+        $this->jwt->shouldNotReceive('setToken');
+        $this->jwt->shouldNotReceive('user');
+        $this->guard->shouldNotReceive('logout');
+        $this->guard->shouldReceive('getName')->andReturn($this->expectedGuard);
 
         $closure = function ($request) {
             $this->assertSame($this->request, $request);
@@ -95,6 +101,13 @@ class RefreshJsonWebTokenTest extends TestCase
         $this->request->shouldReceive('has')->with('jwt')->andReturn(true);
         $this->request->shouldReceive('get')->with('jwt')->andReturn($token);
         $this->request->shouldNotReceive('expectsJson');
+        $this->guard->shouldNotReceive('logout');
+
+        $this->jwt->shouldReceive('setToken')->with($token)->andReturnSelf();
+        $this->jwt->shouldReceive('checkOrFail');
+        $this->jwt->shouldReceive('user')->andReturn((object) ['id' => $expectedUserId]);
+
+        $this->guard->shouldReceive('getName')->andReturn($this->expectedGuard);
 
         $this->response->shouldNotReceive('make');
         $this->redirector->shouldNotReceive('guest');
@@ -134,7 +147,12 @@ class RefreshJsonWebTokenTest extends TestCase
         $this->request->shouldReceive('has')->with('jwt')->andReturn(true);
         $this->request->shouldReceive('get')->with('jwt')->andReturn($token);
 
-        $this->jwt->shouldReceive('authenticate')->with($token)->andThrow(TokenExpiredException::class);
+        $this->guard->shouldNotReceive('logout');
+
+        $this->jwt->shouldReceive('setToken')->with($token)->andReturnSelf();
+        $this->jwt->shouldReceive('checkOrFail')->andThrow(TokenExpiredException::class);
+
+        $this->guard->shouldReceive('getName')->andReturn($this->expectedGuard);
 
         $this->response->shouldNotReceive('make');
         $this->redirector->shouldNotReceive('guest');
@@ -172,9 +190,13 @@ class RefreshJsonWebTokenTest extends TestCase
         $this->request->shouldReceive('get')->with('jwt')->andReturn($token);
         $this->request->shouldReceive('expectsJson')->andReturn(true);
 
-        $this->user->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $this->guard->shouldNotReceive('logout');
 
-        $this->jwt->shouldReceive('authenticate')->with($token)->andReturn((object) ['id' => 1000]);
+        $this->jwt->shouldReceive('setToken')->with($token)->andReturnSelf();
+        $this->jwt->shouldReceive('checkOrFail');
+        $this->jwt->shouldReceive('user')->andReturn((object) ['id' => 1000]);
+
+        $this->user->shouldReceive('getAttribute')->with('id')->andReturn(1);
 
         $this->response->shouldReceive('make')
             ->with(m::type('string'), Response::HTTP_UNAUTHORIZED)
@@ -214,11 +236,15 @@ class RefreshJsonWebTokenTest extends TestCase
         $this->request->shouldReceive('get')->with('jwt')->andReturn($token);
         $this->request->shouldReceive('expectsJson')->andReturn(false);
 
+        $this->guard->shouldReceive('logout');
+
+        $this->jwt->shouldReceive('setToken')->with($token)->andReturnSelf();
+        $this->jwt->shouldReceive('checkOrFail');
+        $this->jwt->shouldReceive('user')->andReturn((object) ['id' => 1000]);
+
         $this->user->shouldReceive('getAttribute')->with('id')->andReturn(1);
 
-        $this->jwt->shouldReceive('authenticate')->with($token)->andReturn((object) ['id' => 1000]);
         $this->response->shouldNotReceive('make');
-
         $this->redirector->shouldReceive('guest')->with(m::type('string'))->andReturn($expected);
 
         $closure = function () {

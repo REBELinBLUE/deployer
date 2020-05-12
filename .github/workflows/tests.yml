@@ -26,6 +26,8 @@ jobs:
           php-version: ${{ matrix.php }}
           extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
           coverage: none
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Copy .env
         run: |
@@ -125,6 +127,8 @@ jobs:
           php-version: ${{ matrix.php }}
           extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
           coverage: none
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Copy .env
         run: cp tests/env .env
@@ -229,6 +233,8 @@ jobs:
           php-version: 7.2
           extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
           coverage: pcov
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Copy .env
         run: |
@@ -239,6 +245,9 @@ jobs:
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Dependency Cache
         uses: actions/cache@v1

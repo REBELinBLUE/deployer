@@ -24,6 +24,8 @@ jobs:
         uses: shivammathur/setup-php@2.1.4
         with:
           php-version: 7.2
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Copy .env
         run: |

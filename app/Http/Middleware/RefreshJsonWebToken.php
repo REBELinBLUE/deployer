@@ -86,7 +86,7 @@ class RefreshJsonWebToken
             $token = $request->session()->get('jwt');
 
             try {
-                $this->jwt->setToken($token);
+                $this->jwt->setToken($token)->checkOrFail();
                 $token_user = $this->jwt->user();
 
                 if ($token_user->id !== $authenticated_user->id) {
@@ -94,7 +94,7 @@ class RefreshJsonWebToken
                 }
 
                 $has_valid_token = true;
-            } catch (TokenExpiredException $e) {
+            } catch (TokenExpiredException $e) { // FIXME: Check this works, may not do so anymore
                 $has_valid_token = false;
             } catch (JWTException $e) {
                 if ($request->expectsJson()) {

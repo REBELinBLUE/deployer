@@ -18,6 +18,8 @@ jobs:
         uses: shivammathur/setup-php@2.1.4
         with:
           php-version: 7.2x
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint composer.json
         run: composer validate
