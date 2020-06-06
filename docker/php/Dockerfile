@@ -5,7 +5,7 @@ RUN apk add --no-cache git less openssh-client bash libpng-dev mysql-client $PHP
     && pecl install xdebug-2.9.5 pcov \
     && docker-php-ext-enable pcov \
     && apk del $PHPIZE_DEPS \
-    && rm -rf /usr/local/etc/php-fpm.d/zz-docker.conf
+    && rm -rf /usr/local/etc/php-fpm.d/zz-docker.confdoco
 
 WORKDIR /application
 

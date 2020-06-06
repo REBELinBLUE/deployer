@@ -29,12 +29,12 @@ return [
         ],
         \BeyondCode\SelfDiagnosis\Checks\EnvFileExists::class,
         \BeyondCode\SelfDiagnosis\Checks\ExampleEnvironmentVariablesAreSet::class,
-        \BeyondCode\SelfDiagnosis\Checks\LocalesAreInstalled::class => [
-            'required_locales' => [
-                'en_US',
-                PHP_OS === 'Darwin' ? 'en_US.UTF-8' : 'en_US.utf8',
-            ],
-        ],
+//        \BeyondCode\SelfDiagnosis\Checks\LocalesAreInstalled::class => [
+//            'required_locales' => [
+//                'en_US',
+//                PHP_OS === 'Darwin' ? 'en_US.UTF-8' : 'en_US.utf8',
+//            ],
+//        ],
         \BeyondCode\SelfDiagnosis\Checks\MaintenanceModeNotEnabled::class,
         \BeyondCode\SelfDiagnosis\Checks\MigrationsAreUpToDate::class,
         \BeyondCode\SelfDiagnosis\Checks\PhpExtensionsAreInstalled::class => [
