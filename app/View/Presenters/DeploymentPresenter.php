@@ -125,9 +125,9 @@ class DeploymentPresenter extends Presenter
     /**
      * Gets the name of the committer, or the "Loading" string if it has not yet been determined.
      *
-     * @return string
+     * @return string|null
      */
-    public function presentCommitterName(): string
+    public function presentCommitterName(): ?string
     {
         if ($this->committer === Deployment::LOADING) {
             if ($this->status === Deployment::FAILED) {

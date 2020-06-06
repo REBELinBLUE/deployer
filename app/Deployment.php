@@ -303,9 +303,9 @@ class Deployment extends Model implements HasPresenter, RuntimeInterface
     /**
      * Define a accessor for the deployer name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getDeployerNameAttribute(): string
+    public function getDeployerNameAttribute(): ?string
     {
         if (!empty($this->user_id)) {
             return $this->user->name;

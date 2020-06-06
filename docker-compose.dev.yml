@@ -9,10 +9,24 @@ services:
     links:
       - mailhog
 
-  dev:
-    build: docker/dev
-
   mailhog:
     image: mailhog/mailhog:latest
     ports:
       - "8001:8025"
+
+  webvm:
+    build: docker/dev
+    volumes:
+      - cache:/home/deploy/.composer
+      - webapp:/var/www
+
+  cronvm:
+    build: docker/dev
+    volumes:
+      - cache:/home/deploy/.composer
+      - cronapp:/var/www
+
+volumes:
+  cache:
+  cronapp:
+  webapp:

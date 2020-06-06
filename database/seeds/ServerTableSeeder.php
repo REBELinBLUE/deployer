@@ -10,8 +10,8 @@ class ServerTableSeeder extends Seeder
         DB::table('servers')->delete();
 
         Server::create([
-            'name'        => 'Web VM',
-            'ip_address'  => 'dev',
+            'name'        => 'Web Server',
+            'ip_address'  => 'webvm',
             'user'        => 'deploy',
             'path'        => '/var/www',
             'project_id'  => 1,
@@ -19,8 +19,8 @@ class ServerTableSeeder extends Seeder
         ]);
 
         Server::create([
-            'name'        => 'Cron VM',
-            'ip_address'  => '192.168.33.60',
+            'name'        => 'Cron Server',
+            'ip_address'  => 'cronvm',
             'user'        => 'deploy',
             'path'        => '/var/www',
             'project_id'  => 1,
