@@ -15,11 +15,6 @@ services:
   beanstalkd:
     build: docker/beanstalkd
 
-  mailhog:
-    image: mailhog/mailhog:latest
-    ports:
-      - "8001:8025"
-
   redis:
     image: redis:6.0.1-alpine
 
@@ -53,6 +48,7 @@ services:
     volumes:
       - .:/application
       - ./docker/worker/supervisord.conf:/etc/supervisord.conf
+      - ./docker/php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
     links:
       - beanstalkd
       - mysql
@@ -70,20 +66,18 @@ services:
   php:
     build: docker/php
     environment:
-      PHP_IDE_CONFIG: "serverName=deployer"
-      COMPOSER_ALLOW_SUPERUSER: 1
+      PHP_IDE_CONFIG: serverName=deployer
     working_dir: /application
     volumes:
       - .:/application
       - ./docker/php/php-fpm.conf:/usr/local/etc/php-fpm.d/php-fpm.conf
       - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ./docker/php/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+      - ./docker/php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
     links:
       - beanstalkd
-      - mailhog
       - mysql
       - redis
 
 volumes:
   data:
-    driver: "local"
+    driver: local

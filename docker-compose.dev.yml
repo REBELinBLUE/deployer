@@ -6,6 +6,13 @@ services:
       XDEBUG_CONFIG: remote_host=host.docker.internal
     volumes:
       - "./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini"
+    links:
+      - mailhog
 
   dev:
     build: docker/dev
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "8001:8025"
