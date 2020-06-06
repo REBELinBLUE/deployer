@@ -113,7 +113,7 @@ class InstallApp extends Command
         $config = base_path('.env');
 
         if (!$this->filesystem->exists($config)) {
-            $this->filesystem->copy(base_path('.env.dist'), $config);
+            $this->filesystem->copy(base_path('.env.example'), $config);
             $this->config->set('app.key', 'SomeRandomString');
         }
 

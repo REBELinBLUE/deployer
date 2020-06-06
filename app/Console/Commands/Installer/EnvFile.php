@@ -97,7 +97,7 @@ class EnvFile
     }
 
     /**
-     * Checks for new configuration values in .env.dist and copy them to .env.
+     * Checks for new configuration values in .env.example and copy them to .env.
      *
      * @throws FileNotFoundException
      * @return bool
@@ -107,7 +107,7 @@ class EnvFile
     {
         $prev     = base_path('.env.prev');
         $current  = base_path('.env');
-        $dist     = base_path('.env.dist');
+        $dist     = base_path('.env.example');
 
         $config = [];
 

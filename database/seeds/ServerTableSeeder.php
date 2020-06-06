@@ -11,7 +11,7 @@ class ServerTableSeeder extends Seeder
 
         Server::create([
             'name'        => 'Web VM',
-            'ip_address'  => '192.168.33.50',
+            'ip_address'  => 'dev',
             'user'        => 'deploy',
             'path'        => '/var/www',
             'project_id'  => 1,
@@ -27,13 +27,13 @@ class ServerTableSeeder extends Seeder
             'deploy_code' => true,
         ]);
 
-        Server::create([
-            'name'        => 'Database VM',
-            'ip_address'  => '192.168.33.70',
-            'user'        => 'deploy',
-            'path'        => '/home/deploy',
-            'project_id'  => 1,
-            'deploy_code' => false,
-        ]);
+//        Server::create([
+//            'name'        => 'Database VM',
+//            'ip_address'  => '192.168.33.70',
+//            'user'        => 'deploy',
+//            'path'        => '/home/deploy',
+//            'project_id'  => 1,
+//            'deploy_code' => false,
+//        ]);
     }
 }

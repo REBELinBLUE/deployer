@@ -24,6 +24,8 @@
 
             @include('_partials.nav')
 
+            {{  array_except() }}
+
             @include('_partials.sidebar')
 
             <div class="content-wrapper">

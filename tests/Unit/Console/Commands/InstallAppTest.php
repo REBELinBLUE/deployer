@@ -138,7 +138,7 @@ class InstallAppTest extends TestCase
         $this->console->shouldReceive('find')->once()->with('route:cache')->andReturn($command);
 
         $env                = base_path('.env');
-        $dist               = base_path('.env.dist');
+        $dist               = base_path('.env.example');
         $expectedToken      = 'a-random-app-key';
         $expectedName       = 'Admin';
         $expectedEmail      = 'admin@example.com';

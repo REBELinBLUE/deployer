@@ -6,3 +6,6 @@ services:
       XDEBUG_CONFIG: remote_host=host.docker.internal
     volumes:
       - "./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini"
+
+  dev:
+    build: docker/dev

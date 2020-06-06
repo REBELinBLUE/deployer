@@ -21,7 +21,7 @@ class EnvFileTest extends TestCase
         $this->filesystem = m::mock(Filesystem::class);
         $this->prev       = base_path('.env.prev');
         $this->env        = base_path('.env');
-        $this->dist       = base_path('.env.dist');
+        $this->dist       = base_path('.env.example');
     }
 
     /**

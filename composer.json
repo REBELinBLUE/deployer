@@ -50,6 +50,7 @@
         "version/version": "^2.4"
     },
     "require-dev": {
+        "facade/ignition-self-diagnosis": "^1.0",
         "friendsofphp/php-cs-fixer": "^2.16",
         "fzaninotto/faker": "~1.9",
         "mockery/mockery": "^1.3",
