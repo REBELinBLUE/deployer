@@ -11,7 +11,7 @@ class ServerTableSeeder extends Seeder
 
         Server::create([
             'name'        => 'Web Server',
-            'ip_address'  => 'webvm',
+            'ip_address'  => 'web.dev',
             'user'        => 'deploy',
             'path'        => '/var/www',
             'project_id'  => 1,
@@ -20,20 +20,20 @@ class ServerTableSeeder extends Seeder
 
         Server::create([
             'name'        => 'Cron Server',
-            'ip_address'  => 'cronvm',
+            'ip_address'  => 'cron.dev',
             'user'        => 'deploy',
             'path'        => '/var/www',
             'project_id'  => 1,
             'deploy_code' => true,
         ]);
 
-//        Server::create([
-//            'name'        => 'Database VM',
-//            'ip_address'  => '192.168.33.70',
-//            'user'        => 'deploy',
-//            'path'        => '/home/deploy',
-//            'project_id'  => 1,
-//            'deploy_code' => false,
-//        ]);
+        Server::create([
+            'name'        => 'Database Server',
+            'ip_address'  => 'db.dev',
+            'user'        => 'deploy',
+            'path'        => '/home/deploy',
+            'project_id'  => 1,
+            'deploy_code' => false,
+        ]);
     }
 }

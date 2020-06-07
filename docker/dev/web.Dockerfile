@@ -2,7 +2,7 @@ FROM sickp/alpine-sshd:7.9-r1
 
 RUN apk add --update --no-cache rsync git bash tar gzip less curl coreutils findutils
 
-RUN addgroup -S deploy \
+RUN addgroup deploy \
     && adduser -D -G deploy -s /bin/bash deploy \
     && passwd -u deploy \
     && chown -R deploy:deploy /home/deploy

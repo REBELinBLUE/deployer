@@ -14,17 +14,31 @@ services:
     ports:
       - "8001:8025"
 
-  webvm:
-    build: docker/dev
+  # Designed to emulate a real server.
+  #
+  # Obviously you wouldn't use deployer to deploy to docker containers
+  # in a production environment as it defeats the point of using containers.
+  # Saves us from having to run VirtualBox and Vagrant to run a heavy VM
+  web.dev:
+    build:
+      context: docker/dev
+      dockerfile: web.Dockerfile
     volumes:
       - cache:/home/deploy/.composer
       - webapp:/var/www
 
-  cronvm:
-    build: docker/dev
+  cron.dev:
+    build:
+      context: docker/dev
+      dockerfile: web.Dockerfile
     volumes:
       - cache:/home/deploy/.composer
       - cronapp:/var/www
+
+  db.dev:
+    build:
+      context: docker/dev
+      dockerfile: db.Dockerfile
 
 volumes:
   cache:
