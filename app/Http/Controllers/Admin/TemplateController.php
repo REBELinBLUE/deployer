@@ -153,6 +153,7 @@ class TemplateController extends Controller
             'target_type'  => 'template',
             'target_id'    => $template->id,
             'route'        => 'admin.templates.commands.step',
+            'route_field'  => 'id',
         ]);
     }
 

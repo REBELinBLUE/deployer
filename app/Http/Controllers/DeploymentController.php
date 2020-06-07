@@ -112,6 +112,7 @@ class DeploymentController extends Controller
             'tags'         => $project->tags,
             'branches'     => $project->branches,
             'route'        => 'commands.step',
+            'route_field'  => 'project',
             'target_type'  => 'project',
             'target_id'    => $project->id,
         ]);
