@@ -38,7 +38,6 @@
         "laravel/slack-notification-channel": "^2.0",
         "laravel/telescope": "^3.3",
         "laravel/tinker": "^2.0",
-        "lubusin/laravel-decomposer": "dev-Laravel-6-and-7",
         "mccool/laravel-auto-presenter": "^7.4",
         "melihovv/laravel-log-viewer": "^6.0",
         "michele-angioni/multi-language": "dev-master",
@@ -142,10 +141,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/REBELinBLUE/laravel-langman.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/REBELinBLUE/laravel-decomposer.git"
         }
     ]
 }

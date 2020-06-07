@@ -18,48 +18,37 @@ ifndef COMPOSER_CACHE_DIR
 COMPOSER_CACHE_DIR := $(COMPOSER_HOME)/cache
 endif
 
-composer: ##@production Install composer locally
-ifndef COMPOSER
-	curl --silent https://getcomposer.org/installer | php -- --quiet
-endif
-
 permissions: ##@production Fix permissions
 	chmod 777 storage/logs/ bootstrap/cache/
 	chmod 777 storage/framework/cache/ storage/framework/sessions/ storage/framework/views/
 	chmod 777 storage/app/mirrors/ storage/app/tmp/ storage/app/public/
 
-migrate: ##@production Migrate the database
-	@echo "${GREEN}Migrate the database${RESET}"
-	@php ./artisan migrate
+install: permissions ##@production Install dependencies
+	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest
+	@docker-compose run --rm node npm install --production
 
-install: composer ##@production Install dependencies
-	@$(MAKE) permissions
-ifndef COMPOSER
-	php composer.phar install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest
-else
-	composer install --optimize-autoloader --no-dev  --prefer-dist --no-interaction --no-suggest
-endif
-	npm install --production
-
-install-dev: ##@development Install dev dependencies
-	@$(MAKE) permissions
-	@$(MAKE) docker-install-dev
+install-dev: permissions ##@development Install dev dependencies
+	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest
+	@docker-compose run --rm node npm install
 
 update-deps: ##@development Update dependencies
 	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer update --no-interaction --no-suggest --prefer-dist --no-suggest
-	@docker-compose exec node npm upgrade
+	@docker-compose run -rm node npm upgrade
 
-clean: ##@development Clean cache, logs and other temporary files
-	@$(MAKE) stop
+clean: stop ##@development Clean cache, logs and other temporary files
 	rm -rf storage/logs/*.log bootstrap/cache/*.php storage/framework/schedule-* storage/clockwork/*.json
 	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*.php
 	rm -rf database/backups/*.gz
 
-rollback: ##@development Rollback the previous database migration
+migrate: ##@database Runs the database migrations
+	@echo "${GREEN}Migrate the database${RESET}"
+	@docker-compose exec php ./artisan migrate --force
+
+rollback: ##@database Rollback the previous database migration
 	@echo "${GREEN}Rollback the database${RESET}"
 	@docker-compose exec php ./artisan migrate:rollback
 
-seed: #@development Seed the database
+seed: ##@database Seed the database
 	@echo "${GREEN}Seed the database${RESET}"
 	@docker-compose exec php ./artisan migrate:fresh --seed
 
@@ -101,20 +90,11 @@ integration: ##@tests Integration Tests
 	@echo "${GREEN}Integration tests${RESET}"
 	@docker-compose run --rm composer test:integration
 
-quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests & integration tests
-	@$(MAKE) lint
-	@$(MAKE) phpcs
+quicktest: lint phpcs ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests & integration tests
 
-test: ##@shortcuts Runs most tests; but excludes integration tests
-	@$(MAKE) quicktest
-	@$(MAKE) phpunit
-	@$(MAKE) phpmd
+test: lint phpcs phpunit phpmd ##@shortcuts Runs most tests; but excludes integration tests
 
-fulltest: ##@shortcuts Runs all tests
-	@$(MAKE) quicktest
-	@$(MAKE) phpunit
-	@$(MAKE) integration
-	@$(MAKE) phpmd
+fulltest: lint phpcs phpunit integration phpmd ##@shortcuts Runs all tests
 
 run: ##@docker Runs the containers
 	@docker-compose up -d --remove-orphans
@@ -127,23 +107,15 @@ stop: ##@docker Stops the containers
 
 build: ##@docker Builds the application
 	@$(MAKE) run
-	@cp -f ./docker/laravel_env .env
-	@$(MAKE) docker-install
-	@$(MAKE) docker-migrate
-	@sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(shell date +%s | sha256sum | base64 | head -c 32; echo)/g" .env
-	@docker-compose exec php ./artisan key:generate --force
+	@cp -fn ./docker/laravel_env .env
+	@$(MAKE) install
+	@$(MAKE) migrate
+	@$(MAKE) secrets
 	@docker-compose exec php ./artisan deployer:create-user admin admin@example.com changeme --no-email
 
-docker-migrate: ##@docker Runs the migrations inside the container
-	@docker-compose exec php ./artisan migrate --force
-
-docker-install:
-	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
-	@docker-compose exec --rm node npm install --production
-
-docker-install-dev:
-	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest --ignore-platform-reqs
-	@docker-compose run --rm node npm install
+secrets: ##@shortcuts Set the JWT_SECRET and the APP_SECRET
+	@docker-compose exec php ./artisan jwt:secret --force
+	@docker-compose exec php ./artisan key:generate --force
 
 # --------------------------------------------------------- #
 # ----- The targets below should not be shown in help ----- #

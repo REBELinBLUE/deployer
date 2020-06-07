@@ -42,7 +42,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --no-suggest --ignore-platform-reqs
+        run: composer install --no-interaction --prefer-dist --no-suggest
 
       - name: Lint
         run: composer test:lint

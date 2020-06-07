@@ -1,5 +1,7 @@
 FROM php:7.2.30-fpm-alpine3.11
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 RUN apk add --no-cache git less openssh-client bash libpng-dev mysql-client $PHPIZE_DEPS
 
 RUN docker-php-ext-install pdo_mysql gd pcntl \
