@@ -30,7 +30,7 @@ permissions: ##@production Fix permissions
 
 migrate: ##@production Migrate the database
 	@echo "${GREEN}Migrate the database${RESET}"
-	@docker-compose exec php ./artisan migrate
+	@php ./artisan migrate
 
 install: composer ##@production Install dependencies
 	@$(MAKE) permissions
@@ -46,7 +46,7 @@ install-dev: ##@development Install dev dependencies
 	@$(MAKE) docker-install-dev
 
 update-deps: ##@development Update dependencies
-	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer update --no-interaction --no-suggest --prefer-dist --no-suggest
+	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer update --no-interaction --no-suggest --prefer-dist --no-suggest
 	@docker-compose exec node npm upgrade
 
 clean: ##@development Clean cache, logs and other temporary files
@@ -135,15 +135,15 @@ build: ##@docker Builds the application
 	@docker-compose exec php ./artisan deployer:create-user admin admin@example.com changeme --no-email
 
 docker-migrate: ##@docker Runs the migrations inside the container
-	@docker-compose exec php ./artisan migrate
+	@docker-compose exec php ./artisan migrate --force
 
 docker-install:
-	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
-	@docker-compose exec node npm install --production
+	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
+	@docker-compose exec --rm node npm install --production
 
 docker-install-dev:
-	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest --ignore-platform-reqs
-	@docker-compose exec node npm install
+	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest --ignore-platform-reqs
+	@docker-compose run --rm node npm install
 
 # --------------------------------------------------------- #
 # ----- The targets below should not be shown in help ----- #
