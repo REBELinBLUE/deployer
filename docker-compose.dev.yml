@@ -7,8 +7,8 @@ services:
       XDEBUG_CONFIG: remote_host=host.docker.internal
       APP_ENV: local
       APP_DEBUG: "true"
-    #volumes:
-      #- "./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini"
+    volumes:
+      - "./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini"
     links:
       - mailhog
 
