@@ -65,8 +65,6 @@ services:
 
   php:
     build: docker/php
-    environment:
-      PHP_IDE_CONFIG: serverName=deployer
     working_dir: /application
     volumes:
       - .:/application

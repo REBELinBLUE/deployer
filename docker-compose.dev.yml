@@ -3,11 +3,28 @@ version: "3.1"
 services:
   php:
     environment:
+      PHP_IDE_CONFIG: serverName=deployer
       XDEBUG_CONFIG: remote_host=host.docker.internal
+      APP_ENV: local
+      APP_DEBUG: true
+      TELESCOPE_ENABLED: true
     volumes:
       - "./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini"
     links:
       - mailhog
+
+  worker:
+    environment:
+      PHP_IDE_CONFIG: serverName=deployer
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+      APP_ENV: local
+      APP_DEBUG: true
+      TELESCOPE_ENABLED: true
+
+  node:
+    environment:
+      APP_ENV: local
+      APP_DEBUG: true
 
   mailhog:
     image: mailhog/mailhog:latest

@@ -8,8 +8,14 @@ YELLOW   := $(shell tput -Txterm setaf 3)
 RESET    := $(shell tput -Txterm sgr0)
 COMPOSER := $(shell command -v composer 2> /dev/null)
 
+# COMPOSER_HOME & COMPOSER_CACHE_DIR are environment variables which can be used to
+# override the home and cache dir so if it isn't set then set it to the default
+ifndef COMPOSER_HOME
+COMPOSER_HOME := ~/.composer
+endif
+
 ifndef COMPOSER_CACHE_DIR
-COMPOSER_CACHE_DIR := ~/.composer/cache
+COMPOSER_CACHE_DIR := $(COMPOSER_HOME)/cache
 endif
 
 composer: ##@production Install composer locally
@@ -24,7 +30,7 @@ permissions: ##@production Fix permissions
 
 migrate: ##@production Migrate the database
 	@echo "${GREEN}Migrate the database${RESET}"
-	@php ./artisan migrate
+	@docker-compose exec php ./artisan migrate
 
 install: composer ##@production Install dependencies
 	@$(MAKE) permissions
@@ -55,7 +61,7 @@ rollback: ##@development Rollback the previous database migration
 
 seed: #@development Seed the database
 	@echo "${GREEN}Seed the database${RESET}"
-	@docker-compose exec php ./artisan db:seed
+	@docker-compose exec php ./artisan migrate:fresh --seed
 
 lint: ##@tests PHP Parallel Lint
 	@echo "${GREEN}PHP Parallel Lint${RESET}"
