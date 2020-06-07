@@ -5,7 +5,10 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreProjectRequest;
@@ -13,7 +16,6 @@ use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
-use REBELinBLUE\Deployer\User;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -40,10 +42,10 @@ class ProjectController extends Controller
      * @param TemplateRepositoryInterface $templateRepository
      * @param GroupRepositoryInterface    $groupRepository
      * @param Request                     $request
+     * @param ViewFactory                 $view
+     * @param Translator                  $translator
      *
-     * @param  ViewFactory           $view
-     * @param  Translator            $translator
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index(
         UserRepositoryInterface $user,
@@ -52,12 +54,12 @@ class ProjectController extends Controller
         Request $request,
         ViewFactory $view,
         Translator $translator
-    ) {
+    ): View {
         $projects = $this->repository->getAll(true);
 
         return $view->make('admin.projects.listing', [
             'is_secure' => $request->secure(),
-            'title'     => $translator->trans('projects.manage'),
+            'title'     => $translator->get('projects.manage'),
             'templates' => $templateRepository->getAll(),
             'groups'    => $groupRepository->getAll(),
             'projects'  => $projects->toJson(),
@@ -71,9 +73,9 @@ class ProjectController extends Controller
      * @param StoreProjectRequest $request
      * @param ResponseFactory     $response
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(StoreProjectRequest $request, ResponseFactory $response)
+    public function store(StoreProjectRequest $request, ResponseFactory $response): JsonResponse
     {
         return $response->json($this->repository->create($request->only(
             'name',
@@ -98,9 +100,9 @@ class ProjectController extends Controller
      * @param int                 $project_id
      * @param StoreProjectRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($project_id, StoreProjectRequest $request)
+    public function update(int $project_id, StoreProjectRequest $request): Model
     {
         return $this->repository->updateById($request->only(
             'name',

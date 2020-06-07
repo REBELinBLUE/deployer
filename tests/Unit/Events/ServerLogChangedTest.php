@@ -19,7 +19,7 @@ class ServerLogChangedTest extends TestCase
     private $presenter;
     private $decorator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -119,13 +119,13 @@ class ServerLogChangedTest extends TestCase
     }
 
     private function mockServerlog(
-        $log_id,
-        $output,
+        int $log_id,
+        string $output,
         $status = '',
-        $started_at = null,
-        $finished_at = null,
-        $runtime = false
-    ) {
+        ?Carbon $started_at = null,
+        ?Carbon $finished_at = null,
+        bool $runtime = false
+    ): ServerLog {
         $log = m::mock(ServerLog::class);
         $log->shouldDeferMissing();
         $log->shouldReceive('getAttribute')->once()->with('id')->andReturn($log_id);

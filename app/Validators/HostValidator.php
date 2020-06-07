@@ -14,7 +14,7 @@ class HostValidator implements ValidatorInterface
      *
      * @return bool
      */
-    public function validate(...$args)
+    public function validate(...$args): bool
     {
         $value = $args[1];
 

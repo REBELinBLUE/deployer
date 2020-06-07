@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreChannelRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\ChannelRepositoryInterface;
@@ -31,9 +33,9 @@ class ChannelController extends Controller
      * @param StoreChannelRequest $request
      * @param ResponseFactory     $response
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(StoreChannelRequest $request, ResponseFactory $response)
+    public function store(StoreChannelRequest $request, ResponseFactory $response): JsonResponse
     {
         $input = $request->only(
             'name',
@@ -60,9 +62,9 @@ class ChannelController extends Controller
      * @param int                 $channel_id
      * @param StoreChannelRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($channel_id, StoreChannelRequest $request)
+    public function update(int $channel_id, StoreChannelRequest $request): Model
     {
         $input = $request->only(
             'name',

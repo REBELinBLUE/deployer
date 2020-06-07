@@ -31,7 +31,7 @@ class ReleaseArchiver
      * @param Deployment $deployment
      * @param string     $path
      */
-    public function __construct(Deployment $deployment, $path)
+    public function __construct(Deployment $deployment, string $path)
     {
         $this->deployment = $deployment;
         $this->path       = $path;
@@ -42,9 +42,10 @@ class ReleaseArchiver
      *
      * @param Process $process
      *
-     * @throws \RuntimeException
+     *
+     * @throws RuntimeException
      */
-    public function handle(Process $process)
+    public function handle(Process $process): void
     {
         $tmp_dir = 'clone_' . $this->deployment->project_id . '_' . $this->deployment->release_id;
 

@@ -26,7 +26,7 @@
                     <td>{{ $project->after_clone }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route($route, ['id' => $project->id, 'step' => 'clone']) }}" class="btn btn-default" title="{{ trans('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route($route, [$route_field => $project->id, 'step' => 'clone']) }}" class="btn btn-default" title="{{ trans('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -36,7 +36,7 @@
                     <td>{{ $project->after_install }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route($route, ['id' => $project->id, 'step' => 'install']) }}" class="btn btn-default" title="{{ trans('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route($route, [$route_field => $project->id, 'step' => 'install']) }}" class="btn btn-default" title="{{ trans('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -46,7 +46,7 @@
                     <td>{{ $project->after_activate }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route($route, ['id' => $project->id, 'step' => 'activate']) }}" class="btn btn-default" title="{{ trans('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route($route, [$route_field => $project->id, 'step' => 'activate']) }}" class="btn btn-default" title="{{ trans('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -56,7 +56,7 @@
                     <td>{{ $project->after_purge }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ route($route, ['id' => $project->id, 'step' => 'purge']) }}" class="btn btn-default" title="{{ trans('commands.configure') }}"><i class="fa fa-gear"></i></a>
+                            <a href="{{ route($route, [$route_field => $project->id, 'step' => 'purge']) }}" class="btn btn-default" title="{{ trans('commands.configure') }}"><i class="fa fa-gear"></i></a>
                         </div>
                     </td>
                 </tr>

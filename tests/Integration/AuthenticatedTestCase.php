@@ -10,7 +10,7 @@ use REBELinBLUE\Deployer\User;
  */
 abstract class AuthenticatedTestCase extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

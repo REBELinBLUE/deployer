@@ -31,8 +31,10 @@ class ChannelTest extends TestCase
     /**
      * @covers ::scopeForEvent
      * @dataProvider provideEvents
+     *
+     * @param string $event
      */
-    public function testScopeForEvent($event)
+    public function testScopeForEvent(string $event)
     {
         $builder = m::mock(Builder::class);
         $builder->shouldReceive('where')->once()->with('on_' . $event, '=', true)->andReturnSelf();
@@ -41,7 +43,7 @@ class ChannelTest extends TestCase
         $channel->scopeForEvent($builder, $event);
     }
 
-    public function provideEvents()
+    public function provideEvents(): array
     {
         return array_chunk($this->fixture('Channel')['events'], 1);
     }
@@ -49,8 +51,12 @@ class ChannelTest extends TestCase
     /**
      * @dataProvider provideTypes
      * @covers ::routeNotificationForMail
+     *
+     * @param string      $type
+     * @param string|null $expected
+     * @param array       $config
      */
-    public function testRouteNotificationForMail($type, $expected = null, array $config = [])
+    public function testRouteNotificationForMail(string $type, ?string $expected = null, array $config = [])
     {
         if ($type === Channel::EMAIL) {
             $expected = 'admin@example.com';
@@ -71,8 +77,12 @@ class ChannelTest extends TestCase
     /**
      * @covers ::routeNotificationForSlack
      * @dataProvider provideTypes
+     *
+     * @param string      $type
+     * @param string|null $expected
+     * @param array       $config
      */
-    public function testRouteNotificationForSlack($type, $expected = null, array $config = [])
+    public function testRouteNotificationForSlack(string $type, ?string $expected = null, array $config = [])
     {
         if ($type === Channel::SLACK) {
             $expected = 'http://slack.example.com/webhook';
@@ -93,8 +103,12 @@ class ChannelTest extends TestCase
     /**
      * @covers ::routeNotificationForWebhook
      * @dataProvider provideTypes
+     *
+     * @param string      $type
+     * @param string|null $expected
+     * @param array       $config
      */
-    public function testRouteNotificationForWebhook($type, $expected = null, array $config = [])
+    public function testRouteNotificationForWebhook(string $type, ?string $expected = null, array $config = [])
     {
         if ($type === Channel::WEBHOOK) {
             $expected = 'http://www.example.com/webhook';
@@ -115,8 +129,12 @@ class ChannelTest extends TestCase
     /**
      * @covers ::routeNotificationForTwilio
      * @dataProvider provideTypes
+     *
+     * @param string      $type
+     * @param string|null $expected
+     * @param array       $config
      */
-    public function testRouteNotificationForTwilio($type, $expected = null, array $config = [])
+    public function testRouteNotificationForTwilio(string $type, ?string $expected = null, array $config = [])
     {
         if ($type === Channel::TWILIO) {
             $expected = '+4477012345671';
@@ -134,29 +152,7 @@ class ChannelTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @covers ::routeNotificationForHipchat
-     * @dataProvider provideTypes
-     */
-    public function testRouteNotificationForHipchat($type, $expected = null, array $config = [])
-    {
-        if ($type === Channel::HIPCHAT) {
-            $expected = '#channel';
-            $config   = ['room' => $expected];
-        }
-
-        /** @var Channel $channel */
-        $channel = factory(Channel::class)->make([
-            'type'       => $type,
-            'config'     => $config,
-            'project_id' => 1,
-        ]);
-        $actual = $channel->routeNotificationForHipchat();
-
-        $this->assertSame($expected, $actual);
-    }
-
-    public function provideTypes()
+    public function provideTypes(): array
     {
         return array_chunk($this->fixture('Channel')['types'], 1);
     }

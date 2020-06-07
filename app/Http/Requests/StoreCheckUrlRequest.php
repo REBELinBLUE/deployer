@@ -12,7 +12,7 @@ class StoreCheckUrlRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'name'       => 'required|max:255',

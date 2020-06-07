@@ -1,11 +1,11 @@
 fixture:
   healthy: # URL statuses which should be considered healthy
     -
-      status: !php/const:REBELinBLUE\Deployer\CheckUrl::ONLINE
+      status: !php/const REBELinBLUE\Deployer\CheckUrl::ONLINE
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\CheckUrl::UNTESTED
+      status: !php/const REBELinBLUE\Deployer\CheckUrl::UNTESTED
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\CheckUrl::OFFLINE
+      status: !php/const REBELinBLUE\Deployer\CheckUrl::OFFLINE
       expected: false

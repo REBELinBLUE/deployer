@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
@@ -21,8 +22,11 @@ class ChannelControllerTest extends AuthenticatedTestCase
      * @covers ::store
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreChannelRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
+     *
+     * @param string $type
+     * @param array  $config
      */
-    public function testStore($type, $config)
+    public function testStore(string $type, array $config)
     {
         $this->withoutEvents()->withoutNotifications();
 
@@ -46,7 +50,7 @@ class ChannelControllerTest extends AuthenticatedTestCase
 
         $output = array_merge([
             'id' => 1,
-        ], array_except($input, array_keys($config)));
+        ], Arr::except($input, array_keys($config)));
 
         $response = $this->postJson('/notifications', $input);
 
@@ -54,12 +58,11 @@ class ChannelControllerTest extends AuthenticatedTestCase
         $this->assertDatabaseHas('channels', $output);
     }
 
-    public function provideChannelConfig()
+    public function provideChannelConfig(): array
     {
         return [
             ['custom', ['url' => 'http://www.example.com']],
             ['slack', ['channel' => '#deployer', 'icon' => ':ghost:', 'webhook' => 'http://hook.slack.com']],
-            ['hipchat', ['room' => '#phpdeployment']],
             ['twilio', ['telephone' => '+4477089123456']],
             ['mail', ['email' => 'user@example.com']],
         ];
@@ -71,8 +74,11 @@ class ChannelControllerTest extends AuthenticatedTestCase
      * @covers ::update
      * @covers \REBELinBLUE\Deployer\Http\Requests\StoreChannelRequest
      * @covers \REBELinBLUE\Deployer\Http\Requests\Request
+     *
+     * @param string $type
+     * @param array  $config
      */
-    public function testUpdate($type, $config)
+    public function testUpdate(string $type, array $config)
     {
         $original = 'Notify Me!';
         $updated  = 'Notify You!';
@@ -86,7 +92,7 @@ class ChannelControllerTest extends AuthenticatedTestCase
             'name'   => $original,
         ]);
 
-        $data = array_only($channel->fresh()->toArray(), [
+        $data = Arr::only($channel->fresh()->toArray(), [
             'name',
             'type',
             'on_deployment_success',
@@ -105,7 +111,7 @@ class ChannelControllerTest extends AuthenticatedTestCase
 
         $output = array_merge([
             'id' => 1,
-        ], array_except($input, array_keys($config)));
+        ], Arr::except($input, array_keys($config)));
 
         $response = $this->putJson('/notifications/1', $input);
 

@@ -6,10 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Routing\UrlGenerator;
 use Mockery as m;
-use NotificationChannels\HipChat\CardAttribute;
-use NotificationChannels\HipChat\CardAttributeStyles;
-use NotificationChannels\HipChat\CardFormats;
-use NotificationChannels\HipChat\CardStyles;
 use REBELinBLUE\Deployer\Channel;
 use REBELinBLUE\Deployer\Deployment;
 use REBELinBLUE\Deployer\Project;
@@ -19,7 +15,7 @@ abstract class DeploymentFinishedTestCase extends TestCase
 {
     protected $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -38,7 +34,7 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->once()->with('id')->andReturn($expectedId);
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with($translation, [
                              'id'      => $expectedId,
@@ -139,39 +135,39 @@ abstract class DeploymentFinishedTestCase extends TestCase
             'last_commit'         => $expectedCommit,
         ];
 
-        $this->translator->shouldReceive('trans')->once()->with($message)->andReturn($expectedMessage);
-        $this->translator->shouldReceive('trans')->once()->with($subject)->andReturn($expectedSubject);
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')->once()->with($message)->andReturn($expectedMessage);
+        $this->translator->shouldReceive('get')->once()->with($subject)->andReturn($expectedSubject);
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.project_name')
                          ->andReturn('project');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.deployed_branch')
                          ->andReturn('deployed_branch');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.started_at')
                          ->andReturn('started_at');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.finished_at')
                          ->andReturn('finished_at');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.last_committer')
                          ->andReturn('last_committer');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.last_commit')
                          ->andReturn('last_commit');
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->once()
                          ->with('notifications.deployment_details')
                          ->andReturn($expectedActionText);
 
         if ($withReason) {
-            $this->translator->shouldReceive('trans')
+            $this->translator->shouldReceive('get')
                              ->once()
                              ->with('notifications.reason', ['reason' => $expectedReason])
                              ->andReturn($expectedReason);
@@ -258,12 +254,12 @@ abstract class DeploymentFinishedTestCase extends TestCase
             $expectedCommitUrl        = false;
         }
 
-        $this->translator->shouldReceive('trans')->once()->with('notifications.project')->andReturn('project');
-        $this->translator->shouldReceive('trans')->once()->with('notifications.commit')->andReturn('commit');
-        $this->translator->shouldReceive('trans')->once()->with('notifications.committer')->andReturn('committer');
-        $this->translator->shouldReceive('trans')->once()->with('notifications.branch')->andReturn('branch');
-        $this->translator->shouldReceive('trans')->once()->with('app.name')->andReturn($expectedAppName);
-        $this->translator->shouldReceive('trans')->once()->with($message)->andReturn('the slack message %s');
+        $this->translator->shouldReceive('get')->once()->with('notifications.project')->andReturn('project');
+        $this->translator->shouldReceive('get')->once()->with('notifications.commit')->andReturn('commit');
+        $this->translator->shouldReceive('get')->once()->with('notifications.committer')->andReturn('committer');
+        $this->translator->shouldReceive('get')->once()->with('notifications.branch')->andReturn('branch');
+        $this->translator->shouldReceive('get')->once()->with('app.name')->andReturn($expectedAppName);
+        $this->translator->shouldReceive('get')->once()->with($message)->andReturn('the slack message %s');
 
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedProjectName);
@@ -317,81 +313,6 @@ abstract class DeploymentFinishedTestCase extends TestCase
         $this->assertSame($expectedTimestamp->timestamp, $attachment->timestamp);
 
         $this->assertSame($expectedFields, $attachment->fields);
-    }
-
-    protected function toHipchat($class, $message, $level)
-    {
-        $expectedId            = 53;
-        $expectedProjectName   = 'a-project-name';
-        $expectedProjectId     = 143;
-        $expectedBranchName    = 'master';
-        $expectedProjectUrl    = 'http://project.example.com/';
-        $expectedDeploymentUrl = 'http://deployment.example.com/';
-        $expectedCommitter     = 'a committer name';
-        $expectedCommit        = '1234abcd';
-        $expectedCommitUrl     = 'http://git.example.com/';
-        $expectedRoom          = '#channel';
-        $expectedMessage       = 'hipchat message <a href="' . $expectedDeploymentUrl . '">#' . $expectedId . '</a>';
-        $expectedTitle         = 'hipchat message #' . $expectedId;
-
-        $this->translator->shouldReceive('trans')->once()->with('notifications.project')->andReturn('project');
-        $this->translator->shouldReceive('trans')->once()->with('notifications.commit')->andReturn('commit');
-        $this->translator->shouldReceive('trans')->once()->with('notifications.committer')->andReturn('committer');
-        $this->translator->shouldReceive('trans')->once()->with('notifications.branch')->andReturn('branch');
-        $this->translator->shouldReceive('trans')->once()->with($message)->andReturn('hipchat message %s');
-
-        $project = m::mock(Project::class);
-        $project->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedProjectName);
-        $project->shouldReceive('getAttribute')->once()->with('id')->andReturn($expectedProjectId);
-
-        $deployment = m::mock(Deployment::class);
-        $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('id')->andReturn($expectedId);
-        $deployment->shouldReceive('getAttribute')->once()->with('short_commit')->andReturn($expectedCommit);
-        $deployment->shouldReceive('getAttribute')->once()->with('committer')->andReturn($expectedCommitter);
-        $deployment->shouldReceive('getAttribute')->once()->with('branch')->andReturn($expectedBranchName);
-        $deployment->shouldReceive('getAttribute')->once()->with('commit_url')->andReturn($expectedCommitUrl);
-
-        $config = (object) ['room' => $expectedRoom];
-
-        $channel = m::mock(Channel::class);
-        $channel->shouldReceive('getAttribute')->atLeast()->once()->with('config')->andReturn($config);
-
-        // Replace the URL generator so that we can get a known URL
-        $mock = m::mock(UrlGenerator::class);
-        $mock->shouldReceive('route')
-             ->with('projects', ['id' => $expectedProjectId], true)
-             ->andReturn($expectedProjectUrl);
-
-        $mock->shouldReceive('route')
-             ->with('deployments', ['id' => $expectedId], true)
-             ->andReturn($expectedDeploymentUrl);
-
-        $this->app->instance('url', $mock);
-
-        $notification = new $class($project, $deployment, $this->translator);
-        $hipchat      = $notification->toHipchat($channel);
-
-        $this->assertSame($expectedRoom, $hipchat->room);
-        $this->assertTrue($hipchat->notify);
-        $this->assertSame($level, $hipchat->level);
-        $this->assertSame($expectedMessage, $hipchat->content);
-
-        $card = $hipchat->card;
-
-        $this->assertSame($expectedTitle, $card->title);
-        $this->assertSame(CardStyles::APPLICATION, $card->style);
-        $this->assertSame(CardFormats::MEDIUM, $card->cardFormat);
-        $this->assertSame($expectedDeploymentUrl, $card->url);
-
-        $attributes = $card->attributes;
-
-        $this->assertCount(4, $attributes);
-        $this->assertCardIsExpected($attributes[0], $expectedProjectName, 'project', $expectedProjectUrl);
-        $this->assertCardIsExpected($attributes[1], $expectedCommit, 'commit', $expectedCommitUrl);
-        $this->assertCardIsExpected($attributes[2], $expectedCommitter, 'committer');
-        $this->assertCardIsExpected($attributes[3], $expectedBranchName, 'branch');
-
-        $this->assertSame(CardAttributeStyles::GENERAL, $attributes[3]->style);
     }
 
     private function assertCardIsExpected(CardAttribute $card, $expectedValue, $expectedLabel, $expectedUrl = null)

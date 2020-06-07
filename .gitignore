@@ -1,12 +1,13 @@
 # Configuration
 .env
 .env.prev
+.env.backup
 
 # Dev files
 .php_cs.cache
 .php_cs
-.phpunit-cas.db
 phpunit.xml
+.phpunit.result.cache
 phpcs.xml
 phpmd.xml
 _ide_helper.php
@@ -24,6 +25,8 @@ node_modules/
 vendor/
 tmp/
 npm-debug.log
+
+public/**/*.LICENSE.txt
 
 # Include laravel vendor resources
 !*/**/vendor/

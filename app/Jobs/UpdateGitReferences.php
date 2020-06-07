@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\RefRepositoryInterface;
 use REBELinBLUE\Deployer\Services\Scripts\Runner as Process;
@@ -33,10 +34,11 @@ class UpdateGitReferences extends Job implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param Process                $process
      * @param RefRepositoryInterface $repository
      */
-    public function handle(Process $process, RefRepositoryInterface $repository)
+    public function handle(Process $process, RefRepositoryInterface $repository): void
     {
         $mirror_dir = $this->project->mirrorPath();
 
@@ -56,7 +58,7 @@ class UpdateGitReferences extends Job implements ShouldQueue
                         continue;
                     }
 
-                    if (starts_with($reference, '*')) {
+                    if (Str::startsWith($reference, '*')) {
                         $reference = trim(substr($reference, 1));
                     }
 

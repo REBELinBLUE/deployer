@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Notifications\Configurable;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use NotificationChannels\HipChat\HipChatMessage;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -21,7 +20,7 @@ class HeartbeatMissing extends HeartbeatChanged
      *
      * @return MailMessage
      */
-    public function toMail(Channel $notification)
+    public function toMail(Channel $notification): MailMessage
     {
         return $this->buildMailMessage(
             'heartbeats.missing_subject',
@@ -37,7 +36,7 @@ class HeartbeatMissing extends HeartbeatChanged
      *
      * @return SlackMessage
      */
-    public function toSlack(Channel $notification)
+    public function toSlack(Channel $notification): SlackMessage
     {
         return $this->buildSlackMessage(
             'heartbeats.missing_message',
@@ -52,7 +51,7 @@ class HeartbeatMissing extends HeartbeatChanged
      *
      * @return WebhookMessage
      */
-    public function toWebhook(Channel $notification)
+    public function toWebhook(Channel $notification): WebhookMessage
     {
         return $this->buildWebhookMessage('heartbeat_missing', $notification);
     }
@@ -62,7 +61,7 @@ class HeartbeatMissing extends HeartbeatChanged
      *
      * @return TwilioMessage
      */
-    public function toTwilio()
+    public function toTwilio(): TwilioMessage
     {
         $translation = 'heartbeats.never_sms_message';
         if (!is_null($this->heartbeat->last_activity)) {
@@ -70,20 +69,5 @@ class HeartbeatMissing extends HeartbeatChanged
         }
 
         return $this->buildTwilioMessage($translation);
-    }
-
-    /**
-     * Get the Hipchat version of the message.
-     *
-     * @param Channel $notification
-     *
-     * @return HipChatMessage
-     */
-    public function toHipchat(Channel $notification)
-    {
-        return $this->buildHipchatMessage(
-            'heartbeats.missing_message',
-            $notification
-        )->error();
     }
 }

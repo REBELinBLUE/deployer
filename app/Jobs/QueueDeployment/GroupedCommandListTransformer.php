@@ -18,7 +18,7 @@ class GroupedCommandListTransformer
      *
      * @return Collection
      */
-    public function groupCommandsByDeployStep(Project $project)
+    public function groupCommandsByDeployStep(Project $project): Collection
     {
         $grouped = new Collection([
             Command::DO_CLONE    => $this->emptyStep(),
@@ -40,7 +40,7 @@ class GroupedCommandListTransformer
     /**
      * @return Collection
      */
-    private function emptyStep()
+    private function emptyStep(): Collection
     {
         return new Collection([
             'before' => new Collection(),
@@ -55,7 +55,7 @@ class GroupedCommandListTransformer
      *
      * @return int
      */
-    private function step(Command $command)
+    private function step(Command $command): int
     {
         if ($command->step % 3 === 0) {
             return $command->step - 1;
@@ -71,7 +71,7 @@ class GroupedCommandListTransformer
      *
      * @return string
      */
-    private function when(Command $command)
+    private function when(Command $command): string
     {
         return ($command->step % 3 === 0 ? 'after' : 'before');
     }

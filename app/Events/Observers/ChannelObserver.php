@@ -29,7 +29,7 @@ class ChannelObserver
      *
      * @param Channel $channel
      */
-    public function saved(Channel $channel)
+    public function saved(Channel $channel): void
     {
         $channel->notify(new NewTestNotification($this->translator));
     }

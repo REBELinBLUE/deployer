@@ -18,7 +18,7 @@ class GenerateKeyTest extends TestCase
     private $filesystem;
     private $process;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -1,161 +1,161 @@
 fixture:
   cc_tray_status:
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED
       expected: Success
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
       expected: Success
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::FAILED
+      status: !php/const REBELinBLUE\Deployer\Deployment::FAILED
       expected: Failure
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTED
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTED
       expected: Failure
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::PENDING
+      status: !php/const REBELinBLUE\Deployer\Deployment::PENDING
       expected: Unknown
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Deployment::DEPLOYING
       expected: Unknown
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTING
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTING
       expected: Unknown
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+      status: !php/const REBELinBLUE\Deployer\Deployment::LOADING
       expected: Unknown
     -
       status: invalid-value
       expected: Unknown
   readable_status:
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED
       expected: deployments.completed
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
       expected: deployments.completed_with_errors
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::FAILED
+      status: !php/const REBELinBLUE\Deployer\Deployment::FAILED
       expected: deployments.failed
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTED
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTED
       expected: deployments.aborted
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::PENDING
+      status: !php/const REBELinBLUE\Deployer\Deployment::PENDING
       expected: deployments.pending
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Deployment::DEPLOYING
       expected: deployments.deploying
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTING
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTING
       expected: deployments.aborting
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+      status: !php/const REBELinBLUE\Deployer\Deployment::LOADING
       expected: deployments.pending
     -
       status: invalid-value
       expected: deployments.pending
   icons:
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED
       expected: check
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
       expected: warning
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::FAILED
+      status: !php/const REBELinBLUE\Deployer\Deployment::FAILED
       expected: warning
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTED
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTED
       expected: warning
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::PENDING
+      status: !php/const REBELinBLUE\Deployer\Deployment::PENDING
       expected: clock-o
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Deployment::DEPLOYING
       expected: spinner fa-pulse
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTING
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTING
       expected: warning
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+      status: !php/const REBELinBLUE\Deployer\Deployment::LOADING
       expected: clock-o
     -
       status: invalid-value
       expected: clock-o
   css_classes:
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED
       expected: success
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
       expected: success
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::FAILED
+      status: !php/const REBELinBLUE\Deployer\Deployment::FAILED
       expected: danger
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTED
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTED
       expected: danger
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::PENDING
+      status: !php/const REBELinBLUE\Deployer\Deployment::PENDING
       expected: info
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Deployment::DEPLOYING
       expected: warning
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTING
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTING
       expected: danger
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+      status: !php/const REBELinBLUE\Deployer\Deployment::LOADING
       expected: info
     -
       status: invalid-value
       expected: info
   timeline_css_classes:
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED
       expected: green
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
+      status: !php/const REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
       expected: green
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::FAILED
+      status: !php/const REBELinBLUE\Deployer\Deployment::FAILED
       expected: red
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTED
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTED
       expected: red
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::PENDING
+      status: !php/const REBELinBLUE\Deployer\Deployment::PENDING
       expected: aqua
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Deployment::DEPLOYING
       expected: yellow
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::ABORTING
+      status: !php/const REBELinBLUE\Deployer\Deployment::ABORTING
       expected: red
     -
-      status: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+      status: !php/const REBELinBLUE\Deployer\Deployment::LOADING
       expected: aqua
     -
       status: invalid-value
       expected: aqua
   committer_name:
     -
-      committer: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
-      status: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+      committer: !php/const REBELinBLUE\Deployer\Deployment::LOADING
+      status: !php/const REBELinBLUE\Deployer\Deployment::LOADING
       expected: deployments.loading
     -
-      committer: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
-      status: !php/const:REBELinBLUE\Deployer\Deployment::FAILED
+      committer: !php/const REBELinBLUE\Deployer\Deployment::LOADING
+      status: !php/const REBELinBLUE\Deployer\Deployment::FAILED
       expected: deployments.unknown
   short_hash_translations:
     -
-      committer: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
-      status: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+      committer: !php/const REBELinBLUE\Deployer\Deployment::LOADING
+      status: !php/const REBELinBLUE\Deployer\Deployment::LOADING
       expected: deployments.loading
     -
-      committer: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
-      status: !php/const:REBELinBLUE\Deployer\Deployment::FAILED
+      committer: !php/const REBELinBLUE\Deployer\Deployment::LOADING
+      status: !php/const REBELinBLUE\Deployer\Deployment::FAILED
       expected: deployments.unknown
   commands_used:
     -

@@ -17,7 +17,7 @@ class StoreSettingsRequest extends Request
      * @param  LanguageManager $languageManager
      * @return array
      */
-    public function rules(Settings $settings, LanguageManager $languageManager)
+    public function rules(Settings $settings, LanguageManager $languageManager): array
     {
         return [
             'skin'     => 'required|in:' . implode(',', $settings->themes()),

@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Notifications\System;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use NotificationChannels\HipChat\HipChatMessage;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -36,14 +35,14 @@ class NewTestNotification extends Notification
      *
      * @return MailMessage
      */
-    public function toMail(Channel $notification)
+    public function toMail(Channel $notification): MailMessage
     {
         return (new MailMessage())
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $notification->name,
             ])
-            ->subject($this->translator->trans('notifications.test_subject'))
-            ->line($this->translator->trans('notifications.test_message'));
+            ->subject($this->translator->get('notifications.test_subject'))
+            ->line($this->translator->get('notifications.test_message'));
     }
 
     /**
@@ -53,11 +52,11 @@ class NewTestNotification extends Notification
      *
      * @return SlackMessage
      */
-    public function toSlack(Channel $notification)
+    public function toSlack(Channel $notification): SlackMessage
     {
         return (new SlackMessage())
             ->to($notification->config->channel)
-            ->content($this->translator->trans('notifications.test_slack_message'));
+            ->content($this->translator->get('notifications.test_slack_message'));
     }
 
     /**
@@ -67,11 +66,11 @@ class NewTestNotification extends Notification
      *
      * @return WebhookMessage
      */
-    public function toWebhook(Channel $notification)
+    public function toWebhook(Channel $notification): WebhookMessage
     {
         return (new WebhookMessage())
             ->data([
-                'message' => $this->translator->trans('notifications.test_message'),
+                'message' => $this->translator->get('notifications.test_message'),
             ])
             ->header('X-Deployer-Project-Id', $notification->project_id)
             ->header('X-Deployer-Notification-Id', $notification->id)
@@ -83,23 +82,9 @@ class NewTestNotification extends Notification
      *
      * @return TwilioMessage
      */
-    public function toTwilio()
+    public function toTwilio(): TwilioMessage
     {
         return (new TwilioMessage())
-            ->content($this->translator->trans('notifications.test_message'));
-    }
-
-    /**
-     * Gets the Hipchat version of the message.
-     *
-     * @param Channel $notification
-     *
-     * @return HipChatMessage
-     */
-    public function toHipchat(Channel $notification)
-    {
-        return (new HipChatMessage())
-            ->room($notification->config->room)
-            ->text($this->translator->trans('notifications.test_hipchat_message'));
+            ->content($this->translator->get('notifications.test_message'));
     }
 }

@@ -18,7 +18,7 @@ abstract class Request extends FormRequest
      *
      * @return bool
      */
-    public function authorize(Guard $auth)
+    public function authorize(Guard $auth): bool
     {
         return $auth->check();
     }

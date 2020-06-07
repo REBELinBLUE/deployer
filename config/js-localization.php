@@ -53,9 +53,9 @@ return [
         'templates'     => ['create', 'edit'],
         'sharedFiles'   => ['create', 'edit'],
         'configFiles'   => ['create', 'edit'],
-        'channels'      => ['create', 'edit', 'custom', 'slack', 'hipchat', 'twilio', 'mail', 'create_slack',
-                            'create_hipchat', 'create_twilio', 'create_mail', 'create_custom', 'edit_slack',
-                            'edit_hipchat', 'edit_twilio', 'edit_mail', 'edit_custom', ],
+        'channels'      => ['create', 'edit', 'custom', 'slack', 'twilio', 'mail', 'create_slack',
+                            'create_twilio', 'create_mail', 'create_custom', 'edit_slack',
+                            'edit_twilio', 'edit_mail', 'edit_custom', ],
         'servers'       => ['create', 'edit', 'successful', 'testing', 'failed', 'untested', 'log_title'],
         'heartbeats'    => ['create', 'edit', 'ok', 'untested', 'missing', 'interval_10', 'interval_30',
                             'interval_60', 'interval_120', 'interval_720', 'interval_1440', 'interval_10080', ],
@@ -79,5 +79,14 @@ return [
     |--------------------------------------------------------------------------
     */
     'disable_config_cache' => env('APP_DEBUG', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Split up the exported messages.js file into separate files for each
+    | locale. This is to ensue faster loading times so one doesn't have
+    | to load translations for _all_ languages.
+    |--------------------------------------------------------------------------
+    */
+    'split_export_files' => false,
 
 ];

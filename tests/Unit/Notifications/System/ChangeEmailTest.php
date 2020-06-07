@@ -16,7 +16,7 @@ class ChangeEmailTest extends TestCase
 {
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -52,11 +52,11 @@ class ChangeEmailTest extends TestCase
         $user = m::mock(User::class);
         $user->shouldReceive('getAttribute')->atLeast()->once()->with('name')->andReturn($expectedName);
 
-        $this->translator->shouldReceive('trans')->with('emails.confirm_email')->andReturn($subject);
-        $this->translator->shouldReceive('trans')->with('emails.change_header')->andReturn($introLine1);
-        $this->translator->shouldReceive('trans')->with('emails.change_below')->andReturn($introLine2);
-        $this->translator->shouldReceive('trans')->with('emails.login_change')->andReturn($actionText);
-        $this->translator->shouldReceive('trans')->with('emails.change_footer')->andReturn($outroLine1);
+        $this->translator->shouldReceive('get')->with('emails.confirm_email')->andReturn($subject);
+        $this->translator->shouldReceive('get')->with('emails.change_header')->andReturn($introLine1);
+        $this->translator->shouldReceive('get')->with('emails.change_below')->andReturn($introLine2);
+        $this->translator->shouldReceive('get')->with('emails.login_change')->andReturn($actionText);
+        $this->translator->shouldReceive('get')->with('emails.change_footer')->andReturn($outroLine1);
 
         // Replace the URL generator so that we can get a known URL
         $mock = m::mock(UrlGenerator::class);

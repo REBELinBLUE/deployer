@@ -6,7 +6,7 @@ fixture:
     repository: null
     expected: false
   - # Protocol only
-    repository: http:
+    repository: 'http:'
     expected: false
   - # Hostname only
     repository: github.com

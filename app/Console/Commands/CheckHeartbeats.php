@@ -48,11 +48,12 @@ class CheckHeartbeats extends Command
 
     /**
      * Execute the console command.
+     *
      * @param Dispatcher $dispatcher
      */
-    public function handle(Dispatcher $dispatcher)
+    public function handle(Dispatcher $dispatcher): void
     {
-        $this->repository->chunk(10, function (Collection $heartbeats) use ($dispatcher) {
+        $this->repository->chunk(10, function (Collection $heartbeats) use ($dispatcher): void {
             $heartbeats->each(function ($heartbeat) use ($dispatcher) {
                 $last_heard_from = $heartbeat->last_activity;
                 if (!$last_heard_from) {

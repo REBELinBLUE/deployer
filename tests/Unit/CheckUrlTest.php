@@ -17,8 +17,11 @@ class CheckUrlTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::isHealthy
+     *
+     * @param int  $status
+     * @param bool $expected
      */
-    public function testIsHealthy($status, $expected)
+    public function testIsHealthy(int $status, bool $expected)
     {
         $url = new CheckUrl();
 
@@ -41,7 +44,7 @@ class CheckUrlTest extends TestCase
         $this->assertBelongsTo('project', CheckUrl::class);
     }
 
-    public function provideStatuses()
+    public function provideStatuses(): array
     {
         return $this->fixture('CheckUrl')['healthy'];
     }

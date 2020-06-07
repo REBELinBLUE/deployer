@@ -31,7 +31,7 @@ class ProjectStatusChangedTest extends TestCase
         $this->assertInstanceOf(ShouldBroadcast::class, $event);
     }
 
-    private function mockProject()
+    private function mockProject(): Project
     {
         return m::mock(Project::class);
     }

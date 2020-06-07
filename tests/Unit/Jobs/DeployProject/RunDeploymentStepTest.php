@@ -81,7 +81,7 @@ class RunDeploymentStepTest extends TestCase
      */
     private $server;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -384,7 +384,7 @@ class RunDeploymentStepTest extends TestCase
         $job->handle($this->cache, $this->formatter, $this->filesystem, $this->builder);
     }
 
-    private function mockLog($process = null, $lines_of_output = 0)
+    private function mockLog(?Process $process = null, int $lines_of_output = 0): ServerLog
     {
         $started_at  = Carbon::create(2017, 2, 1, 12, 45, 54, 'UTC');
         $finished_at = Carbon::create(2017, 2, 1, 12, 47, 12, 'UTC');

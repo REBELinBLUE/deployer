@@ -43,7 +43,7 @@ class NewAccount extends Notification implements ShouldQueue
      *
      * @return array
      */
-    public function via()
+    public function via(): array
     {
         return ['mail'];
     }
@@ -55,16 +55,16 @@ class NewAccount extends Notification implements ShouldQueue
      *
      * @return MailMessage
      */
-    public function toMail(User $user)
+    public function toMail(User $user): MailMessage
     {
         return (new MailMessage())
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])
-            ->subject($this->translator->trans('emails.creation_subject'))
-            ->line($this->translator->trans('emails.created'))
-            ->line($this->translator->trans('emails.username', ['username' => $user->email]))
-            ->line($this->translator->trans('emails.password', ['password' => $this->password]))
-            ->action($this->translator->trans('emails.login_now'), route('dashboard'));
+            ->subject($this->translator->get('emails.creation_subject'))
+            ->line($this->translator->get('emails.created'))
+            ->line($this->translator->get('emails.username', ['username' => $user->email]))
+            ->line($this->translator->get('emails.password', ['password' => $this->password]))
+            ->action($this->translator->get('emails.login_now'), route('dashboard'));
     }
 }

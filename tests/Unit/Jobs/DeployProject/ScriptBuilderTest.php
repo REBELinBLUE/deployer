@@ -64,7 +64,7 @@ class ScriptBuilderTest extends TestCase
      */
     private $project;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -124,8 +124,12 @@ class ScriptBuilderTest extends TestCase
      * @covers ::getTokens
      * @covers ::getScriptForStep
      * @covers ::exports
+     *
+     * @param  int       $stage
+     * @param  string    $script
+     * @throws Exception
      */
-    public function testBuildScriptForDeployStep($stage, $script)
+    public function testBuildScriptForDeployStep(int $stage, string $script)
     {
         $this->step->shouldReceive('isCustom')->andReturn(false);
         $this->step->shouldReceive('getAttribute')->with('stage')->andReturn($stage);
@@ -210,7 +214,7 @@ class ScriptBuilderTest extends TestCase
             ->buildScript($this->server);
     }
 
-    public function provideDeploySteps()
+    public function provideDeploySteps(): array
     {
         return $this->fixture('Jobs/DeployProject/ScriptBuilder')['steps'];
     }

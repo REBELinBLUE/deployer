@@ -35,7 +35,7 @@ class ReleaseArchiverTest extends TestCase
      */
     private $path = 'release.tar.gz';
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

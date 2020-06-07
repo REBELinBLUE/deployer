@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Jobs\DeployProject;
 
 use Exception;
+use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Deployment;
@@ -60,14 +61,19 @@ class ScriptBuilder
     }
 
     /**
-     * @param  Deployment $deployment
-     * @param  DeployStep $step
-     * @param  string     $release_archive
-     * @param  string     $private_key
-     * @return $this
+     * @param Deployment $deployment
+     * @param DeployStep $step
+     * @param string     $release_archive
+     * @param string     $private_key
+     *
+     * @return self
      */
-    public function setup(Deployment $deployment, DeployStep $step, $release_archive, $private_key)
-    {
+    public function setup(
+        Deployment $deployment,
+        DeployStep $step,
+        string $release_archive,
+        string $private_key
+    ): self {
         $this->deployment      = $deployment;
         $this->step            = $step;
         $this->release_archive = $release_archive;
@@ -82,7 +88,6 @@ class ScriptBuilder
      * @param Server $server
      *
      * @throws Exception
-     * @return Process
      */
     public function buildScript(Server $server)
     {
@@ -108,7 +113,7 @@ class ScriptBuilder
      *
      * @return string
      */
-    private function exports()
+    private function exports(): string
     {
         // Generate the export
         $exports = '';
@@ -132,7 +137,7 @@ class ScriptBuilder
      *
      * @return array
      */
-    private function getTokens(Server $server)
+    private function getTokens(Server $server): array
     {
         $releases_dir       = $server->clean_path . '/releases';
         $latest_release_dir = $releases_dir . '/' . $this->deployment->release_id;
@@ -183,7 +188,7 @@ class ScriptBuilder
      *
      * @return Process
      */
-    private function getScriptForStep(array $tokens = [])
+    private function getScriptForStep(array $tokens = []): Process
     {
         // FIXME: Prepend create directories
         switch ($this->step->stage) {
@@ -218,7 +223,7 @@ class ScriptBuilder
      *
      * @return string
      */
-    private function configurationFileCommands($release_dir)
+    private function configurationFileCommands(string $release_dir): string
     {
         /** @var Collection $files */
         $files = $this->deployment->project->configFiles;
@@ -246,7 +251,7 @@ class ScriptBuilder
      *
      * @return string
      */
-    private function shareFileCommands($release_dir, $shared_dir, $project_dir)
+    private function shareFileCommands(string $release_dir, string $shared_dir, string $project_dir): string
     {
         /** @var Collection $files */
         $files = $this->deployment->project->sharedFiles;
@@ -271,7 +276,7 @@ class ScriptBuilder
 
             $file = ltrim($shared->file, '/1');
 
-            if (ends_with($file, '/')) {
+            if (Str::endsWith($file, '/')) {
                 $template = 'Directory';
                 $file = rtrim($file, '/');
             }

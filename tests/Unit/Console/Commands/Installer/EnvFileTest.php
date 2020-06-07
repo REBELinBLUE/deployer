@@ -14,14 +14,14 @@ class EnvFileTest extends TestCase
 {
     private $filesystem;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->filesystem = m::mock(Filesystem::class);
         $this->prev       = base_path('.env.prev');
         $this->env        = base_path('.env');
-        $this->dist       = base_path('.env.dist');
+        $this->dist       = base_path('.env.example');
     }
 
     /**

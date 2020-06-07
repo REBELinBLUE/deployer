@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -23,9 +24,9 @@ trait ResourceController
      * @param int             $model_id
      * @param ResponseFactory $response
      *
-     * @return array
+     * @return JsonResponse
      */
-    public function destroy($model_id, ResponseFactory $response)
+    public function destroy(int $model_id, ResponseFactory $response): JsonResponse
     {
         $this->repository->deleteById($model_id);
 

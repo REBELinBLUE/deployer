@@ -43,7 +43,7 @@ class DeployStepTest extends TestCase
         $actual = $step->command();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('command', $actual->getRelation());
+        $this->assertSame('command', $actual->getRelationName());
         $this->assertInstanceOf(Command::class, $step->command);
     }
 
@@ -78,8 +78,11 @@ class DeployStepTest extends TestCase
     /**
      * @dataProvider provideSteps
      * @covers ::isCustom
+     *
+     * @param int  $stage
+     * @param bool $expected
      */
-    public function testIsCustom($stage, $expected)
+    public function testIsCustom(int $stage, bool $expected)
     {
         /** @var DeployStep $step */
         $step = factory(DeployStep::class)->make([
@@ -92,7 +95,7 @@ class DeployStepTest extends TestCase
         $this->assertSame($expected, $step->isCustom());
     }
 
-    public function provideSteps()
+    public function provideSteps(): array
     {
         return $this->fixture('DeployStep')['custom_steps'];
     }

@@ -1,7 +1,7 @@
 # Deployer
 
 [![StyleCI](https://styleci.io/repos/33559148/shield?style=flat-square&branch=master)](https://styleci.io/repos/33559148)
-[![Build Status](https://img.shields.io/travis/com/REBELinBLUE/deployer/master.svg?style=flat-square&label=Travis+CI)](https://travis-ci.com/REBELinBLUE/deployer)
+[![Build Status](https://img.shields.io/github/workflow/status/REBELinBLUE/deployer/Tests?label=Build&style=flat-square)](https://github.com/REBELinBLUE/deployer/actions?query=workflow%3ATests)
 [![Code Coverage](https://img.shields.io/codecov/c/github/REBELinBLUE/deployer/master.svg?style=flat-square&label=Coverage)](https://codecov.io/gh/REBELinBLUE/deployer)
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square&label=License)](/LICENSE.md)
@@ -10,7 +10,7 @@
 [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat-square&label=Tech)](https://stackshare.io/REBELinBLUE/deployer)
 [![Gitter](https://img.shields.io/badge/chat-on%20gitter-brightgreen.svg?style=flat-square&label=Chat)](https://gitter.im/REBELinBLUE/deployer)
 
-Deployer is a PHP Application deployment system powered by [Laravel 5.5](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
+Deployer is a PHP Application deployment system powered by [Laravel 6.0](http://laravel.com), written & maintained by [Stephen Ball](https://github.com/REBELinBLUE).
 
 Check out the [releases](https://github.com/REBELinBLUE/deployer/releases), [license](/LICENSE.md), [screenshots](https://github.com/REBELinBLUE/deployer/wiki/Screenshots) and [contribution guidelines](/.github/CONTRIBUTING.md).
 

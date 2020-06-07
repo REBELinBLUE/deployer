@@ -21,8 +21,13 @@ trait AskAndValidate
      *
      * @return string
      */
-    public function askAndValidate($question, array $choices, $validator, $default = null, $secret = false)
-    {
+    public function askAndValidate(
+        string $question,
+        array $choices,
+        callable $validator,
+        $default = null,
+        bool $secret = false
+    ): string {
         $question = new Question($question, $default);
 
         if ($secret) {
@@ -46,7 +51,7 @@ trait AskAndValidate
      *
      * @return string
      */
-    public function askSecretAndValidate($question, array $choices, $validator, $default = null)
+    public function askSecretAndValidate(string $question, array $choices, callable $validator, $default = null): string
     {
         return $this->askAndValidate($question, $choices, $validator, $default, true);
     }

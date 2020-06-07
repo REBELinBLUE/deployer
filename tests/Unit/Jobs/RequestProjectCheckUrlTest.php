@@ -222,7 +222,7 @@ EOF;
         $this->assertSame(0, $job->timeout);
     }
 
-    private function mockFailure($mockHandler, $log)
+    private function mockFailure(MockHandler $mockHandler, string $log)
     {
         $expected = 'http://www.example.com/';
 
@@ -244,7 +244,7 @@ EOF;
         $job->handle($client);
     }
 
-    private function mockCheckUrl($link)
+    private function mockCheckUrl(string $link): CheckUrl
     {
         $url = m::mock(CheckUrl::class);
         $url->shouldReceive('getAttribute')->once()->with('url')->andReturn($link);

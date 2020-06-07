@@ -8,5 +8,5 @@ interface ValidatorInterface
      * @param  array $args
      * @return bool
      */
-    public function validate(...$args);
+    public function validate(...$args): bool;
 }

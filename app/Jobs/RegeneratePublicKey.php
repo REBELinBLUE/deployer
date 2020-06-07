@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Jobs;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use REBELinBLUE\Deployer\Project;
@@ -37,9 +38,10 @@ class RegeneratePublicKey extends Job
      * @param Filesystem $filesystem
      * @param Process    $process
      *
-     * @throws RuntimeException
+     *
+     * @throws FileNotFoundException
      */
-    public function handle(Filesystem $filesystem, Process $process)
+    public function handle(Filesystem $filesystem, Process $process): void
     {
         $private_key_file = $filesystem->tempnam(storage_path('app/tmp'), 'key');
         $public_key_file  = $private_key_file . '.pub';

@@ -5,9 +5,13 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Auth;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Session\SessionManager; // FIXME: Shouldn't this be a contract?
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 use PragmaRX\Google2FA\Contracts\Google2FA;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 
@@ -67,7 +71,7 @@ class LoginController extends Controller
     /**
      * Show the application login form.
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return RedirectResponse|View
      */
     public function showLoginForm()
     {
@@ -83,13 +87,14 @@ class LoginController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @throws ValidationException
+     * @return RedirectResponse|Response
      */
     public function login(Request $request)
     {
         $this->validateLogin($request);
 
-        if ($lockedOut = $this->hasTooManyLoginAttempts($request)) {
+        if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
@@ -116,9 +121,7 @@ class LoginController extends Controller
             return $this->sendLoginResponse($request);
         }
 
-        if (!$lockedOut) {
-            $this->incrementLoginAttempts($request);
-        }
+        $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
     }
@@ -126,9 +129,9 @@ class LoginController extends Controller
     /**
      * Shows the 2FA form.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function showTwoFactorAuthenticationForm()
+    public function showTwoFactorAuthenticationForm(): View
     {
         return $this->view->make('auth.twofactor');
     }
@@ -136,12 +139,12 @@ class LoginController extends Controller
     /**
      * Validates the 2FA code.
      *
-     * @param Request $request
+     * @param Request    $request
+     * @param Translator $translator
      *
-     * @param  Translator                        $translator
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function twoFactorAuthenticate(Request $request, Translator $translator)
+    public function twoFactorAuthenticate(Request $request, Translator $translator): RedirectResponse
     {
         $user_id  = $this->session->pull('2fa_user_id');
         $remember = $this->session->pull('2fa_remember');
@@ -158,10 +161,10 @@ class LoginController extends Controller
             $auth->logout();
 
             return $this->redirect->route('auth.login')
-                                  ->withError($translator->trans('auth.invalid_code'));
+                                  ->withError($translator->get('auth.invalid_code'));
         }
 
         return $this->redirect->route('auth.login')
-                              ->withError($translator->trans('auth.invalid_code'));
+                              ->withError($translator->get('auth.invalid_code'));
     }
 }

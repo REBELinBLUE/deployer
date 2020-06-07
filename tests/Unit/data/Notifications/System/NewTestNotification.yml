@@ -1,16 +1,13 @@
 fixture:
   -
-    type: !php/const:REBELinBLUE\Deployer\Channel::WEBHOOK
+    type: !php/const REBELinBLUE\Deployer\Channel::WEBHOOK
     expected: NotificationChannels\Webhook\WebhookChannel
   -
-    type: !php/const:REBELinBLUE\Deployer\Channel::HIPCHAT
-    expected: NotificationChannels\HipChat\HipChatChannel
-  -
-    type: !php/const:REBELinBLUE\Deployer\Channel::TWILIO
+    type: !php/const REBELinBLUE\Deployer\Channel::TWILIO
     expected: NotificationChannels\Twilio\TwilioChannel
   -
-    type: !php/const:REBELinBLUE\Deployer\Channel::EMAIL
+    type: !php/const REBELinBLUE\Deployer\Channel::EMAIL
     expected: mail
   -
-    type: !php/const:REBELinBLUE\Deployer\Channel::SLACK
+    type: !php/const REBELinBLUE\Deployer\Channel::SLACK
     expected: slack

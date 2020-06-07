@@ -71,8 +71,11 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideStatusCounts
      * @covers ::heartbeatsStatus
+     *
+     * @param int $healthy
+     * @param int $missing
      */
-    public function testHeartbeatsStatus($healthy, $missing)
+    public function testHeartbeatsStatus(int $healthy, int $missing)
     {
         /** @var Project $project */
         $project = factory(Project::class)->create();
@@ -93,8 +96,11 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideStatusCounts
      * @covers ::applicationCheckUrlStatus
+     *
+     * @param int $healthy
+     * @param int $missing
      */
-    public function testApplicationCheckUrlStatus($healthy, $missing)
+    public function testApplicationCheckUrlStatus(int $healthy, int $missing)
     {
         /** @var Project $project */
         $project = factory(Project::class)->create();
@@ -112,7 +118,7 @@ class ProjectTest extends TestCase
         $this->assertStatusArray($healthy, $missing, $actual);
     }
 
-    public function provideStatusCounts()
+    public function provideStatusCounts(): array
     {
         return $this->fixture('Project')['health'];
     }
@@ -149,16 +155,24 @@ class ProjectTest extends TestCase
         $this->assertSame($expected, array_values($project->tags->toArray()));
     }
 
-    private function assertStatusArray($healthy, $missing, $actual)
+    /**
+     * @param int   $healthy
+     * @param int   $missing
+     * @param array $actual
+     */
+    private function assertStatusArray(int $healthy, int $missing, array $actual)
     {
-        $this->assertInternalType('array', $actual);
+        $this->assertIsArray($actual);
         $this->assertArrayHasKey('missed', $actual);
         $this->assertArrayHasKey('length', $actual);
         $this->assertSame($healthy + $missing, $actual['length']);
         $this->assertSame($missing, $actual['missed']);
     }
 
-    private function populateRefs($project)
+    /**
+     * @param Project $project
+     */
+    private function populateRefs(Project $project)
     {
         foreach ($this->fixture('Ref')['dataset'] as $ref) {
             factory(Ref::class)->create(array_merge($ref, [

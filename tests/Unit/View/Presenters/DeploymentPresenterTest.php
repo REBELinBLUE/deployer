@@ -18,7 +18,7 @@ class DeploymentPresenterTest extends TestCase
 {
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -43,8 +43,11 @@ class DeploymentPresenterTest extends TestCase
     /**
      * @dataProvider provideCCTrayStatus
      * @covers ::presentCcTrayStatus
+     *
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentCcTrayStatusIsCorrect($status, $expected)
+    public function testPresentCcTrayStatusIsCorrect($status, string $expected)
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
@@ -55,7 +58,7 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideCCTrayStatus()
+    public function provideCCTrayStatus(): array
     {
         return $this->fixture('View/Presenters/DeploymentPresenter')['cc_tray_status'];
     }
@@ -63,12 +66,15 @@ class DeploymentPresenterTest extends TestCase
     /**
      * @dataProvider provideReadableStatus
      * @covers ::presentReadableStatus
+     *
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentReadableStatusIsCorrect($status, $expected)
+    public function testPresentReadableStatusIsCorrect($status, string $expected)
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
@@ -77,7 +83,7 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideReadableStatus()
+    public function provideReadableStatus(): array
     {
         return $this->fixture('View/Presenters/DeploymentPresenter')['readable_status'];
     }
@@ -85,8 +91,11 @@ class DeploymentPresenterTest extends TestCase
     /**
      * @dataProvider provideIcons
      * @covers ::presentIcon
+     *
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentIconIsCorrect($status, $expected)
+    public function testPresentIconIsCorrect($status, string $expected)
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
@@ -97,7 +106,7 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideIcons()
+    public function provideIcons(): array
     {
         return $this->fixture('View/Presenters/DeploymentPresenter')['icons'];
     }
@@ -105,8 +114,11 @@ class DeploymentPresenterTest extends TestCase
     /**
      * @dataProvider provideCssClasses
      * @covers ::presentCssClass
+     *
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentCssClassIsCorrect($status, $expected)
+    public function testPresentCssClassIsCorrect($status, string $expected)
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
@@ -117,7 +129,7 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideCssClasses()
+    public function provideCssClasses(): array
     {
         return $this->fixture('View/Presenters/DeploymentPresenter')['css_classes'];
     }
@@ -125,8 +137,11 @@ class DeploymentPresenterTest extends TestCase
     /**
      * @dataProvider provideTimelineCssClasses
      * @covers ::presentTimelineCssClass
+     *
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentTimelineCssClass($status, $expected)
+    public function testPresentTimelineCssClass($status, string $expected)
     {
         $deployment = $this->mockDeploymentWithStatus($status);
 
@@ -137,7 +152,7 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideTimelineCssClasses()
+    public function provideTimelineCssClasses(): array
     {
         return $this->fixture('View/Presenters/DeploymentPresenter')['timeline_css_classes'];
     }
@@ -162,14 +177,18 @@ class DeploymentPresenterTest extends TestCase
     /**
      * @dataProvider provideCommiterName
      * @covers ::presentCommitterName
+     *
+     * @param string $committer
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentCommitterNameReturnsTranslation($committer, $status, $expected)
+    public function testPresentCommitterNameReturnsTranslation(string $committer, $status, string $expected)
     {
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('committer')->andReturn($committer);
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('status')->andReturn($status);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
@@ -178,7 +197,7 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideCommiterName()
+    public function provideCommiterName(): array
     {
         return $this->fixture('View/Presenters/DeploymentPresenter')['committer_name'];
     }
@@ -203,14 +222,18 @@ class DeploymentPresenterTest extends TestCase
     /**
      * @dataProvider provideShortHash
      * @covers ::presentShortCommitHash
+     *
+     * @param string $commit
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentShortCommitHashReturnsTranslation($commit, $status, $expected)
+    public function testPresentShortCommitHashReturnsTranslation(string $commit, $status, string $expected)
     {
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('short_commit')->andReturn($commit);
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('status')->andReturn($status);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new DeploymentPresenter($this->translator);
         $presenter->setWrappedObject($deployment);
@@ -219,7 +242,7 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideShortHash()
+    public function provideShortHash(): array
     {
         return $this->fixture('View/Presenters/DeploymentPresenter')['short_hash_translations'];
     }
@@ -227,8 +250,11 @@ class DeploymentPresenterTest extends TestCase
     /**
      * @dataProvider provideCommandsUsed
      * @covers ::presentOptionalCommandsUsed
+     *
+     * @param array  $commands
+     * @param string $expected
      */
-    public function testPresentOptionalCommandsUsed(array $commands, $expected)
+    public function testPresentOptionalCommandsUsed(array $commands, string $expected)
     {
         $collection = [];
         foreach ($commands as $id => $optional) {
@@ -246,12 +272,17 @@ class DeploymentPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideCommandsUsed()
+    public function provideCommandsUsed(): array
     {
         return $this->fixture('View/Presenters/DeploymentPresenter')['commands_used'];
     }
 
-    private function mockDeploymentWithStatus($status)
+    /**
+     * @param mixed $status
+     *
+     * @return Deployment
+     */
+    private function mockDeploymentWithStatus($status): Deployment
     {
         $deployment = m::mock(Deployment::class);
         $deployment->shouldReceive('getAttribute')->atLeast()->once()->with('status')->andReturn($status);
@@ -259,7 +290,13 @@ class DeploymentPresenterTest extends TestCase
         return $deployment;
     }
 
-    private function mockCommand($command_id, $optional = false)
+    /**
+     * @param int  $command_id
+     * @param bool $optional
+     *
+     * @return Command
+     */
+    private function mockCommand(int $command_id, bool $optional = false): Command
     {
         $command = m::mock(Command::class);
         $command->shouldReceive('getAttribute')->atLeast()->once()->with('optional')->andReturn($optional);

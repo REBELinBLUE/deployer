@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Console\Commands\Installer;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
 
 /**
@@ -29,9 +30,11 @@ class EnvFile
      *
      * @param array $input
      *
-     * @return int
+     * @throws FileNotFoundException
+     * @return bool
+     * @fixme: update this to quote the values
      */
-    public function save(array $input)
+    public function save(array $input): bool
     {
         $path   = base_path('.env');
         $config = $this->filesystem->get($path);
@@ -90,19 +93,21 @@ class EnvFile
         $config = preg_replace('/#(.*)[\n]/', '', $config);
         $config = preg_replace('/[\n]{3,}/m', PHP_EOL . PHP_EOL, $config);
 
-        return $this->filesystem->put($path, trim($config) . PHP_EOL);
+        return (bool) $this->filesystem->put($path, trim($config) . PHP_EOL);
     }
 
     /**
-     * Checks for new configuration values in .env.dist and copy them to .env.
+     * Checks for new configuration values in .env.example and copy them to .env.
      *
+     * @throws FileNotFoundException
      * @return bool
+     * @fixme: update this to quote the values
      */
-    public function update()
+    public function update(): bool
     {
         $prev     = base_path('.env.prev');
         $current  = base_path('.env');
-        $dist     = base_path('.env.dist');
+        $dist     = base_path('.env.example');
 
         $config = [];
 

@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Jobs;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Project;
@@ -31,7 +32,7 @@ class SetupProject extends Job
      * @param Project $project
      * @param int     $template_id
      */
-    public function __construct(Project $project, $template_id)
+    public function __construct(Project $project, int $template_id)
     {
         $this->project     = $project;
         $this->template_id = $template_id;
@@ -39,9 +40,10 @@ class SetupProject extends Job
 
     /**
      * Execute the command.
+     *
      * @param TemplateRepositoryInterface $repository
      */
-    public function handle(TemplateRepositoryInterface $repository)
+    public function handle(TemplateRepositoryInterface $repository): void
     {
         $template = $repository->getById($this->template_id);
 
@@ -77,8 +79,8 @@ class SetupProject extends Job
      *
      * @return array
      */
-    private function getFieldsArray(Model $model)
+    private function getFieldsArray(Model $model): array
     {
-        return array_except($model->toArray(), ['target_type', 'target_id']);
+        return Arr::except($model->toArray(), ['target_type', 'target_id']);
     }
 }

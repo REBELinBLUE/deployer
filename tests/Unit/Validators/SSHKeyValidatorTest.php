@@ -13,8 +13,11 @@ class SSHKeyValidatorTest extends TestCase
     /**
      * @dataProvider provideKeys
      * @covers ::validate
+     *
+     * @param string|null $value
+     * @param bool        $valid
      */
-    public function testValidate($value, $valid)
+    public function testValidate(?string $value, bool $valid)
     {
         $validator = new SSHKeyValidator();
 
@@ -27,7 +30,7 @@ class SSHKeyValidatorTest extends TestCase
         }
     }
 
-    public function provideKeys()
+    public function provideKeys(): array
     {
         return $this->fixture('Validators/SSHKeyValidator');
     }

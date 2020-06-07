@@ -304,7 +304,7 @@ class EloquentDeploymentRepositoryTest extends EloquentRepositoryTestCase
     public function testGetLatestSuccessful()
     {
         $expected_id       = 1;
-        $expected          = 'a-deployment-model';
+        $expected          = new Deployment(['id' => $expected_id]);
 
         $model = m::mock(Deployment::class);
         $model->shouldReceive('where')->once()->with('project_id', $expected_id)->andReturnSelf();

@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
@@ -71,8 +72,13 @@ class WebhookControllerTest extends TestCase
      * @covers ::webhook
      * @covers ::parseWebhookRequest
      * @covers ::appendProjectSettings
+     *
+     * @param string $source
+     * @param string $file
+     * @param string $commit
+     * @param array  $headers
      */
-    public function testWebhookWithData($source, $file, $commit, $headers)
+    public function testWebhookWithData(string $source, string $file, string $commit, array $headers)
     {
         $this->withoutEvents();
 
@@ -103,7 +109,7 @@ class WebhookControllerTest extends TestCase
         ]);
     }
 
-    public function provideWebHookData()
+    public function provideWebHookData(): array
     {
         // FIXME: Add additional data types
         return [
@@ -111,7 +117,7 @@ class WebhookControllerTest extends TestCase
                 'Github',
                 'github.json',
                 'f99aa366c76589b69ef7cd3278e7f20d72b27127',
-                ['X-GitHub-Delivery' => str_random(32), 'X-Github-Event' => 'push'],
+                ['X-GitHub-Delivery' => Str::random(32), 'X-Github-Event' => 'push'],
             ],
         ];
     }

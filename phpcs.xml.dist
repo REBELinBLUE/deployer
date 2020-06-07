@@ -13,8 +13,8 @@
 
     <arg value="vvv" />
     <arg value="p" />
-    <arg value="e" />
     <arg name="colors" />
+    <arg name="basepath" value="." />
     <arg name="encoding" value="UTF-8" />
     <arg name="extensions" value="php" />
 
@@ -23,4 +23,5 @@
     <exclude-pattern>database/*</exclude-pattern>
     <exclude-pattern>tests/Unit/stubs</exclude-pattern>
     <exclude-pattern>*.blade.php</exclude-pattern>
+    <exclude-pattern>Install*.php</exclude-pattern>
 </ruleset>

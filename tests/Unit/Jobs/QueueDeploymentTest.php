@@ -47,7 +47,7 @@ class QueueDeploymentTest extends TestCase
     /**
      * @todo Improve this, not testing groups, or optional
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

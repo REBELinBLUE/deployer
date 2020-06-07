@@ -23,7 +23,7 @@ class ClearOrphanMirrorsTest extends TestCase
 
     private $repository;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -81,8 +81,8 @@ class ClearOrphanMirrorsTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 1 orphaned mirrors', $output);
-        $this->assertContains('Deleted second-project.git', $output);
+        $this->assertStringContainsString('Found 1 orphaned mirrors', $output);
+        $this->assertStringContainsString('Deleted second-project.git', $output);
     }
 
     /**
@@ -107,8 +107,8 @@ class ClearOrphanMirrorsTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 1 orphaned mirrors', $output);
-        $this->assertContains('Failed to delete second-project.git', $output);
-        $this->assertNotContains('Deleted second-project.git', $output);
+        $this->assertStringContainsString('Found 1 orphaned mirrors', $output);
+        $this->assertStringContainsString('Failed to delete second-project.git', $output);
+        $this->assertStringNotContainsString('Deleted second-project.git', $output);
     }
 }

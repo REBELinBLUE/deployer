@@ -76,7 +76,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     /**
      * @param int $server_id
      */
-    public function queueForTesting($server_id)
+    public function queueForTesting(int $server_id): void
     {
         $server = $this->getById($server_id);
 
@@ -93,7 +93,7 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
      *
      * @return mixed
      */
-    public function queryByName($name)
+    public function queryByName(string $name)
     {
         return $this->model
                     ->where('name', 'LIKE', "%{$name}%")

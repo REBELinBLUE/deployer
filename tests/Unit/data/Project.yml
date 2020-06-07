@@ -23,19 +23,19 @@ fixture:
       expected: REBELinBLUE/deployer
   running: # Project statuses which should be considered running
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      status: !php/const REBELinBLUE\Deployer\Project::PENDING
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Project::DEPLOYING
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      status: !php/const REBELinBLUE\Deployer\Project::FINISHED
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      status: !php/const REBELinBLUE\Deployer\Project::FAILED
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      status: !php/const REBELinBLUE\Deployer\Project::NOT_DEPLOYED
       expected: false
   branch_url: # Fixture for getBranchUrlAttribute
     -
@@ -101,63 +101,63 @@ fixture:
     -
       repo: http://www.github.com/REBELinBLUE/deployer.git
       scheme: http
-      user: ''
+      user: ~
       domain: www.github.com
-      port: ''
+      port: ~
       reference: REBELinBLUE/deployer
     -
       repo: HTTP://www.github.com/REBELinBLUE/deployer.git
       scheme: http
-      user: ''
+      user: ~
       domain: www.github.com
-      port: ''
+      port: ~
       reference: REBELinBLUE/deployer
     -
       repo: https://www.github.com/REBELinBLUE/deployer.git
       scheme: https
-      user: ''
+      user: ~
       domain: www.github.com
-      port: ''
+      port: ~
       reference: REBELinBLUE/deployer
     -
       repo: ssh://git@bitbucket.org:REBELinBLUE/deployer.git
       scheme: ssh
       user: git
       domain: bitbucket.org
-      port: ''
+      port: ~
       reference: REBELinBLUE/deployer
     -
       repo: git://git@bitbucket.org:REBELinBLUE/deployer.git
       scheme: git
       user: git
       domain: bitbucket.org
-      port: ''
+      port: ~
       reference: REBELinBLUE/deployer
     -
       repo: GIT://git@bitbucket.org:REBELinBLUE/deployer.git
       scheme: git
       user: git
       domain: bitbucket.org
-      port: ''
+      port: ~
       reference: REBELinBLUE/deployer
     -
       repo: git@github.com:REBELinBLUE/deployer.git
       scheme: git
       user: git
       domain: github.com
-      port: ''
+      port: ~
       reference: REBELinBLUE/deployer
     -
       repo: git+https://git@github.com:REBELinBLUE/deployer.git
       scheme: git+https
       user: git
       domain: github.com
-      port: ''
+      port: ~
       reference: REBELinBLUE/deployer
     -
       repo: https://git.example.com:8080/REBELinBLUE/deployer.git
       scheme: https
-      user: ''
+      user: ~
       domain: git.example.com
       port: 8080
       reference: REBELinBLUE/deployer

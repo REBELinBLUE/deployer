@@ -34,7 +34,7 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toTwilio(HeartbeatMissing::class, 'heartbeats.never_sms_message', null, $expectedDateString);
     }
@@ -71,7 +71,7 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toMail(
             HeartbeatMissing::class,
@@ -112,7 +112,7 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
     {
         $expectedDateString = 'no-date';
 
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
+        $this->translator->shouldReceive('get')->once()->with('app.never')->andReturn($expectedDateString);
 
         $this->toSlack(
             HeartbeatMissing::class,
@@ -134,45 +134,6 @@ class HeartbeatMissingTest extends HeartbeatChangedTestCase
         Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'UTC'));
 
         $this->toSlack(
-            HeartbeatMissing::class,
-            'heartbeats.missing_message',
-            'error',
-            $date,
-            '15 minutes ago'
-        );
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::toHipchat
-     * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildHipchatMessage
-     */
-    public function testToHipchat()
-    {
-        $expectedDateString = 'no-date';
-
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
-
-        $this->toHipchat(
-            HeartbeatMissing::class,
-            'heartbeats.missing_message',
-            'error',
-            null,
-            $expectedDateString
-        );
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::toHipchat
-     * @covers \REBELinBLUE\Deployer\Notifications\Configurable\HeartbeatChanged::buildHipchatMessage
-     */
-    public function testToHipchatWithLastSeenDate()
-    {
-        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC');
-        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'UTC'));
-
-        $this->toHipchat(
             HeartbeatMissing::class,
             'heartbeats.missing_message',
             'error',

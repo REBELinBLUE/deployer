@@ -54,7 +54,7 @@ class SendFileToServerTest extends TestCase
      * @covers ::__construct
      * @covers ::handle
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

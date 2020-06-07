@@ -83,8 +83,11 @@ class ProjectTest extends TestCase
 
     /**
      * @dataProvider provideStatuses
+     *
+     * @param int  $status
+     * @param bool $expected
      */
-    public function testIsDeploying($status, $expected)
+    public function testIsDeploying(int $status, bool $expected)
     {
         $project         = new Project();
         $project->status = $status;
@@ -92,7 +95,7 @@ class ProjectTest extends TestCase
         $this->assertSame($expected, $project->isDeploying());
     }
 
-    public function provideStatuses()
+    public function provideStatuses(): array
     {
         return $this->fixture('Project')['running'];
     }
@@ -100,8 +103,11 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideRepositoryUrls
      * @covers ::mirrorPath
+     *
+     * @param string $repository
+     * @param string $expected
      */
-    public function testMirrorPath($repository, $expected)
+    public function testMirrorPath(string $repository, string $expected)
     {
         $project             = new Project();
         $project->repository = $repository;
@@ -113,7 +119,7 @@ class ProjectTest extends TestCase
         $this->assertStringStartsWith($folder, $actual);
     }
 
-    public function provideRepositoryUrls()
+    public function provideRepositoryUrls(): array
     {
         return $this->fixture('Project')['repository_mirror_folder'];
     }
@@ -121,15 +127,28 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideAccessDetails
      * @covers ::accessDetails
+     *
+     * @param string      $repository
+     * @param string      $scheme
+     * @param string|null $user
+     * @param string      $domain
+     * @param int|null    $port
+     * @param string      $reference
      */
-    public function testAccessDetails($repository, $scheme, $user, $domain, $port, $reference)
-    {
+    public function testAccessDetails(
+        string $repository,
+        string $scheme,
+        ?string $user,
+        string $domain,
+        ?int $port,
+        string $reference
+    ) {
         $project             = new Project();
         $project->repository = $repository;
 
         $actual = $project->accessDetails();
 
-        $this->assertInternalType('array', $actual);
+        $this->assertIsArray($actual);
         $this->assertCount(5, $actual);
         $this->assertArrayHasKey('scheme', $actual);
         $this->assertArrayHasKey('user', $actual);
@@ -144,7 +163,7 @@ class ProjectTest extends TestCase
         $this->assertSame($reference, $actual['reference']);
     }
 
-    public function provideAccessDetails()
+    public function provideAccessDetails(): array
     {
         return $this->fixture('Project')['access_details'];
     }
@@ -152,19 +171,21 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideMalformedRepositoryUrl
      * @covers ::accessDetails
+     *
+     * @param string $repository
      */
-    public function testAccessDetailHandlesUnknown($repository)
+    public function testAccessDetailHandlesUnknown(string $repository)
     {
         $project             = new Project();
         $project->repository = $repository;
 
         $actual = $project->accessDetails();
 
-        $this->assertInternalType('array', $actual);
+        $this->assertIsArray($actual);
         $this->assertCount(0, $actual);
     }
 
-    public function provideMalformedRepositoryUrl()
+    public function provideMalformedRepositoryUrl(): array
     {
         return array_chunk($this->fixture('Project')['malformed_url'], 1);
     }
@@ -172,8 +193,11 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideRepositoryPath
      * @covers ::getRepositoryPathAttribute
+     *
+     * @param string $repository
+     * @param string $expected
      */
-    public function testGetRepositoryPathAttribute($repository, $expected)
+    public function testGetRepositoryPathAttribute(string $repository, string $expected)
     {
         $project             = new Project();
         $project->repository = $repository;
@@ -182,7 +206,7 @@ class ProjectTest extends TestCase
         $this->assertSame($expected, $project->repository_path);
     }
 
-    public function provideRepositoryPath()
+    public function provideRepositoryPath(): array
     {
         return $this->fixture('Project')['paths'];
     }
@@ -190,8 +214,10 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideMalformedRepositoryUrl
      * @covers ::getRepositoryPathAttribute
+     *
+     * @param string $repository
      */
-    public function testGetRepositoryPathAttributeHandlesUnknown($repository)
+    public function testGetRepositoryPathAttributeHandlesUnknown(string $repository)
     {
         $project             = new Project();
         $project->repository = $repository;
@@ -203,8 +229,11 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideRepositoryUrl
      * @covers ::getRepositoryUrlAttribute
+     *
+     * @param string $repository
+     * @param string $expected
      */
-    public function testRepositoryUrlAttribute($repository, $expected)
+    public function testRepositoryUrlAttribute(string $repository, string $expected)
     {
         $project             = new Project();
         $project->repository = $repository;
@@ -213,7 +242,7 @@ class ProjectTest extends TestCase
         $this->assertSame($expected, $project->repository_url);
     }
 
-    public function provideRepositoryUrl()
+    public function provideRepositoryUrl(): array
     {
         return $this->fixture('Project')['repo_url_to_web_url'];
     }
@@ -221,8 +250,10 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideMalformedRepositoryUrl
      * @covers ::getRepositoryUrlAttribute
+     *
+     * @param string $repository
      */
-    public function testRepositoryUrlAttributeHandlesUnknown($repository)
+    public function testRepositoryUrlAttributeHandlesUnknown(string $repository)
     {
         $project             = new Project();
         $project->repository = $repository;
@@ -234,8 +265,12 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideBranchUrl
      * @covers ::getBranchUrlAttribute
+     *
+     * @param string $repository
+     * @param string $branch
+     * @param string $expected
      */
-    public function testGetBranchUrlAttribute($repository, $branch, $expected)
+    public function testGetBranchUrlAttribute(string $repository, string $branch, string $expected)
     {
         $project             = new Project();
         $project->branch     = $branch;
@@ -248,8 +283,10 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideMalformedRepositoryUrl
      * @covers ::GetBranchUrlAttribute
+     *
+     * @param string $repository
      */
-    public function testGetBranchUrlAttributeHandlesUnknown($repository)
+    public function testGetBranchUrlAttributeHandlesUnknown(string $repository)
     {
         $project             = new Project();
         $project->branch     = 'master';
@@ -262,9 +299,16 @@ class ProjectTest extends TestCase
     /**
      * @dataProvider provideBranchUrl
      * @covers ::getBranchUrlAttribute
+     *
+     * @param string $repository
+     * @param string $branch
+     * @param string $expected
      */
-    public function testGetBranchUrlAttributeHandlesAlternativeBranch($repository, $branch, $expected)
-    {
+    public function testGetBranchUrlAttributeHandlesAlternativeBranch(
+        string $repository,
+        string $branch,
+        string $expected
+    ) {
         $project             = new Project();
         $project->branch     = 'a-non-existent-branch-blah';
         $project->repository = $repository;
@@ -272,7 +316,7 @@ class ProjectTest extends TestCase
         $this->assertSame($expected, $project->getBranchUrlAttribute($branch));
     }
 
-    public function provideBranchUrl()
+    public function provideBranchUrl(): array
     {
         return $this->fixture('Project')['branch_url'];
     }

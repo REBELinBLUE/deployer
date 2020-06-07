@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Database\Eloquent\Model;
 use Mockery as m;
 use REBELinBLUE\Deployer\Events\ModelTrashed;
 use REBELinBLUE\Deployer\Server;
@@ -39,7 +40,13 @@ class ModelTrashedTest extends TestCase
         $this->assertInstanceOf(ShouldBroadcast::class, $event);
     }
 
-    private function mockModel($server_id, $project_id)
+    /**
+     * @param int $server_id
+     * @param int $project_id
+     *
+     * @return Model
+     */
+    private function mockModel(int $server_id, int $project_id): Model
     {
         $model = m::mock(Server::class);
         $model->shouldReceive('getAttribute')->once()->with('id')->andReturn($server_id);

@@ -30,7 +30,7 @@ class SendHeartbeatNotifications
      *
      * @param HeartbeatChanged $event
      */
-    public function handle(HeartbeatChanged $event)
+    public function handle(HeartbeatChanged $event): void
     {
         $heartbeat = $event->heartbeat;
 

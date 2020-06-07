@@ -6,6 +6,7 @@ use BackupManager\Laravel\DbBackupCommand;
 use Carbon\Carbon;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
+use Illuminate\Console\OutputStyle;
 use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Foundation\Application;
 use Mockery as m;
@@ -34,7 +35,7 @@ class UpdateAppTest extends TestCase
     private $requirements;
     private $env;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -69,12 +70,12 @@ class UpdateAppTest extends TestCase
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertContains('Deployer has not been installed', $output);
-        $this->assertContains('php artisan app:install', $output);
+        $this->assertStringContainsString('Deployer has not been installed', $output);
+        $this->assertStringContainsString('php artisan app:install', $output);
         $this->assertSame(-1, $tester->getStatusCode());
     }
 
-    public function provideAppKey()
+    public function provideAppKey(): array
     {
         return array_chunk([
             false,
@@ -83,24 +84,33 @@ class UpdateAppTest extends TestCase
     }
 
     /**
+     * @dataProvider provideDeprecatedConfig
      * @covers ::__construct
      * @covers ::handle
      * @covers ::hasDeprecatedConfig
      * @covers ::checkCanInstall
      * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles::failure
      */
-    public function testHasDeprecatedConfig()
+    public function testHasDeprecatedConfig(string $old, string $current)
     {
         $this->config->shouldReceive('get')->with('app.key')->andReturn('a-valid-key');
-        $this->filesystem->shouldReceive('get')->with(base_path('.env'))->andReturn('DB_TYPE=mysql');
+        $this->filesystem->shouldReceive('get')->with(base_path('.env'))->andReturn("${old}=foo");
 
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertContains('Update not complete!', $output);
-        $this->assertContains('DB_TYPE', $output);
-        $this->assertContains('DB_CONNECTION', $output);
+        $this->assertStringContainsString('Update not complete!', $output);
+        $this->assertStringContainsString($old, $output);
+        $this->assertStringContainsString($current, $output);
         $this->assertSame(-1, $tester->getStatusCode());
+    }
+
+    public function provideDeprecatedConfig(): array
+    {
+        return [
+            ['DB_TYPE', 'DB_CONNECTION'],
+            ['QUEUE_DRIVER', 'QUEUE_CONNECTION'],
+        ];
     }
 
     /**
@@ -127,8 +137,8 @@ class UpdateAppTest extends TestCase
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertContains('Update not complete!', $output);
-        $this->assertContains('composer install --no-suggest --no-dev -o', $output);
+        $this->assertStringContainsString('Update not complete!', $output);
+        $this->assertStringContainsString('composer install --no-suggest --no-dev -o', $output);
         $this->assertSame(-1, $tester->getStatusCode());
     }
 
@@ -160,8 +170,8 @@ class UpdateAppTest extends TestCase
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertContains('Update not complete!', $output);
-        $this->assertContains('npm install --production', $output);
+        $this->assertStringContainsString('Update not complete!', $output);
+        $this->assertStringContainsString('npm install --production', $output);
         $this->assertSame(-1, $tester->getStatusCode());
     }
 
@@ -188,11 +198,11 @@ class UpdateAppTest extends TestCase
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertContains('Deployments in progress', $output);
+        $this->assertStringContainsString('Deployments in progress', $output);
         $this->assertSame(-1, $tester->getStatusCode());
     }
 
-    public function provideDeploymentCount()
+    public function provideDeploymentCount(): array
     {
         return [
             [0, 10],
@@ -245,7 +255,7 @@ class UpdateAppTest extends TestCase
 
         $tester = $this->runCommand($this->laravel, ['no']);
 
-        $this->assertContains('Switch to maintenance mode now?', $tester->getDisplay());
+        $this->assertStringContainsString('Switch to maintenance mode now?', $tester->getDisplay());
         $this->assertSame(-1, $tester->getStatusCode());
     }
 
@@ -307,10 +317,10 @@ class UpdateAppTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Switch to maintenance mode now?', $output);
-        $this->assertContains('Updating configuration file', $output);
-        $this->assertContains('Restarting the queue', $output);
-        $this->assertContains('Restarting the socket server', $output);
+        $this->assertStringContainsString('Switch to maintenance mode now?', $output);
+        $this->assertStringContainsString('Updating configuration file', $output);
+        $this->assertStringContainsString('Restarting the queue', $output);
+        $this->assertStringContainsString('Restarting the socket server', $output);
         $this->assertSame(0, $tester->getStatusCode());
     }
 
@@ -329,6 +339,11 @@ class UpdateAppTest extends TestCase
         $command->setApplication($this->console);
 
         $tester = new CommandTester($command);
+
+        $this->app->bind(OutputStyle::class, function () use ($tester) {
+            return new OutputStyle($tester->getInput(), $tester->getOutput());
+        });
+
         $tester->setInputs($inputs);
         $tester->execute([
             'command' => 'app:update',
@@ -343,7 +358,7 @@ class UpdateAppTest extends TestCase
         Carbon::setTestNow($now);
 
         $this->config->shouldReceive('get')->with('app.key')->andReturn('a-valid-key');
-        $this->filesystem->shouldReceive('get')->once()->with(base_path('.env'))->andReturn('config-file-content');
+        $this->filesystem->shouldReceive('get')->with(base_path('.env'))->andReturn('config-file-content');
         $this->filesystem->shouldReceive('lastModified')->andReturn($now->timestamp);
 
         $this->repository->shouldReceive('getRunning->count')->andReturn(0);

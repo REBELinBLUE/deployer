@@ -6,6 +6,9 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 use REBELinBLUE\Deployer\Events\UserWasCreated;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
@@ -33,14 +36,15 @@ class UserController extends Controller
     /**
      * Display a listing of the users.
      *
-     * @param  ViewFactory           $view
-     * @param  Translator            $translator
-     * @return \Illuminate\View\View
+     * @param ViewFactory $view
+     * @param Translator  $translator
+     *
+     * @return View
      */
-    public function index(ViewFactory $view, Translator $translator)
+    public function index(ViewFactory $view, Translator $translator): View
     {
         return $view->make('admin.users.listing', [
-            'title' => $translator->trans('users.manage'),
+            'title' => $translator->get('users.manage'),
             'users' => $this->repository->getAll()->toJson(),
         ]);
     }
@@ -52,9 +56,9 @@ class UserController extends Controller
      * @param Dispatcher       $dispatcher
      * @param ResponseFactory  $response
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(StoreUserRequest $request, Dispatcher $dispatcher, ResponseFactory $response)
+    public function store(StoreUserRequest $request, Dispatcher $dispatcher, ResponseFactory $response): JsonResponse
     {
         $user = $this->repository->create($request->only(
             'name',
@@ -74,9 +78,9 @@ class UserController extends Controller
      * @param int              $user_id
      * @param StoreUserRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($user_id, StoreUserRequest $request)
+    public function update(int $user_id, StoreUserRequest $request): Model
     {
         return $this->repository->updateById($request->only(
             'name',

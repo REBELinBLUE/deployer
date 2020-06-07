@@ -13,7 +13,7 @@ use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
  */
 class ClearOrphanAvatars extends Command
 {
-    const KEEP_FILES_FOR_MINUTES = 15;
+    private const KEEP_FILES_FOR_MINUTES = 15;
 
     /**
      * The name and signature of the console command.
@@ -57,7 +57,7 @@ class ClearOrphanAvatars extends Command
      * Execute the console command.
      * Remove unused avatar files from disk.
      */
-    public function handle()
+    public function handle(): void
     {
         // Build up a list of all avatar images
         $avatars = $this->filesystem->glob(public_path() . '/storage/*/*.*');
@@ -80,7 +80,7 @@ class ClearOrphanAvatars extends Command
         $minimum_age = Carbon::now()->subMinutes(self::KEEP_FILES_FOR_MINUTES)->timestamp;
 
         // Now loop through the avatars and delete them from storage
-        $orphan_avatars->each(function ($avatar) use ($minimum_age) {
+        $orphan_avatars->each(function (string $avatar) use ($minimum_age): void {
             $avatarPath = public_path() . $avatar;
 
             // Don't delete recently created files as they could be temp files from the uploader

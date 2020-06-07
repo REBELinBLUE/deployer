@@ -21,7 +21,7 @@ class MakeRepositoryCommandTest extends TestCase
     private $concrete;
     private $contract;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -72,8 +72,8 @@ class MakeRepositoryCommandTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains($this->contract . ' created successfully.', $output);
-        $this->assertContains($this->concrete . ' created successfully.', $output);
+        $this->assertStringContainsString($this->contract . ' created successfully.', $output);
+        $this->assertStringContainsString($this->concrete . ' created successfully.', $output);
     }
 
     /**
@@ -103,11 +103,11 @@ class MakeRepositoryCommandTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains($this->contract . ' already exists!', $output);
-        $this->assertNotContains('created successfully.', $output);
+        $this->assertStringContainsString($this->contract . ' already exists!', $output);
+        $this->assertStringNotContainsString('created successfully.', $output);
     }
 
-    private function concreteData()
+    private function concreteData(): string
     {
         return '<?php
 
@@ -122,7 +122,7 @@ class EloquentFooBarRepository extends EloquentRepository implements FooBarRepos
 ';
     }
 
-    private function contractData()
+    private function contractData(): string
     {
         return '<?php
 

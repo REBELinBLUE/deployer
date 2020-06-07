@@ -16,7 +16,7 @@ class ResetPasswordTest extends TestCase
 {
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -52,11 +52,11 @@ class ResetPasswordTest extends TestCase
         $user = m::mock(User::class);
         $user->shouldReceive('getAttribute')->atLeast()->once()->with('name')->andReturn($expectedName);
 
-        $this->translator->shouldReceive('trans')->with('emails.reset_subject')->andReturn($subject);
-        $this->translator->shouldReceive('trans')->with('emails.reset_header')->andReturn($introLine1);
-        $this->translator->shouldReceive('trans')->with('emails.reset_below')->andReturn($introLine2);
-        $this->translator->shouldReceive('trans')->with('emails.reset')->andReturn($actionText);
-        $this->translator->shouldReceive('trans')->with('emails.reset_footer')->andReturn($outroLine1);
+        $this->translator->shouldReceive('get')->with('emails.reset_subject')->andReturn($subject);
+        $this->translator->shouldReceive('get')->with('emails.reset_header')->andReturn($introLine1);
+        $this->translator->shouldReceive('get')->with('emails.reset_below')->andReturn($introLine2);
+        $this->translator->shouldReceive('get')->with('emails.reset')->andReturn($actionText);
+        $this->translator->shouldReceive('get')->with('emails.reset_footer')->andReturn($outroLine1);
 
         // Replace the URL generator so that we can get a known URL
         $mock = m::mock(UrlGenerator::class);

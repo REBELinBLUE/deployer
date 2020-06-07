@@ -25,7 +25,7 @@ class HandlerTest extends TestCase
      */
     private $handler;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

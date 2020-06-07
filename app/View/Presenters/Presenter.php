@@ -48,7 +48,7 @@ abstract class Presenter extends BasePresenter
      *
      * @return bool
      */
-    public function __isset(string $key)
+    public function __isset(string $key): bool
     {
         $method = $this->toCamelCase($key);
         if (method_exists($this, $method)) {
@@ -65,7 +65,7 @@ abstract class Presenter extends BasePresenter
      *
      * @return string
      */
-    private function toCamelCase($key)
+    private function toCamelCase(string $key): string
     {
         return Str::camel('present_' . $key);
     }

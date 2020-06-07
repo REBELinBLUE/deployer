@@ -27,7 +27,7 @@ class CreateUserTest extends TestCase
 
     private $console;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -85,8 +85,8 @@ class CreateUserTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains($email, $output);
-        $this->assertNotContains($password, $output);
+        $this->assertStringContainsString($email, $output);
+        $this->assertStringNotContainsString($password, $output);
     }
 
     /**
@@ -129,8 +129,8 @@ class CreateUserTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertNotContains($email, $output);
-        $this->assertContains($password, $output);
+        $this->assertStringNotContainsString($email, $output);
+        $this->assertStringContainsString($password, $output);
     }
 
     /**

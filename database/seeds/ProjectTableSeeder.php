@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use REBELinBLUE\Deployer\Project;
 
 class ProjectTableSeeder extends Seeder
@@ -11,7 +12,7 @@ class ProjectTableSeeder extends Seeder
 
         Project::create([
             'name'              => 'Deployer',
-            'hash'              => str_random(60),
+            'hash'              => Str::random(60),
             'repository'        => 'https://github.com/REBELinBLUE/deployer.git',
             'url'               => 'http://deployer.app',
             'group_id'          => 1,

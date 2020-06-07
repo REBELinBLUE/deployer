@@ -13,8 +13,10 @@ class CustomTest extends WebhookTestCase
     /**
      * @dataProvider provideBranch
      * @covers ::handlePush
+     *
+     * @param string $branch
      */
-    public function testHandlePushEventValid($branch)
+    public function testHandlePushEventValid(string $branch)
     {
         $reason = 'Commit Log';
         $url    = 'http://www.example.com/';
@@ -32,7 +34,7 @@ class CustomTest extends WebhookTestCase
         $custom = new Custom($request);
         $actual = $custom->handlePush();
 
-        $this->assertInternalType('array', $actual);
+        $this->assertIsArray($actual);
 
         $this->assertArrayHasKey('reason', $actual);
         $this->assertArrayHasKey('branch', $actual);

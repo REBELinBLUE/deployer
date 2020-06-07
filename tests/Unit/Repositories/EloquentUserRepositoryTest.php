@@ -46,7 +46,8 @@ class EloquentUserRepositoryTest extends EloquentRepositoryTestCase
 
         // Replace the hasher so that we can ensure the password is encrypted but that a known value is returned
         $mock = m::mock(Hasher::class);
-        $mock->shouldReceive('make')->andReturn($expectedPassword);
+        $mock->shouldReceive('driver')->with('bcrypt')->andReturnSelf();
+        $mock->shouldReceive('make')->with('password', [])->andReturn($expectedPassword);
         $this->app->instance('hash', $mock);
 
         $model = m::mock(User::class);
@@ -110,7 +111,8 @@ class EloquentUserRepositoryTest extends EloquentRepositoryTestCase
         $update           = ['foo' => 'bar', 'password' => $expectedPassword];
 
         $mock = m::mock(Hasher::class);
-        $mock->shouldReceive('make')->andReturn($expectedPassword);
+        $mock->shouldReceive('driver')->with('bcrypt')->andReturnSelf();
+        $mock->shouldReceive('make')->with('password', [])->andReturn($expectedPassword);
         $this->app->instance('hash', $mock);
 
         $expected = m::mock(User::class);

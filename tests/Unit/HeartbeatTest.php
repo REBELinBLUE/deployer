@@ -19,8 +19,11 @@ class HeartbeatTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::isHealthy
+     *
+     * @param int  $status
+     * @param bool $expected
      */
-    public function testIsHealthy($status, $expected)
+    public function testIsHealthy(int $status, bool $expected)
     {
         $heartbeat = new Heartbeat();
 
@@ -31,7 +34,7 @@ class HeartbeatTest extends TestCase
         $this->assertSame($expected, $heartbeat->isHealthy());
     }
 
-    public function provideStatuses()
+    public function provideStatuses(): array
     {
         return $this->fixture('Heartbeat')['healthy'];
     }

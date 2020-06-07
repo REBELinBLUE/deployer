@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutTestSize="true"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
          failOnRisky="true"
          failOnWarning="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false"
-         verbose="false"
 >
     <testsuites>
         <testsuite name="Integration Tests">
-            <directory suffix="Test.php">./tests/Integration</directory>
+            <directory>./tests/Integration</directory>
         </testsuite>
+
         <testsuite name="Unit Tests">
-            <directory suffix="Test.php">./tests/Unit</directory>
+            <directory>./tests/Unit</directory>
         </testsuite>
     </testsuites>
+
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app/</directory>
@@ -32,16 +24,12 @@
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>
-        <blacklist>
-            <directory>./vendor</directory>
-        </blacklist>
     </filter>
-    <![CDATA[
-        <!-- Some options which are useful in development but not on the CI, remove the CDATA to use -->
-        <logging>
-            <log type="coverage-text" target="php://stdout" lowUpperBound="50" highLowerBound="80" />
-        </logging>
-    ]]>
+
+    <listeners>
+        <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener" />
+    </listeners>
+
     <php>
         <ini name="memory_limit" value="2048M" />
         <env name="APP_ENV" value="testing" />
@@ -55,7 +43,8 @@
         <env name="CACHE_DRIVER" value="array" />
         <env name="SESSION_DRIVER" value="array" />
         <env name="MAIL_DRIVER" value="log" />
-        <env name="QUEUE_DRIVER" value="sync" />
+        <env name="QUEUE_CONNECTION" value="sync" />
         <env name="BROADCAST_DRIVER" value="log" />
+        <env name="TELESCOPE_ENABLED" value="false" />
     </php>
 </phpunit>

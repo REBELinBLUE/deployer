@@ -65,8 +65,10 @@ class ClearStalledDeployment extends Command
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $bring_back_up = false;
 
@@ -95,12 +97,14 @@ class ClearStalledDeployment extends Command
         if ($bring_back_up) {
             $this->call('up');
         }
+
+        return 0;
     }
 
     /**
      * Cleans up any stalled deployments in the database.
      */
-    public function cleanupDeployments()
+    public function cleanupDeployments(): void
     {
         // Mark any pending steps as cancelled
         $this->logRepository->updateStatusAll(ServerLog::PENDING, ServerLog::CANCELLED);

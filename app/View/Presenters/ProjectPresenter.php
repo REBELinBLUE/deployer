@@ -15,7 +15,7 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    public function presentCcTrayStatus()
+    public function presentCcTrayStatus(): string
     {
         if ($this->status === Project::FINISHED || $this->status === Project::FAILED) {
             return 'Sleeping';
@@ -33,19 +33,19 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    public function presentReadableStatus()
+    public function presentReadableStatus(): string
     {
         if ($this->status === Project::FINISHED) {
-            return $this->translator->trans('projects.finished');
+            return $this->translator->get('projects.finished');
         } elseif ($this->status === Project::DEPLOYING) {
-            return $this->translator->trans('projects.deploying');
+            return $this->translator->get('projects.deploying');
         } elseif ($this->status === Project::FAILED) {
-            return $this->translator->trans('projects.failed');
+            return $this->translator->get('projects.failed');
         } elseif ($this->status === Project::PENDING) {
-            return $this->translator->trans('projects.pending');
+            return $this->translator->get('projects.pending');
         }
 
-        return $this->translator->trans('projects.not_deployed');
+        return $this->translator->get('projects.not_deployed');
     }
 
     /**
@@ -53,7 +53,7 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    public function presentIcon()
+    public function presentIcon(): string
     {
         if ($this->status === Project::FINISHED) {
             return 'check';
@@ -73,7 +73,7 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    public function presentCssClass()
+    public function presentCssClass(): string
     {
         if ($this->status === Project::FINISHED) {
             return 'success';
@@ -93,7 +93,7 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    public function presentAppStatus()
+    public function presentAppStatus(): string
     {
         $status = $this->applicationCheckUrlStatus();
 
@@ -105,7 +105,7 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    public function presentAppStatusCss()
+    public function presentAppStatusCss(): string
     {
         $status = $this->applicationCheckUrlStatus();
 
@@ -117,7 +117,7 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    public function presentHeartBeatStatus()
+    public function presentHeartBeatStatus(): string
     {
         $status = $this->heartbeatsStatus();
 
@@ -129,7 +129,7 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    public function presentHeartBeatStatusCss()
+    public function presentHeartBeatStatusCss(): string
     {
         $status = $this->heartbeatsStatus();
 
@@ -141,7 +141,7 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    public function presentTypeIcon()
+    public function presentTypeIcon(): string
     {
         $details = $this->accessDetails();
 
@@ -167,7 +167,7 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    private function getStatusCss(array $status)
+    private function getStatusCss(array $status): string
     {
         if ($status['length'] === 0) {
             return 'warning';
@@ -185,10 +185,10 @@ class ProjectPresenter extends CommandPresenter
      *
      * @return string
      */
-    private function getStatusLabel(array $status)
+    private function getStatusLabel(array $status): string
     {
         if ($status['length'] === 0) {
-            return $this->translator->trans('app.not_applicable');
+            return $this->translator->get('app.not_applicable');
         }
 
         return ($status['length'] - $status['missed']) . ' / ' . $status['length'];

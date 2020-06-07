@@ -6,11 +6,7 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use NotificationChannels\HipChat\Card;
-use NotificationChannels\HipChat\CardAttribute;
-use NotificationChannels\HipChat\CardFormats;
-use NotificationChannels\HipChat\CardStyles;
-use NotificationChannels\HipChat\HipChatMessage;
+use Illuminate\Support\Arr;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -53,19 +49,19 @@ abstract class HeartbeatChanged extends Notification
      *
      * @return MailMessage
      */
-    protected function buildMailMessage($subject, $translation, Channel $notification)
+    protected function buildMailMessage(string $subject, string $translation, Channel $notification): MailMessage
     {
-        $message = $this->translator->trans($translation, ['job' => $this->heartbeat->name]);
+        $message = $this->translator->get($translation, ['job' => $this->heartbeat->name]);
 
         if (is_null($this->heartbeat->last_activity)) {
-            $heard_from = $this->translator->trans('app.never');
+            $heard_from = $this->translator->get('app.never');
         } else {
             $heard_from = $this->heartbeat->last_activity->diffForHumans();
         }
 
         $table = [
-            $this->translator->trans('notifications.project_name') => $this->heartbeat->project->name,
-            $this->translator->trans('heartbeats.last_check_in')   => $heard_from,
+            $this->translator->get('notifications.project_name') => $this->heartbeat->project->name,
+            $this->translator->get('heartbeats.last_check_in')   => $heard_from,
         ];
 
         $action = route('projects', ['id' => $this->heartbeat->project_id]);
@@ -75,9 +71,9 @@ abstract class HeartbeatChanged extends Notification
                 'name'  => $notification->name,
                 'table' => $table,
             ])
-            ->subject($this->translator->trans($subject))
+            ->subject($this->translator->get($subject))
             ->line($message)
-            ->action($this->translator->trans('notifications.project_details'), $action);
+            ->action($this->translator->get('notifications.project_details'), $action);
     }
 
     /**
@@ -88,24 +84,24 @@ abstract class HeartbeatChanged extends Notification
      *
      * @return SlackMessage
      */
-    protected function buildSlackMessage($translation, Channel $notification)
+    protected function buildSlackMessage(string $translation, Channel $notification): SlackMessage
     {
-        $message = $this->translator->trans($translation, ['job' => $this->heartbeat->name]);
+        $message = $this->translator->get($translation, ['job' => $this->heartbeat->name]);
         $url     = route('projects', ['id' => $this->heartbeat->project_id]);
 
         if (is_null($this->heartbeat->last_activity)) {
-            $heard_from = $this->translator->trans('app.never');
+            $heard_from = $this->translator->get('app.never');
         } else {
             $heard_from = $this->heartbeat->last_activity->diffForHumans();
         }
 
         $fields = [
-            $this->translator->trans('notifications.project') => sprintf(
+            $this->translator->get('notifications.project') => sprintf(
                 '<%s|%s>',
                 $url,
                 $this->heartbeat->project->name
             ),
-            $this->translator->trans('heartbeats.last_check_in') => $heard_from,
+            $this->translator->get('heartbeats.last_check_in') => $heard_from,
         ];
 
         return (new SlackMessage())
@@ -116,7 +112,7 @@ abstract class HeartbeatChanged extends Notification
                     ->content($message)
                     ->fallback($message)
                     ->fields($fields)
-                    ->footer($this->translator->trans('app.name'))
+                    ->footer($this->translator->get('app.name'))
                     ->timestamp($this->heartbeat->updated_at);
             });
     }
@@ -129,10 +125,10 @@ abstract class HeartbeatChanged extends Notification
      *
      * @return WebhookMessage
      */
-    protected function buildWebhookMessage($event, Channel $notification)
+    protected function buildWebhookMessage(string $event, Channel $notification): WebhookMessage
     {
         return (new WebhookMessage())
-            ->data(array_merge(array_only(
+            ->data(array_merge(Arr::only(
                 $this->heartbeat->attributesToArray(),
                 ['id', 'name', 'missed', 'last_activity']
             ), [
@@ -150,62 +146,19 @@ abstract class HeartbeatChanged extends Notification
      *
      * @return TwilioMessage
      */
-    protected function buildTwilioMessage($translation)
+    protected function buildTwilioMessage(string $translation): TwilioMessage
     {
         if (is_null($this->heartbeat->last_activity)) {
-            $heard_from = $this->translator->trans('app.never');
+            $heard_from = $this->translator->get('app.never');
         } else {
             $heard_from = $this->heartbeat->last_activity->diffForHumans();
         }
 
         return (new TwilioMessage())
-            ->content($this->translator->trans($translation, [
+            ->content($this->translator->get($translation, [
                 'job'     => $this->heartbeat->name,
                 'project' => $this->heartbeat->project->name,
                 'last'    => $heard_from,
             ]));
-    }
-
-    /**
-     * Get the Hipchat version of the message.
-     *
-     * @param string  $translation
-     * @param Channel $notification
-     *
-     * @return HipChatMessage
-     */
-    protected function buildHipchatMessage($translation, Channel $notification)
-    {
-        $message = $this->translator->trans($translation, ['job' => $this->heartbeat->name]);
-        $url     = route('projects', ['id' => $this->heartbeat->project_id]);
-
-        return (new HipChatMessage())
-            ->room($notification->config->room)
-            ->notify()
-            ->html($message)
-            ->card(function (Card $card) use ($message, $url) {
-                $card
-                    ->title($message)
-                    ->url($url)
-                    ->style(CardStyles::APPLICATION)
-                    ->cardFormat(CardFormats::MEDIUM)
-                    ->addAttribute(function (CardAttribute $attribute) {
-                        $attribute
-                            ->label($this->translator->trans('notifications.project'))
-                            ->value($this->heartbeat->project->name)
-                            ->url(route('projects', ['id' => $this->heartbeat->project_id]));
-                    })
-                    ->addAttribute(function (CardAttribute $attribute) {
-                        if (is_null($this->heartbeat->last_activity)) {
-                            $heard_from = $this->translator->trans('app.never');
-                        } else {
-                            $heard_from = $this->heartbeat->last_activity->diffForHumans();
-                        }
-
-                        $attribute
-                            ->label($this->translator->trans('heartbeats.last_check_in'))
-                            ->value($heard_from);
-                    });
-            });
     }
 }

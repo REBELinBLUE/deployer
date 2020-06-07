@@ -15,7 +15,7 @@ class ProjectPresenterTest extends TestCase
 {
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -25,8 +25,11 @@ class ProjectPresenterTest extends TestCase
     /**
      * @dataProvider provideCCTrayStatus
      * @covers ::presentCcTrayStatus
+     *
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentCcTrayStatusIsCorrect($status, $expected)
+    public function testPresentCcTrayStatusIsCorrect($status, string $expected)
     {
         $project = $this->mockProjectWithStatus($status);
 
@@ -37,7 +40,7 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideCCTrayStatus()
+    public function provideCCTrayStatus(): array
     {
         return $this->fixture('View/Presenters/ProjectPresenter')['cc_tray_status'];
     }
@@ -45,12 +48,15 @@ class ProjectPresenterTest extends TestCase
     /**
      * @dataProvider provideReadableStatus
      * @covers ::presentReadableStatus
+     *
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentReadableStatusIsCorrect($status, $expected)
+    public function testPresentReadableStatusIsCorrect($status, string $expected)
     {
         $project = $this->mockProjectWithStatus($status);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
@@ -59,7 +65,7 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideReadableStatus()
+    public function provideReadableStatus(): array
     {
         return $this->fixture('View/Presenters/ProjectPresenter')['readable_status'];
     }
@@ -67,8 +73,11 @@ class ProjectPresenterTest extends TestCase
     /**
      * @dataProvider provideIcons
      * @covers ::presentIcon
+     *
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentIconIsCorrect($status, $expected)
+    public function testPresentIconIsCorrect($status, string $expected)
     {
         $project = $this->mockProjectWithStatus($status);
 
@@ -79,7 +88,7 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideIcons()
+    public function provideIcons(): array
     {
         return $this->fixture('View/Presenters/ProjectPresenter')['icons'];
     }
@@ -87,8 +96,11 @@ class ProjectPresenterTest extends TestCase
     /**
      * @dataProvider provideCssClasses
      * @covers ::presentCssClass
+     *
+     * @param mixed  $status
+     * @param string $expected
      */
-    public function testPresentCssClassIsCorrect($status, $expected)
+    public function testPresentCssClassIsCorrect($status, string $expected)
     {
         $project = $this->mockProjectWithStatus($status);
 
@@ -99,7 +111,7 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideCssClasses()
+    public function provideCssClasses(): array
     {
         return $this->fixture('View/Presenters/ProjectPresenter')['css_classes'];
     }
@@ -114,7 +126,7 @@ class ProjectPresenterTest extends TestCase
 
         $project = $this->mockProjectWithHealthStatus(0, 0);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
@@ -127,8 +139,12 @@ class ProjectPresenterTest extends TestCase
      * @dataProvider provideAppStatuses
      * @covers ::presentAppStatus
      * @covers ::getStatusLabel
+     *
+     * @param int    $length
+     * @param int    $missed
+     * @param string $expected
      */
-    public function testPresentAppStatusReturnsExpectedMessageWhenNotEmpty($length, $missed, $expected)
+    public function testPresentAppStatusReturnsExpectedMessageWhenNotEmpty(int $length, int $missed, string $expected)
     {
         $project = $this->mockProjectWithHealthStatus($length, $missed);
 
@@ -139,7 +155,7 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideAppStatuses()
+    public function provideAppStatuses(): array
     {
         return $this->fixture('View/Presenters/ProjectPresenter')['status_label'];
     }
@@ -148,8 +164,12 @@ class ProjectPresenterTest extends TestCase
      * @dataProvider provideAppStatusCssClasses
      * @covers ::presentAppStatusCss
      * @covers ::getStatusCss
+     *
+     * @param int    $length
+     * @param int    $missed
+     * @param string $expected
      */
-    public function testPresentAppStatusCss($length, $missed, $expected)
+    public function testPresentAppStatusCss(int $length, int $missed, string $expected)
     {
         $project = $this->mockProjectWithHealthStatus($length, $missed);
 
@@ -160,7 +180,7 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideAppStatusCssClasses()
+    public function provideAppStatusCssClasses(): array
     {
         return $this->fixture('View/Presenters/ProjectPresenter')['status_css_classes'];
     }
@@ -175,7 +195,7 @@ class ProjectPresenterTest extends TestCase
 
         $project = $this->mockProjectWithHealthStatus(0, 0, 'heartbeatsStatus');
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
@@ -188,8 +208,12 @@ class ProjectPresenterTest extends TestCase
      * @dataProvider provideHeartbeatStatuses
      * @covers ::presentHeartBeatStatus
      * @covers ::getStatusLabel
+     *
+     * @param int    $length
+     * @param int    $missed
+     * @param string $expected
      */
-    public function testPresentHeartbeatReturnsExpectedMessageWhenNotEmpty($length, $missed, $expected)
+    public function testPresentHeartbeatReturnsExpectedMessageWhenNotEmpty(int $length, int $missed, string $expected)
     {
         $project = $this->mockProjectWithHealthStatus($length, $missed, 'heartbeatsStatus');
 
@@ -200,7 +224,7 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideHeartbeatStatuses()
+    public function provideHeartbeatStatuses(): array
     {
         return $this->provideAppStatuses();
     }
@@ -209,8 +233,12 @@ class ProjectPresenterTest extends TestCase
      * @dataProvider provideHeartbeatsCssClasses
      * @covers ::presentHeartBeatStatusCss
      * @covers ::getStatusCss
+     *
+     * @param int    $length
+     * @param int    $missed
+     * @param string $expected
      */
-    public function testPresentHeartbeatStatusCss($length, $missed, $expected)
+    public function testPresentHeartbeatStatusCss(int $length, int $missed, string $expected)
     {
         $project = $this->mockProjectWithHealthStatus($length, $missed, 'heartbeatsStatus');
 
@@ -221,7 +249,7 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideHeartbeatsCssClasses()
+    public function provideHeartbeatsCssClasses(): array
     {
         return $this->provideAppStatusCssClasses();
     }
@@ -234,7 +262,7 @@ class ProjectPresenterTest extends TestCase
         $expected = 'fa-git-square';
 
         $project = m::mock(Project::class);
-        $project->shouldReceive('accessDetails')->andReturnNull();
+        $project->shouldReceive('accessDetails')->andReturn([]);
 
         $presenter = new ProjectPresenter($this->translator);
         $presenter->setWrappedObject($project);
@@ -246,8 +274,11 @@ class ProjectPresenterTest extends TestCase
     /**
      * @dataProvider provideRepoUrls
      * @covers ::presentTypeIcon
+     *
+     * @param string $repository
+     * @param string $expected
      */
-    public function testPresentTypeIconReturnsExpectedIcon($repository, $expected)
+    public function testPresentTypeIconReturnsExpectedIcon(?string $repository, string $expected)
     {
         $project = m::mock(Project::class);
         $project->shouldReceive('accessDetails')->andReturn(['domain' => $repository]);
@@ -259,12 +290,17 @@ class ProjectPresenterTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideRepoUrls()
+    public function provideRepoUrls(): array
     {
         return $this->fixture('View/Presenters/ProjectPresenter')['repo_icon'];
     }
 
-    private function mockProjectWithStatus($status)
+    /**
+     * @param mixed $status
+     *
+     * @return Project
+     */
+    private function mockProjectWithStatus($status): Project
     {
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->atLeast()->once()->with('status')->andReturn($status);
@@ -272,8 +308,18 @@ class ProjectPresenterTest extends TestCase
         return $project;
     }
 
-    private function mockProjectWithHealthStatus($length, $missed, $method = 'applicationCheckUrlStatus')
-    {
+    /**
+     * @param int    $length
+     * @param int    $missed
+     * @param string $method
+     *
+     * @return Project
+     */
+    private function mockProjectWithHealthStatus(
+        int $length,
+        int $missed,
+        string $method = 'applicationCheckUrlStatus'
+    ): Project {
         $project = m::mock(Project::class);
         $project->shouldReceive($method)->once()->andReturn(['length' => $length, 'missed' => $missed]);
 

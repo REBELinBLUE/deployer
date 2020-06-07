@@ -14,18 +14,18 @@ class DeployStepPresenter extends Presenter
      *
      * @return string
      */
-    public function presentName()
+    public function presentName(): string
     {
         if (!is_null($this->command_id)) {
             return $this->command->name;
         } elseif ($this->stage === Command::DO_INSTALL) {
-            return $this->translator->trans('commands.install');
+            return $this->translator->get('commands.install');
         } elseif ($this->stage === Command::DO_ACTIVATE) {
-            return $this->translator->trans('commands.activate');
+            return $this->translator->get('commands.activate');
         } elseif ($this->stage === Command::DO_PURGE) {
-            return $this->translator->trans('commands.purge');
+            return $this->translator->get('commands.purge');
         }
 
-        return $this->translator->trans('commands.clone');
+        return $this->translator->get('commands.clone');
     }
 }

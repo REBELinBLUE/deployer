@@ -29,7 +29,7 @@ class SendEmailChangeConfirmation
      *
      * @param EmailChangeRequested $event
      */
-    public function handle(EmailChangeRequested $event)
+    public function handle(EmailChangeRequested $event): void
     {
         $token = $event->user->requestEmailToken();
 

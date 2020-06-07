@@ -13,7 +13,7 @@ trait GetAvailableOptions
      *
      * @return array
      */
-    protected function getDatabaseDrivers()
+    protected function getDatabaseDrivers(): array
     {
         // Use the function instead of PDO::getAvailableDrivers so it can be mocked
         $available = new Collection(pdo_drivers());
@@ -26,7 +26,7 @@ trait GetAvailableOptions
      *
      * @return array
      */
-    protected function getTimezoneRegions()
+    protected function getTimezoneRegions(): array
     {
         return [
             'UTC'        => DateTimeZone::UTC,
@@ -51,7 +51,7 @@ trait GetAvailableOptions
      *
      * @see DateTimeZone
      */
-    protected function getTimezoneLocations($region)
+    protected function getTimezoneLocations(int $region): array
     {
         $locations = [];
 

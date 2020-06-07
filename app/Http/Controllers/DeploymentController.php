@@ -5,9 +5,11 @@ namespace REBELinBLUE\Deployer\Http\Controllers;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use McCool\LaravelAutoPresenter\AutoPresenter;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\DeployStep;
@@ -80,9 +82,9 @@ class DeploymentController extends Controller
      *
      * @param int $project_id
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function project($project_id)
+    public function project(int $project_id): View
     {
         $project = $this->projectRepository->getById($project_id);
 
@@ -110,6 +112,7 @@ class DeploymentController extends Controller
             'tags'         => $project->tags,
             'branches'     => $project->branches,
             'route'        => 'commands.step',
+            'route_field'  => 'project',
             'target_type'  => 'project',
             'target_id'    => $project->id,
         ]);
@@ -122,9 +125,9 @@ class DeploymentController extends Controller
      * @param UrlGenerator  $url
      * @param AutoPresenter $presenter
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function show($deployment_id, UrlGenerator $url, AutoPresenter $presenter)
+    public function show(int $deployment_id, UrlGenerator $url, AutoPresenter $presenter): View
     {
         /** @var Deployment $deployment */
         $deployment = $this->deploymentRepository->getById($deployment_id);
@@ -153,7 +156,7 @@ class DeploymentController extends Controller
             'breadcrumb' => [
                 ['url' => $url->route('projects', ['id' => $project->id]), 'label' => $project->name],
             ],
-            'title'      => $this->translator->trans('deployments.deployment_number', ['id' => $deployment->id]),
+            'title'      => $this->translator->get('deployments.deployment_number', ['id' => $deployment->id]),
             'subtitle'   => $project->name,
             'project'    => $project,
             'deployment' => $deployment,
@@ -167,9 +170,9 @@ class DeploymentController extends Controller
      * @param Request $request
      * @param int     $project_id
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function deploy(Request $request, $project_id)
+    public function deploy(Request $request, int $project_id): RedirectResponse
     {
         $project = $this->projectRepository->getById($project_id);
 
@@ -212,7 +215,7 @@ class DeploymentController extends Controller
      *
      * @return array
      */
-    public function refresh($project_id)
+    public function refresh(int $project_id): array
     {
         $this->projectRepository->refreshBranches($project_id);
 
@@ -227,9 +230,9 @@ class DeploymentController extends Controller
      * @param Request $request
      * @param int     $deployment_id
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function rollback(Request $request, $deployment_id)
+    public function rollback(Request $request, int $deployment_id): RedirectResponse
     {
         $optional = [];
 
@@ -252,9 +255,9 @@ class DeploymentController extends Controller
      *
      * @param int $deployment_id
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function abort($deployment_id)
+    public function abort(int $deployment_id): RedirectResponse
     {
         $this->deploymentRepository->abort($deployment_id);
 
@@ -272,7 +275,7 @@ class DeploymentController extends Controller
      * @param  AutoPresenter $presenter
      * @return ServerLog
      */
-    public function log($log_id, ServerLogRepositoryInterface $repository, AutoPresenter $presenter)
+    public function log(int $log_id, ServerLogRepositoryInterface $repository, AutoPresenter $presenter): ServerLog
     {
         /** @var ServerLog $log */
         $log = $repository->getById($log_id);

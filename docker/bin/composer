@@ -1,7 +1,0 @@
-#!/bin/sh
-
-if [ -z "$COMPOSER_CACHE_DIR" ]; then
-	export COMPOSER_CACHE_DIR=~/.composer/cache
-fi
-
-docker-compose run -v $COMPOSER_CACHE_DIR:/tmp/cache --rm composer "$@"

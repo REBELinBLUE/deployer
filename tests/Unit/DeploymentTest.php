@@ -90,8 +90,10 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::isRunning
+     *
+     * @param int $status
      */
-    public function testIsRunning($status)
+    public function testIsRunning(int $status)
     {
         $deployment         = new Deployment();
         $deployment->status = $status;
@@ -108,8 +110,10 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::isSuccessful
+     *
+     * @param int $status
      */
-    public function testIsSuccessful($status)
+    public function testIsSuccessful(int $status)
     {
         $deployment         = new Deployment();
         $deployment->status = $status;
@@ -126,8 +130,10 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::isPending
+     *
+     * @param int $status
      */
-    public function testIsPending($status)
+    public function testIsPending(int $status)
     {
         $deployment         = new Deployment();
         $deployment->status = $status;
@@ -144,8 +150,10 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::isFailed
+     *
+     * @param $status
      */
-    public function testIsFailed($status)
+    public function testIsFailed(int $status)
     {
         $deployment         = new Deployment();
         $deployment->status = $status;
@@ -162,8 +170,10 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::isAborting
+     *
+     * @param int $status
      */
-    public function testIsAborting($status)
+    public function testIsAborting(int $status)
     {
         $deployment         = new Deployment();
         $deployment->status = $status;
@@ -180,8 +190,10 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::isAborted
+     *
+     * @param int $status
      */
-    public function testIsAborted($status)
+    public function testIsAborted(int $status)
     {
         $deployment         = new Deployment();
         $deployment->status = $status;
@@ -195,7 +207,7 @@ class DeploymentTest extends TestCase
         }
     }
 
-    public function provideStatuses()
+    public function provideStatuses(): array
     {
         return array_chunk($this->fixture('Deployment')['statuses'], 1);
     }
@@ -203,8 +215,10 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::getRepoFailureAttribute
+     *
+     * @param int $status
      */
-    public function testGetRepoFailureAttribute($status)
+    public function testGetRepoFailureAttribute(int $status)
     {
         $deployment         = new Deployment();
         $deployment->commit = Deployment::LOADING;
@@ -222,8 +236,10 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::getRepoFailureAttribute
+     *
+     * @param int $status
      */
-    public function testGetRepoFailureAttributeIsAlwaysFalseWhenCommitPopulated($status)
+    public function testGetRepoFailureAttributeIsAlwaysFalseWhenCommitPopulated(int $status)
     {
         $deployment         = new Deployment();
         $deployment->commit = 'a-git-commit-hash';
@@ -255,8 +271,11 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideCommits
      * @covers ::getShortCommitAttribute
+     *
+     * @param string $commit
+     * @param string $expected
      */
-    public function testGetShortCommitAttribute($commit, $expected)
+    public function testGetShortCommitAttribute(string $commit, string $expected)
     {
         $deployment         = new Deployment();
         $deployment->commit = $commit;
@@ -265,7 +284,7 @@ class DeploymentTest extends TestCase
         $this->assertSame($expected, $deployment->short_commit);
     }
 
-    public function provideCommits()
+    public function provideCommits(): array
     {
         return $this->fixture('Deployment')['short_commits'];
     }
@@ -285,8 +304,10 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideEmptyAccessDetails
      * @covers ::getCommitUrlAttribute
+     *
+     * @param array $expected
      */
-    public function testGetCommitUrlAttributeIsEmptyWhenAccessDetailsAreUnknown($expected)
+    public function testGetCommitUrlAttributeIsEmptyWhenAccessDetailsAreUnknown(array $expected)
     {
         $project = m::mock(Project::class);
         $project->shouldReceive('accessDetails')->andReturn($expected);
@@ -299,7 +320,7 @@ class DeploymentTest extends TestCase
         $this->assertEmpty($deployment->commit_url);
     }
 
-    public function provideEmptyAccessDetails()
+    public function provideEmptyAccessDetails(): array
     {
         return $this->fixture('Deployment')['empty_access_details'];
     }
@@ -307,8 +328,12 @@ class DeploymentTest extends TestCase
     /**
      * @dataProvider provideAccessDetails
      * @covers ::getCommitUrlAttribute
+     *
+     * @param array  $details
+     * @param string $commit
+     * @param string $expected
      */
-    public function testGetCommitUrlAttribute($details, $commit, $expected)
+    public function testGetCommitUrlAttribute(array $details, string $commit, string $expected)
     {
         $project = m::mock(Project::class);
         $project->shouldReceive('accessDetails')->andReturn($details);
@@ -321,7 +346,7 @@ class DeploymentTest extends TestCase
         $this->assertSame($expected, $deployment->commit_url);
     }
 
-    public function provideAccessDetails()
+    public function provideAccessDetails(): array
     {
         return $this->fixture('Deployment')['commit_urls'];
     }

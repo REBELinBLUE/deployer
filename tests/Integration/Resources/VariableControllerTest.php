@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
 use REBELinBLUE\Deployer\Variable;
@@ -55,7 +56,7 @@ class VariableControllerTest extends AuthenticatedTestCase
         /** @var Variable $variable */
         $variable = factory(Variable::class)->create(['name' => 'SYMFONY_ENV', 'value' => $original]);
 
-        $data = array_only($variable->fresh()->toArray(), [
+        $data = Arr::only($variable->fresh()->toArray(), [
             'name',
             'value',
         ]);

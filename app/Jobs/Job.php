@@ -18,7 +18,7 @@ abstract class Job
      * @param Queue $queue
      * @param Job   $command
      */
-    public function queue(Queue $queue, $command)
+    public function queue(Queue $queue, self $command): void
     {
         $queue->pushOn('deployer-low', $command);
     }

@@ -15,7 +15,7 @@ class NewTestNotificationTest extends TestCase
 {
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -25,9 +25,12 @@ class NewTestNotificationTest extends TestCase
     /**
      * @dataProvider provideChannelTypes
      * @covers ::__construct
-     * @covers \REBELinBLUE\Deployer\Notifications\Notification::via
+     * @covers       \REBELinBLUE\Deployer\Notifications\Notification::via
+     *
+     * @param string $type
+     * @param string $expected
      */
-    public function testSendVia($type, $expected)
+    public function testSendVia(string $type, string $expected)
     {
         $channel = m::mock(Channel::class);
         $channel->shouldReceive('getAttribute')->atLeast()->once()->with('type')->andReturn($type);
@@ -50,8 +53,8 @@ class NewTestNotificationTest extends TestCase
         $channel = m::mock(Channel::class);
         $channel->shouldReceive('getAttribute')->once()->with('name')->andReturn($expectedName);
 
-        $this->translator->shouldReceive('trans')->with('notifications.test_subject')->andReturn($subject);
-        $this->translator->shouldReceive('trans')->with('notifications.test_message')->andReturn($line);
+        $this->translator->shouldReceive('get')->with('notifications.test_subject')->andReturn($subject);
+        $this->translator->shouldReceive('get')->with('notifications.test_message')->andReturn($line);
 
         $notification = new NewTestNotification($this->translator);
         $mail         = $notification->toMail($channel);
@@ -64,7 +67,7 @@ class NewTestNotificationTest extends TestCase
         $this->assertSame($expectedName, $mail->viewData['name']);
     }
 
-    public function provideChannelTypes()
+    public function provideChannelTypes(): array
     {
         return $this->fixture('Notifications/System/NewTestNotification');
     }
@@ -83,7 +86,7 @@ class NewTestNotificationTest extends TestCase
         $channel = m::mock(Channel::class);
         $channel->shouldReceive('getAttribute')->once()->with('config')->andReturn($config);
 
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->with('notifications.test_slack_message')
                          ->andReturn($expectedMessage);
 
@@ -102,7 +105,7 @@ class NewTestNotificationTest extends TestCase
     {
         $expected = 'a-test-message';
 
-        $this->translator->shouldReceive('trans')->with('notifications.test_message')->andReturn($expected);
+        $this->translator->shouldReceive('get')->with('notifications.test_message')->andReturn($expected);
 
         $notification = new NewTestNotification($this->translator);
         $twilio       = $notification->toTwilio();
@@ -124,7 +127,7 @@ class NewTestNotificationTest extends TestCase
         $channel->shouldReceive('getAttribute')->once()->with('id')->andReturn($expected_id);
         $channel->shouldReceive('getAttribute')->once()->with('project_id')->andReturn($project);
 
-        $this->translator->shouldReceive('trans')->with('notifications.test_message')->andReturn($expected);
+        $this->translator->shouldReceive('get')->with('notifications.test_message')->andReturn($expected);
 
         $notification  = new NewTestNotification($this->translator);
         $webhook       = $notification->toWebhook($channel);
@@ -138,31 +141,5 @@ class NewTestNotificationTest extends TestCase
         $this->assertSame($project, $actual['headers']['X-Deployer-Project-Id']);
         $this->assertSame($expected_id, $actual['headers']['X-Deployer-Notification-Id']);
         $this->assertSame('notification_test', $actual['headers']['X-Deployer-Event']);
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::toHipchat
-     */
-    public function testToHipchat()
-    {
-        $expectedMessage = 'a-test-message';
-        $expectedRoom    = '#channel';
-
-        $config = (object) ['room' => $expectedRoom];
-
-        $channel = m::mock(Channel::class);
-        $channel->shouldReceive('getAttribute')->once()->with('config')->andReturn($config);
-
-        $this->translator->shouldReceive('trans')
-                         ->with('notifications.test_hipchat_message')
-                         ->andReturn($expectedMessage);
-
-        $notification  = new NewTestNotification($this->translator);
-        $hipchat       = $notification->toHipchat($channel);
-
-        $this->assertSame($expectedMessage, $hipchat->content);
-        $this->assertSame('text', $hipchat->format);
-        $this->assertSame($expectedRoom, $hipchat->room);
     }
 }

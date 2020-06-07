@@ -19,7 +19,7 @@ class AppVersionTest extends TestCase
 
     private $console;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -50,8 +50,8 @@ class AppVersionTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('already running the latest version', $output);
-        $this->assertNotContains('There is an update available', $output);
+        $this->assertStringContainsString('already running the latest version', $output);
+        $this->assertStringNotContainsString('There is an update available', $output);
     }
 
     /**
@@ -77,9 +77,9 @@ class AppVersionTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertNotContains('already running the latest version', $output);
-        $this->assertContains('There is an update available!', $output);
-        $this->assertContains($latest, $output);
-        $this->assertContains(APP_VERSION, $output);
+        $this->assertStringNotContainsString('already running the latest version', $output);
+        $this->assertStringContainsString('There is an update available!', $output);
+        $this->assertStringContainsString($latest, $output);
+        $this->assertStringContainsString(APP_VERSION, $output);
     }
 }

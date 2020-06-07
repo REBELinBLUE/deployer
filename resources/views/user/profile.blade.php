@@ -40,7 +40,7 @@
                         <label for="skin">{{ trans('users.skin') }}</label>
                         <select name="skin" id="skin" class="form-control">
                             @foreach ($settings->themes() as $colour)
-                                @if (!str_contains($colour, '-light'))
+                                @if (!Str::contains($colour, '-light'))
                                     <option value="{{ $colour }}" @if ($colour === $theme) selected @endif>{{ trans('users.' . $colour ) }}</option>
                                     <option value="{{ $colour }}-light" @if ($colour . '-light' === $theme) selected @endif>{{ trans('users.with_sidebar', ['colour' => trans('users.' . $colour)]) }}</option>
                                 @endif

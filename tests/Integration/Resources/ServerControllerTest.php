@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
@@ -59,7 +60,7 @@ class ServerControllerTest extends AuthenticatedTestCase
         /** @var Server $server */
         $server = factory(Server::class)->create(['ip_address' => $original]);
 
-        $data = array_only($server->fresh()->toArray(), [
+        $data = Arr::only($server->fresh()->toArray(), [
             'name',
             'user',
             'ip_address',
@@ -167,8 +168,11 @@ class ServerControllerTest extends AuthenticatedTestCase
      * @dataProvider provideAutoComplete
      * @covers ::__construct
      * @covers ::autoComplete
+     *
+     * @param string $query
+     * @param array  $result
      */
-    public function testAutoComplete($query, $result)
+    public function testAutoComplete(string $query, array $result)
     {
         $project = factory(Project::class)->create();
 
@@ -181,7 +185,7 @@ class ServerControllerTest extends AuthenticatedTestCase
              ->assertJson(['query' => $query, 'suggestions' => $result]);
     }
 
-    public function provideAutoComplete()
+    public function provideAutoComplete(): array
     {
         return [
             ['localhost',   [['name' => 'Localhost']]],

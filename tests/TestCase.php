@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Tests;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Mockery as m;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -34,11 +35,10 @@ abstract class TestCase extends BaseTestCase
      *
      * @param string $file
      *
-     * @throws \Symfony\Component\Yaml\Exception\ParseException
-     *
+     * @throws ParseException
      * @return array
      */
-    protected function fixture($file)
+    protected function fixture(string $file): array
     {
         $path = dirname(__FILE__) . '/Unit/data/' . $file . '.yml';
         $data = Yaml::parse(file_get_contents($path), Yaml::PARSE_CONSTANT | YAML::PARSE_EXCEPTION_ON_INVALID_TYPE);

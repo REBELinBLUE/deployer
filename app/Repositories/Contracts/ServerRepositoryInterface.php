@@ -10,7 +10,7 @@ interface ServerRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getById($model_id);
+    public function getById(int $model_id);
 
     /**
      * @param array $fields
@@ -26,7 +26,7 @@ interface ServerRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateById(array $fields, $model_id);
+    public function updateById(array $fields, int $model_id);
 
     /**
      * @param int $model_id
@@ -34,17 +34,17 @@ interface ServerRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return bool
      */
-    public function deleteById($model_id);
+    public function deleteById(int $model_id);
 
     /**
      * @param int $model_id
      */
-    public function queueForTesting($model_id);
+    public function queueForTesting(int $model_id): void;
 
     /**
      * @param string $name
      *
      * @return mixed
      */
-    public function queryByName($name);
+    public function queryByName(string $name);
 }

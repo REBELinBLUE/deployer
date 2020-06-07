@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Jobs\DeployProject;
 
 use Illuminate\Cache\Repository as Cache;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
@@ -112,7 +113,7 @@ class RunDeploymentStep
     /**
      * Runs the actual deployment step.
      */
-    private function run()
+    private function run(): void
     {
         /** @var Collection $servers */
         $servers = $this->step->servers;
@@ -150,7 +151,7 @@ class RunDeploymentStep
      *
      * @param ServerLog $log
      */
-    private function sendFilesForStep(ServerLog $log)
+    private function sendFilesForStep(ServerLog $log): void
     {
         if ($this->step->stage !== Command::DO_CLONE && $this->step->stage !== Command::DO_INSTALL) {
             return;
@@ -175,10 +176,11 @@ class RunDeploymentStep
     /**
      * @param ServerLog $log
      *
+     *
      * @throws FailedDeploymentException
      * @throws CancelledDeploymentException
      */
-    private function runDeploymentStepOnServer(ServerLog $log)
+    private function runDeploymentStepOnServer(ServerLog $log): void
     {
         $process = $this->builder->buildScript($log->server);
 
@@ -223,8 +225,11 @@ class RunDeploymentStep
      * @param string    $remote_path
      * @param string    $content
      * @param ServerLog $log
+     *
+     *
+     * @throws FileNotFoundException
      */
-    private function sendFileFromString($remote_path, $content, ServerLog $log)
+    private function sendFileFromString(string $remote_path, string $content, ServerLog $log): void
     {
         $local_file = $this->filesystem->tempnam(storage_path('app/tmp/'), 'tmp');
         $this->filesystem->put($local_file, $content);
@@ -242,9 +247,10 @@ class RunDeploymentStep
      * @param string    $remote_file
      * @param ServerLog $log
      *
+     *
      * @throws RuntimeException
      */
-    private function sendFile($local_file, $remote_file, ServerLog $log)
+    private function sendFile(string $local_file, string $remote_file, ServerLog $log): void
     {
         $this->dispatch(new SendFileToServer(
             $this->deployment,
@@ -260,7 +266,7 @@ class RunDeploymentStep
      *
      * @return bool
      */
-    private function canBeCancelled()
+    private function canBeCancelled(): bool
     {
         return $this->step->stage <= Command::DO_ACTIVATE;
     }

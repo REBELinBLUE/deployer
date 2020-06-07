@@ -1,38 +1,38 @@
 fixture:
   custom_steps:
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::BEFORE_CLONE
+      status: !php/const REBELinBLUE\Deployer\Command::BEFORE_CLONE
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::DO_CLONE
+      status: !php/const REBELinBLUE\Deployer\Command::DO_CLONE
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::AFTER_CLONE
+      status: !php/const REBELinBLUE\Deployer\Command::AFTER_CLONE
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::BEFORE_INSTALL
+      status: !php/const REBELinBLUE\Deployer\Command::BEFORE_INSTALL
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::DO_INSTALL
+      status: !php/const REBELinBLUE\Deployer\Command::DO_INSTALL
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::AFTER_INSTALL
+      status: !php/const REBELinBLUE\Deployer\Command::AFTER_INSTALL
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::BEFORE_ACTIVATE
+      status: !php/const REBELinBLUE\Deployer\Command::BEFORE_ACTIVATE
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::DO_ACTIVATE
+      status: !php/const REBELinBLUE\Deployer\Command::DO_ACTIVATE
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::AFTER_ACTIVATE
+      status: !php/const REBELinBLUE\Deployer\Command::AFTER_ACTIVATE
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::BEFORE_PURGE
+      status: !php/const REBELinBLUE\Deployer\Command::BEFORE_PURGE
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::DO_PURGE
+      status: !php/const REBELinBLUE\Deployer\Command::DO_PURGE
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Command::AFTER_PURGE
+      status: !php/const REBELinBLUE\Deployer\Command::AFTER_PURGE
       expected: true

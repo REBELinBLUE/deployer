@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -13,7 +14,7 @@ class ModelTrashed implements ShouldBroadcast
     use SerializesModels;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var Model
      */
     public $model;
 
@@ -25,10 +26,10 @@ class ModelTrashed implements ShouldBroadcast
     /**
      * ModelTrashed constructor.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string                              $channel
+     * @param Model  $model
+     * @param string $channel
      */
-    public function __construct($model, $channel)
+    public function __construct(Model $model, string $channel)
     {
         $this->model = [
             'id'         => $model->id,
@@ -43,7 +44,7 @@ class ModelTrashed implements ShouldBroadcast
      *
      * @return array
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
         return [$this->channel];
     }

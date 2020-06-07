@@ -37,8 +37,10 @@ class BeanstalkappTest extends WebhookTestCase
     /**
      * @dataProvider provideBranch
      * @covers ::handlePush
+     *
+     * @param string $branch
      */
-    public function testHandlePushEventValid($branch)
+    public function testHandlePushEventValid(string $branch)
     {
         $reason = 'Commit Log';
         $url    = 'http://www.example.com/';
@@ -76,8 +78,10 @@ class BeanstalkappTest extends WebhookTestCase
     /**
      * @dataProvider provideUnsupportedEvents
      * @covers ::handlePush
+     *
+     * @param string $event
      */
-    public function testHandleUnsupportedEvent($event)
+    public function testHandleUnsupportedEvent(string $event)
     {
         $request = $this->createRequestFromBeanstalkWithPayload(['trigger' => $event]);
 
@@ -85,7 +89,7 @@ class BeanstalkappTest extends WebhookTestCase
         $this->assertFalse($beanstalkapp->handlePush());
     }
 
-    public function provideUnsupportedEvents()
+    public function provideUnsupportedEvents(): array
     {
         return array_chunk([
             'commit', 'comment', 'deploy', 'create_branch', 'delete_branch', 'create_tag', 'delete_tag',
@@ -93,7 +97,12 @@ class BeanstalkappTest extends WebhookTestCase
         ], 1);
     }
 
-    protected function createRequestFromBeanstalkWithPayload(array $data, array $headers = [])
+    /**
+     * @param  array   $data
+     * @param  array   $headers
+     * @return Request
+     */
+    protected function createRequestFromBeanstalkWithPayload(array $data, array $headers = []): Request
     {
         $headers = array_merge([
             'REQUEST_METHOD' => 'POST',

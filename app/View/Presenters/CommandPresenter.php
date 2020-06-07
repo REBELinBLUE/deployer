@@ -16,7 +16,7 @@ class CommandPresenter extends Presenter
      *
      * @see CommandPresenter::commandNames()
      */
-    public function presentBeforeClone()
+    public function presentBeforeClone(): string
     {
         return $this->commandNames(Command::BEFORE_CLONE);
     }
@@ -28,7 +28,7 @@ class CommandPresenter extends Presenter
      *
      * @see CommandPresenter::commandNames()
      */
-    public function presentAfterClone()
+    public function presentAfterClone(): string
     {
         return $this->commandNames(Command::AFTER_CLONE);
     }
@@ -40,7 +40,7 @@ class CommandPresenter extends Presenter
      *
      * @see CommandPresenter::commandNames()
      */
-    public function presentBeforeInstall()
+    public function presentBeforeInstall(): string
     {
         return $this->commandNames(Command::BEFORE_INSTALL);
     }
@@ -52,7 +52,7 @@ class CommandPresenter extends Presenter
      *
      * @see CommandPresenter::commandNames()
      */
-    public function presentAfterInstall()
+    public function presentAfterInstall(): string
     {
         return $this->commandNames(Command::AFTER_INSTALL);
     }
@@ -64,7 +64,7 @@ class CommandPresenter extends Presenter
      *
      * @see CommandPresenter::commandNames()
      */
-    public function presentBeforeActivate()
+    public function presentBeforeActivate(): string
     {
         return $this->commandNames(Command::BEFORE_ACTIVATE);
     }
@@ -76,7 +76,7 @@ class CommandPresenter extends Presenter
      *
      * @see CommandPresenter::commandNames()
      */
-    public function presentAfterActivate()
+    public function presentAfterActivate(): string
     {
         return $this->commandNames(Command::AFTER_ACTIVATE);
     }
@@ -88,7 +88,7 @@ class CommandPresenter extends Presenter
      *
      * @see CommandPresenter::commandNames()
      */
-    public function presentBeforePurge()
+    public function presentBeforePurge(): string
     {
         return $this->commandNames(Command::BEFORE_PURGE);
     }
@@ -100,7 +100,7 @@ class CommandPresenter extends Presenter
      *
      * @see CommandPresenter::commandNames()
      */
-    public function presentAfterPurge()
+    public function presentAfterPurge(): string
     {
         return $this->commandNames(Command::AFTER_PURGE);
     }
@@ -112,7 +112,7 @@ class CommandPresenter extends Presenter
      *
      * @return string
      */
-    private function commandNames($stage)
+    private function commandNames(int $stage): string
     {
         $commands = [];
 
@@ -126,6 +126,6 @@ class CommandPresenter extends Presenter
             return implode(', ', $commands);
         }
 
-        return $this->translator->trans('app.none');
+        return $this->translator->get('app.none');
     }
 }

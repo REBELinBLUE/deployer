@@ -186,8 +186,8 @@ class EloquentRepositoryTest extends TestCase
     public function testUpdateStatusAll()
     {
         $expected = 'a-model';
-        $original = 'open';
-        $updated  = 'closed';
+        $original = StubModel::OPEN;
+        $updated  = StubModel::CLOSED;
 
         $model = m::mock(StubModel::class);
         $model->shouldReceive('where')->once()->with('status', '=', $original)->andReturnSelf();

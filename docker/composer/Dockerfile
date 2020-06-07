@@ -1,9 +1,12 @@
-FROM composer:latest
+FROM prooph/composer:7.2
 
-RUN docker-php-ext-install pdo pdo_mysql && \
-    docker-php-ext-enable pdo pdo_mysql && \
-    apk add --update --no-cache patch && \
-    rm -rf /var/cache/apk/* && \
-    composer global require hirak/prestissimo
+RUN composer global require ergebnis/composer-normalize && \
+    composer self-update
+
+RUN apk add --update --no-cache git openssh patch $PHPIZE_DEPS && \
+    docker-php-ext-install gd pdo_mysql && \
+    pecl install pcov && \
+    docker-php-ext-enable pcov && \
+    apk del $PHPIZE_DEPS
 
 WORKDIR /application

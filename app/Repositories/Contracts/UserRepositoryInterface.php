@@ -2,6 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
+use REBELinBLUE\Deployer\User;
+
 interface UserRepositoryInterface
 {
     /**
@@ -23,7 +25,7 @@ interface UserRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateById(array $fields, $model_id);
+    public function updateById(array $fields, int $model_id);
 
     /**
      * @param int $model_id
@@ -31,19 +33,19 @@ interface UserRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return bool
      */
-    public function deleteById($model_id);
+    public function deleteById(int $model_id);
 
     /**
      * @param string $token
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return User|null
      */
-    public function findByEmailToken($token);
+    public function findByEmailToken(string $token): ?User;
 
     /**
      * @param string $email
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return User|null
      */
-    public function findByEmail($email);
+    public function findByEmail(string $email): ?User;
 }

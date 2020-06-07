@@ -1,9 +1,13 @@
 {
     "name": "rebelinblue/deployer",
-    "description": "Simple deployment management for PHP projects.",
-    "minimum-stability": "stable",
     "type": "project",
-    "keywords": ["php", "deployer", "deploy", "deployment"],
+    "description": "Simple deployment management for PHP projects.",
+    "keywords": [
+        "php",
+        "deployer",
+        "deploy",
+        "deployment"
+    ],
     "homepage": "http://phpdeployment.org/",
     "license": "MIT",
     "authors": [
@@ -14,73 +18,83 @@
             "role": "Developer"
         }
     ],
-    "support": {
-        "email": "deployer@stephen.rebelinblue.com",
-        "issues": "https://github.com/REBELinBLUE/deployer/issues",
-        "source": "https://github.com/REBELinBLUE/deployer"
-    },
     "require": {
-        "php": ">=7.0.8",
-        "andywer/js-localization": "dev-laravel-5",
-        "backup-manager/laravel": "^1.1",
+        "php": ">=7.2.5",
+        "andywer/js-localization": "dev-laravel-6",
+        "backup-manager/laravel": "^1.4",
+        "barryvdh/laravel-ide-helper": "^2.7",
         "creativeorange/gravatar": "~1.0",
-        "doctrine/dbal": "2.5.13",
-        "fideloper/proxy": "^3.3",
-        "graham-campbell/binput": "~4.0",
-        "guzzlehttp/guzzle": "^6.2",
-        "htmlmin/htmlmin": "~5.0",
-        "intervention/image": "^2.3",
-        "laracademy/interactive-make": "^1.1",
-        "laravel-notification-channels/hipchat": "~1.0",
-        "laravel-notification-channels/twilio": "~2.0.1",
-        "laravel-notification-channels/webhook": "~1.1.0",
-        "laravel/framework": "^5.5",
-        "laravel/tinker": "1.0.*",
-        "lubusin/laravel-decomposer": "^1.0",
-        "mccool/laravel-auto-presenter": "^6.2",
-        "melihovv/laravel-log-viewer": "^5.5",
-        "michele-angioni/multi-language": "0.4",
-        "pda/pheanstalk": "~3.1",
-        "pragmarx/google2fa": "^1.0.0",
-        "predis/predis": "~1.0",
-        "rebelinblue/laravel5-zxcvbn": "^1.0.0",
-        "tymon/jwt-auth": "~0.5",
-        "version/version": "^2.2"
+        "doctrine/dbal": "^2.10",
+        "facade/ignition": "^1.4",
+        "fideloper/proxy": "^4.3",
+        "graham-campbell/binput": "~6.2",
+        "guzzlehttp/guzzle": "^6.5",
+        "htmlmin/htmlmin": "~6.0",
+        "intervention/image": "^2.5",
+        "laracademy/interactive-make": "^1.6",
+        "laravel-notification-channels/twilio": "^3.0",
+        "laravel-notification-channels/webhook": "^1.4.0",
+        "laravel/framework": "^6.0",
+        "laravel/slack-notification-channel": "^2.0",
+        "laravel/telescope": "^3.3",
+        "laravel/tinker": "^2.0",
+        "lubusin/laravel-decomposer": "dev-Laravel-6-and-7",
+        "mccool/laravel-auto-presenter": "^7.4",
+        "melihovv/laravel-log-viewer": "^6.0",
+        "michele-angioni/multi-language": "dev-master",
+        "pda/pheanstalk": "~4.0",
+        "pragmarx/google2fa": "^1.0",
+        "predis/predis": "~1.1",
+        "rebelinblue/laravel5-zxcvbn": "^1.2",
+        "tymon/jwt-auth": "~1.0",
+        "version/version": "^2.4"
     },
     "require-dev": {
-        "andreas-weber/php-junit-merge": "^1.0",
-        "barryvdh/laravel-ide-helper": "^2.4.1",
-        "block8/php-docblock-checker": "^1.1",
-        "friendsofphp/php-cs-fixer": "^2.0",
-        "fzaninotto/faker": "~1.5",
-        "itsgoingd/clockwork": "~2.0",
-        "jakub-onderka/php-parallel-lint": "^0.9.2",
-        "laravel/dusk": "^1.0",
-        "mockery/mockery": "^1.1",
+        "facade/ignition-self-diagnosis": "^1.0",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "fzaninotto/faker": "~1.9",
+        "mockery/mockery": "^1.3",
+        "nunomaduro/collision": "^3.0",
         "php-mock/php-mock-mockery": "^1.3",
-        "phploc/phploc": "~3.0",
-        "phpmd/phpmd": "~2.4",
-        "phpunit/phpcov": "~4.0",
-        "phpunit/phpunit": "~6.0",
-        "sebastian/phpcpd": "^3.0",
-        "squizlabs/php_codesniffer": "~2.5",
-        "symfony/yaml": "^3.2",
-        "themsaid/laravel-langman": "~1.3.4"
+        "php-parallel-lint/php-parallel-lint": "^1.2.0",
+        "phploc/phploc": "~5.0",
+        "phpmd/phpmd": "~2.8",
+        "phpunit/phpunit": "^8.5",
+        "squizlabs/php_codesniffer": "^3.5",
+        "symfony/yaml": "^4.4",
+        "themsaid/laravel-langman": "dev-laravel-6-7-support"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.2.5"
+        },
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "laracademy/interactive-make",
+                "barryvdh/laravel-ide-helper"
+            ]
+        }
     },
     "autoload": {
+        "psr-4": {
+            "REBELinBLUE\\Deployer\\": "app/"
+        },
         "classmap": [
             "database/seeds",
             "database/factories"
-        ],
-        "psr-4": {
-            "REBELinBLUE\\Deployer\\": "app/"
-        }
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "REBELinBLUE\\Deployer\\Tests\\": "tests/"
         }
     },
+    "minimum-stability": "stable",
     "scripts": {
         "pre-install-cmd": [
             "@php artisan clear-compiled"
@@ -98,42 +112,40 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "php artisan package:discover"
         ],
-        "test:phpcpd": "phpcpd --progress app/",
+        "test:integration": "phpunit --no-coverage --testsuite 'Integration Tests'",
         "test:lint": "parallel-lint app/ database/ config/ resources/ tests/ public/ bootstrap/ artisan",
         "test:loc": "phploc --count-tests app/ database/ resources/ tests/",
-        "test:phpmd": "phpmd app text phpmd.xml.dist",
         "test:phpcs": "phpcs",
         "test:phpcs:fix": "php-cs-fixer --no-interaction fix",
-        "test:phpdoc": "phpdoccheck --directory=app --files-per-line 60",
-        "test:unit": "phpunit --no-coverage --testsuite 'Unit Tests'",
-        "test:integration": "phpunit --no-coverage --testsuite 'Integration Tests'"
+        "test:phpmd": "phpmd app text phpmd.xml.dist",
+        "test:unit": "phpunit --no-coverage --testsuite 'Unit Tests'"
     },
     "scripts-descriptions": {
+        "test:integration": "Run the integration tests",
         "test:lint": "Check the syntax of all PHP files",
-        "test:phpcpd": "Check for copy/paste detection",
         "test:loc": "Count the number of lines of code",
-        "test:phpmd": "Run PHP mess detector",
         "test:phpcs": "Check the code adheres to PSR-2",
         "test:phpcs:fix": "Fix PSR-2 violations",
-        "test:phpdoc": "Ensure all functions have PHPDoc blocks",
-        "test:unit": "Run the unit tests",
-        "test:integration": "Run the integration tests"
+        "test:phpmd": "Run PHP mess detector",
+        "test:unit": "Run the unit tests"
     },
-    "extra": {
-        "laravel": {
-            "dont-discover": [
-                "laravel/dusk",
-                "laracademy/interactive-make",
-                "barryvdh/laravel-ide-helper"
-            ]
-        }
+    "support": {
+        "email": "deployer@stephen.rebelinblue.com",
+        "issues": "https://github.com/REBELinBLUE/deployer/issues",
+        "source": "https://github.com/REBELinBLUE/deployer"
     },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "platform": {
-            "php": "7.0.8"
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/REBELinBLUE/multi-language.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/REBELinBLUE/laravel-langman.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/REBELinBLUE/laravel-decomposer.git"
         }
-    }
+    ]
 }

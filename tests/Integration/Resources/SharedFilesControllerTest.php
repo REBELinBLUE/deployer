@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\SharedFile;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
@@ -55,7 +56,7 @@ class SharedFilesControllerTest extends AuthenticatedTestCase
         /** @var SharedFile $file */
         $file = factory(SharedFile::class)->create(['name' => 'Config', 'file' => $original]);
 
-        $data = array_only($file->fresh()->toArray(), [
+        $data = Arr::only($file->fresh()->toArray(), [
             'name',
             'file',
         ]);

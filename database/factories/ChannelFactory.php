@@ -9,7 +9,6 @@ $factory->define(Channel::class, function (Generator $faker) {
     $type = $faker->randomElement([
         Channel::EMAIL,
         Channel::SLACK,
-        Channel::HIPCHAT,
         Channel::TWILIO,
         Channel::WEBHOOK,
     ]);
@@ -23,8 +22,6 @@ $factory->define(Channel::class, function (Generator $faker) {
         $config = ['url' => $faker->url];
     } elseif ($type === Channel::TWILIO) {
         $config = ['telephone' => $faker->e164PhoneNumber];
-    } elseif ($type === Channel::HIPCHAT) {
-        $config = ['room' => '#' . $faker->word];
     }
 
     return [

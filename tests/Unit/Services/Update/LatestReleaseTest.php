@@ -23,7 +23,7 @@ class LatestReleaseTest extends TestCase
 
     private $container = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -130,7 +130,7 @@ class LatestReleaseTest extends TestCase
         $this->assertSame($expected, $actual);
         $this->assertSame(
             $response,
-            json_encode($this->cache->get(LatestRelease::CACHE_KEY, null)),
+            json_encode($this->cache->get('latest_version', null)),
             'The expected response is not being cached'
         );
     }
@@ -186,7 +186,7 @@ class LatestReleaseTest extends TestCase
         return $this->container[0]['request'];
     }
 
-    private function mockHttpClient(Response $response)
+    private function mockHttpClient(Response $response): Client
     {
         $history = Middleware::history($this->container);
         $mock    = new MockHandler([$response]);

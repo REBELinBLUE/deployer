@@ -1,76 +1,76 @@
 fixture:
   cc_tray_status:
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      status: !php/const REBELinBLUE\Deployer\Project::FINISHED
       expected: Sleeping
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      status: !php/const REBELinBLUE\Deployer\Project::FAILED
       expected: Sleeping
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Project::DEPLOYING
       expected: Building
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      status: !php/const REBELinBLUE\Deployer\Project::PENDING
       expected: Pending
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      status: !php/const REBELinBLUE\Deployer\Project::NOT_DEPLOYED
       expected: Unknown
     -
       status: invalid-value
       expected: Unknown
   readable_status:
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      status: !php/const REBELinBLUE\Deployer\Project::FINISHED
       expected: projects.finished
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      status: !php/const REBELinBLUE\Deployer\Project::FAILED
       expected: projects.failed
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Project::DEPLOYING
       expected: projects.deploying
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      status: !php/const REBELinBLUE\Deployer\Project::PENDING
       expected: projects.pending
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      status: !php/const REBELinBLUE\Deployer\Project::NOT_DEPLOYED
       expected: projects.not_deployed
     -
       status: invalid-value
       expected: projects.not_deployed
   icons:
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      status: !php/const REBELinBLUE\Deployer\Project::FINISHED
       expected: check
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      status: !php/const REBELinBLUE\Deployer\Project::FAILED
       expected: warning
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Project::DEPLOYING
       expected: spinner fa-pulse
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      status: !php/const REBELinBLUE\Deployer\Project::PENDING
       expected: clock-o
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      status: !php/const REBELinBLUE\Deployer\Project::NOT_DEPLOYED
       expected: question-circle
     -
       status: invalid-value
       expected: question-circle
   css_classes:
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      status: !php/const REBELinBLUE\Deployer\Project::FINISHED
       expected: success
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      status: !php/const REBELinBLUE\Deployer\Project::FAILED
       expected: danger
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Project::DEPLOYING
       expected: warning
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      status: !php/const REBELinBLUE\Deployer\Project::PENDING
       expected: info
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      status: !php/const REBELinBLUE\Deployer\Project::NOT_DEPLOYED
       expected: primary
     -
       status: invalid-value
@@ -146,5 +146,5 @@ fixture:
       repo: www.invalid.url.com
       expected: fa-git-square
     -
-      repo: null
+      repo: ~
       expected: fa-git-square

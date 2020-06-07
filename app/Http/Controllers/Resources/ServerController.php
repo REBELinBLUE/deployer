@@ -3,6 +3,8 @@
 namespace REBELinBLUE\Deployer\Http\Controllers\Resources;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
@@ -32,9 +34,9 @@ class ServerController extends Controller
      * @param StoreServerRequest $request
      * @param ResponseFactory    $response
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(StoreServerRequest $request, ResponseFactory $response)
+    public function store(StoreServerRequest $request, ResponseFactory $response): JsonResponse
     {
         return $response->json($this->repository->create($request->only(
             'name',
@@ -54,9 +56,9 @@ class ServerController extends Controller
      * @param int                $server_id
      * @param StoreServerRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($server_id, StoreServerRequest $request)
+    public function update(int $server_id, StoreServerRequest $request): Model
     {
         return $this->repository->updateById($request->only(
             'name',
@@ -75,7 +77,7 @@ class ServerController extends Controller
      *
      * @return array
      */
-    public function test($server_id)
+    public function test(int $server_id): array
     {
         $this->repository->queueForTesting($server_id);
 
@@ -91,7 +93,7 @@ class ServerController extends Controller
      *
      * @return array
      */
-    public function reorder(Request $request)
+    public function reorder(Request $request): array
     {
         $order = 0;
 
@@ -115,7 +117,7 @@ class ServerController extends Controller
      *
      * @return array
      */
-    public function autoComplete(Request $request)
+    public function autoComplete(Request $request): array
     {
         $servers = [];
         $query   = $request->get('query');

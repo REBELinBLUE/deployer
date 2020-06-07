@@ -9,12 +9,12 @@ class Presenter extends BasePresenter
 {
     use RuntimePresenter;
 
-    public function presentFooBar()
+    public function presentFooBar(): string
     {
         return 'baz';
     }
 
-    public function snake_case()
+    public function snake_case(): string
     {
         return 'bar';
     }

@@ -6,6 +6,9 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
@@ -72,9 +75,9 @@ class TemplateController extends Controller
      * @param int $target_id
      * @param int $action
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function listing($target_id, $action)
+    public function listing(int $target_id, $action): View
     {
         $types = [
             'clone'    => Command::DO_CLONE,
@@ -89,17 +92,17 @@ class TemplateController extends Controller
         $breadcrumb = [
             [
                 'url'   => $this->url->route('admin.templates.index'),
-                'label' => $this->translator->trans('templates.label'),
+                'label' => $this->translator->get('templates.label'),
             ],
             [
-                'url'   => $this->url->route('admin.templates.show', ['templates' => $template->id]),
+                'url'   => $this->url->route('admin.templates.show', ['template' => $template->id]),
                 'label' => $template->name,
             ],
         ];
 
         return $this->view->make('commands.listing', [
             'breadcrumb'  => $breadcrumb,
-            'title'       => $this->translator->trans('commands.' . strtolower($action)),
+            'title'       => $this->translator->get('commands.' . strtolower($action)),
             'subtitle'    => $template->name,
             'project'     => $template, // FIXME: Name this to 'target'
             'target_type' => $target,
@@ -112,14 +115,14 @@ class TemplateController extends Controller
     /**
      * Shows all templates.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $templates = $this->templateRepository->getAll();
 
         return $this->view->make('admin.templates.listing', [
-            'title'     => $this->translator->trans('templates.manage'),
+            'title'     => $this->translator->get('templates.manage'),
             'templates' => $templates->toJson(),
         ]);
     }
@@ -129,9 +132,9 @@ class TemplateController extends Controller
      *
      * @param int $template_id
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function show($template_id)
+    public function show(int $template_id): View
     {
         $template = $this->templateRepository->getById($template_id);
 
@@ -139,7 +142,7 @@ class TemplateController extends Controller
             'breadcrumb' => [
                 [
                     'url'   => $this->url->route('admin.templates.index'),
-                    'label' => $this->translator->trans('templates.label'),
+                    'label' => $this->translator->get('templates.label'),
                 ],
             ],
             'title'        => $template->name,
@@ -150,6 +153,7 @@ class TemplateController extends Controller
             'target_type'  => 'template',
             'target_id'    => $template->id,
             'route'        => 'admin.templates.commands.step',
+            'route_field'  => 'id',
         ]);
     }
 
@@ -157,11 +161,11 @@ class TemplateController extends Controller
      * Store a newly created template in storage.
      *
      * @param StoreTemplateRequest $request
+     * @param ResponseFactory      $response
      *
-     * @param  ResponseFactory                     $response
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return JsonResponse
      */
-    public function store(StoreTemplateRequest $request, ResponseFactory $response)
+    public function store(StoreTemplateRequest $request, ResponseFactory $response): JsonResponse
     {
         return $response->json($this->templateRepository->create($request->only(
             'name'
@@ -174,9 +178,9 @@ class TemplateController extends Controller
      * @param int                  $template_id
      * @param StoreTemplateRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($template_id, StoreTemplateRequest $request)
+    public function update(int $template_id, StoreTemplateRequest $request): Model
     {
         return $this->templateRepository->updateById($request->only(
             'name'

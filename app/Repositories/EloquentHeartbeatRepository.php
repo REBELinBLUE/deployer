@@ -26,7 +26,7 @@ class EloquentHeartbeatRepository extends EloquentRepository implements Heartbea
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return Heartbeat
      */
-    public function getByHash($hash)
+    public function getByHash(string $hash)
     {
         return $this->model->where('hash', $hash)->firstOrFail();
     }

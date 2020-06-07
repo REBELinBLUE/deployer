@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\CheckUrl;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
@@ -55,7 +56,7 @@ class CheckUrlControllerTest extends AuthenticatedTestCase
         /** @var CheckUrl $url */
         $url = factory(CheckUrl::class)->create(['name' => $original]);
 
-        $data = array_only($url->fresh()->toArray(), [
+        $data = Arr::only($url->fresh()->toArray(), [
             'name',
             'url',
             'period',

@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Http\Controllers;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use REBELinBLUE\Deployer\Project;
@@ -73,7 +74,7 @@ class WebhookController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function webhook(Request $request, ResponseFactory $response, $hash)
+    public function webhook(Request $request, ResponseFactory $response, string $hash): JsonResponse
     {
         $project = $this->projectRepository->getByHash($hash);
 
@@ -101,10 +102,11 @@ class WebhookController extends Controller
      *
      * @param int $project_id
      *
-     * @param  UrlGenerator          $url
-     * @return \Illuminate\View\View
+     * @param UrlGenerator $url
+     *
+     * @return array
      */
-    public function refresh($project_id, UrlGenerator $url)
+    public function refresh(int $project_id, UrlGenerator $url): array
     {
         $project = $this->projectRepository->getById($project_id);
         $project->generateHash();
@@ -151,7 +153,7 @@ class WebhookController extends Controller
      *
      * @return array|false Either an array of the complete deployment config, or false if it is invalid.
      */
-    private function appendProjectSettings($payload, Request $request, Project $project)
+    private function appendProjectSettings(array $payload, Request $request, Project $project)
     {
         // If the payload is empty return false
         if (!is_array($payload) || !count($payload)) {

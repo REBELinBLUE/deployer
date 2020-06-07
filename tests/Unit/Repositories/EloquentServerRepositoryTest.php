@@ -180,7 +180,7 @@ class EloquentServerRepositoryTest extends EloquentRepositoryTestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function provideCommands()
+    public function provideCommands(): array
     {
         return $this->fixture('Repositories/EloquentServerRepository');
     }

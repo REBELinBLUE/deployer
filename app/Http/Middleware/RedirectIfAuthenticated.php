@@ -4,6 +4,8 @@ namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
 /**
@@ -34,13 +36,13 @@ class RedirectIfAuthenticated
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param Closure                  $next
-     * @param string|null              $guard
+     * @param Request     $request
+     * @param Closure     $next
+     * @param string|null $guard
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next, ?string $guard = null)
     {
         if ($this->auth->guard($guard)->check()) {
             return $this->redirector->to('/');

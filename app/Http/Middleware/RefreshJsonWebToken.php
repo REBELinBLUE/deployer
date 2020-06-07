@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use REBELinBLUE\Deployer\Events\JsonWebTokenExpired;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,13 +69,13 @@ class RefreshJsonWebToken
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param Closure                  $next
-     * @param string|null              $guard
+     * @param Request     $request
+     * @param Closure     $next
+     * @param string|null $guard
      *
-     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next, ?string $guard = null)
     {
         $authenticated_user = $this->auth->guard($guard)->user();
 
@@ -84,19 +86,22 @@ class RefreshJsonWebToken
             $token = $request->session()->get('jwt');
 
             try {
-                $token_user = $this->jwt->authenticate($token);
+                $this->jwt->setToken($token)->checkOrFail();
+                $token_user = $this->jwt->user();
 
                 if ($token_user->id !== $authenticated_user->id) {
                     throw new JWTException('Token does not belong to the authenticated user');
                 }
 
                 $has_valid_token = true;
-            } catch (TokenExpiredException $e) {
+            } catch (TokenExpiredException $e) { // FIXME: Check this works, may not do so anymore
                 $has_valid_token = false;
             } catch (JWTException $e) {
-                if ($request->ajax()) {
+                if ($request->expectsJson()) {
                     return $this->response->make('Unauthorized.', Response::HTTP_UNAUTHORIZED);
                 }
+
+                $this->auth->guard($guard)->logout();
 
                 return $this->redirector->guest('login');
             }
@@ -104,7 +109,10 @@ class RefreshJsonWebToken
 
         // If there is no valid token, generate one
         if (!$has_valid_token) {
-            $this->dispatcher->dispatch(new JsonWebTokenExpired($authenticated_user));
+            $this->dispatcher->dispatch(new JsonWebTokenExpired(
+                $this->auth->guard($guard)->getName(),
+                $authenticated_user
+            ));
         }
 
         return $next($request);

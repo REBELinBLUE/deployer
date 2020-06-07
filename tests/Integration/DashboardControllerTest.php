@@ -38,9 +38,9 @@ class DashboardControllerTest extends AuthenticatedTestCase
         $projects      = $view->projects;
         $expectedGroup = 'Projects';
 
-        $this->assertInternalType('array', $projects);
+        $this->assertIsArray($projects);
         $this->assertArrayHasKey($expectedGroup, $projects);
-        $this->assertInternalType('array', $projects[$expectedGroup]);
+        $this->assertIsArray($projects[$expectedGroup]);
         $this->assertCount(1, $projects[$expectedGroup]);
         $this->assertContainsOnlyInstancesOf(ProjectPresenter::class, $projects[$expectedGroup]);
         $this->assertSame($project->toJson(), $projects[$expectedGroup][0]->toJson());
@@ -77,13 +77,13 @@ class DashboardControllerTest extends AuthenticatedTestCase
         /** @var \McCool\LaravelAutoPresenter\BasePresenter $view */
         $view = $response->getOriginalContent();
 
-        $this->assertInternalType('array', $view->latest);
+        $this->assertIsArray($view->latest);
         $this->assertArrayHasKey('2017-02-01', $view->latest);
         $this->assertArrayHasKey('2017-02-05', $view->latest);
         $this->assertCount(2, $view->latest);
 
-        $this->assertInternalType('array', $view->latest['2017-02-05']);
-        $this->assertInternalType('array', $view->latest['2017-02-01']);
+        $this->assertIsArray($view->latest['2017-02-05']);
+        $this->assertIsArray($view->latest['2017-02-01']);
         $this->assertCount($expectedOnA, $view->latest['2017-02-05']);
         $this->assertCount($expectedOnB, $view->latest['2017-02-01']);
 

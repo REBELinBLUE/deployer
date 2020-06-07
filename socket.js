@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const path = require('path');
 const Redis = require('ioredis');
 const http = require('http');
 const https = require('https');
 const socketIo = require('socket.io');
 
-require('dotenv').load();
+require('dotenv').config();
 
 const debug = (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === true);
 

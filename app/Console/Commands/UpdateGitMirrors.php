@@ -17,8 +17,8 @@ class UpdateGitMirrors extends Command
 {
     use DispatchesJobs;
 
-    const UPDATES_TO_QUEUE         = 3;
-    const UPDATE_FREQUENCY_MINUTES = 5;
+    private const UPDATES_TO_QUEUE         = 3;
+    private const UPDATE_FREQUENCY_MINUTES = 5;
 
     /**
      * The name and signature of the console command.
@@ -52,15 +52,13 @@ class UpdateGitMirrors extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         $last_since = Carbon::now()->subMinutes(self::UPDATE_FREQUENCY_MINUTES);
 
         $this->repository->getLastMirroredBefore($last_since, self::UPDATES_TO_QUEUE, function (Collection $projects) {
-            $projects->each(function (Project $project) {
+            $projects->each(function (Project $project): void {
                 $this->dispatch(new QueueUpdateGitMirror($project));
             });
         });

@@ -19,7 +19,7 @@ class ClearOldKeysTest extends TestCase
 
     private $console;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -82,12 +82,12 @@ class ClearOldKeysTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 4 files and 1 folders to purge', $output);
-        $this->assertContains('Deleted gitkeys', $output);
-        $this->assertContains('Deleted tmpfile', $output);
-        $this->assertContains('Deleted sshwrapper', $output);
-        $this->assertContains('Deleted mirror.tar.gz', $output);
-        $this->assertContains('Deleted clone_mirror', $output);
+        $this->assertStringContainsString('Found 4 files and 1 folders to purge', $output);
+        $this->assertStringContainsString('Deleted gitkeys', $output);
+        $this->assertStringContainsString('Deleted tmpfile', $output);
+        $this->assertStringContainsString('Deleted sshwrapper', $output);
+        $this->assertStringContainsString('Deleted mirror.tar.gz', $output);
+        $this->assertStringContainsString('Deleted clone_mirror', $output);
     }
 
     /**
@@ -115,17 +115,17 @@ class ClearOldKeysTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 4 files and 1 folders to purge', $output);
-        $this->assertContains('Skipping gitkeys', $output);
-        $this->assertContains('Skipping tmpfile', $output);
-        $this->assertContains('Skipping sshwrapper', $output);
-        $this->assertContains('Skipping mirror.tar.gz', $output);
-        $this->assertContains('Skipping clone_mirror', $output);
-        $this->assertNotContains('Deleted gitkeys', $output);
-        $this->assertNotContains('Deleted tmpfile', $output);
-        $this->assertNotContains('Deleted sshwrapper', $output);
-        $this->assertNotContains('Deleted mirror.tar.gz', $output);
-        $this->assertNotContains('Deleted clone_mirror', $output);
+        $this->assertStringContainsString('Found 4 files and 1 folders to purge', $output);
+        $this->assertStringContainsString('Skipping gitkeys', $output);
+        $this->assertStringContainsString('Skipping tmpfile', $output);
+        $this->assertStringContainsString('Skipping sshwrapper', $output);
+        $this->assertStringContainsString('Skipping mirror.tar.gz', $output);
+        $this->assertStringContainsString('Skipping clone_mirror', $output);
+        $this->assertStringNotContainsString('Deleted gitkeys', $output);
+        $this->assertStringNotContainsString('Deleted tmpfile', $output);
+        $this->assertStringNotContainsString('Deleted sshwrapper', $output);
+        $this->assertStringNotContainsString('Deleted mirror.tar.gz', $output);
+        $this->assertStringNotContainsString('Deleted clone_mirror', $output);
     }
 
     /**
@@ -157,16 +157,16 @@ class ClearOldKeysTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 4 files and 1 folders to purge', $output);
-        $this->assertContains('Failed to delete file gitkeys', $output);
-        $this->assertContains('Failed to delete file sshwrapper', $output);
-        $this->assertContains('Failed to delete file tmpfile', $output);
-        $this->assertContains('Failed to delete file mirror.tar.gz', $output);
-        $this->assertContains('Failed to delete folder clone_mirror', $output);
-        $this->assertNotContains('Deleted gitkeys', $output);
-        $this->assertNotContains('Deleted tmpfile', $output);
-        $this->assertNotContains('Deleted sshwrapper', $output);
-        $this->assertNotContains('Deleted mirror.tar.gz', $output);
-        $this->assertNotContains('Deleted clone_mirror', $output);
+        $this->assertStringContainsString('Found 4 files and 1 folders to purge', $output);
+        $this->assertStringContainsString('Failed to delete file gitkeys', $output);
+        $this->assertStringContainsString('Failed to delete file sshwrapper', $output);
+        $this->assertStringContainsString('Failed to delete file tmpfile', $output);
+        $this->assertStringContainsString('Failed to delete file mirror.tar.gz', $output);
+        $this->assertStringContainsString('Failed to delete folder clone_mirror', $output);
+        $this->assertStringNotContainsString('Deleted gitkeys', $output);
+        $this->assertStringNotContainsString('Deleted tmpfile', $output);
+        $this->assertStringNotContainsString('Deleted sshwrapper', $output);
+        $this->assertStringNotContainsString('Deleted mirror.tar.gz', $output);
+        $this->assertStringNotContainsString('Deleted clone_mirror', $output);
     }
 }

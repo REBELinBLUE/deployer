@@ -78,10 +78,11 @@ class Requirements
     /**
      * Checks the system meets all the requirements needed to run Deployer.
      *
-     * @param  Command $console
+     * @param Command $console
+     *
      * @return bool
      */
-    public function check(Command $console)
+    public function check(Command $console): bool
     {
         $this->console = $console;
 
@@ -107,7 +108,7 @@ class Requirements
     /**
      * Checks the PHP version.
      */
-    private function versionCheck()
+    private function versionCheck(): void
     {
         // Check PHP version:
         if (!version_compare(PHP_VERSION, '7.0.8', '>=')) {
@@ -119,7 +120,7 @@ class Requirements
     /**
      * Check for required extensions.
      */
-    private function extensionCheck()
+    private function extensionCheck(): void
     {
         // Check for required PHP extensions
         $required_extensions = ['PDO', 'curl', 'gd', 'json', 'tokenizer', 'openssl', 'mbstring'];
@@ -142,7 +143,7 @@ class Requirements
     /**
      * Checks if a DB driver is installed.
      */
-    private function hasDatabaseDriver()
+    private function hasDatabaseDriver(): void
     {
         if (!count($this->getDatabaseDrivers())) {
             $this->console->error(
@@ -151,14 +152,12 @@ class Requirements
 
             $this->errors = true;
         }
-
-        return false;
     }
 
     /**
      * Checks that required PHP functions are not disabled.
      */
-    private function disabledFunctionCheck()
+    private function disabledFunctionCheck(): void
     {
         // Functions needed by symfony process
         if (!function_exists('proc_open')) {
@@ -170,7 +169,7 @@ class Requirements
     /**
      * Checks that all the required system commands are available.
      */
-    private function requiredSystemCommands()
+    private function requiredSystemCommands(): void
     {
         // Programs needed in $PATH
         $required_commands = ['ssh', 'ssh-keygen', 'git', 'scp', 'tar', 'gzip', 'rsync', 'bash', 'php'];
@@ -197,7 +196,7 @@ class Requirements
     /**
      * Tests that nodejs exists in one of the two possible names.
      */
-    private function nodeJsCommand()
+    private function nodeJsCommand(): void
     {
         $found = false;
         foreach (['node', 'nodejs'] as $command) {
@@ -220,7 +219,7 @@ class Requirements
     /**
      * Checks the expected paths are writable.
      */
-    private function checkPermissions()
+    private function checkPermissions(): void
     {
         // Files and directories which need to be writable
         $writable = [
@@ -240,7 +239,7 @@ class Requirements
     /**
      * Checks the connection to redis.
      */
-    private function checkRedisConnection()
+    private function checkRedisConnection(): void
     {
         // Check that redis is running
         try {
@@ -254,7 +253,7 @@ class Requirements
     /**
      * Checks the connection to the queue.
      */
-    private function checkQueueConnection()
+    private function checkQueueConnection(): void
     {
         if ($this->config->get('queue.default') === 'beanstalkd') {
             $connected = $this->queue->connection()

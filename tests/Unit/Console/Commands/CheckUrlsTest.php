@@ -21,7 +21,7 @@ class CheckUrlsTest extends TestCase
     private $repository;
     private $console;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -39,7 +39,7 @@ class CheckUrlsTest extends TestCase
      * @covers ::__construct
      * @covers ::handle
      */
-    public function testHandle($minute, $periods)
+    public function testHandle(int $minute, array $periods)
     {
         $this->expectsJobs(RequestProjectCheckUrl::class);
 
@@ -47,7 +47,7 @@ class CheckUrlsTest extends TestCase
 
         $this->repository->shouldReceive('chunkWhereIn')
                          ->once()
-                         ->with('period', $periods, CheckUrls::URLS_TO_CHECK, m::on(function ($callback) {
+                         ->with('period', $periods, 10, m::on(function ($callback) {
                              $this->assertInstanceOf(Closure::class, $callback);
 
                              $callback(collect([new CheckUrl()]));
@@ -65,7 +65,7 @@ class CheckUrlsTest extends TestCase
         ]);
     }
 
-    public function provideTimePeriods()
+    public function provideTimePeriods(): array
     {
         return  [
             [55, [5]],

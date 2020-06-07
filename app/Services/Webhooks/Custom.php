@@ -12,7 +12,7 @@ class Custom extends Webhook
      *
      * @return bool
      */
-    public function isRequestOrigin()
+    public function isRequestOrigin(): bool
     {
         return true;
     }

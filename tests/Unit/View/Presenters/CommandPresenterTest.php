@@ -16,7 +16,7 @@ class CommandPresenterTest extends TestCase
 {
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -34,15 +34,17 @@ class CommandPresenterTest extends TestCase
      * @covers ::presentBeforePurge
      * @covers ::presentAfterPurge
      * @covers ::commandNames
+     *
+     * @param string $method
      */
-    public function testPresentMethodsReturnTranslation($method)
+    public function testPresentMethodsReturnTranslation(string $method)
     {
         $expected = 'app.none';
 
         $project = m::mock(Project::class);
         $project->shouldReceive('getAttribute')->atLeast()->once()->with('commands')->andReturn([]);
 
-        $this->translator->shouldReceive('trans')->once()->with($expected)->andReturn($expected);
+        $this->translator->shouldReceive('get')->once()->with($expected)->andReturn($expected);
 
         $presenter = new CommandPresenter($this->translator);
         $presenter->setWrappedObject($project);
@@ -62,8 +64,12 @@ class CommandPresenterTest extends TestCase
      * @covers ::presentBeforePurge
      * @covers ::presentAfterPurge
      * @covers ::commandNames
+     *
+     * @param string $method
+     * @param string $expected
+     * @param array  $commands
      */
-    public function testPresentMethodsReturnCommandNames($method, $expected, $commands)
+    public function testPresentMethodsReturnCommandNames(string $method, string $expected, array $commands)
     {
         $collection = [];
 
@@ -82,7 +88,7 @@ class CommandPresenterTest extends TestCase
         $this->assertSame($expected, $actual, $method . ' did not return expected names');
     }
 
-    public function provideMethods()
+    public function provideMethods(): array
     {
         return array_chunk([
             'presentBeforeClone', 'presentAfterClone', 'presentBeforeInstall', 'presentAfterInstall',
@@ -90,7 +96,7 @@ class CommandPresenterTest extends TestCase
         ], 1);
     }
 
-    public function provideCommandsAndMethods()
+    public function provideCommandsAndMethods(): array
     {
         $data = [];
         foreach ($this->getSteps() as $step) {
@@ -118,7 +124,13 @@ class CommandPresenterTest extends TestCase
         return $data;
     }
 
-    private function mockCommand($name, $step)
+    /**
+     * @param string $name
+     * @param int    $step
+     *
+     * @return Command
+     */
+    private function mockCommand(string $name, int $step): Command
     {
         $command = m::mock(Command::class);
         $command->shouldReceive('getAttribute')->atLeast()->once()->with('step')->andReturn($step);
@@ -127,7 +139,7 @@ class CommandPresenterTest extends TestCase
         return $command;
     }
 
-    private function getSteps()
+    private function getSteps(): array
     {
         return $this->fixture('View/Presenters/CommandPresenter')['steps'];
     }

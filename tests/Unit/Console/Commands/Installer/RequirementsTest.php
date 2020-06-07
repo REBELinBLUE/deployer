@@ -26,7 +26,7 @@ class RequirementsTest extends TestCase
     private $command;
     private $filesystem;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -93,15 +93,15 @@ class RequirementsTest extends TestCase
         $requirements = new Requirements($this->process, $this->config, $this->redis, $this->queue, $this->filesystem);
         $actual       = $requirements->check($this->command);
 
-        $this->assertContains('PHP 7.0.8 or higher is required', $output);
-        $this->assertContains('Extension required: PDO, curl, gd, json, mbstring, openssl, tokenizer', $output);
-        $this->assertContains('Function required: "proc_open". Is it disabled in php.ini?', $output);
-        $this->assertContains('At least 1 PDO driver is required. Either sqlite, mysql or pgsql', $output);
-        $this->assertContains('Commands not found: bash, git, gzip, php, rsync, scp, ssh, ssh-keygen, tar', $output);
-        $this->assertContains('node.js was not found', $output);
-        $this->assertContains('Redis is not running', $output);
-        $this->assertContains('Beanstalkd is not running', $output);
-        $this->assertContains('Deployer cannot be installed. Please review the errors above', $output);
+        $this->assertStringContainsString('PHP 7.0.8 or higher is required', $output);
+        $this->assertStringContainsString('Extension required: PDO, curl, gd, json, mbstring, openssl, tokenizer', $output);
+        $this->assertStringContainsString('Function required: "proc_open". Is it disabled in php.ini?', $output);
+        $this->assertStringContainsString('At least 1 PDO driver is required. Either sqlite, mysql or pgsql', $output);
+        $this->assertStringContainsString('Commands not found: bash, git, gzip, php, rsync, scp, ssh, ssh-keygen, tar', $output);
+        $this->assertStringContainsString('node.js was not found', $output);
+        $this->assertStringContainsString('Redis is not running', $output);
+        $this->assertStringContainsString('Beanstalkd is not running', $output);
+        $this->assertStringContainsString('Deployer cannot be installed. Please review the errors above', $output);
         $this->assertRegExp('/(.*) is not writable/', $output);
 
         $this->assertFalse($actual);

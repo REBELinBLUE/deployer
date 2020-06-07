@@ -5,7 +5,10 @@ namespace REBELinBLUE\Deployer\Http\Controllers\Admin;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreGroupRequest;
@@ -32,14 +35,15 @@ class GroupController extends Controller
     /**
      * Display a listing of the groups.
      *
-     * @param  ViewFactory           $view
-     * @param  Translator            $translator
-     * @return \Illuminate\View\View
+     * @param ViewFactory $view
+     * @param Translator  $translator
+     *
+     * @return View
      */
-    public function index(ViewFactory $view, Translator $translator)
+    public function index(ViewFactory $view, Translator $translator): View
     {
         return $view->make('admin.groups.listing', [
-            'title'  => $translator->trans('groups.manage'),
+            'title'  => $translator->get('groups.manage'),
             'groups' => $this->repository->getAll(),
         ]);
     }
@@ -50,9 +54,9 @@ class GroupController extends Controller
      * @param StoreGroupRequest $request
      * @param ResponseFactory   $response
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(StoreGroupRequest $request, ResponseFactory $response)
+    public function store(StoreGroupRequest $request, ResponseFactory $response): JsonResponse
     {
         return $response->json($this->repository->create($request->only(
             'name'
@@ -65,9 +69,9 @@ class GroupController extends Controller
      * @param int               $group_id
      * @param StoreGroupRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($group_id, StoreGroupRequest $request)
+    public function update(int $group_id, StoreGroupRequest $request): Model
     {
         return $this->repository->updateById($request->only(
             'name'
@@ -81,7 +85,7 @@ class GroupController extends Controller
      *
      * @return array
      */
-    public function reorder(Request $request)
+    public function reorder(Request $request): array
     {
         $order = 0;
 

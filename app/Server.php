@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
@@ -13,10 +14,10 @@ class Server extends Model
 {
     use SoftDeletes, BroadcastChanges;
 
-    const SUCCESSFUL = 0;
-    const UNTESTED   = 1;
-    const FAILED     = 2;
-    const TESTING    = 3;
+    public const SUCCESSFUL = 0;
+    public const UNTESTED   = 1;
+    public const FAILED     = 2;
+    public const TESTING    = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -49,7 +50,7 @@ class Server extends Model
     /**
      * Belongs to relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function project()
     {
@@ -61,7 +62,7 @@ class Server extends Model
      *
      * @return bool
      */
-    public function isTesting()
+    public function isTesting(): bool
     {
         return ($this->status === self::TESTING);
     }
@@ -72,7 +73,7 @@ class Server extends Model
      *
      * @param string $value
      */
-    public function setUserAttribute($value)
+    public function setUserAttribute(string $value): void
     {
         $this->setAttributeStatusUntested('user', $value);
     }
@@ -83,7 +84,7 @@ class Server extends Model
      *
      * @param string $value
      */
-    public function setPathAttribute($value)
+    public function setPathAttribute(string $value): void
     {
         $this->setAttributeStatusUntested('path', $value);
     }
@@ -94,7 +95,7 @@ class Server extends Model
      *
      * @param string $value
      */
-    public function setIpAddressAttribute($value)
+    public function setIpAddressAttribute(string $value): void
     {
         $this->setAttributeStatusUntested('ip_address', $value);
     }
@@ -105,7 +106,7 @@ class Server extends Model
      *
      * @param string $value
      */
-    public function setPortAttribute($value)
+    public function setPortAttribute(string $value): void
     {
         $this->setAttributeStatusUntested('port', (int) $value);
     }
@@ -115,7 +116,7 @@ class Server extends Model
      *
      * @return string
      */
-    public function getCleanPathAttribute()
+    public function getCleanPathAttribute(): string
     {
         return preg_replace('#/$#', '', $this->path);
     }
@@ -126,7 +127,7 @@ class Server extends Model
      * @param string $attribute
      * @param mixed  $value
      */
-    private function setAttributeStatusUntested($attribute, $value)
+    private function setAttributeStatusUntested(string $attribute, $value): void
     {
         if (!array_key_exists($attribute, $this->attributes) || $value !== $this->attributes[$attribute]) {
             $this->attributes['status']      = self::UNTESTED;

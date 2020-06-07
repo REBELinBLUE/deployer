@@ -14,7 +14,7 @@ class ChannelValidator implements ValidatorInterface
      *
      * @return bool
      */
-    public function validate(...$args)
+    public function validate(...$args): bool
     {
         $value           = $args[1];
         $first_character = substr($value, 0, 1);

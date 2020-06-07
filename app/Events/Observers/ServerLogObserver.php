@@ -38,7 +38,7 @@ class ServerLogObserver
      *
      * @param ServerLog $log
      */
-    public function updated(ServerLog $log)
+    public function updated(ServerLog $log): void
     {
         $outputChanged = $log->isDirty('output');
 

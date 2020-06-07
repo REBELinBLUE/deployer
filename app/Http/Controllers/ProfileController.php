@@ -7,8 +7,10 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 use Intervention\Image\ImageManager;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FA;
@@ -85,11 +87,12 @@ class ProfileController extends Controller
      *
      * @param Request $request
      *
-     * @param  LanguageManager       $languageManager
-     * @param  Settings              $settings
-     * @return \Illuminate\View\View
+     * @param LanguageManager $languageManager
+     * @param Settings        $settings
+     *
+     * @return View
      */
-    public function index(Request $request, LanguageManager $languageManager, Settings $settings)
+    public function index(Request $request, LanguageManager $languageManager, Settings $settings): View
     {
         $user = $this->auth->user();
 
@@ -103,7 +106,7 @@ class ProfileController extends Controller
         return $this->view->make('user.profile', [
             'google_2fa_url'  => $img,
             'google_2fa_code' => $code,
-            'title'           => $this->translator->trans('users.update_profile'),
+            'title'           => $this->translator->get('users.update_profile'),
             'locales'         => $languageManager->getAvailableLanguages(),
             'settings'        => $settings,
         ]);
@@ -116,7 +119,7 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(StoreProfileRequest $request)
+    public function update(StoreProfileRequest $request): RedirectResponse
     {
         $this->repository->updateById($request->only(
             'name',
@@ -133,7 +136,7 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function settings(StoreSettingsRequest $request)
+    public function settings(StoreSettingsRequest $request): RedirectResponse
     {
         $this->repository->updateById($request->only(
             'skin',
@@ -150,7 +153,7 @@ class ProfileController extends Controller
      * @param  Dispatcher $dispatcher
      * @return string
      */
-    public function requestEmail(Dispatcher $dispatcher)
+    public function requestEmail(Dispatcher $dispatcher): string
     {
         $dispatcher->dispatch(new EmailChangeRequested($this->auth->user()));
 
@@ -162,9 +165,9 @@ class ProfileController extends Controller
      *
      * @param string $token
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function email($token)
+    public function email(string $token): View
     {
         return $this->view->make('user.change-email', [
             'token' => $token,
@@ -178,7 +181,7 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changeEmail(Request $request)
+    public function changeEmail(Request $request): RedirectResponse
     {
         $user = $this->repository->findByEmailToken($request->get('token'));
 
@@ -231,7 +234,7 @@ class ProfileController extends Controller
      *
      * @return array
      */
-    public function gravatar(UserPresenter $presenter)
+    public function gravatar(UserPresenter $presenter): array
     {
         $user         = $this->auth->user();
         $user->avatar = null;
@@ -252,7 +255,7 @@ class ProfileController extends Controller
      *
      * @return array
      */
-    public function avatar(Request $request, UrlGenerator $url, ImageManager $image)
+    public function avatar(Request $request, UrlGenerator $url, ImageManager $image): array
     {
         $path   = $request->get('path', '/placeholder.jpg');
         $image  = $image->make(public_path() . $path);
@@ -289,7 +292,7 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function twoFactor(Request $request)
+    public function twoFactor(Request $request): RedirectResponse
     {
         $secret = null;
         if ($request->has('two_factor')) {
@@ -300,7 +303,7 @@ class ProfileController extends Controller
 
                 return $this->redirect->back()
                                       ->withInput($request->only('google_code', 'two_factor'))
-                                      ->withError($this->translator->trans('auth.invalid_code'));
+                                      ->withError($this->translator->get('auth.invalid_code'));
             }
         }
 

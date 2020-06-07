@@ -6,7 +6,10 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use REBELinBLUE\Deployer\Command;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreCommandRequest;
@@ -48,15 +51,20 @@ class CommandController extends Controller
      * Display a listing of before/after commands for the supplied stage.
      *
      * @param int          $target_id
-     * @param int          $action
+     * @param string       $action
      * @param Translator   $translator
      * @param ViewFactory  $view
      * @param UrlGenerator $url
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function listing($target_id, $action, Translator $translator, ViewFactory $view, UrlGenerator $url)
-    {
+    public function listing(
+        int $target_id,
+        string $action,
+        Translator $translator,
+        ViewFactory $view,
+        UrlGenerator $url
+    ): View {
         $types = [
             'clone'    => Command::DO_CLONE,
             'install'  => Command::DO_INSTALL,
@@ -73,7 +81,7 @@ class CommandController extends Controller
 
         return $view->make('commands.listing', [
             'breadcrumb'  => $breadcrumb,
-            'title'       => $translator->trans('commands.' . strtolower($action)),
+            'title'       => $translator->get('commands.' . strtolower($action)),
             'subtitle'    => $project->name,
             'project'     => $project,
             'target_type' => $target,
@@ -89,9 +97,9 @@ class CommandController extends Controller
      * @param StoreCommandRequest $request
      * @param ResponseFactory     $response
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(StoreCommandRequest $request, ResponseFactory $response)
+    public function store(StoreCommandRequest $request, ResponseFactory $response): JsonResponse
     {
         return $response->json($this->repository->create($request->only(
             'name',
@@ -112,9 +120,9 @@ class CommandController extends Controller
      * @param int                 $command_id
      * @param StoreCommandRequest $request
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function update($command_id, StoreCommandRequest $request)
+    public function update(int $command_id, StoreCommandRequest $request): Model
     {
         return $this->repository->updateById($request->only(
             'name',
@@ -133,7 +141,7 @@ class CommandController extends Controller
      *
      * @return array
      */
-    public function reorder(Request $request)
+    public function reorder(Request $request): array
     {
         $order = 0;
 

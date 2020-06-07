@@ -18,9 +18,9 @@ class SettingsTest extends TestCase
         $settings = new Settings();
         $actual   = $settings->schemes();
 
-        $this->assertInternalType('array', $actual);
+        $this->assertIsArray($actual);
         foreach ($actual as $element) {
-            $this->assertInternalType('string', $element);
+            $this->assertIsString($element);
         }
     }
 
@@ -32,9 +32,9 @@ class SettingsTest extends TestCase
         $settings = new Settings();
         $actual   = $settings->themes();
 
-        $this->assertInternalType('array', $actual);
+        $this->assertIsArray($actual);
         foreach ($actual as $element) {
-            $this->assertInternalType('string', $element);
+            $this->assertIsString($element);
         }
     }
 }

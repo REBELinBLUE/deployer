@@ -23,7 +23,7 @@ class ClearOrphanAvatarsTest extends TestCase
 
     private $database;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -86,9 +86,9 @@ class ClearOrphanAvatarsTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 2 orphaned avatars', $output);
-        $this->assertContains('Deleted /storage/2017-01-01/avatar.png', $output);
-        $this->assertContains('Deleted /storage/2017-02-01/second-avatar.jpg', $output);
+        $this->assertStringContainsString('Found 2 orphaned avatars', $output);
+        $this->assertStringContainsString('Deleted /storage/2017-01-01/avatar.png', $output);
+        $this->assertStringContainsString('Deleted /storage/2017-02-01/second-avatar.jpg', $output);
     }
 
     /**
@@ -115,9 +115,9 @@ class ClearOrphanAvatarsTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 2 orphaned avatars', $output);
-        $this->assertContains('Skipping /storage/2017-01-01/avatar.png', $output);
-        $this->assertContains('Skipping /storage/2017-02-01/second-avatar.jpg', $output);
+        $this->assertStringContainsString('Found 2 orphaned avatars', $output);
+        $this->assertStringContainsString('Skipping /storage/2017-01-01/avatar.png', $output);
+        $this->assertStringContainsString('Skipping /storage/2017-02-01/second-avatar.jpg', $output);
     }
 
     /**
@@ -153,8 +153,8 @@ class ClearOrphanAvatarsTest extends TestCase
 
         $output = $tester->getDisplay();
 
-        $this->assertContains('Found 2 orphaned avatars', $output);
-        $this->assertContains('Failed to delete /storage/2017-01-01/avatar.png', $output);
-        $this->assertContains('Failed to delete /storage/2017-02-01/second-avatar.jpg', $output);
+        $this->assertStringContainsString('Found 2 orphaned avatars', $output);
+        $this->assertStringContainsString('Failed to delete /storage/2017-01-01/avatar.png', $output);
+        $this->assertStringContainsString('Failed to delete /storage/2017-02-01/second-avatar.jpg', $output);
     }
 }

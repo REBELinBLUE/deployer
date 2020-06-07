@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Notifications\Configurable;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use NotificationChannels\HipChat\HipChatMessage;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -21,7 +20,7 @@ class DeploymentSucceeded extends DeploymentFinished
      *
      * @return MailMessage
      */
-    public function toMail(Channel $notification)
+    public function toMail(Channel $notification): MailMessage
     {
         return $this->buildMailMessage(
             'deployments.success_email_subject',
@@ -37,7 +36,7 @@ class DeploymentSucceeded extends DeploymentFinished
      *
      * @return SlackMessage
      */
-    public function toSlack(Channel $notification)
+    public function toSlack(Channel $notification): SlackMessage
     {
         return $this->buildSlackMessage(
             'deployments.success_slack_message',
@@ -52,7 +51,7 @@ class DeploymentSucceeded extends DeploymentFinished
      *
      * @return WebhookMessage
      */
-    public function toWebhook(Channel $notification)
+    public function toWebhook(Channel $notification): WebhookMessage
     {
         return $this->buildWebhookMessage('deployment_succeeded', $notification);
     }
@@ -62,23 +61,8 @@ class DeploymentSucceeded extends DeploymentFinished
      *
      * @return TwilioMessage
      */
-    public function toTwilio()
+    public function toTwilio(): TwilioMessage
     {
         return $this->buildTwilioMessage('deployments.success_sms_message');
-    }
-
-    /**
-     * Gets the Hipchat version of the message.
-     *
-     * @param Channel $notification
-     *
-     * @return HipChatMessage
-     */
-    public function toHipchat(Channel $notification)
-    {
-        return $this->buildHipchatMessage(
-            'deployments.success_hipchat_message',
-            $notification
-        )->success();
     }
 }

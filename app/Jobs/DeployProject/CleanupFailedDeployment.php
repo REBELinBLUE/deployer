@@ -37,7 +37,7 @@ class CleanupFailedDeployment
      * @param string     $release_archive
      * @param string     $private_key
      */
-    public function __construct(Deployment $deployment, $release_archive, $private_key)
+    public function __construct(Deployment $deployment, string $release_archive, string $private_key)
     {
         $this->deployment      = $deployment;
         $this->release_archive = $release_archive;
@@ -49,7 +49,7 @@ class CleanupFailedDeployment
      *
      * @param Process $process
      */
-    public function handle(Process $process)
+    public function handle(Process $process): void
     {
         $this->deployment->project->servers->filter(function (Server $server) {
             return $server->deploy_code;

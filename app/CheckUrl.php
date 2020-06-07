@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
@@ -13,9 +14,9 @@ class CheckUrl extends Model
 {
     use SoftDeletes, BroadcastChanges;
 
-    const ONLINE   = 0;
-    const UNTESTED = 1;
-    const OFFLINE  = 2;
+    public const ONLINE   = 0;
+    public const UNTESTED = 1;
+    public const OFFLINE  = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -56,7 +57,7 @@ class CheckUrl extends Model
      *
      * @param string $value
      */
-    public function setUrlAttribute($value)
+    public function setUrlAttribute(string $value): void
     {
         if (!array_key_exists('url', $this->attributes) || $value !== $this->attributes['url']) {
             $this->attributes['status']    = self::UNTESTED;
@@ -69,10 +70,8 @@ class CheckUrl extends Model
 
     /**
      * Flags the link as healthy.
-     *
-     * @return bool
      */
-    public function online()
+    public function online(): void
     {
         $this->status    = self::ONLINE;
         $this->missed    = 0;
@@ -81,10 +80,8 @@ class CheckUrl extends Model
 
     /**
      * Flags the link as down.
-     *
-     * @return bool
      */
-    public function offline()
+    public function offline(): void
     {
         $this->status = self::OFFLINE;
         $this->missed = $this->missed + 1;
@@ -93,7 +90,7 @@ class CheckUrl extends Model
     /**
      * Belongs to relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function project()
     {
@@ -105,7 +102,7 @@ class CheckUrl extends Model
      *
      * @return bool
      */
-    public function isHealthy()
+    public function isHealthy(): bool
     {
         return ($this->status === self::ONLINE);
     }

@@ -11,15 +11,15 @@ fixture:
       expected: ''
   statuses: # Servers statuses which should be considered testing
     -
-      status: !php/const:REBELinBLUE\Deployer\Server::TESTING
+      status: !php/const REBELinBLUE\Deployer\Server::TESTING
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Server::UNTESTED
+      status: !php/const REBELinBLUE\Deployer\Server::UNTESTED
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Server::SUCCESSFUL
+      status: !php/const REBELinBLUE\Deployer\Server::SUCCESSFUL
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Server::FAILED
+      status: !php/const REBELinBLUE\Deployer\Server::FAILED
       expected: false
 

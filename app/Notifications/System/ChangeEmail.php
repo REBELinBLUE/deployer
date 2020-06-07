@@ -43,7 +43,7 @@ class ChangeEmail extends Notification implements ShouldQueue
      *
      * @return array
      */
-    public function via()
+    public function via(): array
     {
         return ['mail'];
     }
@@ -55,7 +55,7 @@ class ChangeEmail extends Notification implements ShouldQueue
      *
      * @return MailMessage
      */
-    public function toMail(User $user)
+    public function toMail(User $user): MailMessage
     {
         $action = route('profile.confirm-change-email', ['token' => $this->token]);
 
@@ -63,10 +63,10 @@ class ChangeEmail extends Notification implements ShouldQueue
             ->view(['notifications.email', 'notifications.email-plain'], [
                 'name' => $user->name,
             ])
-            ->subject($this->translator->trans('emails.confirm_email'))
-            ->line($this->translator->trans('emails.change_header'))
-            ->line($this->translator->trans('emails.change_below'))
-            ->action($this->translator->trans('emails.login_change'), $action)
-            ->line($this->translator->trans('emails.change_footer'));
+            ->subject($this->translator->get('emails.confirm_email'))
+            ->line($this->translator->get('emails.change_header'))
+            ->line($this->translator->get('emails.change_below'))
+            ->action($this->translator->get('emails.login_change'), $action)
+            ->line($this->translator->get('emails.change_footer'));
     }
 }

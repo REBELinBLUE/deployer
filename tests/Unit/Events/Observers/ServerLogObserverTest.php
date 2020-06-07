@@ -18,7 +18,7 @@ class ServerLogObserverTest extends TestCase
     private $dispatcher;
     private $presenter;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

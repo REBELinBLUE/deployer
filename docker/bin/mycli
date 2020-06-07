@@ -1,3 +1,0 @@
-#!/bin/sh
-
-mycli mysql://deployer:secret@localhost:3306/deployer

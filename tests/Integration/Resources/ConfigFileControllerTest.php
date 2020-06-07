@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Integration\Resources;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Arr;
 use REBELinBLUE\Deployer\ConfigFile;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Tests\Integration\AuthenticatedTestCase;
@@ -56,7 +57,7 @@ class ConfigFileControllerTest extends AuthenticatedTestCase
         /** @var ConfigFile $file */
         $file = factory(ConfigFile::class)->create(['path' => $original]);
 
-        $data = array_only($file->fresh()->toArray(), [
+        $data = Arr::only($file->fresh()->toArray(), [
             'name',
             'path',
             'content',

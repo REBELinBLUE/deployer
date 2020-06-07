@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Deployer'),
+    'name' => (bool) env('APP_NAME', 'Deployer'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://deployer.app'),
 
+    'asset_url' => env('ASSET_URL', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -80,8 +82,6 @@ return [
 
     'locale'       => env('APP_LOCALE', 'en'),
 
-    'faker_locale' => 'en_GB',
-
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -97,6 +97,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Faker Locale
+    |--------------------------------------------------------------------------
+    |
+    | This locale will be used by the Faker PHP library when generating fake
+    | data for your database seeds. For example, this will be used to get
+    | localized telephone numbers, street address information and more.
+    |
+    */
+
+    'faker_locale' => 'en_GB',
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |
@@ -109,23 +122,6 @@ return [
     'key' => env('APP_KEY', 'SomeRandomString'),
 
     'cipher' => 'AES-256-CBC',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Logging Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the log settings for your application. Out of
-    | the box, Laravel uses the Monolog PHP logging library. This gives
-    | you a variety of powerful log handlers / formatters to utilize.
-    |
-    | Available Settings: "single", "daily", "syslog", "errorlog"
-    |
-    */
-
-    'log' => env('APP_LOG', 'single'),
-
-    'log_level' => env('APP_LOG_LEVEL', 'error'),
 
     /*
     |--------------------------------------------------------------------------
@@ -182,10 +178,9 @@ return [
         // Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider::class,
-        // NotificationChannels\HipChat\HipChatServiceProvider::class,
-        NotificationChannels\Twilio\TwilioProvider::class,
+        // NotificationChannels\Twilio\TwilioProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        // Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -195,11 +190,11 @@ return [
         REBELinBLUE\Deployer\Providers\EventServiceProvider::class,
         REBELinBLUE\Deployer\Providers\GuzzleServiceProvider::class,
         REBELinBLUE\Deployer\Providers\HelperServiceProvider::class,
-        REBELinBLUE\Deployer\Providers\LogServiceProvider::class,
         REBELinBLUE\Deployer\Providers\LocalisationServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ProcessServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RepositoryServiceProvider::class,
         REBELinBLUE\Deployer\Providers\RouteServiceProvider::class,
+        REBELinBLUE\Deployer\Providers\TelescopeServiceProvider::class,
         REBELinBLUE\Deployer\Providers\UpdateServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ValidationServiceProvider::class,
         REBELinBLUE\Deployer\Providers\ViewServiceProvider::class,
@@ -219,6 +214,7 @@ return [
     'aliases' => [
 
         'App'          => Illuminate\Support\Facades\App::class,
+        'Arr'          => Illuminate\Support\Arr::class,
         'Artisan'      => Illuminate\Support\Facades\Artisan::class,
         'Auth'         => Illuminate\Support\Facades\Auth::class,
         'Blade'        => Illuminate\Support\Facades\Blade::class,
@@ -248,6 +244,7 @@ return [
         'Schema'       => Illuminate\Support\Facades\Schema::class,
         'Session'      => Illuminate\Support\Facades\Session::class,
         'Storage'      => Illuminate\Support\Facades\Storage::class,
+        'Str'          => Illuminate\Support\Str::class,
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,

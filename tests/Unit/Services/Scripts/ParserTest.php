@@ -29,8 +29,12 @@ class ParserTest extends TestCase
     /**
      * @dataProvider provideFileData
      * @covers ::parseString
+     *
+     * @param string $input
+     * @param string $expected
+     * @param array  $tokens
      */
-    public function testParseStringParsersTokens($input, $expected, array $tokens)
+    public function testParseStringParsersTokens(string $input, string $expected, array $tokens)
     {
         $parser = $this->app->make(Parser::class);
         $actual = $parser->parseString($input, $tokens);
@@ -53,8 +57,12 @@ class ParserTest extends TestCase
      * @dataProvider provideFileData
      * @covers ::parseFile
      * @covers ::__construct
+     *
+     * @param string $fileContent
+     * @param string $expected
+     * @param array  $tokens
      */
-    public function testParseFileLoadsScript($fileContent, $expected, array $tokens)
+    public function testParseFileLoadsScript(string $fileContent, string $expected, array $tokens)
     {
         $expectedFileName = 'a-real-file';
         $path             = resource_path('scripts/' . $expectedFileName . '.sh');
@@ -69,7 +77,7 @@ class ParserTest extends TestCase
         $this->assertSame($actual, $expected);
     }
 
-    public function provideFileData()
+    public function provideFileData(): array
     {
         return $this->fixture('Services/Scripts/Parser');
     }

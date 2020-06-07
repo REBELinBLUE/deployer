@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Console\Commands;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use MicheleAngioni\MultiLanguage\LanguageManager;
 use PDO;
@@ -13,10 +14,10 @@ use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
 use REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions;
 use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\ProcessBuilder;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use RuntimeException;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * A console command for prompting for install details.
@@ -100,18 +101,19 @@ class InstallApp extends Command
     /**
      * Execute the console command.
      *
-     * @param  EnvFile      $writer
-     * @param  Requirements $requirements
-     * @return mixed
+     * @param EnvFile      $writer
+     * @param Requirements $requirements
+     *
+     * @return int
      */
-    public function handle(EnvFile $writer, Requirements $requirements)
+    public function handle(EnvFile $writer, Requirements $requirements): int
     {
         $this->line('');
 
         $config = base_path('.env');
 
         if (!$this->filesystem->exists($config)) {
-            $this->filesystem->copy(base_path('.env.dist'), $config);
+            $this->filesystem->copy(base_path('.env.example'), $config);
             $this->config->set('app.key', 'SomeRandomString');
         }
 
@@ -130,7 +132,6 @@ class InstallApp extends Command
         $config = $this->restructureConfig([
             'db'      => $this->getDatabaseInformation(),
             'app'     => $this->getInstallInformation(),
-            'hipchat' => $this->getHipchatInformation(),
             'twilio'  => $this->getTwilioInformation(),
             'mail'    => $this->getEmailInformation(),
             'jwt'     => [],
@@ -186,7 +187,7 @@ class InstallApp extends Command
      *
      * @return string
      */
-    protected function generateJWTKey()
+    protected function generateJWTKey(): string
     {
         return $this->tokenGenerator->generateRandom(32);
     }
@@ -194,7 +195,7 @@ class InstallApp extends Command
     /**
      * Calls the artisan migrate to set up the database.
      */
-    protected function migrate()
+    protected function migrate(): void
     {
         $this->info('Running database migrations');
         $this->line('');
@@ -224,7 +225,7 @@ class InstallApp extends Command
     /**
      * Clears all Laravel caches.
      */
-    protected function clearCaches()
+    protected function clearCaches(): void
     {
         $this->callSilent('clear-compiled');
         $this->callSilent('cache:clear');
@@ -236,7 +237,7 @@ class InstallApp extends Command
     /**
      * Runs the artisan optimize commands.
      */
-    protected function optimize()
+    protected function optimize(): void
     {
         if (!$this->laravel->environment('local')) {
             $this->call('config:cache');
@@ -249,9 +250,9 @@ class InstallApp extends Command
      *
      * @param string $answer
      *
-     * @return mixed
+     * @return string
      */
-    protected function validateUrl($answer)
+    protected function validateUrl(string $answer): string
     {
         $validator = $this->validator->make(['url' => $answer], [
             'url' => 'url',
@@ -271,7 +272,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function restructureConfig(array $config)
+    private function restructureConfig(array $config): array
     {
         // Move the socket value to the correct key
         if (isset($config['app']['socket'])) {
@@ -297,7 +298,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getTwilioInformation()
+    private function getTwilioInformation(): array
     {
         $this->header('Twilio setup');
 
@@ -317,34 +318,9 @@ class InstallApp extends Command
     }
 
     /**
-     * Prompts for the hipchat API details.
-     *
-     * @return array
-     */
-    private function getHipchatInformation()
-    {
-        $this->header('Hipchat setup');
-
-        $hipchat = [
-            'token' => '',
-            'url'   => '',
-        ];
-
-        if ($this->confirm('Do you wish to be able to send notifications to Hipchat?')) {
-            $hipchat['url'] = $this->askAndValidate('Webhook URL', [], function ($answer) {
-                return $this->validateUrl($answer);
-            });
-
-            $hipchat['token'] = $this->ask('Token');
-        }
-
-        return $hipchat;
-    }
-
-    /**
      * Calls the artisan key:generate to set the APP_KEY.
      */
-    private function generateKey()
+    private function generateKey(): void
     {
         $this->info('Generating application key');
         $this->callSilent('key:generate', ['--force' => true]);
@@ -357,7 +333,7 @@ class InstallApp extends Command
      * @param string $email
      * @param string $password
      */
-    private function createAdminUser($name, $email, $password)
+    private function createAdminUser(string $name, string $email, string $password): void
     {
         $process = $this->artisanProcess('deployer:create-user', [$name, $email, $password, '--no-email', '--admin']);
 
@@ -374,9 +350,9 @@ class InstallApp extends Command
      * @param string $command
      * @param array  $args
      *
-     * @return \Symfony\Component\Process\Process
+     * @return Process
      */
-    private function artisanProcess($command, array $args = [])
+    private function artisanProcess(string $command, array $args = []): Process
     {
         $arguments = array_merge([
             base_path('artisan'),
@@ -387,8 +363,8 @@ class InstallApp extends Command
 
         return $this->builder->setArguments($arguments)
                              ->setWorkingDirectory(base_path())
-                             ->getProcess()
-                             ->setTimeout(null);
+                             ->setTimeout(null)
+                             ->getProcess();
     }
 
     /**
@@ -396,7 +372,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getDatabaseInformation()
+    private function getDatabaseInformation(): array
     {
         $this->header('Database details');
 
@@ -438,7 +414,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getInstallInformation()
+    private function getInstallInformation(): array
     {
         $this->header('Installation details');
 
@@ -468,8 +444,8 @@ class InstallApp extends Command
             // Something has changed in laravel 5.3 which means calling the migrate command with call() isn't working
             $process = $this->builder->setArguments(['nginx'])
                                      ->setWorkingDirectory(base_path())
-                                     ->getProcess()
-                                     ->setTimeout(null);
+                                     ->setTimeout(null)
+                                     ->getProcess();
 
             $process->run();
 
@@ -528,7 +504,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getEmailInformation()
+    private function getEmailInformation(): array
     {
         $this->header('Email details');
 
@@ -586,7 +562,7 @@ class InstallApp extends Command
      *
      * @return array
      */
-    private function getAdminInformation()
+    private function getAdminInformation(): array
     {
         $this->header('Admin details');
 
@@ -606,7 +582,7 @@ class InstallApp extends Command
 
         $password = $this->askSecretAndValidate('Password', [], function ($answer) {
             $validator = $this->validator->make(['password' => $answer], [
-                'password' => 'min:6',
+                'password' => 'min:8',
             ]);
 
             if (!$validator->passes()) {
@@ -628,9 +604,10 @@ class InstallApp extends Command
      *
      * @param array $database The connection details
      *
+     * @throws FileNotFoundException
      * @return bool
      */
-    private function verifyDatabaseDetails(array $database)
+    private function verifyDatabaseDetails(array $database): bool
     {
         if ($database['connection'] === 'sqlite') {
             return $this->filesystem->touch(database_path('database.sqlite'));
@@ -670,7 +647,7 @@ class InstallApp extends Command
      *
      * @return bool
      */
-    private function verifyNotInstalled()
+    private function verifyNotInstalled(): bool
     {
         if ($this->config->get('app.key') !== false && $this->config->get('app.key') !== 'SomeRandomString') {
             $this->failure(

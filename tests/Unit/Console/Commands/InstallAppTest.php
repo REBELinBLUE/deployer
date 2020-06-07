@@ -5,6 +5,7 @@ namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 use Closure;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
+use Illuminate\Console\OutputStyle;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\KeyGenerateCommand;
@@ -14,6 +15,7 @@ use phpmock\mockery\PHPMockery as phpm;
 use REBELinBLUE\Deployer\Console\Commands\Installer\EnvFile;
 use REBELinBLUE\Deployer\Console\Commands\Installer\Requirements;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\ProcessBuilder;
 use REBELinBLUE\Deployer\Services\Token\TokenGenerator;
 use REBELinBLUE\Deployer\Tests\TestCase;
 use REBELinBLUE\Deployer\Tests\Unit\stubs\InstallApp;
@@ -21,7 +23,8 @@ use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
+
+// TODO: Rewrite these tests using the Laravel artisan testing feature introduced in 5.7
 
 /**
  * @coversDefaultClass \REBELinBLUE\Deployer\Console\Commands\InstallApp
@@ -39,7 +42,7 @@ class InstallAppTest extends TestCase
     private $validator;
     private $manager;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -76,8 +79,8 @@ class InstallAppTest extends TestCase
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertContains('already installed Deployer', $output);
-        $this->assertContains('php artisan app:update', $output);
+        $this->assertStringContainsString('You have already installed Deployer', $output);
+        $this->assertStringContainsString('php artisan app:update', $output);
         $this->assertSame(-1, $tester->getStatusCode());
     }
 
@@ -100,12 +103,15 @@ class InstallAppTest extends TestCase
 
     /**
      * @dataProvider provideConfiguration
-     * @covers \REBELinBLUE\Deployer\Console\Commands\InstallApp
-     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate
-     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions
-     * @covers \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles
+     * @covers       \REBELinBLUE\Deployer\Console\Commands\InstallApp
+     * @covers       \REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate
+     * @covers       \REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions
+     * @covers       \REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles
+     *
+     * @param string $dbDriver
+     * @param array  $languages
      */
-    public function testHandleSuccessful($dbDriver, $languages)
+    public function testHandleSuccessful(string $dbDriver, array $languages)
     {
         // FIXME: Clean up, lots of duplication
 
@@ -132,12 +138,11 @@ class InstallAppTest extends TestCase
         $this->console->shouldReceive('find')->once()->with('route:cache')->andReturn($command);
 
         $env                = base_path('.env');
-        $dist               = base_path('.env.dist');
+        $dist               = base_path('.env.example');
         $expectedToken      = 'a-random-app-key';
         $expectedName       = 'Admin';
         $expectedEmail      = 'admin@example.com';
         $expectedPassword   = 'a-password-input';
-        $expectedHipchatUrl = 'http://hooks.hipchat.com';
         $expectedFrom       = 'deployer@example.com';
         $expectedAppUrl     = 'https://localhost';
         $expectedKey        = '/var/ssl/private-key';
@@ -159,10 +164,6 @@ class InstallAppTest extends TestCase
                 'ssl_key_password' => 'key-password',
                 'ssl_cert_file'    => $expectedCert,
                 'ssl_ca_file'      => $expectedCa,
-            ],
-            'hipchat' => [
-                'token' => 'a-hipchat-token',
-                'url'   => $expectedHipchatUrl,
             ],
             'twilio' => [
                 'account_sid' => 'twilio-sid',
@@ -224,9 +225,9 @@ class InstallAppTest extends TestCase
                       ->andReturnSelf();
 
         $this->builder->shouldReceive('setWorkingDirectory')->with(base_path())->andReturnSelf();
+        $this->builder->shouldReceive('setTimeout')->with(null)->andReturnSelf();
         $this->builder->shouldReceive('getProcess')->andReturn($process);
 
-        $process->shouldReceive('setTimeout')->with(null)->andReturnSelf();
         $process->shouldReceive('stop')->andReturnSelf();
         $process->shouldReceive('isSuccessful')->andReturn(true);
 
@@ -244,7 +245,6 @@ class InstallAppTest extends TestCase
 
         $rules = m::type('array');
         $this->validator->shouldReceive('make')->with(['url' => $expectedAppUrl], $rules)->andReturnSelf();
-        $this->validator->shouldReceive('make')->with(['url' => $expectedHipchatUrl], $rules)->andReturnSelf();
         $this->validator->shouldReceive('make')->with(['port' => 25], $rules)->andReturnSelf();
         $this->validator->shouldReceive('make')->with(['from_address' => $expectedFrom], $rules)->andReturnSelf();
         $this->validator->shouldReceive('make')->with(['email_address' => $expectedEmail], $rules)->andReturnSelf();
@@ -277,11 +277,6 @@ class InstallAppTest extends TestCase
             $expectedCert,
             $expectedCa,
             'lang' => 'en',
-
-            // Hipchat
-            'yes', // fixme: need to check the other 2 are not selected if no
-            $expectedHipchatUrl,
-            'a-hipchat-token',
 
             // Twilio
             'yes',  // fixme: need to check the other 3 are not selected if no
@@ -323,25 +318,24 @@ class InstallAppTest extends TestCase
         $tester = $this->runCommand($this->laravel, $input);
         $output = $tester->getDisplay();
 
-        $this->assertContains('a-line-of-output', $output);
-        $this->assertContains('a-second-line', $output);
+        $this->assertStringContainsString('a-line-of-output', $output);
+        $this->assertStringContainsString('a-second-line', $output);
 
-        $this->assertContains('Database details', $output);
-        $this->assertContains('Installation details', $output);
-        $this->assertContains('Hipchat setup', $output);
-        $this->assertContains('Twilio setup', $output);
-        $this->assertContains('Email details', $output);
-        $this->assertContains('Admin details', $output);
-        $this->assertContains('Writing configuration file', $output);
-        $this->assertContains('Generating JWT key', $output);
-        $this->assertContains('Generating application key', $output);
-        $this->assertContains('Running database migrations', $output);
-        $this->assertContains('Success!', $output);
+        $this->assertStringContainsString('Database details', $output);
+        $this->assertStringContainsString('Installation details', $output);
+        $this->assertStringContainsString('Twilio setup', $output);
+        $this->assertStringContainsString('Email details', $output);
+        $this->assertStringContainsString('Admin details', $output);
+        $this->assertStringContainsString('Writing configuration file', $output);
+        $this->assertStringContainsString('Generating JWT key', $output);
+        $this->assertStringContainsString('Generating application key', $output);
+        $this->assertStringContainsString('Running database migrations', $output);
+        $this->assertStringContainsString('Success!', $output);
 
         $this->assertSame(0, $tester->getStatusCode());
     }
 
-    public function provideConfiguration()
+    public function provideConfiguration(): array
     {
         return [
             ['sqlite', ['en']],
@@ -350,7 +344,7 @@ class InstallAppTest extends TestCase
         ];
     }
 
-    private function runCommand($app = null, array $inputs = [])
+    private function runCommand($app = null, array $inputs = []): CommandTester
     {
         $this->app->instance(EnvFile::class, $this->env);
         $this->app->instance(Requirements::class, $this->requirements);
@@ -368,6 +362,11 @@ class InstallAppTest extends TestCase
         $command->setApplication($this->console);
 
         $tester = new CommandTester($command);
+
+        $this->app->bind(OutputStyle::class, function () use ($tester) {
+            return new OutputStyle($tester->getInput(), $tester->getOutput());
+        });
+
         $tester->setInputs($inputs);
         $tester->execute([
             'command' => 'app:install',

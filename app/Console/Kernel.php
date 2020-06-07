@@ -93,6 +93,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('deployer:purge-temp')
                  ->hourly()
                  ->withoutOverlapping();
+
+        $schedule->command('telescope:prune')->daily();
     }
 
 //

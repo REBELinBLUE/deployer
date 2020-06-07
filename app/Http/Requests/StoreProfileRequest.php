@@ -12,11 +12,11 @@ class StoreProfileRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'name'     => 'required|max:255',
-            'password' => 'required|confirmed|min:6|zxcvbn:3,name',
+            'password' => 'required|confirmed|min:8|zxcvbn:3,name',
         ];
 
         if ($this->get('password') === '') {

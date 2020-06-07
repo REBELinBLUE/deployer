@@ -12,12 +12,12 @@ class StoreChannelRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = array_merge([
             'name'                       => 'required|max:255',
             'project_id'                 => 'required|integer|exists:projects,id',
-            'type'                       => 'required|in:slack,hipchat,twilio,mail,custom',
+            'type'                       => 'required|in:slack,twilio,mail,custom',
             'on_deployment_success'      => 'boolean',
             'on_deployment_failure'      => 'boolean',
             'on_link_down'               => 'boolean',
@@ -40,7 +40,7 @@ class StoreChannelRequest extends Request
      *
      * @return array
      */
-    public function configOnly()
+    public function configOnly(): array
     {
         return $this->only(array_keys($this->configRules()));
     }
@@ -50,7 +50,7 @@ class StoreChannelRequest extends Request
      *
      * @return array
      */
-    private function slackRules()
+    private function slackRules(): array
     {
         return [
             'channel' => 'required|max:255|channel',
@@ -64,22 +64,10 @@ class StoreChannelRequest extends Request
      *
      * @return array
      */
-    private function mailRules()
+    private function mailRules(): array
     {
         return [
             'email' => 'required|email',
-        ];
-    }
-
-    /**
-     * Validation rules specific to hipchat.
-     *
-     * @return array
-     */
-    private function hipchatRules()
-    {
-        return [
-            'room' => 'required',
         ];
     }
 
@@ -88,7 +76,7 @@ class StoreChannelRequest extends Request
      *
      * @return array
      */
-    private function twilioRules()
+    private function twilioRules(): array
     {
         return [
             'telephone' => 'required|regex:/^\+([0-9]*)$/',
@@ -100,7 +88,7 @@ class StoreChannelRequest extends Request
      *
      * @return array
      */
-    private function customRules()
+    private function customRules(): array
     {
         return [
             'url' => 'required|url',
@@ -112,13 +100,11 @@ class StoreChannelRequest extends Request
      *
      * @return array
      */
-    private function configRules()
+    private function configRules(): array
     {
         switch ($this->get('type')) {
             case 'slack':
                 return $this->slackRules();
-            case 'hipchat':
-                return $this->hipchatRules();
             case 'twilio':
                 return $this->twilioRules();
             case 'mail':

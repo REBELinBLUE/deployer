@@ -4,7 +4,6 @@ namespace REBELinBLUE\Deployer\Notifications\Configurable;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use NotificationChannels\HipChat\HipChatMessage;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -21,7 +20,7 @@ class HeartbeatRecovered extends HeartbeatChanged
      *
      * @return MailMessage
      */
-    public function toMail(Channel $notification)
+    public function toMail(Channel $notification): MailMessage
     {
         return $this->buildMailMessage(
             'heartbeats.recovered_subject',
@@ -37,7 +36,7 @@ class HeartbeatRecovered extends HeartbeatChanged
      *
      * @return SlackMessage
      */
-    public function toSlack(Channel $notification)
+    public function toSlack(Channel $notification): SlackMessage
     {
         return $this->buildSlackMessage(
             'heartbeats.recovered_message',
@@ -52,7 +51,7 @@ class HeartbeatRecovered extends HeartbeatChanged
      *
      * @return WebhookMessage
      */
-    public function toWebhook(Channel $notification)
+    public function toWebhook(Channel $notification): WebhookMessage
     {
         return $this->buildWebhookMessage('heartbeat_recovered', $notification);
     }
@@ -62,23 +61,8 @@ class HeartbeatRecovered extends HeartbeatChanged
      *
      * @return TwilioMessage
      */
-    public function toTwilio()
+    public function toTwilio(): TwilioMessage
     {
         return $this->buildTwilioMessage('heartbeats.recovered_sms_message');
-    }
-
-    /**
-     * Gets the Hipchat version of the message.
-     *
-     * @param Channel $notification
-     *
-     * @return HipChatMessage
-     */
-    public function toHipchat(Channel $notification)
-    {
-        return $this->buildHipchatMessage(
-            'heartbeats.recovered_message',
-            $notification
-        )->success();
     }
 }

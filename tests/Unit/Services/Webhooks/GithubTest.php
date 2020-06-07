@@ -49,8 +49,11 @@ class GithubTest extends WebhookTestCase
     /**
      * @dataProvider provideBranch
      * @covers ::handlePush
+     *
+     * @param string $branch
+     * @param string $ref
      */
-    public function testHandlePushEventValid($branch, $ref)
+    public function testHandlePushEventValid(string $branch, string $ref)
     {
         $reason = 'Commit Log';
         $url    = 'http://www.example.com/';
@@ -82,8 +85,10 @@ class GithubTest extends WebhookTestCase
     /**
      * @dataProvider provideUnsupportedEvents
      * @covers ::handlePush
+     *
+     * @param string $event
      */
-    public function testHandleUnsupportedEvent($event)
+    public function testHandleUnsupportedEvent(string $event)
     {
         $request = $this->createEventRequest('X-GitHub-Event', $event);
 
@@ -91,7 +96,7 @@ class GithubTest extends WebhookTestCase
         $this->assertFalse($github->handlePush());
     }
 
-    public function provideUnsupportedEvents()
+    public function provideUnsupportedEvents(): array
     {
         return array_chunk([
             '*', 'commit_comment', 'create', 'delete', 'deployment', 'deployment_status', 'fork', 'gollum',

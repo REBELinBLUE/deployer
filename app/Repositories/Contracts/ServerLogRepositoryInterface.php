@@ -17,7 +17,7 @@ interface ServerLogRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getById($model_id);
+    public function getById(int $model_id);
 
     /**
      * @param int $original
@@ -25,5 +25,5 @@ interface ServerLogRepositoryInterface
      *
      * @return bool
      */
-    public function updateStatusAll($original, $updated);
+    public function updateStatusAll(int $original, int $updated);
 }

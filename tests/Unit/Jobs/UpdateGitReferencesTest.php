@@ -34,7 +34,7 @@ class UpdateGitReferencesTest extends TestCase
      */
     private $repository;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

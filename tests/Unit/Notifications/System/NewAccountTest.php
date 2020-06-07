@@ -16,7 +16,7 @@ class NewAccountTest extends TestCase
 {
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -54,15 +54,15 @@ class NewAccountTest extends TestCase
         $user->shouldReceive('getAttribute')->atLeast()->once()->with('name')->andReturn($expectedName);
         $user->shouldReceive('getAttribute')->atLeast()->once()->with('email')->andReturn($expectedEmail);
 
-        $this->translator->shouldReceive('trans')->with('emails.creation_subject')->andReturn($subject);
-        $this->translator->shouldReceive('trans')->with('emails.created')->andReturn($introLine1);
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')->with('emails.creation_subject')->andReturn($subject);
+        $this->translator->shouldReceive('get')->with('emails.created')->andReturn($introLine1);
+        $this->translator->shouldReceive('get')
                          ->with('emails.username', ['username' => $expectedEmail])
                          ->andReturn($introLine2);
-        $this->translator->shouldReceive('trans')
+        $this->translator->shouldReceive('get')
                          ->with('emails.password', ['password' => $expectedPassword])
                          ->andReturn($introLine3);
-        $this->translator->shouldReceive('trans')->with('emails.login_now')->andReturn($actionText);
+        $this->translator->shouldReceive('get')->with('emails.login_now')->andReturn($actionText);
 
         // Replace the URL generator so that we can get a known URL
         $mock = m::mock(UrlGenerator::class);

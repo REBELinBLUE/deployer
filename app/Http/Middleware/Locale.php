@@ -4,7 +4,11 @@ namespace REBELinBLUE\Deployer\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use MicheleAngioni\MultiLanguage\Exceptions\LanguageNotFoundException;
 use MicheleAngioni\MultiLanguage\LanguageManager;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Sets the applications locale based on the user's language.
@@ -36,13 +40,14 @@ class Locale
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     * @param string|null              $guard
+     * @param Request     $request
+     * @param Closure     $next
+     * @param string|null $guard
      *
-     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws LanguageNotFoundException
+     * @return RedirectResponse|Response
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next, ?string $guard = null)
     {
         $user = $this->auth->guard($guard)->user();
         if ($user && $user->language) {

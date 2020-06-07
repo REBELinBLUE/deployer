@@ -18,7 +18,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentCcTrayStatus()
+    public function presentCcTrayStatus(): string
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'Success';
@@ -34,23 +34,23 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentReadableStatus()
+    public function presentReadableStatus(): string
     {
         if ($this->status === Deployment::COMPLETED) {
-            return $this->translator->trans('deployments.completed');
+            return $this->translator->get('deployments.completed');
         } elseif ($this->status === Deployment::COMPLETED_WITH_ERRORS) {
-            return $this->translator->trans('deployments.completed_with_errors');
+            return $this->translator->get('deployments.completed_with_errors');
         } elseif ($this->status === Deployment::ABORTING) {
-            return $this->translator->trans('deployments.aborting');
+            return $this->translator->get('deployments.aborting');
         } elseif ($this->status === Deployment::ABORTED) {
-            return $this->translator->trans('deployments.aborted');
+            return $this->translator->get('deployments.aborted');
         } elseif ($this->status === Deployment::FAILED) {
-            return $this->translator->trans('deployments.failed');
+            return $this->translator->get('deployments.failed');
         } elseif ($this->status === Deployment::DEPLOYING) {
-            return $this->translator->trans('deployments.deploying');
+            return $this->translator->get('deployments.deploying');
         }
 
-        return $this->translator->trans('deployments.pending');
+        return $this->translator->get('deployments.pending');
     }
 
     /**
@@ -58,7 +58,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentOptionalCommandsUsed()
+    public function presentOptionalCommandsUsed(): string
     {
         return $this->getWrappedObject()->commands->filter(function (Command $command) {
             return $command->optional;
@@ -70,7 +70,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentIcon()
+    public function presentIcon(): string
     {
         $finished_statuses = [Deployment::FAILED, Deployment::COMPLETED_WITH_ERRORS,
                               Deployment::ABORTING, Deployment::ABORTED, ];
@@ -91,7 +91,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentCssClass()
+    public function presentCssClass(): string
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'success';
@@ -109,7 +109,7 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentTimelineCssClass()
+    public function presentTimelineCssClass(): string
     {
         if ($this->status === Deployment::COMPLETED || $this->status === Deployment::COMPLETED_WITH_ERRORS) {
             return 'green';
@@ -125,16 +125,16 @@ class DeploymentPresenter extends Presenter
     /**
      * Gets the name of the committer, or the "Loading" string if it has not yet been determined.
      *
-     * @return string
+     * @return string|null
      */
-    public function presentCommitterName()
+    public function presentCommitterName(): ?string
     {
         if ($this->committer === Deployment::LOADING) {
             if ($this->status === Deployment::FAILED) {
-                return $this->translator->trans('deployments.unknown');
+                return $this->translator->get('deployments.unknown');
             }
 
-            return $this->translator->trans('deployments.loading');
+            return $this->translator->get('deployments.loading');
         }
 
         return $this->committer;
@@ -145,14 +145,14 @@ class DeploymentPresenter extends Presenter
      *
      * @return string
      */
-    public function presentShortCommitHash()
+    public function presentShortCommitHash(): string
     {
         if ($this->short_commit === Deployment::LOADING) {
             if ($this->status === Deployment::FAILED) {
-                return $this->translator->trans('deployments.unknown');
+                return $this->translator->get('deployments.unknown');
             }
 
-            return $this->translator->trans('deployments.loading');
+            return $this->translator->get('deployments.loading');
         }
 
         return $this->short_commit;

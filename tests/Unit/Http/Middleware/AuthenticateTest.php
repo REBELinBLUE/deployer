@@ -20,7 +20,7 @@ class AuthenticateTest extends TestCase
     private $response;
     private $auth;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -38,7 +38,7 @@ class AuthenticateTest extends TestCase
         $expectedGuard = 'session';
 
         $expected = m::mock(Request::class);
-        $expected->shouldNotReceive('ajax');
+        $expected->shouldNotReceive('expectsJson');
 
         $this->response->shouldNotReceive('make');
         $this->redirector->shouldNotReceive('guest');
@@ -68,7 +68,7 @@ class AuthenticateTest extends TestCase
         $expected      = 'an-ajax-response';
 
         $request = m::mock(Request::class);
-        $request->shouldReceive('ajax')->andReturn(true);
+        $request->shouldReceive('expectsJson')->andReturn(true);
 
         $this->response->shouldReceive('make')
                        ->with(m::type('string'), Response::HTTP_UNAUTHORIZED)
@@ -100,7 +100,7 @@ class AuthenticateTest extends TestCase
         $expected      = 'a-redirect-response';
 
         $request = m::mock(Request::class);
-        $request->shouldReceive('ajax')->andReturn(false);
+        $request->shouldReceive('expectsJson')->andReturn(false);
 
         $this->response->shouldNotReceive('make');
         $this->redirector->shouldReceive('guest')->with(m::type('string'))->andReturn($expected);

@@ -29,8 +29,11 @@ class ServerTest extends TestCase
     /**
      * @dataProvider provideStatuses
      * @covers ::isTesting
+     *
+     * @param int  $status
+     * @param bool $expected
      */
-    public function testIsTesting($status, $expected)
+    public function testIsTesting(int $status, bool $expected)
     {
         $server = new Server();
 
@@ -41,7 +44,7 @@ class ServerTest extends TestCase
         $this->assertSame($expected, $server->isTesting());
     }
 
-    public function provideStatuses()
+    public function provideStatuses(): array
     {
         return $this->fixture('Server')['statuses'];
     }
@@ -49,8 +52,11 @@ class ServerTest extends TestCase
     /**
      * @dataProvider providePaths
      * @covers ::getCleanPathAttribute
+     *
+     * @param string $path
+     * @param string $expected
      */
-    public function testGetCleanPathAttribute($path, $expected)
+    public function testGetCleanPathAttribute(string $path, string $expected)
     {
         $server       = new Server();
         $server->path = $path;
@@ -59,7 +65,7 @@ class ServerTest extends TestCase
         $this->assertSame($expected, $server->getCleanPathAttribute());
     }
 
-    public function providePaths()
+    public function providePaths(): array
     {
         return $this->fixture('Server')['paths'];
     }

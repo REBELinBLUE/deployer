@@ -17,5 +17,4 @@ return [
     'project_details'      => '查看项目',
     'test_subject'         => '测试通知',
     'test_message'         => '这是一条用来测试通知是否正确设置的消息, 如果你可以看到，就表示已经设置成功!',
-    'test_hipchat_message' => '这是一条用来测试通知是否正确设置的消息, 如果你可以看到，就表示已经设置成功! (corpsethumb)',
 ];

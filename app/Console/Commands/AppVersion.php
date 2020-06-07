@@ -44,10 +44,8 @@ class AppVersion extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         $latest_release = $this->release->latest();
 
@@ -66,7 +64,7 @@ class AppVersion extends Command
      *
      * @return string
      */
-    private function updateBanner()
+    private function updateBanner(): string
     {
         $formatter = new FormatterHelper();
 

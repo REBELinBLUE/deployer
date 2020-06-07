@@ -32,7 +32,7 @@ class DeploymentTest extends TestCase
         $actual     = $deployment->user();
 
         $this->assertInstanceOf(BelongsTo::class, $actual);
-        $this->assertSame('user', $actual->getRelation());
+        $this->assertSame('user', $actual->getRelationName());
         $this->assertInstanceOf(User::class, $deployment->user);
     }
 
@@ -260,7 +260,11 @@ class DeploymentTest extends TestCase
         $this->assertSame($step->command->step, $command->step);
     }
 
-    private function generateAdditionalDeployments(Project $project, $total = 5)
+    /**
+     * @param Project $project
+     * @param int     $total
+     */
+    private function generateAdditionalDeployments(Project $project, int $total = 5)
     {
         factory(Deployment::class, $total)->create([
             'status'     => Deployment::COMPLETED,

@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Tests\Unit\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\OutputStyle;
 use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Foundation\Application;
 use Mockery as m;
@@ -24,7 +25,7 @@ class ResetAppTest extends TestCase
     private $filesystem;
     private $console;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -53,8 +54,8 @@ class ResetAppTest extends TestCase
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertContains('not in development mode', $output);
-        $this->assertContains('wipe your database', $output);
+        $this->assertStringContainsString('not in development mode', $output);
+        $this->assertStringContainsString('wipe your database', $output);
         $this->assertSame(-1, $tester->getStatusCode());
     }
 
@@ -115,13 +116,13 @@ class ResetAppTest extends TestCase
         $tester = $this->runCommand();
         $output = $tester->getDisplay();
 
-        $this->assertContains('Removing log files', $output);
-        $this->assertContains('Restarting the queue', $output);
-        $this->assertContains('Restarting the socket server', $output);
+        $this->assertStringContainsString('Removing log files', $output);
+        $this->assertStringContainsString('Restarting the queue', $output);
+        $this->assertStringContainsString('Restarting the socket server', $output);
         $this->assertSame(0, $tester->getStatusCode());
     }
 
-    private function runCommand(array $inputs = [])
+    private function runCommand(array $inputs = []): CommandTester
     {
         $command = new ResetApp($this->filesystem);
 
@@ -129,6 +130,11 @@ class ResetAppTest extends TestCase
         $command->setApplication($this->console);
 
         $tester = new CommandTester($command);
+
+        $this->app->bind(OutputStyle::class, function () use ($tester) {
+            return new OutputStyle($tester->getInput(), $tester->getOutput());
+        });
+
         $tester->setInputs($inputs);
         $tester->execute([
             'command' => 'app:reset',

@@ -1,16 +1,16 @@
 fixture:
   statuses: # All the possible deployment statuses
-    - !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED
-    - !php/const:REBELinBLUE\Deployer\Deployment::PENDING
-    - !php/const:REBELinBLUE\Deployer\Deployment::DEPLOYING
-    - !php/const:REBELinBLUE\Deployer\Deployment::FAILED
-    - !php/const:REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
-    - !php/const:REBELinBLUE\Deployer\Deployment::ABORTED
-    - !php/const:REBELinBLUE\Deployer\Deployment::ABORTING
+    - !php/const REBELinBLUE\Deployer\Deployment::COMPLETED
+    - !php/const REBELinBLUE\Deployer\Deployment::PENDING
+    - !php/const REBELinBLUE\Deployer\Deployment::DEPLOYING
+    - !php/const REBELinBLUE\Deployer\Deployment::FAILED
+    - !php/const REBELinBLUE\Deployer\Deployment::COMPLETED_WITH_ERRORS
+    - !php/const REBELinBLUE\Deployer\Deployment::ABORTED
+    - !php/const REBELinBLUE\Deployer\Deployment::ABORTING
   short_commits: # Examples of how commit hashes are expected to be converted to short commit hashes
     -
-      commit: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
-      expected: !php/const:REBELinBLUE\Deployer\Deployment::LOADING
+      commit: !php/const REBELinBLUE\Deployer\Deployment::LOADING
+      expected: !php/const REBELinBLUE\Deployer\Deployment::LOADING
     -
       commit: 4caa57ae1957062de2aae3b2545802a1033c661f
       expected: 4caa57a
@@ -50,13 +50,17 @@ fixture:
       expected: http://www.bitbucket.com/REBELinBLUE/deployer/commits/ba28ad94ef336df46b4f16ba33c7bbcb9f3a895e
   empty_access_details: # Data for empty access details
     -
-      domain: null
-      reference: null
+      -
+        domain: ~
+        reference: ~
     -
-      domain: null
-      reference: blah
+      -
+        domain: ~
+        reference: blah
     -
-      domain: blah
-      reference: null
+      -
+        domain: blah
+        reference: ~
     -
-      foo: bar
+      -
+        foo: bar

@@ -7,7 +7,7 @@ use REBELinBLUE\Deployer\Tests\TestCase;
 
 abstract class WebhookTestCase extends TestCase
 {
-    public function provideBranch()
+    public function provideBranch(): array
     {
         return $this->fixture('Services/Webhooks/Webhook');
     }
@@ -24,9 +24,17 @@ abstract class WebhookTestCase extends TestCase
      * @param string $name
      * @param string $email
      */
-    protected function assertWebhookDataIsValid($actual, $branch, $source, $reason, $url, $commit, $name, $email)
-    {
-        $this->assertInternalType('array', $actual);
+    protected function assertWebhookDataIsValid(
+        $actual,
+        string $branch,
+        string $source,
+        string $reason,
+        string $url,
+        string $commit,
+        string $name,
+        string $email
+    ): void {
+        $this->assertIsArray($actual);
 
         $this->assertArrayHasKey('reason', $actual);
         $this->assertArrayHasKey('branch', $actual);
@@ -46,7 +54,7 @@ abstract class WebhookTestCase extends TestCase
     }
 
     // FIXME: Why is this needed? Refactor this mess
-    protected function createRequestWithServiceHeader($key, $isValid)
+    protected function createRequestWithServiceHeader(string $key, bool $isValid): Request
     {
         $headers = [
             'REQUEST_METHOD' => 'POST',
@@ -61,7 +69,7 @@ abstract class WebhookTestCase extends TestCase
         return new Request([], [], [], [], [], $headers);
     }
 
-    protected function createEventRequest($key, $value)
+    protected function createEventRequest(string $key, string $value): Request
     {
         $header = $this->headerToServerVar($key);
 
@@ -74,7 +82,7 @@ abstract class WebhookTestCase extends TestCase
         return new Request([], [], [], [], [], $headers);
     }
 
-    protected function createRequestWithPayload($key, $value, array $data)
+    protected function createRequestWithPayload(string $key, string $value, array $data): Request
     {
         $header = $this->headerToServerVar($key);
 
@@ -87,7 +95,7 @@ abstract class WebhookTestCase extends TestCase
         return new Request([], [], [], [], [], $headers, json_encode($data));
     }
 
-    private function headerToServerVar($key)
+    private function headerToServerVar(string $key): string
     {
         return 'HTTP_' . str_replace('-', '_', strtoupper($key));
     }

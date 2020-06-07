@@ -12,12 +12,12 @@ class StoreUserRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users,email',
-            'password' => 'required|confirmed|min:6|zxcvbn:3,name,email',
+            'password' => 'required|confirmed|min:8|zxcvbn:3,name,email',
         ];
 
         // On edit change the password validator
@@ -25,7 +25,7 @@ class StoreUserRequest extends Request
             $rules['email'] .= ',' . $this->route('user');
 
             if (!empty($this->get('password', null))) {
-                $rules['password'] = 'min:6';
+                $rules['password'] = 'min:8';
             } else {
                 unset($rules['password']);
             }

@@ -37,7 +37,7 @@ class QueueUpdateGitMirror extends Job implements ShouldQueue
     /**
      * Handles the job.
      */
-    public function handle()
+    public function handle(): void
     {
         $this->dispatch(new UpdateGitMirror($this->project));
     }

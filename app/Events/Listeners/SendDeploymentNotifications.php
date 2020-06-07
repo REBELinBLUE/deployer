@@ -30,7 +30,7 @@ class SendDeploymentNotifications
      *
      * @param DeploymentFinished $event
      */
-    public function handle(DeploymentFinished $event)
+    public function handle(DeploymentFinished $event): void
     {
         $project    = $event->deployment->project;
         $deployment = $event->deployment;

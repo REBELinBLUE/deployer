@@ -15,7 +15,7 @@ trait RuntimePresenter
      * @throws RuntimeException
      * @return string
      */
-    public function presentReadableRuntime()
+    public function presentReadableRuntime(): string
     {
         if (!$this->getWrappedObject() instanceof RuntimeInterface) {
             throw new RuntimeException(
@@ -37,7 +37,7 @@ trait RuntimePresenter
 
         // If the runtime is more than 3 hours show a simple message
         if ($seconds >= $units['hour'] * 3) {
-            return $this->translator->trans('deployments.very_long_time');
+            return $this->translator->get('deployments.very_long_time');
         }
 
         $readable = '';

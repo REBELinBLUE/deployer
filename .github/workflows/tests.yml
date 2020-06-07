@@ -1,0 +1,286 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  unit:
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/database.sqlite
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+      matrix:
+        php: ['7.2', '7.3', '7.4']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.1.4
+        with:
+          php-version: ${{ matrix.php }}
+          extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
+          coverage: none
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy .env
+        run: |
+          cp tests/env .env
+          touch database/database.sqlite
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Dependency Cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-suggest --ignore-platform-reqs
+
+      - name: Directory Permissions
+        run: make permissions
+
+      - name: Run Unit Tests
+        run: composer test:unit
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@master
+        if: ${{ failure() }}
+        with:
+          name: Logs
+          path: ./storage/logs
+
+  integration:
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+      matrix:
+        php: ['7.2', '7.3', '7.4']
+        db: ['sqlite', 'mysql', 'pgsql', 'maria']
+
+    services:
+      maria:
+        image: mariadb:10.3
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_USER: deployer
+          MYSQL_PASSWORD: deployer
+          MYSQL_DATABASE: deployer
+        ports:
+          - 23306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      postgres:
+        image: postgres:9.5
+        env:
+          POSTGRES_USER: deployer
+          POSTGRES_PASSWORD: deployer
+          POSTGRES_DB: deployer
+        ports:
+          - 15432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_USER: deployer
+          MYSQL_PASSWORD: deployer
+          MYSQL_DATABASE: deployer
+        ports:
+          - 13306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.1.4
+        with:
+          php-version: ${{ matrix.php }}
+          extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
+          coverage: none
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy .env
+        run: cp tests/env .env
+
+      - name: Add MySQL settings to .env
+        if: ${{ matrix.db  == 'mysql' }}
+        run: |
+            {
+              echo "DB_CONNECTION=mysql"
+              echo "DB_USERNAME=deployer"
+              echo "DB_PASSWORD=deployer"
+              echo "DB_DATABASE=deployer"
+              echo "DB_PORT=13306"
+              echo "DB_HOST=127.0.0.1"
+            } >> .env
+
+      - name: Add Maria settings to .env
+        if: ${{ matrix.db  == 'maria' }}
+        run: |
+          {
+            echo "DB_CONNECTION=mysql"
+            echo "DB_USERNAME=deployer"
+            echo "DB_PASSWORD=deployer"
+            echo "DB_DATABASE=deployer"
+            echo "DB_PORT=23306"
+            echo "DB_HOST=127.0.0.1"
+          } >> .env
+
+      - name: Add PostgreSQL settings to .env
+        if: ${{ matrix.db  == 'pgsql' }}
+        run: |
+          {
+            echo "DB_CONNECTION=pgsql"
+            echo "DB_USERNAME=deployer"
+            echo "DB_PASSWORD=deployer"
+            echo "DB_DATABASE=deployer"
+            echo "DB_PORT=15432"
+            echo "DB_HOST=127.0.0.1"
+          } >> .env
+
+      - name: Add SQLite settings to .env
+        if: ${{  matrix.db  == 'sqlite' }}
+        run: |
+          echo "DB_CONNECTION=sqlite" >> .env
+          touch database/database.sqlite
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Dependency Cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-suggest --ignore-platform-reqs
+
+      - name: Directory Permissions
+        run: make permissions
+
+      - name: Run Migrations
+        run: php artisan migrate
+
+      - name: Seed DB
+        run: php artisan db:seed
+
+      - name: Rollback Migrations
+        run: php artisan migrate:rollback
+
+      - name: Run Integration Tests
+        run: composer test:integration
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@master
+        if: ${{ failure() }}
+        with:
+          name: Logs
+          path: ./storage/logs
+
+  coverage:
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/database.sqlite
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.1.4
+        with:
+          php-version: 7.2
+          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
+          coverage: pcov
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy .env
+        run: |
+          cp tests/env .env
+          touch database/database.sqlite
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Dependency Cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-suggest --ignore-platform-reqs
+
+      - name: Directory Permissions
+        run: make permissions
+
+      - name: Run Tests with Coverage
+        run: |
+          composer require phpunit/phpcov=~6.0 --dev
+
+          php vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov --testsuite "Unit Tests"
+          php vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov --testsuite "Integration Tests"
+
+          php vendor/bin/phpcov merge storage/app/tmp/ --html storage/app/tmp/coverage/ --clover clover.xml
+
+          rm -f storage/app/tmp/*.cov
+
+      - name: Upload Coverage Report
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@master
+        if: ${{ failure() }}
+        with:
+          name: Logs
+          path: ./storage/logs

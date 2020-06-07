@@ -11,7 +11,7 @@ use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
  */
 class ClearOldKeys extends Command
 {
-    const KEEP_FILES_FOR_HOURS = 12;
+    private const KEEP_FILES_FOR_HOURS = 12;
 
     /**
      * The name and signature of the console command.
@@ -46,10 +46,8 @@ class ClearOldKeys extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         $tmp_dir = storage_path('app/tmp');
 

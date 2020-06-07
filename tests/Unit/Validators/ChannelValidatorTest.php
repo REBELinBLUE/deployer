@@ -13,8 +13,11 @@ class ChannelValidatorTest extends TestCase
     /**
      * @dataProvider validationDataProvider
      * @covers ::validate
+     *
+     * @param string|null $value
+     * @param bool        $valid
      */
-    public function testValidate($value, $valid)
+    public function testValidate(?string $value, bool $valid)
     {
         $validator = new ChannelValidator();
 
@@ -27,7 +30,7 @@ class ChannelValidatorTest extends TestCase
         }
     }
 
-    public function validationDataProvider()
+    public function validationDataProvider(): array
     {
         return $this->fixture('Validators/ChannelValidator');
     }
