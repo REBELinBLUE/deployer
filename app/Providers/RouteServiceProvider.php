@@ -52,9 +52,6 @@ class RouteServiceProvider extends ServiceProvider
 
         // Admin routes
         $this->middleware(['web', 'auth', 'jwt'])->namespace($this->namespace)->group(base_path('routes/admin.php'));
-
-        // Packages
-        $this->middleware(['web', 'auth', 'jwt'])->group(base_path('routes/packages.php'));
     }
 
     /**

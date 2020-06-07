@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "953b36fb8299daef1eb38250497d7dff",
+    "content-hash": "9c587aba3a3251171832e17b3515e698",
     "packages": [
         {
             "name": "andywer/js-localization",
@@ -3117,64 +3117,6 @@
                 }
             ],
             "time": "2020-04-12T22:20:24+00:00"
-        },
-        {
-            "name": "melihovv/laravel-log-viewer",
-            "version": "6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/melihovv/laravel-log-viewer.git",
-                "reference": "d03e33b7121b9b574a0170a79115f98491f5867b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/melihovv/laravel-log-viewer/zipball/d03e33b7121b9b574a0170a79115f98491f5867b",
-                "reference": "d03e33b7121b9b574a0170a79115f98491f5867b",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/filesystem": "^6.0",
-                "illuminate/support": "^6.0",
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^4.0",
-                "phpunit/phpunit": "^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Melihovv\\LaravelLogViewer\\LaravelLogViewerServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Melihovv\\LaravelLogViewer\\": "src/LaravelLogViewer"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander Melihov",
-                    "email": "amelihovv@ya.ru"
-                }
-            ],
-            "description": "A Laravel log viewer",
-            "keywords": [
-                "laravel",
-                "log",
-                "log-reader",
-                "log-viewer",
-                "logging",
-                "lumen"
-            ],
-            "time": "2019-09-07T22:48:30+00:00"
         },
         {
             "name": "michele-angioni/multi-language",

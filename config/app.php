@@ -174,7 +174,6 @@ return [
         // Laracademy\Commands\MakeServiceProvider::class,
         // Laravel\Tinker\TinkerServiceProvider::class,
         // McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
-        // Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider::class,
         MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider::class,
         // NotificationChannels\Twilio\TwilioProvider::class,
