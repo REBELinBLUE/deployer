@@ -24,7 +24,7 @@ ifndef COMPOSER
 endif
 
 permissions: ##@production Fix permissions
-	chmod 777 storage/logs/ bootstrap/cache/ storage/clockwork/
+	chmod 777 storage/logs/ bootstrap/cache/
 	chmod 777 storage/framework/cache/ storage/framework/sessions/ storage/framework/views/
 	chmod 777 storage/app/mirrors/ storage/app/tmp/ storage/app/public/
 
