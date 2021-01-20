@@ -5,7 +5,7 @@
     "dotenv": "^8.2.0",
     "ioredis": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "scripts": {
     "start": "node socket.js",
