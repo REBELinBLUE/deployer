@@ -6,12 +6,6 @@ The "deployer" team and community take all security bugs in "deployer" seriously
 
 Report security bugs by emailing the lead maintainer at github@stephen.rebelinblue.com and include the word "SECURITY" in the subject line.
 
-The maintainer will acknowledge your email within a week, and will send a more detailed response as soon as possible after that indicating the next steps in handling your report. After the initial reply to your report, the maintainer will endeavor to keep you informed of the progress towards a fix and full announcement, and may ask for additional information or guidance.
-
-- "deployer" will confirm the problem and determine the affected versions.
-- "deployer" will audit code to find any potential similar problems.
-- "deployer" will prepare fixes. These fixes will be released as fast as possible.
-
 Report security bugs in third-party modules to the person or team maintaining the module.
 
 **SECURITY DISCLOSURE**:
