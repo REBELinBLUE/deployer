@@ -1,4 +1,4 @@
-<div class="col-md-6" id="commands-{{ strtolower($step) }}">
+<div class="col-md-6" id="commands-{{ strtolower($step) }}_list">
     <div class="box box-default">
         <div class="box-header with-border">
             <h3 class="box-title"><i class="fa fa-code"></i> {{ trans('commands.title', ['step' => $step]) }}</h3>
