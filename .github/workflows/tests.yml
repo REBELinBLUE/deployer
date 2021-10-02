@@ -14,20 +14,24 @@ jobs:
       max-parallel: 15
       fail-fast: false
       matrix:
-        php: ['7.2', '7.3', '7.4']
+        php: ['7.2', '7.3', '7.4', '8.0']
 
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@2.1.4
+        uses: shivammathur/setup-php@2.15.0
         with:
           php-version: ${{ matrix.php }}
-          extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
+          tools: composer:v1
+          extensions: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
           coverage: none
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove hhvm
+        run: sudo apt-get remove --auto-remove hhvm
 
       - name: Copy .env
         run: |
@@ -122,13 +126,17 @@ jobs:
         uses: actions/checkout@master
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@2.1.4
+        uses: shivammathur/setup-php@2.15.0
         with:
           php-version: ${{ matrix.php }}
-          extension-csv: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
+          tools: composer:v1
+          extensions: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
           coverage: none
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove hhvm
+        run: sudo apt-get remove --auto-remove hhvm
 
       - name: Copy .env
         run: cp tests/env .env
@@ -170,7 +178,7 @@ jobs:
           } >> .env
 
       - name: Add SQLite settings to .env
-        if: ${{  matrix.db  == 'sqlite' }}
+        if: ${{ matrix.db  == 'sqlite' }}
         run: |
           echo "DB_CONNECTION=sqlite" >> .env
           touch database/database.sqlite
@@ -212,75 +220,77 @@ jobs:
           name: Logs
           path: ./storage/logs
 
-  coverage:
-    env:
-      DB_CONNECTION: sqlite
-      DB_DATABASE: database/database.sqlite
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      max-parallel: 15
-      fail-fast: false
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@2.1.4
-        with:
-          php-version: 7.2
-          extension-csv: mbstring, xdebug, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
-          coverage: pcov
-        env:
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Copy .env
-        run: |
-          cp tests/env .env
-          touch database/database.sqlite
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Setup problem matchers for PHPUnit
-        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-      - name: Dependency Cache
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --no-suggest
-
-      - name: Directory Permissions
-        run: make permissions
-
-      - name: Run Tests with Coverage
-        run: |
-          composer require phpunit/phpcov=~6.0 --dev
-
-          php vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov --testsuite "Unit Tests"
-          php vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov --testsuite "Integration Tests"
-
-          php vendor/bin/phpcov merge storage/app/tmp/ --html storage/app/tmp/coverage/ --clover clover.xml
-
-          rm -f storage/app/tmp/*.cov
-
-      - name: Upload Coverage Report
-        uses: codecov/codecov-action@v1
-        with:
-          fail_ci_if_error: true
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@master
-        if: ${{ failure() }}
-        with:
-          name: Logs
-          path: ./storage/logs
+#  coverage:
+#    env:
+#      DB_CONNECTION: sqlite
+#      DB_DATABASE: database/database.sqlite
+#
+#    runs-on: ubuntu-latest
+#
+#    strategy:
+#      max-parallel: 15
+#      fail-fast: false
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@master
+#
+#      - name: Setup PHP
+#        uses: shivammathur/setup-php@2.15.0
+#        with:
+#          php-version: 7.2
+#          tools: composer:v1
+#          extensions: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
+#          coverage: none
+#        env:
+#          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Remove hhvm
+#        run: sudo apt-get remove --auto-remove hhvm
+#
+#      - name: Copy .env
+#        run: |
+#          cp tests/env .env
+#          touch database/database.sqlite
+#
+#      - name: Get Composer Cache Directory
+#        id: composer-cache
+#        run: |
+#          echo "::set-output name=dir::$(composer config cache-files-dir)"
+#
+#      - name: Setup problem matchers for PHPUnit
+#        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+#
+#      - name: Dependency Cache
+#        uses: actions/cache@v1
+#        with:
+#          path: ${{ steps.composer-cache.outputs.dir }}
+#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+#          restore-keys: ${{ runner.os }}-composer-
+#
+#      - name: Install Dependencies
+#        run: composer install --no-interaction --prefer-dist --no-suggest
+#
+#      - name: Directory Permissions
+#        run: make permissions
+#
+#      - name: Run Tests with Coverage
+#        run: |
+#          php --version
+#          composer require phpunit/phpcov=~6.0 --dev
+#          php vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov --testsuite "Unit Tests"
+#          php vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov --testsuite "Integration Tests"
+#          php vendor/bin/phpcov merge storage/app/tmp/ --html storage/app/tmp/coverage/ --clover clover.xml
+#          rm -f storage/app/tmp/*.cov
+#
+#      - name: Upload Coverage Report
+#        uses: codecov/codecov-action@v1
+#        with:
+#          fail_ci_if_error: true
+#
+#      - name: Upload Artifacts
+#        uses: actions/upload-artifact@master
+#        if: ${{ failure() }}
+#        with:
+#          name: Logs
+#          path: ./storage/logs

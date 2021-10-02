@@ -15,11 +15,16 @@ jobs:
         uses: actions/checkout@master
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@2.1.4
+        uses: shivammathur/setup-php@2.15.0
         with:
-          php-version: 7.2x
+          php-version: 7.2
+          tools: composer:v1
+          extensions: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove hhvm
+        run: sudo apt-get remove --auto-remove hhvm
 
       - name: Lint composer.json
         run: composer validate
