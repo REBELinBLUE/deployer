@@ -1,0 +1,54 @@
+name: Quality Checks
+
+on: [push, pull_request]
+
+jobs:
+  quality:
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/database.sqlite
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.1.4
+        with:
+          php-version: 7.2x
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lint composer.json
+        run: composer validate
+
+      - name: Copy .env
+        run: |
+          cp tests/env .env
+          touch database/database.sqlite
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Dependency Cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-suggest
+
+      - name: Lint
+        run: composer test:lint
+
+      - name: Check Code Styles
+        run: composer test:phpcs
+
+#      - name: Run PHPMD
+#        run: composer test:phpmd

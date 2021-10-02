@@ -1,11 +1,10 @@
-FROM node:alpine
+FROM node:12.16.3-alpine
 
-RUN \
-    echo -e 'http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community\nhttp://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories \
-    && apk add --upgrade apk-tools \
-    && apk --no-cache --update add g++ supervisor make \
-    && mkdir -p /etc/supervisor/conf.d \
-    && mkdir /var/log/supervisor \
-    && rm -rf /var/cache/apk/*
+WORKDIR /application
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+ENV HOME=/application
+ENV NODE_ENV=production
+
+EXPOSE 6001
+
+CMD ["node", "socket.js"]

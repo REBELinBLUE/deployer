@@ -24,6 +24,8 @@ node_modules/
 vendor/
 tmp/
 npm-debug.log
+.config/
+.npm/
 
 # Include laravel vendor resources
 !*/**/vendor/

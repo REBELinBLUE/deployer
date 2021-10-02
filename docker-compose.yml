@@ -2,107 +2,86 @@ version: "3.1"
 
 services:
   node:
-    build:
-      context: .
-      dockerfile: docker/node/Dockerfile
-    container_name: deployer-node
-    image: rebelinblue/deployer-node:latest
-    working_dir: /application
+    build: docker/node
     volumes:
       - .:/application
-      - ./docker/node/supervisord.conf:/etc/supervisor/supervisord.conf
     ports:
       - "6001:6001"
     links:
       - redis
 
   beanstalkd:
-    image: schickling/beanstalkd
-    container_name: deployer-beanstalkd
-
-  mailhog:
-    image: phpdockerio/mailhog:latest
-    container_name: deployer-mailhog
-    ports:
-      - "8001:8025"
+    build: docker/beanstalkd
 
   redis:
-    image: phpdockerio/redis:latest
-    container_name: deployer-redis
+    image: redis:6.0.1-alpine
 
   mysql:
     image: mysql:5.7
-    container_name: deployer-mysql
-    working_dir: /application
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=deployer
-      - MYSQL_USER=deployer
-      - MYSQL_PASSWORD=secret
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: deployer
+      MYSQL_USER: deployer
+      MYSQL_PASSWORD: secret
     volumes:
       - data:/var/lib/mysql
 
   nginx:
-    image: phpdockerio/nginx:latest
-    container_name: deployer-nginx
-    working_dir: /application
+    build: docker/nginx
     volumes:
       - .:/application
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "8000:80"
     links:
-      - php-fpm
+      - php
       - node
 
-  worker:
-    build:
-      context: .
-      dockerfile: docker/worker/Dockerfile
-    container_name: deployer-worker
-    image: rebelinblue/deployer-worker:latest
+  queue:
+    build: docker/artisan
+    command: php artisan queue:work --queue=deployer-high,deployer-low --sleep=3 --tries=1
     volumes:
       - .:/application
-      - ./docker/worker/supervisord.conf:/etc/supervisord.conf
+      - ./docker/php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+    links:
+      - beanstalkd
+      - mysql
+      - redis
+
+  broadcast:
+    build: docker/artisan
+    command: php artisan queue:work --queue=deployer-default --sleep=3 --tries=1
+    volumes:
+      - .:/application
+      - ./docker/php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
     links:
       - beanstalkd
       - mysql
       - redis
 
   composer:
-    build:
-      context: .
-      dockerfile: docker/composer/Dockerfile
+    build: docker/composer
     environment:
       COMPOSER_ALLOW_SUPERUSER: 1
-    image: composer:latest
-    container_name: deployer-composer
     volumes:
       - .:/application
     links:
       - mysql
 
-  php-fpm:
-    build:
-      context: .
-      dockerfile: docker/php-fpm/Dockerfile
-    environment:
-      PHP_IDE_CONFIG: "serverName=deployer"
-      COMPOSER_ALLOW_SUPERUSER: 1
-    container_name: deployer-php-fpm
-    image: rebelinblue/deployer-php-fpm:latest
-    working_dir: /application
+  php:
+    build: docker/php
     volumes:
       - .:/application
-      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
+      - ./docker/php/php-fpm.conf:/usr/local/etc/php-fpm.d/php-fpm.conf
+      - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
     links:
       - beanstalkd
-      - mailhog
       - mysql
       - redis
 
 volumes:
   data:
-    driver: "local"
+    driver: local

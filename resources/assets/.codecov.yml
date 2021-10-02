@@ -1,0 +1,22 @@
+codecov:
+  notify:
+    require_ci_to_pass: true
+
+comment:
+  behavior: default
+  layout: header, diff
+  require_changes: false
+
+coverage:
+  precision: 2
+  range:
+    - 50.0
+    - 80.0
+  round: down
+  status:
+    changes: false
+    patch: true
+    project: true
+  parsers:
+    javascript:
+      enable_partials: yes

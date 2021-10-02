@@ -1,8 +1,68 @@
 version: "3.1"
 
 services:
-  php-fpm:
+  php:
     environment:
+      PHP_IDE_CONFIG: serverName=deployer
       XDEBUG_CONFIG: remote_host=host.docker.internal
+      APP_ENV: local
+      APP_DEBUG: 'true'
     volumes:
       - "./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/98-xdebug.ini"
+    links:
+      - mailhog
+
+  queue:
+    environment:
+      PHP_IDE_CONFIG: serverName=deployer
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+      APP_ENV: local
+      APP_DEBUG: 'true'
+
+  broadcast:
+    environment:
+      PHP_IDE_CONFIG: serverName=deployer
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+      APP_ENV: local
+      APP_DEBUG: 'true'
+
+  node:
+    environment:
+      APP_ENV: local
+      APP_DEBUG: 'true'
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "8001:8025"
+
+  # Designed to emulate a real server.
+  #
+  # Obviously you wouldn't use deployer to deploy to docker containers
+  # in a production environment as it defeats the point of using containers.
+  # Saves us from having to run VirtualBox and Vagrant to run a heavy VM
+  web.dev:
+    build:
+      context: docker/dev
+      dockerfile: web.Dockerfile
+    volumes:
+      - cache:/home/deploy/.composer
+      - webapp:/var/www
+
+  cron.dev:
+    build:
+      context: docker/dev
+      dockerfile: web.Dockerfile
+    volumes:
+      - cache:/home/deploy/.composer
+      - cronapp:/var/www
+
+  db.dev:
+    build:
+      context: docker/dev
+      dockerfile: db.Dockerfile
+
+volumes:
+  cache:
+  cronapp:
+  webapp:

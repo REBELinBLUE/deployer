@@ -1,0 +1,23 @@
+os: linux
+dist: xenial
+
+language: node_js
+
+cache:
+  directories:
+    - $TRAVIS_BUILD_DIR/node_modules
+
+before_install:
+  # - npm install -g npm-check
+
+install:
+  - travis_retry npm install
+
+script:
+  - npm run lint
+  - npm run test:coverage
+  - npm run production
+  # - npm-check
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

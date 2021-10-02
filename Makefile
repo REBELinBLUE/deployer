@@ -8,151 +8,115 @@ YELLOW   := $(shell tput -Txterm setaf 3)
 RESET    := $(shell tput -Txterm sgr0)
 COMPOSER := $(shell command -v composer 2> /dev/null)
 
-ifndef COMPOSER_CACHE_DIR
-COMPOSER_CACHE_DIR := ~/.composer/cache
+# COMPOSER_HOME & COMPOSER_CACHE_DIR are environment variables which can be used to
+# override the home and cache dir so if it isn't set then set it to the default
+ifndef COMPOSER_HOME
+COMPOSER_HOME := ~/.composer
 endif
 
-composer: ##@production Install composer locally
-ifndef COMPOSER
-	curl --silent https://getcomposer.org/installer | php -- --quiet
+ifndef COMPOSER_CACHE_DIR
+COMPOSER_CACHE_DIR := $(COMPOSER_HOME)/cache
 endif
 
 permissions: ##@production Fix permissions
-	chmod 777 storage/logs/ bootstrap/cache/ storage/clockwork/
+	chmod 777 storage/logs/ bootstrap/cache/
 	chmod 777 storage/framework/cache/ storage/framework/sessions/ storage/framework/views/
 	chmod 777 storage/app/mirrors/ storage/app/tmp/ storage/app/public/
 
-migrate: ##@production Migrate the database
-	@echo "${GREEN}Migrate the database${RESET}"
-	@php artisan migrate
+install: permissions ##@production Install dependencies
+	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest
+	@docker-compose run --rm node npm install --production
 
-install: composer ##@production Install dependencies
-	@$(MAKE) permissions
-ifndef COMPOSER
-	php composer.phar install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest
-else
-	composer install --optimize-autoloader --no-dev  --prefer-dist --no-interaction --no-suggest
-endif
-	npm install --production
-
-install-dev: ##@development Install dev dependencies
-	@$(MAKE) permissions
-	@$(MAKE) docker-install-dev
+install-dev: permissions ##@development Install dev dependencies
+	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest
+	@docker-compose run --rm node npm install
 
 update-deps: ##@development Update dependencies
-	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer update --no-interaction --no-suggest --prefer-dist --no-suggest
-	@docker-compose exec node npm upgrade
+	@docker-compose run -v $(COMPOSER_HOME)/auth.json:/root/composer/auth.json -v $(COMPOSER_CACHE_DIR):/root/composer/cache --rm composer update --no-interaction --no-suggest --prefer-dist --no-suggest
+	@docker-compose run -rm node npm upgrade
 
-clean: ##@development Clean cache, logs and other temporary files
-	@$(MAKE) stop
+clean: stop ##@development Clean cache, logs and other temporary files
 	rm -rf storage/logs/*.log bootstrap/cache/*.php storage/framework/schedule-* storage/clockwork/*.json
 	rm -rf storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*.php
 	rm -rf database/backups/*.gz
 
-rollback: ##@development Rollback the previous database migration
-	@echo "${GREEN}Rollback the database${RESET}"
-	@docker-compose exec php-fpm php artisan migrate:rollback
+migrate: ##@database Runs the database migrations
+	@echo "${GREEN}Migrate the database${RESET}"
+	@docker-compose exec php ./artisan migrate --force
 
-seed: #@development Seed the database
+rollback: ##@database Rollback the previous database migration
+	@echo "${GREEN}Rollback the database${RESET}"
+	@docker-compose exec php ./artisan migrate:rollback
+
+seed: ##@database Seed the database
 	@echo "${GREEN}Seed the database${RESET}"
-	@docker-compose exec php-fpm php artisan db:seed
+	@docker-compose exec php ./artisan migrate:fresh --seed
 
 lint: ##@tests PHP Parallel Lint
 	@echo "${GREEN}PHP Parallel Lint${RESET}"
 	@rm -rf bootstrap/cache/*.php
-	@docker-compose exec php-fpm composer test:lint
+	@docker-compose run --no-deps --rm composer test:lint
 
 lines: ##@tests PHP Lines of Code
 	@echo "${GREEN}Lines of Code Statistics${RESET}"
-	@docker-compose exec php-fpm composer test:loc
+	@docker-compose run --no-deps --rm composer test:loc
 
 phpcs: ##@tests PHP Coding Standards (PSR-2)
 	@echo "${GREEN}PHP Code Sniffer${RESET}"
-	@docker-compose exec php-fpm composer test:phpcs
+	@docker-compose run --no-deps --rm composer test:phpcs
 
 fix: ##@tests PHP Coding Standards Fixer
-	@docker-compose exec php-fpm composer test:phpcs:fix
-
-phpdoc-check: ##@tests PHPDoc Checker
-	@docker-compose exec php-fpm composer test:phpdoc
+	@docker-compose run --no-deps --rm composer test:phpcs:fix
 
 phpmd: ##@tests PHP Mess Detector
 	@echo "${GREEN}PHP Mess Detector${RESET}"
-	@if [ -f phpmd.xml ]; then docker-compose exec php-fpm php vendor/bin/phpmd app text phpmd.xml; fi
-	@if [ ! -f phpmd.xml ]; then docker-compose exec php-fpm composer test:phpmd; fi
-
-phpcpd: ##@tests PHP Copy/Paste Detector
-	@echo "${GREEN}PHP Copy/Paste Detector${RESET}"
-	@docker-compose exec php-fpm composer test:phpcpd
-
-#dusk: ##@tests Dusk Browser Tests
-#	@echo "${GREEN}Dusk${RESET}"
-#	@php artisan dusk
+	@if [ -f phpmd.xml ]; then docker-compose run --no-deps --rm composer vendor/bin/phpmd app text phpmd.xml; fi
+	@if [ ! -f phpmd.xml ]; then docker-compose run --no-deps --rm composer test:phpmd; fi
 
 coverage: ##@tests Test Coverage HTML
 	@echo "${GREEN}All tests with coverage${RESET}"
-	@docker-compose exec php-fpm phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
-			--testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml --exclude-group slow
-	@docker-compose exec php-fpm phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
-			--testsuite "Unit Tests" --log-junit=storage/app/tmp/slow.junit.xml --exclude-group default
-	@docker-compose exec php-fpm phpdbg -qrr vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
-			--log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
-	@docker-compose exec php-fpm phpdbg -qrr vendor/bin/phpcov merge storage/app/tmp/ \
-			--html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
-	@docker-compose exec php-fpm php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ storage/app/tmp/junit.xml
+	@docker-compose exec php vendor/bin/phpunit --coverage-php=storage/app/tmp/unit.cov --testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml --exclude-group slow
+	@docker-compose exec php vendor/bin/phpunit --coverage-php=storage/app/tmp/slow.cov --testsuite "Unit Tests" --log-junit=storage/app/tmp/slow.junit.xml --exclude-group default
+	@docker-compose exec php vendor/bin/phpunit --coverage-php=storage/app/tmp/integration.cov --log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
+	@docker-compose exec php vendor/bin/phpcov merge storage/app/tmp/ --html storage/app/tmp/coverage/ --clover storage/app/tmp/coverage.xml
+	@docker-compose exec php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ storage/app/tmp/junit.xml
 	@rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
 
 phpunit: ##@tests Unit Tests
 	@echo "${GREEN}Unit tests${RESET}"
-	@docker-compose exec php-fpm composer test:unit
+	@docker-compose run --no-deps --rm composer test:unit
 
 integration: ##@tests Integration Tests
 	@echo "${GREEN}Integration tests${RESET}"
-	@docker-compose exec php-fpm composer test:integration
+	@docker-compose run --rm composer test:integration
 
-quicktest: ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests, integration & dusk tests
-	@$(MAKE) lint
-	@$(MAKE) phpcs
-	@$(MAKE) phpdoc-check
-	@$(MAKE) phpcpd
+quicktest: lint phpcs ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests & integration tests
 
-test: ##@shortcuts Runs most tests; but excludes integration & dusk tests
-	@$(MAKE) quicktest
-	@$(MAKE) phpunit
-	@$(MAKE) phpmd
+test: lint phpcs phpunit phpmd ##@shortcuts Runs most tests; but excludes integration tests
 
-fulltest: ##@shortcuts Runs all tests
-	@$(MAKE) quicktest
-	@$(MAKE) phpunit
-	@$(MAKE) integration
-	@$(MAKE) phpmd
-	#@$(MAKE) dusk
+fulltest: lint phpcs phpunit integration phpmd ##@shortcuts Runs all tests
 
 run: ##@docker Runs the containers
-	@docker-compose up -d
+	@docker-compose up -d --remove-orphans
+
+dev: ##@docker Runs the containers with dev options
+	@docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --remove-orphans
 
 stop: ##@docker Stops the containers
 	@docker-compose down
 
 build: ##@docker Builds the application
 	@$(MAKE) run
-	@cp -f ./docker/laravel_env .env
-	@$(MAKE) docker-install
-	@$(MAKE) docker-migrate
+	@cp -fn ./docker/laravel_env .env
+	@$(MAKE) install
+	@$(MAKE) migrate
+	@$(MAKE) secrets
+	@docker-compose exec php ./artisan deployer:create-user admin admin@example.com changeme --no-email
+
+secrets: ##@shortcuts Set the JWT_SECRET and the APP_SECRET
 	@sed -i "s/JWT_SECRET=changeme/JWT_SECRET=$(shell date +%s | sha256sum | base64 | head -c 32; echo)/g" .env
-	@docker-compose exec php-fpm php artisan key:generate --force
-	@docker-compose exec php-fpm php artisan deployer:create-user admin admin@example.com changeme --no-email
-
-docker-migrate: ##@docker Runs the migrations inside the container
-	@docker-compose exec php-fpm php artisan migrate
-
-docker-install:
-	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
-	@docker-compose exec node npm install --production
-
-docker-install-dev:
-	@docker-compose run -v $(COMPOSER_CACHE_DIR):/tmp/cache --rm composer install --no-interaction --no-suggest --prefer-dist --no-suggest --ignore-platform-reqs
-	@docker-compose exec node npm install
+	#@docker-compose exec php ./artisan jwt:generate
+	@docker-compose exec php ./artisan key:generate --force
 
 # --------------------------------------------------------- #
 # ----- The targets below should not be shown in help ----- #
@@ -182,43 +146,6 @@ reset: clean
 
 #release: test
 #	@/usr/local/bin/create-release
-
-# Create the databases for Travis CI
-ifeq "$(DB)" "sqlite"
-travis:
-	@sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env
-	@sed -i 's/DB_DATABASE=deployer//g' .env
-	@sed -i 's/DB_USERNAME=travis//g' .env
-	@touch $(TRAVIS_BUILD_DIR)/database/database.sqlite
-else ifeq "$(DB)" "pgsql"
-travis:
-	@sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/g' .env
-	@sed -i 's/DB_USERNAME=travis/DB_USERNAME=postgres/g' .env
-	@psql -c 'CREATE DATABASE deployer;' -U postgres;
-else
-travis:
-	@mysql -e 'CREATE DATABASE deployer;'
-endif
-
-# PHPUnit for Travis
-ifeq "$(TRAVIS_PHP_VERSION)" "7.1"
-phpunit-ci:
-	# phpdbg isn't working on travis, hitting the max open files limit
-	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/unit.cov \
-			--testsuite "Unit Tests" --log-junit=storage/app/tmp/unit.junit.xml --exclude-group slow
-	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/slow.cov \
-			--testsuite "Unit Tests" --log-junit=storage/app/tmp/slow.junit.xml --exclude-group default
-	@php vendor/bin/phpunit --coverage-text=/dev/null --coverage-php=storage/app/tmp/integration.cov \
-			--log-junit=storage/app/tmp/integration.junit.xml --testsuite "Integration Tests"
-	@php vendor/bin/phpcov merge storage/app/tmp/ \
-			--html storage/app/tmp/coverage/ --clover clover.xml
-	@php vendor/bin/phpjunitmerge --names="*.junit.xml" storage/app/tmp/ junit.xml
-	@rm -f storage/app/tmp/*.cov storage/app/tmp/*.junit.xml
-else
-phpunit-ci:
-	@composer test:unit
-	@composer test:integration
-endif
 
 HELP_FUN = %help; \
 	while(<>) { push @{$$help{$$2 // 'options'}}, [$$1, $$3] \

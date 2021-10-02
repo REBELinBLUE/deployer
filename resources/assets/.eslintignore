@@ -1,0 +1,5 @@
+build/
+src/messages.js
+src/handlers/uploader.js
+src/utils/boostrap3-typeahead.min.js
+# FIXME: This should not be in the repo
