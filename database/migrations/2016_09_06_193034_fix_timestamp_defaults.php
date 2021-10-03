@@ -14,14 +14,13 @@ class FixTimestampDefaults extends Migration
      */
     public function up()
     {
-        $connection = config('database.default');
-        $driver     = config('database.connections.' . $connection . '.driver');
+        $driver = DB::getDriverName();
         if ($driver === 'mysql') {
             DB::statement("SET SESSION sql_mode='ALLOW_INVALID_DATES'");
 
             foreach ($this->tables as $table) {
-                DB::statement("ALTER TABLE {$table} MODIFY COLUMN created_at timestamp NULL DEFAULT NULL");
-                DB::statement("ALTER TABLE {$table} MODIFY COLUMN updated_at timestamp NULL DEFAULT NULL");
+                DB::statement("ALTER TABLE `{$table}` MODIFY COLUMN created_at timestamp NULL DEFAULT NULL");
+                DB::statement("ALTER TABLE `{$table}` MODIFY COLUMN updated_at timestamp NULL DEFAULT NULL");
             }
 
             DB::statement('ALTER TABLE failed_jobs MODIFY COLUMN failed_at timestamp NULL DEFAULT NULL');

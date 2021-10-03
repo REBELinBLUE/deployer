@@ -87,11 +87,11 @@ test: lint phpcs phpunit ##@shortcuts Runs most tests; but excludes integration 
 
 fulltest: lint phpcs phpunit integration ##@shortcuts Runs all tests
 
-run: ##@docker Runs the containers
-	@docker-compose up -d --remove-orphans
+run: deps ##@docker Runs the containers
+	@docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remove-orphans
 
-dev: ##@docker Runs the containers with dev options
-	@docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --remove-orphans
+dev: deps ##@docker Runs the containers with dev options
+	@docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.dev.yml up -d --remove-orphans
 
 stop: ##@docker Stops the containers
 	@docker-compose down
@@ -120,6 +120,9 @@ reset: clean
 	rm -rf .env.prev _ide_helper_models.php _ide_helper.php .phpstorm.meta.php .php_cs.cache
 	-rm database/database.sqlite
 	-rm database/backups/*
+
+deps:
+	test -f docker-compose.override.yml || echo 'version: "3"' > docker-compose.override.yml
 
 ## Generates helper files for IDEs
 #ide:
