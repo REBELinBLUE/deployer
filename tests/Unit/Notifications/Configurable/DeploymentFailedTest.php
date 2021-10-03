@@ -96,14 +96,4 @@ class DeploymentFailedTest extends DeploymentFinishedTestCase
     {
         $this->toSlack(DeploymentFailed::class, 'deployments.failed_slack_message', 'error', false);
     }
-
-    /**
-     * @covers ::__construct
-     * @covers ::toHipchat
-     * @covers \REBELinBLUE\Deployer\Notifications\Configurable\DeploymentFinished::buildHipchatMessage
-     */
-    public function testToHipchat()
-    {
-        $this->toHipchat(DeploymentFailed::class, 'deployments.failed_hipchat_message', 'error');
-    }
 }

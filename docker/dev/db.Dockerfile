@@ -5,7 +5,7 @@ RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -s /bin/true /sbin/initctl
 
 # install mariadb
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y wget openssh-server supervisor git curl mariadb-server-10.5
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y wget openssh-server supervisor git curl mariadb-server-10.5 rsync
 
 ## not only localhost
 #RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf

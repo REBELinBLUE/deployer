@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Notifications\System;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use NotificationChannels\HipChat\HipChatMessage;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -87,19 +86,5 @@ class NewTestNotification extends Notification
     {
         return (new TwilioMessage())
             ->content($this->translator->trans('notifications.test_message'));
-    }
-
-    /**
-     * Gets the Hipchat version of the message.
-     *
-     * @param Channel $notification
-     *
-     * @return HipChatMessage
-     */
-    public function toHipchat(Channel $notification)
-    {
-        return (new HipChatMessage())
-            ->room($notification->config->room)
-            ->text($this->translator->trans('notifications.test_hipchat_message'));
     }
 }

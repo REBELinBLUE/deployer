@@ -79,7 +79,7 @@ class Deployment extends Model implements HasPresenter, RuntimeInterface
         parent::boot();
 
         // FIXME: Change to use the trait
-        static::saved(function (Deployment $model) {
+        static::saved(function (self $model) {
             event(new ModelChanged($model, 'deployment'));
         });
     }
@@ -324,8 +324,6 @@ class Deployment extends Model implements HasPresenter, RuntimeInterface
      * Checks whether the repository failed to load.
      *
      * @return bool
-     *
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getRepoFailureAttribute()
     {

@@ -5,13 +5,11 @@ return [
     'label'                      => 'Notifications',
     'create'                     => 'Add a new notification',
     'create_slack'               => 'Add a new Slack notification',
-    'create_hipchat'             => 'Add a new Hipchat notification',
     'create_twilio'              => 'Add a new Twilio notification',
     'create_mail'                => 'Add a new e-mail notification',
     'create_custom'              => 'Add a new custom notification',
     'edit'                       => 'Edit the notification',
     'edit_slack'                 => 'Edit the Slack notification',
-    'edit_hipchat'               => 'Edit the Hipchat notification',
     'edit_twilio'                => 'Edit the Twilio notification',
     'edit_mail'                  => 'Edit the e-mail notification',
     'edit_custom'                => 'Edit the custom notification',
@@ -42,7 +40,6 @@ return [
     'on_heartbeat_recovered'     => 'Heartbeat Recovered',
     'custom'                     => 'Custom',
     'slack'                      => 'Slack',
-    'hipchat'                    => 'Hipchat',
     'twilio'                     => 'Twilio',
     'mail'                       => 'E-mail',
     'which'                      => 'Which type of notification do you wish to add?',
@@ -56,8 +53,5 @@ return [
 
     // Twilio
     'telephone'                  => 'Telephone number',
-
-    // Hipchat
-    'room'                       => 'Room',
 
 ];

@@ -57,21 +57,12 @@ lint: ##@tests PHP Parallel Lint
 	@rm -rf bootstrap/cache/*.php
 	@docker-compose run --no-deps --rm composer test:lint
 
-lines: ##@tests PHP Lines of Code
-	@echo "${GREEN}Lines of Code Statistics${RESET}"
-	@docker-compose run --no-deps --rm composer test:loc
-
 phpcs: ##@tests PHP Coding Standards (PSR-2)
 	@echo "${GREEN}PHP Code Sniffer${RESET}"
 	@docker-compose run --no-deps --rm composer test:phpcs
 
 fix: ##@tests PHP Coding Standards Fixer
 	@docker-compose run --no-deps --rm composer test:phpcs:fix
-
-phpmd: ##@tests PHP Mess Detector
-	@echo "${GREEN}PHP Mess Detector${RESET}"
-	@if [ -f phpmd.xml ]; then docker-compose run --no-deps --rm composer vendor/bin/phpmd app text phpmd.xml; fi
-	@if [ ! -f phpmd.xml ]; then docker-compose run --no-deps --rm composer test:phpmd; fi
 
 coverage: ##@tests Test Coverage HTML
 	@echo "${GREEN}All tests with coverage${RESET}"
@@ -90,11 +81,11 @@ integration: ##@tests Integration Tests
 	@echo "${GREEN}Integration tests${RESET}"
 	@docker-compose run --rm composer test:integration
 
-quicktest: lint phpcs ##@shortcuts Runs fast tests; these exclude PHPMD, slow unit tests & integration tests
+quicktest: lint phpcs ##@shortcuts Runs fast tests; excludes, slow unit tests & integration tests
 
-test: lint phpcs phpunit phpmd ##@shortcuts Runs most tests; but excludes integration tests
+test: lint phpcs phpunit ##@shortcuts Runs most tests; but excludes integration tests
 
-fulltest: lint phpcs phpunit integration phpmd ##@shortcuts Runs all tests
+fulltest: lint phpcs phpunit integration ##@shortcuts Runs all tests
 
 run: ##@docker Runs the containers
 	@docker-compose up -d --remove-orphans

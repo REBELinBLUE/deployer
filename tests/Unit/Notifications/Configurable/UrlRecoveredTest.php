@@ -141,43 +141,4 @@ class UrlRecoveredTest extends UrlChangedTestCase
             '15 minutes ago'
         );
     }
-
-    /**
-     * @covers ::__construct
-     * @covers ::toHipchat
-     * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildHipchatMessage
-     */
-    public function testToHipchat()
-    {
-        $expectedDateString = 'no-date';
-
-        $this->translator->shouldReceive('trans')->once()->with('app.never')->andReturn($expectedDateString);
-
-        $this->toHipchat(
-            UrlRecovered::class,
-            'checkUrls.recovered_message',
-            'success',
-            null,
-            $expectedDateString
-        );
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::toHipchat
-     * @covers \REBELinBLUE\Deployer\Notifications\Configurable\UrlChanged::buildHipchatMessage
-     */
-    public function testToHipchatWithLastSeenDate()
-    {
-        $date = Carbon::create(2015, 1, 1, 12, 00, 00, 'UTC');
-        Carbon::setTestNow(Carbon::create(2015, 1, 1, 12, 15, 00, 'UTC'));
-
-        $this->toHipchat(
-            UrlRecovered::class,
-            'checkUrls.recovered_message',
-            'success',
-            $date,
-            '15 minutes ago'
-        );
-    }
 }

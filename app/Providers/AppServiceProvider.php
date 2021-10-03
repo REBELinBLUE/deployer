@@ -8,9 +8,10 @@ use Clockwork\Support\Laravel\ClockworkServiceProvider;
 use GrahamCampbell\HTMLMin\HTMLMinServiceProvider;
 use GrahamCampbell\HTMLMin\Http\Middleware\MinifyMiddleware;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laracademy\Commands\MakeServiceProvider;
-use Laravel\Dusk\DuskServiceProvider;
 use Lubusin\Decomposer\Decomposer;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
@@ -63,6 +64,10 @@ class AppServiceProvider extends ServiceProvider
             'project'  => Project::class,
             'template' => Template::class,
         ]);
+
+        // FIXME: These may not be needed
+        Blade::withoutDoubleEncoding();
+        Paginator::useBootstrapThree();
     }
 
     /**
@@ -115,10 +120,6 @@ class AppServiceProvider extends ServiceProvider
     private function registerDependencies()
     {
         $this->app->bind(TokenGeneratorInterface::class, TokenGenerator::class);
-
-        if ($this->app->environment('local', 'testing') && class_exists(DuskServiceProvider::class, true)) {
-            $this->app->register(DuskServiceProvider::class);
-        }
 
         $this->app->singleton('files', function () {
             return new Filesystem();

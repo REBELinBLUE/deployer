@@ -6,12 +6,6 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use NotificationChannels\HipChat\Card;
-use NotificationChannels\HipChat\CardAttribute;
-use NotificationChannels\HipChat\CardAttributeStyles;
-use NotificationChannels\HipChat\CardFormats;
-use NotificationChannels\HipChat\CardStyles;
-use NotificationChannels\HipChat\HipChatMessage;
 use NotificationChannels\Twilio\TwilioSmsMessage as TwilioMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 use REBELinBLUE\Deployer\Channel;
@@ -177,57 +171,5 @@ abstract class DeploymentFinished extends Notification
                 'id'      => $this->deployment->id,
                 'project' => $this->project->name,
             ]));
-    }
-
-    /**
-     * Gets the Hipchat version of the message.
-     *
-     * @param string  $translation
-     * @param Channel $notification
-     *
-     * @return HipChatMessage
-     */
-    protected function buildHipchatMessage($translation, Channel $notification)
-    {
-        $message = $this->translator->trans($translation);
-
-        return (new HipChatMessage())
-            ->room($notification->config->room)
-            ->notify()
-            ->html(sprintf($message, sprintf(
-                '<a href="%s">#%u</a>',
-                route('deployments', ['id' => $this->deployment->id]),
-                $this->deployment->id
-            )))
-            ->card(function (Card $card) use ($message) {
-                $card
-                    ->title(sprintf($message, '#' . $this->deployment->id))
-                    ->url(route('deployments', ['id' => $this->deployment->id]))
-                    ->style(CardStyles::APPLICATION)
-                    ->cardFormat(CardFormats::MEDIUM)
-                    ->addAttribute(function (CardAttribute $attribute) {
-                        $attribute
-                            ->label($this->translator->trans('notifications.project'))
-                            ->value($this->project->name)
-                            ->url(route('projects', ['id' => $this->project->id]));
-                    })
-                    ->addAttribute(function (CardAttribute $attribute) {
-                        $attribute
-                            ->label($this->translator->trans('notifications.commit'))
-                            ->value($this->deployment->short_commit)
-                            ->url($this->deployment->commit_url);
-                    })
-                    ->addAttribute(function (CardAttribute $attribute) {
-                        $attribute
-                            ->label($this->translator->trans('notifications.committer'))
-                            ->value($this->deployment->committer);
-                    })
-                    ->addAttribute(function (CardAttribute $attribute) {
-                        $attribute
-                            ->label($this->translator->trans('notifications.branch'))
-                            ->style(CardAttributeStyles::GENERAL)
-                            ->value($this->deployment->branch);
-                    });
-            });
     }
 }

@@ -59,7 +59,6 @@ class ChannelControllerTest extends AuthenticatedTestCase
         return [
             ['custom', ['url' => 'http://www.example.com']],
             ['slack', ['channel' => '#deployer', 'icon' => ':ghost:', 'webhook' => 'http://hook.slack.com']],
-            ['hipchat', ['room' => '#phpdeployment']],
             ['twilio', ['telephone' => '+4477089123456']],
             ['mail', ['email' => 'user@example.com']],
         ];

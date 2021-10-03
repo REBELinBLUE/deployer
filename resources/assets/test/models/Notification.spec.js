@@ -1,7 +1,7 @@
 import { expect, use } from 'chai';
 import dirtyChai from 'dirty-chai';
 
-import Notification, { SLACK, HIPCHAT, MAIL, TWILIO } from '../../src/models/Notification';
+import Notification, { SLACK, MAIL, TWILIO } from '../../src/models/Notification';
 
 use(dirtyChai);
 
@@ -14,7 +14,7 @@ export default () => {
     });
 
     it('isSlack returns false when type is not slack', () => {
-      model.set('type', HIPCHAT);
+      model.set('type', TWILIO);
 
       expect(model.isSlack()).to.be.false();
     });
@@ -25,20 +25,8 @@ export default () => {
       expect(model.isSlack()).to.be.true();
     });
 
-    it('isHipchat returns false when type is not hipchat', () => {
-      model.set('type', SLACK);
-
-      expect(model.isHipchat()).to.be.false();
-    });
-
-    it('isHipchat returns true when status is hipchat', () => {
-      model.set('type', HIPCHAT);
-
-      expect(model.isHipchat()).to.be.true();
-    });
-
     it('isMail returns false when type is not e-mail', () => {
-      model.set('type', HIPCHAT);
+      model.set('type', SLACK);
 
       expect(model.isMail()).to.be.false();
     });

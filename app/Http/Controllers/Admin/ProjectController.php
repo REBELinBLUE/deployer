@@ -13,7 +13,6 @@ use REBELinBLUE\Deployer\Repositories\Contracts\GroupRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
-use REBELinBLUE\Deployer\User;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

@@ -23,7 +23,6 @@
                         <p>{{ trans('channels.which') }}</p>
                         <div class="row text-center">
                             <a class="btn btn-app" data-type="slack"><i class="fa fa-slack"></i> {{ trans('channels.slack') }}</a>
-                            <a class="btn btn-app" data-type="hipchat" @if (empty(config('services.hipchat.token'))) disabled @endif><i class="fa fa-comment-o fa-flip-horizontal"></i> {{ trans('channels.hipchat') }}</a>
                             <a class="btn btn-app" data-type="twilio" @if (empty(config('services.twilio.account_sid'))) disabled @endif><i class="fa fa-mobile"></i> {{ trans('channels.twilio') }}</a>
                             <a class="btn btn-app" data-type="mail"><i class="fa fa-envelope-o"></i> {{ trans('channels.mail') }}</a>
                             <a class="btn btn-app" data-type="custom"><i class="fa fa-cogs"></i> {{ trans('channels.custom') }}</a>
@@ -39,7 +38,6 @@
                     </div>
 
                     @include('projects.dialogs.channels.slack')
-                    @include('projects.dialogs.channels.hipchat')
                     @include('projects.dialogs.channels.twilio')
                     @include('projects.dialogs.channels.mail')
                     @include('projects.dialogs.channels.custom')

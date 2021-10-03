@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Tests\Unit\stubs;
 
-use Illuminate\Log\Writer;
+use Illuminate\Log\Logger;
 use REBELinBLUE\Deployer\Providers\LogServiceProvider as ServiceProvider;
 
 /**
@@ -14,12 +14,12 @@ use REBELinBLUE\Deployer\Providers\LogServiceProvider as ServiceProvider;
  */
 class LogServiceProvider extends ServiceProvider
 {
-    public function configureSingleHandler(Writer $log)
+    public function configureSingleHandler(Logger $log)
     {
         parent::configureSingleHandler($log);
     }
 
-    public function configureDailyHandler(Writer $log)
+    public function configureDailyHandler(Logger $log)
     {
         parent::configureDailyHandler($log);
     }

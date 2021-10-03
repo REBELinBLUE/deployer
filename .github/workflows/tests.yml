@@ -14,7 +14,7 @@ jobs:
       max-parallel: 15
       fail-fast: false
       matrix:
-        php: ['7.2', '7.3', '7.4', '8.0']
+        php: ['7.3', '7.4', '8.0']
 
     steps:
       - name: Checkout
@@ -73,8 +73,8 @@ jobs:
       max-parallel: 15
       fail-fast: false
       matrix:
-        php: ['7.2', '7.3', '7.4']
-        db: ['sqlite', 'mysql', 'pgsql', 'maria']
+        php: ['7.3', '7.4', '8.0']
+        db: ['sqlite', 'mysql5', 'pgsql', 'maria', 'mysql8']
 
     services:
       maria:
@@ -85,7 +85,7 @@ jobs:
           MYSQL_PASSWORD: deployer
           MYSQL_DATABASE: deployer
         ports:
-          - 23306:3306
+          - 33306:3306
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -106,7 +106,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-      mysql:
+      mysql5:
         image: mysql:5.7
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
@@ -115,6 +115,21 @@ jobs:
           MYSQL_DATABASE: deployer
         ports:
           - 13306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      mysql8:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_USER: deployer
+          MYSQL_PASSWORD: deployer
+          MYSQL_DATABASE: deployer
+        ports:
+          - 23306:3306
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -141,8 +156,8 @@ jobs:
       - name: Copy .env
         run: cp tests/env .env
 
-      - name: Add MySQL settings to .env
-        if: ${{ matrix.db  == 'mysql' }}
+      - name: Add MySQL 5 settings to .env
+        if: ${{ matrix.db == 'mysql5' }}
         run: |
           {
             echo "DB_CONNECTION=mysql"
@@ -150,6 +165,18 @@ jobs:
             echo "DB_PASSWORD=deployer"
             echo "DB_DATABASE=deployer"
             echo "DB_PORT=13306"
+            echo "DB_HOST=127.0.0.1"
+          } >> .env
+
+      - name: Add MySQL 8 settings to .env
+        if: ${{ matrix.db == 'mysql8' }}
+        run: |
+          {
+            echo "DB_CONNECTION=mysql"
+            echo "DB_USERNAME=deployer"
+            echo "DB_PASSWORD=deployer"
+            echo "DB_DATABASE=deployer"
+            echo "DB_PORT=23306"
             echo "DB_HOST=127.0.0.1"
           } >> .env
 
@@ -161,7 +188,7 @@ jobs:
             echo "DB_USERNAME=deployer"
             echo "DB_PASSWORD=deployer"
             echo "DB_DATABASE=deployer"
-            echo "DB_PORT=23306"
+            echo "DB_PORT=33306"
             echo "DB_HOST=127.0.0.1"
           } >> .env
 
@@ -238,7 +265,7 @@ jobs:
 #      - name: Setup PHP
 #        uses: shivammathur/setup-php@2.15.0
 #        with:
-#          php-version: 7.2
+#          php-version: 7.3
 #          tools: composer:v1
 #          extensions: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
 #          coverage: none

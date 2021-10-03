@@ -75,8 +75,6 @@ class User extends Authenticatable implements HasPresenter
      * Determines whether the user has Google 2FA enabled.
      *
      * @return bool
-     *
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getHasTwoFactorAuthenticationAttribute()
     {

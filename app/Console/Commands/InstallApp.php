@@ -13,10 +13,10 @@ use REBELinBLUE\Deployer\Console\Commands\Traits\AskAndValidate;
 use REBELinBLUE\Deployer\Console\Commands\Traits\GetAvailableOptions;
 use REBELinBLUE\Deployer\Console\Commands\Traits\OutputStyles;
 use REBELinBLUE\Deployer\Services\Filesystem\Filesystem;
+use REBELinBLUE\Deployer\Services\ProcessBuilder;
 use REBELinBLUE\Deployer\Services\Token\TokenGeneratorInterface;
 use RuntimeException;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * A console command for prompting for install details.
@@ -111,7 +111,7 @@ class InstallApp extends Command
         $config = base_path('.env');
 
         if (!$this->filesystem->exists($config)) {
-            $this->filesystem->copy(base_path('.env.dist'), $config);
+            $this->filesystem->copy(base_path('..env.dist'), $config);
             $this->config->set('app.key', 'SomeRandomString');
         }
 
@@ -130,7 +130,6 @@ class InstallApp extends Command
         $config = $this->restructureConfig([
             'db'      => $this->getDatabaseInformation(),
             'app'     => $this->getInstallInformation(),
-            'hipchat' => $this->getHipchatInformation(),
             'twilio'  => $this->getTwilioInformation(),
             'mail'    => $this->getEmailInformation(),
             'jwt'     => [],
@@ -317,31 +316,6 @@ class InstallApp extends Command
     }
 
     /**
-     * Prompts for the hipchat API details.
-     *
-     * @return array
-     */
-    private function getHipchatInformation()
-    {
-        $this->header('Hipchat setup');
-
-        $hipchat = [
-            'token' => '',
-            'url'   => '',
-        ];
-
-        if ($this->confirm('Do you wish to be able to send notifications to Hipchat?')) {
-            $hipchat['url'] = $this->askAndValidate('Webhook URL', [], function ($answer) {
-                return $this->validateUrl($answer);
-            });
-
-            $hipchat['token'] = $this->ask('Token');
-        }
-
-        return $hipchat;
-    }
-
-    /**
      * Calls the artisan key:generate to set the APP_KEY.
      */
     private function generateKey()
@@ -387,8 +361,8 @@ class InstallApp extends Command
 
         return $this->builder->setArguments($arguments)
                              ->setWorkingDirectory(base_path())
-                             ->getProcess()
-                             ->setTimeout(null);
+                             ->setTimeout(null)
+                             ->getProcess();
     }
 
     /**
@@ -468,8 +442,8 @@ class InstallApp extends Command
             // Something has changed in laravel 5.3 which means calling the migrate command with call() isn't working
             $process = $this->builder->setArguments(['nginx'])
                                      ->setWorkingDirectory(base_path())
-                                     ->getProcess()
-                                     ->setTimeout(null);
+                                     ->setTimeout(null)
+                                     ->getProcess();
 
             $process->run();
 

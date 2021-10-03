@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Services\Scripts;
 
-use Illuminate\Log\Writer;
+use Illuminate\Log\Logger;
 use REBELinBLUE\Deployer\Server;
 use Symfony\Component\Process\Process;
 
@@ -51,7 +51,7 @@ class Runner
     private $parser;
 
     /**
-     * @var Writer
+     * @var Logger
      */
     private $logger;
 
@@ -62,7 +62,7 @@ class Runner
      * @param Process $process
      * @param Writer  $logger
      */
-    public function __construct(Parser $parser, Process $process, Writer $logger)
+    public function __construct(Parser $parser, Process $process, Logger $logger)
     {
         $this->parser  = $parser;
         $this->process = $process;

@@ -13,7 +13,7 @@ class ProjectTableSeeder extends Seeder
             'name'              => 'Deployer',
             'hash'              => str_random(60),
             'repository'        => 'https://github.com/REBELinBLUE/deployer.git',
-            'url'               => 'http://deployer.app',
+            'url'               => 'http://localhost:8000',
             'group_id'          => 1,
             'private_key'       => '-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAmrMjtajVvmd99T8xwUNrIFbrzSmZ6VCM89hfm4Ut9atv29gG
@@ -48,7 +48,7 @@ i5vkNY4OZdOuEV9boFOFYa58WRNK7vthHkZJj++Amu3dZ6RHBlLQ
                 '6TdICaigeQX6n/Xgwm2rRkr0qNIZsd/IoyLYS6/CWUUJjX16qxXt1wwMiwwpRbZ2IULnZ0lI74QXjucD+Ow0OKw' .
                 'WwgLsN55VUGXVOlpX1GJ2p5mZ3H6YX0B deploy@deployer',
             'last_run'           => null,
-            'build_url'          => 'https://travis-ci.org/REBELinBLUE/deployer.svg?branch=master',
+            'build_url'          => 'https://img.shields.io/github/workflow/status/REBELinBLUE/deployer/Tests?label=build&style=flat-square',
             'allow_other_branch' => true,
             'include_dev'        => false,
         ]);

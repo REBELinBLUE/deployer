@@ -3,7 +3,7 @@ import CollectionViewFactory from '../factories/CollectionViewFactory';
 import ModelViewFactory from '../factories/ModelViewFactory';
 import bindDialogs from '../handlers/dialogs';
 import localize from '../utils/localization';
-import { HIPCHAT, TWILIO, MAIL, SLACK } from '../models/Notification';
+import { TWILIO, MAIL, SLACK } from '../models/Notification';
 
 const element = 'notification';
 const translationKey = 'channels';
@@ -13,8 +13,6 @@ const ModelView = ModelViewFactory(element, ['name', 'type']);
 function getIcon(type) {
   if (type === SLACK) {
     return 'slack';
-  } else if (type === HIPCHAT) {
-    return 'comment-o';
   } else if (type === MAIL) {
     return 'envelope-o';
   } else if (type === TWILIO) {
@@ -31,10 +29,6 @@ function setTitleWithIcon(type, action) {
 
   const iconElement = $(`${modal} .modal-title i`).removeClass().addClass('fa');
   const icon = getIcon(type);
-
-  if (type === HIPCHAT) {
-    iconElement.addClass('fa-flip-horizontal');
-  }
 
   iconElement.addClass(`fa-${icon}`);
 
@@ -56,9 +50,6 @@ class NotificationView extends ModelView {
 
     if (this.model.isSlack()) {
       label = localize.get('channels.slack');
-    } else if (this.model.isHipchat()) {
-      icon += ' fa-flip-horizontal';
-      label = localize.get('channels.hipchat');
     } else if (this.model.isMail()) {
       label = localize.get('channels.mail');
     } else if (this.model.isTwilio()) {

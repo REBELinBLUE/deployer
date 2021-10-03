@@ -5,13 +5,11 @@ return [
     'label'                      => 'Оповещения',
     'create'                     => 'Добавить новое оповещение',
     'create_slack'               => 'Добавить новое оповещение в Slack',
-    'create_hipchat'             => 'Добавить новое оповещение в Hipchat',
     'create_twilio'              => 'Добавить новое оповещение в Twilio',
     'create_mail'                => 'Добавить новое оповещение по E-mail',
     'create_custom'              => 'Добавить новое свой тип оповещения',
     'edit'                       => 'Редактировать оповещение',
     'edit_slack'                 => 'Редактировать оповещение в Slack',
-    'edit_hipchat'               => 'Редактировать оповещение в Hipchat',
     'edit_twilio'                => 'Редактировать оповещение в Twilio',
     'edit_mail'                  => 'Редактировать оповещение по E-mail',
     'edit_custom'                => 'Редактировать оповещение свой тип оповещения',
@@ -42,7 +40,6 @@ return [
     'on_heartbeat_recovered'     => 'Heartbeat восстановлен',
     'custom'                     => 'Свой тип',
     'slack'                      => 'Slack',
-    'hipchat'                    => 'Hipchat',
     'twilio'                     => 'Twilio',
     'mail'                       => 'E-mail',
     'which'                      => 'Какой тип оповещений вы хотели бы добавить?',
@@ -56,8 +53,5 @@ return [
 
     // Twilio
     'telephone'                  => 'Телефонный номер',
-
-    // Hipchat
-    'room'                       => 'Комната',
 
 ];

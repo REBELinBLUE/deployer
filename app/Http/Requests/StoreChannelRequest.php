@@ -17,7 +17,7 @@ class StoreChannelRequest extends Request
         $rules = array_merge([
             'name'                       => 'required|max:255',
             'project_id'                 => 'required|integer|exists:projects,id',
-            'type'                       => 'required|in:slack,hipchat,twilio,mail,custom',
+            'type'                       => 'required|in:slack,twilio,mail,custom',
             'on_deployment_success'      => 'boolean',
             'on_deployment_failure'      => 'boolean',
             'on_link_down'               => 'boolean',
@@ -72,18 +72,6 @@ class StoreChannelRequest extends Request
     }
 
     /**
-     * Validation rules specific to hipchat.
-     *
-     * @return array
-     */
-    private function hipchatRules()
-    {
-        return [
-            'room' => 'required',
-        ];
-    }
-
-    /**
      * Validation rules specific to twilio.
      *
      * @return array
@@ -117,8 +105,6 @@ class StoreChannelRequest extends Request
         switch ($this->get('type')) {
             case 'slack':
                 return $this->slackRules();
-            case 'hipchat':
-                return $this->hipchatRules();
             case 'twilio':
                 return $this->twilioRules();
             case 'mail':

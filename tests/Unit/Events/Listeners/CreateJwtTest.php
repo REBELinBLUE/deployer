@@ -55,6 +55,6 @@ class CreateJwtTest extends TestCase
         $generator->shouldReceive('generateRandom')->once()->with(m::type('int'))->andReturn($random);
 
         $listener = new CreateJwt($auth, $session, $generator);
-        $listener->handle(new Login($user, false));
+        $listener->handle(new Login('guard', $user, false));
     }
 }

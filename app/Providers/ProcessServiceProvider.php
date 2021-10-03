@@ -3,6 +3,7 @@
 namespace REBELinBLUE\Deployer\Providers;
 
 use Illuminate\Foundation\Application;
+use Illuminate\Log\Logger;
 use Illuminate\Support\ServiceProvider;
 use REBELinBLUE\Deployer\Jobs\QueueDeployment\StepsBuilder;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeployStepRepositoryInterface;
@@ -36,7 +37,7 @@ class ProcessServiceProvider extends ServiceProvider
             $process = new Process('');
             $process->setTimeout(null);
 
-            $logger = $app->make('log');
+            $logger = $app->make(Logger::class);
             $parser = $app->make(Parser::class);
 
             return new Runner($parser, $process, $logger);

@@ -16,10 +16,6 @@ Linting can be checked with
 
     $ make lint
 
-Mess can be checked with
-
-    $ make phpmd
-
 Unit tests can be run with
 
     $ make phpunit

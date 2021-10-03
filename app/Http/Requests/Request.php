@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Generic Request class.
- * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class Request extends FormRequest
 {

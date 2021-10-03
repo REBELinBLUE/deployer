@@ -5,7 +5,6 @@ namespace REBELinBLUE\Deployer\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification as BaseNotification;
-use NotificationChannels\HipChat\HipChatChannel;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Webhook\WebhookChannel;
 use REBELinBLUE\Deployer\Channel;
@@ -31,10 +30,6 @@ abstract class Notification extends BaseNotification implements ShouldQueue
 
         if ($notification->type === Channel::TWILIO) {
             return [TwilioChannel::class];
-        }
-
-        if ($notification->type === Channel::HIPCHAT) {
-            return [HipChatChannel::class];
         }
 
         return [$notification->type];

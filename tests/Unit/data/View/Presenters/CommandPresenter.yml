@@ -2,33 +2,33 @@ fixture:
   steps:
     -
       method: presentBeforeClone
-      before: !php/const:REBELinBLUE\Deployer\Command::BEFORE_CLONE
-      after: !php/const:REBELinBLUE\Deployer\Command::AFTER_CLONE
+      before: !php/const REBELinBLUE\Deployer\Command::BEFORE_CLONE
+      after: !php/const REBELinBLUE\Deployer\Command::AFTER_CLONE
     -
       method: presentAfterClone
-      before: !php/const:REBELinBLUE\Deployer\Command::AFTER_CLONE
-      after: !php/const:REBELinBLUE\Deployer\Command::AFTER_PURGE
+      before: !php/const REBELinBLUE\Deployer\Command::AFTER_CLONE
+      after: !php/const REBELinBLUE\Deployer\Command::AFTER_PURGE
     -
       method: presentBeforeInstall
-      before: !php/const:REBELinBLUE\Deployer\Command::BEFORE_INSTALL
-      after: !php/const:REBELinBLUE\Deployer\Command::BEFORE_ACTIVATE
+      before: !php/const REBELinBLUE\Deployer\Command::BEFORE_INSTALL
+      after: !php/const REBELinBLUE\Deployer\Command::BEFORE_ACTIVATE
     -
       method: presentAfterInstall
-      before: !php/const:REBELinBLUE\Deployer\Command::AFTER_INSTALL
-      after: !php/const:REBELinBLUE\Deployer\Command::AFTER_PURGE
+      before: !php/const REBELinBLUE\Deployer\Command::AFTER_INSTALL
+      after: !php/const REBELinBLUE\Deployer\Command::AFTER_PURGE
     -
       method: presentBeforeActivate
-      before: !php/const:REBELinBLUE\Deployer\Command::BEFORE_ACTIVATE
-      after: !php/const:REBELinBLUE\Deployer\Command::BEFORE_CLONE
+      before: !php/const REBELinBLUE\Deployer\Command::BEFORE_ACTIVATE
+      after: !php/const REBELinBLUE\Deployer\Command::BEFORE_CLONE
     -
       method: presentAfterActivate
-      before: !php/const:REBELinBLUE\Deployer\Command::AFTER_ACTIVATE
-      after: !php/const:REBELinBLUE\Deployer\Command::BEFORE_PURGE
+      before: !php/const REBELinBLUE\Deployer\Command::AFTER_ACTIVATE
+      after: !php/const REBELinBLUE\Deployer\Command::BEFORE_PURGE
     -
       method: presentBeforePurge
-      before: !php/const:REBELinBLUE\Deployer\Command::BEFORE_PURGE
-      after: !php/const:REBELinBLUE\Deployer\Command::AFTER_INSTALL
+      before: !php/const REBELinBLUE\Deployer\Command::BEFORE_PURGE
+      after: !php/const REBELinBLUE\Deployer\Command::AFTER_INSTALL
     -
       method: presentAfterPurge
-      before: !php/const:REBELinBLUE\Deployer\Command::AFTER_PURGE
-      after: !php/const:REBELinBLUE\Deployer\Command::AFTER_ACTIVATE
+      before: !php/const REBELinBLUE\Deployer\Command::AFTER_PURGE
+      after: !php/const REBELinBLUE\Deployer\Command::AFTER_ACTIVATE

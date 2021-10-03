@@ -16,8 +16,6 @@ engines:
     enabled: false
   fixme:
     enabled: true
-  phpmd:
-    enabled: true
 ratings:
   paths:
     - "**.css"

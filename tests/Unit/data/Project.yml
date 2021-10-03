@@ -23,19 +23,19 @@ fixture:
       expected: REBELinBLUE/deployer
   running: # Project statuses which should be considered running
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::PENDING
+      status: !php/const REBELinBLUE\Deployer\Project::PENDING
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::DEPLOYING
+      status: !php/const REBELinBLUE\Deployer\Project::DEPLOYING
       expected: true
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FINISHED
+      status: !php/const REBELinBLUE\Deployer\Project::FINISHED
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::FAILED
+      status: !php/const REBELinBLUE\Deployer\Project::FAILED
       expected: false
     -
-      status: !php/const:REBELinBLUE\Deployer\Project::NOT_DEPLOYED
+      status: !php/const REBELinBLUE\Deployer\Project::NOT_DEPLOYED
       expected: false
   branch_url: # Fixture for getBranchUrlAttribute
     -

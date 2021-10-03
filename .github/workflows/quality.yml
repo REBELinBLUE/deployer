@@ -17,7 +17,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.15.0
         with:
-          php-version: 7.2
+          php-version: 7.3
           tools: composer:v1
           extensions: mbstring, gd, curl, pdo_mysql, pdo_pgsql, sqlite3, pcntl
         env:
@@ -55,5 +55,3 @@ jobs:
       - name: Check Code Styles
         run: composer test:phpcs
 
-#      - name: Run PHPMD
-#        run: composer test:phpmd

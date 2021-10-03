@@ -2,8 +2,8 @@
 
 namespace REBELinBLUE\Deployer\Providers;
 
+use Illuminate\Log\Logger;
 use Illuminate\Log\LogServiceProvider as ServiceProvider;
-use Illuminate\Log\Writer;
 
 /**
  * Custom log service provider. Override the built in one to allow custom log file names.
@@ -13,25 +13,25 @@ use Illuminate\Log\Writer;
  */
 class LogServiceProvider extends ServiceProvider
 {
-    /**
-     * Configure the Monolog handlers for the application.
-     *
-     * @param \Illuminate\Log\Writer $log
-     */
-    protected function configureSingleHandler(Writer $log)
-    {
-        $log->useFiles($this->getFileName(), $this->logLevel());
-    }
-
-    /**
-     * Configure the Monolog handlers for the application.
-     *
-     * @param \Illuminate\Log\Writer $log
-     */
-    protected function configureDailyHandler(Writer $log)
-    {
-        $log->useDailyFiles($this->getFileName(), $this->maxFiles(), $this->logLevel());
-    }
+//    /**
+//     * Configure the Monolog handlers for the application.
+//     *
+//     * @param \Illuminate\Log\Logger $log
+//     */
+//    protected function configureSingleHandler(Logger $log)
+//    {
+//        $log->useFiles($this->getFileName(), $this->logLevel());
+//    }
+//
+//    /**
+//     * Configure the Monolog handlers for the application.
+//     *
+//     * @param \Illuminate\Log\Logger $log
+//     */
+//    protected function configureDailyHandler(Logger $log)
+//    {
+//        $log->useDailyFiles($this->getFileName(), $this->maxFiles(), $this->logLevel());
+//    }
 
     /**
      * Determines the filename for the log.

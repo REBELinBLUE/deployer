@@ -8,7 +8,6 @@ use JsLocalization\Caching\ConfigCachingService;
 use JsLocalization\Caching\MessageCachingService;
 use JsLocalization\Utils\Helper;
 use MicheleAngioni\MultiLanguage\LanguageManager;
-use Themsaid\Langman\LangmanServiceProvider;
 
 /**
  * Service provider for localisation related packages.
@@ -36,9 +35,5 @@ class LocalisationServiceProvider extends ServiceProvider
         $this->app->singleton('JsLocalizationConfigCachingService', function () {
             return new ConfigCachingService();
         });
-
-        if ($this->app->environment('local', 'testing') && class_exists(LangmanServiceProvider::class, true)) {
-            $this->app->register(LangmanServiceProvider::class);
-        }
     }
 }

@@ -139,30 +139,4 @@ class NewTestNotificationTest extends TestCase
         $this->assertSame($expected_id, $actual['headers']['X-Deployer-Notification-Id']);
         $this->assertSame('notification_test', $actual['headers']['X-Deployer-Event']);
     }
-
-    /**
-     * @covers ::__construct
-     * @covers ::toHipchat
-     */
-    public function testToHipchat()
-    {
-        $expectedMessage = 'a-test-message';
-        $expectedRoom    = '#channel';
-
-        $config = (object) ['room' => $expectedRoom];
-
-        $channel = m::mock(Channel::class);
-        $channel->shouldReceive('getAttribute')->once()->with('config')->andReturn($config);
-
-        $this->translator->shouldReceive('trans')
-                         ->with('notifications.test_hipchat_message')
-                         ->andReturn($expectedMessage);
-
-        $notification  = new NewTestNotification($this->translator);
-        $hipchat       = $notification->toHipchat($channel);
-
-        $this->assertSame($expectedMessage, $hipchat->content);
-        $this->assertSame('text', $hipchat->format);
-        $this->assertSame($expectedRoom, $hipchat->room);
-    }
 }

@@ -134,28 +134,6 @@ class ChannelTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @covers ::routeNotificationForHipchat
-     * @dataProvider provideTypes
-     */
-    public function testRouteNotificationForHipchat($type, $expected = null, array $config = [])
-    {
-        if ($type === Channel::HIPCHAT) {
-            $expected = '#channel';
-            $config   = ['room' => $expected];
-        }
-
-        /** @var Channel $channel */
-        $channel = factory(Channel::class)->make([
-            'type'       => $type,
-            'config'     => $config,
-            'project_id' => 1,
-        ]);
-        $actual = $channel->routeNotificationForHipchat();
-
-        $this->assertSame($expected, $actual);
-    }
-
     public function provideTypes()
     {
         return array_chunk($this->fixture('Channel')['types'], 1);

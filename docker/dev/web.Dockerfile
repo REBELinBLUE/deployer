@@ -5,7 +5,11 @@ RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -s /bin/true /sbin/initctl
 
 # install mariadb
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y wget openssh-server supervisor git curl
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y wget openssh-server supervisor git curl rsync unzip
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4-cli php7.4-bz2 \
+                                php7.4-json php7.4-curl php7.4-gd php7.4-mbstring \
+                                php7.4-pdo php7.4-mysql php7.4-readline php7.4-zip php7.4-dom
 
 RUN mkdir -p /var/run/sshd && mkdir -p /var/log/supervisor
 
@@ -16,27 +20,14 @@ RUN addgroup deploy \
     && passwd -u deploy \
     && chown -R deploy:deploy /home/deploy
 
-
 RUN apt-get install -y openssh-server git curl \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /var/www \
     && chown -R deploy:deploy /var/www
 
-## https://github.com/codecasts/php-alpine
-#ADD https://packages.whatwedo.ch/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
-#
-#RUN apk --update --no-cach  add ca-certificates && \
-#    echo "https://dl.bintray.com/php-alpine/v3.11/php-7.2" >> /etc/apk/repositories
-#
-#RUN apk add --update --no-cache php php-bz2 \
-#                                php-json php-curl php-gd \
-#                                php-phar php-iconv php-openssl \
-#                                php-mbstring php7-fileinfo php7-tokenizer \
-#                                php-pdo php-pdo_mysql php-zlib
-#
-#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-#
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+
 USER deploy
 
 WORKDIR /home/deploy
