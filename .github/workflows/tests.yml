@@ -122,12 +122,15 @@ jobs:
           --health-retries=5
 
       mysql8:
-        image: mysql:8.0
+        #image: mysql:8.0
+        # See https://stackoverflow.com/posts/62651774/revisions
+        image: bitnami/mysql:8.0.20
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          ALLOW_EMPTY_PASSWORD: yes
           MYSQL_USER: deployer
           MYSQL_PASSWORD: deployer
           MYSQL_DATABASE: deployer
+          MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
         ports:
           - 23306:3306
         options: >-
